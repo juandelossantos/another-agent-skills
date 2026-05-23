@@ -143,19 +143,41 @@ The SPEC.md **must** include:
 - Acceptance criteria (testable)
 - Boundaries (Always / Ask First / Never)
 
-#### 2B: DESIGN.md (for visual work)
+#### 2B: DESIGN.md (VISUAL ONLY — No Architecture)
 
 Check for `DESIGN.md` in the project root.
 
+**CRITICAL RULE:** `DESIGN.md` is for **visual identity and design tokens ONLY**. It must NEVER contain architecture, folder structure, API routes, business logic, or stack decisions. Those belong in `SPEC.md`.
+
+**What goes in DESIGN.md:**
+- Colors (hex tokens, semantic names)
+- Typography (font families, sizes, weights, line heights)
+- Spacing scale (px/rem tokens)
+- Rounded corners / shapes
+- Elevation / shadows
+- Motion / animation tokens (durations, easings)
+- Component-level visual tokens (button backgrounds, input borders)
+- Visual "Do's and Don'ts"
+
+**What NEVER goes in DESIGN.md:**
+- Tech stack versions (Node, Next.js, etc.)
+- Folder structure or file organization
+- API routes or data fetching logic
+- State management decisions
+- Authentication or security logic
+- Database schema
+
+---
+
 - **Path A — DESIGN.md exists:**
-  - Read it. Extract tokens (colors, typography, spacing, motion).
+  - Read it. Extract visual tokens (colors, typography, spacing, motion).
   - Build STRICTLY within those tokens.
   - If a task requires a token not in the contract, pause and ask to extend it.
 
 - **Path B — No DESIGN.md, user wants a visual system:**
   - Use answers from Phase 1 Discovery to pick an aesthetic direction.
   - Pick ONE direction from the 8 below (do not default).
-  - Generate a `DESIGN.md` with tokens and save it.
+  - Generate a `DESIGN.md` with **visual tokens only** and save it.
   - Present it for confirmation before building.
 
 - **Path C — No DESIGN.md, one-off task:**
