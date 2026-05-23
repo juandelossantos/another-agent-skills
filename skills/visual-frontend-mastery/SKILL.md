@@ -180,6 +180,17 @@ Check for `DESIGN.md` in the project root.
   - Generate a `DESIGN.md` with **visual tokens only** and save it.
   - Present it for confirmation before building.
 
+**AFTER DESIGN.md IS CONFIRMED — MANDATORY STOP:**
+
+Once the user approves the `DESIGN.md`, **DO NOT write code yet.** You have completed DEFINE, not BUILD.
+
+You MUST now:
+1. Check if a `SPEC.md` exists. If not, invoke `spec-driven-development` to create one.
+2. Invoke `planning-and-task-breakdown` to produce a concrete implementation plan (tasks, file order, dependencies).
+3. Only after the plan exists and is confirmed, proceed to Phase 3 (Stack Lock-in) and Phase 6 (Build).
+
+This prevents "design fatigue" from causing the agent to skip PLAN and jump straight to coding.
+
 - **Path C — No DESIGN.md, one-off task:**
   - Do the task. Mention once that a `DESIGN.md` improves long-term consistency.
   - Do not nag again.
@@ -380,10 +391,13 @@ Agent:
 4. Generate `preview.html` with 3 heroes side-by-side.
 5. User picks "Understated Elegance" (code `STYLE:UE-L1`).
 6. Generate `DESIGN.md` with tokens for UE + palette L1 + font pair F4.
-7. Run setup: `create-next-app`, Tailwind v4, shadcn, Framer Motion.
-8. Build all sections with tokens and `Reveal` animations.
-9. Run QA gates. Fix any issues.
-10. Deliver: `npm run dev` + summary of what was built.
+7. **STOP.** User confirms `DESIGN.md`. Do NOT code yet.
+8. Invoke `spec-driven-development` → create `SPEC.md` (stack, scope, acceptance criteria).
+9. Invoke `planning-and-task-breakdown` → create task plan (file order, component list, dependencies).
+10. Run setup: `create-next-app`, Tailwind v4, shadcn, Framer Motion.
+11. Build all sections with tokens and `Reveal` animations.
+12. Run QA gates. Fix any issues.
+13. Deliver: `npm run dev` + summary of what was built.
 
 ### Example 2: Add Animation to Existing Component
 
@@ -410,6 +424,7 @@ Agent:
 | "The user didn't ask for animations." | Subtle entrance animations are standard for production-grade UI. Default to them. |
 | "I'll animate width/height for this effect." | That drops frames. Use `scale` or `opacity` instead. |
 | "This looks fine on my screen." | Check 375px. Mobile-first is the rule, not the exception. |
+| "The user is eager, I'll start coding now that DESIGN.md is approved." | DESIGN.md approval completes DEFINE, not BUILD. You MUST plan first (`planning-and-task-breakdown`). |
 
 ---
 
@@ -422,6 +437,7 @@ Watch for these signals that the skill is being violated:
 - Animations use `width`, `height`, or `margin` transitions.
 - There is no `prefers-reduced-motion` fallback.
 - The agent generates code before confirming or creating a `DESIGN.md` (Path B).
+- The agent writes code immediately after `DESIGN.md` is approved without creating a PLAN (`planning-and-task-breakdown`).
 - The stack versions are outdated (Next.js < 16, Tailwind < 4).
 
 ---
