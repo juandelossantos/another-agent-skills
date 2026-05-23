@@ -38,6 +38,19 @@ Do NOT use for:
 
 ## Core Process
 
+### Phase 0 — Language Detection
+
+Detect the language of the user's request immediately. All subsequent communication MUST be in that same language.
+
+**Detection rules:**
+- If the user writes in **Spanish** (e.g., *"haz"*, *"diseña"*, *"crea"*, *"desarrolla"*, *"quiero"*, *"necesito"*), respond entirely in **Spanish**.
+- If the user writes in **English** (e.g., *"build"*, *"design"*, *"create"*, *"make"*), respond entirely in **English**.
+- If the user writes in **Portuguese**, **French**, or another language, respond in that language to the best of your ability, falling back to English if uncertain.
+
+**Never mix languages.** Do not ask questions in English if the user spoke Spanish, and vice versa. All questions, assumptions, specs, and code comments must match the detected language.
+
+---
+
 ### Phase 1 — Discovery Gate (MANDATORY)
 
 **NO CODE IS WRITTEN UNTIL THIS PHASE IS COMPLETE.**
@@ -48,27 +61,47 @@ Before any file is created, you **MUST** complete this gated checklist. Do not s
 
 #### Step 1: Surface Assumptions
 
-List at least 5 assumptions you are making about the project. Present them to the user for confirmation or correction:
+List at least 5 assumptions you are making about the project. Present them to the user for confirmation or correction **in the detected language**:
 
+**English example:**
 ```
 ASSUMPTIONS I'M MAKING:
 1. This is a web application (not native mobile)
-2. The primary language is [Spanish/English]
-3. This is for [desktop/mobile/both]
+2. The primary language is English
+3. This is for desktop/mobile/both
 4. No user authentication is needed
 5. Data does not need to persist between sessions
 → Correct me now or I'll proceed with these.
 ```
 
+**Spanish example:**
+```
+SUPOSICIONES QUE ESTOY HACIENDO:
+1. Esta es una aplicación web (no móvil nativa)
+2. El idioma principal es español
+3. Es para escritorio/móvil/ambos
+4. No se necesita autenticación de usuario
+5. Los datos no necesitan persistir entre sesiones
+→ Corrígeme ahora o procederé con estas.
+```
+
 #### Step 2: Discovery Interview (Minimum 5 Questions)
 
-Ask these questions in the user's language (Spanish or English). Do not proceed until answered:
+Ask these questions **in the user's detected language**. Do not proceed until answered:
 
-1. **Audience / Audiencia**: Who will use this? (Age, tech-savviness, context — e.g., "on a court with sweaty fingers")
-2. **Purpose / Propósito**: What problem does this solve in one sentence?
-3. **Scope / Alcance**: Is this an MVP or a complete product? What features are MUST vs. NICE?
-4. **Context / Contexto**: Where and how will this be used? (Phone on a sports court, office desktop, public kiosk...)
-5. **Stack preference / Preferencia de stack**: Any existing tech constraints? (React, Vue, vanilla, WordPress...)
+**English:**
+1. **Audience**: Who will use this? (Age, tech-savviness, context)
+2. **Purpose**: What problem does this solve in one sentence?
+3. **Scope**: Is this an MVP or a complete product? What features are MUST vs. NICE?
+4. **Context**: Where and how will this be used? (Phone on a court, office desktop...)
+5. **Stack preference**: Any existing tech constraints? (React, Vue, vanilla...)
+
+**Spanish:**
+1. **Audiencia**: ¿Quién usará esto? (Edad, conocimiento técnico, contexto)
+2. **Propósito**: ¿Qué problema resuelve esto en una oración?
+3. **Alcance**: ¿Es un MVP o un producto completo? ¿Qué características son OBLIGATORIAS vs. OPCIONALES?
+4. **Contexto**: ¿Dónde y cómo se usará? (Teléfono en una cancha, escritorio de oficina...)
+5. **Preferencia de stack**: ¿Hay restricciones técnicas existentes? (React, Vue, vanilla...)
 
 #### Step 3: Extended Discovery (For non-trivial projects)
 
