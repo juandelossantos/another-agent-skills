@@ -38,29 +38,106 @@ Do NOT use for:
 
 ## Core Process
 
-### Phase 1 — Detect Visual Contract
+### Phase 1 — Discovery Gate (MANDATORY)
+
+**NO CODE IS WRITTEN UNTIL THIS PHASE IS COMPLETE.**
+
+This skill triggers on requests like: *"build a website"*, *"design a landing page"*, *"create a component"*, *"add animations"*, *"make it look better"*, *"frontend work"*, *"UI/UX"*, *"redesign"*, or any visual task. It also triggers on Spanish equivalents: *"haz una web"*, *"diseña una landing"*, *"desarrolla una app"*, *"crea una página"*.
+
+Before any file is created, you **MUST** complete this gated checklist. Do not skip steps. Do not assume answers. The spec's entire purpose is to surface misunderstandings *before* code gets written.
+
+#### Step 1: Surface Assumptions
+
+List at least 5 assumptions you are making about the project. Present them to the user for confirmation or correction:
+
+```
+ASSUMPTIONS I'M MAKING:
+1. This is a web application (not native mobile)
+2. The primary language is [Spanish/English]
+3. This is for [desktop/mobile/both]
+4. No user authentication is needed
+5. Data does not need to persist between sessions
+→ Correct me now or I'll proceed with these.
+```
+
+#### Step 2: Discovery Interview (Minimum 5 Questions)
+
+Ask these questions in the user's language (Spanish or English). Do not proceed until answered:
+
+1. **Audience / Audiencia**: Who will use this? (Age, tech-savviness, context — e.g., "on a court with sweaty fingers")
+2. **Purpose / Propósito**: What problem does this solve in one sentence?
+3. **Scope / Alcance**: Is this an MVP or a complete product? What features are MUST vs. NICE?
+4. **Context / Contexto**: Where and how will this be used? (Phone on a sports court, office desktop, public kiosk...)
+5. **Stack preference / Preferencia de stack**: Any existing tech constraints? (React, Vue, vanilla, WordPress...)
+
+#### Step 3: Extended Discovery (For non-trivial projects)
+
+If the project involves logic, data, or user interactions, also ask:
+
+6. **Data / Datos**: What data needs to be stored? Where? (localStorage, database, none)
+7. **Security / Seguridad**: Any auth, private data, or compliance needs? (GDPR, accessibility laws)
+8. **Scalability / Escalabilidad**: 10 users or 10,000? Single match or tournament management?
+9. **Offline / Sin conexión**: Does it need to work without internet?
+10. **Integration / Integración**: Does it connect to other systems? (APIs, payment, analytics)
+
+#### Step 4: Visual Direction (if applicable)
+
+If the project has a visual component, ask:
+
+11. **References / Referencias**: Any websites, apps, or styles you like?
+12. **Mood / Tono**: Playful, serious, luxury, brutalist, minimalist?
+13. **Brand / Marca**: Do you have existing colors, fonts, or a logo?
+
+#### Step 5: Confirm & Lock
+
+Summarize everything in a concise paragraph. Ask: **"¿Es esto correcto? ¿Arrancamos? / Is this correct? Shall we proceed?"**
+
+Only after explicit confirmation ("sí", "yes", "adelante", "perfecto", "vamos"), proceed to Phase 2.
+
+---
+
+### Phase 2 — Write Contracts
+
+#### 2A: SPEC.md (for new projects/features)
+
+If there is **no `SPEC.md`** and this is a **new feature or page** (not a one-off component tweak), invoke `spec-driven-development` to write one.
+
+The SPEC.md **must** include:
+- Objective (what + why + who)
+- Scope (in/out)
+- Tech stack (locked versions)
+- Project structure
+- Acceptance criteria (testable)
+- Boundaries (Always / Ask First / Never)
+
+#### 2B: DESIGN.md (for visual work)
 
 Check for `DESIGN.md` in the project root.
 
 - **Path A — DESIGN.md exists:**
-  - Read the file. Extract tokens (colors, typography, spacing, motion).
-  - Build STRICTLY within those tokens. Do not invent new colors or fonts.
+  - Read it. Extract tokens (colors, typography, spacing, motion).
+  - Build STRICTLY within those tokens.
   - If a task requires a token not in the contract, pause and ask to extend it.
 
 - **Path B — No DESIGN.md, user wants a visual system:**
-  - Run a structured 5-question interview:
-    1. What is the business/purpose in one sentence?
-    2. Who is the ideal visitor?
-    3. What should they do on the site? (CTA)
-    4. What sector/vertical? (SaaS, hospitality, health, creative, etc.)
-    5. Do you have references or a mood in mind?
-  - Pick a bold aesthetic direction from the 8 directions below (do not default).
-  - Generate a `DESIGN.md` with tokens and save it to the project root.
-  - Present it to the user for confirmation before building.
+  - Use answers from Phase 1 Discovery to pick an aesthetic direction.
+  - Pick ONE direction from the 8 below (do not default).
+  - Generate a `DESIGN.md` with tokens and save it.
+  - Present it for confirmation before building.
 
 - **Path C — No DESIGN.md, one-off task:**
   - Do the task. Mention once that a `DESIGN.md` improves long-term consistency.
   - Do not nag again.
+
+#### 2C: Lifecycle Awareness
+
+If the project has an `AGENTS.md` with lifecycle mapping, respect it:
+- **DEFINE** → `spec-driven-development`
+- **PLAN** → `planning-and-task-breakdown`
+- **BUILD** → This skill + `incremental-implementation`
+- **VERIFY** → `debugging-and-error-recovery`
+- **REVIEW** → `code-review-and-quality`
+- **SHIP** → `shipping-and-launch`
 
 ### Phase 2 — Choose Aesthetic Direction (Path B only)
 
