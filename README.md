@@ -36,6 +36,32 @@ That's it. OpenCode will now see **24 skills** globally.
 
 ---
 
+## ⚠️ Start Every New Project With `init-agents`
+
+**This step is mandatory.** Before you ask the agent to do anything in a new project, run:
+
+```bash
+init-agents
+```
+
+This copies `AGENTS.md` into your current directory, which tells OpenCode to:
+
+1. **Use skills** — Without `AGENTS.md`, the agent may ignore skills and jump straight to coding.
+2. **Follow the lifecycle** — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP.
+3. **Respect anti-rationalization rules** — Prevents the agent from skipping steps with excuses like "this is too small for a skill."
+
+### When to use it
+
+| Situation | Use `init-agents`? |
+|---|---|
+| New project | ✅ **Always** — First step before any work |
+| Existing project without `AGENTS.md` | ✅ Yes — Activates skill-driven mode |
+| Project already has `AGENTS.md` | ❌ No — Already initialized |
+
+> **Note:** If `init-agents` is not found, run `source ~/.zshrc` first to load the alias.
+
+---
+
 ## What the Installer Does
 
 | Step | Action | Result |
