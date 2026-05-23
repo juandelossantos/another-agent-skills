@@ -126,7 +126,7 @@ update_shell_config() {
 # Managed by another-agent-skills/install.sh — do not edit manually.
 
 # Agent Skills aliases
-alias init-agents="cp $HOME/.config/opencode/.agent-skills-remote/AGENTS.md ./AGENTS.md"
+alias init-agents="cp /home/juandelossantos/dev/personal/another-agent-skills/AGENTS.md ./AGENTS.md"
 alias update-global-skills="cd $HOME/.config/opencode/.agent-skills-remote && git pull && cd -"
 
 # Agent Skills auto-update on terminal open (max once per day)
