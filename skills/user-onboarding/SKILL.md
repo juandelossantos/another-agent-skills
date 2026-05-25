@@ -24,18 +24,29 @@ its defaults, suggestions, and questions accordingly.
 
 ## When to Use
 
-**MANDATORY** when:
-- This is the first session with a new user
-- No `~/.config/opencode/user-profile.json` exists
-- The user explicitly says "setup my preferences", "remember my stack", "configure defaults"
+**AUTO-DETECTED — The user never needs to ask for this.**
 
-**Runs automatically** when:
-- Any skill detects that `user-profile.json` is missing and asks a discovery question
+**Runs automatically when:**
+- Any skill starts and detects no `~/.config/opencode/user-profile.json`
+- `user-profile.json` exists but is > 90 days old
+- The user explicitly says "setup my preferences", "remember my stack", "configure defaults"
 
 **When NOT to use:**
 - `user-profile.json` exists and is < 90 days old
-- The user explicitly says "skip preferences, just build"
+- The user explicitly says "skip preferences, just build" AND profile exists
 - Turbo Mode is activated and user-profile exists
+
+**How it works:**
+```
+User: "Crea una landing page"
+Agent: [checks ~/.config/opencode/user-profile.json] → NOT FOUND
+Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas 
+        para personalizar mi ayuda. Después continuamos con tu landing page."
+→ Runs user-onboarding
+→ Saves profile
+→ Resumes: "Listo. Veo que prefieres React + Tailwind. ¿Confirmas para 
+            esta landing page?"
+```
 
 ---
 

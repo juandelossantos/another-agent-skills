@@ -6,6 +6,24 @@ This project uses a **skill-driven workflow**. You MUST follow these rules for e
 
 ---
 
+## Rule 0: User Profile Verification (NEW — Runs Before Everything)
+
+**Before ANY other skill is invoked, verify the user has a profile:**
+
+1. **Check for `~/.config/opencode/user-profile.json`**
+   - Exists and < 90 days old → Read it. Use preferences to personalize all subsequent interactions.
+   - Missing or > 90 days old → **Execute `user-onboarding`** before proceeding with the user's request.
+
+2. **The user does NOT need to ask for onboarding.**
+   - This is automatic. The agent detects missing/stale profile and runs it.
+   - The user only sees: "Veo que es tu primera vez / tu perfil está desactualizado. Voy a hacerte unas preguntas rápidas para personalizar mi ayuda."
+
+3. **After onboarding completes, resume the original user request** with the new profile loaded.
+
+**Why this matters:** Without a profile, the agent asks "¿React o Vue?" in every project. With a profile, it says "Veo que prefieres Vue — ¿confirmas para este proyecto?"
+
+---
+
 ## Rule 1: Always Check Skills First
 
 For EVERY user request:

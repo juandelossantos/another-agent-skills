@@ -23,6 +23,19 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - ✅ `~/.zshrc` configured with auto-update logic
 - ✅ `~/.config/opencode/opencode.json` with skill permissions
 
+### AGENTS.md Rule 0: User Profile Verification (NEW)
+**Location:** `AGENTS.md` (universal, copied by `init-agents`)
+**Status:** ✅ Active
+
+**How it works:**
+- Before ANY skill runs, agent checks `~/.config/opencode/user-profile.json`
+- If missing or >90 days old → auto-executes `user-onboarding`
+- User sees: "Veo que es tu primera vez..." not "What stack do you want?"
+- After onboarding, resumes the original request with profile loaded
+- **The user never needs to ask for onboarding**
+
+---
+
 ### 2. Custom Skills
 
 #### `visual-frontend-mastery`
