@@ -221,6 +221,45 @@ another-agent-skills/
 
 ---
 
+## Roadmap & TODO
+
+This ecosystem is production-ready for OpenCode + Zsh + Linux/macOS. Help us make it truly universal.
+
+### 🔴 Critical (Blocking Universal Adoption)
+
+- [ ] **Windows installer** — `install.ps1` for PowerShell users
+- [ ] **Cross-shell support** — Detect Bash, Fish, Zsh in install.sh (not just Zsh)
+- [ ] **Multi-agent adapters** — Clear instructions for Claude Code, Cursor, GitHub Copilot, Cline:
+  - How to manually copy skills into `.claude/skills/`
+  - How to adapt `skill:` invocation to other agents
+  - Which features work everywhere vs. OpenCode-only
+- [ ] **Uninstall script** — `uninstall.sh` to cleanly remove aliases, global skills, and `.zshrc` blocks
+
+### 🟡 High Priority (Quality & Testing)
+
+- [ ] **CI/CD testing** — GitHub Actions testing `install.sh` on Ubuntu, macOS, Windows
+- [ ] **Reduce 6 skills to <250 lines** — `backend-api-mastery` (316), `fullstack-shipping` (307), `git-init-and-versioning` (356), `spec-driven-development` (329), `engineering-fundamentals` (276), `frontend-desktop` (251)
+- [ ] **Skill validation tests** — Check YAML frontmatter, verify guide references, enforce line counts
+- [ ] **Changelog per skill** — `skills/<name>/CHANGELOG.md` for version tracking
+- [ ] **Troubleshooting guide** — Common issues: skills not loading, path errors, permission problems
+
+### 🟢 Medium Priority (Expansion)
+
+- [ ] **CLI skill** — `frontend-cli` for terminal tools and command-line interfaces
+- [ ] **IoT / Embedded skill** — Microcontrollers, edge computing, hardware integration
+- [ ] **GameDev skill** — Unity, Godot, Unreal Engine workflow
+- [ ] **Internationalization** — Separate language files from skill logic (beyond ES/EN)
+- [ ] **Container skill** — Docker, Kubernetes, microservices deployment
+- [ ] **Security hardening skill** — OWASP compliance, penetration testing workflows
+
+### 💡 Want to Contribute?
+
+Pick any item above. Read `DEVELOPMENT.md` for conventions, create a branch, and open a PR. Every skill follows the same pattern: SKILL.md index + `*-GUIDE.md` lazy content. If you can write one, you can write any.
+
+**Current blocker for you?** If you're on Windows, use Bash, or use Claude Code — [open an issue](https://github.com/juandelossantos/another-agent-skills/issues) and we'll prioritize your platform.
+
+---
+
 ## Requirements
 
 - **Git**
