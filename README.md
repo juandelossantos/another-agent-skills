@@ -8,6 +8,8 @@
 
 Define → Plan → Build → Verify → Review → Ship. Every time. Without the bloat.
 
+> Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
+
 ---
 
 ## Quick Start
