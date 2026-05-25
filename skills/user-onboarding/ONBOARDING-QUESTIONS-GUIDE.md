@@ -8,6 +8,8 @@ Complete 27-question interview for `user-onboarding` Phase 1.
 2. **Role**: ¿Desarrollador, diseñador, product manager, emprendedor?
 3. **Industry**: ¿Industria? (tech, hospitality, fintech, healthcare, education)
 4. **Experience**: ¿Años programando? (0-1, 1-3, 3-5, 5-10, 10+)
+5. **GitHub username**: ¿Tu usuario de GitHub? (para OG tags, READMEs, enlaces)
+6. **Author name**: ¿Nombre completo para atribución? (para READMEs, footers, licencias)
 
 ## Section B: Technical Preferences
 

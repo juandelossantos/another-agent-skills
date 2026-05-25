@@ -282,6 +282,8 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 
+**MECHANICAL ENFORCEMENT:** A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
+
 **User override:** "Enable auto commit mode", "Don't ask me for commits", "I trust you with commits". See AGENTS-EXTENDED.md for override details.
 
 ---

@@ -181,6 +181,11 @@ User can disable this gate by saying:
 | "I'll improve this adjacent code while I'm here." | Scope creep in diffs. Touch only what the user asked. |
 | "Make it work is enough." | Make it work, make it right, make it fast — in that order. |
 | "The user already said yes before." | Every commit is a separate decision. Approval does not transfer. |
+| "It's just a docs change." | Process violations have no size minimum. One unapproved line = violation. |
+| "The user wants the fix fast." | Speed without consent is arrogance, not efficiency. |
+| "We're iterating the same fix." | Each iteration modifies the repo. Each modification needs approval. |
+| "It's too small to bother asking." | The Commit Manifest IS the process. Skipping it IS the violation. |
+| "The user trusts me now." | Trust is verified per-commit. Previous trust does not waive the gate. |
 
 ---
 
@@ -252,6 +257,37 @@ This is a **process violation** regardless of content quality.
 | **Commit Manifest block** | **Low** | Visible, unskippable, user sees it |
 
 **The manifest block is a speed bump. It is harder to ignore than a remembered rule.**
+
+### Self-Check Before Manifest
+
+Before outputting the Commit Manifest block, the agent MUST run this self-check:
+
+```
+SELF-CHECK — No commit is exempt:
+□ ¿Es docs? → NO exento. Documentación requiere aprobación.
+□ ¿Es bug fix? → NO exento. Bug fixes no bypass proceso.
+□ ¿Es iteración del mismo fix? → NO exento. Cada iteración es nuevo commit.
+□ ¿Ya aprobé antes? → ESA aprobación no transfiere. Es decisión separada.
+□ ¿Son <3 líneas? → NO exento. Tamaño no exime del proceso.
+□ ¿El usuario confía en mí? → Confianza no waives la gate.
+```
+
+If any box is unchecked, the agent must still output the manifest.
+
+### Post-Commit Verification
+
+After EVERY commit (not push — commit), the agent MUST verify:
+
+```
+POST-COMMIT CHECK:
+□ ¿El build/despliegue funciona? (ej: npm run build, python -m http.server)
+□ ¿Los tests pasan? (si existen para los archivos modificados)
+□ ¿Regresiones visuales? (si es UI, inspeccionar la sección modificada)
+□ ¿El commit toca archivos que no debía? (revisar diff final)
+□ ¿Quedó el token .git/COMMIT_APPROVED sin consumir?
+```
+
+**If any check fails:** Do NOT push. Report to user immediately.
 
 ---
 

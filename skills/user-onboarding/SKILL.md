@@ -80,7 +80,9 @@ Summary: 27 questions covering identity, technical preferences (platform, framew
     "role": "developer",
     "industry": "fintech",
     "experience_years": "3-5",
-    "team_size": "solo"
+    "team_size": "solo",
+    "github_username": "juandelossantos",
+    "author_name": "Juan de los Santos"
   },
   "preferences": {
     "language": "es",

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# pre-commit — Another Agent Skills Mutation Approval Gate
+# Installed by init-agents.sh. Blocks commits without explicit approval.
+# Bypass: git commit --no-verify (intentional process violation)
+#
+# This hook is the MECHANICAL enforcement layer for Rule 12.
+# It checks for .git/COMMIT_APPROVED token created by the agent
+# after receiving explicit user approval via Commit Manifest.
+
+set -euo pipefail
+
+APPROVAL_FILE=".git/COMMIT_APPROVED"
+
+if [ ! -f "$APPROVAL_FILE" ]; then
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  BLOCKED: No commit approval token found.               ║"
+    echo "║                                                          ║"
+    echo "║  The agent must present a Commit Manifest and get        ║"
+    echo "║  your explicit approval before committing.               ║"
+    echo "║                                                          ║"
+    echo "║  To bypass this check temporarily:                       ║"
+    echo "║    git commit --no-verify                                ║"
+    echo "║                                                          ║"
+    echo "║  To disable permanently:                                 ║"
+    echo "║    rm .git/hooks/pre-commit                              ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+    exit 1
+fi
+
+# Consume the token so it can't be reused
+rm "$APPROVAL_FILE"
+exit 0

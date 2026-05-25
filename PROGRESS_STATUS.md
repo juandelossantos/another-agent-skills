@@ -51,7 +51,12 @@
 | AGENTS.md split (Core + Extended) | ✅ Active | `AGENTS.md` + `AGENTS-EXTENDED.md` |
 | Rule 0e (Context eviction) | ✅ Active | `AGENTS.md` |
 | SESSION_CONTEXT compression | ✅ Active | `development/SESSION_CONTEXT.md` + `ARCHIVE_2026-05.md` |
-| Commit Manifest Protocol | ✅ Active | `AGENTS-EXTENDED.md` (mechanical enforcement of Rule 12) |
+| Commit Manifest Protocol | ✅ Active | `AGENTS-EXTENDED.md` (behavioral enforcement of Rule 12) |
+| Pre-commit git hook (Rule 12) | ✅ Active | `scripts/git-hooks/pre-commit` (mechanical — blocks `git commit` without token) |
+| Commit Manifest self-check | ✅ Active | `AGENTS-EXTENDED.md` (anti-rationalization before manifest) |
+| Post-commit verification | ✅ Active | `AGENTS-EXTENDED.md` (build/test/regression check after each commit) |
+| 3 Strikes Protocol | ✅ Active | `skills/debugging-three-strikes/GUIDE.md` (stop after 3 failed fix attempts) |
+| User profile: github_username | ✅ Active | `skills/user-onboarding/SKILL.md` + `ONBOARDING-QUESTIONS-GUIDE.md` |
 | Incident documentation | ✅ Active | `development/INCIDENT_001` + `INCIDENT_002` |
 
 ### What Was Refactored This Cycle

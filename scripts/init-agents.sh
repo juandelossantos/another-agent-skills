@@ -139,12 +139,36 @@ main() {
         ok "Created AGENTS.md with Another Agent Skills rules"
     fi
     
+    # Install pre-commit hook for Rule 12 mechanical enforcement
+    install_precommit_hook
+    
     # Create .sessionrc for purpose-driven sessions
     if [[ ! -f "./.sessionrc" ]]; then
         create_sessionrc
     else
         log ".sessionrc already exists. Skipping."
     fi
+}
+
+install_precommit_hook() {
+    local hook_src="${SCRIPT_DIR}/git-hooks/pre-commit"
+    local hook_dst="./.git/hooks/pre-commit"
+    
+    if [[ ! -f "${hook_src}" ]]; then
+        warn "Pre-commit hook source not found at ${hook_src}. Skipping."
+        return 0
+    fi
+    
+    if [[ ! -d "./.git" ]]; then
+        log "No .git directory. Skipping pre-commit hook installation."
+        return 0
+    fi
+    
+    mkdir -p "./.git/hooks"
+    cp "${hook_src}" "${hook_dst}"
+    chmod +x "${hook_dst}"
+    ok "Installed pre-commit hook (${hook_dst})"
+    log "Commits now require .git/COMMIT_APPROVED token from Commit Manifest Protocol."
 }
 
 main "$@"
