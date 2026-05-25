@@ -35,6 +35,7 @@ Map user intent to skills automatically:
 | "spec", "specification", "design doc", "requirements" | `spec-driven-development` |
 | "architecture", "stack", "what framework", "MVC or", "microservices", "monolith", "pattern", "how to structure" | `architecture-analysis` |
 | "security", "auth", "vulnerability", "harden" | `security-and-hardening` |
+| "setup", "environment", "tools", "MCPs", "what do I need to install", "prepare workspace", "dev tools", "prerequisites" | `dev-environment-audit` |
 
 ### Rule 4: Lifecycle Enforcement
 

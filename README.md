@@ -14,7 +14,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
 | `architecture-analysis` | Evaluate 2-3 architecture options with honest trade-offs. Challenge user assumptions. Lock decisions in spec + ARCHITECTURE.md | Non-trivial projects requiring stack/pattern decisions |
-| *(Coming soon)* `dev-environment-audit` | Detect MCPs and tools, compare against ideal set, propose installations | Any project start, environment setup |
+| `dev-environment-audit` | Audit MCPs, CLI tools, runtimes. Propose installations with justification. Document in DEV-ENVIRONMENT.md | Any project start, before build, environment setup |
 | *(Coming soon)* `dev-environment-audit` | Detect MCPs and tools, compare against ideal set, propose installations | Any project start, environment setup |
 | *(Coming soon)* `backend-api-mastery` | REST/GraphQL design, Prisma, tRPC, error handling | API work |
 | *(Coming soon)* `fullstack-shipping` | End-to-end build, test, and deploy workflows | Fullstack projects |
@@ -138,8 +138,10 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/
 │   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
-│   └── architecture-analysis/
-│       └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
+│   ├── architecture-analysis/
+│   │   └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
+│   └── dev-environment-audit/
+│       └── SKILL.md                   # Audit MCPs, CLI tools, propose installations
 └── scripts/
     └── validate-skills.sh             # (Optional) CI validation
 ```

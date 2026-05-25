@@ -74,37 +74,43 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Phase 5: Recommendation with confidence level
 - Phase 6: Document in `SPEC.md` + `architecture/ARCHITECTURE.md`
 
-### Issue 3: Skill Line Count — RESOLVED
-**Problem:** `visual-frontend-mastery` was ~545 lines (exceeded 500-line limit).
-**Status:** ✅ FIXED. Split into SKILL.md (302 lines) + 3 guides.
+#### `dev-environment-audit`
+**Location:** `skills/dev-environment-audit/SKILL.md`
+**Status:** ✅ Complete — 335 lines
 
----
+**Key features:**
+- Phase 1: Discovery (project type, testing needs, design workflow, deploy target)
+- Phase 2: Audit MCPs (reading `opencode.json`), CLI tools (`node`, `git`, `docker`), project-specific tools (`package.json`, `Dockerfile`)
+- Phase 3: Gap Analysis against "Ideal Set" per project type (Frontend, Backend, Fullstack, Mobile, Desktop)
+- Phase 4: **BLOCKING install gate** — presents findings with priority (BLOCKING/HIGH/MEDIUM/LOW), user must explicitly approve each installation
+- Phase 5: Document in `docs/DEV-ENVIRONMENT.md` with workarounds for declined tools
+- Recursive audit every 7 days
 
 ## Immediate Next Steps (Priority Order)
 
-1. **Test existing skills in a real project**
+1. **Test ALL skills in a real project**
    - Create a test project with `init-agents`
-   - Verify `project-health-check` blocks on existing code
-   - Verify `spec-driven-development` does research + critical challenge
+   - Verify `project-health-check` blocks on existing code with A/B/C
+   - Verify `spec-driven-development` does web research + critical challenge + implement gate
    - Verify `architecture-analysis` proposes 2-3 options with honest trade-offs
+   - Verify `dev-environment-audit` detects MCPs/CLIs and proposes installations
    - Verify `visual-frontend-mastery` creates design lock and follows tokens
 
-2. **Create `dev-environment-audit` skill**
-   - Detect installed MCPs and CLI tools
-   - Compare against "ideal set" per project type
-   - Propose installations with user confirmation
-   - Document in `docs/DEV-ENVIRONMENT.md`
-
-3. **Documentation**
+2. **Documentation**
    - Update `README.md` with concrete usage examples for each skill
    - Add `CONTRIBUTING.md` for future collaborators
    - Create `CHANGELOG.md` tracking skill versions
 
-4. **CI/CD**
+3. **CI/CD**
    - Add GitHub Actions to validate `SKILL.md` frontmatter
    - Validate skill names match directory names
    - Check line count < 500 for all custom skills
    - Validate all guides referenced in SKILL.md actually exist
+
+4. **Future skills (post-MVP)**
+   - `backend-api-mastery` — REST/GraphQL design, Prisma, tRPC, error handling
+   - `fullstack-shipping` — End-to-end build, test, deploy workflows
+   - `mobile-react-native` — React Native patterns, Expo
 
 ---
 
