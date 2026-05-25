@@ -36,6 +36,7 @@ Map user intent to skills automatically:
 | "architecture", "stack", "what framework", "MVC or", "microservices", "monolith", "pattern", "how to structure" | `architecture-analysis` |
 | "security", "auth", "vulnerability", "harden" | `security-and-hardening` |
 | "setup", "environment", "tools", "MCPs", "what do I need to install", "prepare workspace", "dev tools", "prerequisites" | `dev-environment-audit` |
+| "API", "backend", "database", "auth", "endpoint", "REST", "GraphQL", "Prisma", "Drizzle", "tRPC", "server", "create API", "design API" | `backend-api-mastery` |
 
 ### Rule 4: Lifecycle Enforcement
 

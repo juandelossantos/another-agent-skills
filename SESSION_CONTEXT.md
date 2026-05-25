@@ -86,6 +86,20 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Phase 5: Document in `docs/DEV-ENVIRONMENT.md` with workarounds for declined tools
 - Recursive audit every 7 days
 
+#### `backend-api-mastery`
+**Location:** `skills/backend-api-mastery/SKILL.md`
+**Status:** ✅ Complete — 447 lines
+
+**Key features:**
+- Phase 1: Discovery (10 questions: data, consumers, public/private, volume, auth, real-time, protocol, DB, ORM, integrations)
+- Phase 2: Research (protocols, ORMs, auth patterns — **always [current year]**)
+- Phase 3: Protocol Decision (REST vs GraphQL vs tRPC vs WebSocket) with 2-3 options
+- Phase 4: Database Design (type, ORM, schema) with critical challenges
+- Phase 5: Auth & Security (strategy, validation, rate limiting, security checklist)
+- Phase 6: Error Handling & Testing (structured errors, HTTP codes, unit/integration/E2E)
+- Phase 7: Documentation & Versioning (OpenAPI, deprecation strategy)
+- Phase 8: Lock in `API-DESIGN.md` + update `SPEC.md`
+
 ## Immediate Next Steps (Priority Order)
 
 1. **Test ALL skills in a real project**
@@ -94,6 +108,7 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
    - Verify `spec-driven-development` does web research + critical challenge + implement gate
    - Verify `architecture-analysis` proposes 2-3 options with honest trade-offs
    - Verify `dev-environment-audit` detects MCPs/CLIs and proposes installations
+   - Verify `backend-api-mastery` designs protocol, DB, auth with critical challenges
    - Verify `visual-frontend-mastery` creates design lock and follows tokens
 
 2. **Documentation**
@@ -108,7 +123,6 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
    - Validate all guides referenced in SKILL.md actually exist
 
 4. **Future skills (post-MVP)**
-   - `backend-api-mastery` — REST/GraphQL design, Prisma, tRPC, error handling
    - `fullstack-shipping` — End-to-end build, test, deploy workflows
    - `mobile-react-native` — React Native patterns, Expo
 
@@ -134,8 +148,12 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/
 │   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
-│   └── architecture-analysis/
-│       └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
+│   ├── architecture-analysis/
+│   │   └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
+│   ├── dev-environment-audit/
+│   │   └── SKILL.md                   # Audit MCPs, CLI tools, propose installations
+│   └── backend-api-mastery/
+│       └── SKILL.md                   # Design production APIs (protocol, DB, auth, testing)
 └── scripts/                           # (empty, reserved for future)
 ```
 
