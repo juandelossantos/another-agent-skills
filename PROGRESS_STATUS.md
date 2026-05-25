@@ -1,249 +1,120 @@
-# Holistic Analysis: another-agent-skills Ecosystem
+# Project Progress Status
 
-**Date:** 2026-05-25
-**Scope:** Full ecosystem analysis for community readiness
-**Status:** Production-ready with known limitations
-
----
-
-## Executive Summary
-
-another-agent-skills is a **production-grade, opinionated ecosystem of 14 custom agent skills** built on top of addyosmani/agent-skills. It transforms AI coding agents into disciplined senior engineers through structured workflows, anti-slop rules, lazy loading, and token optimization.
-
-**Veredicto: Listo para compartir con la comunidad, con advertencias documentadas sobre limitaciones de plataforma.**
+> **Last updated:** 2026-05-25  
+> **Current version:** 10.0/10  
+> **Status:** Production-ready for OpenCode + Zsh + Linux/macOS
 
 ---
 
-## 1. Strengths (Why This Is Ready)
+## What Exists Now
 
-### 1.1 Architecture: DRY + Lazy Loading + Foundation Pattern
+### 14 Custom Skills
 
-| Principle | Implementation | Status |
+| Skill | Lines | Guides | Lazy Loading | Description |
+|---|---|---|---|---|
+| `engineering-fundamentals` | 276 | 0 | N/A (foundation) | Universal philosophy: discovery, contracts, anti-slop, quality gates |
+| `frontend-web` | 248 | 3 (DISCOVERY, ANIMATION, EXAMPLES) | ✅ Yes | Production-grade web UIs with anti-AI-slop rules |
+| `frontend-pwa` | 195 | 4 (DISCOVERY, EXAMPLES, DEVICE-MATRIX, PWA-ARCHITECTURE) | ✅ Yes | Installable, offline-first web apps with native migration path |
+| `frontend-mobile` | 239 | 3 (DISCOVERY, ANIMATION, EXAMPLES) | ✅ Yes | Native mobile apps with platform compliance |
+| `frontend-desktop` | 251 | 3 (DISCOVERY, PLATFORM, EXAMPLES) | ✅ Yes | Cross-platform desktop apps with native OS integration |
+| `backend-api-mastery` | 316 | 4 (DISCOVERY, PROTOCOL, AUTH, TESTING) | ✅ Yes | Production APIs: protocol, DB, auth, testing, docs |
+| `fullstack-shipping` | 307 | 3 (CICD, DEPLOY, LAUNCH-CHECKLIST) | ✅ Yes | CI/CD, deployment, monitoring, rollback, launch checklists |
+| `spec-driven-development` | 329 | 2 (DISCOVERY, SPEC-TEMPLATE) | ✅ Yes | Research-backed specs with critical thinking and implement gate |
+| `git-init-and-versioning` | 356 | 3 (REPO-STRUCTURE, BRANCHING, BUILD-INTEGRATION) | ✅ Yes | Git setup, branching, pre-commit gates, commit approval |
+| `architecture-analysis` | 202 | 3 (DISCOVERY, CHALLENGE, ARCHITECTURE-TEMPLATE) | ✅ Yes | Stack/pattern decisions with trade-offs and critical challenge |
+| `dev-environment-audit` | 152 | 4 (AUDIT-CHECKLIST, IDEAL-SETS, INSTALL, ENV-TEMPLATE) | ✅ Yes | MCPs, CLI tools, runtime verification |
+| `project-health-check` | 190 | 2 (AUDIT-CHECKLIST, REPORT-TEMPLATE) | ✅ Yes | Audit existing codebases with A/B/C decision gate |
+| `project-metrics` | 147 | 2 (METRICS-REFERENCE, REPORT-TEMPLATE) | ✅ Yes | Background quality logging: builds, rework, coverage |
+| `user-onboarding` | 173 | 2 (ONBOARDING-QUESTIONS, USAGE-EXAMPLES) | ✅ Yes | Persistent user preferences across all projects |
+
+**Total: 14 custom skills, 38 guides, ~3,123 lines of instruction context.**
+
+### Architecture Decisions Implemented
+
+| Decision | Status | Where |
 |---|---|---|
-| **DRY** | `engineering-fundamentals` (276 lines) as universal foundation. Zero duplication across 13 platform skills. | ✅ Excellent |
-| **Lazy Loading** | 13/14 skills use SKILL.md as index (~200 lines) + `*-GUIDE.md` on-demand. Reduces eager context by ~60%. | ✅ Excellent |
-| **Context Persistence** | Rule 0b auto-recovers `DESIGN-LOCK.md`, `SPEC.md`, `ARCHITECTURE.md` on session restart. | ✅ Excellent |
-| **Token Optimization** | Caveman-inspired compression applied. Average -38% per skill. AGENTS.md -28%. | ✅ Excellent |
+| DRY foundation skill | ✅ Active | `engineering-fundamentals` |
+| Lazy loading (skills as indices) | ✅ Active | All 13 platform skills |
+| Context persistence (Rule 0b) | ✅ Active | `AGENTS.md` |
+| User profile auto-detection (Rule 0) | ✅ Active | `user-onboarding` |
+| Token optimization (caveman-inspired) | ✅ Active | All skills and `AGENTS.md` |
+| Commit approval gate | ✅ Active | `BUILD-INTEGRATION-GUIDE.md` |
+| Self-review mandatory (ADR-001) | ✅ Active | `ADRs/001-self-review-principle.md` |
+| Development artifacts convention (Rule 11) | ✅ Active | `AGENTS.md`, `DEVELOPMENT.md` |
+| Smart merge for init-agents | ✅ Active | `scripts/init-agents.sh` |
+| Backup before skill overwrite | ✅ Active | `install.sh` |
 
-### 1.2 Quality Gates (Unique Differentiator)
+### What Was Refactored This Cycle
 
-No other public skill ecosystem has this level of enforced discipline:
-
-| Gate | Where | What It Prevents |
-|---|---|---|
-| **Commit Approval Gate** | `git-init-and-versioning` BUILD-INTEGRATION-GUIDE.md | Commits without user explicit approval |
-| **A/B/C Decision Gate** | `project-health-check` | Proceeding in degraded codebases without conscious choice |
-| **Implement Gate** | `spec-driven-development` Phase 8 | Writing code without locked specs |
-| **Pre-commit Checklist** | `git-init-and-versioning` Phase 6 | Commits without 6-axis self-review |
-| **Environment Audit Gate** | `dev-environment-audit` Phase 4 | Installing tools without user approval |
-| **Install Blocking Gate** | `dev-environment-audit` | Proceeding without BLOCKING tools or approved workarounds |
-
-### 1.3 Multi-Platform Coverage
-
-| Platform | Skill | Stack |
-|---|---|---|
-| Web | `frontend-web` | Next.js 16, React 19, Tailwind v4, Framer Motion |
-| PWA / Hybrid | `frontend-pwa` | Next.js + Workbox + Capacitor 6 |
-| Mobile Native | `frontend-mobile` | React Native 0.76+, Expo SDK 52+, Reanimated 3.16+ |
-| Desktop | `frontend-desktop` | Tauri v2 (Rust 1.78+) or Electron 33+ |
-| API / Backend | `backend-api-mastery` | Protocol-agnostic: REST, GraphQL, tRPC, WebSocket |
-
-### 1.4 Complete Lifecycle Coverage
-
-```
-DEFINE  → user-onboarding, project-health-check, spec-driven-development
-        → architecture-analysis, dev-environment-audit
-
-PLAN    → planning-and-task-breakdown (official skill)
-
-BUILD   → incremental-implementation (official), test-driven-development (official)
-        → code-review-and-quality (official), git-init-and-versioning
-        → frontend-[platform] or backend-api-mastery
-
-VERIFY  → debugging-and-error-recovery (official)
-
-REVIEW  → code-review-and-quality (official)
-
-SHIP    → fullstack-shipping
-```
-
-**No gap in the lifecycle.** Every phase has a skill.
-
-### 1.5 Empirical Quality (project-metrics)
-
-Background logging of:
-- Build pass rate, rework rate, test coverage delta
-- Discovery time, gate pass rate, user override frequency
-
-**Unique:** Most skill ecosystems claim quality. We measure it.
-
-### 1.6 Smart Merge (init-agents)
-
-Unlike other agent rule systems that overwrite existing configs, our `init-agents`:
-1. Detects existing `AGENTS.md`, `CLAUDE.md`, `.cursorrules`
-2. Backs up existing file
-3. Appends our rules with clear delimiters
-4. Preserves project-specific context
-
-**Philosophy:** "Our rules ADD TO your workflow, they do not replace it."
-
----
-
-## 2. Weaknesses (Why Caution Is Needed)
-
-### 2.1 Platform Dependency: OpenCode-First
-
-| Aspect | Current | Impact |
-|---|---|---|
-| **Skill invocation** | `skill` tool (OpenCode-specific) | Claude Code, Cursor, Copilot don't have this |
-| **Config path** | `~/.config/opencode/` | Windows uses `%APPDATA%`, macOS uses `~/Library/Application Support/` |
-| **Shell** | Zsh aliases in `.zshrc` | No Bash, Fish, PowerShell support |
-| **Install script** | Bash-only | No Windows PowerShell, no `.bat`, no `.ps1` |
-
-**Mitigation:** The skills themselves are YAML frontmatter + Markdown. The CONTENT is portable. Only the INSTALLER and INVOCATION mechanism are OpenCode-specific.
-
-### 2.2 Skill Sizes: 6 Skills Still >250 Lines
-
-| Skill | Lines | Excuse | Reality |
+| Skill | Before | After | Reduction |
 |---|---|---|---|
-| `backend-api-mastery` | 316 | Complex protocol/auth sections | Could split PROTOCOL/AUTH guides further |
-| `fullstack-shipping` | 307 | CI/CD examples | Could extract more to guides |
-| `git-init-and-versioning` | 356 | Commit approval gate is critical | Already extracted 3 guides, but BUILD-INTEGRATION is large |
-| `spec-driven-development` | 329 | Implement gate is critical | Already extracted 2 guides |
-| `engineering-fundamentals` | 276 | Foundation skill | Legitimately complex, but maybe could be 250 |
-| `frontend-desktop` | 251 | Just barely over | Minor trim needed |
+| `project-health-check` | 391 | 190 | **-51%** |
+| `dev-environment-audit` | 335 | 152 | **-55%** |
+| `project-metrics` | 305 | 147 | **-52%** |
+| `architecture-analysis` | 364 | 202 | **-44%** |
+| `user-onboarding` | 281 | 173 | **-38%** |
+| `frontend-pwa` | 285 | 195 | **-32%** |
+| `spec-driven-development` | 484 | 329 | **-32%** |
+| `fullstack-shipping` | 416 | 307 | **-26%** |
+| `git-init-and-versioning` | 500 | 356 | **-29%** |
 
-**Impact:** These 6 skills load more context than ideal. Not blocking, but reduces the "lazy loading" benefit.
+**Average reduction: -38% per skill. Total context saved: ~1,400 lines.**
 
-### 2.3 No Automated Testing
+---
 
-| What We Test | How | Frequency |
+## What's Next (Priority Order)
+
+### 🔴 Critical
+
+- [ ] **Windows installer** — `install.ps1` for PowerShell
+- [ ] **Cross-shell support** — Bash, Fish, Zsh detection in `install.sh`
+- [ ] **Multi-agent adapters** — Instructions for Claude Code, Cursor, Copilot, Cline
+- [ ] **Uninstall script** — Clean removal of aliases, global skills, `.zshrc` blocks
+
+### 🟡 High
+
+- [ ] **Reduce 6 skills to <250 lines** — `backend-api-mastery` (316), `fullstack-shipping` (307), `git-init-and-versioning` (356), `spec-driven-development` (329), `engineering-fundamentals` (276), `frontend-desktop` (251)
+- [ ] **CI/CD testing** — GitHub Actions testing `install.sh` on Ubuntu, macOS, Windows
+- [ ] **Skill validation tests** — Check YAML frontmatter, verify guide references, enforce line counts
+- [ ] **Troubleshooting guide** — Common issues: skills not loading, path errors, permission problems
+
+### 🟢 Medium
+
+- [ ] **CLI skill** — `frontend-cli` for terminal tools
+- [ ] **IoT / Embedded skill** — Microcontrollers, edge computing
+- [ ] **GameDev skill** — Unity, Godot, Unreal Engine workflow
+- [ ] **Container skill** — Docker, Kubernetes, microservices
+- [ ] **Internationalization** — Separate language files from skill logic
+
+---
+
+## Known Limitations
+
+| Limitation | Impact | Workaround |
 |---|---|---|
-| Install script | Manual `bash install.sh` | When changed |
-| Skill syntax | Manual read | When changed |
-| Cross-platform | Not tested | Never |
-| Multi-agent | Not tested | Never |
+| OpenCode-first invocation | Claude/Cursor/Copilot need manual adaptation | Copy skills to `.claude/skills/` or `.cursor/skills/` |
+| Bash/Zsh only installer | Windows users excluded | Use WSL or Git Bash for now |
+| No automated testing | Breaks not caught until user report | Manual testing after every change |
+| 6 skills still >250 lines | Slightly higher context load | Still functional, optimize later |
+| English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
-**Risk:** A broken install script or invalid YAML frontmatter won't be caught until a user reports it.
+---
 
-### 2.4 Documentation Bilingualism
+## How to Use This Status
 
-| File | Language | Issue |
+**For users:** Check if a feature you need is "In Progress" or "Planned". Open an issue if something critical is missing.
+
+**For contributors:** Pick any item in "What's Next", read `DEVELOPMENT.md` for conventions, and open a PR.
+
+**For maintainers:** Update this file after every significant change. It's the single source of truth for project state.
+
+---
+
+## Version History
+
+| Version | Date | Key Changes |
 |---|---|---|
-| AGENTS.md | Mixed (English rules, Spanish examples) | Rule 10 requires matching user language. AGENTS.md is static. |
-| SKILL.md files | English with Spanish examples | Inconsistent for non-Spanish speakers |
-| Guides | Mixed | Same issue |
-
-**Impact:** Spanish speakers love it. English-only speakers may find Spanish examples confusing. Other languages (Portuguese, French, Chinese) not supported.
-
-### 2.5 No Uninstall / Cleanup
-
-- `install.sh` modifies `.zshrc`. No `uninstall.sh` to remove aliases.
-- Global skills copied to `~/.config/opencode/skills/`. No cleanup script.
-- `another-agent-skills-config` block in `.zshrc`. No removal tool.
-
-### 2.6 No Versioning / Changelog
-
-- Users can't easily see what's new in a skill update.
-- No semantic versioning per skill.
-- No migration guide when skills change significantly.
-
----
-
-## 3. Community Readiness Assessment
-
-### Ready to Share ✅
-
-| Criterion | Status |
-|---|---|
-| Core functionality works | ✅ Yes, tested locally |
-| Install script works | ✅ Yes, idempotent |
-| Documentation is complete | ✅ README covers install, usage, philosophy |
-| License is clear | ✅ MIT |
-| Anti-destructive behavior | ✅ init-agents merges, doesn't overwrite |
-| Credits given | ✅ Addy Osmani, Julius Brussee, etc. |
-| Self-review principle | ✅ ADR-001, pre-commit gates |
-
-### Share with Warnings ⚠️
-
-| Criterion | Status |
-|---|---|
-| Windows support | ⚠️ Not tested, bash-only |
-| Non-Zsh shells | ⚠️ Not tested |
-| Non-OpenCode agents | ⚠️ Content portable, invocation not |
-| Automated testing | ⚠️ None |
-| Multi-language support | ⚠️ English/Spanish only |
-
-### Not Ready ❌
-
-| Criterion | Status |
-|---|---|
-| Enterprise deployment | ❌ No CI/CD, no testing, no rollback |
-| Commercial support | ❌ None |
-| Stable API | ❌ Skills evolve rapidly |
-
----
-
-## 4. Recommendations for Community Launch
-
-### Immediate (Before Announcing)
-
-1. **Add `UNINSTALL.md`** — Document how to remove aliases and global skills
-2. **Add `TROUBLESHOOTING.md`** — Common issues (path not found, skills not loading, etc.)
-3. **Add `CONTRIBUTING.md`** — How to add skills, conventions, PR process
-4. **Verify install on fresh machine** — Clone repo on VM or friend's machine, test end-to-end
-
-### Short-Term (Next 2 Weeks)
-
-5. **Windows PowerShell installer** (`install.ps1`)
-6. **Cross-shell support** — Bash, Fish, Zsh detection in install.sh
-7. **Multi-agent adapter docs** — How to use skills with Claude Code, Cursor, Copilot (manual copy vs automatic)
-8. **Reduce 6 skills to <250 lines** — backend-api-mastery, fullstack-shipping, git-init-and-versioning
-
-### Medium-Term (Next Month)
-
-9. **Automated install tests** — GitHub Actions testing install.sh on Ubuntu, macOS, Windows
-10. **Skill unit tests** — Validate YAML frontmatter, check line counts, verify guide references
-11. **Internationalization framework** — Separate language files from skill logic
-12. **Changelog per skill** — `skills/<name>/CHANGELOG.md`
-
----
-
-## 5. Competitive Positioning
-
-| Feature | another-agent-skills | addyosmani/agent-skills | Custom prompts |
-|---|---|---|---|
-| **Skill count** | 14 custom + 23 official | 23 official | N/A |
-| **Lazy loading** | ✅ Yes | ❌ No | N/A |
-| **Quality gates** | ✅ 6 gates | ❌ None | Rare |
-| **Token optimization** | ✅ -38% avg | ❌ Not measured | N/A |
-| **Context persistence** | ✅ Rule 0b | ❌ No | N/A |
-| **Multi-platform** | ✅ Web/PWA/Mobile/Desktop | ⚠️ Web only | Varies |
-| **User profile** | ✅ 27 preferences | ❌ No | N/A |
-| **Anti-slop rules** | ✅ Yes | ⚠️ Partial | Rare |
-| **Commit approval** | ✅ Yes | ❌ No | Very rare |
-| **Cross-agent** | ⚠️ OpenCode-first | ✅ OpenCode | ✅ Universal |
-| **Windows support** | ⚠️ Bash only | ⚠️ Bash only | ✅ Any |
-
-**Unique value proposition:** "The only skill ecosystem that enforces senior engineering discipline while optimizing for token efficiency."
-
----
-
-## 6. Conclusion
-
-**another-agent-skills is ready for community sharing with the following caveats:**
-
-1. **Position it as OpenCode-first, with content portable to other agents.** Don't claim universal compatibility until tested.
-2. **Document Windows/shell limitations clearly.** The bash-only installer is the biggest barrier to entry.
-3. **Emphasize the unique value:** lazy loading, quality gates, token optimization, context persistence. These don't exist in other ecosystems.
-4. **Invite contributions** for cross-platform support, testing, and new platform skills.
-
-**Recommended launch channel:**
-- GitHub README (already polished)
-- Share on X/Twitter with key metrics (-38% tokens, 14 skills, 6 quality gates)
-- Post on Hacker News / Reddit r/OpenCode / r/programming
-- Write a blog post: "How we reduced agent context by 38% without losing quality"
-
-**Not recommended yet:**
-- Product Hunt (needs polish and universal support first)
-- Enterprise sales (needs testing and support infrastructure)
+| **10.0** | 2026-05-25 | All 14 skills < 356 lines, lazy loading on 13/14, smart merge, universal paths, token optimization applied |
+| 9.6 | 2026-05-24 | 13 skills, multi-platform (web/PWA/mobile), context persistence, lazy loading backend-api-mastery |
+| 9.0 | 2026-05-23 | 9 skills, web-centric, AGENTS.md lifecycle, Turbo Mode |
+| 1.0 | 2026-05-22 | Fork from addyosmani/agent-skills, first custom skills |
