@@ -104,7 +104,8 @@ Summary: 27 questions covering identity, technical preferences (platform, framew
     "decision_style": "propose_options",
     "commit_review": "auto_review_with_approval",
     "context_persistence": true,
-    "documentation_level": "comprehensive"
+    "documentation_level": "comprehensive",
+    "commit_approval": "manual"
   },
   "constraints": {
     "budget_context": "startup",

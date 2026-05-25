@@ -38,9 +38,16 @@ Complete 27-question interview for `user-onboarding` Phase 1.
 23. **Context persistence**: ¿Recuerdo automáticamente estado entre sesiones, o prefieres empezar desde cero?
 24. **Documentation**: ¿Mucha o lo mínimo necesario?
 
-## Section E: Constraints & Context
+## Section E: Commit & Push Preferences
 
-25. **Budget**: ¿Personal, startup, o enterprise?
-26. **Time pressure**: ¿Deadlines ajustados o tiempo de sobra?
-27. **Open source**: ¿Sueles open-sourcear? (afecta licencias)
-28. **Accessibility**: ¿Crítica, importante, o nice-to-have?
+25. **Commit approval**: ¿Aprobación manual para cada commit y push, o automático?
+    - **Manual (Recommended)**: Espero "yes/sí/commit" explícito. Más seguro.
+    - **Auto-present**: Muestro cambios, acepto "ok/adelante/proceed".
+    - **Full auto**: Commiteo y pusheo sin preguntar. Revisas con `git log` después.
+
+## Section F: Constraints & Context
+
+26. **Budget**: ¿Personal, startup, o enterprise?
+27. **Time pressure**: ¿Deadlines ajustados o tiempo de sobra?
+28. **Open source**: ¿Sueles open-sourcear? (afecta licencias)
+29. **Accessibility**: ¿Crítica, importante, o nice-to-have?

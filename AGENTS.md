@@ -254,10 +254,76 @@ When working on this repository (`another-agent-skills`):
 
 ---
 
+## Rule 12: Mutation Approval Gate (ABSOLUTE)
+
+**No git operation that mutates the repository without explicit user approval.**
+
+### What Requires Approval
+
+**MANDATORY approval for ALL git mutations:**
+
+| Operation | Why It Requires Approval |
+|---|---|
+| `git commit` | Creates history you cannot erase without force |
+| `git push` | Sends local state to remote, affects collaborators |
+| `git merge` | Combines branches, can introduce conflicts |
+| `git rebase` | Rewrites history, dangerous if pushed already |
+| `git reset` | Destroys commits, can lose work permanently |
+| `git cherry-pick` | Copies commits, can duplicate or conflict |
+| `git revert` | Creates new commit undoing changes |
+| `git branch -d` / `-D` | Deletes branch, may lose unmerged work |
+| `git tag` | Marks releases, should be deliberate |
+| `git stash pop` | Applies stashed changes, can cause conflicts |
+| `git clean -fd` | Destroys untracked files, irreversible |
+| `git push --force` | Overwrites remote history, **EXTREMELY DANGEROUS** |
+
+### What Does NOT Require Approval
+
+**Safe, read-only operations:**
+- `git status`, `git log`, `git diff`, `git show`
+- `git branch` (list), `git stash list`
+- `git remote -v`, `git config --list`
+
+### Default Behavior (Strict)
+
+**MANDATORY for every mutation:**
+1. Present what will change
+2. Explain impact and risk
+3. **Wait for explicit approval:** "yes", "sí", "proceed"
+4. **Invalid responses (do NOT accept):** "ok", "mmhm", silence
+
+### User Override (Requires Explicit Statement)
+
+User can disable this gate by saying:
+- "Enable auto commit mode"
+- "Don't ask me for commits"
+- "Auto-push after commit"
+- "I trust you with commits"
+- "Allow all git operations"
+
+**If user overrides:**
+- Log metric: `LOG METRIC: override` — type: `mutation_approval_gate`
+- Document in user profile: `workflow.mutation_approval = "auto_present"` or `"full_auto"`
+- Still present mutations, but accept "ok" and "mmhm" as approval
+- User can re-enable with: "Require approval again" or "Strict mode"
+
+### Why Absolute by Default
+
+| Without Gate | With Gate |
+|---|---|
+| "I assumed you wanted to commit" | "You explicitly approved every change" |
+| 5 broken commits in a session | 1 clean commit with your knowledge |
+| "Why is this in my repo?" | "You saw it before it was committed" |
+| Force-pushed lost history | History protected, every mutation approved |
+
+**Anti-rationalization:** "The user seems impatient" → The user will be MORE impatient debugging changes they never approved.
+
+---
+
 ## Anti-Rationalization (Universal)
 
 | Wrong Thought | Why It's Wrong |
-|---|---|
+|---|---|---|
 | "This is too small for a skill." | Skills exist for structured thinking. |
 | "I can just quickly implement this." | Check skills first. |
 | "I'll gather context first." | Invoke the skill. It tells you what context to gather. |
@@ -268,6 +334,7 @@ When working on this repository (`another-agent-skills`):
 | "I'll add [quality] later." | Quality is a gate, not an afterthought. Add it now. |
 | "The user is impatient, I'll skip [phase]." | The user will be more impatient when the result doesn't match expectations. |
 | "I remember the design, I don't need to read files again." | Agent context drifts. Files are ground truth. |
+| "The user already said yes before." | Every commit is a separate decision. Approval does not transfer. |
 
 ---
 
