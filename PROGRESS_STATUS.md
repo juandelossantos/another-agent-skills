@@ -46,8 +46,11 @@
 | Development artifacts convention (Rule 11) | ✅ Active | `AGENTS.md`, `DEVELOPMENT.md` |
 | Smart merge for init-agents | ✅ Active | `scripts/init-agents.sh` |
 | Backup before skill overwrite | ✅ Active | `install.sh` |
-| Purpose-driven sessions | 🔄 In Progress | `AGENTS.md`, `user-onboarding`, `init-agents` |
-| `.sessionrc` per-project config | 🔄 In Progress | `scripts/init-agents.sh` |
+| Purpose-driven sessions | ✅ Active | `AGENTS.md`, `user-onboarding`, `init-agents` |
+| `.sessionrc` per-project config | ✅ Active | `scripts/init-agents.sh` |
+| AGENTS.md split (Core + Extended) | ✅ Active | `AGENTS.md` + `AGENTS-EXTENDED.md` |
+| Rule 0e (Context eviction) | ✅ Active | `AGENTS.md` |
+| SESSION_CONTEXT compression | ✅ Active | `development/SESSION_CONTEXT.md` + `ARCHIVE_2026-05.md` |
 
 ### What Was Refactored This Cycle
 

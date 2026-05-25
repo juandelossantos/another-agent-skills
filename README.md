@@ -202,10 +202,11 @@ All skills restored in under a minute.
 another-agent-skills/
 ├── README.md                          # This file
 ├── PROGRESS_STATUS.md                 # Current project state and roadmap
-├── EXAMPLES.md                        # Concrete before/after skill demonstrations
+├── EXAMPLES.md                        # Quick reference (80 lines). Full version in docs/
+├── AGENTS.md                          # Core rules (~300 lines, always loaded)
+├── AGENTS-EXTENDED.md                 # Extended rules (~200 lines, lazy loaded)
 ├── DEVELOPMENT.md                     # Guide for maintainers: development/ convention
 ├── install.sh                         # One-command global installer (with backup-before-overwrite)
-├── AGENTS.md                          # Universal skill-driven execution rules (12 rules)
 ├── LICENSE                            # MIT
 ├── skills/                            # 14 custom skills (SKILL.md + lazy-loaded guides)
 │   ├── engineering-fundamentals/      # Foundation: discovery, contracts, anti-slop, gates
@@ -222,6 +223,8 @@ another-agent-skills/
 │   ├── dev-environment-audit/         # MCPs, CLI tools, runtime verification
 │   ├── backend-api-mastery/           # API design: protocol, DB, auth, testing
 │   └── fullstack-shipping/            # CI/CD, deployment, monitoring, launch checklists
+├── docs/                              # Full documentation (lazy loaded)
+│   └── EXAMPLES.md                    # Complete before/after demonstrations (367 lines)
 └── development/                       # Internal: audits, reviews, simulations (git-ignored)
 ```
 
