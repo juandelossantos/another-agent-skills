@@ -51,3 +51,13 @@ Complete 27-question interview for `user-onboarding` Phase 1.
 27. **Time pressure**: ¿Deadlines ajustados o tiempo de sobra?
 28. **Open source**: ¿Sueles open-sourcear? (afecta licencias)
 29. **Accessibility**: ¿Crítica, importante, o nice-to-have?
+
+## Section G: Session Purpose (NEW in v11)
+
+30. **Default session purpose**: ¿Qué sueles hacer con este agente?
+    - **Brainstorming** → Arquitectura, tradeoffs, múltiples approaches
+    - **Development** → Construir features, fix bugs (default)
+    - **Code Review** → Auditar código existente
+    - **PR Review** → Revisar pull requests
+    - **Debugging** → Análisis de root cause
+    - **Custom** → Define tu propio modo

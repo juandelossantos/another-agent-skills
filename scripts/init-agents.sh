@@ -98,6 +98,34 @@ BLOCK
     log "Your original content is preserved. Backup: $(basename "$backup")"
 }
 
+# Create .sessionrc with purpose-driven defaults
+# This enables per-project session configuration
+# Used by AGENTS.md Rule 3 (Lifecycle) for purpose-driven skill routing
+create_sessionrc() {
+    local purpose="development"
+    local user_profile="$HOME/.config/opencode/user-profile.json"
+    
+    if [[ -f "$user_profile" ]]; then
+        local detected_purpose
+        detected_purpose=$(jq -r '.session_defaults.default_purpose // "development"' "$user_profile" 2>/dev/null)
+        if [[ -n "$detected_purpose" && "$detected_purpose" != "null" ]]; then
+            purpose="$detected_purpose"
+        fi
+    fi
+    
+    cat > "./.sessionrc" << EOF
+{
+  "purpose": "$purpose",
+  "skills_active": [],
+  "mutation_approval": "manual",
+  "notes": "Session configuration for this project. NOT git-tracked."
+}
+EOF
+    
+    ok "Created .sessionrc with purpose: $purpose"
+    log "Add .sessionrc to .gitignore to keep it local-only."
+}
+
 # Main logic
 main() {
     local existing_target
@@ -109,6 +137,13 @@ main() {
         # No existing agent config → copy normally
         cp "$AGENTS_SOURCE" "./AGENTS.md"
         ok "Created AGENTS.md with Another Agent Skills rules"
+    fi
+    
+    # Create .sessionrc for purpose-driven sessions
+    if [[ ! -f "./.sessionrc" ]]; then
+        create_sessionrc
+    else
+        log ".sessionrc already exists. Skipping."
     fi
 }
 

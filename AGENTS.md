@@ -184,6 +184,26 @@ SHIP    → shipping-[platform]
 | Design system | spec, git-init, frontend, dev-env, shipping | architecture | backend-api |
 | MVP/prototype | spec (turbo), git-init, frontend | — | architecture, backend (if no API) |
 
+### Purpose-Driven Execution
+
+**When beginning work, check `.sessionrc` or ask the user: "What are we doing today?"**
+
+| Purpose | Priority Skills | De-prioritized |
+|---|---|---|
+| **Brainstorming** | `idea-refine`, `architecture-analysis` | Coding skills |
+| **Development** | `spec-driven-development`, `test-driven-development`, `incremental-implementation` | Review skills |
+| **Code Review** | `project-health-check`, `code-review-and-quality` | Build skills |
+| **PR Review** | `git-workflow-and-versioning`, `code-review-and-quality` | Discovery skills |
+| **Debugging** | `debugging-and-error-recovery`, `test-driven-development` | Spec skills |
+
+**How it works:**
+1. `init-agents` creates `.sessionrc` with default purpose from user profile
+2. Agent reads `.sessionrc` at session start
+3. If no `.sessionrc`, asks user for purpose and creates it
+4. Skills are weighted by purpose (not filtered — just prioritized)
+
+**`.sessionrc` is NOT git-tracked.** Add to `.gitignore`.
+
 ---
 
 ## Rule 4: Turbo Mode

@@ -54,7 +54,7 @@ Agent: "Primera vez. Preguntas rápidas para personalizar ayuda."
 
 ### Phase 1 — Discovery Interview (Full Onboarding)
 
-→ **See `ONBOARDING-QUESTIONS-GUIDE.md` for complete 27-question interview (5 sections: Identity, Technical, Design, Workflow, Constraints).**
+→ **See `ONBOARDING-QUESTIONS-GUIDE.md` for complete 30-question interview (7 sections: Identity, Technical, Design, Workflow, Commit, Constraints, Session Purpose).**
 
 Summary: 27 questions covering identity, technical preferences (platform, framework, stack), design taste, workflow style, constraints.
 
@@ -112,6 +112,17 @@ Summary: 27 questions covering identity, technical preferences (platform, framew
     "time_pressure": "moderate",
     "open_source": false,
     "accessibility_priority": "important"
+  },
+  "session_defaults": {
+    "default_purpose": "development",
+    "purpose_skills_map": {
+      "brainstorming": ["idea-refine", "architecture-analysis"],
+      "development": ["spec-driven-development", "test-driven-development", "incremental-implementation"],
+      "code_review": ["project-health-check", "code-review-and-quality"],
+      "pr_review": ["git-workflow-and-versioning", "code-review-and-quality"],
+      "debugging": ["debugging-and-error-recovery", "test-driven-development"],
+      "custom": []
+    }
   }
 }
 ```
@@ -127,6 +138,7 @@ Name: Juan | Role: Developer | Industry: Fintech
 Platform: Web (React) + Node.js + PostgreSQL + Vercel
 Design: Minimalista, dark mode, animación moderada
 Communication: Detallado, propone opciones
+Default purpose: Development
 
 → ¿Siguen siendo correctas? (yes/sí)
 → ¿Actualizar algo? (responde con número de sección)
