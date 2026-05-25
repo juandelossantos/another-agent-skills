@@ -118,9 +118,16 @@ cd another-agent-skills
 # 2. Run the installer
 bash install.sh
 
-# 3. Reload your shell
-source ~/.zshrc
+# 3. Reload your shell config
+source ~/.zshrc        # For Zsh users
+# OR
+source ~/.bashrc       # For Bash users
+# OR: Close and reopen your terminal / IDE
 ```
+
+> **Note:** If `init-agents` is not found after install, your shell session may not have reloaded. Either run `source ~/.zshrc` (or `~/.bashrc`) or **restart your terminal/IDE**. The command is installed to `~/.local/bin/` which is added to your PATH.
+>
+> **Alternative:** Use the full path: `bash ~/.local/bin/init-agents`
 
 That's it. OpenCode will now see **37 skills** globally (14 custom + 23 from upstream).
 
@@ -152,7 +159,7 @@ This merges `AGENTS.md` into your current directory, which tells OpenCode to:
 
 > **Migrating from other workflows:** If your project has an existing `AGENTS.md` or `CLAUDE.md` (from Claude Code, Cursor, or custom rules), running `init-agents` will **append** our skill-driven rules to your existing file rather than overwriting it. Your project-specific context and conventions are preserved.
 >
-> **Note:** If `init-agents` is not found, run `source ~/.zshrc` first to load the alias.
+> **Note:** If `init-agents` is not found, run `source ~/.zshrc` first to load the alias. Or use the full path: `bash ~/.local/bin/init-agents`
 
 ---
 
