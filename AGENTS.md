@@ -26,6 +26,7 @@ Map user intent to skills automatically:
 | User says... | Skill to invoke |
 |---|---|
 | "build", "create", "haz", "diseña", "crea", "desarrolla" + any web/UI/app | `visual-frontend-mastery` |
+| "check project", "audit", "health check", "technical debt", "what needs fixing" | `project-health-check` |
 | "plan", "break down", "organize" | `planning-and-task-breakdown` |
 | "bug", "fix", "error", "broken", "not working" | `debugging-and-error-recovery` |
 | "test", "testing", "TDD" | `test-driven-development` |

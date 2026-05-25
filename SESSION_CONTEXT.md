@@ -23,9 +23,11 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - ✅ `~/.zshrc` configured with auto-update logic
 - ✅ `~/.config/opencode/opencode.json` with skill permissions
 
-### 2. Custom Skill: `visual-frontend-mastery`
+### 2. Custom Skills
+
+#### `visual-frontend-mastery`
 **Location:** `skills/visual-frontend-mastery/SKILL.md`
-**Current version:** Includes Phase 0 (Language Detection), Phase 1 (Discovery Gate), Phase 2 (Contracts), Phase 3-7 (Stack, Anti-Slop, Animation, Build, QA)
+**Current version:** Includes Phase 0 (Language Detection), Phase 1 (Discovery Gate), Phase 2 (Contracts + Design Asset Lock), Phase 3-7 (Stack, Anti-Slop, Animation, Build, QA)
 
 **Key features:**
 - Language detection (Spanish/English/Other)
@@ -35,7 +37,20 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Stack lock-in: Next.js 16, Tailwind v4, shadcn/ui, Framer Motion
 - Animation system: Framer Motion, CSS `animation-timeline`, WAAPI
 - `prefers-reduced-motion` mandatory
-- QA gates: 10 checks before delivery
+- **Design Asset Lock:** `design/DESIGN-LOCK.md` + `design/approved/` for visual persistence
+- QA gates: 12 checks before delivery
+
+#### `project-health-check`
+**Location:** `skills/project-health-check/SKILL.md`
+**Status:** ✅ Complete
+
+**Key features:**
+- Mandatory audit before any new work on existing codebases
+- 6 audit categories: Stack/Versions, Structure, Code Quality, Config, Dependencies, Agent Compliance
+- Generates `HEALTH-CHECK.md` artifact
+- **BLOCKING user decision gate:** Fix First / Proceed with Caution / Ignore
+- Recursive: Re-audits every 7 days or after any gap >3 days
+- Remediation planning with `planning-and-task-breakdown` integration
 
 ### 3. Universal AGENTS.md
 - ✅ Created at repo root
@@ -65,35 +80,50 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 **Prevention:** Always verify `pwd` and `git remote -v` before any git operation.
 
 ### Issue 3: Skill Line Count
-**Problem:** `visual-frontend-mastery` is ~430 lines.
-**Status:** Under the 500-line limit but approaching it.
-**Decision:** Keep it as-is for now. If it grows beyond 500 lines, split extended discovery questions into a reference file.
+**Problem:** `visual-frontend-mastery` is now ~540 lines (exceeded 500-line limit).
+**Status:** ⚠️ OVER LIMIT. Need to split extended discovery questions or design asset lock details into a reference file.
+**Decision:** Keep as-is for now. Split Phase 1 extended discovery into `skills/visual-frontend-mastery/EXTENDED-DISCOVERY.md` if it grows further.
 
 ---
 
 ## Immediate Next Steps (Priority Order)
 
-1. **Test the fixed setup**
-   - Open a new session in `another-agent-skills`
-   - Verify `init-agents` works
-   - Test that `visual-frontend-mastery` properly asks discovery questions before coding
-   - If it still jumps to code, investigate OpenCode's system prompt behavior
+1. **Test `project-health-check` skill**
+   - Open a project with existing code
+   - Verify it blocks and presents A/B/C options
+   - Verify `HEALTH-CHECK.md` is generated
+   - Test recursive behavior (return after 7 days)
 
-2. **Add more skills**
-   Consider creating:
-   - `backend-api-mastery` — REST/GraphQL, Prisma, tRPC, error handling
-   - `fullstack-shipping` — End-to-end build, test, deploy workflows
-   - `mobile-react-native` — React Native patterns, Expo
+2. **Rewrite `spec-driven-development` (our version)**
+   - Add web research phase (best practices, benchmarks)
+   - Integrate `architecture-analysis` trigger for non-trivial projects
+   - Add critical thinking: challenge assumptions, propose alternatives
+   - Ensure it generates `SPEC.md` with architecture decisions section
 
-3. **Documentation**
-   - Update `README.md` with usage examples
-   - Add a `CONTRIBUTING.md` for future collaborators
-   - Create a `CHANGELOG.md`
+3. **Create `architecture-analysis` skill**
+   - Stack selection with 2-3 justified options
+   - Pattern recommendations (MVC, Hexagonal, Serverless, etc.)
+   - Critical analysis: challenge user choices, explain trade-offs
+   - Lock decision in `SPEC.md` + `architecture/ARCHITECTURE.md`
 
-4. **CI/CD**
+4. **Create `dev-environment-audit` skill**
+   - Detect installed MCPs and CLI tools
+   - Compare against "ideal set" per project type
+   - Propose installations with user confirmation
+   - Document in `docs/DEV-ENVIRONMENT.md`
+
+5. **Split `visual-frontend-mastery` if needed**
+   - If it grows past 600 lines, extract Phase 1 extended discovery to separate file
+
+6. **Documentation**
+   - Update `README.md` with new skill descriptions and examples
+   - Add a `CONTRIBUTING.md`
+   - Create `CHANGELOG.md`
+
+7. **CI/CD**
    - Add GitHub Actions to validate `SKILL.md` frontmatter
    - Validate skill names match directory names
-   - Check line count < 500
+   - Check line count < 500 (currently failing for visual-frontend-mastery)
 
 ---
 
