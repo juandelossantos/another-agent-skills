@@ -33,6 +33,24 @@ Do NOT use for:
 - Mobile native apps (use `frontend-mobile`)
 - Installable offline apps (use `frontend-pwa`)
 
+### Context Persistence Check (NEW)
+
+**Before starting any work, check if this project has existing context:**
+
+1. **Check for `design/DESIGN-LOCK.md`**:
+   - Exists and < 7 days old → Read it. Extract: approved direction, palette, typography, key decisions.
+   - Exists but > 7 days old → Read it, then ask user: "El diseño fue aprobado hace [N] días. ¿Sigue vigente?"
+   - Missing → Proceed with normal discovery (Phase 1).
+
+2. **Check for `SPEC.md`**:
+   - Exists → Read it. Respect locked stack, boundaries, and acceptance criteria.
+   - Missing → If project is non-trivial, invoke `spec-driven-development`.
+
+3. **Check for `architecture/ARCHITECTURE.md`**:
+   - Exists → Do not contradict without explicit user approval.
+
+**If context exists:** Resume from detected phase (DEFINE → PLAN → BUILD → VERIFY → SHIP). Do NOT re-run discovery unless user explicitly requests changes.
+
 ### Stack Detection
 
 Before applying instructions, check for `STACK_CONFIG.md` in the project root.

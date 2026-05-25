@@ -24,6 +24,64 @@ This project uses a **skill-driven workflow**. You MUST follow these rules for e
 
 ---
 
+## Rule 0b: Context Persistence (NEW — Runs on Every Session Start)
+
+**When entering a directory with an existing project, auto-recover context before the user asks.**
+
+1. **Check for project context files (in order):**
+   ```
+   Check for any of these files in the working directory:
+   - design/DESIGN-LOCK.md        ← Visual decisions snapshot
+   - SPEC.md                      ← Technical specification
+   - architecture/ARCHITECTURE.md ← Architecture decisions
+   - API-DESIGN.md               ← API contract (if backend)
+   - HEALTH-CHECK.md             ← Last audit date
+   - docs/DEV-ENVIRONMENT.md     ← Environment setup
+   ```
+
+2. **If context files exist:**
+   - Read them. Extract: project name, current phase, last decisions, locked stack.
+   - Present a **Context Summary** to the user BEFORE they make any new request:
+     ```
+     📋 Contexto detectado del proyecto:
+
+     Proyecto: [Nombre extraído de SPEC.md]
+     Estado: [Fase actual: DEFINE / PLAN / BUILD / VERIFY / SHIP]
+     Stack: [Stack lock-in]
+     Última actualización: [Fecha del DESIGN-LOCK.md o último commit]
+
+     Decisiones clave:
+     - [Dirección visual]: [Aesthetic ID]
+     - [Stack]: [Framework + versión]
+     - [Fase actual]: [Qué estábamos construyendo]
+
+     → ¿Continuamos donde lo dejamos, o quieres cambiar algo?
+     ```
+
+3. **If user says "continuamos" / "sí" / "procede":**
+   - Resume from the detected phase.
+   - Re-read `design/DESIGN-LOCK.md` immediately before any BUILD action.
+   - Do NOT re-run discovery unless user explicitly requests changes.
+
+4. **If user says "empecemos de nuevo" / "olvidé todo" / "nuevo proyecto":**
+   - Ask for confirmation: "¿Borro el contexto anterior y empezamos desde cero?"
+   - If confirmed: Archive old context (rename `design/DESIGN-LOCK.md` to `design/DESIGN-LOCK-ARCHIVED-[date].md`).
+   - Start fresh: Run `spec-driven-development` from Phase 0.
+
+5. **If no context files exist:**
+   - Treat as new project. Proceed with normal lifecycle (DEFINE → PLAN → BUILD).
+   - Do NOT mention context persistence to the user.
+
+**Critical rules:**
+- Context recovery is SILENT if successful. The user only sees the summary.
+- Never say "no recuerdo qué estábamos haciendo." The agent reads the files.
+- If DESIGN-LOCK.md is > 7 days old, mention it: "El diseño fue aprobado hace [N] días. ¿Sigue vigente?"
+- If HEALTH-CHECK.md is > 7 days old, re-run `project-health-check` before BUILD.
+
+**Why this matters:** Multi-session projects are the norm, not the exception. Without context persistence, the user repeats decisions every session. With it, the agent says "Continuamos con el Hero que estábamos animando" instead of "¿Qué quieres construir?"
+
+---
+
 ## Rule 1: Always Check Skills First
 
 For EVERY user request:

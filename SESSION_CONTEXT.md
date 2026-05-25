@@ -199,22 +199,26 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ## Immediate Next Steps (Priority Order)
 
-## Current Score: 9.0/10 (Excellent)
+## Current Score: 9.2/10 (Excellent, approaching Outstanding)
 
-**Reached 9.0 with:**
-- 9 custom skills covering full web development lifecycle
+**Reached 9.2 with:**
+- 12 custom skills covering full web development lifecycle
 - AGENTS.md lifecycle reflecting actual workflow
 - Turbo Mode = reduced scope, not reduced quality
 - Stack Agnosticism via STACK_CONFIG_TEMPLATE.md
 - Commit Approval Gate in git-init-and-versioning
 - user-onboarding skill for persistent preferences
+- engineering-fundamentals foundation skill (DRY architecture, no duplication)
+- Multi-platform: frontend-web, frontend-pwa, frontend-mobile
+- Context Persistence (AGENTS.md Rule 0b): auto-recover project state on session restart
 
 **To reach 9.5/10 (Outstanding):**
 1. ✅ `user-onboarding` — DONE
-2. ⬜ **Lazy loading** — Only load active skill, not all 31
-3. ⬜ **Context persistence** — Auto-re-read DESIGN-LOCK.md, SPEC.md on session restart
-4. ⬜ **Metrics** — Log quality metrics (build pass rate, revert rate, test coverage)
-5. ✅ **Mobile skill** — `frontend-mobile` created (React Native, Flutter, SwiftUI, Jetpack Compose)
+2. ✅ `engineering-fundamentals` — Foundation skill extracted, DRY architecture achieved
+3. ✅ **Context persistence** — Auto-re-read DESIGN-LOCK.md, SPEC.md on session restart (AGENTS.md Rule 0b + skills updated)
+4. ⬜ **Lazy loading** — Only load active skill, not all 31
+5. ⬜ **Metrics** — Log quality metrics (build pass rate, revert rate, test coverage)
+6. ✅ **Multi-platform** — frontend-web, frontend-pwa, frontend-mobile
 
 ---
 

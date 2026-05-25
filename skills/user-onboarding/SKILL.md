@@ -101,7 +101,8 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
 20. **Communication style**: ¿Prefieres que sea directo/conciso o detallado/explicativo?
 21. **Decision style**: ¿Prefieres que proponga opciones y elijas, o que decida por ti con justificación?
 22. **Code review**: ¿Quieres que revisemos cada commit juntos, o confías en el auto-review?
-23. **Documentation**: ¿Prefieres mucha documentación o lo mínimo necesario?
+23. **Context persistence**: ¿Quieres que recuerde automáticamente el estado de nuestros proyectos entre sesiones, o prefieres empezar desde cero cada vez?
+24. **Documentation**: ¿Prefieres mucha documentación o lo mínimo necesario?
 
 #### Section E: Constraints & Context
 
@@ -151,6 +152,7 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
     "communication_style": "detailed",
     "decision_style": "propose_options",
     "commit_review": "auto_review_with_approval",
+    "context_persistence": true,
     "documentation_level": "comprehensive"
   },
   "constraints": {
