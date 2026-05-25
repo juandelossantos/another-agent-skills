@@ -25,14 +25,32 @@ patterns, and a locked stack for consistency.
 
 Use this skill when:
 - The user asks to build, design, or redesign any web interface
-- The task involves React/Next.js components, styling, layout, or visual polish
+- The task involves components, styling, layout, or visual polish
 - Animations, transitions, scroll effects, or micro-interactions are requested
-- The output risks looking generic (cards, gradients, default Tailwind)
+- The output risks looking generic (cards, gradients, default frameworks)
 
 Do NOT use for:
 - Backend-only tasks (APIs, DB schema, infrastructure)
 - Internal dashboard tools where function > form
 - CLI or non-visual software
+
+### Stack Detection (NEW)
+
+Before applying any stack-specific instruction, check for `STACK_CONFIG.md` in the project root.
+
+**If `STACK_CONFIG.md` exists:**
+- Read it. Adapt all code examples, file paths, and tooling to the chosen stack.
+- Principles (anti-slop, tokens, animation) remain the same.
+- Examples below assume React/Next.js, but you MUST translate to the user's stack.
+
+**If no `STACK_CONFIG.md` exists:**
+- Default to React 19 + Next.js 16 + Tailwind v4 (as documented below).
+- Ask the user: "¿Quieres usar React/Next.js/Tailwind (default) o prefieres Vue, Svelte, Angular, etc.?"
+
+**Adaptation examples:**
+- React → Vue: Components become `.vue` files. `useState` → `ref()`. JSX → Template syntax.
+- React → Svelte: `.svelte` files. No virtual DOM. Animations via `svelte/motion` instead of Framer Motion.
+- React → Angular: `.component.ts` with decorators. `ngOnInit` instead of `useEffect`.
 
 ---
 

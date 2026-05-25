@@ -4,7 +4,9 @@
 
 This project uses a **skill-driven workflow**. You MUST follow these rules for every request.
 
-### Rule 1: Always Check Skills First
+---
+
+## Rule 1: Always Check Skills First
 
 For EVERY user request:
 1. Determine if any global skill applies (even 1% chance)
@@ -12,14 +14,18 @@ For EVERY user request:
 3. NEVER implement directly if a skill applies
 4. ALWAYS follow the skill instructions exactly
 
-### Rule 2: Skill Discovery
+---
+
+## Rule 2: Skill Discovery
 
 Skills are loaded from:
 - Project: `.opencode/skills/<name>/SKILL.md`
 - Global: `~/.config/opencode/skills/<name>/SKILL.md`
 - Claude-compatible: `.claude/skills/<name>/SKILL.md` or `~/.claude/skills/<name>/SKILL.md`
 
-### Rule 3: Intent Mapping
+---
+
+## Rule 3: Intent Mapping
 
 Map user intent to skills automatically:
 
@@ -39,20 +45,112 @@ Map user intent to skills automatically:
 | "setup", "environment", "tools", "MCPs", "what do I need to install", "prepare workspace", "dev tools", "prerequisites" | `dev-environment-audit` |
 | "API", "backend", "database", "auth", "endpoint", "REST", "GraphQL", "Prisma", "Drizzle", "tRPC", "server", "create API", "design API" | `backend-api-mastery` |
 
-### Rule 4: Lifecycle Enforcement
+---
+
+## Rule 4: Lifecycle Enforcement (Updated)
 
 For any non-trivial work, follow this lifecycle:
 
 ```
-DEFINE → spec-driven-development
-PLAN   → planning-and-task-breakdown
-BUILD  → incremental-implementation + test-driven-development
-VERIFY → debugging-and-error-recovery
-REVIEW → code-review-and-quality
-SHIP   → shipping-and-launch
+DEFINE  → project-health-check (if existing code)
+        → spec-driven-development (always)
+        → architecture-analysis (if non-trivial)
+        → backend-api-mastery (if API needed)
+        → visual-frontend-mastery Discovery (if UI needed)
+        → git-init-and-versioning (once per project, after contracts locked)
+
+PLAN    → planning-and-task-breakdown
+
+BUILD   → incremental-implementation
+        → test-driven-development
+        → code-review-and-quality (via pre-commit checklist in git-init)
+        → git-workflow-and-versioning (commits)
+
+VERIFY  → debugging-and-error-recovery
+
+REVIEW  → code-review-and-quality
+
+SHIP    → fullstack-shipping
 ```
 
-### Rule 5: Anti-Rationalization
+**Skill composition by project type:**
+
+| Project Type | Required Skills | Optional Skills | Skipped |
+|---|---|---|---|
+| **Landing page (simple)** | spec, git-init, visual, shipping | architecture (light), dev-env | backend-api |
+| **Web app (fullstack)** | ALL 8 skills | — | — |
+| **API only** | spec, git-init, architecture, backend, dev-env, shipping | — | visual |
+| **Existing project fix** | project-health-check, spec (if undocumented), debugging | — | architecture, backend, visual (if UI untouched) |
+| **Design system** | spec, git-init, visual, dev-env, shipping | architecture | backend-api |
+| **MVP / prototype** | spec (turbo), git-init, visual | — | architecture, backend-api (if no API) |
+
+---
+
+## Rule 5: Turbo Mode (NEW)
+
+For trivial, time-sensitive, or explicitly prototype work, use **Turbo Mode**:
+
+**When to activate:**
+- User explicitly says "prototype", "MVP", "quick demo", "just sketch it", "hazlo rápido"
+- Project is < 1 day of work
+- No persistence needed (no database, no auth)
+- Single page/component
+- User explicitly requests: "skip the questions and build"
+
+**What Turbo Mode skips:**
+- Research phase (Phase 1 of spec-driven-development)
+- Extended discovery (10+ questions → 3 questions)
+- Architecture analysis (assume standard stack)
+- Design Asset Lock (create minimal DESIGN.md only)
+- Dev environment audit (check only Node.js, skip MCPs)
+- Pre-commit checklist (still create it, but don't block on it)
+
+**What Turbo Mode keeps:**
+- SPEC.md (2-3 lines: objective + stack + success criteria)
+- `.gitignore` and `.env.example`
+- Anti-AI-slop rules (no Inter, no generics)
+- Build verification (`npm run build` must pass)
+
+**Anti-rationalization:**
+| Excuse | Why It's Wrong |
+|---|---|
+| "Turbo mode is just lazy." | No. It's calibrated laziness. A prototype that takes 30 min instead of 2 hours gets feedback faster. |
+| "The user said 'quick' but they actually want production." | If unclear, ask: "¿Es un prototipo para validar o producto final?" |
+
+---
+
+## Rule 6: Stack Agnosticism (NEW)
+
+Our skills default to **React/Next.js/TypeScript/Tailwind** but MUST adapt when the user specifies otherwise.
+
+**How to adapt:**
+1. Read `SPEC.md` Tech Stack section
+2. If user chose Vue, Svelte, Angular, Python, Go, Rust, etc.:
+   - Use `visual-frontend-mastery` for principles (anti-slop, tokens, animation) but adapt code examples
+   - Use `backend-api-mastery` for protocol/auth decisions but adapt ORM/database examples
+   - Use `architecture-analysis` for pattern decisions (applies to any language)
+3. Create `STACK_CONFIG.md` in project root documenting the chosen stack
+
+**Stack Config Template:**
+```markdown
+# Stack Configuration
+
+**Chosen by user on YYYY-MM-DD:**
+- Frontend: [Vue 3 / SvelteKit / Angular / etc.]
+- Backend: [FastAPI / Django / Express / etc.]
+- Database: [PostgreSQL / MongoDB / SQLite]
+- Styling: [Tailwind / CSS Modules / Styled Components]
+- Animation: [Framer Motion / GSAP / CSS animations]
+
+**Adaptations from default skills:**
+- visual-frontend-mastery: Using Vue Composition API instead of React hooks
+- backend-api-mastery: Using FastAPI instead of Next.js API routes
+- Architecture: Clean Architecture instead of MVC
+```
+
+---
+
+## Rule 7: Anti-Rationalization
 
 These thoughts are WRONG. Ignore them:
 
@@ -61,25 +159,40 @@ These thoughts are WRONG. Ignore them:
 - "I'll gather context first" → NO. Invoke the skill. It will tell you what context to gather.
 - "The user didn't ask for a spec" → NO. The skill decides what the project needs.
 - "I understand what they want" → NO. You have 1% confidence. The skill forces 95% confidence.
+- "Turbo mode means skip everything" → NO. It means skip OPTIONAL phases, not mandatory ones.
+- "The user chose a different stack, I can't help" → NO. Principles are universal; examples are specific.
 
-### Rule 6: Language Compliance
+---
+
+## Rule 8: Language Compliance
 
 Detect the user's language from their prompt:
 - Spanish prompt ("haz", "diseña", "crea") → Respond in Spanish
 - English prompt ("build", "design", "create") → Respond in English
 - Never mix languages.
 
-### Rule 7: No Code Before Contract
+---
 
-If `visual-frontend-mastery` applies:
-- NO file is created until Discovery Gate completes
-- NO code is written until SPEC.md exists (for new features)
-- NO design tokens are chosen until user confirms
+## Rule 9: No Code Before Contract (Updated)
 
-### Rule 8: Verification
+**UNIVERSAL RULE:** No file is created until:
+- SPEC.md exists (for new features)
+- For UI work: DESIGN.md exists or is confirmed as one-off
+- For backend work: API-DESIGN.md exists or is confirmed as simple CRUD
+- `.gitignore` exists (prevents accidental commits of secrets/build outputs)
+
+**Exception (Turbo Mode):**
+- Minimal SPEC.md (2-3 lines) sufficient
+- Minimal `.gitignore` (Node.js/Python/Rust template) sufficient
+
+---
+
+## Rule 10: Verification
 
 Before marking any task complete:
 - [ ] The applicable skill was invoked
 - [ ] The skill's workflow was followed completely
 - [ ] Required artifacts (specs, plans, tests) exist
-- [ ] User confirmed at each gate
+- [ ] User confirmed at each gate (or Turbo Mode was explicitly activated)
+- [ ] `.gitignore` covers the project's stack
+- [ ] No `.env` or secrets committed

@@ -26,7 +26,7 @@ It forces the agent to design the API as a product, not as an afterthought.
 ## When to Use
 
 **MANDATORY** when:
-- Building any API layer (REST, GraphQL, tRPC, WebSocket)
+- Building any API layer (REST, GraphQL, tRPC, WebSocket, gRPC)
 - Adding a database or persistence layer to a project
 - Implementing authentication or authorization
 - Designing error handling, validation, or rate limiting
@@ -41,6 +41,25 @@ It forces the agent to design the API as a product, not as an afterthought.
 - The project is frontend-only with no persistence (static site, landing page)
 - The backend is already designed and documented in `API-DESIGN.md`
 - The task is purely operational (fix a bug in existing API, add one field)
+
+### Stack Detection (NEW)
+
+Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in the project root.
+
+**If `STACK_CONFIG.md` exists:**
+- Read it. Adapt all examples, ORM choices, and tooling to the chosen backend stack.
+- Protocol decisions (REST vs GraphQL vs tRPC) are framework-agnostic.
+- Auth patterns (JWT vs sessions) are framework-agnostic.
+- Database decisions (SQL vs NoSQL) are framework-agnostic.
+
+**If no `STACK_CONFIG.md` exists:**
+- Default to Node.js + TypeScript + Express/Fastify + Prisma + PostgreSQL (as documented below).
+- Ask the user: "¿Quieres usar Node.js/Express/Prisma (default) o prefieres Python/FastAPI, Go, Rust, etc.?"
+
+**Adaptation examples:**
+- Node/Express → Python/FastAPI: Decorators instead of middleware. Pydantic instead of Zod.
+- Node/Express → Go: Structs instead of classes. No ORM, raw SQL or GORM.
+- Node/Express → Rust: Actix or Axum. Diesel or SQLx for ORM.
 
 ---
 
