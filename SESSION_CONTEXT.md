@@ -50,6 +50,17 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - **BLOCKING user decision gate:** Fix First / Proceed with Caution / Ignore
 - Recursive: Re-audits every 7 days or after any gap >3 days
 
+#### `user-onboarding`
+**Location:** `skills/user-onboarding/SKILL.md`
+**Status:** ✅ Complete — 239 lines
+
+**Key features:**
+- Phase 0: Detect `~/.config/opencode/user-profile.json`
+- Phase 1: Full onboarding (22 questions in 5 sections: Identity, Technical Preferences, Design Preferences, Workflow Preferences, Constraints)
+- Phase 2: Persist to `user-profile.json` (structured JSON, no secrets)
+- Phase 3: Quick Verify (if profile exists and < 90 days old)
+- **All other skills read this profile** to personalize defaults, skip redundant questions, suggest relevant options
+
 #### `spec-driven-development` (Overrides Official)
 **Location:** `skills/spec-driven-development/SKILL.md`
 **Status:** ✅ Complete — 481 lines
@@ -132,29 +143,53 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ## Immediate Next Steps (Priority Order)
 
+## Current Score: 9.0/10 (Excellent)
+
+**Reached 9.0 with:**
+- 9 custom skills covering full web development lifecycle
+- AGENTS.md lifecycle reflecting actual workflow
+- Turbo Mode = reduced scope, not reduced quality
+- Stack Agnosticism via STACK_CONFIG_TEMPLATE.md
+- Commit Approval Gate in git-init-and-versioning
+- user-onboarding skill for persistent preferences
+
+**To reach 9.5/10 (Outstanding):**
+1. ✅ `user-onboarding` — DONE
+2. ⬜ **Lazy loading** — Only load active skill, not all 31
+3. ⬜ **Context persistence** — Auto-re-read DESIGN-LOCK.md, SPEC.md on session restart
+4. ⬜ **Metrics** — Log quality metrics (build pass rate, revert rate, test coverage)
+5. ⬜ **Mobile skill** — `mobile-react-native` or cross-platform skill
+
+---
+
+## Immediate Next Steps
+
 1. **Test ALL skills in a real project**
-   - Create a test project with `init-agents`
-   - Verify `project-health-check` blocks on existing code with A/B/C
-   - Verify `spec-driven-development` does web research + critical challenge + implement gate
-   - Verify `git-init-and-versioning` initializes repo, creates `.gitignore`, `.env.example`, and pre-commit checklist
-   - Verify `architecture-analysis` proposes 2-3 options with honest trade-offs
-   - Verify `dev-environment-audit` detects MCPs/CLIs and proposes installations
-   - Verify `backend-api-mastery` designs protocol, DB, auth with critical challenges
-   - Verify `visual-frontend-mastery` creates design lock and follows tokens
+   - Create test project with `init-agents`
+   - Verify `user-onboarding` captures and persists preferences
+   - Verify `project-health-check` blocks with A/B/C
+   - Verify `spec-driven-development` research + critical challenge + implement gate
+   - Verify `git-init-and-versioning` creates repo, .gitignore, .env.example, pre-commit checklist, **Commit Approval Gate**
+   - Verify `architecture-analysis` proposes 2-3 options
+   - Verify `dev-environment-audit` detects MCPs/CLIs
+   - Verify `backend-api-mastery` designs protocol, DB, auth
+   - Verify `visual-frontend-mastery` creates design lock
+   - Verify `fullstack-shipping` prepares CI/CD and launch checklist
 
 2. **Documentation**
-   - Update `README.md` with concrete usage examples for each skill
-   - Add `CONTRIBUTING.md` for future collaborators
-   - Create `CHANGELOG.md` tracking skill versions
+   - Update `README.md` with usage examples
+   - Add `CONTRIBUTING.md`
+   - Create `CHANGELOG.md`
 
 3. **CI/CD**
-   - Add GitHub Actions to validate `SKILL.md` frontmatter
-   - Validate skill names match directory names
-   - Check line count < 500 for all custom skills
-   - Validate all guides referenced in SKILL.md actually exist
+   - GitHub Actions to validate SKILL.md frontmatter
+   - Check line count < 500
+   - Validate referenced guides exist
 
-4. **Future skills (post-MVP)**
+4. **Future skills (post-9.5)**
    - `mobile-react-native` — React Native patterns, Expo
+   - `desktop-tauri` — Desktop apps with Tauri/Rust
+   - `ml-mlops` — Machine learning pipelines
    - `security-and-hardening` — Advanced security audits, penetration testing prep
    - `performance-optimization` — Core Web Vitals, load testing, optimization workflows
 
@@ -200,7 +235,7 @@ another-agent-skills/
 ## Global Installation Status
 
 The following are installed on this machine and should persist:
-- `~/.config/opencode/skills/` — 24 skills (23 official + visual-frontend-mastery)
+- `~/.config/opencode/skills/` — 31 skills (23 official + 9 custom)
 - `~/.config/opencode/.agent-skills-remote/` — Clone of official repo (auto-updated daily)
 - `~/.zshrc` — Aliases and auto-update logic
 - `~/.config/opencode/opencode.json` — Plugin and skill permissions

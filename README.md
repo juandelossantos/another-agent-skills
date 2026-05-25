@@ -11,6 +11,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | Skill | What It Does | Trigger |
 |---|---|---|
 | `visual-frontend-mastery` | Build distinctive, animated, production-grade UIs with a locked modern stack and anti-AI-slop rules | Any frontend/visual task |
+| `user-onboarding` | Capture user preferences once (stack, design, workflow) and persist across all projects in `~/.config/opencode/user-profile.json` | First session, "my preferences", "remember my stack" |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
 | `git-init-and-versioning` | Initialize Git repo, decide mono/multi-repo, create .gitignore and .env.example, set branching strategy, configure pre-commit auto-review gates | After specs locked, before any code written |
@@ -138,6 +139,8 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/
 │   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
+│   ├── user-onboarding/
+│   │   └── SKILL.md                   # Capture user preferences globally
 │   ├── git-init-and-versioning/
 │   │   ├── SKILL.md                   # Initialize repo, .gitignore, .env.example, branching
 │   │   ├── GITIGNORE-TEMPLATES.md     # Templates by stack (Node, Python, Rust, Go)
