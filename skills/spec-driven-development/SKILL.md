@@ -56,40 +56,9 @@ metadata:
 
 ---
 
-### Phase 1 — Domain Research (Recommended for Non-Trivial)
+### Phase 1 — Domain Research (Non-Trivial Only)
 
-**NOBLIND CODING. Research before specifying.**
-
-If complexity is non-trivial or higher, perform web research:
-
-1. **Search domain best practices:**
-   - "Best practices for [type of product] [current year]"
-   - "Common pitfalls in [domain/industry] [current year]"
-   - "Architecture patterns for [scale/type] [current year]"
-   
-   **Always use current year.** Never hardcode a specific year.
-
-2. **Search technology documentation:** Latest stable versions, known limitations, breaking changes.
-
-3. **Search case studies or benchmarks:** Similar projects, performance benchmarks, community adoption.
-
-**Present findings:**
-```
-RESEARCH FINDINGS:
-
-1. [Technology/Pattern]: Projects like yours typically use [X] because [reason].
-   However, [Y] is gaining traction for [advantage].
-
-2. [Domain Insight]: [Specific insight about user's domain].
-   This suggests we should prioritize [consideration].
-
-3. [Risk]: [Common pitfall] affects 60% of similar projects.
-   Mitigation: [specific approach].
-
-→ Does this context match your understanding? Any of this change your thinking?
-```
-
-**Critical thinking rule:** Present research as "context for our decision," not "the way." User may have unknown constraints.
+Search best practices for [product] [current year], common pitfalls, architecture patterns. Check official docs for latest versions. Search case studies/benchmarks. Present as "context for our decision," not "the way."
 
 ---
 
@@ -215,72 +184,21 @@ Before we build, let's verify your development environment has everything needed
 
 ---
 
-### Phase 8 — Implement Gate (MANDATORY FINAL CONFIRMATION)
+### Phase 8 — Implement Gate (MANDATORY)
 
-**THIS IS A FULL STOP BEFORE ANY CODE.**
-
-```
-We are ready to build. Before I write any code, confirm:
-
-✅ SPEC.md — Complete and approved
-✅ PLAN — Technical approach reviewed
-✅ TASKS — Broken into implementable chunks
-✅ ARCHITECTURE — Decisions documented (if non-trivial)
-✅ ENVIRONMENT — Tools verified and available
-
-→ Are we building this? Reply "yes" or "let's go" to begin implementation.
-```
-
-**Valid responses:** "yes", "sí", "adelante", "let's go", "proceed", "vamos"
-**Invalid responses:** "ok", "sure", "mmhm" → Ask again with explicit confirmation.
-
-Only after explicit confirmation, invoke `incremental-implementation` and `test-driven-development`.
-
-**After implement gate passes, log metrics:**
-```
-LOG METRIC: gate
-- project: [detect from git remote or directory name]
-- gate_name: spec-implement
-- result: pass
-- checks_passed: 5/5
-```
-
-**After entire spec process completes, log:**
-```
-LOG METRIC: discovery
-- project: [detect from git remote or directory name]
-- skill_used: spec-driven-development
-- duration_minutes: [total time from Phase 1 to Phase 8]
-- questions_asked: [count]
-- user_confirms: [count]
-- research_queries: [count from Phase 1]
-```
+**Full stop before any code.** Confirm: SPEC.md ✅ | PLAN ✅ | TASKS ✅ | ARCHITECTURE ✅ (if non-trivial) | ENVIRONMENT ✅. Valid: "yes" / "sí" / "adelante" / "let's go" / "proceed" / "vamos". Invalid: "ok" / "sure" / "mmhm". Only after explicit yes, invoke `incremental-implementation` + `test-driven-development`. Log metrics (gate + discovery) after completion.
 
 ---
 
 ## Keeping the Spec Alive
 
-The spec is a living document:
-- **Update when decisions change** — Update spec first, then code.
-- **Update when scope changes** — Features added or cut? Reflect in spec.
-- **Commit the spec** — Belongs in version control alongside code.
-- **Reference in PRs** — Link back to spec sections each PR implements.
-- **Revisit during retrospectives** — Did the spec match reality? What was wrong?
+Update spec first, then code. Commit alongside code. Reference in PRs. Revisit in retrospectives.
 
 ---
 
 ## Integration with Other Skills
 
-| Skill | When Invoked | Why |
-|---|---|---|
-| `engineering-fundamentals` | Implicitly, by all skills | Universal philosophy |
-| `project-health-check` | Phase 0, if existing code | Audit before building |
-| `architecture-analysis` | Phase 3, if non-trivial | Informed stack decisions |
-| `dev-environment-audit` | Phase 7, before build | Ensure tools ready |
-| `planning-and-task-breakdown` | Phase 5-6 | Break spec into tasks |
-| `frontend-web/pwa/mobile` | BUILD phase, if UI | Design tokens, animation |
-| `incremental-implementation` | After Phase 8 | Build tasks one at a time |
-| `test-driven-development` | After Phase 8 | Prove code works |
+Phase 0 → `project-health-check`. Phase 3 → `architecture-analysis` (non-trivial). Phase 5-6 → `planning-and-task-breakdown`. Phase 7 → `dev-environment-audit`. After Phase 8 → `incremental-implementation` + `test-driven-development`.
 
 ---
 
@@ -288,42 +206,20 @@ The spec is a living document:
 
 | Excuse | Why It's Wrong |
 |---|---|
-| "This is simple, I don't need a spec." | Simple tasks need acceptance criteria. A two-line spec prevents ambiguity. |
-| "The user is impatient, I'll skip research." | Research takes minutes. Rebuilding due to bad assumptions takes hours. |
-| "I'll write the spec after I code it." | That's documentation, not specification. The spec's value is forcing clarity BEFORE code. |
-| "The spec will slow us down." | A 20-minute spec prevents hours of rework. |
-| "Requirements will change anyway." | That's why the spec is a living document. Outdated spec > no spec. |
-| "The user knows what they want." | Even clear requests have implicit assumptions. The spec surfaces them. |
-| "I should just do what the user asked." | Senior engineers challenge requests when they see better alternatives. |
-| "I already have a good idea of the architecture." | Ideas aren't decisions. Documented decisions with trade-offs are what teams align on. |
+| "Too simple for a spec." | 2-line spec prevents ambiguity. |
+| "Impatient user, skip research." | Research takes minutes. Rebuilding takes hours. |
+| "I'll spec after coding." | That's docs, not spec. Value is forcing clarity BEFORE code. |
+| "Spec slows us down." | 20 min spec prevents hours rework. |
+| "Requirements will change anyway." | Living doc. Outdated spec > no spec. |
 
 ---
 
 ## Red Flags
 
-- Code written before any written requirements exist.
-- Agent asks "should I just start building?" before clarifying what "done" means.
-- Features implemented that were never mentioned in any spec or task list.
-- Architectural decisions made without documenting trade-offs.
-- Spec skipped because "it's obvious what to build."
-- Agent blindly accepts user requests without challenging assumptions.
-- Research phase skipped for non-trivial projects.
-- Implement gate (Phase 8) bypassed with vague user responses.
+Code before reqs. Agent asks "start building?" without "done" defined. Spec skipped as "obvious." Research skipped for non-trivial. Phase 8 bypassed. Features added that were never in spec.
 
 ---
 
 ## Verification
 
-Before proceeding to implementation, confirm:
-- [ ] Phase 0: Context assessed (health check if existing project)
-- [ ] Phase 1: Research completed (if non-trivial)
-- [ ] Phase 2: Discovery complete with critical challenges documented
-- [ ] Phase 3: Architecture decided (if non-trivial)
-- [ ] Phase 4: SPEC.md written with all 10 sections
-- [ ] Phase 5: Implementation plan reviewed by user
-- [ ] Phase 6: Tasks broken into chunks with acceptance criteria
-- [ ] Phase 7: Environment verified
-- [ ] Phase 8: Explicit "yes" obtained from user to begin coding
-- [ ] Human has reviewed and approved the spec
-- [ ] Success criteria are specific and testable
-- [ ] Spec is saved to a file in the repository
+Phase 0-8 complete. SPEC.md has all sections. Plan reviewed. Tasks broken. Environment verified. User said explicit "yes." Success criteria testable. Spec in repo.

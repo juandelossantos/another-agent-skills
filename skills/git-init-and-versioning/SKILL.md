@@ -203,77 +203,13 @@ git commit -m "chore: initialize project with contracts and configuration
 
 ### Phase 8 — Document
 
-**Create `SETUP.md` (or update `README.md`):**
-
-```markdown
-# Project Setup
-
-## Quick Start
-
-```bash
-# 1. Clone
-git clone [remote-url]
-cd [project-name]
-
-# 2. Install dependencies
-npm install
-
-# 3. Environment
-cp .env.example .env
-# Edit .env with your values
-
-# 4. Run
-npm run dev
-```
-
-## Git Workflow
-- Strategy: [Trunk-based / GitFlow / Feature branches]
-- Branch from: `main`
-- Merge via: Pull Request
-- Pre-commit checks: See `.github/PRE_COMMIT_CHECKLIST.md`
-
-## Environment Variables
-See `.env.example` for all required variables.
-
-## Useful Commands
-```bash
-npm run dev       # Start development
-npm run build     # Production build
-npm test          # Run tests
-npm run lint      # Check linting
-```
-```
+Create `SETUP.md` with: quick start, git workflow, env vars, useful commands. **First commit:** no node_modules/.next/build/.env. Include contracts+config. NOT generated code.
 
 ---
 
 ## Examples
 
-### Example 1: New Fullstack Project
-
-Context: SPEC.md exists, Next.js + PostgreSQL chosen.
-
-Agent:
-1. Phase 0: No `.git/`, no `.gitignore`, no `.env.example`.
-2. Phase 1: User chooses Option A (mono-repo).
-3. Phase 2: `git init`, configure user.name/email.
-4. Phase 3: Create `.gitignore` from Node.js template in `GITIGNORE-TEMPLATES.md`.
-5. Phase 4: Create `.env.example` with DATABASE_URL, NEXTAUTH_SECRET, etc.
-6. Phase 5: User chooses trunk-based development.
-7. Phase 6: Create `.github/PRE_COMMIT_CHECKLIST.md` from template.
-8. Phase 7: First commit with SPEC.md, DESIGN.md, .gitignore, .env.example, README.md.
-9. Phase 8: Create `SETUP.md`.
-
-### Example 2: Existing Project Without Version Control
-
-Context: Project has code but never had Git.
-
-Agent:
-1. Phase 0: No `.git/`. Code exists but no `.gitignore`.
-2. Phase 1: User chooses single repo (existing code is frontend-only).
-3. Phase 2: `git init`.
-4. Phase 3: Create `.gitignore` — audit existing files to ensure no secrets or node_modules are staged.
-5. Phase 4: Create `.env.example` from any `.env` found (but DO NOT commit `.env`).
-6. Phase 5-8: Standard flow.
+See `REPO-STRUCTURE-GUIDE.md` for walkthroughs: New fullstack project, existing project without VCS.
 
 ---
 
@@ -281,76 +217,26 @@ Agent:
 
 | Excuse | Why It's Wrong |
 |---|---|
-| "I'll set up Git later." | Without Git, you can't revert mistakes, review changes, or collaborate. Set it up BEFORE writing code. |
-| ".gitignore is optional." | Without `.gitignore`, you will accidentally commit `node_modules/`, `.env`, or build outputs. It's not optional. |
-| "I'll remember the env variables." | `.env.example` is documentation. Future you (and teammates) will need it. |
-| "The user already has a repo." | Verify it. Many "repos" are just `git init` with no `.gitignore` or structure. |
-| "I don't need to ask about repo structure." | Assuming mono-repo for a project that should be multi-repo (or vice versa) creates migration pain later. |
-| "I'll do a giant first commit with everything." | First commit should be contracts and config. Generated code (create-next-app) should be a separate commit for clean history. |
-| "Auto-review slows me down." | A 2-minute review prevents debugging for hours. "Commit now, fix later" means "commit now, debug at 2 AM." |
+| "I'll set up Git later." | Without Git, no revert, review, or collaboration. |
+| ".gitignore is optional." | You'll commit node_modules, .env, or build outputs. |
+| "The user already has a repo." | Verify. Many are just `git init` with no structure. |
+| "Auto-review slows me down." | 2 min review prevents hours debugging. |
+| "I'll remember the env variables." | `.env.example` is documentation. Future you needs it. |
 
 ---
 
 ## Red Flags
 
-- The agent writes code before initializing Git.
-- `.gitignore` is missing or doesn't cover the stack.
-- `.env` is committed to the repository.
-- The first commit includes `node_modules/` or build outputs.
-- No `.env.example` exists.
-- The agent assumes mono-repo without asking.
-- The agent doesn't document the branching strategy.
-- During BUILD, the agent commits without running the pre-commit checklist.
-- During BUILD, the agent commits without showing the user the diff and waiting for explicit approval.
-- The agent batches multiple unrelated changes in a single commit approval request.
+Code before Git init. Missing .gitignore. .env committed. First commit has node_modules. No .env.example. Assumes mono-repo. No branching documented. Commits without pre-commit checklist.
 
 ---
 
 ## Verification
 
-Before proceeding to BUILD, confirm:
-- [ ] `.git/` directory exists and is initialized.
-- [ ] `.gitignore` exists and covers the project's stack.
-- [ ] `.env` is ignored and `.env.example` exists.
-- [ ] Repository structure (mono/multi/single) is decided and documented.
-- [ ] Branching strategy is decided and documented.
-- [ ] Pre-commit checklist exists at `.github/PRE_COMMIT_CHECKLIST.md` or `docs/PRE_COMMIT_CHECKLIST.md`.
-- [ ] First commit includes contracts (SPEC.md, DESIGN.md) and config, NOT generated code.
-- [ ] `SETUP.md` or `README.md` documents setup instructions.
-- [ ] Remote is configured (if user provided URL).
+Before BUILD: .git/ exists | .gitignore covers stack | .env ignored + .env.example | Repo structure decided | Branching documented | Pre-commit checklist exists | First commit = contracts+config, NOT generated code | Setup docs exist | Remote configured (if URL provided).
 
 ---
 
 ## Integration with Build Phase
 
-**During BUILD (`incremental-implementation` + `test-driven-development`):**
-
-→ **Ver `BUILD-INTEGRATION-GUIDE.md` para el gate de 3 pasos obligatorio antes de cada commit.**
-
----
-
-## Philosophy: Time Invested Upfront = Time Saved Later
-
-**Why this skill enforces 45+ minutes of planning before writing code:**
-
-| Phase | Time Invested | Time Saved Later |
-|---|---|---|
-| SPEC + Discovery | 15-20 min | Prevents "this isn't what I wanted" rework |
-| Architecture Decision | 10-15 min | Prevents "we need to rewrite everything" migrations |
-| Design Lock | 10-15 min | Prevents "it looks different than we agreed" visual drift |
-| Git Setup + Pre-commit | 5-10 min | Prevents "I committed .env" or "node_modules in repo" disasters |
-| **Total upfront** | **45-60 min** | **Saves 5-15 hours of debugging, refactoring, and miscommunication** |
-
-**Anti-rationalization:**
-
-| Excuse | Why It's Wrong |
-|---|---|
-| "This is taking too long, just code it." | 45 minutes of clarity prevents 5 hours of "that's not what I meant." |
-| "The user is impatient." | The user will be more impatient when the result doesn't match expectations. |
-| "I already know what they want." | You have 1% confidence. The skill forces 95% confidence through explicit confirmation. |
-| "We'll fix it in the next iteration." | Technical debt compounds. Decisions made without specs become permanent by default. |
-
-**The goal of these skills is not speed. The goal is precision.**
-Speed without precision is wasted effort.
-
-**This bridges `git-init-and-versioning` (setup) with `code-review-and-quality` (execution).**
+See `BUILD-INTEGRATION-GUIDE.md` for pre-commit gate. **Goal:** Precision, not speed. 45 min upfront = 5-15h saved.

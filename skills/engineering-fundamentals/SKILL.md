@@ -30,13 +30,7 @@ Platform skills add implementation specifics to this philosophy.
 
 ### Phase 0 — Language Detection
 
-Detect user's language immediately. All communication in that language.
-
-- Spanish ("haz", "diseña", "crea") → **Spanish**
-- English ("build", "design", "create") → **English**
-- Other → That language, fallback to English
-
-**Never mix languages.** Questions, specs, code comments match detected language.
+Detect immediately. Spanish keywords → Spanish. English keywords → English. Other → that language, fallback to English. Never mix.
 
 ---
 
@@ -44,38 +38,9 @@ Detect user's language immediately. All communication in that language.
 
 **NO CODE UNTIL COMPLETE.**
 
-**Step 1: Surface Assumptions**
+**Surface:** Audience, Core problem, Scale (MVP/Standard/Complex), Platform-specific. **Discover (min 5):** Audience, Purpose, Scope, Context, Constraints. **Extended (non-trivial):** Data, Security, Integrations, Offline, Scalability.
 
-```
-ASSUMPTIONS:
-1. Primary user: [describe audience]
-2. Core problem: [one sentence]
-3. Scale/scope: [MVP/Standard/Complex]
-4. [Platform-specific assumption]
-→ Correct me now or I proceed with these.
-```
-
-**Step 2: Discovery Questions (Minimum 5)**
-
-1. **Audience**: Who will use this?
-2. **Purpose**: What must it do in one sentence?
-3. **Scope**: How many features? MVP or full product?
-4. **Context**: New or existing? Redesign or from scratch?
-5. **Constraints**: Time, budget, team, regulatory?
-
-**Step 3: Extended Discovery (Non-Trivial)**
-
-6. **Data**: What persists? Where?
-7. **Security**: Auth needed? User types?
-8. **Integrations**: External APIs, services, hardware?
-9. **Offline**: Works without internet?
-10. **Scalability**: Expected growth in 6-12 months?
-
-**Step 4: Confirm & Lock**
-
-Summarize. Ask: **"¿Es esto correcto? ¿Procedemos? / Is this correct? Shall we proceed?"**
-
-Only after explicit confirmation, proceed to Phase 2.
+**Confirm:** Summarize. Ask "¿Es esto correcto? ¿Procedemos?" Only after explicit yes, proceed.
 
 ---
 
@@ -138,41 +103,19 @@ Respect `AGENTS.md` lifecycle:
 
 ### Phase 3 — Aesthetic Direction (Path B only)
 
-Pick ONE direction. Do not blend.
-
-| ID | Direction | Best For |
-|---|---|---|
-| ED | Editorial Serif | Media, personal brand, luxury |
-| SM | Swiss Minimal | SaaS B2B, devtools, fintech |
-| LDW | Luxury Dark Warm | Hospitality, jewelry, fashion |
-| CB | Corporate Bold | Enterprise, education, legal |
-| UE | Understated Elegance | Cafes, agencies, wellness, portfolio |
-| NB | Neo-Brutalist | Startups, creative communities |
-| PG | Playful Gradient | Consumer apps, edtech |
-| RT | Retro Terminal | DevTools, technical docs |
+Pick ONE. See `AESTHETIC-DIRECTIONS.md` for descriptions. Do not blend.
 
 ---
 
 ### Phase 4 — Anti-Slop Principles
 
-**Intentionality**
-- NEVER use defaults without justification.
-- ALWAYS choose with purpose: every color, font, spacing, animation must have a reason.
-- Timid palettes, safe fonts, default layouts = forbidden.
+**Intentionality:** NO defaults without justification. Every choice has a reason. Timid palettes, safe fonts, default layouts = forbidden.
 
-**Tokens Over Hardcoding**
-- NEVER use hardcoded values in components.
-- ALWAYS use design tokens from DESIGN.md or central theme.
-- If used more than once, it must be a token.
+**Tokens Over Hardcoding:** NO hardcoded values. All from DESIGN.md/theme. Used twice = must be a token.
 
-**Performance**
-- NEVER sacrifice performance for convenience.
-- ALWAYS measure: 60fps animations, fast loads, minimal bundles.
+**Performance:** NO convenience-over-performance tradeoffs. Measure: 60fps, fast loads, minimal bundles.
 
-**Accessibility**
-- NEVER treat accessibility as optional.
-- ALWAYS design for all users: contrast ratios, focus indicators, reduced motion.
-- Accessibility is a gate, not an afterthought.
+**Accessibility:** NOT optional. Always: 4.5:1 contrast, focus indicators, reduced motion. Accessibility is a gate.
 
 ---
 
@@ -193,85 +136,27 @@ Before declaring complete:
 
 | Excuse | Why It's Wrong |
 |---|---|
-| "I'll just use the default for now." | Defaults are the #1 sign of AI-generated output. |
-| "This is too small for a DESIGN.md." | Even one-off tasks benefit from 3 lines of tokens. |
-| "I'll add [quality] later." | Quality is a gate, not an afterthought. |
-| "The user didn't ask for [best practice]." | Senior engineers apply best practices by default. |
-| "The user is eager, I'll start coding now." | DESIGN.md approval completes DEFINE, not BUILD. |
-| "I remember the design, I don't need to look at files." | Agent context drifts. DESIGN-LOCK.md is ground truth. |
-| "This is too small for a skill." | Skills exist for structured thinking. |
-| "I understand what they want." | You have 1% confidence. Discovery forces 95%. |
+| "Default for now." | #1 sign of AI output. |
+| "Too small for DESIGN.md." | 3 lines of tokens help even one-offs. |
+| "Quality later." | Quality is a gate, not afterthought. |
+| "user didn't ask for [practice]." | Senior engineers apply best practices by default. |
+| "I remember design." | Context drifts. DESIGN-LOCK.md is ground truth. |
+| "I know what they want." | 1% confidence. Discovery forces 95%. |
 
 ---
 
 ### Phase 7 — Red Flags
 
-- Code written before any written requirements exist.
-- Agent asks "should I just start building?" before clarifying "done".
-- Assumptions never surfaced or confirmed.
-- Contracts (SPEC.md, DESIGN.md) skipped.
-- Hardcoded values in output.
-- Accessibility treated as optional.
-- Agent does not read `design/DESIGN-LOCK.md` before writing code.
-- Features implemented that were never mentioned in any spec.
+Code before reqs. "Start building?" before "done" defined. Assumptions unsurfaced. Contracts skipped. Hardcoded values. Accessibility optional. DESIGN-LOCK.md not read. Features not in spec.
 
 ---
 
 ## Platform Skill Template
 
-Every platform skill MUST follow:
-
-```markdown
-# [Platform] Skill
-
-**Built on `engineering-fundamentals`.** Read that skill first. This document adds
-platform-specific implementation.
-
-## When to Use
-[Platform-specific triggers and exclusions]
-
-### Stack Detection
-[Detect and adapt user's chosen stack]
-
-## Core Process
-
-### Phase 0 — Language Detection
-→ See `engineering-fundamentals` Phase 0.
-
-### Phase 1 — Discovery Gate
-→ See `engineering-fundamentals` Phase 1.
-**Platform-specific questions:** [Add here]
-
-### Phase 2 — Write Contracts
-→ See `engineering-fundamentals` Phase 2.
-
-### Phase 3 — Aesthetic Direction
-→ See `engineering-fundamentals` Phase 3.
-
-### Phase 4 — Anti-Slop Implementation
-→ See `engineering-fundamentals` Phase 4 for principles.
-**Platform-specific rules:** [Add here]
-
-### Phase 5 — Build
-[Platform-specific build instructions]
-
-### Phase 6 — QA Gates
-→ See `engineering-fundamentals` Phase 5 for universal gates.
-**Platform-specific checks:** [Add here]
-
-### Phase 7 — Verification
-→ See `engineering-fundamentals` Phase 7.
-```
+Every platform skill follows `PLATFORM-SKILL-TEMPLATE.md` — read it before creating. Core structure: Stack Detection → Discovery → Contracts → Direction → Anti-Slop → Build → QA → Verification. Each phase references `engineering-fundamentals` + adds platform-specific rules.
 
 ---
 
 ## Verification
 
-- SPEC.md exists with Objective, Scope, Tech stack, Acceptance criteria, Boundaries.
-- DESIGN.md exists with visual tokens (colors, typography, spacing).
-- `design/DESIGN-LOCK.md` exists and was read before coding.
-- Discovery phase completed before any code written.
-- User confirmed at each gate.
-- No hardcoded design tokens in implementation files.
-- Accessibility present (contrast, focus, reduced motion).
-- Build passes without errors.
+SPEC.md with Objective/Scope/Stack/Acceptance/Boundaries. DESIGN.md with visual tokens. DESIGN-LOCK.md read before coding. Discovery done before code. User confirmed each gate. No hardcoded tokens. Accessibility (4.5:1 contrast, focus, reduced motion). Build passes.

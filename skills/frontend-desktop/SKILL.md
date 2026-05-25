@@ -229,23 +229,10 @@ Read `EXAMPLES.md`:
 
 ## Red Flags (Desktop-Specific)
 
-- Web app thrown into a desktop window with no native integration.
-- No OS theme support (only light mode).
-- Uses `<input type="file">` instead of native file dialogs.
-- No keyboard shortcuts or only web shortcuts.
-- No code signing or notarization for macOS.
-- Window doesn't remember size/position.
-- Uses browser APIs (`localStorage`, `window.alert`) as primary storage/UX.
-- No multi-platform testing ("works on my machine").
+Web app in desktop window, no OS theme, no native file dialogs, no keyboard shortcuts, no signing, no window persistence, browser APIs as primary UX, "works on my machine."
 
 ---
 
 ## Verification
 
-- `tauri.conf.json` (or `electron-builder.yml`) configured.
-- Native menus defined per OS.
-- `PLATFORM-GUIDE.md` read for OS integration patterns.
-- Code signing configured for target platforms.
-- Build passes for all target OSes.
-- No browser-only APIs in core logic.
-- Window state persistence implemented.
+Config file (tauri/electron) set. Native menus. PLATFORM-GUIDE.md read. Code signing configured. Build passes for target OSes. No browser-only APIs. Window state persistence.

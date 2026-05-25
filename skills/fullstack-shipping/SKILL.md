@@ -67,42 +67,13 @@ pipeline — not just the code — before any commit reaches production.
 
 **NO PIPELINE IS DESIGNED UNTIL THIS PHASE IS COMPLETE.**
 
-#### Step 1: Surface Assumptions
+**Assumptions:** Surface deploy target, team size, rollback strategy, monitoring.
 
-```
-SHIPPING ASSUMPTIONS:
-1. This project will be deployed to [platform: Vercel/AWS/Railway/self-hosted]
-2. The team will have [N] people reviewing deployments
-3. Rollback strategy is [manual/automated/not planned]
-4. Monitoring will be [comprehensive/basic/none]
-→ Correct me now or I'll proceed with these.
-```
+**Discover (8 questions):** Environment (Vercel/AWS/etc), Stages (staging+prod?), Team size, Rollback plan, DB migrations, Domains/SSL, Monitoring needs, Compliance.
 
-#### Step 2: Shipping Interview (8 Questions)
+**Extended (non-trivial):** Traffic/load, Geography/CDN, Budget, Secrets management.
 
-Ask in the user's detected language:
-
-1. **Environment**: Where are you deploying? (Vercel, Netlify, AWS, GCP, Railway, Fly, self-hosted, multiple?)
-2. **Stages**: Do you need staging, preview, and production? Or just production?
-3. **Team size**: How many people will deploy? Solo or team?
-4. **Rollback**: If production breaks, what's the rollback plan? (instant rollback, manual redeploy, database migrations can't rollback)
-5. **Database**: Does deployment include database migrations? Can they be rolled back?
-6. **Domains**: Custom domain? SSL/TLS handled automatically or manually?
-7. **Monitoring**: Do you need uptime monitoring, error tracking, performance metrics?
-8. **Compliance**: Any requirements for audit trails, deployment approvals, or SOC2?
-
-#### Step 3: Extended Discovery (if non-trivial)
-
-9. **Traffic**: Expected load at launch? Spike handling (marketing launch, viral)?
-10. **Geography**: Global users or regional? CDN needed?
-11. **Budget**: Cost constraints for hosting, monitoring, CI minutes?
-12. **Secrets**: How are environment variables and API keys managed?
-
-#### Step 4: Confirm & Lock
-
-Summarize. Ask: **"¿Es esto correcto? ¿Diseñamos el pipeline? / Is this correct? Shall we design the pipeline?"**
-
-Only after explicit confirmation, proceed.
+**Confirm:** "¿Es esto correcto? ¿Diseñamos el pipeline?" Only proceed after explicit yes.
 
 ---
 
@@ -140,23 +111,16 @@ Only after explicit confirmation, proceed.
 
 ---
 
-### Phase 4 — Testing Strategy in Pipeline
+### Phase 4 — Testing in Pipeline
 
-**Define what runs at each stage:**
+| Trigger | Tests | Gate |
+|---|---|---|
+| Every PR | Lint, TypeCheck, Unit | Block merge on fail |
+| Merge to `main` | Unit + Integration | Block deploy on fail |
+| Push to staging | + E2E (smoke) | Manual approval for prod |
+| Tag release | Full E2E + visual regression | Requires green staging |
 
-| Stage | Triggers | Tests | Gates |
-|---|---|---|---|
-| **PR Open/Update** | Every PR | Lint, TypeCheck, Unit tests | Block merge if fail |
-| **PR Merge to `main`** | Merge | Unit + Integration | Block deploy if fail |
-| **Staging Deploy** | Push to `staging` | Unit + Integration + E2E (smoke) | Manual approval for prod |
-| **Production Deploy** | Tag release | Full E2E suite + visual regression | Requires green staging |
-
-**Test types to include:**
-- **Unit:** Vitest/Jest (components, utilities, business logic)
-- **Integration:** API endpoints, database queries, auth flows
-- **E2E:** Playwright (critical user flows: signup → purchase → logout)
-- **Contract:** Zod/OpenAPI validation (API doesn't break consumers)
-- **Visual:** Storybook + Chromatic or Playwright screenshots (UI doesn't drift)
+Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows), Contract (Zod/OpenAPI), Visual (Chromatic/Playwright screenshots).
 
 ---
 
@@ -184,53 +148,7 @@ Only after explicit confirmation, proceed.
 
 ### Phase 8 — Lock & Document
 
-**Create `DEPLOYMENT.md` or `SHIP.md`:**
-
-```markdown
-# Deployment & Shipping
-
-## Pipeline Overview
-[Diagram or description of CI/CD flow]
-
-## Environments
-| Environment | URL | Branch | Deploy Trigger |
-|---|---|---|---|
-| Preview | `*.vercel.app` | PR branch | Auto on PR |
-| Staging | `staging.example.com` | `staging` | Auto on push |
-| Production | `example.com` | `main` | Tag release |
-
-## Testing in CI
-| Stage | Tests | Command |
-|---|---|---|
-| PR | Lint + Unit | `npm run test:unit` |
-| Merge | Unit + Integration | `npm run test:integration` |
-| Staging | E2E Smoke | `npx playwright test --grep smoke` |
-| Production | Full E2E | `npx playwright test` |
-
-## Deployment Steps
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-## Rollback
-- **Code rollback:** [Command or process]
-- **Database rollback:** [Script or process]
-- **Estimated time to rollback:** [N minutes]
-
-## Monitoring
-| Tool | Purpose | Alert Channel |
-|---|---|---|
-| Sentry | Error tracking | Slack #alerts |
-| UptimeRobot | Uptime | SMS + Email |
-| Vercel Analytics | Performance | Dashboard |
-
-## Launch History
-| Date | Version | Notes |
-|---|---|---|
-| YYYY-MM-DD | v1.0.0 | Initial launch |
-```
-
-**Update `SPEC.md`:** Add or update Deployment & Testing Strategy sections.
+**Create `DEPLOYMENT.md`** with: Pipeline overview (CI/CD flow), Environments table (preview/staging/prod with URL+branch+trigger), Testing stages, DB migrations, Secrets, Rollback procedure, Monitoring, Launch checklist.
 
 ---
 

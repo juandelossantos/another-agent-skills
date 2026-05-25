@@ -70,11 +70,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 ---
 
 ### Phase 1 — Domain Discovery
-→ See `engineering-fundamentals` Phase 1 for universal discovery.
-
-Read `DISCOVERY-GUIDE.md` in this skill directory for the **complete backend discovery checklist** (assumptions, 10 questions, extended discovery, confirmation).
-
-**Summary:** Surface assumptions about API consumers, auth, traffic. Ask 10 questions (data, consumers, volume, auth, protocol, database, ORM, integrations). Extend to 15 for non-trivial (compliance, caching, queues, multi-tenancy, rate limiting). Confirm before proceeding.
+→ See `engineering-fundamentals` Phase 1. Then `DISCOVERY-GUIDE.md` for backend-specific checklist (10 questions: data/consumers/volume/auth/protocol/DB/ORM/integrations → 15 for non-trivial).
 
 ---
 
@@ -115,24 +111,11 @@ Read `PROTOCOL-GUIDE.md` in this skill directory for the **complete protocol dec
 
 ### Phase 4 — Database Design
 
-#### 4A: Database Type
+**Type:** PostgreSQL (complex/relational/transactions), MySQL (simple relational), SQLite (prototype/edge), MongoDB (flexible schema/rapid iteration).
 
-| Type | Best For | Avoid When |
-|---|---|---|
-| **PostgreSQL** | Relational data, complex queries, JSON support, transactions | Simple key-value, schema-less needs, extreme write throughput |
-| **MySQL** | Simple relational, existing MySQL ecosystem | Complex JSON operations, advanced PostgreSQL features |
-| **SQLite** | Prototyping, embedded, single-user, serverless edge | Multi-user concurrency, high write volume |
-| **MongoDB** | Flexible schema, document-oriented, rapid iteration | Complex transactions, heavy joins, strict consistency |
+**ORM:** Prisma (DX/type safety), Drizzle (performance/edge), TypeORM (legacy only).
 
-#### 4B: ORM Decision
-
-| ORM | Best For | Avoid When |
-|---|---|---|
-| **Prisma** | DX-first, migrations, type safety, team productivity | Performance-critical raw SQL, complex query optimization |
-| **Drizzle** | Performance, SQL-like syntax, lightweight, edge-compatible | Need mature ecosystem, complex migrations |
-| **TypeORM** | Existing TypeORM codebase, decorators, active record | New projects (Prisma/Drizzle are more modern) |
-
-#### 4C: Schema Design
+**Schema:**
 
 1. Identify core entities from discovery answers
 2. Define relationships (1:1, 1:N, N:M)
@@ -157,44 +140,18 @@ Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy ma
 
 | Strategy | Best For | Avoid When |
 |---|---|---|
-| **Session + Cookie** | Traditional web apps, server-rendered, same-domain | Mobile apps, third-party API consumers, cross-domain |
-| **JWT (short-lived + refresh)** | SPAs, mobile apps, stateless APIs | Long-lived tokens needed, token revocation critical |
-| **OAuth 2.0 / OIDC** | Third-party login (Google, GitHub), SSO | Simple internal app, no external identity providers |
-| **API Keys** | Service-to-service, IoT, simple integrations | User-facing auth, high security requirements |
+| **Session + Cookie** | Traditional web apps, same-domain | Mobile apps, cross-domain |
+| **JWT (short-lived + refresh)** | SPAs, mobile apps, stateless APIs | Long-lived tokens, revocation critical |
+| **OAuth 2.0 / OIDC** | Third-party login, SSO | Simple internal app |
+| **API Keys** | Service-to-service, IoT | User-facing auth |
 
 ---
 
 ### Phase 6 — Error Handling & Testing
 
-#### 6A: Error Design
+**Errors:** Use structured `{ error: { code, message, details, requestId } }`. Correct HTTP codes (200/201/204/400/401/403/404/409/422/429/500).
 
-Use structured, consistent error responses:
-
-```json
-{
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input data",
-    "details": [{ "field": "email", "message": "Invalid email format" }],
-    "requestId": "req_12345"
-  }
-}
-```
-
-**HTTP Status Codes (use correctly):** 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 422 Unprocessable Entity, 429 Too Many Requests, 500 Internal Server Error.
-
-#### 6B: Testing Strategy
-
-Read `TESTING-GUIDE.md` in this skill directory for the **complete testing strategy**.
-
-**Summary:** Unit (Vitest/Jest) for services/utilities. Integration (Vitest + test DB) for endpoints/queries. Contract (Zod/OpenAPI) for request/response shapes. E2E (Playwright) for critical flows. Always use separate test database.
-
-| Level | Tool | Coverage |
-|---|---|---|
-| **Unit** | Vitest/Jest | Service functions, utilities, validation logic |
-| **Integration** | Vitest + test DB | API endpoints, database queries, auth flows |
-| **Contract** | Zod/OpenAPI | Request/response shape validation |
-| **E2E** | Playwright | Critical user flows through the API |
+**Testing:** See `TESTING-GUIDE.md`. Unit (Vitest) for services. Integration (Vitest + test DB) for endpoints. Contract (Zod/OpenAPI) for shapes. E2E (Playwright) for flows. Always separate test DB.
 
 ---
 
@@ -206,19 +163,7 @@ Read `TESTING-GUIDE.md` in this skill directory for the **complete testing strat
 - **GraphQL introspection** for GraphQL APIs
 - **tRPC router types** serve as documentation for tRPC
 
-#### 7B: Versioning Strategy
-
-| Strategy | Best For | Avoid When |
-|---|---|---|
-| **URL versioning** (`/v1/`, `/v2/`) | Public APIs, clear breaks | Internal APIs, rapid iteration |
-| **Header versioning** | Clean URLs, internal APIs | Public APIs (confusing for consumers) |
-| **No versioning** | Internal only, CI/CD deploys together | Public APIs, long-lived consumers |
-
-#### 7C: Deprecation
-
-- Deprecate in V(N), remove in V(N+2)
-- Return `Deprecation` header with sunset date
-- Document migration path
+**Versioning:** URL versioning (`/v1/`) for public APIs. Header versioning for internal. No versioning for CI/CD-only internal apps. Deprecate in V(N), remove in V(N+2). Return `Deprecation` header + sunset date.
 
 ---
 
@@ -245,33 +190,7 @@ LOG METRIC: discovery
 
 ## Examples
 
-### Example 1: Simple CRUD API
-
-User: "I need a simple API for my blog posts."
-
-Agent:
-1. Phase 1: Discover → one consumer (web app), no auth needed for read, admin auth for write, low volume. **Read `DISCOVERY-GUIDE.md`**.
-2. Phase 2: Research → "REST best practices [current year]", "Prisma vs Drizzle [current year]".
-3. Phase 3: Protocol → Recommend REST. **Read `PROTOCOL-GUIDE.md`**.
-4. Phase 4: Database → SQLite for simplicity, PostgreSQL if deploying. User picks PostgreSQL + Prisma.
-5. Phase 5: Auth → NextAuth with sessions. **Read `AUTH-GUIDE.md`**.
-6. Phase 6: Error handling + testing plan. **Read `TESTING-GUIDE.md`**.
-7. Phase 7: OpenAPI documentation.
-8. Phase 8: Create `API-DESIGN.md`.
-
-### Example 2: Complex E-commerce API
-
-User: "I need an API for my e-commerce platform with payment integration."
-
-Agent:
-1. Phase 1: Discover → web + mobile consumers, PCI-DSS compliance, Stripe integration, 1000+ orders/day. **Read `DISCOVERY-GUIDE.md`**.
-2. Phase 2: Research → "GraphQL e-commerce [current year]", "Stripe webhook security [current year]".
-3. Phase 3: Protocol → Recommend GraphQL. **Read `PROTOCOL-GUIDE.md`**.
-4. Phase 4: Database → PostgreSQL (transactions critical) + Prisma.
-5. Phase 5: Auth → OAuth 2.0 + JWT short-lived + refresh tokens. Rate limiting critical. **Read `AUTH-GUIDE.md`**.
-6. Phase 6: Comprehensive testing. **Read `TESTING-GUIDE.md`**.
-7. Phase 7: OpenAPI for public endpoints, GraphQL introspection for internal.
-8. Phase 8: Create `API-DESIGN.md`.
+See guides for full walkthroughs: `DISCOVERY-GUIDE.md` (simple CRUD blog API), `PROTOCOL-GUIDE.md` (e-commerce with GraphQL + Stripe).
 
 ---
 
@@ -279,14 +198,11 @@ Agent:
 
 | Excuse | Why It's Wrong |
 |---|---|
-| "I'll just use Express with no ORM." | Raw SQL is error-prone and untypeable. An ORM prevents SQL injection and enables refactoring. |
-| "JWT is modern, so it's better." | JWT is stateless but insecure for sessions. For web apps, server-side sessions are more secure and revocable. |
-| "GraphQL is better than REST." | GraphQL is better for specific problems (multiple consumers, complex queries). For simple CRUD, it's overkill. |
-| "I'll build my own auth system." | Auth is security-critical. Use battle-tested libraries (NextAuth, Clerk, Supabase Auth). |
-| "No need for rate limiting yet." | Rate limiting is easier to add from the start than retrofit. A simple loop in the frontend can DDoS your API. |
-| "I'll document the API after it's built." | Documentation-first (OpenAPI) generates typesafe clients and catches breaking changes early. |
-| "SQLite is fine for production." | SQLite is brilliant for prototyping and edge computing. For multi-user web apps with concurrent writes, use PostgreSQL. |
-| "400 and 422 are the same thing." | 400 = malformed request. 422 = syntactically correct but semantically invalid. Using them correctly helps clients debug. |
+| "Express with no ORM." | Raw SQL = error-prone. ORM prevents injection + enables refactoring. |
+| "JWT is modern, so better." | JWT insecure for sessions. Server-side sessions are more revocable. |
+| "GraphQL > REST." | GraphQL for complex multi-consumer queries. REST for simple CRUD. |
+| "I'll build my own auth." | Auth is security-critical. Use NextAuth, Clerk, Supabase Auth. |
+| "400 and 422 are the same." | 400 = malformed. 422 = valid syntax, invalid semantics. Fix helps clients debug. |
 
 ---
 
