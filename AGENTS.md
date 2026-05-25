@@ -234,6 +234,26 @@ Detect language from user's prompt:
 
 ---
 
+## Rule 10: Development Artifacts Convention
+
+When working on this repository (`another-agent-skills`):
+
+**ALL draft, analysis, review, simulation, audit, roadmap, and refinement files MUST be created in `development/`.**
+
+**Examples:**
+- `development/SESSION_CONTEXT.md` — Session continuity
+- `development/SIMULATION.md` — Test simulations
+- `development/AUDIT_*.md` — Architecture audits
+- `development/REVIEW_*.md` — Code/quality reviews
+- `development/ROADMAP_*.md` — Planning documents
+- `development/TOKEN_OPTIMIZATION.md` — Compression guides
+
+**Never** create these files in the repo root or `skills/` folders.
+
+**`.gitignore`**: `development/` is ignored globally. Files there stay local only.
+
+---
+
 ## Anti-Rationalization (Universal)
 
 | Wrong Thought | Why It's Wrong |
