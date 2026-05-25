@@ -106,102 +106,36 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 
 ### Phase 5 — Anti-Slop Rules (PWA)
 
-→ See `engineering-fundamentals` Phase 4 for universal principles.
+→ See `engineering-fundamentals` Phase 4.
 
-**PWA-specific rules:**
-
-**Touch Optimization**
-- No hover-only interactions (tooltips, dropdowns on hover).
-- Always provide touch alternatives (tap, long-press, swipe).
-- Touch targets minimum 44px (iOS) / 48dp (Android).
-- Use `@media (hover: hover)` for hover effects conditionally.
-
-**Viewport Safety**
-- No `100vh` on mobile (breaks with browser UI chrome).
-- Use `100dvh`, `100svh`, or `100lvh`.
-
-**Device Agnostic**
-- No design only for 375px and 1280px.
-- Test: 280px (foldable), 375px (phone), 768px (tablet), 1024px (tablet landscape), 1920px (desktop), 3840px (TV).
-- Use **container queries** for component-level responsiveness.
-
-**Offline-First**
-- Never assume internet available.
-- Always cache critical assets. Show cached data while syncing.
+**PWA-specific:**
+- **Touch:** No hover-only interactions. Targets ≥44px (iOS) / 48dp (Android). `@media (hover: hover)` for hover conditionally.
+- **Viewport:** No `100vh` on mobile. Use `100dvh`.
+- **Device agnostic:** Test 280px→3840px. Container queries for component layouts.
+- **Offline-first:** Never assume internet. Cache critical assets. Show stale data while syncing.
 
 ---
 
-### Phase 6 — Universal Responsive Design
+### Phase 6 — Universal Responsive
 
-**Device Matrix (MANDATORY):**
-
-| Device | Width | Approach |
-|---|---|---|
-| Foldable closed | 280-320px | Single column, essential only |
-| Phone portrait | 375-428px | Mobile-first design |
-| Phone landscape | 667-926px | Adjusted layout |
-| Tablet portrait | 768-834px | Sidebar may appear |
-| Tablet landscape | 1024-1366px | Full layout, multi-pane |
-| Desktop | 1280-1920px | Full experience, hover available |
-| TV / Big screen | 1920-3840px | Larger touch targets, simpler navigation |
-
-**Container Queries (Preferred over Media Queries):**
-
-```css
-.card-container { container-type: inline-size; }
-@container (min-width: 400px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-```
-
-**Touch vs Mouse:**
-
-```css
-@media (hover: hover) and (pointer: fine) {
-  .button:hover { transform: scale(1.02); }
-}
-@media (pointer: coarse) {
-  .button { min-height: 48px; }
-}
-```
+→ **See `DEVICE-MATRIX-GUIDE.md` for device matrix, container queries, touch vs mouse patterns.**
 
 ---
 
 ### Phase 7 — PWA Architecture
 
-**Service Worker:**
-- Use Workbox or `next-pwa` to auto-generate.
-- Cache strategy: `CacheFirst` for static, `NetworkFirst` for API.
-- Background sync for offline mutations.
-
-**Web App Manifest:**
-```json
-{
-  "name": "Mi App",
-  "short_name": "MiApp",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#0A0A0F",
-  "background_color": "#0A0A0F",
-  "icons": [...]
-}
-```
-
-**Offline Pages:**
-- Always have fallback offline page.
-- Show stale data with "syncing..." indicator.
+→ **See `PWA-ARCHITECTURE-GUIDE.md` for service worker, manifest, offline pages, native migration path.**
 
 ---
 
 ### Phase 8 — Build with Tokens
 
-1. **Read `design/DESIGN-LOCK.md`** and `design/approved/`
+1. Read `design/DESIGN-LOCK.md` and `design/approved/`
 2. Apply tokens to `globals.css`
-3. `manifest.json` / `manifest.ts` in `public/` or `app/`
+3. `manifest.json` / `manifest.ts`
 4. Service worker registration
-5. Capacitor config (if migration planned): `capacitor.config.ts`
-6. All viewport units use `dvh` where appropriate
+5. Capacitor config (if migration planned)
+6. Viewport units: `dvh` where appropriate
 
 ---
 
@@ -218,68 +152,44 @@ LOG METRIC: gate
 - checks_passed: [N]/20
 ```
 
-**PWA-specific checks:**
+**PWA-specific checks (13-20):**
 
-13. **Offline test** — Disable network. App loads and shows cached data.
+13. **Offline test** — Disable network. App loads, cached data visible.
 14. **Install test** — Lighthouse PWA audit passes.
-15. **Device matrix** — Tested on 375px, 768px, 1024px, 1920px minimum.
-16. **Touch targets** — All interactive elements >= 44px / 48dp.
-17. **No hover-only** — Every hover has a touch equivalent.
+15. **Device matrix** — Tested 375px, 768px, 1024px, 1920px.
+16. **Touch targets** — Interactive elements ≥44px / 48dp.
+17. **No hover-only** — Every hover has touch equivalent.
 18. **Viewport safe** — No `100vh` without `100dvh` fallback.
-19. **Foldable** — Layout doesn't break on 280px or foldable transitions.
+19. **Foldable** — Layout works on 280px, survives foldable transitions.
 20. **Capacitor ready** — If migration planned, `npx cap sync` succeeds.
-
----
-
-## Migration Path to Native (Optional)
-
-If future App Store / Google Play:
-
-1. **Now (Web PWA):** Build with offline support. Use Capacitor plugins where needed.
-2. **Later (Native Wrapper):**
-   ```bash
-   npm install @capacitor/core @capacitor/cli
-   npx cap init
-   npx cap add ios && npx cap add android
-   npx cap sync
-   ```
-3. **Progressive Enhancement:**
-   ```typescript
-   import { Capacitor } from '@capacitor/core';
-   const isNative = Capacitor.isNativePlatform();
-   // If native: use Capacitor plugins. If web: use Web APIs.
-   ```
 
 ---
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md`:
-- New PWA walkthrough (15 steps)
-- Adding offline support to existing web app
-- Troubleshooting (service worker, install prompt, 100vh, hover)
+→ Read `EXAMPLES.md`.
 
 ---
 
-## Red Flags (PWA-Specific)
+## Red Flags
 
 - No service worker or manifest.
-- `100vh` used without `100dvh` fallback.
-- Hover-only interactions with no touch alternatives.
-- No offline page or fallback.
-- Container queries not used for component layouts.
-- Not tested on tablet or desktop sizes.
+- `100vh` without `100dvh` fallback.
+- Hover-only without touch alternatives.
+- No offline page.
+- No container queries.
+- Untested on tablet/desktop.
 
 ---
 
 ## Verification
 
-- `manifest.json` exists with `display: standalone`.
-- Service worker registered (Workbox or `next-pwa`).
-- Offline page / fallback exists.
+- `manifest.json` with `display: standalone`.
+- Service worker registered.
+- Offline page exists.
 - No `100vh` without `100dvh`.
-- Container queries used for component layouts.
-- Touch targets >= 44px.
-- `@media (hover: hover)` guards around hover effects.
-- Tested on minimum 4 breakpoints.
-- Capacitor config exists if native migration planned.
+- Container queries used.
+- Touch targets ≥44px.
+- Hover guarded with `@media (hover: hover)`.
+- Tested on ≥4 breakpoints.
+- Capacitor config if migration planned.
