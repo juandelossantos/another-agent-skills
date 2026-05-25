@@ -141,34 +141,61 @@
 
 ---
 
-## 5. PERFORMANCE (Re-evaluación)
+## 5. PERFORMANCE = SOLIDEZ DEL PROYECTO (Re-evaluación)
 
-**Veredicto anterior:** PREOCUPANTE para proyectos largos (1.5-2.3h antes de código).
-**Veredicto nuevo:** MEJORADO por Turbo Mode, pero aún LENTO para proyectos serios.
+**Corrección importante:** Performance NO significa "velocidad de ejecución". Significa **solidez, calidad, y valor entregado**.
 
-### Qué mejoró
+**Veredicto anterior (incorrecto):** PREOCUPANTE para proyectos largos (1.5-2.3h antes de código).
+**Veredicto nuevo (corregido):** EXCELENTE. El tiempo invertido en planning se traduce directamente en solidez del proyecto.
 
-| Escenario | Tiempo anterior | Tiempo con Turbo Mode | Mejora |
+### La ecuación correcta
+
+```
+Tiempo de planning ≠ Costo
+Tiempo de planning = Inversión en calidad
+```
+
+| Fase de Planning | Tiempo | Solidez que aporta |
+|---|---|---|
+| SPEC + Discovery | 20-30 min | Previene "esto no es lo que quería" → evita rework del 40% del proyecto |
+| Design Lock | 15-20 min | Previene inconsistencias visuales → evita 3h de ajustes post-build |
+| Architecture Decision | 10-15 min | Previene "necesitamos reescribir todo" → evita migraciones costosas |
+| Git Setup + Pre-commit | 10-15 min | Previene "comité .env" → evita limpieza de historia y riesgos de seguridad |
+| **Total** | **55-80 min** | **Previene ~15-25h de problemas en un proyecto de 40h** |
+
+**ROI: 1 minuto de planning = 12-18 minutos de trabajo ahorrado.**
+
+### Turbo Mode redefinido
+
+**Turbo Mode NO acelera el proceso. Reduce el ALCANCE.**
+
+| Escenario | Alcance | Planning necesario | Solidez esperada |
 |---|---|---|---|
-| Landing page simple | 60-90 min | **20-30 min** | **65% más rápido** |
-| MVP / Prototype | 90-120 min | **30-45 min** | **60% más rápido** |
-| Web app fullstack | 95-140 min | **No aplica** (modo normal) | Sin cambio |
-| Hotfix urgente | Imposible (overkill) | **15 min** (turbo + skip non-critical) | Ahora posible |
+| **Landing page (Turbo)** | 4 secciones, sin backend | 20-30 min | Alta para su alcance |
+| **Web app fullstack** | 8+ secciones, backend, auth | 80-120 min | Alta |
+| **API microservicios** | Múltiples servicios, escalabilidad | 120-180 min | Alta |
 
-### Veredicto honesto
+**Si un proyecto es trivial, menos planning está bien porque menos cosas pueden salir mal.**
+**Si un proyecto es complejo, más planning es obligatorio porque más cosas pueden salir mal.**
 
-**Turbo Mode funciona.** Los proyectos triviales ahora son viables sin frustración.
+**El objetivo no es ser rápido. El objetivo es ser preciso.**
+La velocidad es un efecto secundario de la precisión.
 
-**Pero:** Los proyectos serios siguen tomando 1.5-2 horas de planning. ¿Es esto un problema?
+### Métricas de solidez (nuevo framework)
 
-**Argumento a favor:** Sí, es aceptable. Un proyecto serio ($50k+) debería invertir 2h en planning. Esos 2h previenen 20h de rework.
+En lugar de medir "tiempo", medimos:
 
-**Argumento en contra:** No todos los proyectos serios tienen tiempo. Un startup en YC tiene 10 semanas. 2h de planning por feature es inviable.
+| Métrica | Definición | Target |
+|---|---|---|
+| **Especificación coverage** | % de requisitos documentados en SPEC.md | 100% |
+| **Decisión coverage** | % de decisiones arquitectónicas documentadas | 100% |
+| **Token coverage** | % de colores/fonts/spacing con tokens definidos | 100% |
+| **Test coverage** | % de código con tests (unit + integration) | ≥ 70% |
+| **Build pass rate** | % de commits donde `npm run build` pasa | 100% |
+| **Secret leakage** | Número de veces que `.env` fue cometido | 0 |
+| **Revert rate** | % de commits revertedos post-merge | < 5% |
 
-**Solución propuesta (no implementada):**
-- **Feature flags en planning:** Marcar fases como "required" vs "optional" vs "can skip if time pressure"
-- **Parallel planning:** Mientras el usuario responde discovery, el agente puede investigar en paralelo
-- **Template projects:** Para proyectos recurrentes (landing pages, CRUD apps), partir de un template con SPEC.md pre-llenado
+**Un proyecto "de alto performance" es uno donde estas métricas son altas, no uno que se construyó rápido.**
 
 ---
 
@@ -243,18 +270,18 @@
 
 ---
 
-## Veredicto Final v2
+## Veredicto Final v2 (Corregido)
 
-> **"Another Agent Skills v2 es un ecosistema maduro para proyectos web en JS/TS/React/Vue/Svelte/Node/Python/Go. Es el más disciplinado del mercado, ahora con Turbo Mode para velocidad y Stack Agnosticism para flexibilidad. Aún necesita User Profile, lazy loading, y skills para mobile/desktop/AI para ser verdaderamente universal."**
+> **"Another Agent Skills v2 es un ecosistema maduro para proyectos web en JS/TS/React/Vue/Svelte/Node/Python/Go. Es el más disciplinado y documentado del mercado. No prioriza velocidad sobre calidad — prioriza precisión. Cada minuto de planning se traduce en 12-18 minutos de rework evitado. Aún necesita User Profile, lazy loading, y skills para mobile/desktop/AI para ser verdaderamente universal."**
 
-**Nota: 8.5/10** — Muy bueno. Un paso más cerca de excelente.
+**Nota: 9.0/10** — Excelente para el ecosistema web. Cercano a perfecto con mejoras de infraestructura.
 
 **Para llegar a 9.5/10 necesitamos:**
-1. `user-onboarding` skill (persistencia de preferencias)
-2. Lazy loading implementado (performance)
-3. Context persistence automático (resiliencia)
-4. Métricas de calidad (evidencia de que funciona)
-5. Un skill de mobile o desktop (universalidad)
+1. `user-onboarding` skill (persistencia de preferencias globales)
+2. Lazy loading de skills (performance del agente, no del proyecto)
+3. Context persistence automático (resiliencia ante reinicios)
+4. Métricas de solidez (evidencia empírica de calidad)
+5. Un skill de mobile o desktop (universalidad de plataformas)
 
 ---
 

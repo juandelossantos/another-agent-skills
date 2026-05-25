@@ -88,34 +88,45 @@ SHIP    → fullstack-shipping
 
 ## Rule 5: Turbo Mode (NEW)
 
-For trivial, time-sensitive, or explicitly prototype work, use **Turbo Mode**:
+For trivial, explicitly prototype, or scope-limited work, use **Turbo Mode**:
 
 **When to activate:**
-- User explicitly says "prototype", "MVP", "quick demo", "just sketch it", "hazlo rápido"
+- User explicitly says "prototype", "MVP", "just sketch it", "prueba de concepto"
 - Project is < 1 day of work
 - No persistence needed (no database, no auth)
 - Single page/component
 - User explicitly requests: "skip the questions and build"
 
-**What Turbo Mode skips:**
-- Research phase (Phase 1 of spec-driven-development)
-- Extended discovery (10+ questions → 3 questions)
-- Architecture analysis (assume standard stack)
-- Design Asset Lock (create minimal DESIGN.md only)
-- Dev environment audit (check only Node.js, skip MCPs)
-- Pre-commit checklist (still create it, but don't block on it)
+**Critical distinction:** Turbo Mode does NOT sacrifice quality. It reduces **scope**, not **discipline**.
 
-**What Turbo Mode keeps:**
-- SPEC.md (2-3 lines: objective + stack + success criteria)
-- `.gitignore` and `.env.example`
-- Anti-AI-slop rules (no Inter, no generics)
+**What Turbo Mode reduces (scope):**
+- Research phase (Phase 1 of spec-driven-development) — not needed for simple CRUD
+- Extended discovery — 10+ questions → 3 core questions (objective, scope, constraints)
+- Architecture analysis — assume standard stack (documented in SPEC.md)
+- Design Asset Lock — minimal DESIGN.md (tokens only, no moodboard)
+- Dev environment audit — check only critical tools (Node.js, Git)
+
+**What Turbo Mode NEVER reduces (quality):**
+- SPEC.md must still exist (minimal but complete)
+- `.gitignore` and `.env.example` are still mandatory
+- Anti-AI-slop rules still apply (no Inter, no generics)
 - Build verification (`npm run build` must pass)
+- Pre-commit checklist still runs (correctness, security, git hygiene)
+- No secrets ever committed
+
+**What Turbo Mode produces:**
+- A smaller, simpler project with the same engineering discipline
+- Fewer sections (e.g., Hero + CTA instead of Hero + Value Prop + Services + Testimonials + CTA)
+- Standard stack instead of evaluated options
+- Minimal tests instead of full coverage suite
 
 **Anti-rationalization:**
 | Excuse | Why It's Wrong |
 |---|---|
-| "Turbo mode is just lazy." | No. It's calibrated laziness. A prototype that takes 30 min instead of 2 hours gets feedback faster. |
+| "Turbo mode is just lazy." | No. It's scope calibration. A landing page doesn't need the same depth as an e-commerce platform. |
+| "Turbo mode means skip quality." | No. It means build a smaller house with the same foundation quality. |
 | "The user said 'quick' but they actually want production." | If unclear, ask: "¿Es un prototipo para validar o producto final?" |
+| "I'll skip tests in Turbo Mode." | No. Turbo Mode reduces test breadth, not test existence. Even a landing page gets a smoke test. |
 
 ---
 
