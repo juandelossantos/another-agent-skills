@@ -29,11 +29,12 @@ Reach 10/10 score by completing remaining architectural gaps in the another-agen
 
 **Mitigation:** Extract one guide at a time. Verify by reading the new SKILL.md + guide and confirming all original rules are present.
 
-### 2. Create frontend-desktop Skill (Optional but Valuable)
+### 2. Create frontend-desktop Skill ✅ DONE
 
 **Scope:** Tauri v2 (Rust + Webview) or Electron (Chromium + Node)
-**Estimated size:** ~200 lines + 2 guides
+**Estimated size:** ~200 lines + 3 guides
 **Value:** Completes frontend coverage (web → PWA → mobile → desktop)
+**Result:** 220 lines + DISCOVERY-GUIDE, PLATFORM-GUIDE, EXAMPLES
 
 ### 3. Update Documentation
 

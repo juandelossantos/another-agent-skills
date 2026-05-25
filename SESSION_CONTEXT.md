@@ -95,6 +95,19 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Native compliance: iOS HIG, Android Material 3, SafeAreaView, touch targets
 - QA gates: 12 checks including AccessibilityInfo and platform compliance
 
+#### `frontend-desktop`
+**Location:** `skills/frontend-desktop/SKILL.md` (+ 3 guides)
+**Status:** ✅ Complete — ~220 lines
+
+**Key features:**
+- Desktop default: Tauri v2 (Rust 1.78+, Webview2/webkit2gtk/WKWebView)
+- Alternative: Electron (Chromium + Node)
+- **Discovery** → `DISCOVERY-GUIDE.md` (OS targets, window model, native APIs, distribution, code signing)
+- **Native Integration** → `PLATFORM-GUIDE.md` (menus, tray, notifications, file dialogs, global shortcuts, window state, OS theme)
+- Anti-AI-slop adapted for desktop: native title bars, system font stack, OS theme respect, proper window behavior
+- QA gates: 12 checks including native API tests, keyboard shortcuts, code signing, auto-updater
+- **Examples & Troubleshooting** → `EXAMPLES.md` (walkthrough, menu setup, tray config, build/signing issues)
+
 #### `project-health-check`
 **Location:** `skills/project-health-check/SKILL.md`
 **Status:** ✅ Complete
@@ -198,17 +211,17 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ## Immediate Next Steps (Priority Order)
 
-## Current Score: 9.6/10 (Outstanding)
+## Current Score: 9.8/10 (Near Perfect)
 
-**Reached 9.6 with:**
-- 13 custom skills covering full web development lifecycle
+**Reached 9.8 with:**
+- 14 custom skills covering full development lifecycle (web, PWA, mobile, desktop)
 - AGENTS.md lifecycle reflecting actual workflow
 - Turbo Mode = reduced scope, not reduced quality
 - Stack Agnosticism via STACK_CONFIG_TEMPLATE.md
 - Commit Approval Gate in git-init-and-versioning
 - user-onboarding skill for persistent preferences
 - engineering-fundamentals foundation skill (DRY architecture, no duplication)
-- Multi-platform: frontend-web, frontend-pwa, frontend-mobile
+- Multi-platform: frontend-web, frontend-pwa, frontend-mobile, frontend-desktop
 - Context Persistence (AGENTS.md Rule 0b): auto-recover project state on session restart
 - Lazy Loading (AGENTS.md Rule 6b): skills as indices, guides loaded on-demand
 - Metrics (`project-metrics`): empirical quality logging
@@ -231,8 +244,9 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 **To reach 10/10 (Perfect):**
 7. ✅ Refactor remaining large skills to lazy loading (spec-driven-development: 484→329, fullstack-shipping: 416→307, git-init-and-versioning: 500→356)
-8. ⬜ `frontend-desktop` skill (Tauri, Electron)
-9. ⬜ IoT/Embedded skill (optional, niche)
+8. ✅ `frontend-desktop` skill (Tauri v2, Electron)
+9. ⬜ Final documentation sweep: README.md, install.sh verification
+10. ⬜ IoT/Embedded skill (optional, niche — post-10.0)
 
 ---
 
