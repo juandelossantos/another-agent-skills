@@ -184,6 +184,77 @@ User can disable this gate by saying:
 
 ---
 
+## Rule 12: Commit Manifest Protocol (MANDATORY)
+
+**This is not optional. This is mechanical enforcement of Rule 12.**
+
+### Before EVERY git add/commit/push, the agent MUST:
+
+1. **STOP all action.** Do not type any git command yet.
+2. **Output the Commit Manifest block exactly as shown below.**
+3. **Wait for user's explicit typed approval.**
+4. **Only then execute git commands.**
+
+### Commit Manifest Block
+
+```
+╔════════════════════════════════════════════════════════════╗
+║  COMMIT MANIFEST — APPROVAL REQUIRED                     ║
+╠════════════════════════════════════════════════════════════╣
+║  Files changed: [list every file]                        ║
+║  Lines changed: +X / -Y                                  ║
+║  Commit message: "..."                                   ║
+║  Will push: YES / NO                                     ║
+╠════════════════════════════════════════════════════════════╣
+║  RULE 12 CHECKLIST:                                      ║
+║  □ User's last message is "yes", "sí", or "commit"     ║
+║  □ Previous approval does NOT transfer to this commit  ║
+║  □ This is a SEPARATE decision from any previous commit  ║
+╠════════════════════════════════════════════════════════════╣
+║  USER MUST EXPLICITLY APPROVE THIS SPECIFIC COMMIT       ║
+║  Valid responses: "yes" / "sí" / "commit" / "proceed"   ║
+║  INVALID (do NOT accept): "ok" / "sigamos" / "continue" ║
+║  / "dale" / silence / emoji reactions                    ║
+╚════════════════════════════════════════════════════════════╝
+```
+
+### Session-Level Lock
+
+**After ANY user approval, reset to "unapproved" state immediately.**
+
+| User says | What is approved | Next commit requires |
+|---|---|---|
+| "yes" | ONE commit only | New "yes" |
+| "yes and push" | ONE commit + ONE push | New "yes" |
+| "commit" | ONE commit only | New "yes" |
+| "proceed" | ONE commit only | New "yes" |
+| "ok" / "sigamos" / silence | NOTHING — INVALID | Explicit "yes" |
+
+**There is NO session-level "approved mode." Every commit is a separate decision.**
+
+### If Agent Commits Without Manifest
+
+This is a **process violation** regardless of content quality.
+
+**Agent must immediately:**
+1. Stop all further commits
+2. Report violation to user
+3. Do NOT commit again until user explicitly confirms understanding
+4. Log in `development/SESSION_CONTEXT.md` compliance log with ❌
+5. User decides whether to revert, keep, or modify the commit
+
+### Why Mechanical Enforcement
+
+| Approach | Failure Rate | Why |
+|---|---|---|
+| "Remember Rule 12" | High | Memory fades after 20+ messages |
+| "Check the checklist" | Medium | Agent checks mentally but doesn't verbalize |
+| **Commit Manifest block** | **Low** | Visible, unskippable, user sees it |
+
+**The manifest block is a speed bump. It is harder to ignore than a remembered rule.**
+
+---
+
 ## Rule 9: Verification (Full Checklist)
 
 Before marking any task complete:

@@ -51,6 +51,8 @@
 | AGENTS.md split (Core + Extended) | ✅ Active | `AGENTS.md` + `AGENTS-EXTENDED.md` |
 | Rule 0e (Context eviction) | ✅ Active | `AGENTS.md` |
 | SESSION_CONTEXT compression | ✅ Active | `development/SESSION_CONTEXT.md` + `ARCHIVE_2026-05.md` |
+| Commit Manifest Protocol | ✅ Active | `AGENTS-EXTENDED.md` (mechanical enforcement of Rule 12) |
+| Incident documentation | ✅ Active | `development/INCIDENT_001` + `INCIDENT_002` |
 
 ### What Was Refactored This Cycle
 
