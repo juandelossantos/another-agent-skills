@@ -464,22 +464,45 @@ npx create-next-app@latest cafe-del-alba --typescript --tailwind --eslint --app 
 
 ---
 
-## Paso 8: Pre-Commit Auto-Review (durante BUILD)
+## Paso 8: Commit Approval Gate (durante BUILD)
 
 **Agente antes de cada commit:**
 
-> "**Running Pre-Commit Checklist:**
-> ✅ Correctness: Tests pasan, build exitoso
-> ✅ Readability: Nombres descriptivos, sin anidamiento excesivo
-> ✅ Architecture: Componentes reutilizables, sin duplicación
-> ✅ Security: No secrets en código, inputs sanitizados
-> ✅ Performance: Solo transform/opacity animations, lazy loading imágenes
-> ✅ Git Hygiene: Un solo cambio lógico (componente Hero)
+> "═══════════════════════════════════════════
+> 📝 COMMIT READY FOR REVIEW
+> ═══════════════════════════════════════════
 >
-> **COMMIT APROBADO**"
+> 📁 Files changed:
+> - src/components/Hero.tsx        (added hero section with H1, CTA)
+> - src/app/globals.css            (added design tokens for warm cream)
+> - public/images/hero.jpg         (added hero background image)
+>
+> 📊 Pre-commit checklist:
+> ✅ Correctness: Tests pasan, build exitoso
+> ✅ Readability: Nombres descriptivos (Hero, not HeaderMain)
+> ✅ Architecture: Componente independiente, reutilizable
+> ✅ Security: No secrets, image tiene alt descriptivo
+> ✅ Performance: Reveal animation con transform/opacity
+> ✅ Git Hygiene: Un solo cambio lógico (Hero section)
+>
+> 📝 Commit message:
+> feat: add Hero section with Playfair display and warm cream background
+>
+> - Implements hero with H1, subtitle, CTA button
+> - Uses design tokens from globals.css
+> - Adds Reveal animation on scroll
+> - Responsive: 375px mobile → 1280px desktop
+>
+> ═══════════════════════════════════════════
+> → ¿Apruebas este commit? Responde 'yes', 'sí', o 'commit' para continuar.
+> → ¿Cambios necesarios? Responde 'edit' + qué corregir.
+> ═══════════════════════════════════════════"
 
+**Usuario:** *"Sí, se ve bien."*
+
+**Agente ejecuta:**
 ```bash
-git add src/components/Hero.tsx
+git add src/components/Hero.tsx src/app/globals.css public/images/hero.jpg
 git commit -m "feat: add Hero section with Playfair display and warm cream background
 
 - Implements hero with H1, subtitle, CTA button
@@ -489,6 +512,33 @@ git commit -m "feat: add Hero section with Playfair display and warm cream backg
 ```
 
 **Repite para cada componente...**
+
+> "═══════════════════════════════════════════
+> 📝 COMMIT READY FOR REVIEW
+> ═══════════════════════════════════════════
+> 📁 Files changed:
+> - src/components/Menu.tsx        (added menu grid from JSON)
+> - src/data/menu.json             (added sample menu data)
+> 📊 Pre-commit checklist: ✅✅✅✅✅✅
+> 📝 Commit message: feat: add Menu section with JSON-driven product cards
+> → ¿Apruebas?"
+
+**Usuario:** *"Espera, el café americano está en $5.000 y el latte en $8.000 en el JSON, ¿puedes poner precios más realistas para Bogotá?"*
+
+**Agente:** *"Corrijo los precios en menu.json y vuelvo a presentar el commit."*
+
+> "═══════════════════════════════════════════
+> 📝 COMMIT READY FOR REVIEW (v2)
+> ═══════════════════════════════════════════
+> 📁 Files changed:
+> - src/components/Menu.tsx
+> - src/data/menu.json             (precios corregidos: americano $4.500, latte $7.500)
+> 📊 Pre-commit checklist: ✅✅✅✅✅✅
+> → ¿Apruebas ahora?"
+
+**Usuario:** *"Sí, perfecto."*
+
+**Agente ejecuta commit.**
 
 ---
 
@@ -656,6 +706,26 @@ cafe-del-alba/
 
 ### Qué validar en test real
 - Que el agente realmente lee DESIGN-LOCK.md antes de codear
+- Que el **Commit Approval Gate** muestra el diff y espera "yes/sí/commit" explícito
+- Que el agente **no hace commit** si el usuario dice "edit" o pide cambios
 - Que el pre-commit checklist no se salta bajo presión de tiempo
 - Que la generación de .gitignore cubre create-next-app outputs
 - Que el deploy a Vercel funciona con la pipeline propuesta
+
+### Sobre los "45 minutos de conversación"
+
+**Usuario potencial:** *"¿45 minutos solo hablando antes de ver código? Eso es mucho tiempo."*
+
+**Respuesta:** Esos 45 minutos **ahorran 5-15 horas** de desarrollo y rework. La inversión upfront:
+
+| Fase | Tiempo | Problema que evita |
+|---|---|---|
+| SPEC + Discovery (20 min) | 20 min | "Esto no es lo que quería" → 4h rework |
+| Design Lock (15 min) | 15 min | "Se ve diferente a lo acordado" → 3h ajustes visuales |
+| Git Setup (10 min) | 10 min | Commiteé .env/node_modules → 2h limpieza de historia |
+| Architecture (5 min) | 5 min | "No pensé que necesitaría backend" → 6h refactor |
+| **Total upfront** | **50 min** | **~15h de problemas evitados** |
+
+**Ratio de retorno: 1 minuto de planning = 18 minutos de trabajo ahorrado.**
+
+El objetivo de estas skills no es velocidad. Es **precisión**. Código escrito sin especificación es deuda técnica con intereses altos.

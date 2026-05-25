@@ -367,6 +367,8 @@ Agent:
 - The agent assumes mono-repo without asking.
 - The agent doesn't document the branching strategy.
 - During BUILD, the agent commits without running the pre-commit checklist.
+- During BUILD, the agent commits without showing the user the diff and waiting for explicit approval.
+- The agent batches multiple unrelated changes in a single commit approval request.
 
 ---
 
@@ -389,11 +391,101 @@ Before proceeding to BUILD, confirm:
 
 **During BUILD (`incremental-implementation` + `test-driven-development`):**
 
-Before every `git commit`:
+Before every `git commit`, follow this **mandatory 3-step gate**:
+
+### Step 1 — Run Pre-Commit Checklist
 
 1. **Read** `.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md`).
 2. **Run** the 6-axis review (correctness, readability, architecture, security, performance, git hygiene).
-3. **If all pass:** Commit with descriptive message per `git-workflow-and-versioning`.
-4. **If any fail:** Fix the issue. Do not commit until fixed.
+3. **If any fail:** Fix the issue. Do not proceed to Step 2 until fixed.
+
+### Step 2 — Present Commit for Approval (BLOCKING)
+
+**DO NOT execute `git commit` until the user explicitly approves.**
+
+Present the commit like this:
+
+```
+═══════════════════════════════════════════
+📝 COMMIT READY FOR REVIEW
+═══════════════════════════════════════════
+
+📁 Files changed:
+- src/components/Hero.tsx        (added hero section)
+- src/app/globals.css            (added design tokens)
+- public/images/hero.jpg         (added hero image)
+
+📊 Pre-commit checklist:
+✅ Correctness: Tests pass, matches acceptance criteria
+✅ Readability: Descriptive names, no nested ternaries
+✅ Architecture: Follows component pattern
+✅ Security: No secrets, inputs validated
+✅ Performance: transform/opacity only, lazy loading
+✅ Git Hygiene: One logical change, no .env committed
+
+📝 Commit message:
+feat: add Hero section with Playfair display and warm cream background
+
+- Implements hero with H1, subtitle, CTA button
+- Uses design tokens from globals.css
+- Adds Reveal animation on scroll
+- Responsive: 375px mobile → 1280px desktop
+
+═══════════════════════════════════════════
+→ Approve? Reply "yes", "sí", or "commit" to proceed.
+→ Changes needed? Reply "edit" or describe what to fix.
+→ Skip this commit? Reply "skip" (not recommended).
+═══════════════════════════════════════════
+```
+
+**Valid user responses:**
+- `"yes"`, `"sí"`, `"commit"`, `"adelante"`, `"proceed"` → Execute `git commit`
+- `"edit"`, `"change"`, `"fix"` + description → Go back to Step 1, make changes
+- `"skip"` → Do not commit, continue to next task (document the skip)
+
+**Invalid responses (do not accept):**
+- `"ok"`, `"mmhm"` → Ask again with explicit "yes/commit" or "edit"
+- Silence → Re-prompt with the approval request
+
+### Step 3 — Execute Commit
+
+Only after explicit approval:
+
+```bash
+git add [files]
+git commit -m "[descriptive message]"
+```
+
+**Rules:**
+- Show the exact files being committed.
+- Show the exact commit message.
+- Never batch multiple logical changes in one approval request.
+- If 5+ files changed, summarize them grouped by purpose.
+
+---
+
+## Philosophy: Time Invested Upfront = Time Saved Later
+
+**Why this skill enforces 45+ minutes of planning before writing code:**
+
+| Phase | Time Invested | Time Saved Later |
+|---|---|---|
+| SPEC + Discovery | 15-20 min | Prevents "this isn't what I wanted" rework |
+| Architecture Decision | 10-15 min | Prevents "we need to rewrite everything" migrations |
+| Design Lock | 10-15 min | Prevents "it looks different than we agreed" visual drift |
+| Git Setup + Pre-commit | 5-10 min | Prevents "I committed .env" or "node_modules in repo" disasters |
+| **Total upfront** | **45-60 min** | **Saves 5-15 hours of debugging, refactoring, and miscommunication** |
+
+**Anti-rationalization:**
+
+| Excuse | Why It's Wrong |
+|---|---|
+| "This is taking too long, just code it." | 45 minutes of clarity prevents 5 hours of "that's not what I meant." |
+| "The user is impatient." | The user will be more impatient when the result doesn't match expectations. |
+| "I already know what they want." | You have 1% confidence. The skill forces 95% confidence through explicit confirmation. |
+| "We'll fix it in the next iteration." | Technical debt compounds. Decisions made without specs become permanent by default. |
+
+**The goal of these skills is not speed. The goal is precision.**
+Speed without precision is wasted effort.
 
 **This bridges `git-init-and-versioning` (setup) with `code-review-and-quality` (execution).**
