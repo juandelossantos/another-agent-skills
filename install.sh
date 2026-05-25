@@ -120,22 +120,29 @@ update_shell_config() {
     awk '/# >>> another-agent-skills-config/{found=1; next} /# <<< another-agent-skills-config/{found=0; next} !found{print}' "${ZSHRC}" > "${tmpfile}"
     mv "${tmpfile}" "${ZSHRC}"
 
-    cat >> "${ZSHRC}" << 'BLOCK'
+    cat >> "${ZSHRC}" << BLOCK
 
 # >>> another-agent-skills-config
 # Managed by another-agent-skills/install.sh — do not edit manually.
 
+# Store repo path for cross-machine portability
+export ANOTHER_AGENT_SKILLS_DIR="${SCRIPT_DIR}"
+
 # Agent Skills aliases
-alias init-agents="cp /home/juandelossantos/dev/personal/another-agent-skills/AGENTS.md ./AGENTS.md"
-alias update-global-skills="cd $HOME/.config/opencode/.agent-skills-remote && git pull && cd -"
+alias update-global-skills="cd \$HOME/.config/opencode/.agent-skills-remote && git pull && cd -"
+
+# init-agents: copies or merges Another Agent Skills rules into current project
+init-agents() {
+    bash "\$ANOTHER_AGENT_SKILLS_DIR/scripts/init-agents.sh"
+}
 
 # Agent Skills auto-update on terminal open (max once per day)
-_AGENT_SKILLS_REMOTE="$HOME/.config/opencode/.agent-skills-remote"
-_AGENT_SKILLS_LAST_PULL="$_AGENT_SKILLS_REMOTE/.last-auto-pull"
-if [[ -d "$_AGENT_SKILLS_REMOTE" ]]; then
-  if [[ ! -f "$_AGENT_SKILLS_LAST_PULL" ]] || [[ "$(date +%Y%m%d)" != "$(cat "$_AGENT_SKILLS_LAST_PULL")" ]]; then
-    (cd "$_AGENT_SKILLS_REMOTE" && git pull --quiet &)
-    date +%Y%m%d > "$_AGENT_SKILLS_LAST_PULL"
+_AGENT_SKILLS_REMOTE="\$HOME/.config/opencode/.agent-skills-remote"
+_AGENT_SKILLS_LAST_PULL="\$_AGENT_SKILLS_REMOTE/.last-auto-pull"
+if [[ -d "\$_AGENT_SKILLS_REMOTE" ]]; then
+  if [[ ! -f "\$_AGENT_SKILLS_LAST_PULL" ]] || [[ "\$(date +%Y%m%d)" != "\$(cat "\$_AGENT_SKILLS_LAST_PULL")" ]]; then
+    (cd "\$_AGENT_SKILLS_REMOTE" && git pull --quiet &)
+    date +%Y%m%d > "\$_AGENT_SKILLS_LAST_PULL"
   fi
 fi
 # <<< another-agent-skills-config

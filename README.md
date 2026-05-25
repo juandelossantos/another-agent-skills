@@ -4,7 +4,7 @@
 
 A curated, opinionated collection of **14 custom skills** that turn AI assistants into disciplined senior engineers and intentional visual designers. Covers the full development lifecycle: **web, PWA, mobile, desktop, API, CI/CD, architecture, quality, and environment** — with stack-agnostic principles and concrete implementations for any modern framework.
 
-**37 skills total** (14 custom + 23 official from `addyosmani/agent-skills`).
+**37 skills globally** (14 custom + 23 official from `addyosmani/agent-skills`, where `spec-driven-development` custom overrides the official version).
 
 ---
 
@@ -124,7 +124,10 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 |---|---|
 | New project | ✅ **Always** — First step before any work |
 | Existing project without `AGENTS.md` | ✅ Yes — Activates skill-driven mode |
-| Project already has `AGENTS.md` | ❌ No — Already initialized |
+| Project has generic/other `AGENTS.md` / `CLAUDE.md` | ✅ Yes — Merges our rules with existing context |
+| Project already has our `AGENTS.md` (< 7 days) | ❌ No — Already initialized |
+
+> **Migrating from other workflows:** If your project has an existing `AGENTS.md` or `CLAUDE.md` (from Claude Code, Cursor, or custom rules), running `init-agents` will **append** our skill-driven rules to your existing file rather than overwriting it. Your project-specific context and conventions are preserved.
 
 > **Note:** If `init-agents` is not found, run `source ~/.zshrc` first to load the alias.
 
