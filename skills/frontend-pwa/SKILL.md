@@ -2,10 +2,8 @@
 name: frontend-pwa
 description: >
   Build installable, offline-first web apps for all devices with migration path to
-  native via Capacitor. Built on engineering-fundamentals. Use when the user wants
-  a web app with offline functionality, installable experience, or future native
-  distribution. Triggers on: "PWA", "offline app", "installable", "Capacitor",
-  "Ionic", "hybrid app", "cross-platform web", "device agnostic".
+  native via Capacitor. Built on engineering-fundamentals. Triggers on: "PWA",
+  "offline", "installable", "Capacitor", "Ionic", "hybrid", "cross-platform".
 license: MIT
 compatibility: opencode
 metadata:
@@ -18,41 +16,36 @@ metadata:
 # Frontend PWA
 
 **Built on `engineering-fundamentals`.** Read that skill first. This document adds
-PWA-specific implementation to the universal philosophy.
+PWA-specific implementation.
 
 ## When to Use
 
-Use when the user wants:
-- A web app with offline functionality
-- An installable experience (add to homescreen)
-- Cross-device compatibility (phone, tablet, foldable, TV, desktop)
-- Future native distribution via Capacitor or Ionic
+- Web app with offline functionality
+- Installable experience (add to homescreen)
+- Cross-device (phone, tablet, foldable, TV, desktop)
+- Future native distribution via Capacitor/Ionic
 
 Do NOT use for:
 - Simple marketing sites with no offline needs (use `frontend-web`)
-- Pure native apps with no web component (use `frontend-mobile`)
+- Pure native apps (use `frontend-mobile`)
 
-### Context Persistence Check (NEW)
+### Context Persistence Check
 
-**Before starting any work, check if this project has existing context:**
-
-1. **Check for `design/DESIGN-LOCK.md`**:
-   - Exists and < 7 days old → Read it. Extract: approved direction, palette, typography, key decisions.
-   - Exists but > 7 days old → Read it, then ask user: "El diseño fue aprobado hace [N] días. ¿Sigue vigente?"
-   - Missing → Proceed with normal discovery (Phase 1).
-
-2. **Check for `SPEC.md`**:
-   - Exists → Read it. Respect locked stack, boundaries, and acceptance criteria.
-   - Missing → If project is non-trivial, invoke `spec-driven-development`.
-
-**If context exists:** Resume from detected phase. Do NOT re-run discovery unless user explicitly requests changes.
+Before starting work:
+1. Check `design/DESIGN-LOCK.md`:
+   - Exists and < 7 days → Read it. Extract direction, palette, typography, key decisions.
+   - > 7 days → Read it, ask: "¿Sigue vigente?"
+   - Missing → Proceed with Phase 1.
+2. Check `SPEC.md`:
+   - Exists → Read it. Respect locked stack and boundaries.
+   - Missing → If non-trivial, invoke `spec-driven-development`.
+3. If context exists → Resume from detected phase. Do NOT re-run discovery unless user requests changes.
 
 ### Stack Detection
 
-Before applying instructions, check for `STACK_CONFIG.md`.
-
-**If exists:** Adapt to chosen stack (e.g., Vue + Vite + Capacitor).
-**If missing:** Default to Next.js 16 + Tailwind v4 + Workbox + Capacitor 6.
+Check for `STACK_CONFIG.md`:
+- **Exists** → Adapt examples to chosen stack.
+- **Missing** → Default to Next.js 16 + Tailwind v4 + Workbox + Capacitor 6.
 
 ---
 
@@ -64,25 +57,25 @@ Before applying instructions, check for `STACK_CONFIG.md`.
 ---
 
 ### Phase 1 — Discovery Gate
-→ See `engineering-fundamentals` Phase 1 for the universal discovery process.
+→ See `engineering-fundamentals` Phase 1 for universal discovery.
 
-**PWA-specific questions (add to universal):**
+**PWA-specific questions:**
 1. **Offline**: ¿Funciona sin internet? ¿Qué partes?
-2. **Installable**: ¿Instalable desde el navegador?
+2. **Installable**: ¿Instalable desde navegador?
 3. **Native migration**: ¿Futuro App Store / Google Play?
 4. **Devices**: ¿Solo móvil, o tablet, desktop, TV?
-5. **Touch vs mouse**: ¿Usuarios principales tocan o usan mouse?
+5. **Touch vs mouse**: ¿Usuarios tocan o usan mouse?
 6. **Push notifications**: ¿Necesitas notificaciones?
-7. **Background sync**: ¿Sincronización cuando vuelva la conexión?
+7. **Background sync**: ¿Sincronización cuando vuelva conexión?
 
-Read `DISCOVERY-GUIDE.md` in this skill directory for the complete PWA checklist.
+Read `DISCOVERY-GUIDE.md` for complete PWA checklist.
 
 ---
 
 ### Phase 2 — Write Contracts
 → See `engineering-fundamentals` Phase 2.
 
-**PWA-specific contract additions:**
+**PWA-specific additions:**
 - SPEC.md must include: Offline strategy, Install requirements, Device matrix, Native bridge needs.
 
 ---
@@ -118,23 +111,23 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 **PWA-specific rules:**
 
 **Touch Optimization**
-- NEVER use hover-only interactions (tooltips, dropdowns on hover).
-- ALWAYS provide touch alternatives (tap, long-press, swipe).
+- No hover-only interactions (tooltips, dropdowns on hover).
+- Always provide touch alternatives (tap, long-press, swipe).
 - Touch targets minimum 44px (iOS) / 48dp (Android).
-- Use `@media (hover: hover)` to conditionally add hover effects.
+- Use `@media (hover: hover)` for hover effects conditionally.
 
 **Viewport Safety**
-- NEVER use `100vh` on mobile (breaks with browser UI chrome).
-- ALWAYS use `100dvh`, `100svh`, or `100lvh`.
+- No `100vh` on mobile (breaks with browser UI chrome).
+- Use `100dvh`, `100svh`, or `100lvh`.
 
 **Device Agnostic**
-- NEVER design only for 375px and 1280px.
-- ALWAYS test: 280px (foldable), 375px (phone), 768px (tablet), 1024px (tablet landscape), 1920px (desktop), 3840px (TV).
+- No design only for 375px and 1280px.
+- Test: 280px (foldable), 375px (phone), 768px (tablet), 1024px (tablet landscape), 1920px (desktop), 3840px (TV).
 - Use **container queries** for component-level responsiveness.
 
 **Offline-First**
-- NEVER assume internet is always available.
-- ALWAYS cache critical assets. Show cached data while syncing.
+- Never assume internet available.
+- Always cache critical assets. Show cached data while syncing.
 
 ---
 
@@ -196,7 +189,7 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 ```
 
 **Offline Pages:**
-- Always have a fallback offline page.
+- Always have fallback offline page.
 - Show stale data with "syncing..." indicator.
 
 ---
@@ -215,6 +208,15 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 ### Phase 9 — QA Gates
 
 → See `engineering-fundamentals` Phase 5 for universal gates.
+
+**After QA gates, log metrics:**
+```
+LOG METRIC: gate
+- project: [detect from git remote or directory]
+- gate_name: frontend-pwa-qa
+- result: pass/fail
+- checks_passed: [N]/20
+```
 
 **PWA-specific checks:**
 
@@ -252,7 +254,7 @@ If future App Store / Google Play:
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md` in this skill directory:
+Read `EXAMPLES.md`:
 - New PWA walkthrough (15 steps)
 - Adding offline support to existing web app
 - Troubleshooting (service worker, install prompt, 100vh, hover)

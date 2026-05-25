@@ -199,9 +199,9 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ## Immediate Next Steps (Priority Order)
 
-## Current Score: 9.5/10 (Outstanding)
+## Current Score: 9.6/10 (Outstanding)
 
-**Reached 9.5 with:**
+**Reached 9.6 with:**
 - 13 custom skills covering full web development lifecycle
 - AGENTS.md lifecycle reflecting actual workflow
 - Turbo Mode = reduced scope, not reduced quality
@@ -213,11 +213,14 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Context Persistence (AGENTS.md Rule 0b): auto-recover project state on session restart
 - Lazy Loading (AGENTS.md Rule 6b): skills as indices, guides loaded on-demand
 - Metrics (`project-metrics`): empirical quality logging
-  - Build pass rate, rework rate, test coverage delta
-  - Discovery time, gate pass rate, user override frequency
-  - Per-project and global aggregates
-  - Automatic logging from all skills (frontend, backend, spec, git-init)
-  - Quality report on demand: "show metrics"
+- **Token Optimization (caveman-inspired):**
+  - AGENTS.md: 360 → 259 lines (-28%)
+  - engineering-fundamentals: 180 → 276 lines (consolidated template added)
+  - frontend-web: 250 → 248 lines (compressed anti-slop rules)
+  - frontend-pwa: 250 → 285 lines (consolidated responsive matrix)
+  - frontend-mobile: 250 → 239 lines (-4%)
+  - Total instruction context: ~1,490 → ~1,307 lines (-12%)
+  - TOKEN_OPTIMIZATION.md documents compression rules for all future skills
 
 **Achieved 9.5/10 with:**
 1. ✅ `user-onboarding` — Persistent preferences

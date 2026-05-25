@@ -2,10 +2,8 @@
 name: frontend-mobile
 description: >
   Build production-grade mobile apps with native design tokens and platform compliance.
-  Built on engineering-fundamentals. Use when creating or modifying mobile apps,
-  React Native/Flutter components, or when the user asks for mobile design, styling,
-  animation, or frontend implementation. Triggers on: "mobile app", "app móvil",
-  "React Native", "Flutter", "iOS", "Android", "expo", "native app".
+  Built on engineering-fundamentals. Triggers on: "mobile app", "React Native",
+  "Flutter", "iOS", "Android", "expo", "native app".
 license: MIT
 compatibility: opencode
 metadata:
@@ -18,41 +16,34 @@ metadata:
 # Frontend Mobile
 
 **Built on `engineering-fundamentals`.** Read that skill first. This document adds
-mobile-specific implementation to the universal philosophy.
+mobile-specific implementation.
 
 ## When to Use
 
-Use when the user asks to build, design, or redesign any **mobile app interface**:
-- React Native, Flutter, Expo, iOS, Android
-- Mobile components, styling, layout, visual polish
-- Animations, transitions, gesture effects, micro-interactions
+Build, design, or redesign any **mobile app interface**.
 
 Do NOT use for:
 - Web-only tasks (use `frontend-web`)
 - Installable web apps (use `frontend-pwa`)
 - Backend-only tasks
 
-### Context Persistence Check (NEW)
+### Context Persistence Check
 
-**Before starting any work, check if this project has existing context:**
-
-1. **Check for `design/DESIGN-LOCK.md`**:
-   - Exists and < 7 days old → Read it. Extract: approved direction, palette, typography, key decisions.
-   - Exists but > 7 days old → Read it, then ask user: "El diseño fue aprobado hace [N] días. ¿Sigue vigente?"
-   - Missing → Proceed with normal discovery (Phase 1).
-
-2. **Check for `SPEC.md`**:
-   - Exists → Read it. Respect locked stack, boundaries, and acceptance criteria.
-   - Missing → If project is non-trivial, invoke `spec-driven-development`.
-
-**If context exists:** Resume from detected phase. Do NOT re-run discovery unless user explicitly requests changes.
+Before starting work:
+1. Check `design/DESIGN-LOCK.md`:
+   - Exists and < 7 days → Read it. Extract direction, palette, typography, key decisions.
+   - > 7 days → Read it, ask: "¿Sigue vigente?"
+   - Missing → Proceed with Phase 1.
+2. Check `SPEC.md`:
+   - Exists → Read it. Respect locked stack and boundaries.
+   - Missing → If non-trivial, invoke `spec-driven-development`.
+3. If context exists → Resume from detected phase. Do NOT re-run discovery unless user requests changes.
 
 ### Stack Detection
 
-Before applying instructions, check for `STACK_CONFIG.md`.
-
-**If exists:** Adapt to chosen stack.
-**If missing:** Default to React Native 0.76+ + Expo SDK 52+.
+Check for `STACK_CONFIG.md`:
+- **Exists** → Adapt examples to chosen stack.
+- **Missing** → Default to React Native 0.76+ + Expo SDK 52+.
 
 **Adaptation examples:**
 - React Native → Flutter: Widgets instead of components. `StyleSheet` → `ThemeData`. JSX → Dart.
@@ -69,9 +60,9 @@ Before applying instructions, check for `STACK_CONFIG.md`.
 ---
 
 ### Phase 1 — Discovery Gate
-→ See `engineering-fundamentals` Phase 1 for the universal discovery process.
+→ See `engineering-fundamentals` Phase 1 for universal discovery.
 
-**Mobile-specific questions (add to universal):**
+**Mobile-specific questions:**
 1. **Platforms**: iOS only, Android only, or both?
 2. **Navigation**: Tabs, stack, drawer, or custom?
 3. **Offline**: Does the app work without internet?
@@ -79,14 +70,14 @@ Before applying instructions, check for `STACK_CONFIG.md`.
 5. **Native features**: Camera, GPS, biometric auth, contacts?
 6. **App Store**: Public store, enterprise, or internal distribution?
 
-Read `DISCOVERY-GUIDE.md` in this skill directory for the complete mobile checklist.
+Read `DISCOVERY-GUIDE.md` for complete mobile checklist.
 
 ---
 
 ### Phase 2 — Write Contracts
 → See `engineering-fundamentals` Phase 2.
 
-**Mobile-specific contract additions:**
+**Mobile-specific additions:**
 - SPEC.md must include: Platform targets (iOS min version, Android min SDK), App Store requirements.
 
 ---
@@ -123,36 +114,36 @@ Forbidden: `Animated` API (use Reanimated), inline styles, `any` type.
 **Mobile-specific rules:**
 
 **Typography**
-- NEVER use system default fonts as display fonts (San Francisco, Roboto).
-- ALWAYS pair a distinctive display font with a refined body font.
+- No system default fonts as display (San Francisco, Roboto).
+- Pair distinctive display + refined body font.
 - Use `expo-font` with `useFonts` hook.
 
 **Color**
-- NEVER use system default colors (`systemBlue`, `systemGray`).
-- ALWAYS use theme tokens from `DESIGN.md` or theme provider.
+- No system default colors (`systemBlue`, `systemGray`).
+- Use theme tokens from `DESIGN.md` or theme provider.
 
 **Layout**
-- NEVER use web patterns in mobile (hover states, tooltips on touch).
-- ALWAYS use platform conventions: iOS HIG, Android Material Design 3.
+- No web patterns in mobile (hover states, tooltips on touch).
+- Use platform conventions: iOS HIG, Android Material Design 3.
 - Think in screens, not pages. Mobile-first: verify 375pt (iPhone SE).
 - Respect SafeAreaView and avoid the notch/status bar.
 
 **Motion**
-- NEVER animate `width`, `height`, `top`, `left`, `margin`, or `padding`.
-- ALWAYS animate `transform` and `opacity` only for 60fps.
+- No animation of `width`, `height`, `top`, `left`, `margin`, `padding`.
+- Only `transform` and `opacity` for 60fps.
 
 **Native Feel**
-- NEVER default to flat solid colors.
+- No default flat solid colors.
 - Touch targets minimum 44pt (iOS) or 48dp (Android).
 
 ---
 
 ### Phase 6 — Animation System
 
-Read `ANIMATION-GUIDE.md` in this skill directory.
+Read `ANIMATION-GUIDE.md`.
 
 **Summary:**
-- **Primary pattern:** Reanimated `useAnimatedStyle` + `withSpring`.
+- **Primary:** Reanimated `useAnimatedStyle` + `withSpring`.
 - **Fallback:** React Native `Animated` API for simple cases.
 - **Gestures:** React Native Gesture Handler for swipe, pinch, long-press.
 - **Accessibility:** Every animation MUST respect `AccessibilityInfo` reduced motion.
@@ -166,7 +157,7 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
 
 1. **Read `design/DESIGN-LOCK.md`** — Verify approved direction, palette, typography.
 2. **Check `design/approved/`** — Screenshots, previews, moodboards.
-3. **Cross-check with `DESIGN.md`** — Tokens must match the locked system.
+3. **Cross-check with `DESIGN.md`** — Tokens must match locked system.
 
 **Then build:**
 
@@ -189,6 +180,15 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
 
 → See `engineering-fundamentals` Phase 5 for universal gates.
 
+**After QA gates, log metrics:**
+```
+LOG METRIC: gate
+- project: [detect from git remote or directory]
+- gate_name: frontend-mobile-qa
+- result: pass/fail
+- checks_passed: [N]/12
+```
+
 **Mobile-specific checks:**
 
 1. **TypeScript** — `npx tsc --noEmit` passes.
@@ -208,7 +208,7 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md` in this skill directory:
+Read `EXAMPLES.md`:
 - New mobile app walkthrough (15 steps)
 - Adding animation to existing component
 - Troubleshooting (Expo prebuild, fonts, SafeArea, gesture conflicts)

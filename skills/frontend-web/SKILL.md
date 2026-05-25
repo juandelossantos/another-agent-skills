@@ -1,12 +1,8 @@
 ---
 name: frontend-web
 description: >
-  Build distinctive, production-grade web interfaces. Built on engineering-fundamentals.
-  Use when creating or modifying web UIs, landing pages, dashboards, React/Next.js
-  components, or when the user asks for web design, styling, animation, or frontend
-  implementation. Triggers on: "build a website", "design a landing page", "create a
-  component", "add animations", "make it look better", "frontend work", "UI/UX",
-  "redesign", "Next.js", "React", "Vue", "web app".
+  Build production-grade web interfaces. Built on engineering-fundamentals.
+  Triggers on: "website", "landing page", "web app", "Next.js", "React", "Vue".
 license: MIT
 compatibility: opencode
 metadata:
@@ -19,44 +15,34 @@ metadata:
 # Frontend Web
 
 **Built on `engineering-fundamentals`.** Read that skill first. This document adds
-web-specific implementation to the universal philosophy.
+web-specific implementation.
 
 ## When to Use
 
-Use when the user asks to build, design, or redesign any **web interface**:
-- Websites, landing pages, dashboards, web apps
-- Components, styling, layout, visual polish
-- Animations, transitions, scroll effects, micro-interactions
+Build, design, or redesign any **web interface**.
 
 Do NOT use for:
-- Backend-only tasks, CLI, or non-visual software
-- Mobile native apps (use `frontend-mobile`)
+- Backend-only, CLI, non-visual software
+- Native mobile (use `frontend-mobile`)
 - Installable offline apps (use `frontend-pwa`)
 
-### Context Persistence Check (NEW)
+### Context Persistence Check
 
-**Before starting any work, check if this project has existing context:**
-
-1. **Check for `design/DESIGN-LOCK.md`**:
-   - Exists and < 7 days old → Read it. Extract: approved direction, palette, typography, key decisions.
-   - Exists but > 7 days old → Read it, then ask user: "El diseño fue aprobado hace [N] días. ¿Sigue vigente?"
-   - Missing → Proceed with normal discovery (Phase 1).
-
-2. **Check for `SPEC.md`**:
-   - Exists → Read it. Respect locked stack, boundaries, and acceptance criteria.
-   - Missing → If project is non-trivial, invoke `spec-driven-development`.
-
-3. **Check for `architecture/ARCHITECTURE.md`**:
-   - Exists → Do not contradict without explicit user approval.
-
-**If context exists:** Resume from detected phase (DEFINE → PLAN → BUILD → VERIFY → SHIP). Do NOT re-run discovery unless user explicitly requests changes.
+Before starting work:
+1. Check `design/DESIGN-LOCK.md`:
+   - Exists and < 7 days → Read it. Extract direction, palette, typography, key decisions.
+   - > 7 days → Read it, ask: "¿Sigue vigente?"
+   - Missing → Proceed with Phase 1.
+2. Check `SPEC.md`:
+   - Exists → Read it. Respect locked stack and boundaries.
+   - Missing → If non-trivial, invoke `spec-driven-development`.
+3. If context exists → Resume from detected phase. Do NOT re-run discovery unless user requests changes.
 
 ### Stack Detection
 
-Before applying instructions, check for `STACK_CONFIG.md` in the project root.
-
-**If exists:** Adapt all examples to the chosen stack. Principles remain the same.
-**If missing:** Default to React 19 + Next.js 16 + Tailwind v4.
+Check for `STACK_CONFIG.md`:
+- **Exists** → Adapt examples to chosen stack.
+- **Missing** → Default to React 19 + Next.js 16 + Tailwind v4.
 
 **Adaptation examples:**
 - React → Vue: `.vue` files, `ref()` instead of `useState`
@@ -73,24 +59,22 @@ Before applying instructions, check for `STACK_CONFIG.md` in the project root.
 ---
 
 ### Phase 1 — Discovery Gate
-→ See `engineering-fundamentals` Phase 1 for the universal discovery process.
+→ See `engineering-fundamentals` Phase 1 for universal discovery.
 
-**Web-specific questions (add to universal):**
-1. **Pages**: How many pages/sections? (landing, dashboard, multi-page app)
-2. **SEO**: Is this public-facing and indexable?
+**Web-specific questions:**
+1. **Pages**: How many pages/sections?
+2. **SEO**: Public-facing and indexable?
 3. **Animations**: Scroll effects, entrance animations, micro-interactions?
 
-Read `DISCOVERY-GUIDE.md` in this skill directory for the complete web checklist.
+Read `DISCOVERY-GUIDE.md` for complete web checklist.
 
 ---
 
 ### Phase 2 — Write Contracts
 → See `engineering-fundamentals` Phase 2.
 
-**Web-specific contract additions:**
-- SPEC.md must include: Tech stack (locked versions), Project structure, SEO requirements if public
-- DESIGN.md: Same rules as fundamentals
-- Design Asset Lock: `design/` directory with `DESIGN-LOCK.md` + `approved/`
+**Web-specific additions:**
+- SPEC.md must include: Tech stack (locked versions), Project structure, SEO requirements if public.
 
 ---
 
@@ -101,7 +85,7 @@ Same 8 directions (ED, SM, LDW, CB, UE, NB, PG, RT). Pick ONE.
 
 ---
 
-### Phase 4 — Stack Lock-in (Non-Negotiable)
+### Phase 4 — Stack Lock-in
 
 | Tool | Minimum | Notes |
 |---|---|---|
@@ -109,7 +93,7 @@ Same 8 directions (ED, SM, LDW, CB, UE, NB, PG, RT). Pick ONE.
 | Next.js | 16.1.1+ | App Router, async params, RSC by default |
 | React | 19.2+ | |
 | TypeScript | 5.7+ | |
-| Tailwind CSS | v4 | Uses `@theme` in CSS, not `tailwind.config.ts` |
+| Tailwind CSS | v4 | `@theme` in CSS, not `tailwind.config.ts` |
 | shadcn CLI | latest | Registry-based, copy-not-install |
 | Framer Motion | 12+ | Primary animation engine |
 | lucide-react | latest | Default icons |
@@ -127,37 +111,37 @@ Forbidden: GSAP by default, `tailwind.config.ts`, `middleware.ts`, Spline.
 **Web-specific rules:**
 
 **Typography**
-- NEVER use Inter, Roboto, Arial, Space Grotesk, or Geist as display fonts.
-- ALWAYS pair a distinctive display font with a refined body font.
-- Use `next/font/google` with CSS variables (`--font-display`, `--font-body`).
+- No Inter, Roboto, Arial, Space Grotesk, Geist as display fonts.
+- Pair distinctive display + refined body font.
+- Use `next/font/google` with `--font-display`, `--font-body`.
 
 **Color**
-- NEVER use Tailwind generic colors (`bg-blue-500`, `text-gray-700`).
-- ALWAYS use CSS custom properties from `DESIGN.md` or `globals.css` tokens.
-- Commit to a dominant color with sharp accents.
+- No Tailwind generics (`bg-blue-500`, `text-gray-700`).
+- Use CSS custom properties from DESIGN.md or `globals.css` tokens.
+- Dominant color + sharp accents. No timid palettes.
 
 **Layout**
-- NEVER use generic centered card grids as the default.
-- ALWAYS consider asymmetry, overlap, diagonal flow, or controlled density.
+- No generic centered card grids as default.
+- Consider asymmetry, overlap, diagonal flow, controlled density.
 - Mobile-first: verify 375px before 1280px.
 
 **Motion**
-- NEVER animate `width`, `height`, `top`, `left`, `margin`, or `padding`.
-- ALWAYS animate `transform` and `opacity` only for 60fps.
-- Use `will-change` sparingly and remove after animation.
+- No animation of `width`, `height`, `top`, `left`, `margin`, `padding`.
+- Only `transform` and `opacity` for 60fps.
+- Use `will-change` sparingly, remove after animation.
 
 **Backgrounds**
-- NEVER default to flat solid colors.
-- ALWAYS consider: gradient meshes, subtle noise textures, geometric patterns, layered transparencies, dramatic shadows, grain overlays.
+- No flat solid colors as default.
+- Consider: gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, grain overlays.
 
 ---
 
 ### Phase 6 — Animation System
 
-Read `ANIMATION-GUIDE.md` in this skill directory.
+Read `ANIMATION-GUIDE.md`.
 
 **Summary:**
-- **Primary pattern:** Framer Motion `Reveal` component.
+- **Primary:** Framer Motion `Reveal` component.
 - **Fallback:** CSS `animation-timeline` for scroll effects, WAAPI for precise JS animations.
 - **Accessibility:** Every animation MUST respect `prefers-reduced-motion`.
 - **Performance:** Only `transform` and `opacity` may be animated.
@@ -169,8 +153,8 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
 **BEFORE WRITING CODE:**
 
 1. **Read `design/DESIGN-LOCK.md`** — Verify approved direction, palette, typography.
-2. **Check `design/approved/`** — Screenshots, previews, moodboards are ground truth.
-3. **Cross-check with `DESIGN.md`** — Tokens in code must match the locked system.
+2. **Check `design/approved/`** — Screenshots, previews, moodboards.
+3. **Cross-check with `DESIGN.md`** — Tokens in code must match locked system.
 
 **Then build:**
 
@@ -187,7 +171,7 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
    - Footer
 7. Use `whileInView` for entrance animations.
 8. Use `<Image>` from Next.js with descriptive `alt` text.
-9. Ensure `"use client"` is only used when hooks, events, or state are present.
+9. Ensure `"use client"` only used when hooks, events, or state present.
 
 ---
 
@@ -195,10 +179,10 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
 
 → See `engineering-fundamentals` Phase 5 for universal gates.
 
-**After completing QA gates, log metrics:**
+**After QA gates, log metrics:**
 ```
 LOG METRIC: gate
-- project: [detect from git remote or directory name]
+- project: [detect from git remote or directory]
 - gate_name: frontend-web-qa
 - result: pass/fail
 - checks_passed: [N]/12
@@ -209,14 +193,14 @@ LOG METRIC: gate
 1. **TypeScript** — `npx tsc --noEmit` passes.
 2. **Build** — `npm run build` succeeds.
    
-   **After build completes, log metric:**
+   **After build, log metric:**
    ```
    LOG METRIC: build
-   - project: [detect from git remote or directory name]
+   - project: [detect from git remote or directory]
    - result: pass/fail
    - duration: [measure]
-   - errors: [count from output]
-   - warnings: [count from output]
+   - errors: [count]
+   - warnings: [count]
    ```
 3. **No template residue** — Remove default Next.js text.
 4. **No hardcoded colors** — Search `bg-blue-`, `text-gray-`, `bg-red-`. Replace with tokens.
@@ -233,18 +217,18 @@ LOG METRIC: gate
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md` in this skill directory:
+Read `EXAMPLES.md`:
 - Landing page walkthrough (15 steps)
 - Adding animation to existing component
-- Troubleshooting table (Next.js 16 params, fonts, FOUC, hydration, build)
+- Troubleshooting (Next.js 16 params, fonts, FOUC, hydration, build)
 
 ---
 
 ## Red Flags (Web-Specific)
 
-- Output uses `bg-blue-500`, `text-gray-700`, or Tailwind defaults.
+- `bg-blue-500`, `text-gray-700`, or Tailwind defaults.
 - Display font is Inter, Roboto, Space Grotesk, or Geist.
-- Layout is a generic centered card grid with no variation.
+- Generic centered card grid with no variation.
 - Animations use `width`, `height`, or `margin` transitions.
 - No `prefers-reduced-motion` fallback.
 - Code generated before DESIGN.md confirmed or PLAN created.

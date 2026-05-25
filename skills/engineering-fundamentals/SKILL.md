@@ -1,12 +1,10 @@
 ---
 name: engineering-fundamentals
 description: >
-  Universal engineering philosophy and practices for all platform-specific skills.
-  Defines the core disciplines: discovery before code, contracts before implementation,
-  anti-slop rules, quality gates, and verification standards. All other skills
-  (frontend-web, frontend-mobile, frontend-pwa, backend-api-mastery, etc.)
-  MUST reference this skill as their foundation. Never invoke directly — it is the
-  base layer for every platform-specific skill.
+  Universal engineering philosophy for all platform skills. Defines discovery,
+  contracts, anti-slop, quality gates. All platform skills (frontend-web,
+  frontend-mobile, backend-api, etc.) reference this skill as their foundation.
+  Never invoke directly.
 license: MIT
 compatibility: opencode
 metadata:
@@ -16,114 +14,63 @@ metadata:
 
 # Engineering Fundamentals
 
-**No skill implements directly. This is the foundation all platform skills build upon.**
+**Foundation for all platform skills. Never invoke directly.**
 
-Every platform skill — web, mobile, desktop, IoT, CLI — shares the same philosophy.
-This skill defines that philosophy. Platform skills add implementation specifics.
-
-## When to Use
-
-**This skill is NEVER invoked directly.** It is automatically applied by all platform skills.
-
-Platform skills (frontend-web, frontend-mobile, backend-api-mastery, etc.) MUST:
-1. Reference this skill's phases in their documentation
-2. Apply these principles before adding platform-specific details
-3. Never contradict these fundamentals without explicit justification
-
----
+Platform skills add implementation specifics to this philosophy.
 
 ## Core Philosophy
 
-### 1. Contracts Before Code
-
-No file is created until:
-- `SPEC.md` exists (what + why + boundaries)
-- `DESIGN.md` exists (visual tokens, not architecture)
-- `design/DESIGN-LOCK.md` exists (approved snapshot)
-- `.gitignore` exists
-
-### 2. Discovery Before Design
-
-**NO CODE IS WRITTEN UNTIL ASSUMPTIONS ARE SURFACED AND CONFIRMED.**
-
-Every project MUST:
-- Surface at least 4 assumptions before proposing solutions
-- Ask minimum 5 discovery questions (audience, purpose, scope, context, constraints)
-- Extend to 10+ for non-trivial projects
-- Confirm summary with user before proceeding
-
-### 3. Anti-Slop Discipline
-
-The default output of AI is generic. Our job is to prevent that.
-
-**Intentionality over convenience:**
-- Every color, font, and spacing must be justified by DESIGN.md
-- Every animation must serve user experience, not decoration
-- Every component must feel designed, not generated
-
-**No shortcuts:**
-- No "I'll add accessibility later"
-- No "I'll use the default for now"
-- No "I'll animate width/height just this once"
-
-### 4. Gates Before Progress
-
-Every phase ends with a gate. Do not proceed until:
-- User explicitly confirms the previous phase
-- All checklists pass
-- Contracts are locked
-
----
+1. **Contracts Before Code** — No file until SPEC.md, DESIGN.md, DESIGN-LOCK.md, .gitignore exist.
+2. **Discovery Before Design** — No code until assumptions surfaced and confirmed.
+3. **Anti-Slop** — Default AI output is generic. Intentionality prevents that.
+4. **Gates Before Progress** — Every phase ends with user confirmation.
 
 ## Universal Process
 
 ### Phase 0 — Language Detection
 
-Detect the language of the user's request immediately. All subsequent communication MUST be in that same language.
+Detect user's language immediately. All communication in that language.
 
-**Detection rules:**
-- Spanish keywords (*"haz"*, *"diseña"*, *"crea"*) → **Spanish**.
-- English keywords (*"build"*, *"design"*, *"create"*) → **English**.
-- Other languages → Respond in that language, fallback to English if uncertain.
+- Spanish ("haz", "diseña", "crea") → **Spanish**
+- English ("build", "design", "create") → **English**
+- Other → That language, fallback to English
 
-**Never mix languages.** All questions, specs, and code comments must match the detected language.
+**Never mix languages.** Questions, specs, code comments match detected language.
 
 ---
 
 ### Phase 1 — Discovery Gate (MANDATORY)
 
-**NO CODE IS WRITTEN UNTIL THIS PHASE IS COMPLETE.**
+**NO CODE UNTIL COMPLETE.**
 
-#### Step 1: Surface Assumptions
-
-List at least 4 assumptions. Present for confirmation:
+**Step 1: Surface Assumptions**
 
 ```
 ASSUMPTIONS:
-1. The primary user is [describe audience]
-2. The core problem this solves is [one sentence]
-3. The scale/scope is [MVP/Standard/Complex]
-4. [Platform-specific assumption relevant to this domain]
-→ Correct me now or I'll proceed with these.
+1. Primary user: [describe audience]
+2. Core problem: [one sentence]
+3. Scale/scope: [MVP/Standard/Complex]
+4. [Platform-specific assumption]
+→ Correct me now or I proceed with these.
 ```
 
-#### Step 2: Discovery Questions (Minimum 5)
+**Step 2: Discovery Questions (Minimum 5)**
 
 1. **Audience**: Who will use this?
 2. **Purpose**: What must it do in one sentence?
-3. **Scope**: How many features/screens? MVP or full product?
-4. **Context**: New project or existing? Redesign or from scratch?
-5. **Constraints**: Time, budget, team size, regulatory requirements?
+3. **Scope**: How many features? MVP or full product?
+4. **Context**: New or existing? Redesign or from scratch?
+5. **Constraints**: Time, budget, team, regulatory?
 
-#### Step 3: Extended Discovery (Non-Trivial)
+**Step 3: Extended Discovery (Non-Trivial)**
 
-6. **Data**: What data must persist? Where?
-7. **Security**: Auth needed? What user types?
+6. **Data**: What persists? Where?
+7. **Security**: Auth needed? User types?
 8. **Integrations**: External APIs, services, hardware?
-9. **Offline**: Does it work without internet?
+9. **Offline**: Works without internet?
 10. **Scalability**: Expected growth in 6-12 months?
 
-#### Step 4: Confirm & Lock
+**Step 4: Confirm & Lock**
 
 Summarize. Ask: **"¿Es esto correcto? ¿Procedemos? / Is this correct? Shall we proceed?"**
 
@@ -135,50 +82,50 @@ Only after explicit confirmation, proceed to Phase 2.
 
 #### 2A: SPEC.md
 
-If no `SPEC.md` exists and this is new work (not a one-off tweak), invoke `spec-driven-development`.
+If no SPEC.md exists and this is new work (not a one-off tweak), invoke `spec-driven-development`.
 
 Must include: Objective, Scope, Tech stack (locked versions), Project structure, Acceptance criteria, Boundaries.
 
 #### 2B: DESIGN.md (VISUAL ONLY)
 
-**CRITICAL RULE:** DESIGN.md is for **visual identity and design tokens ONLY**.
+**CRITICAL:** DESIGN.md is for **visual identity and tokens ONLY**.
 
-**What goes in:** Colors, Typography, Spacing, Rounded corners, Elevation/shadows, Motion tokens, Component visual tokens, Visual Do's and Don'ts.
+**What goes in:** Colors, Typography, Spacing, Border radius, Elevation/shadows, Motion tokens, Component visual tokens, Do's and Don'ts.
 
-**What NEVER goes in:** Tech versions, folder structure, API routes, state management, auth, database schema, business logic.
+**What NEVER goes in:** Tech versions, folder structure, API routes, state management, auth, DB schema, business logic.
 
 **Paths:**
-- **Path A** — DESIGN.md exists: Read it, extract tokens, build strictly within them.
+- **Path A** — DESIGN.md exists: Read it, extract tokens, build within them.
 - **Path B** — No DESIGN.md, user wants visual system: Generate with visual tokens only. Present for confirmation.
-- **Path C** — No DESIGN.md, one-off task: Do the task. Mention once that a DESIGN.md improves consistency.
+- **Path C** — No DESIGN.md, one-off task: Do the task. Mention once that DESIGN.md improves consistency.
 
-**AFTER DESIGN.md IS CONFIRMED — MANDATORY STOP:**
+**AFTER DESIGN.md CONFIRMED — MANDATORY STOP:**
 
-Do NOT write code yet. You have completed DEFINE, not BUILD.
+Do NOT write code yet. DEFINE is complete, not BUILD.
 
-1. Check if a `SPEC.md` exists. If not, invoke `spec-driven-development`.
-2. Invoke `planning-and-task-breakdown` to produce a concrete implementation plan.
-3. Only after the plan exists and is confirmed, proceed to BUILD.
+1. Check if SPEC.md exists. If not, invoke `spec-driven-development`.
+2. Invoke `planning-and-task-breakdown` for implementation plan.
+3. Only after plan exists and is confirmed, proceed to BUILD.
 
 #### 2C: Design Asset Lock (MANDATORY after visual approval)
 
-Create a `design/` directory:
+Create `design/` directory:
 
 ```
 design/
-├── DESIGN-LOCK.md          # Snapshot of all approved visual decisions
+├── DESIGN-LOCK.md          # Snapshot of approved visual decisions
 └── approved/               # Screenshots, previews, moodboards
 ```
 
 `DESIGN-LOCK.md` must contain: Direction, Final Palette, Final Typography, Key Decisions, References.
 
 **Rules:**
-- DESIGN-LOCK.md is a SNAPSHOT. It never changes after approval unless explicitly requested.
-- During BUILD, you MUST read `design/DESIGN-LOCK.md` before writing any code. Do not rely on memory.
+- DESIGN-LOCK.md is a SNAPSHOT. Never changes after approval unless explicitly requested.
+- During BUILD, MUST read `design/DESIGN-LOCK.md` before writing any code. Do not rely on memory.
 
 #### 2D: Lifecycle Awareness
 
-Respect `AGENTS.md` lifecycle mapping:
+Respect `AGENTS.md` lifecycle:
 - DEFINE → `spec-driven-development`
 - PLAN → `planning-and-task-breakdown`
 - BUILD → Platform-specific skill + `incremental-implementation`
@@ -207,24 +154,22 @@ Pick ONE direction. Do not blend.
 
 ### Phase 4 — Anti-Slop Principles
 
-Non-negotiable rules to prevent the generic "AI look."
-
 **Intentionality**
-- NEVER use default/generic options without justification.
-- ALWAYS choose with purpose: every color, font, spacing, and animation must have a reason.
-- Timid palettes, safe fonts, and default layouts are forbidden.
+- NEVER use defaults without justification.
+- ALWAYS choose with purpose: every color, font, spacing, animation must have a reason.
+- Timid palettes, safe fonts, default layouts = forbidden.
 
 **Tokens Over Hardcoding**
 - NEVER use hardcoded values in components.
-- ALWAYS use design tokens from DESIGN.md or a central theme system.
-- If a value is used more than once, it must be a token.
+- ALWAYS use design tokens from DESIGN.md or central theme.
+- If used more than once, it must be a token.
 
 **Performance**
 - NEVER sacrifice performance for convenience.
-- ALWAYS measure: 60fps for animations, fast load times, minimal bundle size.
+- ALWAYS measure: 60fps animations, fast loads, minimal bundles.
 
 **Accessibility**
-- NEVER treat accessibility as a stretch goal.
+- NEVER treat accessibility as optional.
 - ALWAYS design for all users: contrast ratios, focus indicators, reduced motion.
 - Accessibility is a gate, not an afterthought.
 
@@ -232,14 +177,14 @@ Non-negotiable rules to prevent the generic "AI look."
 
 ### Phase 5 — Quality Gates
 
-Before declaring complete, verify:
+Before declaring complete:
 
 1. **Contracts present** — SPEC.md and DESIGN.md exist and were read.
 2. **Design Lock present** — `design/DESIGN-LOCK.md` exists and was read before coding.
-3. **No hardcoded tokens** — All colors, fonts, spacing come from the token system.
+3. **No hardcoded tokens** — All colors, fonts, spacing from token system.
 4. **Accessibility** — Contrast 4.5:1, focus indicators, reduced motion fallback.
 5. **Build passes** — Compilation succeeds without errors.
-6. **Visual consistency** — No design element deviates from DESIGN.md without explicit user approval.
+6. **Visual consistency** — No design element deviates from DESIGN.md without explicit approval.
 
 ---
 
@@ -247,46 +192,45 @@ Before declaring complete, verify:
 
 | Excuse | Why It's Wrong |
 |---|---|
-| "I'll just use the default for now." | Defaults are the #1 sign of AI-generated output. They violate the token system and create inconsistency. |
-| "This is too small for a DESIGN.md." | Even one-off tasks benefit from 3 lines of tokens. It prevents slop. |
-| "I'll add [quality] later." | Quality is not a stretch goal. It's a gate. Add it now. |
-| "The user didn't ask for [best practice]." | Senior engineers apply best practices by default. The user hired expertise, not obedience. |
-| "The user is eager, I'll start coding now." | DESIGN.md approval completes DEFINE, not BUILD. You MUST plan first. |
-| "I remember the design, I don't need to look at the files." | Agent context can drift or reset. The `design/DESIGN-LOCK.md` is the ground truth. |
-| "This is too small for a skill." | Skills exist precisely for structured thinking. |
-| "I understand what they want." | You have 1% confidence. The discovery process forces 95% confidence. |
+| "I'll just use the default for now." | Defaults are the #1 sign of AI-generated output. |
+| "This is too small for a DESIGN.md." | Even one-off tasks benefit from 3 lines of tokens. |
+| "I'll add [quality] later." | Quality is a gate, not an afterthought. |
+| "The user didn't ask for [best practice]." | Senior engineers apply best practices by default. |
+| "The user is eager, I'll start coding now." | DESIGN.md approval completes DEFINE, not BUILD. |
+| "I remember the design, I don't need to look at files." | Agent context drifts. DESIGN-LOCK.md is ground truth. |
+| "This is too small for a skill." | Skills exist for structured thinking. |
+| "I understand what they want." | You have 1% confidence. Discovery forces 95%. |
 
 ---
 
 ### Phase 7 — Red Flags
 
-Watch for these signals that fundamentals are being violated:
-- Code is written before any written requirements exist.
-- The agent asks "should I just start building?" before clarifying what "done" means.
-- Assumptions are never surfaced or confirmed.
-- Contracts (SPEC.md, DESIGN.md) are skipped.
-- Hardcoded values appear in the output.
-- Accessibility is treated as optional.
-- The agent does not read `design/DESIGN-LOCK.md` before writing code.
-- Features are implemented that were never mentioned in any spec.
+- Code written before any written requirements exist.
+- Agent asks "should I just start building?" before clarifying "done".
+- Assumptions never surfaced or confirmed.
+- Contracts (SPEC.md, DESIGN.md) skipped.
+- Hardcoded values in output.
+- Accessibility treated as optional.
+- Agent does not read `design/DESIGN-LOCK.md` before writing code.
+- Features implemented that were never mentioned in any spec.
 
 ---
 
-## Platform Skill Structure
+## Platform Skill Template
 
-Every platform skill MUST follow this template:
+Every platform skill MUST follow:
 
 ```markdown
 # [Platform] Skill
 
-**Built on `engineering-fundamentals`.** Read that skill first. This document
-adds platform-specific implementation to the universal philosophy.
+**Built on `engineering-fundamentals`.** Read that skill first. This document adds
+platform-specific implementation.
 
 ## When to Use
 [Platform-specific triggers and exclusions]
 
 ### Stack Detection
-[How to detect and adapt the user's chosen stack]
+[Detect and adapt user's chosen stack]
 
 ## Core Process
 
@@ -322,12 +266,11 @@ adds platform-specific implementation to the universal philosophy.
 
 ## Verification
 
-Evidence that a platform skill followed these fundamentals:
-- `SPEC.md` exists with Objective, Scope, Tech stack, Acceptance criteria, Boundaries.
-- `DESIGN.md` exists with visual tokens (colors, typography, spacing).
+- SPEC.md exists with Objective, Scope, Tech stack, Acceptance criteria, Boundaries.
+- DESIGN.md exists with visual tokens (colors, typography, spacing).
 - `design/DESIGN-LOCK.md` exists and was read before coding.
-- Discovery phase was completed before any code was written.
+- Discovery phase completed before any code written.
 - User confirmed at each gate.
 - No hardcoded design tokens in implementation files.
-- Accessibility is present (contrast, focus, reduced motion).
+- Accessibility present (contrast, focus, reduced motion).
 - Build passes without errors.
