@@ -4,7 +4,9 @@
 
 A curated, opinionated collection of **14 custom skills** that turn AI assistants into disciplined senior engineers and intentional visual designers. Covers the full development lifecycle: **web, PWA, mobile, desktop, API, CI/CD, architecture, quality, and environment** — with stack-agnostic principles and concrete implementations for any modern framework.
 
-**37 skills globally** (14 custom + 23 official from `addyosmani/agent-skills`, where `spec-driven-development` custom overrides the official version).
+**37 skills globally** (14 custom + 23 from `addyosmani/agent-skills` reference collection, where our `spec-driven-development` replaces the upstream version).
+
+**Current status:** See [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) for detailed project state, what's implemented, and what's next.
 
 ---
 
@@ -19,7 +21,7 @@ A curated, opinionated collection of **14 custom skills** that turn AI assistant
 | `frontend-desktop` | Cross-platform desktop apps with native OS integration | Tauri, Electron, desktop app |
 | `user-onboarding` | Capture user preferences once, persist across all projects in `~/.config/opencode/user-profile.json` | First session, "my preferences" |
 | `project-health-check` | Audit existing codebases before new work. Blocks until user decides | Existing projects, returning after gap |
-| `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking | New projects, features, ambiguous requirements |
+| `spec-driven-development` | **(Replaces upstream)** Research-backed specs with critical thinking | New projects, features, ambiguous requirements |
 | `git-init-and-versioning` | Git repo, mono/multi-repo, .gitignore, .env.example, branching, pre-commit gates | After specs locked, before code |
 | `architecture-analysis` | Evaluate 2-3 architecture options with honest trade-offs. Challenge assumptions | Stack/pattern decisions |
 | `dev-environment-audit` | Audit MCPs, CLI tools, runtimes. Propose installations with justification | Project start, before build |
@@ -100,7 +102,7 @@ bash install.sh
 source ~/.zshrc
 ```
 
-That's it. OpenCode will now see **37 skills** globally (14 custom + 23 official).
+That's it. OpenCode will now see **37 skills** globally (14 custom + 23 from upstream).
 
 ---
 
@@ -137,13 +139,17 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 
 | Step | Action | Result |
 |---|---|---|
-| 1 | Clones `addyosmani/agent-skills` (23 official skills) | `~/.config/opencode/.agent-skills-remote/` |
-| 2 | Symlinks official skills | `~/.config/opencode/skills/` |
+| 1 | Clones `addyosmani/agent-skills` (23 upstream skills) | `~/.config/opencode/.agent-skills-remote/` |
+| 2 | Symlinks upstream skills | `~/.config/opencode/skills/` |
 | 3 | Copies 14 custom skills from this repo | All custom skills available globally |
-| 4 | Adds aliases to `~/.zshrc` | `init-agents`, `update-global-skills` |
-| 5 | Enables daily auto-update | Skills stay current automatically |
+| 4 | **Backup before overwrite** | Official skills backed up before custom replacement |
+| 5 | Adds aliases to `~/.zshrc` | `init-agents`, `update-global-skills` |
+| 6 | Enables daily auto-update | Skills stay current automatically |
 
-**Verification:** After install, `install.sh` checks all 14 custom skills are present and reports any missing.
+**Safety features:**
+- **Backup before overwrite:** `install.sh` saves references to upstream skills and timestamps previous custom installs before replacing them. You can restore if needed.
+- **Smart merge:** `init-agents` detects existing `AGENTS.md` or `CLAUDE.md` and appends our rules rather than overwriting. Your project-specific context is preserved.
+- **Verification:** After install, `install.sh` checks all 14 custom skills are present and reports any missing.
 
 ---
 
@@ -151,7 +157,7 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 
 | Alias | Usage |
 |---|---|
-| `init-agents` | In any project: copies `AGENTS.md` to initialize agent rules |
+| `init-agents` | In any project: merges `AGENTS.md` rules with existing agent config (smart merge — never overwrites) |
 | `update-global-skills` | Manually pulls latest changes from remote skill repos |
 
 ---
@@ -195,9 +201,10 @@ All skills restored in under a minute.
 ```
 another-agent-skills/
 ├── README.md                          # This file
+├── PROGRESS_STATUS.md                 # Current project state and roadmap
 ├── DEVELOPMENT.md                     # Guide for maintainers: development/ convention
-├── install.sh                         # One-command global installer
-├── AGENTS.md                          # Universal skill-driven execution rules (11 rules)
+├── install.sh                         # One-command global installer (with backup-before-overwrite)
+├── AGENTS.md                          # Universal skill-driven execution rules (12 rules)
 ├── LICENSE                            # MIT
 ├── skills/                            # 14 custom skills (SKILL.md + lazy-loaded guides)
 │   ├── engineering-fundamentals/      # Foundation: discovery, contracts, anti-slop, gates
@@ -277,6 +284,7 @@ Pick any item above. Read `DEVELOPMENT.md` for conventions, create a branch, and
 - **Framework-agnostic patterns, stack-specific examples.** Core concepts work everywhere; code snippets adapt to your chosen stack.
 - **Lazy loading.** Skills load as indices (~200 lines) + guides on-demand. Saves context, improves precision.
 - **Token optimization.** Caveman-inspired compression applied to all skills (-30-55% per skill) without losing correctness.
+- **Mutation approval gate.** No `git commit`, `git push`, or any repository mutation without your explicit "yes". Configurable per user preference.
 
 ---
 
@@ -297,7 +305,7 @@ Pick any item above. Read `DEVELOPMENT.md` for conventions, create a branch, and
 
 This project builds on the work of many people and communities:
 
-- **Addy Osmani** — [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) (23 official skills). The foundation and standard we extend.
+- **Addy Osmani** — [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) (23 upstream skills). The reference collection we extend.
 - **Julius Brussee** — [`caveman`](https://github.com/JuliusBrussee/caveman) (64.4k ⭐). Inspiration for our token optimization approach.
 - **OpenCode Team** — For the skill framework and invocation system.
 - **Vercel / Next.js Team** — Modern web stack standards.
