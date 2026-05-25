@@ -4,3 +4,12 @@
 node_modules/
 .playwright-mcp/
 state/
+
+# Development artifacts (not for end users)
+REVIEW_*.md
+SIMULATION.md
+AUDIT_*.md
+TOKEN_OPTIMIZATION.md
+LAZY_LOADING.md
+ROADMAP_*.md
+SESSION_CONTEXT.md

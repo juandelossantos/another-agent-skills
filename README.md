@@ -14,6 +14,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `frontend-web` | Build distinctive, animated, production-grade web UIs with a locked modern stack and anti-AI-slop rules | Any web frontend/visual task |
 | `frontend-pwa` | Build installable, offline-first web apps designed for all devices and future native distribution via Capacitor/Ionic | PWA, offline app, installable, Capacitor, hybrid |
 | `frontend-mobile` | Build production-grade mobile apps with native design tokens, animations, and platform compliance | Any mobile app/React Native/Flutter task |
+| `frontend-desktop` | Build cross-platform desktop apps with native OS integration (menus, tray, shortcuts, file dialogs) | Tauri, Electron, desktop app |
 | `user-onboarding` | Capture user preferences once (stack, design, workflow) and persist across all projects in `~/.config/opencode/user-profile.json` | First session, "my preferences", "remember my stack" |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
@@ -24,7 +25,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `fullstack-shipping` | End-to-end CI/CD, testing, deployment, monitoring, rollback, launch checklists. Lock in DEPLOYMENT.md | Deploy, ship, launch, production readiness |
 | `project-metrics` | Log empirical quality metrics automatically: build pass rate, rework rate, coverage, discovery time. Quality report on demand. | Background logging, "show metrics", "quality report" |
 
-This repo also bootstraps the **23 official skills** from `addyosmani/agent-skills` globally on your machine.
+This repo also bootstraps the **23 official skills** from `addyosmani/agent-skills` globally on your machine (37 total).
 
 ---
 
@@ -42,7 +43,7 @@ bash install.sh
 source ~/.zshrc
 ```
 
-That's it. OpenCode will now see **24 skills** globally.
+That's it. OpenCode will now see **37 skills** globally (14 custom + 23 official).
 
 ---
 
@@ -152,6 +153,11 @@ another-agent-skills/
 │   │   ├── DISCOVERY-GUIDE.md         # Mobile-specific discovery questions
 │   │   ├── ANIMATION-GUIDE.md         # Mobile animation patterns (Reanimated)
 │   │   └── EXAMPLES.md                # Mobile walkthroughs & troubleshooting
+│   ├── frontend-desktop/
+│   │   ├── SKILL.md                   # Desktop app implementation (Tauri v2 / Electron)
+│   │   ├── DISCOVERY-GUIDE.md         # Desktop-specific discovery (OS, APIs, distribution)
+│   │   ├── PLATFORM-GUIDE.md          # Native OS integration (menus, tray, dialogs)
+│   │   └── EXAMPLES.md                # Desktop walkthroughs & troubleshooting
 │   ├── project-health-check/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/
@@ -170,8 +176,6 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Design production APIs (protocol, DB, auth, testing)
 │   └── fullstack-shipping/
 │       └── SKILL.md                   # CI/CD, deployment, monitoring, launch checklists
-└── scripts/
-    └── validate-skills.sh             # (Optional) CI validation
 ```
 
 ---
