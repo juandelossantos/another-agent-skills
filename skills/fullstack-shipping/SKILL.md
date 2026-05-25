@@ -136,44 +136,7 @@ Only after explicit confirmation, proceed.
 
 **Generate 2-3 pipeline strategy options. Never default to GitHub Actions without justification.**
 
-#### Option A — Platform-Native CI/CD (Simplest)
-
-**Best for:** Vercel, Netlify, Railway, Fly (platform handles everything)
-
-- **Trigger:** Push to `main` → auto-deploy to production
-- **Preview:** Every PR gets a preview URL
-- **Tests:** Run in platform build step or GitHub Actions
-- **Pros:** Zero config, instant deploys, preview environments
-- **Contras:** Vendor lock-in, limited customization, costs at scale
-- **Ideal for:** Solo devs, small teams, Jamstack/Serverless apps
-
-#### Option B — GitHub Actions + Platform (Balanced)
-
-**Best for:** Teams needing control + platform convenience
-
-- **Trigger:** Push to `main` → GitHub Actions runs tests → deploy to platform
-- **PR workflow:** Tests + lint + typecheck on every PR
-- **Staging:** Separate branch `staging` → auto-deploy to staging env
-- **Production:** `main` deploys to prod only after tests pass
-- **Pros:** Full control over pipeline, free CI minutes, auditable
-- **Contras:** More YAML to maintain, CI minute limits on free tier
-- **Ideal for:** Teams of 2+, need PR gates, want audit trail
-
-#### Option C — Full Control (Docker + Self-hosted or Cloud)
-
-**Best for:** Enterprise, regulated, or complex multi-service apps
-
-- **Trigger:** GitHub Actions builds Docker image → push to registry → deploy to Kubernetes/ECS
-- **Testing:** Full test matrix (unit, integration, E2E, contract, security scan)
-- **Deployment:** Blue-green or canary with automated rollback
-- **Secrets:** Vault, Doppler, or sealed secrets
-- **Pros:** Maximum control, portable, works anywhere
-- **Contras:** Steep learning curve, operational overhead, cost
-- **Ideal for:** Enterprise, regulated industries, multi-service architectures
-
-**Critical Challenge:**
-- User wants direct deploy to prod from local machine → "Deploying from local skips tests, code review, and audit trails. Use PR → CI → deploy. If speed is critical, use preview deployments for instant feedback."
-- User says "I don't need tests in CI, I test locally" → "Local tests pass in your environment, not in a clean one. CI catches 'works on my machine' issues. It's the difference between hoping and knowing."
+→ **Ver `CICD-GUIDE.md` para las 3 opciones completas y critical challenges.**
 
 ---
 
@@ -199,39 +162,7 @@ Only after explicit confirmation, proceed.
 
 ### Phase 5 — Deployment Orchestration
 
-#### 5A: Environment Strategy
-
-| Strategy | Best For | Avoid When |
-|---|---|---|
-| **Preview per PR** | Teams doing PR reviews, design sign-off | Solo dev, cost-sensitive (build minutes) |
-| **Staging + Production** | Most projects | Literally never — always have staging |
-| **Production only** | Prototypes, internal tools, low-risk | User-facing products, e-commerce, regulated |
-
-**Critical:** Never deploy to production without a staging environment. Staging is not a luxury; it's where you verify migrations and breaking changes.
-
-#### 5B: Database Migrations
-
-- **Always run migrations before code deploy** (backward-compatible migrations)
-- **Never run destructive migrations** (drop column, rename table) without a multi-step plan
-- **Have a rollback script** for every migration
-- **Test migrations on staging** with production-like data volume
-
-#### 5C: Secrets Management
-
-- **Never commit secrets.** Use environment variables, Doppler, Vault, or platform secret management.
-- **Different secrets per environment** (never reuse production database URL in staging)
-- **Rotate secrets** after team member departures or suspected leaks
-
-#### 5D: Rollback Strategy
-
-| Method | Speed | Risk | Best For |
-|---|---|---|---|
-| **Instant platform rollback** (Vercel/Railway) | Seconds | Low | Platform-native deploys |
-| **Git revert + redeploy** | Minutes | Low | Code issues, no DB changes |
-| **Database migration rollback** | Minutes-Hours | High | Data migrations (test first!) |
-| **Blue-green deployment** | Seconds | Medium | Enterprise, zero-downtime required |
-
-**Rule:** If you can't rollback in under 5 minutes, you can't ship with confidence.
+→ **Ver `DEPLOY-GUIDE.md` para estrategias de entorno, migraciones, secrets y rollback.**
 
 ---
 
@@ -239,22 +170,7 @@ Only after explicit confirmation, proceed.
 
 **"Production" means "we don't know if it's working unless we watch it."**
 
-#### 6A: What to Monitor
-
-| Category | Tool Examples | What to Track |
-|---|---|---|
-| **Errors** | Sentry, Rollbar, LogRocket | Uncaught exceptions, API 500s, failed builds |
-| **Performance** | OpenTelemetry, Datadog, Vercel Analytics | LCP, FCP, TTFB, API response times |
-| **Uptime** | UptimeRobot, Pingdom, Better Uptime | HTTP 200 checks every minute from multiple regions |
-| **Business** | Custom dashboards | Signups, conversions, revenue — if it drops, something broke |
-
-#### 6B: Alerting Rules
-
-- **Page/SMS:** Site down, payment failures, security incidents
-- **Slack/Email:** Build failures, error rate spikes, performance degradation
-- **Dashboard:** Daily review of trends, capacity planning
-
-**Never alert on:** "CPU is high" without context. "CPU is high AND response times are degrading" is actionable.
+→ **Ver `DEPLOY-GUIDE.md` para categorías de monitoreo y reglas de alertas.**
 
 ---
 
@@ -262,32 +178,7 @@ Only after explicit confirmation, proceed.
 
 **NO LAUNCH WITHOUT THIS CHECKLIST COMPLETE.**
 
-#### Pre-Launch
-
-- [ ] All tests pass in CI (unit, integration, E2E)
-- [ ] Build succeeds without warnings
-- [ ] Staging environment matches production (same versions, same config)
-- [ ] Database migrations tested on staging
-- [ ] Secrets configured for production
-- [ ] Domain + SSL configured and tested
-- [ ] Monitoring tools installed and verified (Sentry, UptimeRobot, etc.)
-- [ ] Rollback plan documented and tested
-- [ ] Documentation updated (README, API docs, runbooks)
-- [ ] Team knows how to respond to alerts (on-call rotation or primary contact)
-
-#### Launch Day
-
-- [ ] Deploy to production during low-traffic window
-- [ ] Monitor error rates for 30 minutes post-deploy
-- [ ] Run smoke tests (critical user flows)
-- [ ] Announce to team/users if applicable
-
-#### Post-Launch (First 48 Hours)
-
-- [ ] Monitor error rates, performance, business metrics
-- [ ] Respond to any alerts immediately
-- [ ] Collect feedback from early users
-- [ ] Document any issues for next iteration
+→ **Ver `LAUNCH-CHECKLIST-GUIDE.md` para el checklist completo de Pre-Launch, Launch Day y Post-Launch.**
 
 ---
 

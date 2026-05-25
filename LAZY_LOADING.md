@@ -106,9 +106,9 @@ A skill follows lazy loading if:
 | `frontend-pwa` | ~200 | ✅ Yes | DISCOVERY, EXAMPLES |
 | `frontend-mobile` | ~200 | ✅ Yes | DISCOVERY, ANIMATION, EXAMPLES |
 | `backend-api-mastery` | ~200 | ✅ Yes | DISCOVERY, PROTOCOL, AUTH, TESTING |
-| `spec-driven-development` | 483 | ⬜ Partial — could split research + discovery guides |
-| `fullstack-shipping` | 416 | ⬜ Partial — could split CI/CD + testing guides |
-| `git-init-and-versioning` | 491 | ⬜ Partial — could split branching + pre-commit guides |
+| `spec-driven-development` | 329 | ✅ Yes | DISCOVERY-GUIDE, SPEC-TEMPLATE-GUIDE |
+| `fullstack-shipping` | 307 | ✅ Yes | CICD-GUIDE, DEPLOY-GUIDE, LAUNCH-CHECKLIST-GUIDE |
+| `git-init-and-versioning` | 356 | ✅ Yes | REPO-STRUCTURE-GUIDE, BRANCHING-GUIDE, BUILD-INTEGRATION-GUIDE |
 
 ### Refactored Example: backend-api-mastery
 

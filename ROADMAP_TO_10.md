@@ -17,13 +17,13 @@ Reach 10/10 score by completing remaining architectural gaps in the another-agen
 
 ## Remaining Work (for 10/10)
 
-### 1. Refactor Remaining Large Skills to Lazy Loading
+### 1. Refactor Remaining Large Skills to Lazy Loading ✅ DONE
 
-| Skill | Current Lines | Target | Guides Needed |
+| Skill | Before | After | Guides Created |
 |---|---|---|---|
-| `spec-driven-development` | 484 | ~200 | DISCOVERY-GUIDE, RESEARCH-GUIDE, IMPLEMENT-GATE-GUIDE |
-| `fullstack-shipping` | 416 | ~200 | DEPLOY-GUIDE, CI-CD-GUIDE, LAUNCH-CHECKLIST |
-| `git-init-and-versioning` | 500 | ~200 | BRANCHING-GUIDE, FIRST-COMMIT-GUIDE |
+| `spec-driven-development` | 484 | 329 | `DISCOVERY-GUIDE.md`, `SPEC-TEMPLATE-GUIDE.md` |
+| `fullstack-shipping` | 416 | 307 | `CICD-GUIDE.md`, `DEPLOY-GUIDE.md`, `LAUNCH-CHECKLIST-GUIDE.md` |
+| `git-init-and-versioning` | 500 | 356 | `REPO-STRUCTURE-GUIDE.md`, `BRANCHING-GUIDE.md`, `BUILD-INTEGRATION-GUIDE.md` |
 
 **Risk:** These skills have complex, sequential logic (e.g., the 3-step Commit Approval Gate). Extracting requires careful verification that no step is lost.
 

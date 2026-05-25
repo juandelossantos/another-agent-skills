@@ -59,35 +59,7 @@ This skill runs once per project, immediately after contracts (SPEC.md, DESIGN.m
 
 **NO FILES ARE CREATED UNTIL THIS DECISION IS MADE.**
 
-Ask the user explicitly:
-
-```
-REPOSITORY STRUCTURE DECISION:
-
-We need to decide how to organize version control for this project.
-
-Option A — Single Repository (Mono-repo)
-├── frontend/
-├── backend/
-├── shared/
-└── package.json (workspace root)
-→ Best for: Fullstack projects, tight coupling, shared types/utils
-
-Option B — Separate Repositories (Multi-repo)
-repo-frontend/
-repo-backend/
-→ Best for: Independent teams, different deployment cycles, open-source backend
-
-Option C — Frontend-only Repository
-→ Best for: Static sites, landing pages, no backend
-
-Which structure fits your project?
-→ Reply A, B, or C (or describe your preference)
-```
-
-**Critical Challenge:**
-- User wants separate repos for a solo project → "Separate repos add overhead in syncing types, deploying coordinated changes, and managing CI across repositories. For a solo dev or small team, a mono-repo is usually faster. Are you planning to open-source the backend independently?"
-- User wants mono-repo for clearly separated services → "Mono-repos are great for shared code, but if your frontend and backend deploy independently with different teams, separate repos reduce coupling. Do you often deploy them together?"
+→ **Ver `REPO-STRUCTURE-GUIDE.md` para el cuestionario completo y casos de uso.**
 
 **Lock the decision** and document it in `SETUP.md` or `README.md`.
 
@@ -178,54 +150,7 @@ I've created .env.example with the environment variables this project needs.
 
 **Decide and document the branching model.**
 
-```
-BRANCHING STRATEGY:
-
-For this project, I recommend:
-
-Option A — Trunk-Based Development (Recommended)
-- main is always deployable
-- Short-lived feature branches (1-3 days)
-- Merge via Pull Request with review
-→ Best for: Most projects, fast iteration, CI/CD friendly
-
-Option B — GitFlow
-- main (production), develop (integration)
-- feature/*, release/*, hotfix/* branches
-→ Best for: Enterprise, scheduled releases, QA teams
-
-Option C — Simple Feature Branches
-- main is production
-- feature/* branches, merge when done
-→ Best for: Solo devs, simple projects
-
-Which strategy fits your team and release cadence?
-```
-
-**Document in `SETUP.md`:**
-```markdown
-## Git Workflow
-
-**Strategy:** [Trunk-based / GitFlow / Feature Branches]
-
-**Branch naming:**
-- `feature/short-description`
-- `fix/short-description`
-- `chore/short-description`
-
-**Commit format:**
-```
-<type>: <short description>
-
-<body explaining why, not what>
-```
-
-**Pre-commit checks:**
-- Tests pass
-- Linting passes
-- Type checking passes
-- No secrets in diff
-```
+→ **Ver `BRANCHING-GUIDE.md` para las 3 opciones y formato de documentación.**
 
 ---
 
@@ -400,88 +325,7 @@ Before proceeding to BUILD, confirm:
 
 **During BUILD (`incremental-implementation` + `test-driven-development`):**
 
-Before every `git commit`, follow this **mandatory 3-step gate**:
-
-### Step 1 — Run Pre-Commit Checklist
-
-1. **Read** `.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md`).
-2. **Run** the 6-axis review (correctness, readability, architecture, security, performance, git hygiene).
-3. **If any fail:** Fix the issue. Do not proceed to Step 2 until fixed.
-
-### Step 2 — Present Commit for Approval (BLOCKING)
-
-**DO NOT execute `git commit` until the user explicitly approves.**
-
-Present the commit like this:
-
-```
-═══════════════════════════════════════════
-📝 COMMIT READY FOR REVIEW
-═══════════════════════════════════════════
-
-📁 Files changed:
-- src/components/Hero.tsx        (added hero section)
-- src/app/globals.css            (added design tokens)
-- public/images/hero.jpg         (added hero image)
-
-📊 Pre-commit checklist:
-✅ Correctness: Tests pass, matches acceptance criteria
-✅ Readability: Descriptive names, no nested ternaries
-✅ Architecture: Follows component pattern
-✅ Security: No secrets, inputs validated
-✅ Performance: transform/opacity only, lazy loading
-✅ Git Hygiene: One logical change, no .env committed
-
-📝 Commit message:
-feat: add Hero section with Playfair display and warm cream background
-
-- Implements hero with H1, subtitle, CTA button
-- Uses design tokens from globals.css
-- Adds Reveal animation on scroll
-- Responsive: 375px mobile → 1280px desktop
-
-═══════════════════════════════════════════
-→ Approve? Reply "yes", "sí", or "commit" to proceed.
-→ Changes needed? Reply "edit" or describe what to fix.
-→ Skip this commit? Reply "skip" (not recommended).
-═══════════════════════════════════════════
-```
-
-**Valid user responses:**
-- `"yes"`, `"sí"`, `"commit"`, `"adelante"`, `"proceed"` → Execute `git commit`
-- `"edit"`, `"change"`, `"fix"` + description → Go back to Step 1, make changes
-- `"skip"` → Do not commit, continue to next task (document the skip)
-
-**Invalid responses (do not accept):**
-- `"ok"`, `"mmhm"` → Ask again with explicit "yes/commit" or "edit"
-- Silence → Re-prompt with the approval request
-
-### Step 3 — Execute Commit
-
-Only after explicit approval:
-
-```bash
-git add [files]
-git commit -m "[descriptive message]"
-```
-
-**After commit completes, log metrics:**
-```
-LOG METRIC: commit
-- project: [detect from git remote or directory name]
-- files_changed: [count]
-- additions: [count]
-- deletions: [count]
-- pre_commit_passed: true/false
-- user_approved: true/false (false if skipped)
-- commit_message_category: feat/fix/chore/docs/refactor
-```
-
-**Rules:**
-- Show the exact files being committed.
-- Show the exact commit message.
-- Never batch multiple logical changes in one approval request.
-- If 5+ files changed, summarize them grouped by purpose.
+→ **Ver `BUILD-INTEGRATION-GUIDE.md` para el gate de 3 pasos obligatorio antes de cada commit.**
 
 ---
 

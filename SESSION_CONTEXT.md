@@ -118,32 +118,32 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - **All other skills read this profile** to personalize defaults, skip redundant questions, suggest relevant options
 
 #### `spec-driven-development` (Overrides Official)
-**Location:** `skills/spec-driven-development/SKILL.md`
-**Status:** ✅ Complete — 481 lines
+**Location:** `skills/spec-driven-development/SKILL.md` (+ 2 guides)
+**Status:** ✅ Complete — 329 lines (refactored from 484)
 
 **Key features:**
 - Phase 0: Context assessment (triggers `project-health-check` if existing code)
-- Phase 1: Domain research via web search
-- Phase 2: Deep discovery with **critical challenge**
+- **Discovery** → `DISCOVERY-GUIDE.md` (research, deep discovery, critical challenge)
+- **Spec Templates** → `SPEC-TEMPLATE-GUIDE.md` (user stories, acceptance criteria, non-functional requirements)
 - Phase 3: Architecture decision gate (triggers `architecture-analysis`)
 - Phase 7: Environment audit gate
 - Phase 8: **Implement gate** — explicit "yes" required
 
 #### `git-init-and-versioning`
-**Location:** `skills/git-init-and-versioning/SKILL.md`
-**Status:** ✅ Complete — 399 lines + 2 guides
+**Location:** `skills/git-init-and-versioning/SKILL.md` (+ 3 guides)
+**Status:** ✅ Complete — 356 lines (refactored from 500)
 
 **Key features:**
 - Phase 0: Detect current Git state (exists `.git/`? `.gitignore`? `.env.example`?)
-- Phase 1: Repository structure decision (mono-repo vs multi-repo vs single) with critical challenge
+- **Repository Structure** → `REPO-STRUCTURE-GUIDE.md` (mono vs multi vs single, critical challenges)
 - Phase 2: Initialize repository (`git init`, configure user, add remote)
 - Phase 3: Create `.gitignore` from stack-specific templates
 - Phase 4: Create `.env.example` with documented variables (no secrets)
-- Phase 5: Branching strategy configuration (trunk-based vs GitFlow vs feature branches)
+- **Branching Strategy** → `BRANCHING-GUIDE.md` (trunk-based, GitFlow, feature branches)
 - Phase 6: Pre-commit auto-review gate — creates `.github/PRE_COMMIT_CHECKLIST.md` with 6-axis review
 - Phase 7: First commit includes contracts (SPEC.md, DESIGN.md), NOT generated code
 - Phase 8: Document in `SETUP.md`
-- **Integration with BUILD:** Agent MUST run pre-commit checklist before every commit
+- **Build Integration** → `BUILD-INTEGRATION-GUIDE.md` (3-step Commit Approval Gate)
 
 #### `architecture-analysis`
 **Location:** `skills/architecture-analysis/SKILL.md`
@@ -184,17 +184,16 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Phase 8: Lock in `API-DESIGN.md` + update `SPEC.md`
 
 #### `fullstack-shipping`
-**Location:** `skills/fullstack-shipping/SKILL.md`
-**Status:** ✅ Complete — 416 lines
+**Location:** `skills/fullstack-shipping/SKILL.md` (+ 3 guides)
+**Status:** ✅ Complete — 307 lines (refactored from 416)
 
 **Key features:**
 - Phase 1: Shipping Discovery (8 questions: environment, stages, team, rollback, database, domains, monitoring, compliance)
 - Phase 2: Research (CI/CD platforms, testing in CI, deployment patterns, monitoring tools — **always [current year]**)
-- Phase 3: CI/CD Pipeline Design (Platform-native vs GitHub Actions vs Full Control Docker) with 2-3 options
+- **CI/CD Pipeline** → `CICD-GUIDE.md` (Platform-native, GitHub Actions, Full Control Docker)
 - Phase 4: Testing Strategy in Pipeline (PR, merge, staging, production gates)
-- Phase 5: Deployment Orchestration (environments, DB migrations, secrets, rollback strategies)
-- Phase 6: Monitoring & Alerting (errors, performance, uptime, business metrics)
-- Phase 7: Launch Checklist (pre-launch, launch day, post-launch 48h)
+- **Deployment & Monitoring** → `DEPLOY-GUIDE.md` (environments, DB migrations, secrets, rollback, alerting)
+- **Launch Checklist** → `LAUNCH-CHECKLIST-GUIDE.md` (pre-launch, launch day, post-launch 48h)
 - Phase 8: Lock in `DEPLOYMENT.md` + update `SPEC.md`
 
 ## Immediate Next Steps (Priority Order)
@@ -231,7 +230,7 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 6. ✅ **Multi-platform** — frontend-web, frontend-pwa, frontend-mobile
 
 **To reach 10/10 (Perfect):**
-7. ⬜ Refactor remaining large skills to lazy loading (spec-driven-development: 484 lines, fullstack-shipping: 416 lines, git-init-and-versioning: 500 lines)
+7. ✅ Refactor remaining large skills to lazy loading (spec-driven-development: 484→329, fullstack-shipping: 416→307, git-init-and-versioning: 500→356)
 8. ⬜ `frontend-desktop` skill (Tauri, Electron)
 9. ⬜ IoT/Embedded skill (optional, niche)
 
