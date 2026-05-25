@@ -166,6 +166,12 @@ verify_installation() {
         error "frontend-web             → MISSING"
     fi
 
+    if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-pwa" ]]; then
+        ok "frontend-pwa             → INSTALLED"
+    else
+        warn "frontend-pwa             → NOT INSTALLED (optional)"
+    fi
+
     if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-mobile" ]]; then
         ok "frontend-mobile          → INSTALLED"
     else

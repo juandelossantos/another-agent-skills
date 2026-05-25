@@ -11,6 +11,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | Skill | What It Does | Trigger |
 |---|---|---|
 | `frontend-web` | Build distinctive, animated, production-grade web UIs with a locked modern stack and anti-AI-slop rules | Any web frontend/visual task |
+| `frontend-pwa` | Build installable, offline-first web apps designed for all devices and future native distribution via Capacitor/Ionic | PWA, offline app, installable, Capacitor, hybrid |
 | `frontend-mobile` | Build production-grade mobile apps with native design tokens, animations, and platform compliance | Any mobile app/React Native/Flutter task |
 | `user-onboarding` | Capture user preferences once (stack, design, workflow) and persist across all projects in `~/.config/opencode/user-profile.json` | First session, "my preferences", "remember my stack" |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
@@ -136,6 +137,10 @@ another-agent-skills/
 │   │   ├── DISCOVERY-GUIDE.md         # Phase 1 complete questions
 │   │   ├── ANIMATION-GUIDE.md         # Phase 5 animation patterns
 │   │   └── EXAMPLES.md                # Walkthroughs & troubleshooting
+│   ├── frontend-pwa/
+│   │   ├── SKILL.md                   # Progressive Web App / hybrid app skill
+│   │   ├── DISCOVERY-GUIDE.md         # PWA-specific discovery
+│   │   └── EXAMPLES.md                # PWA walkthroughs
 │   ├── frontend-mobile/
 │   │   ├── SKILL.md                   # Mobile app frontend skill (React Native, Flutter)
 │   │   ├── DISCOVERY-GUIDE.md         # Phase 1 mobile-specific questions

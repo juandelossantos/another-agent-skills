@@ -52,6 +52,19 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - QA gates: 12 checks before delivery
 - **Examples & Troubleshooting** → `EXAMPLES.md`
 
+#### `frontend-pwa`
+**Location:** `skills/frontend-pwa/SKILL.md`
+**Status:** ✅ Complete — 320 lines
+
+**Key features:**
+- Universal responsive: foldables, TVs, tablets, touch desktops, phones
+- Offline-first architecture with service workers (Workbox / next-pwa)
+- Installable web apps with Web App Manifest
+- Touch optimization (44px/48dp targets, hover guards)
+- Container queries as default responsive pattern
+- Migration path to native via Capacitor 6+ / Ionic
+- PWA-specific QA gates (offline test, install test, device matrix)
+
 #### `frontend-mobile`
 **Location:** `skills/frontend-mobile/SKILL.md`
 **Status:** ✅ Complete — 320 lines

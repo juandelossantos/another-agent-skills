@@ -52,12 +52,15 @@ Before invoking any frontend skill, determine the target platform:
 
 | User says... | Platform | Skill to invoke |
 |---|---|---|
-| "web", "landing page", "website", "Next.js", "React", "Vue", "site" | Web | `frontend-web` |
-| "mobile app", "app móvil", "React Native", "Flutter", "iOS", "Android", "expo" | Mobile | `frontend-mobile` |
+| "web", "landing page", "website", "Next.js", "React", "Vue", "site", "web app" (simple) | Web | `frontend-web` |
+| "PWA", "offline app", "installable", "Capacitor", "Ionic", "hybrid app", "web app" (future native) | Web → Native bridge | `frontend-pwa` |
+| "mobile app", "app móvil", "React Native", "Flutter", "iOS", "Android", "expo", "native app" | Mobile native | `frontend-mobile` |
 | "desktop app", "desktop", "Tauri", "Electron", "Windows app", "Mac app" | Desktop | `frontend-desktop` |
 | "CLI", "command line", "terminal", "tool" | CLI | `cli-tools` |
 
-**If platform is unclear:** Ask: "¿Es para web, móvil, escritorio, o CLI? / Is this for web, mobile, desktop, or CLI?"
+**If platform is unclear:** Ask: "¿Es para web, web app installable (PWA), app móvil nativa, escritorio, o CLI? / Is this for web, installable web app (PWA), native mobile, desktop, or CLI?"
+
+**If user has a profile:** Read `user-profile.json` first. Use `preferences.primary_platform` + `preferences.mobile_approach` to default the correct skill.
 
 **Step 2: Invoke Platform-Specific Skill**
 

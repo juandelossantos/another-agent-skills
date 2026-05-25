@@ -80,33 +80,35 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
 5. **Primary language**: ¿Prefieres Spanish o English para comunicación conmigo?
 6. **Primary platform**: ¿Qué tipo de proyectos haces más? (web, mobile, desktop, CLI, o mixto)
 7. **Web framework** (if web): ¿Prefieres React, Vue, Svelte, Angular, o te da igual?
-8. **Mobile framework** (if mobile): ¿Prefieres React Native, Flutter, SwiftUI, Jetpack Compose, o te da igual?
-9. **Desktop framework** (if desktop): ¿Prefieres Tauri, Electron, Flutter Desktop, WPF, o te da igual?
-10. **Backend stack**: ¿Prefieres Node.js, Python, Go, Rust, o te da igual?
-11. **Styling approach** (if web): ¿Prefieres Tailwind, CSS Modules, Styled Components, SCSS?
-12. **Database**: ¿Prefieres PostgreSQL, MySQL, MongoDB, SQLite, o te da igual?
-13. **Deployment**: ¿Prefieres Vercel, Netlify, AWS, self-hosted, o te da igual?
+8. **Mobile approach** (if mobile): ¿Nativa (app store directo) o híbrida (web app empaquetada)?
+9. **Mobile framework** (if native): ¿React Native, Flutter, SwiftUI, Jetpack Compose, o te da igual?
+10. **Mobile framework** (if hybrid): ¿Ionic + Capacitor, Tauri v2 Mobile, PWA + Capacitor, o te da igual?
+11. **Desktop framework** (if desktop): ¿Prefieres Tauri, Electron, Flutter Desktop, WPF, o te da igual?
+12. **Backend stack**: ¿Prefieres Node.js, Python, Go, Rust, o te da igual?
+13. **Styling approach** (if web or hybrid): ¿Prefieres Tailwind, CSS Modules, Styled Components, SCSS?
+14. **Database**: ¿Prefieres PostgreSQL, MySQL, MongoDB, SQLite, o te da igual?
+15. **Deployment**: ¿Prefieres Vercel, Netlify, AWS, self-hosted, o te da igual?
 
 #### Section C: Design Preferences
 
-11. **Design aesthetic**: ¿Prefieres minimalista, moderno, clásico, juguetón, corporativo?
-12. **Color preference**: ¿Prefieres oscuro, claro, o mixto (dark mode)?
-13. **Typography**: ¿Te importa mucho la tipografía o prefieres que yo elija?
-14. **Animation**: ¿Prefieres mucha animación, moderada, o casi ninguna?
+16. **Design aesthetic**: ¿Prefieres minimalista, moderno, clásico, juguetón, corporativo?
+17. **Color preference**: ¿Prefieres oscuro, claro, o mixto (dark mode)?
+18. **Typography**: ¿Te importa mucho la tipografía o prefieres que yo elija?
+19. **Animation**: ¿Prefieres mucha animación, moderada, o casi ninguna?
 
 #### Section D: Workflow Preferences
 
-15. **Communication style**: ¿Prefieres que sea directo/conciso o detallado/explicativo?
-16. **Decision style**: ¿Prefieres que proponga opciones y elijas, o que decida por ti con justificación?
-17. **Code review**: ¿Quieres que revisemos cada commit juntos, o confías en el auto-review?
-18. **Documentation**: ¿Prefieres mucha documentación o lo mínimo necesario?
+20. **Communication style**: ¿Prefieres que sea directo/conciso o detallado/explicativo?
+21. **Decision style**: ¿Prefieres que proponga opciones y elijas, o que decida por ti con justificación?
+22. **Code review**: ¿Quieres que revisemos cada commit juntos, o confías en el auto-review?
+23. **Documentation**: ¿Prefieres mucha documentación o lo mínimo necesario?
 
 #### Section E: Constraints & Context
 
-19. **Budget**: ¿Proyectos personales, startup, o enterprise? (afecta recomendaciones de hosting/tools)
-20. **Time pressure**: ¿Usualmente tienes deadlines ajustados o tiempo de sobra?
-21. **Open source**: ¿Sueles open-sourcear proyectos? (afecta licencias y configuración)
-22. **Accessibility priority**: ¿El accesibilidad es crítica, importante, o nice-to-have para ti?
+24. **Budget**: ¿Proyectos personales, startup, o enterprise? (afecta recomendaciones de hosting/tools)
+25. **Time pressure**: ¿Usualmente tienes deadlines ajustados o tiempo de sobra?
+26. **Open source**: ¿Sueles open-sourcear proyectos? (afecta licencias y configuración)
+27. **Accessibility priority**: ¿El accesibilidad es crítica, importante, o nice-to-have para ti?
 
 ---
 
@@ -130,7 +132,9 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
     "language": "es",
     "primary_platform": "web",
     "web_framework": "react",
-    "mobile_framework": null,
+    "mobile_approach": null,
+    "mobile_framework_native": null,
+    "mobile_framework_hybrid": null,
     "desktop_framework": null,
     "backend_stack": "nodejs",
     "styling_approach": "tailwind",
@@ -193,13 +197,24 @@ Communication: Detallado, propone opciones
 **With profile (React + Tailwind + dark mode + minimalist):**
 > "Veo que prefieres React + Tailwind para web. Para este proyecto, sugiero dark mode minimalista. ¿Confirmas o quieres explorar otras opciones?"
 
-### Example: `frontend-mobile`
+### Example: `frontend-mobile` (Native)
 
 **Without profile:**
 > "¿React Native o Flutter? ¿Expo o bare workflow?"
 
 **With profile (React Native + Expo + iOS/Android):**
-> "Veo que prefieres React Native con Expo. ¿Confirmas para esta app o quieres explorar Flutter?"
+> "Veo que prefieres React Native nativo con Expo. ¿Confirmas para esta app o quieres explorar Flutter?"
+
+### Example: `frontend-pwa` (Hybrid)
+
+**Without profile:**
+> "¿Quieres web app, PWA, o app híbrida? ¿Qué framework?"
+
+**With profile (Hybrid + Ionic/Capacitor + Next.js):**
+> "Veo que prefieres web apps híbridas con Ionic/Capacitor. Propondré Next.js + Capacitor para que puedas publicar en web ahora y en App Store más tarde. ¿Confirmas?"
+
+**With profile (Hybrid + PWA + offline-first):**
+> "Veo que prefieres PWAs installables. Diseñaré offline-first con service workers y manifest. ¿Confirmas?"
 
 ### Example: `architecture-analysis`
 
