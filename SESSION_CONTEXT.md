@@ -26,77 +26,22 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 ### 2. Custom Skills
 
 #### `visual-frontend-mastery`
-**Location:** `skills/visual-frontend-mastery/SKILL.md`
-**Current version:** Includes Phase 0 (Language Detection), Phase 1 (Discovery Gate), Phase 2 (Contracts + Design Asset Lock), Phase 3-7 (Stack, Anti-Slop, Animation, Build, QA)
+**Location:** `skills/visual-frontend-mastery/SKILL.md` (+ 3 guides)
+**Current version:** SKILL.md 302 lines (refactored). Guides split into focused files.
 
 **Key features:**
 - Language detection (Spanish/English/Other)
-- Mandatory Discovery Gate with 5+ questions
-- Extended discovery for logic/data/security/scalability
+- **Discovery Gate** → `DISCOVERY-GUIDE.md` (complete questions EN/ES, extended, visual)
+- Contracts: SPEC.md, DESIGN.md (visual-only), **Design Asset Lock** (`design/DESIGN-LOCK.md`)
 - Anti-AI-slop rules (no Inter, no Tailwind generics, no generic layouts)
 - Stack lock-in: Next.js 16, Tailwind v4, shadcn/ui, Framer Motion
-- Animation system: Framer Motion, CSS `animation-timeline`, WAAPI
-- `prefers-reduced-motion` mandatory
-- **Design Asset Lock:** `design/DESIGN-LOCK.md` + `design/approved/` for visual persistence
+- **Animation System** → `ANIMATION-GUIDE.md` (Reveal, CSS scroll, WAAPI, reduced motion)
 - QA gates: 12 checks before delivery
+- **Examples & Troubleshooting** → `EXAMPLES.md`
 
-#### `spec-driven-development` (Overrides Official)
-**Location:** `skills/spec-driven-development/SKILL.md`
-**Status:** ✅ Complete — Replaces official version with extended capabilities
-
-**Key features:**
-- **Phase 0:** Context assessment (triggers `project-health-check` if existing code)
-- **Phase 1:** Domain research via web search (best practices, benchmarks, docs)
-- **Phase 2:** Deep discovery with **critical challenge** — agent questions user assumptions, proposes alternatives, identifies XY problems
-- **Phase 3:** Architecture decision gate (triggers `architecture-analysis` if non-trivial)
-- **Phase 4:** Enhanced SPEC.md template with Research Context + Architecture Decisions sections
-- **Phase 7:** Environment audit gate (triggers `dev-environment-audit`)
-- **Phase 8:** **Implement gate** — explicit "yes" required before any code
-- Anti-rationalization: "The user knows what they want" → NO, senior engineers challenge when they see better alternatives
-
-#### `project-health-check`
-**Location:** `skills/project-health-check/SKILL.md`
-**Status:** ✅ Complete
-
-**Key features:**
-- Mandatory audit before any new work on existing codebases
-- 6 audit categories: Stack/Versions, Structure, Code Quality, Config, Dependencies, Agent Compliance
-- Generates `HEALTH-CHECK.md` artifact
-- **BLOCKING user decision gate:** Fix First / Proceed with Caution / Ignore
-- Recursive: Re-audits every 7 days or after any gap >3 days
-- Remediation planning with `planning-and-task-breakdown` integration
-
-### 3. Universal AGENTS.md
-- ✅ Created at repo root
-- ✅ Used by `init-agents` alias to bootstrap any project
-- ✅ Enforces skill-driven execution model
-- ✅ Anti-rationalization rules
-
-### 4. Badminton Scorer Test App
-- ✅ Built in `/tmp/test-badminton-scorer` (deleted after testing)
-- ✅ Verified: spec-driven → design → build → test → QA workflow works
-- ✅ 12/12 tests passed
-- ✅ Build successful
-- ⚠️ **Issue discovered:** Agent sometimes ignores skills and jumps to coding
-
----
-
-## Current Issues & Decisions
-
-### Issue 1: Agent Compliance
-**Problem:** OpenCode agent sometimes ignores `AGENTS.md` and skills, jumping straight to implementation.
-**Status:** Mitigated but not fully solved.
-**Next step:** Need to test if stronger `AGENTS.md` language helps. May need to open an issue with OpenCode team about skill tool compliance.
-
-### Issue 2: Repo Confusion
-**Problem:** We accidentally worked in `agent-skills` (original clone) instead of `another-agent-skills` (our repo).
-**Status:** FIXED. All commits are now in `another-agent-skills`.
-**Prevention:** Always verify `pwd` and `git remote -v` before any git operation.
-
-### Issue 3: Skill Line Count
-**Problem:** `visual-frontend-mastery` is now ~540 lines (exceeded 500-line limit).
-**Status:** ⚠️ OVER LIMIT. Need to split extended discovery questions or design asset lock details into a reference file.
-**Decision:** Keep as-is for now. Split Phase 1 extended discovery into `skills/visual-frontend-mastery/EXTENDED-DISCOVERY.md` if it grows further.
+### Issue 3: Skill Line Count — RESOLVED
+**Problem:** `visual-frontend-mastery` was ~545 lines (exceeded 500-line limit).
+**Status:** ✅ FIXED. Split into SKILL.md (302 lines) + 3 guides: DISCOVERY-GUIDE.md, ANIMATION-GUIDE.md, EXAMPLES.md.
 
 ---
 
