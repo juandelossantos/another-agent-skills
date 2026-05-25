@@ -8,46 +8,13 @@
 
 ## Rule 0c: Behavioral Principles (Extended)
 
-### Principle 1: Think Before Coding (Full)
+**P1 Think Before Coding** — State assumptions. Don't guess. Push back if simpler. Ask when confused. → `interview-me`, `spec-driven-development`
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-- State assumptions explicitly. If uncertain, ask rather than guess.
-- Present multiple interpretations. Don't pick silently when ambiguity exists.
-- Push back when warranted. If a simpler approach exists, say so.
-- Stop when confused. Name what's unclear and ask for clarification.
-→ Enforced by: `interview-me`, `spec-driven-development`, Rule 0b
+**P2 Simplicity First** — Minimum code. No speculative abstractions, flexibility, or error handling for impossible scenarios. "Would a senior call this overcomplicated?" → `engineering-fundamentals`, `code-simplification`
 
-### Principle 2: Simplicity First (Full)
+**P3 Surgical Changes** — Touch only what you must. Don't improve adjacent code. Match existing style. Remove only what YOUR changes made unused. → `git-workflow-and-versioning`
 
-**Minimum code that solves the problem. Nothing speculative.**
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If 200 lines could be 50, rewrite it.
-**Test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
-→ Enforced by: `engineering-fundamentals` Phase 4, `code-simplification`
-
-### Principle 3: Surgical Changes (Full)
-
-**Touch only what you must. Clean up only your own mess.**
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it — don't delete it.
-- Remove imports/variables/functions that YOUR changes made unused.
-**Test:** Every changed line should trace directly to the user's request.
-→ Enforced by: `git-workflow-and-versioning`, minimal changes rule
-
-### Principle 4: Goal-Driven Execution (Full)
-
-**Define success criteria. Loop until verified.**
-Transform imperative tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-For multi-step tasks, state a brief plan with verification per step.
-→ Enforced by: `test-driven-development`, `incremental-implementation`, Rule 9
+**P4 Goal-Driven Execution** — "Fix bug" → "Reproduce with test, then fix." Define pass criteria. Verify each step. → `test-driven-development`, `incremental-implementation`
 
 ---
 
@@ -85,54 +52,21 @@ For multi-step tasks, state a brief plan with verification per step.
 
 ---
 
-## Rule 6: Lazy Loading (Full Guide List)
+## Rule 6: Lazy Loading (Guide Reference)
 
-**Guides by phase:**
-- `DISCOVERY-GUIDE.md` → Phase 1
-- `PROTOCOL-GUIDE.md` → Phase 3
-- `AUTH-GUIDE.md` → Phase 5
-- `ANIMATION-GUIDE.md` → Animation phase
-- `TESTING-GUIDE.md` → Testing phase
-- `CICD-GUIDE.md` → CI/CD phase
-- `DEPLOY-GUIDE.md` → Deploy phase
-- `LAUNCH-CHECKLIST-GUIDE.md` → Ship phase
-- `EXAMPLES.md` → Troubleshooting
-- `BUILD-INTEGRATION-GUIDE.md` → Git workflow
+**Guides by phase:** DISCOVERY → P1 | PROTOCOL → P3 | AUTH → P5 | ANIMATION → Animation | TESTING → Test | CICD → CI/CD | DEPLOY → Deploy | LAUNCH-CHECKLIST → Ship | EXAMPLES → Troubleshooting | BUILD-INTEGRATION → Git
 
-**Verification:**
-- [ ] Every skill < 250 lines
-- [ ] Every skill references ≥ 2 guides
-- [ ] Guides exist as separate files
-- [ ] No detail duplicated between SKILL.md and guides
-- [ ] `engineering-fundamentals` not duplicated in platform skills
+**Rules:** Every skill < 250 lines | ≥ 2 guides per skill | Guides are separate files | No skill-guide duplication | `engineering-fundamentals` NOT duplicated in platform skills
 
 ---
 
 ## Rule 12: Mutation Approval Gate (Extended)
 
-### What Requires Approval (Full Table)
+### What Requires Approval (Summary)
 
-| Operation | Why It Requires Approval |
-|---|---|
-| `git commit` | Creates history you cannot erase without force |
-| `git push` | Sends local state to remote, affects collaborators |
-| `git merge` | Combines branches, can introduce conflicts |
-| `git rebase` | Rewrites history, dangerous if pushed already |
-| `git reset` | Destroys commits, can lose work permanently |
-| `git cherry-pick` | Copies commits, can duplicate or conflict |
-| `git revert` | Creates new commit undoing changes |
-| `git branch -d` / `-D` | Deletes branch, may lose unmerged work |
-| `git tag` | Marks releases, should be deliberate |
-| `git stash pop` | Applies stashed changes, can cause conflicts |
-| `git clean -fd` | Destroys untracked files, irreversible |
-| `git push --force` | Overwrites remote history, **EXTREMELY DANGEROUS** |
+**ALL git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 
-### What Does NOT Require Approval
-
-**Safe, read-only operations:**
-- `git status`, `git log`, `git diff`, `git show`
-- `git branch` (list), `git stash list`
-- `git remote -v`, `git config --list`
+**No approval needed:** status, log, diff, show, branch (list), stash list, remote -v, config --list.
 
 ### User Override (Full)
 
@@ -260,45 +194,8 @@ This is a **process violation** regardless of content quality.
 
 ### Self-Check Before Manifest
 
-Before outputting the Commit Manifest block, the agent MUST run this self-check:
-
-```
-SELF-CHECK — No commit is exempt:
-□ ¿Es docs? → NO exento. Documentación requiere aprobación.
-□ ¿Es bug fix? → NO exento. Bug fixes no bypass proceso.
-□ ¿Es iteración del mismo fix? → NO exento. Cada iteración es nuevo commit.
-□ ¿Ya aprobé antes? → ESA aprobación no transfiere. Es decisión separada.
-□ ¿Son <3 líneas? → NO exento. Tamaño no exime del proceso.
-□ ¿El usuario confía en mí? → Confianza no waives la gate.
-```
-
-If any box is unchecked, the agent must still output the manifest.
+Before manifest, agent MUST self-check: docs? → NO exento. Fix? → NO exento. Iteración? → NO exento. Ya aprobé? → No transfiere. <3 líneas? → No exime. Confianza? → No waives gate. **Ningún commit está exento.**
 
 ### Post-Commit Verification
 
-After EVERY commit (not push — commit), the agent MUST verify:
-
-```
-POST-COMMIT CHECK:
-□ ¿El build/despliegue funciona? (ej: npm run build, python -m http.server)
-□ ¿Los tests pasan? (si existen para los archivos modificados)
-□ ¿Regresiones visuales? (si es UI, inspeccionar la sección modificada)
-□ ¿El commit toca archivos que no debía? (revisar diff final)
-□ ¿Quedó el token .git/COMMIT_APPROVED sin consumir?
-```
-
-**If any check fails:** Do NOT push. Report to user immediately.
-
----
-
-## Rule 9: Verification (Full Checklist)
-
-Before marking any task complete:
-- [ ] Applicable skill was invoked
-- [ ] Skill workflow followed completely
-- [ ] Required artifacts (specs, plans, tests) exist
-- [ ] User confirmed at each gate (or Turbo Mode activated)
-- [ ] `.gitignore` covers project's stack
-- [ ] No `.env` or secrets committed
-- [ ] Build passes (`npm run build` or equivalent)
-- [ ] No hardcoded tokens outside design system
+After EVERY commit: build funciona? Tests pasan? Regresiones visuales? Archivos incorrectos? Token sin consumir? **Si algo falla: no pushear. Reportar.**
