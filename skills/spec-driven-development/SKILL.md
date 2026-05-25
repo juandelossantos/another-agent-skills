@@ -67,9 +67,11 @@ changes where requirements are self-evident.
 If complexity is non-trivial or higher, perform **web research**:
 
 1. **Search for domain best practices:**
-   - "Best practices for [type of product] 2025"
-   - "Common pitfalls in [domain/industry]"
-   - "Architecture patterns for [scale/type]"
+   - "Best practices for [type of product] [current year]"
+   - "Common pitfalls in [domain/industry] [current year]"
+   - "Architecture patterns for [scale/type] [current year]"
+   
+   **Always use the current year.** Never hardcode a specific year.
 
 2. **Search for technology documentation:**
    - Latest stable versions of candidate technologies

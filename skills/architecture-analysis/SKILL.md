@@ -100,8 +100,10 @@ Only after explicit confirmation, proceed to Phase 2.
 **Do not invent options from memory. Research before proposing.**
 
 1. **Identify candidate technologies** for this specific context:
-   - Search for "best [type] framework 2025 [scale]"
+   - Search for "best [type] framework [current year] [scale]"
    - Check official docs for latest stable versions
+   
+   **Always use the current year.** Never hardcode a specific year.
    - Verify maintenance status (last commit, open issues, release cadence)
 
 2. **Find benchmarks or case studies:**
