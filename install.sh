@@ -96,6 +96,24 @@ install_custom_skills() {
             local skill_name
             skill_name="$(basename "${skill_path}")"
             local target="${GLOBAL_SKILLS_DIR}/${skill_name}"
+            
+            # Backup before overwrite
+            if [[ -d "${target}" ]]; then
+                if [[ -L "${target}" ]]; then
+                    # Symlink to official skill → save reference for restore
+                    local official_target
+                    official_target="$(readlink "${target}")"
+                    echo "${skill_name}:${official_target}" >> "${GLOBAL_SKILLS_DIR}/.official-backups"
+                    warn "Backed up official skill reference: ${skill_name} → ${official_target}"
+                else
+                    # Real directory (previous custom) → make timestamped backup
+                    local backup
+                    backup="${target}.backup.$(date +%Y%m%d%H%M%S)"
+                    cp -r "${target}" "${backup}"
+                    warn "Backed up previous: ${skill_name} → $(basename "${backup}")"
+                fi
+            fi
+            
             rm -rf "${target}"
             cp -r "${skill_path}" "${target}"
             ok "Installed custom skill: ${skill_name}"
