@@ -16,7 +16,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `architecture-analysis` | Evaluate 2-3 architecture options with honest trade-offs. Challenge user assumptions. Lock decisions in spec + ARCHITECTURE.md | Non-trivial projects requiring stack/pattern decisions |
 | `dev-environment-audit` | Audit MCPs, CLI tools, runtimes. Propose installations with justification. Document in DEV-ENVIRONMENT.md | Any project start, before build, environment setup |
 | `backend-api-mastery` | Design production APIs with protocol choice, database design, auth, error handling, testing, documentation. Lock in API-DESIGN.md | API work, backend services, database design |
-| *(Coming soon)* `fullstack-shipping` | End-to-end build, test, and deploy workflows | Fullstack projects |
+| `fullstack-shipping` | End-to-end CI/CD, testing, deployment, monitoring, rollback, launch checklists. Lock in DEPLOYMENT.md | Deploy, ship, launch, production readiness |
 
 This repo also bootstraps the **23 official skills** from `addyosmani/agent-skills` globally on your machine.
 
@@ -141,8 +141,10 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
 │   ├── dev-environment-audit/
 │   │   └── SKILL.md                   # Audit MCPs, CLI tools, propose installations
-│   └── backend-api-mastery/
-│       └── SKILL.md                   # Design production APIs (protocol, DB, auth, testing)
+│   ├── backend-api-mastery/
+│   │   └── SKILL.md                   # Design production APIs (protocol, DB, auth, testing)
+│   └── fullstack-shipping/
+│       └── SKILL.md                   # CI/CD, deployment, monitoring, launch checklists
 └── scripts/
     └── validate-skills.sh             # (Optional) CI validation
 ```

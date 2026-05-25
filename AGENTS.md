@@ -31,7 +31,7 @@ Map user intent to skills automatically:
 | "bug", "fix", "error", "broken", "not working" | `debugging-and-error-recovery` |
 | "test", "testing", "TDD" | `test-driven-development` |
 | "review", "check quality", "refactor" | `code-review-and-quality` |
-| "deploy", "ship", "launch", "CI/CD" | `shipping-and-launch` |
+| "deploy", "ship", "launch", "CI/CD", "build pipeline", "testing strategy", "production", "release", "go live", "monitoring", "rollback", "staging" | `fullstack-shipping` |
 | "spec", "specification", "design doc", "requirements" | `spec-driven-development` |
 | "architecture", "stack", "what framework", "MVC or", "microservices", "monolith", "pattern", "how to structure" | `architecture-analysis` |
 | "security", "auth", "vulnerability", "harden" | `security-and-hardening` |

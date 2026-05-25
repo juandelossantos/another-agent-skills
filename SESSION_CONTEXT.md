@@ -100,6 +100,20 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Phase 7: Documentation & Versioning (OpenAPI, deprecation strategy)
 - Phase 8: Lock in `API-DESIGN.md` + update `SPEC.md`
 
+#### `fullstack-shipping`
+**Location:** `skills/fullstack-shipping/SKILL.md`
+**Status:** ✅ Complete — 416 lines
+
+**Key features:**
+- Phase 1: Shipping Discovery (8 questions: environment, stages, team, rollback, database, domains, monitoring, compliance)
+- Phase 2: Research (CI/CD platforms, testing in CI, deployment patterns, monitoring tools — **always [current year]**)
+- Phase 3: CI/CD Pipeline Design (Platform-native vs GitHub Actions vs Full Control Docker) with 2-3 options
+- Phase 4: Testing Strategy in Pipeline (PR, merge, staging, production gates)
+- Phase 5: Deployment Orchestration (environments, DB migrations, secrets, rollback strategies)
+- Phase 6: Monitoring & Alerting (errors, performance, uptime, business metrics)
+- Phase 7: Launch Checklist (pre-launch, launch day, post-launch 48h)
+- Phase 8: Lock in `DEPLOYMENT.md` + update `SPEC.md`
+
 ## Immediate Next Steps (Priority Order)
 
 1. **Test ALL skills in a real project**
@@ -123,8 +137,9 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
    - Validate all guides referenced in SKILL.md actually exist
 
 4. **Future skills (post-MVP)**
-   - `fullstack-shipping` — End-to-end build, test, deploy workflows
    - `mobile-react-native` — React Native patterns, Expo
+   - `security-and-hardening` — Advanced security audits, penetration testing prep
+   - `performance-optimization` — Core Web Vitals, load testing, optimization workflows
 
 ---
 
@@ -152,8 +167,10 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
 │   ├── dev-environment-audit/
 │   │   └── SKILL.md                   # Audit MCPs, CLI tools, propose installations
-│   └── backend-api-mastery/
-│       └── SKILL.md                   # Design production APIs (protocol, DB, auth, testing)
+│   ├── backend-api-mastery/
+│   │   └── SKILL.md                   # Design production APIs (protocol, DB, auth, testing)
+│   └── fullstack-shipping/
+│       └── SKILL.md                   # CI/CD, deployment, monitoring, launch checklists
 └── scripts/                           # (empty, reserved for future)
 ```
 
