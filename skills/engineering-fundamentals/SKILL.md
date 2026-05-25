@@ -24,6 +24,7 @@ Platform skills add implementation specifics to this philosophy.
 2. **Discovery Before Design** — No code until assumptions surfaced and confirmed.
 3. **Anti-Slop** — Default AI output is generic. Intentionality prevents that.
 4. **Gates Before Progress** — Every phase ends with user confirmation.
+5. **Behavioral Discipline** — See AGENTS.md Rule 0c. Think before coding. Simplicity first. Surgical changes. Goal-driven execution.
 
 ## Universal Process
 

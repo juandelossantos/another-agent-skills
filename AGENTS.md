@@ -40,6 +40,50 @@
 
 ---
 
+## Rule 0c: Behavioral Principles
+
+**Derived from Andrej Karpathy's observations on LLM coding failures.**
+These complement structural rules (lifecycle, lazy loading) with behavioral discipline.
+
+### Principle 1: Think Before Coding
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+- State assumptions explicitly. If uncertain, ask rather than guess.
+- Present multiple interpretations. Don't pick silently when ambiguity exists.
+- Push back when warranted. If a simpler approach exists, say so.
+- Stop when confused. Name what's unclear and ask for clarification.
+→ Enforced by: `interview-me`, `spec-driven-development`, Rule 0b
+
+### Principle 2: Simplicity First
+**Minimum code that solves the problem. Nothing speculative.**
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If 200 lines could be 50, rewrite it.
+**Test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
+→ Enforced by: `engineering-fundamentals` Phase 4, `code-simplification`
+
+### Principle 3: Surgical Changes
+**Touch only what you must. Clean up only your own mess.**
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
+- Remove imports/variables/functions that YOUR changes made unused.
+**Test:** Every changed line should trace directly to the user's request.
+→ Enforced by: `git-workflow-and-versioning`, minimal changes rule
+
+### Principle 4: Goal-Driven Execution
+**Define success criteria. Loop until verified.**
+Transform imperative tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+For multi-step tasks, state a brief plan with verification per step.
+→ Enforced by: `test-driven-development`, `incremental-implementation`, Rule 9
+
+---
+
 ## Rule 1: Skills First
 
 For EVERY request:
@@ -334,6 +378,10 @@ User can disable this gate by saying:
 | "I'll add [quality] later." | Quality is a gate, not an afterthought. Add it now. |
 | "The user is impatient, I'll skip [phase]." | The user will be more impatient when the result doesn't match expectations. |
 | "I remember the design, I don't need to read files again." | Agent context drifts. Files are ground truth. |
+| "I should just pick one interpretation and go." | Silent assumptions cause costly rewrites. State them. |
+| "More code = more value." | No. More code = more maintenance, more bugs, more confusion. |
+| "I'll improve this adjacent code while I'm here." | Scope creep in diffs. Touch only what the user asked. |
+| "Make it work is enough." | Make it work, make it right, make it fast — in that order. |
 | "The user already said yes before." | Every commit is a separate decision. Approval does not transfer. |
 
 ---
