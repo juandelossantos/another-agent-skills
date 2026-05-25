@@ -39,8 +39,10 @@
 | Context persistence (Rule 0b) | ✅ Active | `AGENTS.md` |
 | User profile auto-detection (Rule 0) | ✅ Active | `user-onboarding` |
 | Token optimization (caveman-inspired) | ✅ Active | All skills and `AGENTS.md` |
-| Commit approval gate | ✅ Active | `BUILD-INTEGRATION-GUIDE.md` |
+| Commit approval gate (Rule 12) | ✅ Active | `BUILD-INTEGRATION-GUIDE.md`, `AGENTS.md` |
 | Self-review mandatory (ADR-001) | ✅ Active | `ADRs/001-self-review-principle.md` |
+| Pre-action checklist (Rule 0d) | ✅ Active | `AGENTS.md` (post-incident) |
+| Rule 12 speed bump (no batch approval) | ✅ Active | `AGENTS.md` |
 | Development artifacts convention (Rule 11) | ✅ Active | `AGENTS.md`, `DEVELOPMENT.md` |
 | Smart merge for init-agents | ✅ Active | `scripts/init-agents.sh` |
 | Backup before skill overwrite | ✅ Active | `install.sh` |

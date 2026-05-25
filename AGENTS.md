@@ -84,6 +84,30 @@ For multi-step tasks, state a brief plan with verification per step.
 
 ---
 
+## Rule 0d: Pre-Action Checklist (MECHANICAL)
+
+**Before ANY destructive or irreversible action, verbalize this checklist.**
+
+```
+STOP. Pre-action checklist:
+□ Is this action reversible? If no → REQUIRE explicit approval
+□ Does this action affect user data or repository state? If yes → REQUIRE explicit approval
+□ Have I presented the full scope to the user? If no → STOP, present first
+□ Is the user's last message an explicit "yes/sí/commit" for THIS specific action?
+  - "sigamos" / "ok" / "dale" / "continue" / silence = NOT VALID for commits
+  - Only "yes", "sí", "commit", "proceed" = VALID
+□ Did I self-review if >50 lines changed? If no → STOP, review first
+→ If ANY box unchecked: STOP. Ask user before proceeding.
+```
+
+**Irreversible actions include:**
+- git commit, push, merge, rebase, reset, cherry-pick, revert
+- file deletion (rm, git clean)
+- overwriting existing files without backup
+- executing scripts that modify system state
+
+---
+
 ## Rule 1: Skills First
 
 For EVERY request:
@@ -333,8 +357,11 @@ When working on this repository (`another-agent-skills`):
 **MANDATORY for every mutation:**
 1. Present what will change
 2. Explain impact and risk
-3. **Wait for explicit approval:** "yes", "sí", "proceed"
-4. **Invalid responses (do NOT accept):** "ok", "mmhm", silence
+3. **MECHANICAL CHECK:** Ask yourself: "Did the user say 'yes', 'sí', or 'commit' for THIS specific action?"
+4. **Wait for explicit approval:** "yes", "sí", "commit", "proceed"
+5. **Invalid responses (do NOT accept):** "ok", "mmhm", "sigamos", "dale", "continue", silence, emoji reactions
+
+**NEVER batch approval.** Previous approval for P1 does not transfer to P2. Every commit is a separate decision. Approval does not transfer.
 
 ### User Override (Requires Explicit Statement)
 
