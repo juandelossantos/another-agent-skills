@@ -15,7 +15,6 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
 | `architecture-analysis` | Evaluate 2-3 architecture options with honest trade-offs. Challenge user assumptions. Lock decisions in spec + ARCHITECTURE.md | Non-trivial projects requiring stack/pattern decisions |
 | `dev-environment-audit` | Audit MCPs, CLI tools, runtimes. Propose installations with justification. Document in DEV-ENVIRONMENT.md | Any project start, before build, environment setup |
-| *(Coming soon)* `dev-environment-audit` | Detect MCPs and tools, compare against ideal set, propose installations | Any project start, environment setup |
 | *(Coming soon)* `backend-api-mastery` | REST/GraphQL design, Prisma, tRPC, error handling | API work |
 | *(Coming soon)* `fullstack-shipping` | End-to-end build, test, and deploy workflows | Fullstack projects |
 
