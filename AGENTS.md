@@ -273,6 +273,45 @@ Our skills default to **React/Next.js/TypeScript/Tailwind** for web, **React Nat
 
 ---
 
+## Rule 6b: Skill Lazy Loading (NEW)
+
+Skills MUST be designed for on-demand loading, not eager loading.
+
+**Why this matters:** When an agent invokes `skill:frontend-web`, it loads the entire SKILL.md into context. If every skill is 400+ lines, the agent loses thousands of tokens that could be used for code/analysis.
+
+**How it works:**
+
+1. **Skill as Index** (~200 lines max):
+   - Contains: When to use, stack lock-in, summary of each phase, QA gates
+   - References: Detailed guides with "Read `GUIDE-NAME.md` for complete implementation"
+   - Does NOT contain: Full discovery questions, detailed protocol matrices, complete testing strategies
+
+2. **Guides as Lazy Content** (loaded on-demand):
+   - `DISCOVERY-GUIDE.md` — loaded only when Phase 1 is reached
+   - `PROTOCOL-GUIDE.md` — loaded only when Phase 3 is reached
+   - `AUTH-GUIDE.md` — loaded only when Phase 5 is reached
+   - `ANIMATION-GUIDE.md` — loaded only when animation phase is reached
+   - `TESTING-GUIDE.md` — loaded only when testing phase is reached
+   - `EXAMPLES.md` — loaded only when troubleshooting
+
+3. **Foundation loaded once**:
+   - `engineering-fundamentals` is implicit for all skills
+   - Not duplicated in every skill
+
+**Verification:**
+- [ ] Every skill is < 250 lines
+- [ ] Every skill references at least 2 guides
+- [ ] Guides exist as separate files
+- [ ] No implementation detail duplicated between SKILL.md and guides
+- [ ] `engineering-fundamentals` is not duplicated in platform skills
+
+**Anti-rationalization:** "The user needs to see everything at once." → NO. The agent loads guides on-demand as phases are reached. Context is preserved. The user never sees the loading — they only see the relevant instructions at the right time.
+- backend-api-mastery: Using FastAPI instead of Next.js API routes
+- Architecture: Clean Architecture instead of MVC
+```
+
+---
+
 ## Rule 7: Anti-Rationalization
 
 These thoughts are WRONG. Ignore them:

@@ -12,16 +12,15 @@ compatibility: opencode
 metadata:
   audience: backend-engineers
   workflow: research-design-document
+  foundation: engineering-fundamentals
 ---
 
 # Backend API Mastery
 
-**No endpoint is written until the API contract is designed, justified, and
-locked.**
+**Built on `engineering-fundamentals`.** Read that skill first. This document adds
+backend-specific implementation to the universal philosophy.
 
-This skill prevents the most common backend trap: jumping straight to code
-without answering fundamental questions about data, consumers, auth, and scale.
-It forces the agent to design the API as a product, not as an afterthought.
+**No endpoint is written until the API contract is designed, justified, and locked.**
 
 ## When to Use
 
@@ -42,7 +41,7 @@ It forces the agent to design the API as a product, not as an afterthought.
 - The backend is already designed and documented in `API-DESIGN.md`
 - The task is purely operational (fix a bug in existing API, add one field)
 
-### Stack Detection (NEW)
+### Stack Detection
 
 Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in the project root.
 
@@ -53,7 +52,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 - Database decisions (SQL vs NoSQL) are framework-agnostic.
 
 **If no `STACK_CONFIG.md` exists:**
-- Default to Node.js + TypeScript + Express/Fastify + Prisma + PostgreSQL (as documented below).
+- Default to Node.js + TypeScript + Express/Fastify + Prisma + PostgreSQL.
 - Ask the user: "¿Quieres usar Node.js/Express/Prisma (default) o prefieres Python/FastAPI, Go, Rust, etc.?"
 
 **Adaptation examples:**
@@ -65,69 +64,17 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 
 ## Core Process
 
-### Phase 0 — Context Assessment
-
-1. **Check existing documentation:**
-   - Does `SPEC.md` exist? Read its Architecture Decisions and Tech Stack sections.
-   - Does `architecture/ARCHITECTURE.md` exist? Respect its backend decisions.
-   - Does `API-DESIGN.md` exist? If yes and task is within its scope, build within it.
-
-2. **Assess scope:**
-   - **Simple:** Single model CRUD, no auth, internal use only → Lightweight design.
-   - **Non-trivial:** Multiple models, auth, public API, third-party consumers → Full design.
-   - **Complex:** Microservices, event-driven, high scale, regulated → Extended analysis.
-
-3. **Check health status:**
-   - If existing codebase → Verify `HEALTH-CHECK.md` exists and is recent.
-   - If critical issues → Fix foundation before adding API layer.
+### Phase 0 — Language Detection
+→ See `engineering-fundamentals` Phase 0.
 
 ---
 
-### Phase 1 — Domain Discovery (MANDATORY)
+### Phase 1 — Domain Discovery
+→ See `engineering-fundamentals` Phase 1 for universal discovery.
 
-**NO DESIGN DECISIONS ARE MADE UNTIL THIS PHASE IS COMPLETE.**
+Read `DISCOVERY-GUIDE.md` in this skill directory for the **complete backend discovery checklist** (assumptions, 10 questions, extended discovery, confirmation).
 
-#### Step 1: Surface Assumptions
-
-List at least 4 assumptions about the backend:
-
-```
-BACKEND ASSUMPTIONS:
-1. This API will serve [internal only / public / third-party developers]
-2. The primary consumers are [web app / mobile / IoT / other APIs]
-3. Auth will be [none / basic session / JWT / OAuth / API keys]
-4. Peak traffic will be [N requests/second]
-→ Correct me now or I'll proceed with these.
-```
-
-#### Step 2: Backend Discovery Interview (10 Questions)
-
-Ask in the user's detected language. Do not proceed until answered:
-
-1. **Data**: What data must persist? (users, transactions, logs, media, events, time-series)
-2. **Consumers**: Who consumes this API? (your web app, mobile apps, third-party devs, IoT devices)
-3. **Public vs Private**: Is this API only for your frontend, or will third-party developers use it?
-4. **Volume**: Peak requests per second? Expected data growth per month?
-5. **Auth**: Do you need authentication? What user types? (public, authenticated, admin, roles)
-6. **Real-time**: Need WebSockets, Server-Sent Events, or pure request/response?
-7. **Protocol**: REST, GraphQL, tRPC, or undecided?
-8. **Database preference**: PostgreSQL, MySQL, MongoDB, SQLite, or undecided?
-9. **ORM**: Prisma, Drizzle, TypeORM, raw SQL, or undecided?
-10. **Integrations**: Does it connect to external systems? (payments, emails, notifications, third-party APIs)
-
-#### Step 3: Extended Technical Discovery (if non-trivial)
-
-11. **Compliance**: Any regulatory requirements? (GDPR, HIPAA, SOC2, PCI-DSS)
-12. **Caching**: Need Redis, CDN, or application-level caching?
-13. **Queue/Background jobs**: Need job queues? (email sending, image processing, reports)
-14. **Multi-tenancy**: One DB per tenant, schema per tenant, or shared tables?
-15. **Rate limiting**: Any expectations? (requests per minute/hour/day per user)
-
-#### Step 4: Confirm & Lock
-
-Summarize technical context. Ask: **"¿Es esto correcto? ¿Procedemos al diseño? / Is this correct? Shall we design?"**
-
-Only after explicit confirmation, proceed to Phase 2.
+**Summary:** Surface assumptions about API consumers, auth, traffic. Ask 10 questions (data, consumers, volume, auth, protocol, database, ORM, integrations). Extend to 15 for non-trivial (compliance, caching, queues, multi-tenancy, rate limiting). Confirm before proceeding.
 
 ---
 
@@ -143,62 +90,26 @@ Only after explicit confirmation, proceed to Phase 2.
    
    **Always use the current year.** Never hardcode a specific year.
 
-2. **Check official documentation:**
-   - Latest stable versions of candidate technologies
-   - Known limitations or breaking changes
-   - Migration paths (if user has existing code)
+2. **Check official documentation:** Latest stable versions, known limitations, migration paths.
 
-3. **Find benchmarks:**
-   - ORM performance comparisons
-   - Auth library security audits
-   - Database query patterns for the user's specific data model
+3. **Find benchmarks:** ORM performance, auth library security audits, database query patterns.
 
-4. **Present findings concisely:**
-   ```
-   RESEARCH FINDINGS:
-   - [Technology A]: Dominant in [domain], excellent for [strength].
-     Limitation: [specific weakness for this context].
-   - [Technology B]: Rising adoption, great for [strength].
-     Limitation: [specific weakness].
-   → Any of this context change your thinking?
-   ```
+4. **Present findings concisely** to user before proceeding.
 
 ---
 
 ### Phase 3 — Protocol Decision
 
-**Generate exactly 2-3 protocol options. Never default to REST without justification.**
+Read `PROTOCOL-GUIDE.md` in this skill directory for the **complete protocol decision matrix**.
+
+**Summary:** Generate 2-3 options (REST, GraphQL, tRPC, WebSocket). Never default to REST without justification. Include honest pros AND cons for each. Present to user for selection.
 
 | Protocol | Best For | Avoid When |
 |---|---|---|
-| **REST** | Standard HTTP, caching, simple CRUD, public APIs | Complex nested queries, real-time needs, tight frontend coupling |
-| **GraphQL** | Multiple consumers with different data needs, mobile apps, public APIs with exploration | Simple CRUD, caching complexity unacceptable, team unfamiliar |
-| **tRPC** | Fullstack TypeScript monorepo, end-to-end type safety, no API documentation overhead | Non-TypeScript consumers, public API for third parties, multi-platform |
+| **REST** | Standard HTTP, caching, simple CRUD, public APIs | Complex nested queries, real-time needs |
+| **GraphQL** | Multiple consumers, mobile apps, public APIs with exploration | Simple CRUD, caching complexity unacceptable |
+| **tRPC** | Fullstack TypeScript, end-to-end type safety | Non-TypeScript consumers, public API for third parties |
 | **WebSocket/SSE** | Real-time updates, chat, live dashboards | Standard request/response is sufficient |
-
-**Example options:**
-
-- **Option A — REST + OpenAPI**
-  - Stack: Express/Fastify + Zod + OpenAPI/Swagger
-  - Pros: Universally understood, excellent caching, easy public documentation
-  - Contras: Over-fetching/under-fetching, versioning overhead, manual type sync with frontend
-  - Ideal for: Public APIs, third-party developers, simple data shapes
-
-- **Option B — GraphQL**
-  - Stack: Apollo Server/Yoga + Pothos/TypeGraphQL + Codegen
-  - Pros: Precise data fetching, single endpoint, self-documenting
-  - Contras: Query complexity attacks, caching harder, learning curve for team
-  - Ideal for: Multiple consumers (web + mobile + third-party), complex data relationships
-
-- **Option C — tRPC**
-  - Stack: tRPC + Fastify/Next.js + Zod
-  - Pros: End-to-end type safety, no manual API documentation, tight frontend coupling
-  - Contras: Only TypeScript consumers, tight coupling means frontend/backend can't evolve independently
-  - Ideal for: Fullstack TypeScript, internal APIs, rapid iteration
-
-**Critical Challenge:**
-- User wants GraphQL for a simple CRUD app with one consumer → "GraphQL adds complexity you don't need. tRPC gives you type safety with less overhead for a single TypeScript frontend. REST is simpler still. What's your priority: type safety or simplicity?"
-- User wants tRPC for a public API → "tRPC is brilliant for internal TypeScript teams but useless for non-TypeScript consumers or public APIs. For public APIs, REST or GraphQL are the only viable options."
 
 ---
 
@@ -209,21 +120,17 @@ Only after explicit confirmation, proceed to Phase 2.
 | Type | Best For | Avoid When |
 |---|---|---|
 | **PostgreSQL** | Relational data, complex queries, JSON support, transactions | Simple key-value, schema-less needs, extreme write throughput |
-| **MySQL** | Simple relational, existing MySQL ecosystem, LAMP stacks | Complex JSON operations, advanced PostgreSQL features needed |
-| **SQLite** | Prototyping, embedded, single-user, serverless edge | Multi-user concurrency, high write volume, network access |
-| **MongoDB** | Flexible schema, document-oriented, rapid iteration | Complex transactions, heavy joins, strict data consistency |
+| **MySQL** | Simple relational, existing MySQL ecosystem | Complex JSON operations, advanced PostgreSQL features |
+| **SQLite** | Prototyping, embedded, single-user, serverless edge | Multi-user concurrency, high write volume |
+| **MongoDB** | Flexible schema, document-oriented, rapid iteration | Complex transactions, heavy joins, strict consistency |
 
 #### 4B: ORM Decision
 
 | ORM | Best For | Avoid When |
 |---|---|---|
 | **Prisma** | DX-first, migrations, type safety, team productivity | Performance-critical raw SQL, complex query optimization |
-| **Drizzle** | Performance, SQL-like syntax, lightweight, edge-compatible | Need mature ecosystem, complex migrations, Prisma's client features |
+| **Drizzle** | Performance, SQL-like syntax, lightweight, edge-compatible | Need mature ecosystem, complex migrations |
 | **TypeORM** | Existing TypeORM codebase, decorators, active record | New projects (Prisma/Drizzle are more modern) |
-
-**Critical Challenge:**
-- User wants MongoDB for relational data → "MongoDB is document-oriented. If your data has relationships (users → orders → products), you'll end up implementing joins in application code. PostgreSQL handles this natively with better consistency."
-- User wants raw SQL "for performance" → "Prisma is ~10% slower than raw SQL for most queries. Unless you're building a high-frequency trading system, that 10% is worth the type safety and DX. You can always drop to raw SQL for specific hot paths."
 
 #### 4C: Schema Design
 
@@ -236,11 +143,17 @@ Only after explicit confirmation, proceed to Phase 2.
 
 Document in `API-DESIGN.md` → Section "Data Model"
 
+**Critical Challenge:**
+- User wants MongoDB for relational data → "MongoDB is document-oriented. If your data has relationships, you'll end up implementing joins in application code. PostgreSQL handles this natively."
+- User wants raw SQL "for performance" → "Prisma is ~10% slower than raw SQL for most queries. Unless you're building high-frequency trading, that 10% is worth the type safety and DX. You can always drop to raw SQL for specific hot paths."
+
 ---
 
 ### Phase 5 — Auth & Security
 
-#### 5A: Auth Strategy
+Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy matrix**.
+
+**Summary:** Choose auth strategy (Session/Cookie, JWT, OAuth, API Keys). Implement validation with Zod. Apply security checklist (HTTPS, CORS, input validation, SQL injection prevention, XSS prevention, rate limiting, secrets management, security headers).
 
 | Strategy | Best For | Avoid When |
 |---|---|---|
@@ -248,33 +161,6 @@ Document in `API-DESIGN.md` → Section "Data Model"
 | **JWT (short-lived + refresh)** | SPAs, mobile apps, stateless APIs | Long-lived tokens needed, token revocation critical |
 | **OAuth 2.0 / OIDC** | Third-party login (Google, GitHub), SSO | Simple internal app, no external identity providers |
 | **API Keys** | Service-to-service, IoT, simple integrations | User-facing auth, high security requirements |
-
-**Critical Challenge:**
-- User wants JWT for long-lived sessions → "JWTs can't be revoked individually without a blacklist, which defeats the purpose of statelessness. For long sessions with logout capability, server-side sessions are more secure."
-- User wants to build their own auth → "Auth is security-critical and easy to get wrong. Use NextAuth, Clerk, Auth0, or Supabase Auth. Building your own is a liability unless you're a security company."
-
-#### 5B: Validation & Input Sanitization
-
-- **Always use Zod** (or similar) for runtime validation of all inputs
-- Never trust client data — validate at API boundary
-- Sanitize outputs to prevent XSS (even in JSON APIs)
-
-#### 5C: Rate Limiting
-
-- **Always implement** for public APIs
-- Use Redis or in-memory for distributed setups
-- Different limits for authenticated vs anonymous users
-
-#### 5D: Security Checklist
-
-- [ ] HTTPS only (HSTS headers)
-- [ ] CORS properly configured (not `*` in production)
-- [ ] Input validation on every endpoint
-- [ ] SQL injection prevention (ORM or parameterized queries)
-- [ ] XSS prevention (sanitize outputs)
-- [ ] Rate limiting implemented
-- [ ] Secrets not in code (`.env` + `.env.example`)
-- [ ] Security headers (Helmet or equivalent)
 
 ---
 
@@ -289,28 +175,19 @@ Use structured, consistent error responses:
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "Invalid input data",
-    "details": [
-      { "field": "email", "message": "Invalid email format" }
-    ],
+    "details": [{ "field": "email", "message": "Invalid email format" }],
     "requestId": "req_12345"
   }
 }
 ```
 
-**HTTP Status Codes (use correctly):**
-- 200 OK — GET success
-- 201 Created — POST success
-- 204 No Content — DELETE success
-- 400 Bad Request — Client input error
-- 401 Unauthorized — Not authenticated
-- 403 Forbidden — Authenticated but not authorized
-- 404 Not Found — Resource doesn't exist
-- 409 Conflict — Business logic conflict
-- 422 Unprocessable Entity — Validation failed
-- 429 Too Many Requests — Rate limited
-- 500 Internal Server Error — Server bug (log, don't expose details)
+**HTTP Status Codes (use correctly):** 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 422 Unprocessable Entity, 429 Too Many Requests, 500 Internal Server Error.
 
 #### 6B: Testing Strategy
+
+Read `TESTING-GUIDE.md` in this skill directory for the **complete testing strategy**.
+
+**Summary:** Unit (Vitest/Jest) for services/utilities. Integration (Vitest + test DB) for endpoints/queries. Contract (Zod/OpenAPI) for request/response shapes. E2E (Playwright) for critical flows. Always use separate test database.
 
 | Level | Tool | Coverage |
 |---|---|---|
@@ -318,8 +195,6 @@ Use structured, consistent error responses:
 | **Integration** | Vitest + test DB | API endpoints, database queries, auth flows |
 | **Contract** | Zod/OpenAPI | Request/response shape validation |
 | **E2E** | Playwright | Critical user flows through the API |
-
-**Test database:** Always use a separate test database or Docker container. Never test against production or development databases.
 
 ---
 
@@ -351,45 +226,9 @@ Use structured, consistent error responses:
 
 **All decisions must be durable. Another engineer should be able to build the API from these documents.**
 
-1. **Create/Update `API-DESIGN.md`:**
-   ```markdown
-   # API Design
+1. **Create/Update `API-DESIGN.md`** with all sections (Overview, Protocol Decision, Data Model, Authentication, Endpoints/Schema, Error Handling, Testing Strategy, Security Checklist, Versioning).
 
-   ## Overview
-   [Protocol, purpose, consumers]
-
-   ## Protocol Decision
-   - Chosen: [REST/GraphQL/tRPC] because [justification]
-   - Rejected: [alternatives] because [reasons]
-
-   ## Data Model
-   [Entity Relationship Diagram or table definitions]
-
-   ## Authentication
-   - Strategy: [session/JWT/OAuth/API keys]
-   - Authorization: [roles/permissions/ABAC]
-
-   ## Endpoints / Schema
-   [For REST: endpoint table with methods, auth, validation]
-   [For GraphQL: type definitions]
-   [For tRPC: router structure]
-
-   ## Error Handling
-   [Error format, status codes, common error scenarios]
-
-   ## Testing Strategy
-   [Unit, integration, E2E coverage plan]
-
-   ## Security Checklist
-   [Rate limits, CORS, validation, secrets]
-
-   ## Versioning
-   [Strategy, current version, deprecation policy]
-   ```
-
-2. **Update `SPEC.md`:**
-   - Add API Design Decisions section
-   - Reference `API-DESIGN.md`
+2. **Update `SPEC.md`** with API Design Decisions section referencing `API-DESIGN.md`.
 
 ---
 
@@ -400,12 +239,12 @@ Use structured, consistent error responses:
 User: "I need a simple API for my blog posts."
 
 Agent:
-1. Phase 1: Discover — one consumer (web app), no auth needed for read, admin auth for write, low volume.
-2. Phase 2: Research — "REST best practices [current year]", "Prisma vs Drizzle [current year]".
-3. Phase 3: Protocol — Recommend REST (simple, cacheable, public reads). User accepts.
-4. Phase 4: Database — SQLite for simplicity (prototyping), PostgreSQL if they plan to deploy. User picks PostgreSQL. Prisma for DX.
-5. Phase 5: Auth — NextAuth with sessions for admin write operations.
-6. Phase 6: Error handling + testing plan.
+1. Phase 1: Discover → one consumer (web app), no auth needed for read, admin auth for write, low volume. **Read `DISCOVERY-GUIDE.md`**.
+2. Phase 2: Research → "REST best practices [current year]", "Prisma vs Drizzle [current year]".
+3. Phase 3: Protocol → Recommend REST. **Read `PROTOCOL-GUIDE.md`**.
+4. Phase 4: Database → SQLite for simplicity, PostgreSQL if deploying. User picks PostgreSQL + Prisma.
+5. Phase 5: Auth → NextAuth with sessions. **Read `AUTH-GUIDE.md`**.
+6. Phase 6: Error handling + testing plan. **Read `TESTING-GUIDE.md`**.
 7. Phase 7: OpenAPI documentation.
 8. Phase 8: Create `API-DESIGN.md`.
 
@@ -414,12 +253,12 @@ Agent:
 User: "I need an API for my e-commerce platform with payment integration."
 
 Agent:
-1. Phase 1: Discover — web + mobile consumers, PCI-DSS compliance needed, Stripe integration, 1000+ orders/day expected.
-2. Phase 2: Research — "GraphQL e-commerce [current year]", "Prisma performance [current year]", "Stripe webhook security [current year]".
-3. Phase 3: Protocol — Recommend GraphQL (web + mobile with different data needs). User accepts.
-4. Phase 4: Database — PostgreSQL (transactions critical). Prisma (mature ecosystem, excellent migration support).
-5. Phase 5: Auth — OAuth 2.0 + JWT short-lived + refresh tokens. Rate limiting critical (Stripe webhooks, public endpoints).
-6. Phase 6: Comprehensive testing (unit, integration, Stripe webhook simulation, E2E purchase flow).
+1. Phase 1: Discover → web + mobile consumers, PCI-DSS compliance, Stripe integration, 1000+ orders/day. **Read `DISCOVERY-GUIDE.md`**.
+2. Phase 2: Research → "GraphQL e-commerce [current year]", "Stripe webhook security [current year]".
+3. Phase 3: Protocol → Recommend GraphQL. **Read `PROTOCOL-GUIDE.md`**.
+4. Phase 4: Database → PostgreSQL (transactions critical) + Prisma.
+5. Phase 5: Auth → OAuth 2.0 + JWT short-lived + refresh tokens. Rate limiting critical. **Read `AUTH-GUIDE.md`**.
+6. Phase 6: Comprehensive testing. **Read `TESTING-GUIDE.md`**.
 7. Phase 7: OpenAPI for public endpoints, GraphQL introspection for internal.
 8. Phase 8: Create `API-DESIGN.md`.
 
@@ -455,12 +294,12 @@ Agent:
 ## Verification
 
 Before proceeding to implementation, confirm:
-- [ ] Phase 1: Discovery complete with 10+ questions answered.
+- [ ] Phase 1: Discovery complete with 10+ questions answered. **(Verify in `DISCOVERY-GUIDE.md`)**
 - [ ] Phase 2: Research completed with current year sources.
-- [ ] Phase 3: Protocol chosen with 2-3 options evaluated.
+- [ ] Phase 3: Protocol chosen with 2-3 options evaluated. **(Verify in `PROTOCOL-GUIDE.md`)**
 - [ ] Phase 4: Database type, ORM, and schema designed.
-- [ ] Phase 5: Auth strategy justified and security checklist complete.
-- [ ] Phase 6: Error format defined and testing strategy documented.
+- [ ] Phase 5: Auth strategy justified and security checklist complete. **(Verify in `AUTH-GUIDE.md`)**
+- [ ] Phase 6: Error format defined and testing strategy documented. **(Verify in `TESTING-GUIDE.md`)**
 - [ ] Phase 7: Documentation strategy (OpenAPI/GraphQL/tRPC types) chosen.
 - [ ] Phase 8: `API-DESIGN.md` created with all sections.
 - [ ] `SPEC.md` updated with API Design Decisions.
