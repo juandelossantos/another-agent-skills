@@ -19,6 +19,8 @@ REMOTE_REPO="https://github.com/addyosmani/agent-skills.git"
 REMOTE_DIR="${HOME}/.config/opencode/.agent-skills-remote"
 GLOBAL_SKILLS_DIR="${HOME}/.config/opencode/skills"
 ZSHRC="${HOME}/.zshrc"
+BASHRC="${HOME}/.bashrc"
+LOCAL_BIN="${HOME}/.local/bin"
 
 # Colors
 RED='\033[0;31m'
@@ -170,6 +172,103 @@ BLOCK
 }
 
 # ---------------------------------------------------------------------------
+create_global_scripts() {
+    info "Creating global executable scripts..."
+    
+    # Ensure ~/.local/bin exists
+    mkdir -p "${LOCAL_BIN}"
+    
+    # Ensure ~/.local/bin is in PATH for Zsh
+    if [[ -f "${ZSHRC}" ]]; then
+        if ! grep -q "export PATH=.*${LOCAL_BIN}" "${ZSHRC}"; then
+            echo "export PATH=\"${LOCAL_BIN}:\$PATH\"" >> "${ZSHRC}"
+            ok "Added ${LOCAL_BIN} to PATH in ${ZSHRC}"
+        fi
+    fi
+    
+    # Ensure ~/.local/bin is in PATH for Bash
+    if [[ -f "${BASHRC}" ]]; then
+        if ! grep -q "export PATH=.*${LOCAL_BIN}" "${BASHRC}"; then
+            echo "export PATH=\"${LOCAL_BIN}:\$PATH\"" >> "${BASHRC}"
+            ok "Added ${LOCAL_BIN} to PATH in ${BASHRC}"
+        fi
+    fi
+    
+    # Create init-agents executable
+    cat > "${LOCAL_BIN}/init-agents" << 'EXEC_SCRIPT'
+#!/usr/bin/env bash
+# init-agents — Global wrapper for Another Agent Skills
+# Created by install.sh. Works in any shell (Bash, Zsh, Fish, etc.)
+
+set -euo pipefail
+
+# Find the another-agent-skills repo
+# Priority: 1) ANOTHER_AGENT_SKILLS_DIR env var, 2) ~/.config/opencode/.agent-skills-remote, 3) common locations
+SKILLS_REPO=""
+
+if [[ -n "${ANOTHER_AGENT_SKILLS_DIR:-}" && -d "${ANOTHER_AGENT_SKILLS_DIR}" ]]; then
+    SKILLS_REPO="${ANOTHER_AGENT_SKILLS_DIR}"
+fi
+
+# Fallback: search common locations
+if [[ -z "${SKILLS_REPO}" ]]; then
+    for candidate in \
+        "${HOME}/another-agent-skills" \
+        "${HOME}/.config/opencode/another-agent-skills" \
+        "${HOME}/.local/share/another-agent-skills" \
+        "${HOME}/workspace/another-agent-skills" \
+        "${HOME}/projects/another-agent-skills"; do
+        if [[ -d "${candidate}" && -f "${candidate}/scripts/init-agents.sh" ]]; then
+            SKILLS_REPO="${candidate}"
+            break
+        fi
+    done
+fi
+
+if [[ -z "${SKILLS_REPO}" ]]; then
+    echo "ERROR: Cannot find another-agent-skills repository." >&2
+    echo "Please set ANOTHER_AGENT_SKILLS_DIR to the repo path:" >&2
+    echo "  export ANOTHER_AGENT_SKILLS_DIR=/path/to/another-agent-skills" >&2
+    exit 1
+fi
+
+# Run the actual init-agents script
+bash "${SKILLS_REPO}/scripts/init-agents.sh"
+EXEC_SCRIPT
+    chmod +x "${LOCAL_BIN}/init-agents"
+    ok "Created ${LOCAL_BIN}/init-agents"
+    
+    # Create update-global-skills executable
+    cat > "${LOCAL_BIN}/update-global-skills" << 'EXEC_SCRIPT'
+#!/usr/bin/env bash
+# update-global-skills — Global wrapper for Another Agent Skills
+# Created by install.sh. Works in any shell.
+
+set -euo pipefail
+
+_REMOTE="${HOME}/.config/opencode/.agent-skills-remote"
+
+if [[ -d "${_REMOTE}" ]]; then
+    echo "Pulling latest changes from addyosmani/agent-skills..."
+    (cd "${_REMOTE}" && git pull)
+    echo "Done."
+else
+    echo "ERROR: Remote repo not found at ${_REMOTE}" >&2
+    echo "Run install.sh to set up." >&2
+    exit 1
+fi
+EXEC_SCRIPT
+    chmod +x "${LOCAL_BIN}/update-global-skills"
+    ok "Created ${LOCAL_BIN}/update-global-skills"
+    
+    # Add current session PATH if not present
+    if [[ ":${PATH}:" != *":${LOCAL_BIN}:"* ]]; then
+        export PATH="${LOCAL_BIN}:${PATH}"
+        ok "Added ${LOCAL_BIN} to current session PATH"
+    fi
+}
+
+# ---------------------------------------------------------------------------
 verify_installation() {
     info "Verifying installation..."
     local total_skills
@@ -200,12 +299,16 @@ verify_installation() {
     fi
 
     echo ""
-    echo "Next steps:"
-    echo "  1. Run:  source ${ZSHRC}"
-    echo "  2. Test: ls ~/.config/opencode/skills/"
-    echo "  3. Use:  init-agents  (in any project to copy AGENTS.md)"
     echo ""
-    echo "To update manually:  update-global-skills"
+    echo "Next steps:"
+    echo "  1. Run:  source ${ZSHRC}   (or open a new terminal)"
+    echo "  2. Test: ls ~/.config/opencode/skills/"
+    echo "  3. Use:  init-agents  (in any project — works in any shell)"
+    echo ""
+    echo "Global scripts installed:"
+    echo "  ${LOCAL_BIN}/init-agents         → Initialize agent rules in any project"
+    echo "  ${LOCAL_BIN}/update-global-skills → Pull latest skill updates"
+    echo ""
     echo "========================================"
 }
 
@@ -220,6 +323,7 @@ main() {
     link_remote_skills
     install_custom_skills
     update_shell_config
+    create_global_scripts
     verify_installation
     ok "All done!"
 }
