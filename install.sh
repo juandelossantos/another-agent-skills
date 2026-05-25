@@ -10,7 +10,10 @@ set -euo pipefail
 #   - Daily auto-update, shell aliases, and idempotent installs.
 #
 # Usage:
-#   bash install.sh
+#   bash install.sh                        # Full skill installation
+#   bash install.sh --agent claude         # Install Claude Code adapter
+#   bash install.sh --agent cursor         # Install Cursor adapter
+#   bash install.sh --agent all            # Install all adapters
 # =============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -313,6 +316,66 @@ verify_installation() {
 }
 
 # ---------------------------------------------------------------------------
+AGENT_USAGE="Usage: bash install.sh --agent {claude|cursor|all}"
+
+install_agent_adapter() {
+    local agent="$1"
+    local template_dir="${SCRIPT_DIR}/templates"
+    local dest=""
+
+    if [[ ! -d "${template_dir}" ]]; then
+        error "Templates directory not found at ${template_dir}"
+        return 1
+    fi
+
+    case "${agent}" in
+        claude)
+            info "Installing Claude Code adapter..."
+            dest="${PWD}/CLAUDE.md"
+            if [[ ! -f "${template_dir}/CLAUDE.md" ]]; then
+                error "Template CLAUDE.md not found in ${template_dir}"
+                return 1
+            fi
+            if [[ -f "${dest}" ]]; then
+                cp "${dest}" "${dest}.backup.$(date +%Y%m%d%H%M%S)"
+                warn "Backed up existing CLAUDE.md"
+            fi
+            cp "${template_dir}/CLAUDE.md" "${dest}"
+            ok "Installed CLAUDE.md → ${dest}"
+            ;;
+        cursor)
+            info "Installing Cursor adapter..."
+            dest="${PWD}/.cursorrules"
+            if [[ ! -f "${template_dir}/.cursorrules" ]]; then
+                error "Template .cursorrules not found in ${template_dir}"
+                return 1
+            fi
+            if [[ -f "${dest}" ]]; then
+                cp "${dest}" "${dest}.backup.$(date +%Y%m%d%H%M%S)"
+                warn "Backed up existing .cursorrules"
+            fi
+            cp "${template_dir}/.cursorrules" "${dest}"
+            ok "Installed .cursorrules → ${dest}"
+            ;;
+        *)
+            echo "${AGENT_USAGE}"
+            echo ""
+            echo "  claude   Install CLAUDE.md (Claude Code adapter)"
+            echo "  cursor   Install .cursorrules (Cursor adapter)"
+            echo "  all      Install all adapters"
+            return 1
+            ;;
+    esac
+}
+
+install_all_adapters() {
+    local errors=0
+    install_agent_adapter claude || ((errors++))
+    install_agent_adapter cursor || ((errors++))
+    return "${errors}"
+}
+
+# ---------------------------------------------------------------------------
 main() {
     echo ""
     echo "Another Agent Skills — Global Installer"
@@ -327,5 +390,32 @@ main() {
     verify_installation
     ok "All done!"
 }
+
+# Agent-only mode
+if [[ "${1:-}" == "--agent" ]]; then
+    if [[ -z "${2:-}" ]]; then
+        echo "${AGENT_USAGE}"
+        exit 1
+    fi
+    echo ""
+    echo "Another Agent Skills — Agent Adapter Installer"
+    echo "=============================================="
+    echo ""
+    if [[ "$2" == "all" ]]; then
+        install_all_adapters
+    else
+        install_agent_adapter "$2"
+    fi
+    _agent_rc=$?
+    if [[ "${_agent_rc}" -eq 0 ]]; then
+        echo ""
+        echo "========================================"
+        echo "  Agent Adapter — Setup Complete"
+        echo "========================================"
+        echo ""
+        echo "To remove, delete the copied file from your project root."
+    fi
+    exit "${_agent_rc}"
+fi
 
 main "$@"

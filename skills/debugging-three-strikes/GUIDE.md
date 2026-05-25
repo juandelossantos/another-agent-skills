@@ -37,7 +37,7 @@ STOP. 3rd strike on this bug.
    ```
    Root cause: [specificity / selector / missing resource / etc]
    Proposed fix: [one sentence]
-   → ¿Procedo con el fix?
+   → Proceed with fix?
    ```
 5. Only after user confirms, apply the fix.
 

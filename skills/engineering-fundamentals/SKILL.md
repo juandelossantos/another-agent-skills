@@ -40,7 +40,7 @@ Detect immediately. Spanish keywords → Spanish. English keywords → English. 
 
 **Surface:** Audience, Core problem, Scale (MVP/Standard/Complex), Platform-specific. **Discover (min 5):** Audience, Purpose, Scope, Context, Constraints. **Extended (non-trivial):** Data, Security, Integrations, Offline, Scalability.
 
-**Confirm:** Summarize. Ask "¿Es esto correcto? ¿Procedemos?" Only after explicit yes, proceed.
+**Confirm:** Summarize. Ask "Is this correct? Shall we proceed?" Only after explicit yes, proceed.
 
 ---
 

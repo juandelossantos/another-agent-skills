@@ -45,7 +45,7 @@ Agent: "Primera vez. Preguntas rápidas para personalizar ayuda."
 
 1. **Check `~/.config/opencode/user-profile.json`:**
    - <90 days → Read, skip to Phase 3 (Quick Verify)
-   - >90 days → Read, ask "¿Actualizar perfil?"
+   - >90 days → Read, ask "Update profile?"
    - Missing → Full onboarding
 
 2. **Check stale preferences:** Mentioned technologies outdated (e.g., Next.js 14 when current is 16)? Suggest update.
@@ -138,12 +138,12 @@ PROFILE DETECTED:
 
 Name: Juan | Role: Developer | Industry: Fintech
 Platform: Web (React) + Node.js + PostgreSQL + Vercel
-Design: Minimalista, dark mode, animación moderada
-Communication: Detallado, propone opciones
+Design: Minimalist, dark mode, moderate animation
+Communication: Detailed, proposes options
 Default purpose: Development
 
-→ ¿Siguen siendo correctas? (yes/sí)
-→ ¿Actualizar algo? (responde con número de sección)
+→ Still correct? (yes/sí)
+→ Update anything? (reply with section number)
 ```
 
 ---
@@ -152,9 +152,9 @@ Default purpose: Development
 
 → **See `USAGE-EXAMPLES-GUIDE.md` for 5 skill-specific examples and preference update workflow.**
 
-**Without profile:** "¿React o Vue? ¿Qué stack?"
+**Without profile:** "React or Vue? What stack?"
 
-**With profile:** "Veo que prefieres React + Tailwind. ¿Confirmas para este proyecto?"
+**With profile:** "I see you prefer React + Tailwind. Confirm for this project?"
 
 ---
 
@@ -171,7 +171,7 @@ Default purpose: Development
 
 ## Red Flags
 
-- Asks "¿React o Vue?" when profile already specifies.
+- Asks "React or Vue?" when profile already specifies.
 - Ignores user preference, defaults to agent's own.
 - Profile contains secrets or API keys.
 - Profile never updated even after user changes preferences.

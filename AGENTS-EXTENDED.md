@@ -52,6 +52,44 @@
 
 ---
 
+## Multi-Agent Orchestration (Full Reference)
+
+See `multi-agent-orchestration` SKILL.md + GUIDE.md for complete patterns.
+
+### Agent Roles Summary
+
+| Role | Subagent Type | Tool | Max | Description |
+|---|---|---|---|---|
+| Planner | `general` | `task` | 1 | Break down work, sequence, review |
+| Coder | `general` | `task` | 3-5 | Parallel implementation |
+| Researcher | `explore` | `task` | 2-3 | Codebase exploration |
+| Reviewer | `general` | `task` | 1 | Post-build review |
+| Auditor | `explore` | `task` | 1 | Pre-commit audit |
+
+### Orchestration Patterns
+
+| Pattern | Structure | When |
+|---|---|---|
+| Sequential | A → B → C | B depends on A output |
+| Pipeline | Spec → Impl → Test → Review | Phase-gated flow |
+| Parallel | A + B + C concurrently | Independent modules |
+| Swarm | A\|B\|C same problem | Competitive exploration |
+
+### Permission Boundaries
+
+- Subagents can write/edit ASSIGNED files only. Files listed in prompt.
+- Subagents never commit (Rule 12). Only Orchestrator.
+- Subagents receive relevant skill SKILL.md + GUIDE.md only — never full AGENTS.md.
+- Orchestrator verifies output BEFORE integration.
+
+### Error Recovery
+
+- Subagent failure → Orchestrator retries with corrected context
+- Timeout → Split task smaller, re-launch
+- Merge conflict → Orchestrator resolves, re-runs tests
+
+---
+
 ## Rule 6: Lazy Loading (Guide Reference)
 
 **Guides by phase:** DISCOVERY → P1 | PROTOCOL → P3 | AUTH → P5 | ANIMATION → Animation | TESTING → Test | CICD → CI/CD | DEPLOY → Deploy | LAUNCH-CHECKLIST → Ship | EXAMPLES → Troubleshooting | BUILD-INTEGRATION → Git
@@ -192,11 +230,11 @@ This is a **process violation** regardless of content quality.
 
 ### Self-Check Before Manifest
 
-Before manifest, agent MUST self-check: docs? → NO exento. Fix? → NO exento. Iteración? → NO exento. Ya aprobé? → No transfiere. <3 líneas? → No exime. Confianza? → No waives gate. **Ningún commit está exento.**
+Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? → NOT exempt. Iteration? → NOT exempt. Already approved? → Does not transfer. <3 lines? → NOT exempt. Trust? → Does not waive gate. **No commit is exempt.**
 
 ### Post-Commit Verification
 
-After EVERY commit: build funciona? Tests pasan? Regresiones visuales? Archivos incorrectos? Token sin consumir?
+After EVERY commit: build passes? Tests pass? Visual regressions? Wrong files? Unconsumed tokens?
 
 ### Push Decision (After Commit, Not Before)
 
@@ -204,7 +242,7 @@ Push is a **separate decision** from commit. After commit completes:
 
 ```
 ✅ Commit: abc1234
-→ ¿Push a origin/main? (yes / no / later)
+→ Push to origin/main? (yes / no / later)
 ```
 
 - **yes**: push now

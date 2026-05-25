@@ -12,7 +12,7 @@ Before every `git commit`, follow this **mandatory 3-step gate**:
 
 1. **Check** `~/.config/opencode/user-profile.json` → `workflow.commit_approval`
    - **Missing or `"manual"`** (default): Strict gate. Explicit "yes/sí/commit" required.
-   - **`"auto_present"`**: Present changes. Accept "ok/adelante/proceed" as approval.
+   - **`"auto_present"`**: Present changes. Accept "ok/proceed" as approval.
    - **`"full_auto"`**: Present changes. Proceed after 5 seconds unless user objects.
 
 ### Step 1 — Run Pre-Commit Checklist
@@ -61,12 +61,11 @@ feat: add Hero section with Playfair display and warm cream background
 ```
 
 **Valid user responses (manual mode):**
-- `"yes"`, `"sí"`, `"commit"`, `"adelante"`, `"proceed"` → Execute `git commit`
-- `"edit"`, `"change"`, `"fix"` + description → Go back to Step 1, make changes
+- `"yes"`, `"sí"`, `"commit"`, `"proceed"` → Execute `git commit`
+
 - `"skip"` → Do not commit, continue to next task (document the skip)
 
-**Valid user responses (auto-present mode):**
-- `"yes"`, `"sí"`, `"commit"`, `"ok"`, `"adelante"`, `"proceed"` → Execute `git commit`
+- `"yes"`, `"sí"`, `"commit"`, `"ok"`, `"proceed"` → Execute `git commit`
 - `"edit"`, `"change"`, `"fix"` + description → Go back to Step 1, make changes
 - `"skip"` → Do not commit
 

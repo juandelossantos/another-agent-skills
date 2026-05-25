@@ -31,7 +31,7 @@ Do NOT use for:
 Before starting work:
 1. Check `design/DESIGN-LOCK.md`:
    - Exists and < 7 days → Read it. Extract direction, palette, typography, key decisions.
-   - > 7 days → Read it, ask: "¿Sigue vigente?"
+   - > 7 days → Read it, ask: "Still valid?"
    - Missing → Proceed with Phase 1.
 2. Check `SPEC.md`:
    - Exists → Read it. Respect locked stack and boundaries.

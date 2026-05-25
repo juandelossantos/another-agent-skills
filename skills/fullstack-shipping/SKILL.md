@@ -73,7 +73,7 @@ pipeline — not just the code — before any commit reaches production.
 
 **Extended (non-trivial):** Traffic/load, Geography/CDN, Budget, Secrets management.
 
-**Confirm:** "¿Es esto correcto? ¿Diseñamos el pipeline?" Only proceed after explicit yes.
+**Confirm:** "Is this correct? Shall we design the pipeline?" Only proceed after explicit yes.
 
 ---
 
@@ -107,7 +107,7 @@ pipeline — not just the code — before any commit reaches production.
 
 **Generate 2-3 pipeline strategy options. Never default to GitHub Actions without justification.**
 
-→ **Ver `CICD-GUIDE.md` para las 3 opciones completas y critical challenges.**
+→ **See `CICD-GUIDE.md` for the full 3 options and critical challenges.**
 
 ---
 

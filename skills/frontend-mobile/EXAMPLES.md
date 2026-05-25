@@ -69,7 +69,7 @@ User: *"Crea una app de fitness para iOS y Android. Quiero seguimiento de workou
 ## Example 2: Adding Animation to Existing Component
 
 ### Scenario
-User: *"Agrega animación a esta lista de ejercicios. Quiero que aparezcan suavemente al entrar en pantalla."*
+User: *"Add animation to this exercise list. I want items to appear smoothly when entering the screen."*
 
 ### Solution
 

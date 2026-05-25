@@ -150,7 +150,7 @@ I've created .env.example with the environment variables this project needs.
 
 **Decide and document the branching model.**
 
-→ **Ver `BRANCHING-GUIDE.md` para las 3 opciones y formato de documentación.**
+→ **See `BRANCHING-GUIDE.md` for the 3 options and documentation format.**
 
 ---
 

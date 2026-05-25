@@ -53,7 +53,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 
 **If no `STACK_CONFIG.md` exists:**
 - Default to Node.js + TypeScript + Express/Fastify + Prisma + PostgreSQL.
-- Ask the user: "¿Quieres usar Node.js/Express/Prisma (default) o prefieres Python/FastAPI, Go, Rust, etc.?"
+- Ask the user: "Node.js/Express/Prisma (default) or Python/FastAPI, Go, Rust, etc.?"
 
 **Adaptation examples:**
 - Node/Express → Python/FastAPI: Decorators instead of middleware. Pydantic instead of Zod.

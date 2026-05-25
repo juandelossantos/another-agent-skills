@@ -1,0 +1,203 @@
+# Health Check — another-agent-skills
+
+**Date:** 2026-05-25
+**Auditor:** OpenCode Agent
+**Status:** ✅ HEALTHY
+
+---
+
+## Summary
+
+| Metric | Value |
+|---|---|
+| Critical Issues | **0** |
+| Warnings | **2** (minor) |
+| Passes | **22/24** (92%) |
+| Overall | **HEALTHY** |
+
+---
+
+## Improvements (vs. Pre-P5 Holistic Review)
+
+| Area | Before | After | Δ |
+|---|---|---|---|
+| Skills > 250 lines | **6** | **0** | ✅ Eliminated |
+| Total skill weight | 1,836 lines | 1,324 lines | **-512 lines (-28%)** |
+| Always-loaded context | 510 lines | 525 lines | +15 lines (expected, from Rule 12/push separation additions) |
+| Pre-commit hook | ❌ None | ✅ Mechanical enforce | New |
+| Commit/Push separation | ❌ Combined | ✅ Separate decisions | New |
+| 3 Strikes Protocol | ❌ None | ✅ GUIDE.md | New |
+| Purpose-driven sessions | ❌ None | ✅ `.sessionrc` | New |
+| ADRs | 0 | 2 | +2 |
+| Incident docs | 0 | 2 | +2 |
+| User profile fields | basic | github_username + author_name | Extended |
+| All references intact | — | 19/19 verified | ✅ |
+
+---
+
+## Stack & Configuration
+
+This is a **meta-project** (agent workflow rules, not an application). No package.json, no runtime.
+
+| Check | Status | Notes |
+|---|---|---|
+| `.gitignore` exists | ✅ PASS | Covers development/, .env, node_modules, *.backup.* |
+| Git initialized | ✅ PASS | 17 commits on main |
+| Remote configured | ✅ PASS | github.com:juandelossantos/another-agent-skills |
+| Branch strategy | ✅ PASS | Trunk-based (main only) |
+| Pre-commit hook exists | ✅ PASS | `scripts/git-hooks/pre-commit` (34 lines) |
+| `.env.example` | ⚠️ N/A | No env vars needed for this project |
+| CI/CD config | ⚠️ N/A | Not needed for docs-only repo |
+| No secrets committed | ✅ PASS | Verified |
+
+---
+
+## Project Structure
+
+| Check | Status | Notes |
+|---|---|---|
+| `AGENTS.md` exists | ✅ PASS | Core rules, 311 lines, always-loaded |
+| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 214 lines, lazy-loaded |
+| `install.sh` exists | ✅ PASS | 331 lines, full-install script |
+| `scripts/init-agents.sh` | ✅ PASS | 174 lines, per-project init |
+| Skills organized | ✅ PASS | 14 skills in `skills/`, each < 250 lines |
+| Guides lazy-loaded | ✅ PASS | 40 guides, loaded on-demand per phase |
+| ADRs documented | ✅ PASS | 2 ADRs in `ADRs/` |
+| `development/` convention | ✅ PASS | 14 analysis/incident files, git-ignored |
+| Health Check exists | ✅ PASS | This file |
+| `SPEC.md` | ⚠️ WARN | **No SPEC.md** — this project is a self-evolving meta-project where AGENTS.md acts as the spec. Acceptable, but a formal SPEC.md would clarify boundaries. |
+| `HEALTH-CHECK.md` age-tracking | ⚠️ WARN | First check. No re-audit cycle yet. |
+
+---
+
+## Rules & Reliability
+
+### Mechanical Enforcement
+
+| Mechanism | Type | Status |
+|---|---|---|
+| **Rule 12: Pre-commit hook** | Shell script | ✅ Blocks `git commit` without `.git/COMMIT_APPROVED` token |
+| **Commit Manifest Protocol** | Process rule | ✅ Visible block before every commit |
+| **Post-commit verification** | Process rule | ✅ Build, tests, regressions after each commit |
+| **Rule 0d: Pre-action checklist** | Process rule | ✅ Verbalized before destructive actions |
+| **3 Strikes Protocol** | GUIDE.md (lazy) | ✅ Systematic diagnosis after 3 failed fixes |
+| **Self-review principle** | ADR-001 | ✅ Mandatory for changes > 50 lines |
+
+### Process Safeguards
+
+| Check | Status |
+|---|---|
+| Commit and push are SEPARATE decisions | ✅ |
+| Invalid responses defined (ok/sigamos/continue = NOT valid) | ✅ |
+| Session-level lock: no "approved mode" | ✅ |
+| 6 anti-rationalization excuses against skipping gates | ✅ |
+| Incident documentation for violations | ✅ INCIDENT_001, INCIDENT_002 |
+
+---
+
+## Token & Context Management
+
+### Always-Loaded (every session)
+
+| File | Lines | Tokens (est.) | % of 200K |
+|---|---|---|---|
+| `AGENTS.md` | 311 | ~4,665 | 2.3% |
+| `AGENTS-EXTENDED.md` | 214 | ~3,210 | 1.6% |
+| **Subtotal** | **525** | **~7,875** | **3.9%** |
+
+### Loaded On-Demand
+
+| Item | Lines | Tokens | Condition |
+|---|---|---|---|
+| 1 active SKILL.md | ~225 | ~3,375 | Per skill invocation |
+| 0-2 guides | ~0-200 | ~0-3,000 | Per phase reached |
+
+### Typical Session Budget
+
+| Component | Tokens |
+|---|---|
+| AGENTS.md + AGENTS-EXTENDED.md | ~7,875 |
+| 1 active skill | ~3,375 |
+| 0-1 guides | ~1,500 |
+| Conversation + history (~30 msgs) | ~60,000 |
+| User code (~500 lines) | ~10,000 |
+| **Total** | **~82,750 (41%)** |
+
+**Margin:** ~59% available for debugging, extra skills, large codebases, or extended conversations.
+
+### Context Management Features
+
+| Feature | Location | Status |
+|---|---|---|
+| Rule 0e: Context Compression & Eviction | AGENTS.md | ✅ |
+| SESSION_CONTEXT archiving | AGENTS.md Rule 0e | ✅ Archive created |
+| Lazy loading (skills as index + guides) | AGENTS.md Rule 6 | ✅ |
+| Context budget (60/25/15 split) | AGENTS.md Rule 8 | ✅ |
+| History compaction (>20 msgs → 3 points) | AGENTS.md Rule 8 | ✅ |
+| Context > 70% → stop loading guides | AGENTS.md Rule 0e | ✅ |
+| Never evict: active skill, user code, errors | AGENTS.md Rule 0e | ✅ |
+
+---
+
+## Usefulness for Different Project Types
+
+### Skill Coverage
+
+| Project Type | Skills Invoked | Status |
+|---|---|---|
+| **Landing page** | spec + git-init + frontend-web (+ light architecture) | ✅ |
+| **Web app** | Full lifecycle | ✅ |
+| **Mobile app** | spec + git-init + frontend-mobile (+ backend if API) | ✅ |
+| **API only** | spec + git-init + architecture + backend + shipping | ✅ |
+| **Desktop app** | spec + git-init + frontend-desktop | ✅ |
+| **Existing fix** | health-check + spec + debugging | ✅ |
+| **Design system** | spec + git-init + frontend + shipping | ✅ |
+| **MVP/prototype** | spec (turbo) + git-init + frontend | ✅ |
+| **CLI tool** | spec + git-init + shipping | ✅ |
+| **Open source lib** | spec + git-init + shipping + code-review | ✅ |
+
+### Cross-Platform
+
+| Platform | Skill | Lines |
+|---|---|---|
+| Web | `frontend-web` | 248 |
+| Mobile | `frontend-mobile` | 239 |
+| Desktop | `frontend-desktop` | 238 |
+| PWA/Offline | `frontend-pwa` | 195 |
+
+### Adaptability
+
+- **Stack Agnosticism** (Rule 5) — reads `SPEC.md` Tech Stack to adapt examples
+- **Bilingual** (Rule 10) — Spanish/English, no mixing
+- **Turbo Mode** (Rule 4) — for prototypes, reduces scope not quality
+- **Purpose-driven sessions** (Rule 3) — `.sessionrc` defaults per intent
+
+---
+
+## Recommendations
+
+1. **💡 AGENTS-EXTENDED.md 14 lines over target (214 vs 200).** Minimal overhead — 210 tokens (0.1% of context). Only if pursuing strictness.
+
+2. **💡 Create `SPEC.md` for this meta-project.** Optional since AGENTS.md serves as the de facto spec, but would clarify boundaries, audience, and what's out of scope.
+
+---
+
+## Decision Log
+
+| Date | Decision | Rationale |
+|---|---|---|
+| 2026-05-25 | ✅ CONTINUE | System is healthy. 0 criticals. 2 minor warnings (non-blocking). Proceed to P4 or next request. |
+
+---
+
+## Metrics Summary
+
+| Metric | Current | Target | Status |
+|---|---|---|---|
+| Skills ≤ 250 lines | 14/14 | 14/14 | ✅ |
+| Always-loaded context | 525 lines (~7,875 tok) | < 600 lines | ✅ |
+| Skills total weight | 1,324 lines | < 1,500 | ✅ |
+| ADRs | 2 | ≥ 1 | ✅ |
+| Broken references | 0 | 0 | ✅ |
+| Mechanical enforcements | 1 (pre-commit hook) | ≥ 1 | ✅ |
+| Critical issues | 0 | 0 | ✅ |

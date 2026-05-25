@@ -44,6 +44,6 @@ Ask in the user's detected language. Do not proceed until answered:
 
 ### Step 4: Confirm & Lock
 
-Summarize technical context. Ask: **"¿Es esto correcto? ¿Procedemos al diseño? / Is this correct? Shall we design?"**
+Summarize technical context. Ask: **"Is this correct? Shall we design?"**
 
 Only after explicit confirmation, proceed to Phase 2.

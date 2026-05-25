@@ -34,7 +34,7 @@ Do NOT use for:
 Before starting work:
 1. Check `design/DESIGN-LOCK.md`:
    - Exists and < 7 days → Read it. Extract direction, palette, typography, key decisions.
-   - > 7 days → Read it, ask: "¿Sigue vigente?"
+   - > 7 days → Read it, ask: "Still valid?"
    - Missing → Proceed with Phase 1.
 2. Check `SPEC.md`:
    - Exists → Read it. Respect locked stack and boundaries.
@@ -60,13 +60,13 @@ Check for `STACK_CONFIG.md`:
 → See `engineering-fundamentals` Phase 1 for universal discovery.
 
 **PWA-specific questions:**
-1. **Offline**: ¿Funciona sin internet? ¿Qué partes?
-2. **Installable**: ¿Instalable desde navegador?
-3. **Native migration**: ¿Futuro App Store / Google Play?
-4. **Devices**: ¿Solo móvil, o tablet, desktop, TV?
-5. **Touch vs mouse**: ¿Usuarios tocan o usan mouse?
-6. **Push notifications**: ¿Necesitas notificaciones?
-7. **Background sync**: ¿Sincronización cuando vuelva conexión?
+1. **Offline**: Must work without internet? Which parts?
+2. **Installable**: Installable from browser?
+3. **Native migration**: Future App Store / Google Play?
+4. **Devices**: Mobile only, or tablet, desktop, TV?
+5. **Touch vs mouse**: Users touch or use mouse?
+6. **Push notifications**: Needed?
+7. **Background sync**: Sync when connection returns?
 
 Read `DISCOVERY-GUIDE.md` for complete PWA checklist.
 

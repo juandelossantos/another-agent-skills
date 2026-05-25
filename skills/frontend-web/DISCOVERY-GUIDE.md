@@ -21,16 +21,7 @@ ASSUMPTIONS I'M MAKING:
 → Correct me now or I'll proceed with these.
 ```
 
-**Spanish example:**
-```
-SUPOSICIONES QUE ESTOY HACIENDO:
-1. Esta es una aplicación web (no móvil nativa)
-2. El idioma principal es español
-3. Es para escritorio/móvil/ambos
-4. No se necesita autenticación de usuario
-5. Los datos no necesitan persistir entre sesiones
-→ Corrígeme ahora o procederé con estas.
-```
+_Output adapts to the user's detected language._
 
 ---
 
@@ -46,11 +37,11 @@ Ask these questions **in the user's detected language**. Do not proceed until an
 5. **Stack preference**: Any existing tech constraints? (React, Vue, vanilla...)
 
 **Spanish:**
-1. **Audiencia**: ¿Quién usará esto? (Edad, conocimiento técnico, contexto)
-2. **Propósito**: ¿Qué problema resuelve esto en una oración?
-3. **Alcance**: ¿Es un MVP o un producto completo? ¿Qué características son OBLIGATORIAS vs. OPCIONALES?
-4. **Contexto**: ¿Dónde y cómo se usará? (Teléfono en una cancha, escritorio de oficina...)
-5. **Preferencia de stack**: ¿Hay restricciones técnicas existentes? (React, Vue, vanilla...)
+1. **Audience**: Who will use this? (Age, technical level, context)
+2. **Purpose**: What problem does this solve in one sentence?
+3. **Scope**: MVP or complete product? What features are MUST vs. NICE vs. OUT?
+4. **Context**: Where and how will it be used? (Phone on a field, office desktop...)
+5. **Stack preference**: Existing technical constraints? (React, Vue, vanilla...)
 
 ---
 
@@ -78,6 +69,6 @@ If the project has a visual component, ask:
 
 ## Step 5: Confirm & Lock
 
-Summarize everything in a concise paragraph. Ask: **"¿Es esto correcto? ¿Arrancamos? / Is this correct? Shall we proceed?"**
+Summarize everything in a concise paragraph. Ask: **"Is this correct? Shall we proceed?"**
 
-Only after explicit confirmation ("sí", "yes", "adelante", "perfecto", "vamos"), proceed to Phase 2 (Contracts).
+Only after explicit confirmation ("yes", "sí", "proceed", "let's go"), proceed to Phase 2 (Contracts).

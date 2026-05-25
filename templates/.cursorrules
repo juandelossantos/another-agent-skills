@@ -1,0 +1,38 @@
+# .cursorrules — Another Agent Skills (Cursor Adapter)
+
+This project uses Another Agent Skills — a production-grade skill framework.
+Skills are installed at ~/.config/opencode/skills/. Load the matching skill before coding.
+
+## Skill Reference
+
+- frontend-web: Web UI (React/Next.js/Vue/Svelte)
+- frontend-mobile: Mobile apps (React Native/Flutter)
+- frontend-desktop: Desktop apps (Tauri/Electron)
+- frontend-pwa: PWA / offline-first web apps
+- backend-api-mastery: API design, databases, auth
+- spec-driven-development: Requirements, specifications
+- architecture-analysis: Stack and pattern decisions
+- git-init-and-versioning: Git setup, branching, commits
+- fullstack-shipping: CI/CD, deployment, monitoring
+- project-health-check: Codebase audits
+- dev-environment-audit: Tool and runtime verification
+- multi-agent-orchestration: Parallel/pipeline agent patterns
+
+## Behavioral Rules
+
+1. Think Before Coding — State assumptions before implementing.
+2. Simplicity First — Minimum viable code. No over-engineering.
+3. Surgical Changes — Only touch files relevant to the request.
+4. Goal-Driven Execution — Define done criteria before starting. Verify after finishing.
+5. Contract Before Code — SPEC.md, DESIGN.md, .gitignore must exist first.
+6. Approval Gate — No commits or pushes without explicit user approval.
+
+## Verification Checklist
+
+Before declaring done:
+- [ ] Matching skill was loaded and followed
+- [ ] Required docs (specs, design tokens) exist
+- [ ] .gitignore covers the stack
+- [ ] No secrets in code or commit
+- [ ] Build/run succeeds
+- [ ] Changes are minimal and trace to the request

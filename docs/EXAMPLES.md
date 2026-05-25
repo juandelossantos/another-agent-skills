@@ -222,8 +222,8 @@ Agent: "This matches frontend-web skill. Loading..."
 
 [frontend-web SKILL.md loaded]
 
-1. **Discovery** — "¿Para qué audiencia? ¿B2B o B2C?"
-2. **Design** — "Elegí dirección SM (Swiss Minimal). ¿Confirmas?"
+1. **Discovery** — "What audience? B2B or B2C?"
+2. **Design** — "I chose SM direction (Swiss Minimal). Confirm?"
 3. **Spec** — Generated SPEC.md with stack lock-in
 4. **Tokens** — Generated DESIGN.md with colors, typography
 5. **Build** — Implemented with locked design tokens
@@ -240,15 +240,15 @@ Result: Unique, intentional landing page. Not generic.
 ## Example 6: Context Persistence (Rule 0b)
 
 ### Scenario
-User returns after 3 days: `"Continuamos con el proyecto."`
+User returns after 3 days: `"Continue with the project."`
 
 ### ❌ Before (starts from zero — violates Rule 0b)
 
 ```
-User: "Continuamos con el proyecto."
-Agent: "¿Qué proyecto?"
-User: "El e-commerce que estábamos haciendo."
-Agent: "No recuerdo. ¿Me das más detalles?"
+User: "Continue with the project."
+Agent: "Which project?"
+User: "The e-commerce we were building."
+Agent: "I don't recall. Can you give me more details?"
 ```
 
 **Result:** User frustration. Wasted time re-explaining.
@@ -258,18 +258,18 @@ Agent: "No recuerdo. ¿Me das más detalles?"
 ### ✅ After (auto-recovers — follows Rule 0b)
 
 ```
-User: "Continuamos con el proyecto."
+User: "Continue with the project."
 
 Agent: [reads design/DESIGN-LOCK.md, SPEC.md]
 Agent:
-📋 Contexto detectado:
-Proyecto: E-commerce B2B
-Estado: Phase BUILD (implementando checkout)
+📋 Context detected:
+Project: E-commerce B2B
+Status: Phase BUILD (implementing checkout)
 Stack: Next.js 14 + PostgreSQL + Stripe
-Última actualización: 2026-05-22
-→ ¿Continuamos donde lo dejamos?
+Last updated: 2026-05-22
+→ Continue where we left off?
 
-User: "Sí."
+User: "Yes."
 Agent: [reads DESIGN-LOCK.md] → Resume BUILD phase
 ```
 
@@ -287,10 +287,10 @@ Agent finishes work and wants to commit.
 ### ❌ Before (assumes approval — violates Rule 12)
 
 ```
-Agent: "He terminado. Commitando y pusheando..."
+Agent: "Done. Committing and pushing..."
 [git push origin main]
 
-User: "¿CÓMO? ¡No revisé los cambios!"
+User: "WHAT? I didn't review the changes!"
 ```
 
 **Result:** Unwanted changes in production.

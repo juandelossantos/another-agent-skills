@@ -73,4 +73,4 @@ Key decisions made:
 → Is this correct? Reply "yes" or correct me.
 ```
 
-Only after explicit "yes/sí/perfecto/adelante", proceed to Phase 3.
+Only after explicit "yes/sí/proceed", proceed to Phase 3.

@@ -83,7 +83,7 @@
 
 - [ ] **Windows installer** — `install.ps1` for PowerShell
 - [ ] **Cross-shell support** — Bash, Fish, Zsh detection in `install.sh`
-- [ ] **Multi-agent adapters** — Instructions for Claude Code, Cursor, Copilot, Cline
+- [x] **Agent adapters** — `templates/CLAUDE.md`, `templates/.cursorrules`, `docs/AGENT-ADAPTERS.md`. `install.sh --agent {claude|cursor|all}`
 - [ ] **Uninstall script** — Clean removal of aliases, global skills, `.zshrc` blocks
 
 ### 🟡 High

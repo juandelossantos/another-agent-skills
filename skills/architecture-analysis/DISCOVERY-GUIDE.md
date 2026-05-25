@@ -28,7 +28,7 @@ Ask in user's language. Don't proceed until answered:
 
 ## Step 3: Confirm & Lock
 
-Summarize context. Ask: **"¿Es esto correcto? ¿Procedemos? / Correct? Shall we analyze?"**
+Summarize context. Ask: **"Is this correct? Shall we analyze?"**
 
 Only after explicit confirmation, proceed to Phase 2.
 

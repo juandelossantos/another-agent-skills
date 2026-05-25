@@ -4,62 +4,59 @@ Complete 27-question interview for `user-onboarding` Phase 1.
 
 ## Section A: Identity & Context
 
-1. **Name / Team**: ¿Cómo te llamas? ¿Solo o equipo?
-2. **Role**: ¿Desarrollador, diseñador, product manager, emprendedor?
-3. **Industry**: ¿Industria? (tech, hospitality, fintech, healthcare, education)
-4. **Experience**: ¿Años programando? (0-1, 1-3, 3-5, 5-10, 10+)
-5. **GitHub username**: ¿Tu usuario de GitHub? (para OG tags, READMEs, enlaces)
-6. **Author name**: ¿Nombre completo para atribución? (para READMEs, footers, licencias)
+1. **Name / Team**: What's your name? Solo or team?
+2. **Role**: Developer, designer, product manager, entrepreneur?
+3. **Industry**: What industry? (tech, hospitality, fintech, healthcare, education)
+4. **Experience**: Years programming? (0-1, 1-3, 3-5, 5-10, 10+)
+5. **GitHub username**: Your GitHub user? (for OG tags, READMEs, links)
+6. **Author name**: Full name for attribution? (for READMEs, footers, licenses)
 
 ## Section B: Technical Preferences
 
-5. **Language**: ¿Spanish o English?
-6. **Primary platform**: ¿Web, mobile, desktop, CLI, o mixto?
-7. **Web framework** (if web): ¿React, Vue, Svelte, Angular, o da igual?
-8. **Mobile approach** (if mobile): ¿Nativa (app store) o híbrida (web app empaquetada)?
-9. **Mobile framework** (if native): ¿React Native, Flutter, SwiftUI, Jetpack Compose, o da igual?
-10. **Mobile framework** (if hybrid): ¿Ionic + Capacitor, Tauri Mobile, PWA + Capacitor, o da igual?
-11. **Desktop framework** (if desktop): ¿Tauri, Electron, Flutter Desktop, WPF, o da igual?
-12. **Backend stack**: ¿Node.js, Python, Go, Rust, o da igual?
-13. **Styling** (if web/hybrid): ¿Tailwind, CSS Modules, Styled Components, SCSS?
-14. **Database**: ¿PostgreSQL, MySQL, MongoDB, SQLite, o da igual?
-15. **Deployment**: ¿Vercel, Netlify, AWS, self-hosted, o da igual?
+7. **Language**: Spanish or English?
+8. **Primary platform**: Web, mobile, desktop, CLI, or mixed?
+9. **Web framework** (if web): React, Vue, Svelte, Angular, or no preference?
+10. **Mobile approach** (if mobile): Native (app store) or hybrid (wrapped web app)?
+11. **Mobile framework** (if native): React Native, Flutter, SwiftUI, Jetpack Compose, or no preference?
+12. **Mobile framework** (if hybrid): Ionic + Capacitor, Tauri Mobile, PWA + Capacitor, or no preference?
+13. **Desktop framework** (if desktop): Tauri, Electron, Flutter Desktop, WPF, or no preference?
+14. **Backend stack**: Node.js, Python, Go, Rust, or no preference?
+15. **Styling** (if web/hybrid): Tailwind, CSS Modules, Styled Components, SCSS?
+16. **Database**: PostgreSQL, MySQL, MongoDB, SQLite, or no preference?
+17. **Deployment**: Vercel, Netlify, AWS, self-hosted, or no preference?
 
 ## Section C: Design Preferences
 
-16. **Aesthetic**: ¿Minimalista, moderno, clásico, juguetón, corporativo?
-17. **Color**: ¿Oscuro, claro, o mixto?
-18. **Typography**: ¿Te importa la tipografía o elijo yo?
-19. **Animation**: ¿Mucha, moderada, o casi ninguna?
+18. **Aesthetic**: Minimalist, modern, classic, playful, corporate?
+19. **Color**: Dark, light, or mixed?
+20. **Typography**: Do you care about typography or should I choose?
+21. **Animation**: Heavy, moderate, or minimal?
 
 ## Section D: Workflow Preferences
 
-20. **Communication**: ¿Directo/conciso o detallado/explicativo?
-21. **Decision style**: ¿Propongo opciones y eliges, o decido por ti con justificación?
-22. **Code review**: ¿Revisamos cada commit juntos, o confías en auto-review?
-23. **Context persistence**: ¿Recuerdo automáticamente estado entre sesiones, o prefieres empezar desde cero?
-24. **Documentation**: ¿Mucha o lo mínimo necesario?
+22. **Communication**: Direct/concise or detailed/explanatory?
+23. **Decision style**: I propose options and you choose, or I decide with justification?
+24. **Code review**: Review every commit together, or trust auto-review?
+25. **Context persistence**: Auto-recover state between sessions, or start fresh each time?
+26. **Documentation**: Heavy or minimal?
 
 ## Section E: Commit & Push Preferences
 
-25. **Commit approval**: ¿Aprobación manual para cada commit y push, o automático?
-    - **Manual (Recommended)**: Espero "yes/sí/commit" explícito. Más seguro.
-    - **Auto-present**: Muestro cambios, acepto "ok/adelante/proceed".
-    - **Full auto**: Commiteo y pusheo sin preguntar. Revisas con `git log` después.
+27. **Commit approval**: Manual approval for every commit and push, or automatic?
 
 ## Section F: Constraints & Context
 
-26. **Budget**: ¿Personal, startup, o enterprise?
-27. **Time pressure**: ¿Deadlines ajustados o tiempo de sobra?
-28. **Open source**: ¿Sueles open-sourcear? (afecta licencias)
-29. **Accessibility**: ¿Crítica, importante, o nice-to-have?
+28. **Budget**: Personal, startup, or enterprise?
+29. **Time pressure**: Tight deadlines or plenty of time?
+30. **Open source**: Do you usually open source? (affects licenses)
+31. **Accessibility**: Critical, important, or nice-to-have?
 
-## Section G: Session Purpose (NEW in v11)
+## Section G: Session Purpose
 
-30. **Default session purpose**: ¿Qué sueles hacer con este agente?
-    - **Brainstorming** → Arquitectura, tradeoffs, múltiples approaches
-    - **Development** → Construir features, fix bugs (default)
-    - **Code Review** → Auditar código existente
-    - **PR Review** → Revisar pull requests
-    - **Debugging** → Análisis de root cause
-    - **Custom** → Define tu propio modo
+32. **Default session purpose**: What do you usually do with this agent?
+    - **Brainstorming** → Architecture, tradeoffs, multiple approaches
+    - **Development** → Build features, fix bugs (default)
+    - **Code Review** → Audit existing code
+    - **PR Review** → Review pull requests
+    - **Debugging** → Root cause analysis
+    - **Custom** → Define your own mode

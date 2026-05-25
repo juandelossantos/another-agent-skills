@@ -21,15 +21,21 @@
 
 **When entering a project with existing code, auto-recover context:**
 
-1. Check for `design/DESIGN-LOCK.md`, `SPEC.md`, `architecture/ARCHITECTURE.md`, `API-DESIGN.md`, `HEALTH-CHECK.md`, `docs/DEV-ENVIRONMENT.md`
-2. If found → Read them. Present summary: Proyecto, Estado, Stack, Fecha → "¿Continuamos?"
-3. If user says "continuamos" → Resume from detected phase. Re-read DESIGN-LOCK.md before BUILD.
-4. If user says "empecemos de nuevo" → Archive old context. Start fresh.
-5. If DESIGN-LOCK.md > 7 days old → Ask: "¿Sigue vigente?"
-6. If no context files → Treat as new project. Proceed normally.
+1. **Steering File Scan** (severity order):
 
-**Never say "no recuerdo qué estábamos haciendo." Read the files.**
+   | Severity | File | If Missing |
+   |---|---|---|
+   | 🔴 BLOCKING | `STACK_CONFIG.md` | Default stack per Rule 5. Create if stack known. |
+   | 🟡 HIGH | `SPEC.md`, `HEALTH-CHECK.md` | SPEC → new. HEALTH >7d → re-audit. |
+   | 🔵 MEDIUM | `design/DESIGN-LOCK.md`, `architecture/ARCHITECTURE.md` | Read if present. Skip if missing. |
+   | ⚪ INFO | `docs/DEV-ENVIRONMENT.md`, `.sessionrc` | Read if present. Not blocking. |
 
+2. **Present summary:** `Project: [name] | Stack: [STACK_CONFIG or default] | Steering: STACK_CONFIG[✅/❌] SPEC[✅/❌] → Continue?`
+
+3. **User decision:**
+   - "continue" → Resume. Re-read DESIGN-LOCK.md before BUILD.
+   - "start fresh" → Archive. Start fresh.
+   - Also: If DESIGN-LOCK.md > 7d → Ask "Still valid?" If no context → New project.
 ---
 
 ## Rule 0c: Behavioral Principles
@@ -104,19 +110,38 @@ Platform skills are built on `engineering-fundamentals`. Never invoke `engineeri
 
 ## Rule 2: Intent Mapping
 
-**Detect platform BEFORE invoking frontend skill:**
+**Detect platform/skill BEFORE acting:**
 
-| User says... | Skill |
+| User says... | Skill / Guide |
 |---|---|
 | "web", "landing", "React", "Vue" | `frontend-web` |
 | "PWA", "offline", "Capacitor" | `frontend-pwa` |
 | "mobile app", "React Native", "Flutter" | `frontend-mobile` |
 | "desktop", "Tauri", "Electron" | `frontend-desktop` |
 | "CLI", "terminal" | `cli-tools` |
+| "multi-agent", "orchestrate", "parallel tasks" | `multi-agent-orchestration` |
 
-**If platform unclear** → Ask: "¿Es para web, PWA, móvil, escritorio, o CLI?"
+**If platform unclear** → Ask: "Web, PWA, mobile, desktop, or CLI?"
 
 **If user has profile** → Use `preferences.primary_platform` to default skill.
+
+## Multi-Agent Routing
+
+**Trigger:** >2 agents, multi-file refactor, or user says "parallel"/"split the work".
+
+Load `multi-agent-orchestration` before delegating.
+
+### Orchestrator Protocol
+
+1. **Detect** — Check file overlap. Overlap? → sequential. Clear? → parallel.
+2. **Decompose** — Non-overlapping sub-tasks, explicit file assignments.
+3. **Prepare** — Each subagent gets: file paths, interface contracts, relevant skill only.
+4. **Delegate** — `task` tool: `general` (coder) or `explore` (researcher).
+5. **Collect** — Verify each result independently.
+6. **Integrate** — Merge. Build. Test.
+7. **Commit** — Only Orchestrator (Rule 12). Subagents never touch git.
+
+See `multi-agent-orchestration/GUIDE.md` for examples, error recovery, and boundaries.
 
 ---
 

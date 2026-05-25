@@ -4,33 +4,33 @@ How other skills use `user-profile.json` for personalization.
 
 ## `frontend-web` (with React + Tailwind + dark + minimalist)
 
-> "Veo que prefieres React + Tailwind para web. Para este proyecto, sugiero dark mode minimalista. ¿Confirmas o exploramos otras opciones?"
+> "I see you prefer React + Tailwind for web. For this project, I suggest dark mode minimalist. Confirm or explore other options?"
 
 ## `frontend-mobile` (Native: React Native + Expo)
 
-> "Veo que prefieres React Native nativo con Expo. ¿Confirmas para esta app o exploramos Flutter?"
+> "I see you prefer React Native with Expo. Confirm for this app or explore Flutter?"
 
 ## `frontend-pwa` (Hybrid: Ionic/Capacitor + Next.js)
 
-> "Veo que prefieres web apps híbridas con Ionic/Capacitor. Propondré Next.js + Capacitor para publicar en web ahora y App Store después. ¿Confirmas?"
+> "I see you prefer hybrid web apps with Ionic/Capacitor. I'll propose Next.js + Capacitor to publish on web now and App Store later. Confirm?"
 
 ## `architecture-analysis` (Node.js + PostgreSQL + Vercel)
 
-> "Basado en tu perfil (Node.js + PostgreSQL + Vercel), propongo:
-> - A: Next.js fullstack (Vercel, tu preferencia)
+> "Based on your profile (Node.js + PostgreSQL + Vercel), I propose:
+> - A: Next.js fullstack (Vercel, your preference)
 > - B: Decoupled (Node + Express)
 > - C: Serverless (Cloudflare Workers)
-> ¿Revisas opciones o profundizo en una?"
+> Review options or dive deeper into one?"
 
 ## `spec-driven-development` (Developer, fintech, 3-5 years)
 
-> "Sé que eres developer en fintech con 3-5 años. Asumo que necesitas compliance básico y seguridad robusta. ¿Correcto?"
+> "I see you're a fintech developer with 3-5 years. I'll assume you need basic compliance and robust security. Correct?"
 
 ## Updating Preferences
 
-**User:** *"Ahora uso Vue en lugar de React"*
+**User:** *"I use Vue instead of React now"*
 
 **Agent:**
 1. Update `preferences.web_framework = "vue"`
-2. Confirm: "He actualizado tu perfil. Ahora asumiré Vue."
-3. Ask: "¿Adaptamos este proyecto a Vue, o solo para futuros?"
+2. Confirm: "Profile updated. I'll assume Vue going forward."
+3. Ask: "Adapt this project to Vue, or only future projects?"
