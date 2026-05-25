@@ -191,6 +191,65 @@ You MUST now:
 
 This prevents "design fatigue" from causing the agent to skip PLAN and jump straight to coding.
 
+#### 2D: Design Asset Lock (MANDATORY after visual approval)
+
+After the user approves `DESIGN.md`, you MUST create a **persistent visual reference package** so the BUILD phase never loses design context — even if the conversation is long or the agent context resets.
+
+Create a `design/` directory in the project root with this structure:
+
+```
+design/
+├── DESIGN-LOCK.md          # Single source of truth for approved visual decisions
+└── approved/
+    ├── preview-final.html    # Final approved preview (if generated)
+    ├── palette.png           # Screenshot of final color palette
+    ├── typography.png        # Screenshot of final font pair
+    └── moodboard/            # Any reference images, screenshots, or inspo
+        └── (user-provided or generated references)
+```
+
+**`DESIGN-LOCK.md` must contain:**
+
+```markdown
+# Design Lock — APPROVED
+
+## Direction
+- Aesthetic ID: (e.g., UE-L1)
+- Mood: (one sentence description)
+- Date approved: (YYYY-MM-DD)
+
+## Final Palette
+- Primary: #HEX (name + usage)
+- Secondary: #HEX (name + usage)
+- Accent: #HEX (name + usage)
+- Background: #HEX
+- Text: #HEX
+- (Any other approved colors)
+
+## Final Typography
+- Display font: (Family, weights, use case)
+- Body font: (Family, weights, use case)
+- Scale: (H1, H2, Body, Label sizes)
+
+## Key Decisions
+(List every explicit user decision made during design phase)
+- "No blue" → user rejected cool tones
+- "More spacing" → increased section padding from 64px to 96px
+- "Rounded corners on buttons only" → cards stay sharp
+- (etc.)
+
+## References
+- `design/approved/preview-final.html` — approved hero preview
+- `design/approved/palette.png` — approved palette screenshot
+- (any other visual assets)
+```
+
+**Rules:**
+- `DESIGN-LOCK.md` is a SNAPSHOT. It never changes after approval unless the user explicitly requests a redesign.
+- All screenshots, previews, and references generated during Phase 1/2 MUST be copied into `design/approved/`.
+- During BUILD (Phase 6), you MUST read `design/DESIGN-LOCK.md` before writing any component. Do not rely on memory.
+- If a `design/` directory exists but `DESIGN-LOCK.md` is missing, create it from the existing `DESIGN.md` + conversation history.
+
 - **Path C — No DESIGN.md, one-off task:**
   - Do the task. Mention once that a `DESIGN.md` improves long-term consistency.
   - Do not nag again.
@@ -346,9 +405,17 @@ Every animation MUST respect `prefers-reduced-motion`:
 
 ### Phase 6 — Build with Tokens
 
-1. Apply tokens from `DESIGN.md` to `src/app/globals.css`.
-2. Use `next/font/google` for fonts in `layout.tsx`.
-3. Build sections with the canonical order:
+**BEFORE WRITING CODE:**
+
+1. **Read `design/DESIGN-LOCK.md`** — Verify the approved direction, palette, typography, and key decisions. Do not rely on conversation memory.
+2. **Check `design/approved/`** — Review any screenshots, previews, or moodboards. If they exist, they are the ground truth.
+3. **Cross-check with `DESIGN.md`** — Ensure tokens in code match the locked visual system.
+
+**Then build:**
+
+4. Apply tokens from `DESIGN.md` to `src/app/globals.css`.
+5. Use `next/font/google` for fonts in `layout.tsx`.
+6. Build sections with the canonical order:
    - Navbar (sticky, background change on scroll)
    - Hero (H1 + subtitle + CTA + visual)
    - Value proposition (3-4 blocks)
@@ -357,9 +424,9 @@ Every animation MUST respect `prefers-reduced-motion`:
    - Testimonials / Logos
    - Final CTA
    - Footer
-4. Use `whileInView` for entrance animations on each section.
-5. Use `<Image>` from Next.js with descriptive `alt` text.
-6. Ensure `"use client"` is only used when hooks, events, or state are present.
+7. Use `whileInView` for entrance animations on each section.
+8. Use `<Image>` from Next.js with descriptive `alt` text.
+9. Ensure `"use client"` is only used when hooks, events, or state are present.
 
 ### Phase 7 — QA Gates
 
@@ -375,6 +442,8 @@ Before declaring the task complete, verify:
 8. **SEO/LLMO** — `sitemap.ts`, `robots.ts`, `llms.txt`, `identity.json` present if this is a public site.
 9. **Reduced motion** — CSS fallback present in `globals.css`.
 10. **Animation performance** — Only `transform` and `opacity` animated. No layout thrashing.
+11. **Design Lock present** — `design/DESIGN-LOCK.md` exists and was read before coding.
+12. **Visual consistency** — No color, font, or spacing deviates from `DESIGN.md` without explicit user approval.
 
 ---
 
@@ -392,12 +461,17 @@ Agent:
 5. User picks "Understated Elegance" (code `STYLE:UE-L1`).
 6. Generate `DESIGN.md` with tokens for UE + palette L1 + font pair F4.
 7. **STOP.** User confirms `DESIGN.md`. Do NOT code yet.
-8. Invoke `spec-driven-development` → create `SPEC.md` (stack, scope, acceptance criteria).
-9. Invoke `planning-and-task-breakdown` → create task plan (file order, component list, dependencies).
-10. Run setup: `create-next-app`, Tailwind v4, shadcn, Framer Motion.
-11. Build all sections with tokens and `Reveal` animations.
-12. Run QA gates. Fix any issues.
-13. Deliver: `npm run dev` + summary of what was built.
+8. **Create Design Lock:**
+   - Generate `design/DESIGN-LOCK.md` with approved direction, final palette, typography, and key decisions.
+   - Save `preview.html` into `design/approved/preview-final.html`.
+   - Save palette/typography screenshots into `design/approved/`.
+9. Invoke `spec-driven-development` → create `SPEC.md` (stack, scope, acceptance criteria).
+10. Invoke `planning-and-task-breakdown` → create task plan (file order, component list, dependencies).
+11. **Read `design/DESIGN-LOCK.md`** before any file creation.
+12. Run setup: `create-next-app`, Tailwind v4, shadcn, Framer Motion.
+13. Build all sections with tokens and `Reveal` animations.
+14. Run QA gates. Fix any issues.
+15. Deliver: `npm run dev` + summary of what was built.
 
 ### Example 2: Add Animation to Existing Component
 
@@ -425,6 +499,7 @@ Agent:
 | "I'll animate width/height for this effect." | That drops frames. Use `scale` or `opacity` instead. |
 | "This looks fine on my screen." | Check 375px. Mobile-first is the rule, not the exception. |
 | "The user is eager, I'll start coding now that DESIGN.md is approved." | DESIGN.md approval completes DEFINE, not BUILD. You MUST plan first (`planning-and-task-breakdown`). |
+| "I remember the design, I don't need to look at the files again." | Agent context can drift or reset. The `design/DESIGN-LOCK.md` is the ground truth. Read it. |
 
 ---
 
@@ -438,6 +513,7 @@ Watch for these signals that the skill is being violated:
 - There is no `prefers-reduced-motion` fallback.
 - The agent generates code before confirming or creating a `DESIGN.md` (Path B).
 - The agent writes code immediately after `DESIGN.md` is approved without creating a PLAN (`planning-and-task-breakdown`).
+- The agent does not read `design/DESIGN-LOCK.md` before writing code.
 - The stack versions are outdated (Next.js < 16, Tailwind < 4).
 
 ---
@@ -446,6 +522,8 @@ Watch for these signals that the skill is being violated:
 
 Evidence that this skill was followed:
 - `DESIGN.md` exists in the project root (for Path A and B).
+- `design/DESIGN-LOCK.md` exists and contains approved direction, palette, typography, and key decisions.
+- `design/approved/` contains any previews, screenshots, or moodboards generated during the design phase.
 - `globals.css` contains CSS custom property tokens, not hardcoded hex values in components.
 - `alt` text is present on every `<Image>`.
 - `prefers-reduced-motion` block exists in CSS.
