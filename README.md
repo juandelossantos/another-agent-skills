@@ -10,6 +10,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 
 | Skill | What It Does | Trigger |
 |---|---|---|
+| `engineering-fundamentals` | Universal philosophy for all platform skills: discovery, contracts, anti-slop, quality gates | Implicitly applied by all skills |
 | `frontend-web` | Build distinctive, animated, production-grade web UIs with a locked modern stack and anti-AI-slop rules | Any web frontend/visual task |
 | `frontend-pwa` | Build installable, offline-first web apps designed for all devices and future native distribution via Capacitor/Ionic | PWA, offline app, installable, Capacitor, hybrid |
 | `frontend-mobile` | Build production-grade mobile apps with native design tokens, animations, and platform compliance | Any mobile app/React Native/Flutter task |
@@ -132,19 +133,21 @@ another-agent-skills/
 ├── AGENTS.md                          # Universal skill-driven execution rules
 ├── LICENSE                            # MIT
 ├── skills/
+│   ├── engineering-fundamentals/
+│   │   └── SKILL.md                   # Universal philosophy: discovery, contracts, anti-slop, quality gates
 │   ├── frontend-web/
-│   │   ├── SKILL.md                   # Anti-AI-slop web frontend skill
-│   │   ├── DISCOVERY-GUIDE.md         # Phase 1 complete questions
-│   │   ├── ANIMATION-GUIDE.md         # Phase 5 animation patterns
-│   │   └── EXAMPLES.md                # Walkthroughs & troubleshooting
+│   │   ├── SKILL.md                   # Web frontend implementation (built on fundamentals)
+│   │   ├── DISCOVERY-GUIDE.md         # Web-specific discovery questions
+│   │   ├── ANIMATION-GUIDE.md         # Web animation patterns (Framer Motion)
+│   │   └── EXAMPLES.md                # Web walkthroughs & troubleshooting
 │   ├── frontend-pwa/
-│   │   ├── SKILL.md                   # Progressive Web App / hybrid app skill
+│   │   ├── SKILL.md                   # PWA / hybrid app implementation (built on fundamentals)
 │   │   ├── DISCOVERY-GUIDE.md         # PWA-specific discovery
 │   │   └── EXAMPLES.md                # PWA walkthroughs
 │   ├── frontend-mobile/
-│   │   ├── SKILL.md                   # Mobile app frontend skill (React Native, Flutter)
-│   │   ├── DISCOVERY-GUIDE.md         # Phase 1 mobile-specific questions
-│   │   ├── ANIMATION-GUIDE.md         # Mobile animation patterns (Reanimated, etc.)
+│   │   ├── SKILL.md                   # Mobile frontend implementation (built on fundamentals)
+│   │   ├── DISCOVERY-GUIDE.md         # Mobile-specific discovery questions
+│   │   ├── ANIMATION-GUIDE.md         # Mobile animation patterns (Reanimated)
 │   │   └── EXAMPLES.md                # Mobile walkthroughs & troubleshooting
 │   ├── project-health-check/
 │   │   └── SKILL.md                   # Audit existing codebases

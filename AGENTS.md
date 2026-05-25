@@ -32,6 +32,19 @@ For EVERY user request:
 3. NEVER implement directly if a skill applies
 4. ALWAYS follow the skill instructions exactly
 
+### Skill Hierarchy
+
+All platform-specific skills (frontend-web, frontend-pwa, frontend-mobile, backend-api-mastery, etc.) are **built on `engineering-fundamentals`**. When you invoke any platform skill, the fundamentals are implicitly applied. You do NOT need to invoke `engineering-fundamentals` separately.
+
+| Layer | Skills | Purpose |
+|---|---|---|
+| **Foundation** | `engineering-fundamentals` | Universal philosophy: discovery, contracts, anti-slop, quality gates |
+| **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile` | Web, installable web, and native mobile implementation |
+| **Backend** | `backend-api-mastery` | API, database, auth design |
+| **DevOps** | `fullstack-shipping` | CI/CD, deployment, monitoring |
+| **Process** | `spec-driven-development`, `architecture-analysis` | Planning and decision-making |
+| **Quality** | `project-health-check`, `dev-environment-audit` | Auditing and environment setup |
+
 ---
 
 ## Rule 2: Skill Discovery

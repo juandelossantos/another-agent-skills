@@ -426,21 +426,12 @@ The spec is a living document:
 
 | Skill | When Invoked | Why |
 |---|---|---|
+| `engineering-fundamentals` | Implicitly, by all skills | Universal philosophy: discovery, contracts, anti-slop, quality gates |
 | `project-health-check` | Phase 0, if existing code | Audit before building on unknown foundations |
 | `architecture-analysis` | Phase 3, if non-trivial | Make informed stack/pattern decisions |
 | `dev-environment-audit` | Phase 7, before build | Ensure tools are ready |
 | `planning-and-task-breakdown` | Phase 5-6 | Break spec into concrete tasks |
 | `frontend-web`, `frontend-pwa`, or `frontend-mobile` | BUILD phase, if UI work | Design tokens, anti-slop, animation |
-
-**Skill Selection via User Profile (NEW):**
-During BUILD phase, if UI work is needed and no explicit frontend skill was invoked:
-1. Read `~/.config/opencode/user-profile.json` (if exists and < 90 days old)
-2. Use `preferences.primary_platform` + `preferences.mobile_approach` to default:
-   - `primary_platform: "web"` → invoke `frontend-web`
-   - `primary_platform: "mobile"` + `mobile_approach: "native"` → invoke `frontend-mobile`
-   - `primary_platform: "mobile"` + `mobile_approach: "hybrid"` → invoke `frontend-pwa`
-   - `primary_platform: "desktop"` → invoke `frontend-desktop` (or `frontend-web` if not available)
-3. If no profile exists or platform is unclear → Ask user: "¿Es web, app híbrida (PWA/Ionic), o nativa?"
 | `incremental-implementation` | After Phase 8 | Build tasks one at a time |
 | `test-driven-development` | After Phase 8 | Prove code works as specified |
 

@@ -160,6 +160,12 @@ verify_installation() {
     echo "Total skills:    ${total_skills}"
     echo ""
 
+    if [[ -d "${GLOBAL_SKILLS_DIR}/engineering-fundamentals" ]]; then
+        ok "engineering-fundamentals → INSTALLED"
+    else
+        error "engineering-fundamentals → MISSING"
+    fi
+
     if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-web" ]]; then
         ok "frontend-web             → INSTALLED"
     else

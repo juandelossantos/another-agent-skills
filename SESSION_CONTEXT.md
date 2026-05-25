@@ -38,9 +38,26 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ### 2. Custom Skills
 
+#### `engineering-fundamentals`
+**Location:** `skills/engineering-fundamentals/SKILL.md`
+**Status:** ✅ Complete — 180 lines
+
+**Key features:**
+- Universal philosophy for ALL platform skills
+- Phase 0: Language Detection
+- Phase 1: Discovery Gate (assumptions, questions, confirmation)
+- Phase 2: Contracts (SPEC.md, DESIGN.md, DESIGN-LOCK.md, Lifecycle)
+- Phase 3: Aesthetic Direction (8 directions)
+- Phase 4: Anti-Slop Principles (intentionality, tokens, performance, accessibility)
+- Phase 5: Quality Gates (universal checklist)
+- Phase 6: Common Rationalizations
+- Phase 7: Red Flags
+- **Implicitly applied by all platform skills — never invoked directly**
+- Defines the template all platform skills MUST follow
+
 #### `frontend-web`
 **Location:** `skills/frontend-web/SKILL.md` (+ 3 guides)
-**Current version:** SKILL.md 302 lines (refactored). Guides split into focused files.
+**Current version:** SKILL.md ~200 lines (refactored from 321). References `engineering-fundamentals`.
 
 **Key features:**
 - Language detection (Spanish/English/Other)
@@ -54,7 +71,7 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 #### `frontend-pwa`
 **Location:** `skills/frontend-pwa/SKILL.md`
-**Status:** ✅ Complete — 320 lines
+**Status:** ✅ Complete — ~200 lines (refactored from 320). References `engineering-fundamentals`.
 
 **Key features:**
 - Universal responsive: foldables, TVs, tablets, touch desktops, phones
@@ -67,7 +84,7 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 #### `frontend-mobile`
 **Location:** `skills/frontend-mobile/SKILL.md`
-**Status:** ✅ Complete — 320 lines
+**Status:** ✅ Complete — ~200 lines (refactored from 320). References `engineering-fundamentals`.
 
 **Key features:**
 - Platform-specific: React Native (Expo) default, Flutter/SwiftUI/Jetpack Compose adaptable

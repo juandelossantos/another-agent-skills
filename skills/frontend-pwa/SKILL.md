@@ -1,100 +1,85 @@
 ---
 name: frontend-pwa
 description: >
-  Build web apps designed to work everywhere — browsers, installable homescreens,
-  and wrapped as native mobile apps. Covers Progressive Web Apps (PWA), offline-first
-  architecture, responsive design for all devices (phones, tablets, foldables, TVs),
-  touch optimization, and Capacitor/Ionic integration for native app distribution.
-  Use when the user wants a web app that may become a mobile app, needs offline
-  functionality, installable experience, or cross-device compatibility. Triggers on:
-  "PWA", "offline app", "installable", "Capacitor", "Ionic", "hybrid app",
-  "web app that works on mobile", "cross-platform web", "device agnostic".
+  Build installable, offline-first web apps for all devices with migration path to
+  native via Capacitor. Built on engineering-fundamentals. Use when the user wants
+  a web app with offline functionality, installable experience, or future native
+  distribution. Triggers on: "PWA", "offline app", "installable", "Capacitor",
+  "Ionic", "hybrid app", "cross-platform web", "device agnostic".
 license: MIT
 compatibility: opencode
 metadata:
   audience: frontend-developers
   stack: nextjs-react-tailwind-capacitor
   workflow: design-driven-build
+  foundation: engineering-fundamentals
 ---
 
-# Frontend PWA (Progressive Web App)
+# Frontend PWA
 
-Build web apps that **work everywhere** — browser, homescreen, and app store.
-This skill enforces offline-first architecture, universal responsive design,
-installable experience, and a migration path from web to native via Capacitor or Ionic.
+**Built on `engineering-fundamentals`.** Read that skill first. This document adds
+PWA-specific implementation to the universal philosophy.
 
 ## When to Use
 
-Use this skill when:
-- The user wants a web app with offline functionality
-- The app may be distributed as a native mobile app in the future
-- Cross-device compatibility is required (phone, tablet, foldable, TV, desktop)
-- The user mentions PWA, Capacitor, Ionic, or "works like an app"
-- Touch and mouse users must both have great experiences
+Use when the user wants:
+- A web app with offline functionality
+- An installable experience (add to homescreen)
+- Cross-device compatibility (phone, tablet, foldable, TV, desktop)
+- Future native distribution via Capacitor or Ionic
 
 Do NOT use for:
 - Simple marketing sites with no offline needs (use `frontend-web`)
 - Pure native apps with no web component (use `frontend-mobile`)
-- Backend-only tasks
 
 ### Stack Detection
 
-Before applying any instruction, check for `STACK_CONFIG.md`.
+Before applying instructions, check for `STACK_CONFIG.md`.
 
-**If `STACK_CONFIG.md` exists:**
-- Read it. Adapt to chosen stack (e.g., Vue + Vite + Capacitor instead of Next.js).
-- Principles remain the same.
-
-**If no `STACK_CONFIG.md` exists:**
-- Default to Next.js 16 + React 19 + Tailwind v4 + Capacitor 6 (documented below).
-- Ask: "¿Quieres usar Next.js + Capacitor (default) o prefieres otra combinación?"
+**If exists:** Adapt to chosen stack (e.g., Vue + Vite + Capacitor).
+**If missing:** Default to Next.js 16 + Tailwind v4 + Workbox + Capacitor 6.
 
 ---
 
 ## Core Process
 
 ### Phase 0 — Language Detection
-
-Same as `frontend-web` and `frontend-mobile`. Detect language. Never mix.
+→ See `engineering-fundamentals` Phase 0.
 
 ---
 
-### Phase 1 — Discovery Gate (MANDATORY)
+### Phase 1 — Discovery Gate
+→ See `engineering-fundamentals` Phase 1 for the universal discovery process.
 
-**NO CODE IS WRITTEN UNTIL THIS PHASE IS COMPLETE.**
+**PWA-specific questions (add to universal):**
+1. **Offline**: ¿Funciona sin internet? ¿Qué partes?
+2. **Installable**: ¿Instalable desde el navegador?
+3. **Native migration**: ¿Futuro App Store / Google Play?
+4. **Devices**: ¿Solo móvil, o tablet, desktop, TV?
+5. **Touch vs mouse**: ¿Usuarios principales tocan o usan mouse?
+6. **Push notifications**: ¿Necesitas notificaciones?
+7. **Background sync**: ¿Sincronización cuando vuelva la conexión?
 
-Read `DISCOVERY-GUIDE.md` in this skill directory.
-
-**PWA-specific discovery questions (in addition to universal):**
-1. **Offline needs**: ¿La app funciona sin internet? ¿Qué partes?
-2. **Installable**: ¿Quieres que los usuarios la instalen desde el navegador?
-3. **Native migration**: ¿Planeas publicarla en App Store / Google Play en el futuro?
-4. **Device targets**: ¿Solo móvil, o también tablet, desktop, TV?
-5. **Touch vs mouse**: ¿Usuarios principales tocan la pantalla o usan mouse?
-6. **Push notifications**: ¿Necesitas notificaciones push?
-7. **Background sync**: ¿Datos deben sincronizarse cuando vuelva la conexión?
+Read `DISCOVERY-GUIDE.md` in this skill directory for the complete PWA checklist.
 
 ---
 
 ### Phase 2 — Write Contracts
+→ See `engineering-fundamentals` Phase 2.
 
-#### 2A: SPEC.md
-
-Invoke `spec-driven-development` if no SPEC.md exists.
-
-Must include: Offline strategy, Install requirements, Device matrix, Native bridge needs.
-
-#### 2B: DESIGN.md
-
-Visual tokens only. Same rules as `frontend-web`.
-
-#### 2D: Design Asset Lock
-
-Same as `frontend-web`.
+**PWA-specific contract additions:**
+- SPEC.md must include: Offline strategy, Install requirements, Device matrix, Native bridge needs.
 
 ---
 
-### Phase 3 — Stack Lock-in
+### Phase 3 — Aesthetic Direction
+→ See `engineering-fundamentals` Phase 3.
+
+Same 8 directions (ED, SM, LDW, CB, UE, NB, PG, RT). Pick ONE.
+
+---
+
+### Phase 4 — Stack Lock-in
 
 | Tool | Minimum | Notes |
 |---|---|---|
@@ -105,15 +90,17 @@ Same as `frontend-web`.
 | Tailwind CSS | v4 | `@theme` in CSS |
 | Workbox | 7+ | Service worker generation |
 | Capacitor | 6+ | Native bridge (optional, if migration planned) |
-| Vite PWA | 0.20+ | If using Vite instead of Next.js |
+| Vite PWA | 0.20+ | If using Vite |
 
-Optional: `next-pwa` (for Next.js PWA), `@capacitor/core` + plugins.
+Optional: `next-pwa`, `@capacitor/core` + plugins.
 
 ---
 
-### Phase 4 — Anti-AI-Slop Rules (PWA Extended)
+### Phase 5 — Anti-Slop Rules (PWA)
 
-All rules from `frontend-web`, PLUS:
+→ See `engineering-fundamentals` Phase 4 for universal principles.
+
+**PWA-specific rules:**
 
 **Touch Optimization**
 - NEVER use hover-only interactions (tooltips, dropdowns on hover).
@@ -123,75 +110,60 @@ All rules from `frontend-web`, PLUS:
 
 **Viewport Safety**
 - NEVER use `100vh` on mobile (breaks with browser UI chrome).
-- ALWAYS use `100dvh`, `100svh`, or `100lvh` (dynamic, small, large viewport).
+- ALWAYS use `100dvh`, `100svh`, or `100lvh`.
 
 **Device Agnostic**
 - NEVER design only for 375px and 1280px.
-- ALWAYS test: 280px (foldable closed), 375px (phone), 768px (tablet portrait), 1024px (tablet landscape), 1920px (desktop), 3840px (TV).
-- Use **container queries** for component-level responsiveness, not just media queries.
+- ALWAYS test: 280px (foldable), 375px (phone), 768px (tablet), 1024px (tablet landscape), 1920px (desktop), 3840px (TV).
+- Use **container queries** for component-level responsiveness.
 
 **Offline-First**
 - NEVER assume internet is always available.
-- ALWAYS cache critical assets. Show cached data while syncing in background.
-- Use service workers for asset caching (Workbox or `next-pwa`).
+- ALWAYS cache critical assets. Show cached data while syncing.
 
 ---
 
-### Phase 5 — Universal Responsive Design
+### Phase 6 — Universal Responsive Design
 
-**Device Matrix (MANDATORY breakpoints):**
+**Device Matrix (MANDATORY):**
 
 | Device | Width | Approach |
 |---|---|---|
 | Foldable closed | 280-320px | Single column, essential only |
 | Phone portrait | 375-428px | Mobile-first design |
-| Phone landscape | 667-926px | Adjusted layout, two columns where useful |
-| Tablet portrait | 768-834px | Sidebar may appear, more content visible |
-| Tablet landscape | 1024-1366px | Full layout, multi-pane possible |
+| Phone landscape | 667-926px | Adjusted layout |
+| Tablet portrait | 768-834px | Sidebar may appear |
+| Tablet landscape | 1024-1366px | Full layout, multi-pane |
 | Desktop | 1280-1920px | Full experience, hover available |
 | TV / Big screen | 1920-3840px | Larger touch targets, simpler navigation |
 
 **Container Queries (Preferred over Media Queries):**
 
 ```css
-/* ❌ Media query: tied to screen size */
-@media (min-width: 768px) { .card-grid { grid-template-columns: 2fr 1fr; } }
-
-/* ✅ Container query: tied to component container */
-.card-container {
-  container-type: inline-size;
-}
+.card-container { container-type: inline-size; }
 @container (min-width: 400px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@container (min-width: 700px) {
-  .card-grid { grid-template-columns: repeat(3, 1fr); }
 }
 ```
 
 **Touch vs Mouse:**
 
 ```css
-/* Hover only on devices with mouse */
 @media (hover: hover) and (pointer: fine) {
   .button:hover { transform: scale(1.02); }
-  .card:hover { box-shadow: var(--shadow-lg); }
 }
-
-/* Touch-specific */
 @media (pointer: coarse) {
   .button { min-height: 48px; }
-  .card { /* No hover effects, use active states instead */ }
 }
 ```
 
 ---
 
-### Phase 6 — PWA Architecture
+### Phase 7 — PWA Architecture
 
 **Service Worker:**
 - Use Workbox or `next-pwa` to auto-generate.
-- Cache strategy: `CacheFirst` for static assets, `NetworkFirst` for API calls.
+- Cache strategy: `CacheFirst` for static, `NetworkFirst` for API.
 - Background sync for offline mutations.
 
 **Web App Manifest:**
@@ -210,81 +182,87 @@ All rules from `frontend-web`, PLUS:
 
 **Offline Pages:**
 - Always have a fallback offline page.
-- Show stale data with "syncing..." indicator instead of blank screens.
+- Show stale data with "syncing..." indicator.
 
 ---
 
-### Phase 7 — Build with Tokens
+### Phase 8 — Build with Tokens
 
-Same as `frontend-web`, with additions:
-- `manifest.json` / `manifest.ts` in `public/` or `app/`
-- Service worker registration
-- `next-pwa` or Workbox configuration
-- Capacitor config (if migration planned): `capacitor.config.ts`
-- All viewport units use `dvh`, `svh`, `lvh` where appropriate
+1. **Read `design/DESIGN-LOCK.md`** and `design/approved/`
+2. Apply tokens to `globals.css`
+3. `manifest.json` / `manifest.ts` in `public/` or `app/`
+4. Service worker registration
+5. Capacitor config (if migration planned): `capacitor.config.ts`
+6. All viewport units use `dvh` where appropriate
 
 ---
 
-### Phase 8 — QA Gates
+### Phase 9 — QA Gates
 
-All 12 checks from `frontend-web`, PLUS:
+→ See `engineering-fundamentals` Phase 5 for universal gates.
 
-13. **Offline test** — Disable network. App still loads and shows cached data.
-14. **Install test** — Chrome DevTools → Lighthouse → PWA audit passes.
-15. **Device matrix** — Tested on 375px, 768px, 1024px, 1920px at minimum.
-16. **Touch targets** — All interactive elements >= 44px (iOS) / 48dp (Android).
-17. **No hover-only features** — Every hover has a touch equivalent.
+**PWA-specific checks:**
+
+13. **Offline test** — Disable network. App loads and shows cached data.
+14. **Install test** — Lighthouse PWA audit passes.
+15. **Device matrix** — Tested on 375px, 768px, 1024px, 1920px minimum.
+16. **Touch targets** — All interactive elements >= 44px / 48dp.
+17. **No hover-only** — Every hover has a touch equivalent.
 18. **Viewport safe** — No `100vh` without `100dvh` fallback.
 19. **Foldable** — Layout doesn't break on 280px or foldable transitions.
-20. **Capacitor ready** — If migration planned, `npx cap init` + `npx cap sync` succeeds.
+20. **Capacitor ready** — If migration planned, `npx cap sync` succeeds.
 
 ---
 
 ## Migration Path to Native (Optional)
 
-If the user wants to publish in App Store / Google Play later:
+If future App Store / Google Play:
 
-1. **Now (Web PWA):**
-   - Build as PWA with offline support
-   - Use Capacitor plugins where needed (camera, GPS, etc.)
-   - Keep web and native logic separate where possible
-
+1. **Now (Web PWA):** Build with offline support. Use Capacitor plugins where needed.
 2. **Later (Native Wrapper):**
-   - `npm install @capacitor/core @capacitor/cli`
-   - `npx cap init`
-   - `npx cap add ios` / `npx cap add android`
-   - `npx cap sync`
-   - Build native apps from same codebase
-
+   ```bash
+   npm install @capacitor/core @capacitor/cli
+   npx cap init
+   npx cap add ios && npx cap add android
+   npx cap sync
+   ```
 3. **Progressive Enhancement:**
-   - Detect native platform: `Capacitor.isNativePlatform()`
-   - If native: use Capacitor plugins
-   - If web: use Web APIs
+   ```typescript
+   import { Capacitor } from '@capacitor/core';
+   const isNative = Capacitor.isNativePlatform();
+   // If native: use Capacitor plugins. If web: use Web APIs.
+   ```
 
 ---
 
-## Common Rationalizations
+## Examples & Troubleshooting
 
-| Excuse | Why It's Wrong |
-|---|---|
-| "PWA is just a web app with a manifest." | A real PWA is offline-first, installable, and responsive to all devices. A manifest alone is not enough. |
-| "I'll add offline support later." | Offline-first must be designed from the start. Retrofitting is 3x harder. |
-| "My users only use iPhone." | iPhone users install PWAs too. And they rotate to landscape. Design for all. |
-| "Hover works on iPad with mouse." | Most users touch. Hover is an enhancement, not a requirement. |
-| "Container queries are too new." | Supported in all modern browsers since 2023. Use them. |
-| "Capacitor is just a webview." | Yes, but it gives you native plugins, push notifications, and app store distribution. It's a bridge, not a crutch. |
+Read `EXAMPLES.md` in this skill directory:
+- New PWA walkthrough (15 steps)
+- Adding offline support to existing web app
+- Troubleshooting (service worker, install prompt, 100vh, hover)
+
+---
+
+## Red Flags (PWA-Specific)
+
+- No service worker or manifest.
+- `100vh` used without `100dvh` fallback.
+- Hover-only interactions with no touch alternatives.
+- No offline page or fallback.
+- Container queries not used for component layouts.
+- Not tested on tablet or desktop sizes.
 
 ---
 
 ## Verification
 
-Evidence this skill was followed:
-- `manifest.json` exists with `display: standalone`
-- Service worker registered (Workbox or `next-pwa`)
-- Offline page / fallback exists
-- No `100vh` without `100dvh`
-- Container queries used for component layouts
-- Touch targets >= 44px
-- `@media (hover: hover)` guards around hover effects
-- Tested on minimum 4 breakpoints (phone, tablet, desktop, TV)
-- Capacitor config exists if native migration planned
+- `manifest.json` exists with `display: standalone`.
+- Service worker registered (Workbox or `next-pwa`).
+- Offline page / fallback exists.
+- No `100vh` without `100dvh`.
+- Container queries used for component layouts.
+- Touch targets >= 44px.
+- `@media (hover: hover)` guards around hover effects.
+- Tested on minimum 4 breakpoints.
+- Capacitor config exists if native migration planned.
