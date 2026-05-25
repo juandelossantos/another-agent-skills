@@ -234,7 +234,7 @@ Detect language from user's prompt:
 
 ---
 
-## Rule 10: Development Artifacts Convention
+## Rule 11: Development Artifacts Convention
 
 When working on this repository (`another-agent-skills`):
 

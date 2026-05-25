@@ -160,29 +160,13 @@ verify_installation() {
     echo "Total skills:    ${total_skills}"
     echo ""
 
-    if [[ -d "${GLOBAL_SKILLS_DIR}/engineering-fundamentals" ]]; then
-        ok "engineering-fundamentals → INSTALLED"
-    else
-        error "engineering-fundamentals → MISSING"
-    fi
-
-    if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-web" ]]; then
-        ok "frontend-web             → INSTALLED"
-    else
-        error "frontend-web             → MISSING"
-    fi
-
-    if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-pwa" ]]; then
-        ok "frontend-pwa             → INSTALLED"
-    else
-        warn "frontend-pwa             → NOT INSTALLED (optional)"
-    fi
-
-    if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-mobile" ]]; then
-        ok "frontend-mobile          → INSTALLED"
-    else
-        warn "frontend-mobile          → NOT INSTALLED (optional)"
-    fi
+    for skill_name in engineering-fundamentals frontend-web frontend-pwa frontend-mobile frontend-desktop backend-api-mastery fullstack-shipping spec-driven-development git-init-and-versioning architecture-analysis dev-environment-audit project-health-check project-metrics user-onboarding; do
+        if [[ -d "${GLOBAL_SKILLS_DIR}/${skill_name}" ]]; then
+            ok "${skill_name} → INSTALLED"
+        else
+            error "${skill_name} → MISSING"
+        fi
+    done
 
     if [[ -L "${GLOBAL_SKILLS_DIR}/frontend-ui-engineering" ]]; then
         ok "frontend-ui-engineering  → LINKED"
