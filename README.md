@@ -2,11 +2,11 @@
 
 **Production-grade agent skills for OpenCode (and any AI coding agent).**
 
-A curated, opinionated collection of **14 custom skills** that turn AI assistants into disciplined senior engineers and intentional visual designers. Covers the full development lifecycle: **web, PWA, mobile, desktop, API, CI/CD, architecture, quality, and environment** — with stack-agnostic principles and concrete implementations for any modern framework.
+A curated, opinionated collection of **14 custom skills** that turn AI assistants into disciplined senior engineers. Covers the full development lifecycle: **web, PWA, mobile, desktop, API, CI/CD, architecture, quality, and environment** — with behavioral discipline, stack-agnostic principles, and concrete implementations for any modern framework.
 
 **37 skills globally** (14 custom + 23 from `addyosmani/agent-skills` reference collection, where our `spec-driven-development` replaces the upstream version).
 
-**Current status:** See [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) for detailed project state, what's implemented, and what's next.
+**Current status:** See [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) for detailed project state and roadmap.
 
 ---
 
@@ -37,9 +37,9 @@ A curated, opinionated collection of **14 custom skills** that turn AI assistant
 
 ## Why Another Agent Skills?
 
-**Maximum discipline. Minimum token waste.**
+**Maximum discipline. Minimum token waste. Behavioral rigor.**
 
-Most agent skills are encyclopedias — they dump 500+ lines of instructions into context before the agent even understands the task. We do the opposite.
+Most agent skills are encyclopedias — they dump 500+ lines of instructions into context before the agent even understands the task. We do the opposite. And we don't just structure workflows; we enforce *behavioral* discipline derived from Andrej Karpathy's observations on LLM coding failures.
 
 ### Before / After
 
@@ -47,10 +47,15 @@ Most agent skills are encyclopedias — they dump 500+ lines of instructions int
 |---|---|
 | Agent jumps straight to coding | Agent follows DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP |
 | "I'll just quickly implement this" | Skills force discovery, specs, and contracts first |
-| 10+ minutes of repetitive questions per project | 27 questions asked once, persisted forever |
+| Silent assumptions, costly rewrites | **Think Before Coding** — assumptions stated explicitly |
+| Overcomplicated abstractions, bloat | **Simplicity First** — senior-level judgment on every line |
+| Scope creep in diffs | **Surgical Changes** — every changed line traces to the request |
+| "Is it done?" — unclear | **Goal-Driven Execution** — verifiable criteria before implementation |
+| 10+ minutes of repetitive questions per project | 30 questions asked once, persisted forever |
 | Generic `bg-blue-500` and Inter font everywhere | Anti-AI-slop rules enforce intentional design |
 | "I'll fix it in the next iteration" | Quality gates prevent technical debt |
-| Context grows uncontrollably | Lazy loading keeps initial context ~200 lines |
+| Context grows uncontrollably | **Lazy loading + compression** keeps initial context minimal |
+| Agent commits without asking | **Mutation Approval Gate** — your explicit "yes" required |
 
 ### Token Economics
 
@@ -59,23 +64,38 @@ Our skills are designed to cost less context while delivering more value:
 | Metric | Typical Skill | Our Approach | Savings |
 |---|---|---|---|
 | **Average SKILL.md size** | ~370 lines | ~230 lines | **-38%** |
-| **AGENTS.md** | 360 lines | 259 lines | **-28%** |
+| **AGENTS.md (core rules)** | 360+ lines | ~300 lines | **-20%** |
 | **Initial context load** | 500+ lines eager | ~200 lines index + on-demand guides | **-60%** |
 | **Discovery per project** | 10+ minutes repeated | 3 minutes once, persisted | **-70% time** |
 | **Skills loaded at start** | All guides + examples | Index only | **-80% noise** |
 
 > [!IMPORTANT]
 > **Lazy loading is the game changer.** Each skill's `SKILL.md` is an index (~200 lines). Detailed guides (`*-GUIDE.md`) load only when the agent reaches that phase. The agent never pays for Phase 5 content while still in Phase 1.
+>
+> **Rules are also lazy-loaded.** `AGENTS.md` (~300 lines) contains core rules always loaded. `AGENTS-EXTENDED.md` (~200 lines) contains detailed tables and reference — loaded only when needed.
 
 ### Memory & Context Architecture
 
 | Feature | How It Saves Tokens |
 |---|---|
 | **Context Persistence (Rule 0b)** | Auto-recovers `DESIGN-LOCK.md`, `SPEC.md`, `ARCHITECTURE.md` on session restart. No repeated "what were we building?" |
-| **User Profile** | `~/.config/opencode/user-profile.json` stores 27 preferences once. Subsequent projects skip redundant discovery. |
-| **Lazy Loading (Rule 6)** | Skills load as indices. Guides load on-demand per phase. Never pay for unused instructions. |
+| **User Profile** | `~/.config/opencode/user-profile.json` stores 30 preferences once. Subsequent projects skip redundant discovery. |
+| **Lazy Loading (Rule 6)** | Skills AND rules load on-demand. Indices first, details only when needed. |
+| **Purpose-Driven Sessions** | `.sessionrc` per project declares intent (Brainstorming, Development, Code Review, Debugging). Skills weighted by purpose. |
 | **Token Optimization** | Caveman-inspired compression: drop filler, fragments, imperative voice. Applied to all skills and AGENTS.md. |
 | **Context Budget (Rule 8)** | Explicit priority rules: 60% code, 25% active skill, 15% history. Auto-compaction when context >80%. |
+| **Context Eviction (Rule 0e)** | Automatic compression: archive old sessions, summarize history >20 messages, unload inactive guides. |
+
+### Behavioral Safeguards
+
+Beyond workflows, we enforce *how* the agent behaves:
+
+| Safeguard | What It Prevents |
+|---|---|
+| **Rule 0c: Behavioral Principles** | Wrong assumptions, overcomplication, scope creep, vague execution |
+| **Rule 0d: Pre-Action Checklist** | Commits without approval, skipped self-review, irreversible mistakes |
+| **Rule 12: Mutation Approval Gate** | Surprise commits, unwanted changes in production, batch approval abuse |
+| **Anti-Rationalization** | Agent excuses like "this is too small for a skill" or "user seems impatient" |
 
 ### Who Is This For?
 
@@ -84,7 +104,7 @@ Our skills are designed to cost less context while delivering more value:
 - **AI researchers** studying optimal instruction architectures
 - **Anyone** paying per token and tired of verbose, ineffective prompts
 
-**The result:** Agents that think like senior engineers, respect your token budget, and deliver consistent quality — without the bloat.
+**The result:** Agents that think like senior engineers, respect your token budget, protect your repository with explicit approval gates, and deliver consistent quality — without the bloat.
 
 ---
 
@@ -114,11 +134,12 @@ That's it. OpenCode will now see **37 skills** globally (14 custom + 23 from ups
 init-agents
 ```
 
-This copies `AGENTS.md` into your current directory, which tells OpenCode to:
+This merges `AGENTS.md` into your current directory, which tells OpenCode to:
 
 1. **Use skills** — Without `AGENTS.md`, the agent may ignore skills and jump straight to coding.
 2. **Follow the lifecycle** — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP.
-3. **Respect anti-rationalization rules** — Prevents the agent from skipping steps with excuses like "this is too small for a skill."
+3. **Respect behavioral rules** — Prevents the agent from making assumptions or skipping steps.
+4. **Configure purpose** — Creates `.sessionrc` with default intent (Brainstorming, Development, Code Review, etc.).
 
 ### When to use it
 
@@ -130,7 +151,7 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 | Project already has our `AGENTS.md` (< 7 days) | ❌ No — Already initialized |
 
 > **Migrating from other workflows:** If your project has an existing `AGENTS.md` or `CLAUDE.md` (from Claude Code, Cursor, or custom rules), running `init-agents` will **append** our skill-driven rules to your existing file rather than overwriting it. Your project-specific context and conventions are preserved.
-
+>
 > **Note:** If `init-agents` is not found, run `source ~/.zshrc` first to load the alias.
 
 ---
@@ -142,13 +163,14 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 | 1 | Clones `addyosmani/agent-skills` (23 upstream skills) | `~/.config/opencode/.agent-skills-remote/` |
 | 2 | Symlinks upstream skills | `~/.config/opencode/skills/` |
 | 3 | Copies 14 custom skills from this repo | All custom skills available globally |
-| 4 | **Backup before overwrite** | Official skills backed up before custom replacement |
+| 4 | **Backup before overwrite** | Upstream skills backed up before custom replacement |
 | 5 | Adds aliases to `~/.zshrc` | `init-agents`, `update-global-skills` |
 | 6 | Enables daily auto-update | Skills stay current automatically |
 
 **Safety features:**
 - **Backup before overwrite:** `install.sh` saves references to upstream skills and timestamps previous custom installs before replacing them. You can restore if needed.
 - **Smart merge:** `init-agents` detects existing `AGENTS.md` or `CLAUDE.md` and appends our rules rather than overwriting. Your project-specific context is preserved.
+- **Purpose-driven:** `init-agents` creates `.sessionrc` with default intent from your user profile.
 - **Verification:** After install, `install.sh` checks all 14 custom skills are present and reports any missing.
 
 ---
@@ -157,7 +179,7 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 
 | Alias | Usage |
 |---|---|
-| `init-agents` | In any project: merges `AGENTS.md` rules with existing agent config (smart merge — never overwrites) |
+| `init-agents` | In any project: merges `AGENTS.md` rules + creates `.sessionrc` with purpose (smart merge — never overwrites) |
 | `update-global-skills` | Manually pulls latest changes from remote skill repos |
 
 ---
@@ -192,7 +214,7 @@ All skills restored in under a minute.
    ```
 3. Changes are pushed to your global OpenCode skills directory instantly.
 
-**For maintainers:** All internal refinement work (audits, reviews, simulations, roadmaps) goes in `development/` — see `DEVELOPMENT.md`.
+**For maintainers:** All internal refinement work (audits, reviews, simulations, roadmaps) goes in `development/` (git-ignored). See `DEVELOPMENT.md`.
 
 ---
 
@@ -202,7 +224,7 @@ All skills restored in under a minute.
 another-agent-skills/
 ├── README.md                          # This file
 ├── PROGRESS_STATUS.md                 # Current project state and roadmap
-├── EXAMPLES.md                        # Quick reference (80 lines). Full version in docs/
+├── EXAMPLES.md                        # Quick reference (49 lines). Full version in docs/
 ├── AGENTS.md                          # Core rules (~300 lines, always loaded)
 ├── AGENTS-EXTENDED.md                 # Extended rules (~200 lines, lazy loaded)
 ├── DEVELOPMENT.md                     # Guide for maintainers: development/ convention
@@ -224,11 +246,11 @@ another-agent-skills/
 │   ├── backend-api-mastery/           # API design: protocol, DB, auth, testing
 │   └── fullstack-shipping/            # CI/CD, deployment, monitoring, launch checklists
 ├── docs/                              # Full documentation (lazy loaded)
-│   └── EXAMPLES.md                    # Complete before/after demonstrations (367 lines)
+│   └── EXAMPLES.md                    # Complete before/after demonstrations (366 lines)
 └── development/                       # Internal: audits, reviews, simulations (git-ignored)
 ```
 
-**Lazy loading pattern:** Each skill's `SKILL.md` is an index (~200 lines max). Detailed guides (`*-GUIDE.md`) load on-demand as the agent reaches each phase. This keeps initial context small and precise.
+**Lazy loading pattern:** Skills AND rules use lazy loading. `SKILL.md` and `AGENTS.md` are indices (~200-300 lines). Detailed guides (`*-GUIDE.md`, `AGENTS-EXTENDED.md`) load only when needed. The agent never pays for content it isn't using.
 
 ---
 
@@ -283,12 +305,14 @@ Pick any item above. Read `DEVELOPMENT.md` for conventions, create a branch, and
 ## Philosophy
 
 - **Skills over prompts.** Structured workflows beat vague instructions.
+- **Behavioral discipline.** Rules don't just structure work; they enforce how the agent thinks (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution).
 - **Anti-rationalization.** Every skill includes common excuses agents use to skip steps — and why they're wrong.
 - **Stack lock-in.** No "use whatever version." Locked, modern, proven stacks only.
 - **Framework-agnostic patterns, stack-specific examples.** Core concepts work everywhere; code snippets adapt to your chosen stack.
-- **Lazy loading.** Skills load as indices (~200 lines) + guides on-demand. Saves context, improves precision.
+- **Lazy loading.** Skills AND rules load as indices (~200-300 lines) + details on-demand. Saves context, improves precision.
 - **Token optimization.** Caveman-inspired compression applied to all skills (-30-55% per skill) without losing correctness.
 - **Mutation approval gate.** No `git commit`, `git push`, or any repository mutation without your explicit "yes". Configurable per user preference.
+- **Context eviction.** Automatic compression: archive old sessions, summarize history, unload inactive guides. Context is finite — manage it.
 
 ---
 
@@ -298,8 +322,9 @@ Pick any item above. Read `DEVELOPMENT.md` for conventions, create a branch, and
 2. Add or improve a skill in `skills/`
 3. Follow lazy loading: SKILL.md as index, detailed content in `*-GUIDE.md`
 4. Follow token optimization: drop filler, imperative voice, no duplication
-5. Test with `bash install.sh`
-6. Open a PR
+5. Follow behavioral principles: enforce discipline, not just structure
+6. Test with `bash install.sh`
+7. Open a PR
 
 **Development artifacts:** All analysis, review, simulation, and refinement files go in `development/` (git-ignored). See `DEVELOPMENT.md`.
 
@@ -311,6 +336,7 @@ This project builds on the work of many people and communities:
 
 - **Addy Osmani** — [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) (23 upstream skills). The reference collection we extend.
 - **Julius Brussee** — [`caveman`](https://github.com/JuliusBrussee/caveman) (64.4k ⭐). Inspiration for our token optimization approach.
+- **Andrej Karpathy** — Behavioral observations on LLM coding failures that inspired Rule 0c.
 - **OpenCode Team** — For the skill framework and invocation system.
 - **Vercel / Next.js Team** — Modern web stack standards.
 - **Tauri / Electron Teams** — Cross-platform desktop tooling.
