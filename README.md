@@ -202,6 +202,7 @@ All skills restored in under a minute.
 another-agent-skills/
 ├── README.md                          # This file
 ├── PROGRESS_STATUS.md                 # Current project state and roadmap
+├── EXAMPLES.md                        # Concrete before/after skill demonstrations
 ├── DEVELOPMENT.md                     # Guide for maintainers: development/ convention
 ├── install.sh                         # One-command global installer (with backup-before-overwrite)
 ├── AGENTS.md                          # Universal skill-driven execution rules (12 rules)
