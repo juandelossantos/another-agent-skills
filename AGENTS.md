@@ -33,6 +33,7 @@ Map user intent to skills automatically:
 | "review", "check quality", "refactor" | `code-review-and-quality` |
 | "deploy", "ship", "launch", "CI/CD" | `shipping-and-launch` |
 | "spec", "specification", "design doc", "requirements" | `spec-driven-development` |
+| "architecture", "stack", "what framework", "MVC or", "microservices", "monolith", "pattern", "how to structure" | `architecture-analysis` |
 | "security", "auth", "vulnerability", "harden" | `security-and-hardening` |
 
 ### Rule 4: Lifecycle Enforcement

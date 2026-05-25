@@ -39,51 +39,72 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - QA gates: 12 checks before delivery
 - **Examples & Troubleshooting** → `EXAMPLES.md`
 
+#### `project-health-check`
+**Location:** `skills/project-health-check/SKILL.md`
+**Status:** ✅ Complete
+
+**Key features:**
+- Mandatory audit before any new work on existing codebases
+- 6 audit categories: Stack/Versions, Structure, Code Quality, Config, Dependencies, Agent Compliance
+- Generates `HEALTH-CHECK.md` artifact
+- **BLOCKING user decision gate:** Fix First / Proceed with Caution / Ignore
+- Recursive: Re-audits every 7 days or after any gap >3 days
+
+#### `spec-driven-development` (Overrides Official)
+**Location:** `skills/spec-driven-development/SKILL.md`
+**Status:** ✅ Complete — 481 lines
+
+**Key features:**
+- Phase 0: Context assessment (triggers `project-health-check` if existing code)
+- Phase 1: Domain research via web search
+- Phase 2: Deep discovery with **critical challenge**
+- Phase 3: Architecture decision gate (triggers `architecture-analysis`)
+- Phase 7: Environment audit gate
+- Phase 8: **Implement gate** — explicit "yes" required
+
+#### `architecture-analysis`
+**Location:** `skills/architecture-analysis/SKILL.md`
+**Status:** ✅ Complete — 362 lines
+
+**Key features:**
+- Phase 1: Discovery (scale, team, ops, data, latency, constraints)
+- Phase 2: Research (documentation, benchmarks, maintenance status)
+- Phase 3: Generate exactly 2-3 options with honest pros AND cons
+- Phase 4: **Critical Challenge** — questions user assumptions
+- Phase 5: Recommendation with confidence level
+- Phase 6: Document in `SPEC.md` + `architecture/ARCHITECTURE.md`
+
 ### Issue 3: Skill Line Count — RESOLVED
 **Problem:** `visual-frontend-mastery` was ~545 lines (exceeded 500-line limit).
-**Status:** ✅ FIXED. Split into SKILL.md (302 lines) + 3 guides: DISCOVERY-GUIDE.md, ANIMATION-GUIDE.md, EXAMPLES.md.
+**Status:** ✅ FIXED. Split into SKILL.md (302 lines) + 3 guides.
 
 ---
 
 ## Immediate Next Steps (Priority Order)
 
-1. **Test `project-health-check` skill**
-   - Open a project with existing code
-   - Verify it blocks and presents A/B/C options
-   - Verify `HEALTH-CHECK.md` is generated
-   - Test recursive behavior (return after 7 days)
+1. **Test existing skills in a real project**
+   - Create a test project with `init-agents`
+   - Verify `project-health-check` blocks on existing code
+   - Verify `spec-driven-development` does research + critical challenge
+   - Verify `architecture-analysis` proposes 2-3 options with honest trade-offs
+   - Verify `visual-frontend-mastery` creates design lock and follows tokens
 
-2. **Test `spec-driven-development` (rewritten)**
-   - Start a new project
-   - Verify Phase 1 research (if non-trivial)
-   - Verify Phase 2 critical challenge (questions that push back)
-   - Verify Phase 8 implement gate (explicit "yes" required)
-   - Check `SPEC.md` includes Research Context + Architecture Decisions sections
-
-3. **Create `architecture-analysis` skill**
-   - Stack selection with 2-3 justified options
-   - Pattern recommendations (MVC, Hexagonal, Serverless, etc.)
-   - Critical analysis: challenge user choices, explain trade-offs
-   - Lock decision in `SPEC.md` + `architecture/ARCHITECTURE.md`
-
-4. **Create `dev-environment-audit` skill**
+2. **Create `dev-environment-audit` skill**
    - Detect installed MCPs and CLI tools
    - Compare against "ideal set" per project type
    - Propose installations with user confirmation
    - Document in `docs/DEV-ENVIRONMENT.md`
 
-5. **Split `visual-frontend-mastery` if needed**
-   - If it grows past 600 lines, extract Phase 1 extended discovery to separate file
+3. **Documentation**
+   - Update `README.md` with concrete usage examples for each skill
+   - Add `CONTRIBUTING.md` for future collaborators
+   - Create `CHANGELOG.md` tracking skill versions
 
-6. **Documentation**
-   - Update `README.md` with new skill descriptions and examples
-   - Add a `CONTRIBUTING.md`
-   - Create `CHANGELOG.md`
-
-7. **CI/CD**
+4. **CI/CD**
    - Add GitHub Actions to validate `SKILL.md` frontmatter
    - Validate skill names match directory names
-   - Check line count < 500 (currently failing for visual-frontend-mastery)
+   - Check line count < 500 for all custom skills
+   - Validate all guides referenced in SKILL.md actually exist
 
 ---
 
@@ -98,8 +119,17 @@ another-agent-skills/
 ├── .gitignore
 ├── SESSION_CONTEXT.md                 # <-- YOU ARE HERE
 ├── skills/
-│   └── visual-frontend-mastery/
-│       └── SKILL.md                   # Custom frontend skill
+│   ├── visual-frontend-mastery/
+│   │   ├── SKILL.md                   # Anti-AI-slop frontend skill (302 lines)
+│   │   ├── DISCOVERY-GUIDE.md         # Phase 1 complete questions
+│   │   ├── ANIMATION-GUIDE.md         # Phase 5 animation patterns
+│   │   └── EXAMPLES.md                # Walkthroughs & troubleshooting
+│   ├── project-health-check/
+│   │   └── SKILL.md                   # Audit existing codebases
+│   ├── spec-driven-development/
+│   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
+│   └── architecture-analysis/
+│       └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
 └── scripts/                           # (empty, reserved for future)
 ```
 
@@ -137,5 +167,5 @@ The following are installed on this machine and should persist:
 
 ---
 
-Last updated: 2026-05-23
-Session: Visual Frontend Mastery creation + testing + GitHub setup
+Last updated: 2026-05-24
+Session: architecture-analysis skill creation + visual-frontend-mastery refactor

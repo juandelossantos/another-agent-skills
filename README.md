@@ -13,7 +13,8 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `visual-frontend-mastery` | Build distinctive, animated, production-grade UIs with a locked modern stack and anti-AI-slop rules | Any frontend/visual task |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
-| *(Coming soon)* `architecture-analysis` | Evaluate 2-3 architecture options with trade-offs. Challenge user choices. Lock decisions in spec | Non-trivial projects requiring stack/pattern decisions |
+| `architecture-analysis` | Evaluate 2-3 architecture options with honest trade-offs. Challenge user assumptions. Lock decisions in spec + ARCHITECTURE.md | Non-trivial projects requiring stack/pattern decisions |
+| *(Coming soon)* `dev-environment-audit` | Detect MCPs and tools, compare against ideal set, propose installations | Any project start, environment setup |
 | *(Coming soon)* `dev-environment-audit` | Detect MCPs and tools, compare against ideal set, propose installations | Any project start, environment setup |
 | *(Coming soon)* `backend-api-mastery` | REST/GraphQL design, Prisma, tRPC, error handling | API work |
 | *(Coming soon)* `fullstack-shipping` | End-to-end build, test, and deploy workflows | Fullstack projects |
@@ -129,11 +130,16 @@ another-agent-skills/
 ├── LICENSE                            # MIT
 ├── skills/
 │   ├── visual-frontend-mastery/
-│   │   └── SKILL.md                   # Anti-AI-slop frontend skill
+│   │   ├── SKILL.md                   # Anti-AI-slop frontend skill
+│   │   ├── DISCOVERY-GUIDE.md         # Phase 1 complete questions
+│   │   ├── ANIMATION-GUIDE.md         # Phase 5 animation patterns
+│   │   └── EXAMPLES.md                # Walkthroughs & troubleshooting
 │   ├── project-health-check/
 │   │   └── SKILL.md                   # Audit existing codebases
-│   └── spec-driven-development/
-│       └── SKILL.md                   # Research-backed spec writing (overrides official)
+│   ├── spec-driven-development/
+│   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
+│   └── architecture-analysis/
+│       └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
 └── scripts/
     └── validate-skills.sh             # (Optional) CI validation
 ```
