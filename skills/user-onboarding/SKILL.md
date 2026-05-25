@@ -1,11 +1,10 @@
 ---
 name: user-onboarding
 description: >
-  Capture user preferences once and persist them across all projects.
-  Runs automatically on first interaction or when no user profile exists.
+  Capture user preferences once, persist across all projects.
   Creates ~/.config/opencode/user-profile.json used by all skills to personalize
-  discovery, recommendations, and defaults. Triggers on: first session, "setup my
-  preferences", "remember my stack", "my defaults", "user profile".
+  discovery, recommendations, and defaults. Triggers on: first session,
+  "setup preferences", "remember my stack", "my defaults", "user profile".
 license: MIT
 compatibility: opencode
 metadata:
@@ -17,35 +16,25 @@ metadata:
 
 **Ask once. Remember forever.**
 
-This skill eliminates repetitive discovery questions by capturing the user's
-preferences, constraints, and context at the beginning of their relationship
-with the agent. Every subsequent project reads `user-profile.json` and adapts
-its defaults, suggestions, and questions accordingly.
+Captures user preferences, constraints, context. Eliminates repetitive discovery. Subsequent projects read `user-profile.json` and adapt defaults, suggestions, questions.
 
 ## When to Use
 
-**AUTO-DETECTED — The user never needs to ask for this.**
+**AUTO-DETECTED — User never needs to ask.**
 
 **Runs automatically when:**
-- Any skill starts and detects no `~/.config/opencode/user-profile.json`
-- `user-profile.json` exists but is > 90 days old
-- The user explicitly says "setup my preferences", "remember my stack", "configure defaults"
+- Any skill starts and no `~/.config/opencode/user-profile.json`
+- `user-profile.json` > 90 days old
+- User says "setup preferences", "remember stack", "configure defaults"
 
-**When NOT to use:**
-- `user-profile.json` exists and is < 90 days old
-- The user explicitly says "skip preferences, just build" AND profile exists
-- Turbo Mode is activated and user-profile exists
+**Skip when:** Profile exists and < 90 days old. User says "skip" AND profile exists. Turbo Mode + profile exists.
 
 **How it works:**
 ```
 User: "Crea una landing page"
-Agent: [checks ~/.config/opencode/user-profile.json] → NOT FOUND
-Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas 
-        para personalizar mi ayuda. Después continuamos con tu landing page."
-→ Runs user-onboarding
-→ Saves profile
-→ Resumes: "Listo. Veo que prefieres React + Tailwind. ¿Confirmas para 
-            esta landing page?"
+Agent: [checks profile] → NOT FOUND
+Agent: "Primera vez. Preguntas rápidas para personalizar ayuda."
+→ Runs user-onboarding → Saves profile → Resumes original request
 ```
 
 ---
@@ -54,62 +43,26 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
 
 ### Phase 0 — Detect Profile
 
-1. **Check for `~/.config/opencode/user-profile.json`:**
-   - Exists and < 90 days old → Read it, skip to Phase 3 (Quick Verify)
-   - Exists but > 90 days old → Read it, ask "¿Quieres actualizar tu perfil?"
-   - Missing → Full onboarding required
+1. **Check `~/.config/opencode/user-profile.json`:**
+   - <90 days → Read, skip to Phase 3 (Quick Verify)
+   - >90 days → Read, ask "¿Actualizar perfil?"
+   - Missing → Full onboarding
 
-2. **Check for stale preferences:**
-   - If profile mentions technologies that are now outdated (e.g., Next.js 14 when current is 16), suggest update.
+2. **Check stale preferences:** Mentioned technologies outdated (e.g., Next.js 14 when current is 16)? Suggest update.
 
 ---
 
 ### Phase 1 — Discovery Interview (Full Onboarding)
 
-**Ask these questions once. Store answers permanently.**
+→ **See `ONBOARDING-QUESTIONS-GUIDE.md` for complete 27-question interview (5 sections: Identity, Technical, Design, Workflow, Constraints).**
 
-#### Section A: Identity & Context
+Summary: 27 questions covering identity, technical preferences (platform, framework, stack), design taste, workflow style, constraints.
 
-1. **Name / Team**: ¿Cómo te llamas? ¿Trabajas solo o en equipo?
-2. **Role**: ¿Eres desarrollador, diseñador, product manager, emprendedor?
-3. **Industry**: ¿En qué industria trabajas? (tech, hospitality, fintech, healthcare, education, etc.)
-4. **Experience level**: ¿Cuántos años de experiencia tienes programando? (0-1, 1-3, 3-5, 5-10, 10+)
-
-#### Section B: Technical Preferences
-
-5. **Primary language**: ¿Prefieres Spanish o English para comunicación conmigo?
-6. **Primary platform**: ¿Qué tipo de proyectos haces más? (web, mobile, desktop, CLI, o mixto)
-7. **Web framework** (if web): ¿Prefieres React, Vue, Svelte, Angular, o te da igual?
-8. **Mobile approach** (if mobile): ¿Nativa (app store directo) o híbrida (web app empaquetada)?
-9. **Mobile framework** (if native): ¿React Native, Flutter, SwiftUI, Jetpack Compose, o te da igual?
-10. **Mobile framework** (if hybrid): ¿Ionic + Capacitor, Tauri v2 Mobile, PWA + Capacitor, o te da igual?
-11. **Desktop framework** (if desktop): ¿Prefieres Tauri, Electron, Flutter Desktop, WPF, o te da igual?
-12. **Backend stack**: ¿Prefieres Node.js, Python, Go, Rust, o te da igual?
-13. **Styling approach** (if web or hybrid): ¿Prefieres Tailwind, CSS Modules, Styled Components, SCSS?
-14. **Database**: ¿Prefieres PostgreSQL, MySQL, MongoDB, SQLite, o te da igual?
-15. **Deployment**: ¿Prefieres Vercel, Netlify, AWS, self-hosted, o te da igual?
-
-#### Section C: Design Preferences
-
-16. **Design aesthetic**: ¿Prefieres minimalista, moderno, clásico, juguetón, corporativo?
-17. **Color preference**: ¿Prefieres oscuro, claro, o mixto (dark mode)?
-18. **Typography**: ¿Te importa mucho la tipografía o prefieres que yo elija?
-19. **Animation**: ¿Prefieres mucha animación, moderada, o casi ninguna?
-
-#### Section D: Workflow Preferences
-
-20. **Communication style**: ¿Prefieres que sea directo/conciso o detallado/explicativo?
-21. **Decision style**: ¿Prefieres que proponga opciones y elijas, o que decida por ti con justificación?
-22. **Code review**: ¿Quieres que revisemos cada commit juntos, o confías en el auto-review?
-23. **Context persistence**: ¿Quieres que recuerde automáticamente el estado de nuestros proyectos entre sesiones, o prefieres empezar desde cero cada vez?
-24. **Documentation**: ¿Prefieres mucha documentación o lo mínimo necesario?
-
-#### Section E: Constraints & Context
-
-24. **Budget**: ¿Proyectos personales, startup, o enterprise? (afecta recomendaciones de hosting/tools)
-25. **Time pressure**: ¿Usualmente tienes deadlines ajustados o tiempo de sobra?
-26. **Open source**: ¿Sueles open-sourcear proyectos? (afecta licencias y configuración)
-27. **Accessibility priority**: ¿El accesibilidad es crítica, importante, o nice-to-have para ti?
+**Rules:**
+- Ask once. Store permanently.
+- Never include secrets, API keys, or sensitive data.
+- Update `updated_at` on any change.
+- Version schema for backward compatibility.
 
 ---
 
@@ -134,8 +87,6 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
     "primary_platform": "web",
     "web_framework": "react",
     "mobile_approach": null,
-    "mobile_framework_native": null,
-    "mobile_framework_hybrid": null,
     "desktop_framework": null,
     "backend_stack": "nodejs",
     "styling_approach": "tailwind",
@@ -164,16 +115,9 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
 }
 ```
 
-**Rules:**
-- Never include secrets, API keys, or sensitive data.
-- Update `updated_at` on any preference change.
-- Version the schema for backward compatibility.
-
 ---
 
 ### Phase 3 — Quick Verify (if profile exists)
-
-If `user-profile.json` exists and is recent:
 
 ```
 PROFILE DETECTED:
@@ -183,99 +127,47 @@ Platform: Web (React) + Node.js + PostgreSQL + Vercel
 Design: Minimalista, dark mode, animación moderada
 Communication: Detallado, propone opciones
 
-→ ¿Siguen siendo correctas estas preferencias? (yes/sí)
-→ ¿Quieres actualizar algo? (responde con el número de la sección)
+→ ¿Siguen siendo correctas? (yes/sí)
+→ ¿Actualizar algo? (responde con número de sección)
 ```
 
 ---
 
 ## How Other Skills Use This Profile
 
-### Example: `frontend-web`
+→ **See `USAGE-EXAMPLES-GUIDE.md` for 5 skill-specific examples and preference update workflow.**
 
-**Without profile:**
-> "¿Qué stack prefieres? React, Vue, Svelte...?"
+**Without profile:** "¿React o Vue? ¿Qué stack?"
 
-**With profile (React + Tailwind + dark mode + minimalist):**
-> "Veo que prefieres React + Tailwind para web. Para este proyecto, sugiero dark mode minimalista. ¿Confirmas o quieres explorar otras opciones?"
-
-### Example: `frontend-mobile` (Native)
-
-**Without profile:**
-> "¿React Native o Flutter? ¿Expo o bare workflow?"
-
-**With profile (React Native + Expo + iOS/Android):**
-> "Veo que prefieres React Native nativo con Expo. ¿Confirmas para esta app o quieres explorar Flutter?"
-
-### Example: `frontend-pwa` (Hybrid)
-
-**Without profile:**
-> "¿Quieres web app, PWA, o app híbrida? ¿Qué framework?"
-
-**With profile (Hybrid + Ionic/Capacitor + Next.js):**
-> "Veo que prefieres web apps híbridas con Ionic/Capacitor. Propondré Next.js + Capacitor para que puedas publicar en web ahora y en App Store más tarde. ¿Confirmas?"
-
-**With profile (Hybrid + PWA + offline-first):**
-> "Veo que prefieres PWAs installables. Diseñaré offline-first con service workers y manifest. ¿Confirmas?"
-
-### Example: `architecture-analysis`
-
-**Without profile:**
-> "¿Qué backend prefieres? Node, Python, Go...?"
-
-**With profile (Node.js + PostgreSQL + Vercel):**
-> "Basado en tu perfil (Node.js + PostgreSQL + Vercel), propongo:
-> - Opción A: Next.js fullstack (Vercel, tu preferencia)
-> - Opción B: Decoupled (Node + Express)
-> - Opción C: Serverless (Cloudflare Workers)
-> ¿Quieres revisar estas opciones o prefieres que profundice en una?"
-
-### Example: `spec-driven-development`
-
-**Without profile:**
-> "¿Cuál es tu experiencia? ¿Qué industria?"
-
-**With profile:**
-> "Sé que eres developer en fintech con 3-5 años. Voy a asumir que necesitas compliance básico y seguridad robusta. ¿Correcto?"
-
----
-
-## Updating Preferences
-
-**User says:** *"Ahora uso Vue en lugar de React"*
-
-**Agente:**
-1. Update `user-profile.json` → `preferences.frontend_stack = "vue"`
-2. Confirm: "He actualizado tu perfil. Ahora asumiré Vue para futuros proyectos."
-3. Ask: "¿Quieres que adapte este proyecto actual a Vue, o solo aplica para futuros?"
+**With profile:** "Veo que prefieres React + Tailwind. ¿Confirmas para este proyecto?"
 
 ---
 
 ## Common Rationalizations
 
-| Excuse | Why It's Wrong |
+| Excuse | Response |
 |---|---|
-| "I'll just ask every time." | Repetitive questions waste time and frustrate users. A saved profile makes every interaction faster. |
-| "The user might change their mind." | That's why we have Quick Verify and easy updates. The profile is a default, not a prison. |
-| "What if multiple people use the same machine?" | Support multiple profiles: `user-profile-juan.json`, `user-profile-maria.json`. Ask "¿Quién eres?" on first session. |
-| "This is just bureaucracy." | 3 minutes of onboarding saves 10+ minutes of repeated questions per project. |
+| "Ask every time." | Repetitive questions waste time. Saved profile makes every interaction faster. |
+| "User might change mind." | Quick Verify and easy updates exist. Profile is default, not prison. |
+| "Multiple people, same machine." | Support multiple profiles: `user-profile-juan.json`, `user-profile-maria.json`. |
+| "Just bureaucracy." | 3 minutes onboarding saves 10+ minutes repeated questions per project. |
 
 ---
 
 ## Red Flags
 
-- The agent asks "¿React o Vue?" when `user-profile.json` already specifies.
-- The agent ignores the user's stated preference and defaults to its own.
-- The profile contains secrets or API keys.
-- The profile is never updated even after the user changes preferences.
+- Asks "¿React o Vue?" when profile already specifies.
+- Ignores user preference, defaults to agent's own.
+- Profile contains secrets or API keys.
+- Profile never updated even after user changes preferences.
 
 ---
 
 ## Verification
 
-Before any skill runs discovery, confirm:
-- [ ] Checked for `~/.config/opencode/user-profile.json`
-- [ ] If exists: Used it to personalize defaults and skip redundant questions
+Before any skill runs discovery:
+- [ ] Checked `~/.config/opencode/user-profile.json`
+- [ ] If exists: Used to personalize and skip redundant questions
 - [ ] If missing: Ran full onboarding
 - [ ] If outdated: Offered update
-- [ ] Never stored secrets in the profile
+- [ ] Never stored secrets in profile
