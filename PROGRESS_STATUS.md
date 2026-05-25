@@ -1,34 +1,35 @@
 # Project Progress Status
 
 > **Last updated:** 2026-05-25  
-> **Current version:** 10.0/10  
-> **Status:** Production-ready for OpenCode + Zsh + Linux/macOS  
-> **Current plan:** [Roadmap v11](../../development/ROADMAP_V11.md) — 6 phases: Behavioral Layer → EXAMPLES → Purpose-Driven → Multi-Agent → Compression → Tooling
+> **Current version:** 11.0/10  
+> **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
+> **Current plan:** [Roadmap v12](../../development/ROADMAP_V12.md)
 
 ---
 
 ## What Exists Now
 
-### 14 Custom Skills
+### 15 Custom Skills
 
 | Skill | Lines | Guides | Lazy Loading | Description |
 |---|---|---|---|---|
-| `engineering-fundamentals` | 276 | 0 | N/A (foundation) | Universal philosophy: discovery, contracts, anti-slop, quality gates |
-| `frontend-web` | 248 | 3 (DISCOVERY, ANIMATION, EXAMPLES) | ✅ Yes | Production-grade web UIs with anti-AI-slop rules |
-| `frontend-pwa` | 195 | 4 (DISCOVERY, EXAMPLES, DEVICE-MATRIX, PWA-ARCHITECTURE) | ✅ Yes | Installable, offline-first web apps with native migration path |
-| `frontend-mobile` | 239 | 3 (DISCOVERY, ANIMATION, EXAMPLES) | ✅ Yes | Native mobile apps with platform compliance |
-| `frontend-desktop` | 251 | 3 (DISCOVERY, PLATFORM, EXAMPLES) | ✅ Yes | Cross-platform desktop apps with native OS integration |
-| `backend-api-mastery` | 316 | 4 (DISCOVERY, PROTOCOL, AUTH, TESTING) | ✅ Yes | Production APIs: protocol, DB, auth, testing, docs |
-| `fullstack-shipping` | 307 | 3 (CICD, DEPLOY, LAUNCH-CHECKLIST) | ✅ Yes | CI/CD, deployment, monitoring, rollback, launch checklists |
-| `spec-driven-development` | 329 | 2 (DISCOVERY, SPEC-TEMPLATE) | ✅ Yes | Research-backed specs with critical thinking and implement gate |
-| `git-init-and-versioning` | 356 | 3 (REPO-STRUCTURE, BRANCHING, BUILD-INTEGRATION) | ✅ Yes | Git setup, branching, pre-commit gates, commit approval |
-| `architecture-analysis` | 202 | 3 (DISCOVERY, CHALLENGE, ARCHITECTURE-TEMPLATE) | ✅ Yes | Stack/pattern decisions with trade-offs and critical challenge |
-| `dev-environment-audit` | 152 | 4 (AUDIT-CHECKLIST, IDEAL-SETS, INSTALL, ENV-TEMPLATE) | ✅ Yes | MCPs, CLI tools, runtime verification |
-| `project-health-check` | 190 | 2 (AUDIT-CHECKLIST, REPORT-TEMPLATE) | ✅ Yes | Audit existing codebases with A/B/C decision gate |
-| `project-metrics` | 147 | 2 (METRICS-REFERENCE, REPORT-TEMPLATE) | ✅ Yes | Background quality logging: builds, rework, coverage |
-| `user-onboarding` | 173 | 2 (ONBOARDING-QUESTIONS, USAGE-EXAMPLES) | ✅ Yes | Persistent user preferences across all projects |
+| `engineering-fundamentals` | 162 | 0 | N/A (foundation) | Universal philosophy: discovery, contracts, anti-slop, quality gates |
+| `frontend-web` | 248 | 3 | ✅ Yes | Production-grade web UIs with anti-AI-slop rules |
+| `frontend-pwa` | 195 | 4 | ✅ Yes | Installable, offline-first web apps with native migration path |
+| `frontend-mobile` | 239 | 3 | ✅ Yes | Native mobile apps with platform compliance |
+| `frontend-desktop` | 238 | 3 | ✅ Yes | Cross-platform desktop apps with native OS integration |
+| `backend-api-mastery` | 232 | 4 | ✅ Yes | Production APIs: protocol, DB, auth, testing, docs |
+| `fullstack-shipping` | 225 | 3 | ✅ Yes | CI/CD, deployment, monitoring, rollback, launch checklists |
+| `spec-driven-development` | 163 | 2 | ✅ Yes | Research-backed specs with critical thinking and implement gate |
+| `git-init-and-versioning` | 242 | 3 | ✅ Yes | Git setup, branching, pre-commit gates, commit approval |
+| `architecture-analysis` | 202 | 3 | ✅ Yes | Stack/pattern decisions with trade-offs and critical challenge |
+| `dev-environment-audit` | 152 | 4 | ✅ Yes | MCPs, CLI tools, runtime verification |
+| `project-health-check` | 190 | 2 | ✅ Yes | Audit existing codebases with A/B/C decision gate |
+| `project-metrics` | 147 | 2 | ✅ Yes | Background quality logging: builds, rework, coverage |
+| `user-onboarding` | 188 | 2 | ✅ Yes | Persistent user preferences across all projects |
+| `multi-agent-orchestration` | 80 | 1 | ✅ Yes | Orchestrator/subagent protocol for parallel multi-file work |
 
-**Total: 14 custom skills, 38 guides, ~3,123 lines of instruction context.**
+**Total: 15 custom skills, 39 guides, ~2,903 lines of instruction context. All ≤ 248 lines.**
 
 ### Architecture Decisions Implemented
 
@@ -67,39 +68,26 @@
 | `dev-environment-audit` | 335 | 152 | **-55%** |
 | `project-metrics` | 305 | 147 | **-52%** |
 | `architecture-analysis` | 364 | 202 | **-44%** |
-| `user-onboarding` | 281 | 173 | **-38%** |
+| `user-onboarding` | 281 | 188 | **-33%** |
 | `frontend-pwa` | 285 | 195 | **-32%** |
-| `spec-driven-development` | 484 | 329 | **-32%** |
-| `fullstack-shipping` | 416 | 307 | **-26%** |
-| `git-init-and-versioning` | 500 | 356 | **-29%** |
+| `spec-driven-development` | 329 | 163 | **-50%** |
+| `fullstack-shipping` | 307 | 225 | **-27%** |
+| `git-init-and-versioning` | 356 | 242 | **-32%** |
+| `engineering-fundamentals` | 276 | 162 | **-41%** |
+| `frontend-desktop` | 251 | 238 | **-5%** |
+| `backend-api-mastery` | 316 | 232 | **-27%** |
 
-**Average reduction: -38% per skill. Total context saved: ~1,400 lines.**
+**All 15 skills ≤ 248 lines. Total context saved: ~1,700 lines.**
 
 ---
 
-## What's Next (Priority Order)
+## What's Left
 
-### 🔴 Critical
-
-- [x] **Windows installer** — `install.ps1` + `uninstall.ps1` for PowerShell
-- [x] **Cross-shell support** — Bash, Fish, Zsh detection in `install.sh`
-- [x] **Agent adapters** — `templates/CLAUDE.md`, `templates/.cursorrules`, `docs/AGENT-ADAPTERS.md`. `install.sh --agent {claude|cursor|all}`
-- [x] **Uninstall script** — `uninstall.sh` (Linux/macOS) + `uninstall.ps1` (Windows)
-
-### 🟡 High
-
-- [ ] **Reduce 6 skills to <250 lines** — `backend-api-mastery` (316), `fullstack-shipping` (307), `git-init-and-versioning` (356), `spec-driven-development` (329), `engineering-fundamentals` (276), `frontend-desktop` (251)
-- [ ] **CI/CD testing** — GitHub Actions testing `install.sh` on Ubuntu, macOS, Windows
-- [ ] **Skill validation tests** — Check YAML frontmatter, verify guide references, enforce line counts
-- [ ] **Troubleshooting guide** — Common issues: skills not loading, path errors, permission problems
-
-### 🟢 Medium
-
-- [ ] **CLI skill** — `frontend-cli` for terminal tools
-- [ ] **IoT / Embedded skill** — Microcontrollers, edge computing
-- [ ] **GameDev skill** — Unity, Godot, Unreal Engine workflow
-- [ ] **Container skill** — Docker, Kubernetes, microservices
-- [ ] **Internationalization** — Separate language files from skill logic
+- CI/CD testing — GitHub Actions on Ubuntu, macOS, Windows
+- Skill validation tests — frontmatter, guide references, line count enforcement
+- Troubleshooting guide — common issues
+- New skill tracks: CLI, IoT, GameDev, Container
+- Internationalization — separate language files from skill logic
 
 ---
 
@@ -107,10 +95,8 @@
 
 | Limitation | Impact | Workaround |
 |---|---|---|
-| OpenCode-first invocation | Claude/Cursor/Copilot need manual adaptation | Copy skills to `.claude/skills/` or `.cursor/skills/` |
-| Bash/Zsh only installer | Windows users excluded | Use WSL or Git Bash for now |
+| OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
 | No automated testing | Breaks not caught until user report | Manual testing after every change |
-| 6 skills still >250 lines | Slightly higher context load | Still functional, optimize later |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---
@@ -119,7 +105,7 @@
 
 **For users:** Check if a feature you need is "In Progress" or "Planned". Open an issue if something critical is missing.
 
-**For contributors:** Pick any item in "What's Next", read `DEVELOPMENT.md` for conventions, and open a PR.
+**For contributors:** Pick any item in "What's Left", read `DEVELOPMENT.md` for conventions, and open a PR.
 
 **For maintainers:** Update this file after every significant change. It's the single source of truth for project state.
 
@@ -129,7 +115,8 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
-| **10.0** | 2026-05-25 | All 14 skills < 356 lines, lazy loading on 13/14, smart merge, universal paths, token optimization applied |
+| **11.0** | 2026-05-25 | All 15 skills ≤ 248 lines. Windows support (install.ps1 + uninstall.ps1). Cross-shell (Zsh/Bash/Fish). Agent adapters (Claude/Cursor). Uninstall scripts. Multi-agent orchestration skill. |
+| 10.0 | 2026-05-25 | All 14 skills < 356 lines, lazy loading on 13/14, smart merge, universal paths, token optimization applied |
 | 9.6 | 2026-05-24 | 13 skills, multi-platform (web/PWA/mobile), context persistence, lazy loading backend-api-mastery |
 | 9.0 | 2026-05-23 | 9 skills, web-centric, AGENTS.md lifecycle, Turbo Mode |
 | 1.0 | 2026-05-22 | Fork from addyosmani/agent-skills, first custom skills |
