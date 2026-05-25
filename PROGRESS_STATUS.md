@@ -2,7 +2,8 @@
 
 > **Last updated:** 2026-05-25  
 > **Current version:** 10.0/10  
-> **Status:** Production-ready for OpenCode + Zsh + Linux/macOS
+> **Status:** Production-ready for OpenCode + Zsh + Linux/macOS  
+> **Current plan:** [Roadmap v11](../../development/ROADMAP_V11.md) — 6 phases: Behavioral Layer → EXAMPLES → Purpose-Driven → Multi-Agent → Compression → Tooling
 
 ---
 
