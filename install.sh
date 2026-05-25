@@ -7,7 +7,8 @@ set -euo pipefail
 # One-command setup for production-grade AI agent skills.
 #   - 23 official skills from addyosmani/agent-skills
 #   - Custom skills from this repo (e.g., frontend-web, frontend-mobile)
-#   - Daily auto-update, shell aliases, and idempotent installs.
+#   - Daily auto-update, shell aliases (Zsh/Bash/Fish), and idempotent installs.
+#   - Windows: install.ps1
 #
 # Usage:
 #   bash install.sh                        # Full skill installation
@@ -23,6 +24,7 @@ REMOTE_DIR="${HOME}/.config/opencode/.agent-skills-remote"
 GLOBAL_SKILLS_DIR="${HOME}/.config/opencode/skills"
 ZSHRC="${HOME}/.zshrc"
 BASHRC="${HOME}/.bashrc"
+FISH_CONFIG="${HOME}/.config/fish/config.fish"
 LOCAL_BIN="${HOME}/.local/bin"
 
 # Colors
@@ -127,51 +129,121 @@ install_custom_skills() {
 }
 
 # ---------------------------------------------------------------------------
-update_shell_config() {
-    info "Updating shell configuration (${ZSHRC})..."
-    if [[ ! -f "${ZSHRC}" ]]; then
-        warn "${ZSHRC} not found. Creating it."
-        touch "${ZSHRC}"
-    fi
-
-    local backup="${ZSHRC}.backup.$(date +%Y%m%d%H%M%S)"
-    cp "${ZSHRC}" "${backup}"
-    ok "Backup created: ${backup}"
-
-    local tmpfile
-    tmpfile="$(mktemp)"
-    awk '/# >>> another-agent-skills-config/{found=1; next} /# <<< another-agent-skills-config/{found=0; next} !found{print}' "${ZSHRC}" > "${tmpfile}"
-    mv "${tmpfile}" "${ZSHRC}"
-
-    cat >> "${ZSHRC}" << BLOCK
+# Zsh/Bash shell config block (same POSIX-compatible syntax)
+_write_posix_block() {
+    local file="$1"
+    cat >> "${file}" << 'POSIX'
 
 # >>> another-agent-skills-config
 # Managed by another-agent-skills/install.sh — do not edit manually.
 
-# Store repo path for cross-machine portability
-export ANOTHER_AGENT_SKILLS_DIR="${SCRIPT_DIR}"
+export ANOTHER_AGENT_SKILLS_DIR="__SCRIPT_DIR__"
 
-# Agent Skills aliases
-alias update-global-skills="cd \$HOME/.config/opencode/.agent-skills-remote && git pull && cd -"
+# Aliases
+alias init-agents='bash "$ANOTHER_AGENT_SKILLS_DIR/scripts/init-agents.sh"'
+alias update-global-skills='cd "$HOME/.config/opencode/.agent-skills-remote" && git pull && cd -'
 
-# init-agents: copies or merges Another Agent Skills rules into current project
-init-agents() {
-    bash "\$ANOTHER_AGENT_SKILLS_DIR/scripts/init-agents.sh"
-}
-
-# Agent Skills auto-update on terminal open (max once per day)
-_AGENT_SKILLS_REMOTE="\$HOME/.config/opencode/.agent-skills-remote"
-_AGENT_SKILLS_LAST_PULL="\$_AGENT_SKILLS_REMOTE/.last-auto-pull"
-if [[ -d "\$_AGENT_SKILLS_REMOTE" ]]; then
-  if [[ ! -f "\$_AGENT_SKILLS_LAST_PULL" ]] || [[ "\$(date +%Y%m%d)" != "\$(cat "\$_AGENT_SKILLS_LAST_PULL")" ]]; then
-    (cd "\$_AGENT_SKILLS_REMOTE" && git pull --quiet &)
-    date +%Y%m%d > "\$_AGENT_SKILLS_LAST_PULL"
+# Auto-update (max once per day)
+_AAS_REMOTE="$HOME/.config/opencode/.agent-skills-remote"
+_AAS_LAST="$_AAS_REMOTE/.last-auto-pull"
+if [ -d "$_AAS_REMOTE" ]; then
+  if [ ! -f "$_AAS_LAST" ] || [ "$(date +%Y%m%d)" != "$(cat "$_AAS_LAST")" ]; then
+    (cd "$_AAS_REMOTE" && git pull --quiet &)
+    date +%Y%m%d > "$_AAS_LAST"
   fi
 fi
 # <<< another-agent-skills-config
-BLOCK
+POSIX
+    sed -i "s|__SCRIPT_DIR__|${SCRIPT_DIR}|" "${file}"
+}
 
-    ok "Shell configuration updated."
+# Fish shell config block
+_write_fish_block() {
+    local file="$1"
+    cat >> "${file}" << FISH
+
+# >>> another-agent-skills-config
+# Managed by another-agent-skills/install.sh — do not edit manually.
+
+set -gx ANOTHER_AGENT_SKILLS_DIR "${SCRIPT_DIR}"
+
+# Aliases
+alias init-agents="bash \$ANOTHER_AGENT_SKILLS_DIR/scripts/init-agents.sh"
+alias update-global-skills="cd \$HOME/.config/opencode/.agent-skills-remote; and git pull; and cd -"
+
+# Auto-update (max once per day)
+set -g _AAS_REMOTE \$HOME/.config/opencode/.agent-skills-remote
+set -g _AAS_LAST \$_AAS_REMOTE/.last-auto-pull
+if test -d \$_AAS_REMOTE
+  if not test -f \$_AAS_LAST; or test (date +%Y%m%d) != (cat \$_AAS_LAST)
+    cd \$_AAS_REMOTE; and git pull --quiet &
+    date +%Y%m%d > \$_AAS_LAST
+  end
+end
+# <<< another-agent-skills-config
+FISH
+}
+
+# ---------------------------------------------------------------------------
+_update_single_shell_config() {
+    local file="$1"
+    local name="$2"
+    local writer="$3"
+
+    if [[ ! -f "${file}" ]]; then
+        warn "${file} not found. Creating it."
+        mkdir -p "$(dirname "${file}")"
+        touch "${file}"
+    fi
+
+    local backup="${file}.backup.$(date +%Y%m%d%H%M%S)"
+    cp "${file}" "${backup}"
+    ok "Backed up ${name} → $(basename "${backup}")"
+
+    local tmpfile
+    tmpfile="$(mktemp)"
+    awk '/# >>> another-agent-skills-config/{found=1; next} /# <<< another-agent-skills-config/{found=0; next} !found{print}' "${file}" > "${tmpfile}"
+    mv "${tmpfile}" "${file}"
+
+    "${writer}" "${file}"
+    ok "${name} configuration updated."
+}
+
+update_shell_config() {
+    info "Detecting shell configurations..."
+
+    # Always update ~/.local/bin PATH (shell-agnostic)
+    for rc in "${ZSHRC}" "${BASHRC}"; do
+        if [[ -f "${rc}" ]]; then
+            if ! grep -q "export PATH=.*${LOCAL_BIN}" "${rc}" 2>/dev/null; then
+                echo "export PATH=\"${LOCAL_BIN}:\$PATH\"" >> "${rc}"
+                ok "Added ${LOCAL_BIN} to PATH in $(basename "${rc}")"
+            fi
+        fi
+    done
+
+    # Update detected shell config files
+    local count=0
+    if [[ -f "${ZSHRC}" ]] || [[ "${SHELL:-}" == */zsh ]]; then
+        _update_single_shell_config "${ZSHRC}" "Zsh (.zshrc)" _write_posix_block
+        ((count++))
+    fi
+    if [[ -f "${BASHRC}" ]] || [[ "${SHELL:-}" == */bash ]]; then
+        _update_single_shell_config "${BASHRC}" "Bash (.bashrc)" _write_posix_block
+        ((count++))
+    fi
+    if [[ -f "${FISH_CONFIG}" ]] || [[ "${SHELL:-}" == */fish ]]; then
+        _update_single_shell_config "${FISH_CONFIG}" "Fish (config.fish)" _write_fish_block
+        ((count++))
+    fi
+
+    if [[ "${count}" -eq 0 ]]; then
+        # Fallback: always update .zshrc
+        _update_single_shell_config "${ZSHRC}" "Zsh (.zshrc)" _write_posix_block
+        ok "No shell config detected. Created default .zshrc."
+    fi
+
+    ok "Shell configuration updated (${count} file(s))."
 }
 
 # ---------------------------------------------------------------------------
@@ -180,22 +252,6 @@ create_global_scripts() {
     
     # Ensure ~/.local/bin exists
     mkdir -p "${LOCAL_BIN}"
-    
-    # Ensure ~/.local/bin is in PATH for Zsh
-    if [[ -f "${ZSHRC}" ]]; then
-        if ! grep -q "export PATH=.*${LOCAL_BIN}" "${ZSHRC}"; then
-            echo "export PATH=\"${LOCAL_BIN}:\$PATH\"" >> "${ZSHRC}"
-            ok "Added ${LOCAL_BIN} to PATH in ${ZSHRC}"
-        fi
-    fi
-    
-    # Ensure ~/.local/bin is in PATH for Bash
-    if [[ -f "${BASHRC}" ]]; then
-        if ! grep -q "export PATH=.*${LOCAL_BIN}" "${BASHRC}"; then
-            echo "export PATH=\"${LOCAL_BIN}:\$PATH\"" >> "${BASHRC}"
-            ok "Added ${LOCAL_BIN} to PATH in ${BASHRC}"
-        fi
-    fi
     
     # Create init-agents executable
     cat > "${LOCAL_BIN}/init-agents" << 'EXEC_SCRIPT'
@@ -304,7 +360,8 @@ verify_installation() {
     echo ""
     echo ""
     echo "Next steps:"
-    echo "  1. Run:  source ${ZSHRC}   (or open a new terminal)"
+    echo "  1. Reload your shell: source ~/.zshrc (Zsh), source ~/.bashrc (Bash),"
+    echo "     or exec fish (Fish). Or open a new terminal."
     echo "  2. Test: ls ~/.config/opencode/skills/"
     echo "  3. Use:  init-agents  (in any project — works in any shell)"
     echo ""

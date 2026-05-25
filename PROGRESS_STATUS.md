@@ -81,10 +81,10 @@
 
 ### 🔴 Critical
 
-- [ ] **Windows installer** — `install.ps1` for PowerShell
-- [ ] **Cross-shell support** — Bash, Fish, Zsh detection in `install.sh`
+- [x] **Windows installer** — `install.ps1` + `uninstall.ps1` for PowerShell
+- [x] **Cross-shell support** — Bash, Fish, Zsh detection in `install.sh`
 - [x] **Agent adapters** — `templates/CLAUDE.md`, `templates/.cursorrules`, `docs/AGENT-ADAPTERS.md`. `install.sh --agent {claude|cursor|all}`
-- [ ] **Uninstall script** — Clean removal of aliases, global skills, `.zshrc` blocks
+- [x] **Uninstall script** — `uninstall.sh` (Linux/macOS) + `uninstall.ps1` (Windows)
 
 ### 🟡 High
 

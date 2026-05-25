@@ -12,6 +12,8 @@ Define → Plan → Build → Verify → Review → Ship. Every time. Without th
 
 ## Quick Start
 
+### Linux / macOS
+
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
@@ -19,12 +21,23 @@ bash install.sh          # Installs 38 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** OpenCode now sees 15 custom skills + 23 upstream skills.
-Run `init-agents` in every new project — it merges AGENTS.md into your project without overwriting existing rules, and creates `.sessionrc`.
+### Windows (PowerShell)
 
-> **Safety:** Installer backs up upstream skills before replacing them. `init-agents` merges — never overwrites.
-> **Auto-update:** Skills stay current with daily background git pull.
-> **Use with Claude Code or Cursor:** `bash install.sh --agent claude`
+```powershell
+git clone https://github.com/juandelossantos/another-agent-skills.git
+cd another-agent-skills
+.\install.ps1            # Installs 38 skills globally
+init-agents              # In any project: activates skill-driven mode
+```
+
+**That's it.** Your AI agent now has 15 custom skills + 23 upstream skills.
+The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
+
+Run `init-agents` in every new project — it merges AGENTS.md without overwriting existing rules, and creates `.sessionrc`.
+
+> **Safety:** Backs up before replacing. `init-agents` merges — never overwrites.
+> **Auto-update:** Skills stay current with daily background pull.
+> **Agent adapters:** `bash install.sh --agent claude` or `.\install.ps1 -Agent claude`
 
 ---
 
@@ -85,8 +98,15 @@ init-agents          # Merges skills into existing AGENTS.md or CLAUDE.md — ne
 ### Other AI Agents (Claude Code, Cursor)
 
 ```bash
+# Linux / macOS
 bash install.sh --agent claude    # Creates CLAUDE.md
 bash install.sh --agent cursor    # Creates .cursorrules
+```
+
+```powershell
+# Windows
+.\install.ps1 -Agent claude       # Creates CLAUDE.md
+.\install.ps1 -Agent cursor       # Creates .cursorrules
 ```
 
 See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
@@ -106,7 +126,10 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`install.sh`](./install.sh) | One-command global installer |
+| [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
+| [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
+| [`uninstall.sh`](./uninstall.sh) | Clean uninstaller (Linux/macOS) |
+| [`uninstall.ps1`](./uninstall.ps1) | Clean uninstaller (Windows) |
 | `skills/<name>/SKILL.md` | Individual skill index (all ≤ 250 lines) |
 | `skills/<name>/*-GUIDE.md` | Phase-specific guides (loaded on-demand) |
 
@@ -133,10 +156,22 @@ Pull requests are welcome. Whether it's a new skill, a guide improvement, or a b
 
 ---
 
+## Uninstall
+
+```bash
+# Linux / macOS — removes shell config, scripts, skills, remote repo
+bash uninstall.sh
+
+# Windows
+.\uninstall.ps1
+```
+
+Does not remove your user profile (`~/.config/opencode/user-profile.json`) or this repository.
+
 ## Requirements
 
-- **Git** + **Bash** + **Zsh** (for auto-update and aliases)
-- **OpenCode** installed (for native skill loading. Adapters available for Claude Code and Cursor.)
+- **Git** + **Bash** (Linux/macOS) or **PowerShell** (Windows)
+- **OpenCode** recommended. Adapters available for Claude Code and Cursor.
 
 ---
 
