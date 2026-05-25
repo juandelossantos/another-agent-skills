@@ -6,7 +6,7 @@ set -euo pipefail
 # =============================================================================
 # One-command setup for production-grade AI agent skills.
 #   - 23 official skills from addyosmani/agent-skills
-#   - Custom skills from this repo (e.g., visual-frontend-mastery)
+#   - Custom skills from this repo (e.g., frontend-web, frontend-mobile)
 #   - Daily auto-update, shell aliases, and idempotent installs.
 #
 # Usage:
@@ -160,10 +160,16 @@ verify_installation() {
     echo "Total skills:    ${total_skills}"
     echo ""
 
-    if [[ -d "${GLOBAL_SKILLS_DIR}/visual-frontend-mastery" ]]; then
-        ok "visual-frontend-mastery  → INSTALLED"
+    if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-web" ]]; then
+        ok "frontend-web             → INSTALLED"
     else
-        error "visual-frontend-mastery  → MISSING"
+        error "frontend-web             → MISSING"
+    fi
+
+    if [[ -d "${GLOBAL_SKILLS_DIR}/frontend-mobile" ]]; then
+        ok "frontend-mobile          → INSTALLED"
+    else
+        warn "frontend-mobile          → NOT INSTALLED (optional)"
     fi
 
     if [[ -L "${GLOBAL_SKILLS_DIR}/frontend-ui-engineering" ]]; then

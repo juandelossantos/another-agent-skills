@@ -43,13 +43,26 @@ Skills are loaded from:
 
 ---
 
-## Rule 3: Intent Mapping
+## Rule 3: Intent Mapping (Updated — Multi-Platform)
 
-Map user intent to skills automatically:
+Map user intent to skills automatically. **Platform detection is mandatory.**
+
+**Step 1: Detect Platform**
+Before invoking any frontend skill, determine the target platform:
+
+| User says... | Platform | Skill to invoke |
+|---|---|---|
+| "web", "landing page", "website", "Next.js", "React", "Vue", "site" | Web | `frontend-web` |
+| "mobile app", "app móvil", "React Native", "Flutter", "iOS", "Android", "expo" | Mobile | `frontend-mobile` |
+| "desktop app", "desktop", "Tauri", "Electron", "Windows app", "Mac app" | Desktop | `frontend-desktop` |
+| "CLI", "command line", "terminal", "tool" | CLI | `cli-tools` |
+
+**If platform is unclear:** Ask: "¿Es para web, móvil, escritorio, o CLI? / Is this for web, mobile, desktop, or CLI?"
+
+**Step 2: Invoke Platform-Specific Skill**
 
 | User says... | Skill to invoke |
-|---|---|
-| "build", "create", "haz", "diseña", "crea", "desarrolla" + any web/UI/app | `visual-frontend-mastery` |
+|---|---|---|
 | "first time", "setup my preferences", "remember my stack", "my defaults", "user profile" | `user-onboarding` |
 | "git init", "setup repo", "create repository", "version control", "git setup", "mono repo", "multi repo" | `git-init-and-versioning` |
 | "check project", "audit", "health check", "technical debt", "what needs fixing" | `project-health-check` |
@@ -66,7 +79,7 @@ Map user intent to skills automatically:
 
 ---
 
-## Rule 4: Lifecycle Enforcement (Updated)
+## Rule 4: Lifecycle Enforcement (Updated — Multi-Platform)
 
 For any non-trivial work, follow this lifecycle:
 
@@ -75,7 +88,7 @@ DEFINE  → project-health-check (if existing code)
         → spec-driven-development (always)
         → architecture-analysis (if non-trivial)
         → backend-api-mastery (if API needed)
-        → visual-frontend-mastery Discovery (if UI needed)
+        → frontend-[platform] Discovery (if UI needed: web/mobile/desktop/cli)
         → git-init-and-versioning (once per project, after contracts locked)
 
 PLAN    → planning-and-task-breakdown
@@ -89,19 +102,21 @@ VERIFY  → debugging-and-error-recovery
 
 REVIEW  → code-review-and-quality
 
-SHIP    → fullstack-shipping
+SHIP    → shipping-[platform] (web/mobile/desktop/cli)
 ```
 
 **Skill composition by project type:**
 
-| Project Type | Required Skills | Optional Skills | Skipped |
-|---|---|---|---|
-| **Landing page (simple)** | spec, git-init, visual, shipping | architecture (light), dev-env | backend-api |
-| **Web app (fullstack)** | ALL 8 skills | — | — |
-| **API only** | spec, git-init, architecture, backend, dev-env, shipping | — | visual |
-| **Existing project fix** | project-health-check, spec (if undocumented), debugging | — | architecture, backend, visual (if UI untouched) |
-| **Design system** | spec, git-init, visual, dev-env, shipping | architecture | backend-api |
-| **MVP / prototype** | spec (turbo), git-init, visual | — | architecture, backend-api (if no API) |
+| Project Type | Platform | Required Skills | Optional Skills | Skipped |
+|---|---|---|---|---|
+| **Landing page** | Web | spec, git-init, frontend-web, shipping-web | architecture (light), dev-env | backend-api |
+| **Web app** | Web | ALL skills | — | — |
+| **Mobile app** | Mobile | spec, git-init, frontend-mobile, backend-api (if API), shipping-mobile | architecture (if complex) | — |
+| **Desktop app** | Desktop | spec, git-init, frontend-desktop, shipping-desktop | architecture (if complex) | backend-api (if no API) |
+| **API only** | — | spec, git-init, architecture, backend, dev-env, shipping | — | frontend-* |
+| **Existing project fix** | Any | project-health-check, spec (if undocumented), debugging | — | architecture, backend, frontend (if UI untouched) |
+| **Design system** | Any | spec, git-init, frontend-[platform], dev-env, shipping | architecture | backend-api |
+| **MVP / prototype** | Any | spec (turbo), git-init, frontend-[platform] | — | architecture, backend-api (if no API) |
 
 ---
 
@@ -151,12 +166,14 @@ For trivial, explicitly prototype, or scope-limited work, use **Turbo Mode**:
 
 ## Rule 6: Stack Agnosticism (NEW)
 
-Our skills default to **React/Next.js/TypeScript/Tailwind** but MUST adapt when the user specifies otherwise.
+Our skills default to **React/Next.js/TypeScript/Tailwind** for web, **React Native/Expo** for mobile, **Tauri/Rust** for desktop, but MUST adapt when the user specifies otherwise.
 
 **How to adapt:**
 1. Read `SPEC.md` Tech Stack section
-2. If user chose Vue, Svelte, Angular, Python, Go, Rust, etc.:
-   - Use `visual-frontend-mastery` for principles (anti-slop, tokens, animation) but adapt code examples
+2. If user chose Vue, Svelte, Angular, Python, Go, Rust, Flutter, SwiftUI, etc.:
+   - Use `frontend-web` for web principles (anti-slop, tokens, animation) but adapt code examples
+   - Use `frontend-mobile` for mobile principles (anti-slop, tokens, animation) but adapt code examples
+   - Use `frontend-desktop` for desktop principles (anti-slop, tokens, animation) but adapt code examples
    - Use `backend-api-mastery` for protocol/auth decisions but adapt ORM/database examples
    - Use `architecture-analysis` for pattern decisions (applies to any language)
 3. Create `STACK_CONFIG.md` in project root documenting the chosen stack
@@ -166,14 +183,16 @@ Our skills default to **React/Next.js/TypeScript/Tailwind** but MUST adapt when 
 # Stack Configuration
 
 **Chosen by user on YYYY-MM-DD:**
-- Frontend: [Vue 3 / SvelteKit / Angular / etc.]
+- Platform: [Web / Mobile / Desktop / CLI]
+- Frontend: [React 19 / Vue 3 / React Native 0.76 / Flutter 3 / Tauri 2 / etc.]
 - Backend: [FastAPI / Django / Express / etc.]
 - Database: [PostgreSQL / MongoDB / SQLite]
-- Styling: [Tailwind / CSS Modules / Styled Components]
-- Animation: [Framer Motion / GSAP / CSS animations]
+- Styling: [Tailwind / CSS Modules / StyleSheet / ThemeData / etc.]
+- Animation: [Framer Motion / Reanimated / Flutter Animated / etc.]
 
 **Adaptations from default skills:**
-- visual-frontend-mastery: Using Vue Composition API instead of React hooks
+- frontend-web: Using Vue Composition API instead of React hooks
+- frontend-mobile: Using Flutter instead of React Native
 - backend-api-mastery: Using FastAPI instead of Next.js API routes
 - Architecture: Clean Architecture instead of MVC
 ```

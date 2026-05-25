@@ -34,7 +34,7 @@ just in case."
 **Invoked automatically by:**
 - `spec-driven-development` Phase 7 (before implementation gate)
 - `shipping-and-launch` (if deployment tools are missing)
-- `visual-frontend-mastery` (if design or testing MCPs are absent)
+- `frontend-web` or `frontend-mobile` (if design or testing MCPs are absent)
 
 **When NOT to use:**
 - The project has a fresh `DEV-ENVIRONMENT.md` (< 7 days old) with all tools verified

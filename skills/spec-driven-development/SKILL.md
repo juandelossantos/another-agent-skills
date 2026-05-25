@@ -203,7 +203,7 @@ Let me invoke architecture-analysis to evaluate options for your specific case.
 2. Wait for architecture decision to be documented.
 3. Verify `SPEC.md` will have an Architecture Decisions section.
 
-**If simple:** Note in spec: "Simple project, standard stack per visual-frontend-mastery."
+**If simple:** Note in spec: "Simple project, standard stack per frontend-web."
 
 ---
 
@@ -430,7 +430,7 @@ The spec is a living document:
 | `architecture-analysis` | Phase 3, if non-trivial | Make informed stack/pattern decisions |
 | `dev-environment-audit` | Phase 7, before build | Ensure tools are ready |
 | `planning-and-task-breakdown` | Phase 5-6 | Break spec into concrete tasks |
-| `visual-frontend-mastery` | BUILD phase, if UI work | Design tokens, anti-slop, animation |
+| `frontend-web` or `frontend-mobile` | BUILD phase, if UI work | Design tokens, anti-slop, animation |
 | `incremental-implementation` | After Phase 8 | Build tasks one at a time |
 | `test-driven-development` | After Phase 8 | Prove code works as specified |
 

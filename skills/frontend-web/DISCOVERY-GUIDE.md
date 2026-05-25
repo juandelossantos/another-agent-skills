@@ -1,6 +1,6 @@
 # Visual Frontend Mastery — Discovery Guide
 
-This guide contains the complete Phase 1 Discovery Gate for `visual-frontend-mastery`.
+This guide contains the complete Phase 1 Discovery Gate for `frontend-web`.
 
 Execute every step. Do not skip. Do not assume.
 

@@ -53,7 +53,8 @@ How each custom skill should adapt to this stack:
 
 | Skill | Default Assumption | Adaptation for This Stack |
 |---|---|---|
-| `visual-frontend-mastery` | Next.js 16 + Tailwind v4 + Framer Motion | [Describe changes: e.g., "Vue 3 + Nuxt + Tailwind + GSAP"] |
+| `frontend-web` | Next.js 16 + Tailwind v4 + Framer Motion | [Describe changes: e.g., "Vue 3 + Nuxt + Tailwind + GSAP"] |
+| `frontend-mobile` | React Native 0.76 + Expo SDK 52 + Reanimated | [Describe changes: e.g., "Flutter 3 + Material 3 + Flutter Animated"] |
 | `backend-api-mastery` | Node.js + Express + Prisma + Zod | [Describe changes: e.g., "Python + FastAPI + SQLAlchemy + Pydantic"] |
 | `fullstack-shipping` | Vercel + GitHub Actions | [Describe changes: e.g., "AWS + GitLab CI"] |
 | `dev-environment-audit` | Node.js + npm | [Describe changes: e.g., "Python + poetry + Docker"] |

@@ -2,7 +2,7 @@
 
 **Production-grade agent skills for OpenCode (and any AI coding agent).**
 
-A curated, opinionated collection of skills that turn AI assistants into disciplined senior engineers and intentional visual designers. Designed for **JavaScript/TypeScript, React, Next.js, and TanStack** stacks.
+A curated, opinionated collection of skills that turn AI assistants into disciplined senior engineers and intentional visual designers. Designed for **JavaScript/TypeScript, React, Next.js, React Native, Flutter, and TanStack** stacks across web, mobile, and desktop platforms.
 
 ---
 
@@ -10,7 +10,8 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 
 | Skill | What It Does | Trigger |
 |---|---|---|
-| `visual-frontend-mastery` | Build distinctive, animated, production-grade UIs with a locked modern stack and anti-AI-slop rules | Any frontend/visual task |
+| `frontend-web` | Build distinctive, animated, production-grade web UIs with a locked modern stack and anti-AI-slop rules | Any web frontend/visual task |
+| `frontend-mobile` | Build production-grade mobile apps with native design tokens, animations, and platform compliance | Any mobile app/React Native/Flutter task |
 | `user-onboarding` | Capture user preferences once (stack, design, workflow) and persist across all projects in `~/.config/opencode/user-profile.json` | First session, "my preferences", "remember my stack" |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
@@ -74,7 +75,7 @@ This copies `AGENTS.md` into your current directory, which tells OpenCode to:
 |---|---|---|
 | 1 | Clones `addyosmani/agent-skills` | `~/.config/opencode/.agent-skills-remote/` |
 | 2 | Symlinks all 23 official skills | `~/.config/opencode/skills/` |
-| 3 | Copies custom skills from this repo | `visual-frontend-mastery` available globally |
+| 3 | Copies custom skills from this repo | `frontend-web`, `frontend-mobile`, etc. available globally |
 | 4 | Adds aliases to `~/.zshrc` | `init-agents`, `update-global-skills` |
 | 5 | Enables daily auto-update | Skills stay current automatically |
 
@@ -130,11 +131,16 @@ another-agent-skills/
 ├── AGENTS.md                          # Universal skill-driven execution rules
 ├── LICENSE                            # MIT
 ├── skills/
-│   ├── visual-frontend-mastery/
-│   │   ├── SKILL.md                   # Anti-AI-slop frontend skill
+│   ├── frontend-web/
+│   │   ├── SKILL.md                   # Anti-AI-slop web frontend skill
 │   │   ├── DISCOVERY-GUIDE.md         # Phase 1 complete questions
 │   │   ├── ANIMATION-GUIDE.md         # Phase 5 animation patterns
 │   │   └── EXAMPLES.md                # Walkthroughs & troubleshooting
+│   ├── frontend-mobile/
+│   │   ├── SKILL.md                   # Mobile app frontend skill (React Native, Flutter)
+│   │   ├── DISCOVERY-GUIDE.md         # Phase 1 mobile-specific questions
+│   │   ├── ANIMATION-GUIDE.md         # Mobile animation patterns (Reanimated, etc.)
+│   │   └── EXAMPLES.md                # Mobile walkthroughs & troubleshooting
 │   ├── project-health-check/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/

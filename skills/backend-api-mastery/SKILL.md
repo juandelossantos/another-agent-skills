@@ -35,7 +35,7 @@ It forces the agent to design the API as a product, not as an afterthought.
 **Triggered automatically by:**
 - `spec-driven-development` (if SPEC.md indicates backend needs)
 - `architecture-analysis` (if non-trivial backend is chosen)
-- `visual-frontend-mastery` (if frontend needs a backend to persist data)
+- `frontend-web` or `frontend-mobile` (if frontend needs a backend to persist data)
 
 **When NOT to use:**
 - The project is frontend-only with no persistence (static site, landing page)

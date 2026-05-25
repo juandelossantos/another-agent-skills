@@ -1,12 +1,13 @@
 ---
-name: visual-frontend-mastery
+name: frontend-web
 description: >
-  Build distinctive, production-grade frontend interfaces with intentional visual design,
+  Build distinctive, production-grade web interfaces with intentional visual design,
   high-performance animations, and modern stack discipline. Use when creating or
   modifying web UIs, landing pages, dashboards, React/Next.js components, or when the
-  user asks for design, styling, animation, or frontend implementation. Triggers on:
+  user asks for web design, styling, animation, or frontend implementation. Triggers on:
   "build a website", "design a landing page", "create a component", "add animations",
-  "make it look better", "frontend work", "UI/UX", "redesign", or any visual task.
+  "make it look better", "frontend work", "UI/UX", "redesign", "Next.js", "React",
+  "Vue", "web app", or any visual web task.
 license: MIT
 compatibility: opencode
 metadata:

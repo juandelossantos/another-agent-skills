@@ -38,8 +38,8 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ### 2. Custom Skills
 
-#### `visual-frontend-mastery`
-**Location:** `skills/visual-frontend-mastery/SKILL.md` (+ 3 guides)
+#### `frontend-web`
+**Location:** `skills/frontend-web/SKILL.md` (+ 3 guides)
 **Current version:** SKILL.md 302 lines (refactored). Guides split into focused files.
 
 **Key features:**
@@ -51,6 +51,19 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - **Animation System** → `ANIMATION-GUIDE.md` (Reveal, CSS scroll, WAAPI, reduced motion)
 - QA gates: 12 checks before delivery
 - **Examples & Troubleshooting** → `EXAMPLES.md`
+
+#### `frontend-mobile`
+**Location:** `skills/frontend-mobile/SKILL.md`
+**Status:** ✅ Complete — 320 lines
+
+**Key features:**
+- Platform-specific: React Native (Expo) default, Flutter/SwiftUI/Jetpack Compose adaptable
+- Mobile discovery questions (platforms, navigation, offline, push notifications, native features)
+- Same anti-AI-slop principles adapted for mobile (no system defaults, distinctive fonts)
+- Stack lock-in: React Native 0.76+, Expo SDK 52+, Reanimated 3.16+
+- Mobile animation system (Reanimated, Gesture Handler)
+- Native compliance: iOS HIG, Android Material 3, SafeAreaView, touch targets
+- QA gates: 12 checks including AccessibilityInfo and platform compliance
 
 #### `project-health-check`
 **Location:** `skills/project-health-check/SKILL.md`
@@ -171,7 +184,7 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 2. ⬜ **Lazy loading** — Only load active skill, not all 31
 3. ⬜ **Context persistence** — Auto-re-read DESIGN-LOCK.md, SPEC.md on session restart
 4. ⬜ **Metrics** — Log quality metrics (build pass rate, revert rate, test coverage)
-5. ⬜ **Mobile skill** — `mobile-react-native` or cross-platform skill
+5. ✅ **Mobile skill** — `frontend-mobile` created (React Native, Flutter, SwiftUI, Jetpack Compose)
 
 ---
 
@@ -186,7 +199,8 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
    - Verify `architecture-analysis` proposes 2-3 options
    - Verify `dev-environment-audit` detects MCPs/CLIs
    - Verify `backend-api-mastery` designs protocol, DB, auth
-   - Verify `visual-frontend-mastery` creates design lock
+   - Verify `frontend-web` creates design lock
+   - Verify `frontend-mobile` handles platform-specific concerns
    - Verify `fullstack-shipping` prepares CI/CD and launch checklist
 
 2. **Documentation**

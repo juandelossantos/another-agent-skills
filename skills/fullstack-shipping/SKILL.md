@@ -33,7 +33,7 @@ pipeline — not just the code — before any commit reaches production.
 - The user says "go live", "ship it", "deploy to production"
 
 **Triggered automatically by:**
-- `visual-frontend-mastery` Phase 7 (QA gates before delivery)
+- `frontend-web` or `frontend-mobile` Phase 7 (QA gates before delivery)
 - `backend-api-mastery` Phase 7 (documentation & versioning before release)
 - `spec-driven-development` Phase 8 (implement gate before deployment)
 

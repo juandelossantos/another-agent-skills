@@ -1,6 +1,6 @@
 # Visual Frontend Mastery — Animation Guide
 
-This guide contains the complete Phase 5 Animation System for `visual-frontend-mastery`.
+This guide contains the complete Phase 5 Animation System for `frontend-web`.
 
 All animations must respect `prefers-reduced-motion`.
 

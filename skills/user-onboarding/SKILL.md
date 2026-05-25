@@ -78,11 +78,14 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
 #### Section B: Technical Preferences
 
 5. **Primary language**: ¿Prefieres Spanish o English para comunicación conmigo?
-6. **Frontend stack**: ¿Prefieres React, Vue, Svelte, Angular, o te da igual?
-7. **Backend stack**: ¿Prefieres Node.js, Python, Go, Rust, o te da igual?
-8. **CSS approach**: ¿Prefieres Tailwind, CSS Modules, Styled Components, SCSS?
-9. **Database**: ¿Prefieres PostgreSQL, MySQL, MongoDB, SQLite, o te da igual?
-10. **Deployment**: ¿Prefieres Vercel, Netlify, AWS, self-hosted, o te da igual?
+6. **Primary platform**: ¿Qué tipo de proyectos haces más? (web, mobile, desktop, CLI, o mixto)
+7. **Web framework** (if web): ¿Prefieres React, Vue, Svelte, Angular, o te da igual?
+8. **Mobile framework** (if mobile): ¿Prefieres React Native, Flutter, SwiftUI, Jetpack Compose, o te da igual?
+9. **Desktop framework** (if desktop): ¿Prefieres Tauri, Electron, Flutter Desktop, WPF, o te da igual?
+10. **Backend stack**: ¿Prefieres Node.js, Python, Go, Rust, o te da igual?
+11. **Styling approach** (if web): ¿Prefieres Tailwind, CSS Modules, Styled Components, SCSS?
+12. **Database**: ¿Prefieres PostgreSQL, MySQL, MongoDB, SQLite, o te da igual?
+13. **Deployment**: ¿Prefieres Vercel, Netlify, AWS, self-hosted, o te da igual?
 
 #### Section C: Design Preferences
 
@@ -125,9 +128,12 @@ Agent: "Veo que es tu primera vez. Voy a hacerte unas preguntas rápidas
   },
   "preferences": {
     "language": "es",
-    "frontend_stack": "react",
+    "primary_platform": "web",
+    "web_framework": "react",
+    "mobile_framework": null,
+    "desktop_framework": null,
     "backend_stack": "nodejs",
-    "css_approach": "tailwind",
+    "styling_approach": "tailwind",
     "database": "postgresql",
     "deployment": "vercel"
   },
@@ -167,7 +173,7 @@ If `user-profile.json` exists and is recent:
 PROFILE DETECTED:
 
 Name: Juan | Role: Developer | Industry: Fintech
-Stack: React + Node.js + PostgreSQL + Vercel
+Platform: Web (React) + Node.js + PostgreSQL + Vercel
 Design: Minimalista, dark mode, animación moderada
 Communication: Detallado, propone opciones
 
@@ -179,13 +185,21 @@ Communication: Detallado, propone opciones
 
 ## How Other Skills Use This Profile
 
-### Example: `visual-frontend-mastery`
+### Example: `frontend-web`
 
 **Without profile:**
 > "¿Qué stack prefieres? React, Vue, Svelte...?"
 
 **With profile (React + Tailwind + dark mode + minimalist):**
-> "Veo que prefieres React + Tailwind. Para este proyecto, sugiero dark mode minimalista. ¿Confirmas o quieres explorar otras opciones?"
+> "Veo que prefieres React + Tailwind para web. Para este proyecto, sugiero dark mode minimalista. ¿Confirmas o quieres explorar otras opciones?"
+
+### Example: `frontend-mobile`
+
+**Without profile:**
+> "¿React Native o Flutter? ¿Expo o bare workflow?"
+
+**With profile (React Native + Expo + iOS/Android):**
+> "Veo que prefieres React Native con Expo. ¿Confirmas para esta app o quieres explorar Flutter?"
 
 ### Example: `architecture-analysis`
 
