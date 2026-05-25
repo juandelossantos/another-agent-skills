@@ -26,6 +26,7 @@ Map user intent to skills automatically:
 | User says... | Skill to invoke |
 |---|---|
 | "build", "create", "haz", "diseña", "crea", "desarrolla" + any web/UI/app | `visual-frontend-mastery` |
+| "git init", "setup repo", "create repository", "version control", "git setup", "mono repo", "multi repo" | `git-init-and-versioning` |
 | "check project", "audit", "health check", "technical debt", "what needs fixing" | `project-health-check` |
 | "plan", "break down", "organize" | `planning-and-task-breakdown` |
 | "bug", "fix", "error", "broken", "not working" | `debugging-and-error-recovery` |

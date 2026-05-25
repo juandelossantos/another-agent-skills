@@ -62,6 +62,22 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Phase 7: Environment audit gate
 - Phase 8: **Implement gate** — explicit "yes" required
 
+#### `git-init-and-versioning`
+**Location:** `skills/git-init-and-versioning/SKILL.md`
+**Status:** ✅ Complete — 399 lines + 2 guides
+
+**Key features:**
+- Phase 0: Detect current Git state (exists `.git/`? `.gitignore`? `.env.example`?)
+- Phase 1: Repository structure decision (mono-repo vs multi-repo vs single) with critical challenge
+- Phase 2: Initialize repository (`git init`, configure user, add remote)
+- Phase 3: Create `.gitignore` from stack-specific templates
+- Phase 4: Create `.env.example` with documented variables (no secrets)
+- Phase 5: Branching strategy configuration (trunk-based vs GitFlow vs feature branches)
+- Phase 6: Pre-commit auto-review gate — creates `.github/PRE_COMMIT_CHECKLIST.md` with 6-axis review
+- Phase 7: First commit includes contracts (SPEC.md, DESIGN.md), NOT generated code
+- Phase 8: Document in `SETUP.md`
+- **Integration with BUILD:** Agent MUST run pre-commit checklist before every commit
+
 #### `architecture-analysis`
 **Location:** `skills/architecture-analysis/SKILL.md`
 **Status:** ✅ Complete — 362 lines
@@ -120,6 +136,7 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
    - Create a test project with `init-agents`
    - Verify `project-health-check` blocks on existing code with A/B/C
    - Verify `spec-driven-development` does web research + critical challenge + implement gate
+   - Verify `git-init-and-versioning` initializes repo, creates `.gitignore`, `.env.example`, and pre-commit checklist
    - Verify `architecture-analysis` proposes 2-3 options with honest trade-offs
    - Verify `dev-environment-audit` detects MCPs/CLIs and proposes installations
    - Verify `backend-api-mastery` designs protocol, DB, auth with critical challenges
@@ -163,6 +180,10 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/
 │   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
+│   ├── git-init-and-versioning/
+│   │   ├── SKILL.md                   # Initialize repo, .gitignore, .env.example, branching
+│   │   ├── GITIGNORE-TEMPLATES.md     # Templates by stack (Node, Python, Rust, Go)
+│   │   └── PRE_COMMIT_CHECKLIST.md    # 6-axis review before each commit
 │   ├── architecture-analysis/
 │   │   └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
 │   ├── dev-environment-audit/
@@ -209,4 +230,4 @@ The following are installed on this machine and should persist:
 ---
 
 Last updated: 2026-05-24
-Session: architecture-analysis skill creation + visual-frontend-mastery refactor
+Session: git-init-and-versioning skill creation + complete MVP with 8 skills

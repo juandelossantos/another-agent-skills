@@ -13,6 +13,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `visual-frontend-mastery` | Build distinctive, animated, production-grade UIs with a locked modern stack and anti-AI-slop rules | Any frontend/visual task |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
 | `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
+| `git-init-and-versioning` | Initialize Git repo, decide mono/multi-repo, create .gitignore and .env.example, set branching strategy, configure pre-commit auto-review gates | After specs locked, before any code written |
 | `architecture-analysis` | Evaluate 2-3 architecture options with honest trade-offs. Challenge user assumptions. Lock decisions in spec + ARCHITECTURE.md | Non-trivial projects requiring stack/pattern decisions |
 | `dev-environment-audit` | Audit MCPs, CLI tools, runtimes. Propose installations with justification. Document in DEV-ENVIRONMENT.md | Any project start, before build, environment setup |
 | `backend-api-mastery` | Design production APIs with protocol choice, database design, auth, error handling, testing, documentation. Lock in API-DESIGN.md | API work, backend services, database design |
@@ -137,6 +138,10 @@ another-agent-skills/
 │   │   └── SKILL.md                   # Audit existing codebases
 │   ├── spec-driven-development/
 │   │   └── SKILL.md                   # Research-backed spec writing (overrides official)
+│   ├── git-init-and-versioning/
+│   │   ├── SKILL.md                   # Initialize repo, .gitignore, .env.example, branching
+│   │   ├── GITIGNORE-TEMPLATES.md     # Templates by stack (Node, Python, Rust, Go)
+│   │   └── PRE_COMMIT_CHECKLIST.md    # 6-axis review before each commit
 │   ├── architecture-analysis/
 │   │   └── SKILL.md                   # Evaluate stack/pattern options with trade-offs
 │   ├── dev-environment-audit/
