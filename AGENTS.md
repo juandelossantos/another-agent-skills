@@ -102,6 +102,7 @@ All platform-specific skills (frontend-web, frontend-pwa, frontend-mobile, backe
 | **DevOps** | `fullstack-shipping` | CI/CD, deployment, monitoring |
 | **Process** | `spec-driven-development`, `architecture-analysis` | Planning and decision-making |
 | **Quality** | `project-health-check`, `dev-environment-audit` | Auditing and environment setup |
+| **Metrics** | `project-metrics` | Continuous quality logging: build pass rate, rework rate, coverage (background, automatic) |
 
 ---
 

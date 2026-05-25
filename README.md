@@ -22,6 +22,7 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 | `dev-environment-audit` | Audit MCPs, CLI tools, runtimes. Propose installations with justification. Document in DEV-ENVIRONMENT.md | Any project start, before build, environment setup |
 | `backend-api-mastery` | Design production APIs with protocol choice, database design, auth, error handling, testing, documentation. Lock in API-DESIGN.md | API work, backend services, database design |
 | `fullstack-shipping` | End-to-end CI/CD, testing, deployment, monitoring, rollback, launch checklists. Lock in DEPLOYMENT.md | Deploy, ship, launch, production readiness |
+| `project-metrics` | Log empirical quality metrics automatically: build pass rate, rework rate, coverage, discovery time. Quality report on demand. | Background logging, "show metrics", "quality report" |
 
 This repo also bootstraps the **23 official skills** from `addyosmani/agent-skills` globally on your machine.
 
@@ -135,6 +136,8 @@ another-agent-skills/
 ├── skills/
 │   ├── engineering-fundamentals/
 │   │   └── SKILL.md                   # Universal philosophy: discovery, contracts, anti-slop, quality gates
+│   ├── project-metrics/
+│   │   └── SKILL.md                   # Automatic quality logging: builds, commits, gates, coverage (background)
 │   ├── frontend-web/
 │   │   ├── SKILL.md                   # Web frontend implementation (built on fundamentals)
 │   │   ├── DISCOVERY-GUIDE.md         # Web-specific discovery questions

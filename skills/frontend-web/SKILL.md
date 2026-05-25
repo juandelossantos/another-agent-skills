@@ -195,10 +195,29 @@ Read `ANIMATION-GUIDE.md` in this skill directory.
 
 → See `engineering-fundamentals` Phase 5 for universal gates.
 
+**After completing QA gates, log metrics:**
+```
+LOG METRIC: gate
+- project: [detect from git remote or directory name]
+- gate_name: frontend-web-qa
+- result: pass/fail
+- checks_passed: [N]/12
+```
+
 **Web-specific checks:**
 
 1. **TypeScript** — `npx tsc --noEmit` passes.
 2. **Build** — `npm run build` succeeds.
+   
+   **After build completes, log metric:**
+   ```
+   LOG METRIC: build
+   - project: [detect from git remote or directory name]
+   - result: pass/fail
+   - duration: [measure]
+   - errors: [count from output]
+   - warnings: [count from output]
+   ```
 3. **No template residue** — Remove default Next.js text.
 4. **No hardcoded colors** — Search `bg-blue-`, `text-gray-`, `bg-red-`. Replace with tokens.
 5. **Responsive** — Check 375px, 768px, 1280px.

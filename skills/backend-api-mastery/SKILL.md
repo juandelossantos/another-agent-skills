@@ -224,6 +224,17 @@ Read `TESTING-GUIDE.md` in this skill directory for the **complete testing strat
 
 ### Phase 8 — Lock & Document
 
+**After documenting, log metrics:**
+```
+LOG METRIC: discovery
+- project: [detect from git remote or directory name]
+- skill_used: backend-api-mastery
+- duration_minutes: [time from Phase 1 start to now]
+- questions_asked: [count]
+- user_confirms: [count]
+- research_queries: [count from Phase 2]
+```
+
 **All decisions must be durable. Another engineer should be able to build the API from these documents.**
 
 1. **Create/Update `API-DESIGN.md`** with all sections (Overview, Protocol Decision, Data Model, Authentication, Endpoints/Schema, Error Handling, Testing Strategy, Security Checklist, Versioning).

@@ -408,6 +408,26 @@ We are ready to build. Before I write any code, confirm:
 
 Only after explicit confirmation, invoke `incremental-implementation` and `test-driven-development`.
 
+**After implement gate passes, log metrics:**
+```
+LOG METRIC: gate
+- project: [detect from git remote or directory name]
+- gate_name: spec-implement
+- result: pass
+- checks_passed: 5/5
+```
+
+**After entire spec process completes, log:**
+```
+LOG METRIC: discovery
+- project: [detect from git remote or directory name]
+- skill_used: spec-driven-development
+- duration_minutes: [total time from Phase 1 to Phase 8]
+- questions_asked: [count]
+- user_confirms: [count]
+- research_queries: [count from Phase 1]
+```
+
 ---
 
 ## Keeping the Spec Alive

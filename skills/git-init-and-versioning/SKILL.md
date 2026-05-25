@@ -240,6 +240,15 @@ During BUILD phase, before every `git commit`, the agent MUST run a self-review.
 **In SKILL.md, instruct the agent:**
 > "During BUILD phase, read `.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md`) before every commit. Run through the checklist. Only commit if all checks pass."
 
+**After pre-commit review, log metrics:**
+```
+LOG METRIC: gate
+- project: [detect from git remote or directory name]
+- gate_name: pre-commit-checklist
+- result: pass/fail
+- checks_passed: [N]/6
+```
+
 ---
 
 ### Phase 7 — First Commit
@@ -454,6 +463,18 @@ Only after explicit approval:
 ```bash
 git add [files]
 git commit -m "[descriptive message]"
+```
+
+**After commit completes, log metrics:**
+```
+LOG METRIC: commit
+- project: [detect from git remote or directory name]
+- files_changed: [count]
+- additions: [count]
+- deletions: [count]
+- pre_commit_passed: true/false
+- user_approved: true/false (false if skipped)
+- commit_message_category: feat/fix/chore/docs/refactor
 ```
 
 **Rules:**

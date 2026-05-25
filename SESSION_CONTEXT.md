@@ -199,10 +199,10 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 
 ## Immediate Next Steps (Priority Order)
 
-## Current Score: 9.4/10 (Outstanding)
+## Current Score: 9.5/10 (Outstanding)
 
-**Reached 9.4 with:**
-- 12 custom skills covering full web development lifecycle
+**Reached 9.5 with:**
+- 13 custom skills covering full web development lifecycle
 - AGENTS.md lifecycle reflecting actual workflow
 - Turbo Mode = reduced scope, not reduced quality
 - Stack Agnosticism via STACK_CONFIG_TEMPLATE.md
@@ -212,20 +212,23 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - Multi-platform: frontend-web, frontend-pwa, frontend-mobile
 - Context Persistence (AGENTS.md Rule 0b): auto-recover project state on session restart
 - Lazy Loading (AGENTS.md Rule 6b): skills as indices, guides loaded on-demand
-  - backend-api-mastery refactored: 466 → ~200 lines + 4 guides
-  - frontend-web, frontend-pwa, frontend-mobile already follow pattern
-  - LAZY_LOADING.md documents the pattern for all future skills
+- Metrics (`project-metrics`): empirical quality logging
+  - Build pass rate, rework rate, test coverage delta
+  - Discovery time, gate pass rate, user override frequency
+  - Per-project and global aggregates
+  - Automatic logging from all skills (frontend, backend, spec, git-init)
+  - Quality report on demand: "show metrics"
 
-**To reach 9.5/10 (Outstanding):**
-1. ✅ `user-onboarding` — DONE
-2. ✅ `engineering-fundamentals` — Foundation skill extracted, DRY architecture achieved
-3. ✅ **Context persistence** — Auto-re-read DESIGN-LOCK.md, SPEC.md on session restart (AGENTS.md Rule 0b + skills updated)
-4. ✅ **Lazy loading** — Skills as indices + guides loaded on-demand (AGENTS.md Rule 6b + backend-api-mastery refactored)
-5. ⬜ **Metrics** — Log quality metrics (build pass rate, revert rate, test coverage)
+**Achieved 9.5/10 with:**
+1. ✅ `user-onboarding` — Persistent preferences
+2. ✅ `engineering-fundamentals` — Foundation skill, DRY architecture
+3. ✅ **Context persistence** — Auto-recover project state (AGENTS.md Rule 0b)
+4. ✅ **Lazy loading** — Skills as indices + guides on-demand (AGENTS.md Rule 6b)
+5. ✅ **Metrics** — Empirical quality logging (`project-metrics`)
 6. ✅ **Multi-platform** — frontend-web, frontend-pwa, frontend-mobile
 
 **To reach 10/10 (Perfect):**
-7. ⬜ Refactor remaining large skills to lazy loading pattern (spec-driven-development, fullstack-shipping, git-init-and-versioning)
+7. ⬜ Refactor remaining large skills to lazy loading (spec-driven-development: 484 lines, fullstack-shipping: 416 lines, git-init-and-versioning: 500 lines)
 8. ⬜ `frontend-desktop` skill (Tauri, Electron)
 9. ⬜ IoT/Embedded skill (optional, niche)
 
