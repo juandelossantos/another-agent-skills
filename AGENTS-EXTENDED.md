@@ -127,12 +127,12 @@ User can disable this gate by saying:
 
 **This is not optional. This is mechanical enforcement of Rule 12.**
 
-### Before EVERY git add/commit/push, the agent MUST:
+### Before EVERY git commit, the agent MUST:
 
 1. **STOP all action.** Do not type any git command yet.
 2. **Output the Commit Manifest block exactly as shown below.**
 3. **Wait for user's explicit typed approval.**
-4. **Only then execute git commands.**
+4. **Only then commit. Push is a SEPARATE decision after commit.**
 
 ### Commit Manifest Block
 
@@ -143,7 +143,6 @@ User can disable this gate by saying:
 ║  Files changed: [list every file]                        ║
 ║  Lines changed: +X / -Y                                  ║
 ║  Commit message: "..."                                   ║
-║  Will push: YES / NO                                     ║
 ╠════════════════════════════════════════════════════════════╣
 ║  RULE 12 CHECKLIST:                                      ║
 ║  □ User's last message is "yes", "sí", or "commit"     ║
@@ -162,11 +161,10 @@ User can disable this gate by saying:
 **After ANY user approval, reset to "unapproved" state immediately.**
 
 | User says | What is approved | Next commit requires |
-|---|---|---|
-| "yes" | ONE commit only | New "yes" |
-| "yes and push" | ONE commit + ONE push | New "yes" |
-| "commit" | ONE commit only | New "yes" |
-| "proceed" | ONE commit only | New "yes" |
+|---|---|---|---|
+| "yes" | ONE commit ONLY | New "yes" |
+| "commit" | ONE commit ONLY | New "yes" |
+| "proceed" | ONE commit ONLY | New "yes" |
 | "ok" / "sigamos" / silence | NOTHING — INVALID | Explicit "yes" |
 
 **There is NO session-level "approved mode." Every commit is a separate decision.**
@@ -198,4 +196,19 @@ Before manifest, agent MUST self-check: docs? → NO exento. Fix? → NO exento.
 
 ### Post-Commit Verification
 
-After EVERY commit: build funciona? Tests pasan? Regresiones visuales? Archivos incorrectos? Token sin consumir? **Si algo falla: no pushear. Reportar.**
+After EVERY commit: build funciona? Tests pasan? Regresiones visuales? Archivos incorrectos? Token sin consumir?
+
+### Push Decision (After Commit, Not Before)
+
+Push is a **separate decision** from commit. After commit completes:
+
+```
+✅ Commit: abc1234
+→ ¿Push a origin/main? (yes / no / later)
+```
+
+- **yes**: push now
+- **no / later**: commit stays local. Can accumulate multiple commits then push with explicit "push now"
+- Push can be approved for multiple pending commits: "push all" or "push yes"
+
+**Never push without asking.** The only exception is if user previously said "push now" for a pending commit.

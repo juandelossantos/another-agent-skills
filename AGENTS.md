@@ -280,6 +280,8 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 **NEVER batch approval.** Previous approval does not transfer. Every commit is a separate decision.
 
+**Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
+
 **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 
 **MECHANICAL ENFORCEMENT:** A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
