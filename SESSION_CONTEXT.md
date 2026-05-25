@@ -40,6 +40,20 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
 - **Design Asset Lock:** `design/DESIGN-LOCK.md` + `design/approved/` for visual persistence
 - QA gates: 12 checks before delivery
 
+#### `spec-driven-development` (Overrides Official)
+**Location:** `skills/spec-driven-development/SKILL.md`
+**Status:** ✅ Complete — Replaces official version with extended capabilities
+
+**Key features:**
+- **Phase 0:** Context assessment (triggers `project-health-check` if existing code)
+- **Phase 1:** Domain research via web search (best practices, benchmarks, docs)
+- **Phase 2:** Deep discovery with **critical challenge** — agent questions user assumptions, proposes alternatives, identifies XY problems
+- **Phase 3:** Architecture decision gate (triggers `architecture-analysis` if non-trivial)
+- **Phase 4:** Enhanced SPEC.md template with Research Context + Architecture Decisions sections
+- **Phase 7:** Environment audit gate (triggers `dev-environment-audit`)
+- **Phase 8:** **Implement gate** — explicit "yes" required before any code
+- Anti-rationalization: "The user knows what they want" → NO, senior engineers challenge when they see better alternatives
+
 #### `project-health-check`
 **Location:** `skills/project-health-check/SKILL.md`
 **Status:** ✅ Complete
@@ -94,11 +108,12 @@ This is our **personal** agent skills repository (`another-agent-skills`), NOT t
    - Verify `HEALTH-CHECK.md` is generated
    - Test recursive behavior (return after 7 days)
 
-2. **Rewrite `spec-driven-development` (our version)**
-   - Add web research phase (best practices, benchmarks)
-   - Integrate `architecture-analysis` trigger for non-trivial projects
-   - Add critical thinking: challenge assumptions, propose alternatives
-   - Ensure it generates `SPEC.md` with architecture decisions section
+2. **Test `spec-driven-development` (rewritten)**
+   - Start a new project
+   - Verify Phase 1 research (if non-trivial)
+   - Verify Phase 2 critical challenge (questions that push back)
+   - Verify Phase 8 implement gate (explicit "yes" required)
+   - Check `SPEC.md` includes Research Context + Architecture Decisions sections
 
 3. **Create `architecture-analysis` skill**
    - Stack selection with 2-3 justified options

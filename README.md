@@ -12,6 +12,9 @@ A curated, opinionated collection of skills that turn AI assistants into discipl
 |---|---|---|
 | `visual-frontend-mastery` | Build distinctive, animated, production-grade UIs with a locked modern stack and anti-AI-slop rules | Any frontend/visual task |
 | `project-health-check` | Audit existing codebases for compliance before any new work. Blocks until user decides: fix, proceed with caution, or ignore | Existing projects, returning after gap, explicit audits |
+| `spec-driven-development` | **(Overrides official)** Research-backed specs with critical thinking, user challenge, and architecture integration. Never blind obedience | New projects, features, ambiguous requirements |
+| *(Coming soon)* `architecture-analysis` | Evaluate 2-3 architecture options with trade-offs. Challenge user choices. Lock decisions in spec | Non-trivial projects requiring stack/pattern decisions |
+| *(Coming soon)* `dev-environment-audit` | Detect MCPs and tools, compare against ideal set, propose installations | Any project start, environment setup |
 | *(Coming soon)* `backend-api-mastery` | REST/GraphQL design, Prisma, tRPC, error handling | API work |
 | *(Coming soon)* `fullstack-shipping` | End-to-end build, test, and deploy workflows | Fullstack projects |
 
@@ -122,10 +125,15 @@ All skills restored in under a minute.
 another-agent-skills/
 ├── README.md                          # This file
 ├── install.sh                         # One-command global installer
+├── AGENTS.md                          # Universal skill-driven execution rules
 ├── LICENSE                            # MIT
 ├── skills/
-│   └── visual-frontend-mastery/
-│       └── SKILL.md                   # Anti-AI-slop frontend skill
+│   ├── visual-frontend-mastery/
+│   │   └── SKILL.md                   # Anti-AI-slop frontend skill
+│   ├── project-health-check/
+│   │   └── SKILL.md                   # Audit existing codebases
+│   └── spec-driven-development/
+│       └── SKILL.md                   # Research-backed spec writing (overrides official)
 └── scripts/
     └── validate-skills.sh             # (Optional) CI validation
 ```
