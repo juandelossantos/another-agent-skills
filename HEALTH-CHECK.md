@@ -1,8 +1,8 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-05-25
+**Date:** 2026-05-26
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY
+**Status:** ✅ HEALTHY (v2 frontend-web upgrade applied)
 
 ---
 
@@ -56,13 +56,13 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Check | Status | Notes |
 |---|---|---|
-| `AGENTS.md` exists | ✅ PASS | Core rules, 311 lines, always-loaded |
-| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 214 lines, lazy-loaded |
-| `install.sh` exists | ✅ PASS | 331 lines, full-install script |
+| `AGENTS.md` exists | ✅ PASS | Core rules, 337 lines, always-loaded |
+| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 252 lines, lazy-loaded |
+| `install.sh` exists | ✅ PASS | 478 lines, full-install script |
 | `scripts/init-agents.sh` | ✅ PASS | 174 lines, per-project init |
-| Skills organized | ✅ PASS | 14 skills in `skills/`, each < 250 lines |
+| Skills organized | ✅ PASS | 20 skills in `skills/`, each < 250 lines |
 | Guides lazy-loaded | ✅ PASS | 40 guides, loaded on-demand per phase |
-| ADRs documented | ✅ PASS | 2 ADRs in `ADRs/` |
+| ADRs documented | ✅ PASS | 3 ADRs in `ADRs/` |
 | `development/` convention | ✅ PASS | 14 analysis/incident files, git-ignored |
 | Health Check exists | ✅ PASS | This file |
 | `SPEC.md` | ⚠️ WARN | **No SPEC.md** — this project is a self-evolving meta-project where AGENTS.md acts as the spec. Acceptable, but a formal SPEC.md would clarify boundaries. |
@@ -101,9 +101,9 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | File | Lines | Tokens (est.) | % of 200K |
 |---|---|---|---|
-| `AGENTS.md` | 311 | ~4,665 | 2.3% |
-| `AGENTS-EXTENDED.md` | 214 | ~3,210 | 1.6% |
-| **Subtotal** | **525** | **~7,875** | **3.9%** |
+| `AGENTS.md` | 337 | ~5,055 | 2.5% |
+| `AGENTS-EXTENDED.md` | 252 | ~3,780 | 1.9% |
+| **Subtotal** | **589** | **~8,835** | **4.4%** |
 
 ### Loaded On-Demand
 
@@ -193,11 +193,15 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 ## Metrics Summary
 
 | Metric | Current | Target | Status |
-|---|---|---|---|
-| Skills ≤ 250 lines | 14/14 | 14/14 | ✅ |
-| Always-loaded context | 525 lines (~7,875 tok) | < 600 lines | ✅ |
-| Skills total weight | 1,324 lines | < 1,500 | ✅ |
-| ADRs | 2 | ≥ 1 | ✅ |
+|---|---|---|---|---|
+| Skills ≤ 250 lines (SKILL.md only) | 20/20 | ≤ 250 each | ✅ |
+| Always-loaded context | 589 lines (~8,835 tok) | < 600 lines | ✅ |
+| Skills total weight (SKILL.md + guides) | 3,238 + 965 (guides) | lazy-loaded | ⚪ INFO |
+| ADRs | 3 | ≥ 1 | ✅ |
 | Broken references | 0 | 0 | ✅ |
 | Mechanical enforcements | 1 (pre-commit hook) | ≥ 1 | ✅ |
+| Frontend anti-slop tells | 85+ | 85+ | ✅ |
+| Pre-flight checks | 93 | 93 | ✅ |
 | Critical issues | 0 | 0 | ✅ |
+
+**v2 upgrade:** Replaced 8 fixed aesthetic directions with 3 parametric dials. Created 5 new skills, 6 new guides, 1 ADR.

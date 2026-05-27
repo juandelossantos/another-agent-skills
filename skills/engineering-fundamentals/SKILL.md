@@ -26,6 +26,21 @@ Platform skills add implementation specifics to this philosophy.
 4. **Gates Before Progress** — Every phase ends with user confirmation.
 5. **Behavioral Discipline** — See AGENTS.md Rule 0c. Think before coding. Simplicity first. Surgical changes. Goal-driven execution.
 
+## Pre-Flight: Repo State Check (Before ANY phase)
+
+Before any phase, if the project is a git repository:
+1. `git status` — working tree must be clean (no unstaged changes, no untracked files that would conflict)
+2. `git log --oneline -3` — understand recent context
+3. `git fetch --dry-run` — check if remote has unpulled changes (blocking: do NOT work on a stale base)
+
+**If working tree is dirty** → commit or stash before new work.
+**If remote has unpulled changes** → `git pull --rebase` before new work.
+**If not a git repo** → `git init` first (see `git-init-and-versioning`).
+
+This is not optional. It runs before Phase 0 and before any edit, creation, or deletion of files.
+
+---
+
 ## Universal Process
 
 ### Phase 0 — Language Detection
@@ -101,9 +116,11 @@ Respect `AGENTS.md` lifecycle:
 
 ---
 
-### Phase 3 — Aesthetic Direction (Path B only)
+### Phase 3 — Design Direction (Path B only)
 
-Pick ONE. See `AESTHETIC-DIRECTIONS.md` for descriptions. Do not blend.
+Use the platform-specific skill's direction system (e.g., frontend-web: Three Dials System). Do not blend.
+
+See platform skill for detailed direction selection.
 
 ---
 

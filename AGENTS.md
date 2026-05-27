@@ -55,6 +55,7 @@
 
 ```
 STOP. Pre-action checklist:
+□ Did I run `git status` and `git fetch --dry-run`? Unclean working tree or unpulled remote changes = BLOCKING
 □ Is this action reversible? If no → REQUIRE explicit approval
 □ Does this action affect user data or repository state? If yes → REQUIRE explicit approval
 □ Have I presented the full scope to the user? If no → STOP, present first
@@ -62,6 +63,7 @@ STOP. Pre-action checklist:
   - "sigamos" / "ok" / "dale" / "continue" / silence = NOT VALID for commits
   - Only "yes", "sí", "commit", "proceed" = VALID
 □ Did I self-review if >50 lines changed? If no → STOP, review first
+□ Did I show the commit message (or PR title/body) to the user for review before sending? Commit message, PR description, and push must be visible and adjustable. No silent commits.
 → If ANY box unchecked: STOP. Ask user before proceeding.
 ```
 

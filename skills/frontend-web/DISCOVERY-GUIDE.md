@@ -6,7 +6,11 @@ Execute every step. Do not skip. Do not assume.
 
 ---
 
-## Step 1: Surface Assumptions
+## Step 1: Repo State Check (MANDATORY before any work)
+
+See `engineering-fundamentals` Pre-Flight: Repo State Check. Run before any discovery or code work.
+
+## Step 2: Surface Assumptions
 
 List at least 5 assumptions you are making about the project. Present them to the user for confirmation or correction **in the detected language**:
 
@@ -62,8 +66,12 @@ If the project involves logic, data, or user interactions, also ask:
 If the project has a visual component, ask:
 
 11. **References / Referencias**: Any websites, apps, or styles you like?
-12. **Mood / Tono**: Playful, serious, luxury, brutalist, minimalist?
-13. **Brand / Marca**: Do you have existing colors, fonts, or a logo?
+12. **Mood / Tono**: Playful, serious, luxury, brutalist, minimalist, premium consumer, editorial?
+13. **Vibe words**: What feeling should the design communicate? (calm, energetic, technical, warm, cold, experimental)
+14. **Dials intuition**: Would you describe this as experimental or conservative layout? Static or cinematic motion? Airy or dense content?
+15. **Brand / Marca**: Do you have existing colors, fonts, or a logo?
+
+The answers feed into Phase 3 (Three Dials System) and DESIGN-GUIDE.md for dial value inference.
 
 ---
 

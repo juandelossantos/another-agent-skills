@@ -58,6 +58,18 @@ Check for `STACK_CONFIG.md`:
 
 ---
 
+### Phase 0b — Brief Inference (MANDATORY before code)
+
+**Read 6 signals before any code:** page kind, vibe words, reference URLs, audience, existing brand assets, quiet constraints (a11y-first, regulated, trust-first).
+
+**Output a one-line "Design Read":** `"Reading this as: <page kind> for <audience>, <vibe>, leaning toward <system>."`
+
+**Anti-Default Discipline:** Do not default to AI-purple gradients, centered hero over dark mesh, three equal feature cards, or Inter + slate-900.
+
+See `DESIGN-GUIDE.md` for vibe → dial mapping tables and signal extraction details.
+
+---
+
 ### Phase 1 — Discovery Gate
 → See `engineering-fundamentals` Phase 1 for universal discovery.
 
@@ -78,10 +90,42 @@ Read `DISCOVERY-GUIDE.md` for complete web checklist.
 
 ---
 
-### Phase 3 — Aesthetic Direction
-→ See `engineering-fundamentals` Phase 3.
+### Phase 3 — Three Dials System
 
-Same 8 directions (ED, SM, LDW, CB, UE, NB, PG, RT). Pick ONE.
+Replace 8 fixed aesthetic directions with **3 parametric dials** set after Design Read (Phase 0b):
+
+- **`DESIGN_VARIANCE: 7`** — 1 = Perfect Symmetry, 10 = Artsy Chaos
+- **`MOTION_INTENSITY: 5`** — 1 = Static, 10 = Cinematic / Physics
+- **`VISUAL_DENSITY: 4`** — 1 = Art Gallery / Airy, 10 = Cockpit / Packed Data
+
+| Use case | VAR | MOT | DEN |
+|---|---|---|---|
+| SaaS landing | 7 | 5 | 4 |
+| Agency portfolio | 8 | 7 | 3 |
+| Premium consumer | 7 | 5 | 3 |
+| Editorial / Blog | 6 | 3 | 3 |
+| Public-sector service | 3 | 2 | 5 |
+
+See `DESIGN-GUIDE.md` for vibe→dial inference, technical dial definitions, and mobile collapse rules.
+
+---
+
+### Phase 3b — Design System Map
+
+| Brief reads as… | Use |
+|---|---|
+| Enterprise / Microsoft-adjacent | `@fluentui/react-components` |
+| Material-flavored | `@material/web` + M3 tokens |
+| IBM-style B2B | `@carbon/react` |
+| Shopify surfaces | Polaris React |
+| Atlassian product | `@atlaskit/*` |
+| GitHub-style devtool | `@primer/react-brand` |
+| Public-sector (UK/US) | `govuk-frontend` / `uswds` |
+| Modern accessible React | `@radix-ui/themes` |
+| Modern SaaS | shadcn/ui |
+| Tailwind indie build | Tailwind v4 + `dark:` |
+
+**Rules:** One system per project. Use official packages — do not recreate CSS by hand. For aesthetics without packages (glassmorphism, bento, brutalism, editorial, dark tech), build with native CSS + Tailwind.
 
 ---
 
@@ -108,31 +152,30 @@ Forbidden: GSAP by default, `tailwind.config.ts`, `middleware.ts`, Spline.
 
 → See `engineering-fundamentals` Phase 4 for universal principles.
 
-**Web-specific rules:**
-
 **Typography**
-- No Inter, Roboto, Arial, Space Grotesk, Geist as display fonts.
-- Pair distinctive display + refined body font.
-- Use `next/font/google` with `--font-display`, `--font-body`.
+- BANNED as display: Inter, Roboto, Arial, Space Grotesk, Geist.
+- BANNED as serif defaults: Fraunces, Instrument Serif. Serif is very discouraged as default.
+- **Em-dash ban:** `—` banned in all visible text. Use comma, colon, or sentence break.
+- Preferred sans: Geist, Outfit, Satoshi. Pairings: Geist+GeistMono, Satoshi+JetBrainsMono.
 
 **Color**
-- No Tailwind generics (`bg-blue-500`, `text-gray-700`).
-- Use CSS custom properties from DESIGN.md or `globals.css` tokens.
-- Dominant color + sharp accents. No timid palettes.
+- **THE LILA RULE:** No AI-purple/blue glow default. Neutral bases (Zinc/Slate/Stone) + singular saturated accent.
+- **PREMIUM-CONSUMER PALETTE BAN:** Beige+brass+espresso (`#f5f1ea`, `#b08947`…) banned as default. Rotate: Cold Luxury, Forest, Black+Tan, Cobalt+Cream, Terracotta+Slate.
+- Max 1 accent (< 80% sat). One palette per project. No warm/cool gray mixing.
 
-**Layout**
-- No generic centered card grids as default.
-- Consider asymmetry, overlap, diagonal flow, controlled density.
-- Mobile-first: verify 375px before 1280px.
+**Layout & Content**
+- **Eyebrow restraint:** Max 1 per 3 sections. Count mechanically before shipping.
+- **Zigzag cap:** Max 2 consecutive text+image splits. Break pattern with full-width or bento.
+- **Section-layout ban:** 8 sections → ≥4 different layout families.
+- **Hero:** Fits viewport, ≤2 headline lines, ≤20 subtext words, top padding max `pt-24`. No trust strip inside hero.
+- **No duplicate CTA intent.** No wrapped CTAs at desktop. **Copy self-audit** before shipping.
 
-**Motion**
-- No animation of `width`, `height`, `top`, `left`, `margin`, `padding`.
-- Only `transform` and `opacity` for 60fps.
-- Use `will-change` sparingly, remove after animation.
+**Images & Assets**
+- See `IMAGE-STRATEGY.md` for image generation pipeline, social proof rules, and photography guidelines.
+- **No div-based fake screenshots** — BANNED.
+- Use `next/image` with `priority` on above-the-fold images.
 
-**Backgrounds**
-- No flat solid colors as default.
-- Consider: gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, grain overlays.
+See `ANTI-SLOP-GUIDE.md` for 85+ AI tells catalogue, content density rules, spec-sheet alternatives, and full copy protocol.
 
 ---
 
@@ -160,18 +203,10 @@ Read `ANIMATION-GUIDE.md`.
 
 4. Apply tokens from `DESIGN.md` to `src/app/globals.css`.
 5. Use `next/font/google` for fonts in `layout.tsx`.
-6. Build sections with canonical order:
-   - Navbar (sticky, background change on scroll)
-   - Hero (H1 + subtitle + CTA + visual)
-   - Value proposition (3-4 blocks)
-   - Services / Products (grid or zig-zag)
-   - About / Philosophy
-   - Testimonials / Logos
-   - Final CTA
-   - Footer
+6. Build sections in canonical order: Nav → Hero → Value Prop → Services → About → Testimonials → CTA → Footer.
 7. Use `whileInView` for entrance animations.
-8. Use `<Image>` from Next.js with descriptive `alt` text.
-9. Ensure `"use client"` only used when hooks, events, or state present.
+8. Use `<Image>` with descriptive `alt` text.
+9. `"use client"` only when hooks, events, or state present.
 
 ---
 
@@ -179,39 +214,15 @@ Read `ANIMATION-GUIDE.md`.
 
 → See `engineering-fundamentals` Phase 5 for universal gates.
 
-**After QA gates, log metrics:**
-```
-LOG METRIC: gate
-- project: [detect from git remote or directory]
-- gate_name: frontend-web-qa
-- result: pass/fail
-- checks_passed: [N]/12
-```
+**Run `PRE-FLIGHT.md` before declaring done.** Every box must pass — this is a mechanical gate, not optional.
 
-**Web-specific checks:**
+**Quick checks:** Run `PRE-FLIGHT.md` (covers TypeScript, build, template residue, hardcoded colors, responsive, a11y, images, reduced motion, animation, design lock).
 
-1. **TypeScript** — `npx tsc --noEmit` passes.
-2. **Build** — `npm run build` succeeds.
-   
-   **After build, log metric:**
-   ```
-   LOG METRIC: build
-   - project: [detect from git remote or directory]
-   - result: pass/fail
-   - duration: [measure]
-   - errors: [count]
-   - warnings: [count]
-   ```
-3. **No template residue** — Remove default Next.js text.
-4. **No hardcoded colors** — Search `bg-blue-`, `text-gray-`, `bg-red-`. Replace with tokens.
-5. **Responsive** — Check 375px, 768px, 1280px.
-6. **Accessibility** — Contrast 4.5:1, focus indicators 2px, `prefers-reduced-motion`.
-7. **Images** — Every `<Image>` has `alt`. Above-the-fold image has `priority`.
-8. **SEO/LLMO** — `sitemap.ts`, `robots.ts`, `llms.txt`, `identity.json` if public.
-9. **Reduced motion** — CSS fallback present in `globals.css`.
-10. **Animation performance** — Only `transform` and `opacity`. No layout thrashing.
-11. **Design Lock present** — `design/DESIGN-LOCK.md` exists and was read.
-12. **Visual consistency** — No color, font, or spacing deviates without explicit approval.
+**Log metrics:**
+```
+LOG METRIC: gate - project: [detect] - gate_name: frontend-web-qa - result: pass/fail
+LOG METRIC: build - project: [detect] - result: pass/fail - warnings: [count]
+```
 
 ---
 
@@ -222,27 +233,4 @@ Read `EXAMPLES.md`:
 - Adding animation to existing component
 - Troubleshooting (Next.js 16 params, fonts, FOUC, hydration, build)
 
----
 
-## Red Flags (Web-Specific)
-
-- `bg-blue-500`, `text-gray-700`, or Tailwind defaults.
-- Display font is Inter, Roboto, Space Grotesk, or Geist.
-- Generic centered card grid with no variation.
-- Animations use `width`, `height`, or `margin` transitions.
-- No `prefers-reduced-motion` fallback.
-- Code generated before DESIGN.md confirmed or PLAN created.
-- Stack versions outdated (Next.js < 16, Tailwind < 4).
-
----
-
-## Verification
-
-- `DESIGN.md` exists in project root.
-- `design/DESIGN-LOCK.md` exists with approved decisions.
-- `globals.css` contains CSS custom property tokens.
-- `alt` text on every `<Image>`.
-- `prefers-reduced-motion` block in CSS.
-- Build passes (`npm run build`).
-- No generic Tailwind color utilities.
-- Animation code only touches `transform` and `opacity`.
