@@ -31,7 +31,7 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-bash install.sh          # Installs 44 skills globally
+bash install.sh          # Installs 45 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
@@ -40,11 +40,11 @@ init-agents              # In any project: activates skill-driven mode
 ```powershell
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-.\install.ps1            # Installs 44 skills globally
+.\install.ps1            # Installs 45 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 21 custom skills + 23 upstream skills.
+**That's it.** Your AI agent now has 22 custom skills + 23 upstream skills.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it merges AGENTS.md without overwriting existing rules, and creates `.sessionrc`.
