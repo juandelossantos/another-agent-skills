@@ -128,6 +128,9 @@ EOF
 
 # Main logic
 main() {
+    # Check for updates before doing anything else
+    bash "${SCRIPT_DIR}/check-update.sh" || true
+
     local existing_target
     existing_target=$(detect_target)
     

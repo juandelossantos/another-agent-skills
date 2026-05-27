@@ -434,9 +434,12 @@ install_all_adapters() {
 
 # ---------------------------------------------------------------------------
 main() {
+    local current_version
+    current_version=$(cat "${SCRIPT_DIR}/VERSION" 2>/dev/null || echo "dev")
     echo ""
     echo "Another Agent Skills — Global Installer"
     echo "======================================"
+    echo "  v${current_version}"
     echo ""
     check_prerequisites
     setup_remote_skills

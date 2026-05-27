@@ -1,5 +1,7 @@
 # AGENTS.md
 
+> Version: see [VERSION](VERSION)
+
 ## Skill-Driven Execution Model
 
 **Always check skills first. Never implement directly if a skill applies.**
