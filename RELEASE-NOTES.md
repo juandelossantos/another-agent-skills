@@ -2,31 +2,31 @@
 
 ## 1.0.0 (2026-05-26)
 
-Initial release of Another Agent Skills con sistema de versionado.
+Initial versioned release of Another Agent Skills.
 
 ### Features
-- **Design Core Extraction (ADR-004):** 3 guías CORE compartidas (DESIGN, ANTI-SLOP, PRE-FLIGHT)
-  en `engineering-fundamentals/guides/`. Todas las plataformas (web, mobile, desktop, pwa)
-  ahora comparten el mismo sistema de diseño Three Dials.
-- **Frontend Web v2:** Three Dials System reemplaza 8 direcciones fijas. Brief Inference (Phase 0b),
+- **Design Core Extraction (ADR-004):** 3 shared CORE guides (DESIGN, ANTI-SLOP, PRE-FLIGHT)
+  in `engineering-fundamentals/guides/`. All platforms (web, mobile, desktop, pwa)
+  now share the same Three Dials design system.
+- **Frontend Web v2:** Three Dials System replaces 8 fixed directions. Brief Inference (Phase 0b),
   Design System Map (Phase 3b). 85+ anti-slop tells, 54 pre-flight checks.
-- **Frontend Mobile:** Nuevo sistema Three Dials. Guides de animación (Reanimated + Gesture Handler),
-  discovery guide para mobile.
-- **Frontend Desktop:** Three Dials aplicado. Guías de integración nativa Tauri (menús, system tray,
+- **Frontend Mobile:** New Three Dials system. Animation guides (Reanimated + Gesture Handler),
+  discovery guide for mobile.
+- **Frontend Desktop:** Three Dials applied. Native Tauri integration guides (menus, system tray,
   file dialogs, global shortcuts), discovery guide, examples.
-- **Frontend PWA:** Three Dials con constraints cross-device. Discovery guide.
+- **Frontend PWA:** Three Dials with cross-device constraints. Discovery guide.
 - **5 specialized skills:** industrial-brutalist-ui, minimalist-ui, soft-premium-ui, output-skill,
   redesign-skill.
-- **Auto-update system:** `VERSION`, `RELEASE-NOTES.md`, `scripts/check-update.sh` — revisa
-  actualizaciones al entrar a proyectos. Pregunta antes de actualizar.
+- **Auto-update system:** `VERSION`, `RELEASE-NOTES.md`, `scripts/check-update.sh` — checks for
+  updates when entering projects. Asks before updating.
 
 ### ADRs
 - ADR-003: Frontend Web v2 — Three Dials System
 - ADR-004: Design Core Extraction
 
 ### Fixes
-- HEALTH-CHECK.md metrics actualizadas (skills, always-loaded, pre-flight count)
-- SKILL.md line counts corregidas (< 250 todas)
-- IMAGE-STRATEGY.md ahora referenciado desde SKILL.md
-- .opencode/skills/ symlinks para skills descubribles
+- HEALTH-CHECK.md metrics updated (skills, always-loaded, pre-flight count)
+- SKILL.md line counts corrected (< 250 each)
+- IMAGE-STRATEGY.md now referenced from SKILL.md
+- .opencode/skills/ symlinks for discoverable skills
 - Pre-action checklist: commit message visibility + git status/fetch check

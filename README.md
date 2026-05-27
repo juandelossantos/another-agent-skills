@@ -1,14 +1,25 @@
-# Another Agent Skills
+# Another Agent Skills 👷
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Version: v1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
 **Production-grade agent skills that turn AI coding assistants into disciplined senior engineers.**
+**No bloat. No shortcuts. Just process.**
 
-Define → Plan → Build → Verify → Review → Ship. Every time. Without the bloat.
+Define → Plan → Build → Verify → Review → Ship. Every time.
 
 > Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
+
+---
+
+## 📦 What's New in v1.0.0
+
+- **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) track every change.
+- **Auto-update** — `init-agents` now checks for updates daily. You choose when to pull.
+- **5 specialized frontend skills** — `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` for targeted design directions.
+- **Design Core Extraction** — Three Dials System (Variance / Motion / Density) shared across all platforms via `engineering-fundamentals`.
 
 ---
 
@@ -19,7 +30,7 @@ Define → Plan → Build → Verify → Review → Ship. Every time. Without th
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-bash install.sh          # Installs 38 skills globally
+bash install.sh          # Installs 44 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
@@ -28,11 +39,11 @@ init-agents              # In any project: activates skill-driven mode
 ```powershell
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-.\install.ps1            # Installs 38 skills globally
+.\install.ps1            # Installs 44 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 15 custom skills + 23 upstream skills.
+**That's it.** Your AI agent now has 21 custom skills + 23 upstream skills.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it merges AGENTS.md without overwriting existing rules, and creates `.sessionrc`.
@@ -77,6 +88,11 @@ Most agent skills are encyclopedias — 500+ lines dumped into context before th
 | `user-onboarding` | First session | 30 preferences asked once, persisted forever |
 | `project-metrics` | Background | Build pass rate, rework, coverage logging |
 | `multi-agent-orchestration` | >2 agents | Parallel/pipeline/swarm patterns with `task` tool |
+| `industrial-brutalist-ui` | Hard/industrial design | Swiss type, sharp contrast, experimental layout |
+| `minimalist-ui` | Clean/product UI | Editorial design (Notion/Linear), restrained palette |
+| `soft-premium-ui` | Polished/premium | Soft contrast, whitespace, spring motion |
+| `output-skill` | Truncated output | Full output enforcement, no placeholder comments |
+| `redesign-skill` | Existing codebase | UI audit first, then fix structure and styling |
 
 **Stack agnostic:** React/Next.js, Vue, Svelte, React Native, Flutter, Tauri, Electron, Node.js, Python, Go, Rust, PostgreSQL, MongoDB, SQLite — any modern framework.
 
@@ -124,6 +140,7 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | [`EXAMPLES.md`](./EXAMPLES.md) | Before/after skill usage demonstrations |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.0.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (22/24 passes, 0 criticals) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
@@ -181,6 +198,7 @@ Does not remove your user profile (`~/.config/opencode/user-profile.json`) or th
 
 Built on the shoulders of:
 - **Addy Osmani** — [`agent-skills`](https://github.com/addyosmani/agent-skills) (23 upstream skills)
+- **Leonxlnx** — [`taste-skill`](https://github.com/Leonxlnx/taste-skill) — design taste and anti-slop frontend
 - **Julius Brussee** — [`caveman`](https://github.com/JuliusBrussee/caveman) — token optimization inspiration
 - **Andrej Karpathy** — Behavioral observations on LLM coding failures
 - **OpenCode team** — Native skill framework and invocation system
