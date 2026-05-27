@@ -12,7 +12,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Warnings | **2** (minor) |
-| Passes | **22/24** (92%) |
+| Passes | **23/24** (96%) |
 | Overall | **HEALTHY** |
 
 ---
@@ -29,7 +29,7 @@
 | 3 Strikes Protocol | ❌ None | ✅ GUIDE.md | New |
 | Purpose-driven sessions | ❌ None | ✅ `.sessionrc` | New |
 | ADRs | 0 | 2 | +2 |
-| Incident docs | 0 | 2 | +2 |
+| Incident docs | 0 | 3 | +3 |
 | User profile fields | basic | github_username + author_name | Extended |
 | All references intact | — | 19/19 verified | ✅ |
 
@@ -45,7 +45,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Git initialized | ✅ PASS | 90 commits on main |
 | Remote configured | ✅ PASS | github.com:juandelossantos/another-agent-skills |
 | Branch strategy | ✅ PASS | Trunk-based (main only) |
-| Pre-commit hook exists | ✅ PASS | `scripts/git-hooks/pre-commit` (34 lines) |
+| Pre-commit hook exists | ✅ PASS | `scripts/git-hooks/pre-commit` (v2, hash-bound) |
 | `.env.example` | ⚠️ N/A | No env vars needed for this project |
 | CI/CD config | ⚠️ N/A | Not needed for docs-only repo |
 | No secrets committed | ✅ PASS | Verified |
@@ -77,7 +77,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Mechanism | Type | Status |
 |---|---|---|
-| **Rule 12: Pre-commit hook** | Shell script | ✅ Blocks `git commit` without `.git/COMMIT_APPROVED` token |
+| **Rule 12: Pre-commit hook** | Shell script (v2) | ✅ Blocks `git commit` without hash-verified `.git/COMMIT_APPROVED` token |
 | **Commit Manifest Protocol** | Process rule | ✅ Visible block before every commit |
 | **Post-commit verification** | Process rule | ✅ Build, tests, regressions after each commit |
 | **Rule 0d: Pre-action checklist** | Process rule | ✅ Verbalized before destructive actions |
@@ -91,8 +91,8 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Commit and push are SEPARATE decisions | ✅ |
 | Invalid responses defined (ok/sigamos/continue = NOT valid) | ✅ |
 | Session-level lock: no "approved mode" | ✅ |
-| 6 anti-rationalization excuses against skipping gates | ✅ |
-| Incident documentation for violations | ✅ INCIDENT_001, INCIDENT_002 |
+| 25 anti-rationalization excuses against skipping gates | ✅ |
+| Incident documentation for violations | ✅ INCIDENT_001, INCIDENT_002, INCIDENT_003 |
 
 ---
 
@@ -181,6 +181,8 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 2. **💡 Create `SPEC.md` for this meta-project.** Optional since AGENTS.md serves as the de facto spec, but would clarify boundaries, audience, and what's out of scope.
 
+3. **💡 Pre-commit hook v2 deployed (hash-bound).** Incident-003 addressed. 3rd recurrence → mechanical fix finally in place. Verify no regression in commit workflow.
+
 ---
 
 ## Decision Log
@@ -202,7 +204,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Platform skills with CORE design | 4/4 (web, mobile, desktop, pwa) | 4/4 | ✅ |
 | Platform-specific guides created | 6 (mobile 2, desktop 3, pwa 1) | — | ✅ |
 | Broken references | 0 | 0 | ✅ |
-| Mechanical enforcements | 1 (pre-commit hook) | ≥ 1 | ✅ |
+| Mechanical enforcements | 2 (pre-commit hook + hash binding) | ≥ 1 | ✅ |
 | Frontend anti-slop tells | 85+ | 85+ | ✅ |
 | Pre-flight checks | 93 | 93 | ✅ |
 | Critical issues | 0 | 0 | ✅ |

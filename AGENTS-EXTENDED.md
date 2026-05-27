@@ -158,6 +158,11 @@ User can disable this gate by saying:
 | "We're iterating the same fix." | Each iteration modifies the repo. Each modification needs approval. |
 | "It's too small to bother asking." | The Commit Manifest IS the process. Skipping it IS the violation. |
 | "The user trusts me now." | Trust is verified per-commit. Previous trust does not waive the gate. |
+| "I already showed the manifest once this session." | Previous approvals do not transfer. Every commit is a separate decision. |
+| "I'm fixing bugs, not adding features — it's fine." | Process violations have no type minimum. A fix without approval is still a violation. |
+| "I'll generate the token and commit, then tell the user." | Post-hoc notification is not approval. Present first, commit after. |
+| "The user said 'continue' / 'sigamos' / 'dale'." | These are INVALID for commits. Only "yes", "sí", "commit", "proceed" are valid. |
+| "I'm in flow, stopping would break momentum." | Speed without consent is arrogance, not efficiency. The gate exists for this exact moment. |
 
 ---
 
@@ -232,9 +237,24 @@ This is a **process violation** regardless of content quality.
 
 Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? → NOT exempt. Iteration? → NOT exempt. Already approved? → Does not transfer. <3 lines? → NOT exempt. Trust? → Does not waive gate. **No commit is exempt.**
 
-### Post-Commit Verification
+### Hash-Bound Token Generation
 
-After EVERY commit: build passes? Tests pass? Visual regressions? Wrong files? Unconsumed tokens?
+**After user approval, before `git commit`, the agent MUST write the SHA256 hash of the EXACT commit message to `.git/COMMIT_APPROVED`:**
+
+```bash
+printf '%s' "exact commit message" | sha256sum | cut -d' ' -f1 > .git/COMMIT_APPROVED
+```
+
+The pre-commit hook (v2) verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
+
+**Why hash-binding matters:**
+| Without hash | With hash |
+|---|---|
+| Agent can write any value to COMMIT_APPROVED silently | Agent must consciously formulate the message first |
+| Message can change after approval without detection | Message is locked at token creation time |
+| "I'll figure out the message later" rationalization | Forces exact message commitment |
+
+### Post-Commit Verification
 
 ### Push Decision (After Commit, Not Before)
 

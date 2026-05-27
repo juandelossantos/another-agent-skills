@@ -156,6 +156,8 @@ main() {
 install_precommit_hook() {
     local hook_src="${SCRIPT_DIR}/git-hooks/pre-commit"
     local hook_dst="./.git/hooks/pre-commit"
+    local commit_msg_src="${SCRIPT_DIR}/git-hooks/commit-msg"
+    local commit_msg_dst="./.git/hooks/commit-msg"
     
     if [[ ! -f "${hook_src}" ]]; then
         warn "Pre-commit hook source not found at ${hook_src}. Skipping."
@@ -171,7 +173,14 @@ install_precommit_hook() {
     cp "${hook_src}" "${hook_dst}"
     chmod +x "${hook_dst}"
     ok "Installed pre-commit hook (${hook_dst})"
-    log "Commits now require .git/COMMIT_APPROVED token from Commit Manifest Protocol."
+    
+    if [[ -f "${commit_msg_src}" ]]; then
+        cp "${commit_msg_src}" "${commit_msg_dst}"
+        chmod +x "${commit_msg_dst}"
+        ok "Installed commit-msg hook (${commit_msg_dst})"
+    fi
+    
+    log "Both hooks required for commit: pre-commit (existence) + commit-msg (hash integrity)."
 }
 
 main "$@"

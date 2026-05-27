@@ -78,7 +78,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **Mutation approval gate** — No other framework prevents an agent from committing to prod without asking. Ours does. Every git mutation requires your explicit "yes". Enterprise-ready safety.
 
-**Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 22-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
+**Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 25-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
 
 **Unified lifecycle, not silos** — 45 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
 
@@ -162,8 +162,8 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | [`EXAMPLES.md`](./EXAMPLES.md) | Before/after skill usage demonstrations |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.0.0) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (22/24 passes, 0 criticals) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.1.0) |
+| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (23/24 passes, 0 criticals) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |

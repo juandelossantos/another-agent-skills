@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# commit-msg — Another Agent Skills Hash Verification (v2)
+# Installed by init-agents.sh. Verifies commit message hash against
+# .git/COMMIT_APPROVED token. Must run AFTER pre-commit hook.
+# Bypass: git commit --no-verify (skips ALL hooks)
+#
+# v2: Receives message file path as $1 (git >= 2.54 compatible).
+# Reads the message, computes SHA256, compares with token.
+
+set -euo pipefail
+
+APPROVAL_FILE=".git/COMMIT_APPROVED"
+
+if [ ! -f "$APPROVAL_FILE" ]; then
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  BLOCKED: No commit approval token found.               ║"
+    echo "║                                                          ║"
+    echo "║  The agent must present a Commit Manifest and get        ║"
+    echo "║  your explicit approval before committing.               ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+    exit 1
+fi
+
+COMMIT_MSG=$(cat "$1")
+EXPECTED_HASH=$(cat "$APPROVAL_FILE" | tr -d '[:space:]')
+ACTUAL_HASH=$(printf '%s' "$COMMIT_MSG" | sha256sum | cut -d' ' -f1)
+
+if [ "$ACTUAL_HASH" != "$EXPECTED_HASH" ]; then
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  BLOCKED: Commit message hash mismatch.                 ║"
+    echo "║                                                          ║"
+    echo "║  The approval token was generated for a different         ║"
+    echo "║  commit message than the one being committed.             ║"
+    echo "║                                                          ║"
+    echo "║  Message: $(echo "$COMMIT_MSG" | head -1)"
+    echo "║  Expected: $EXPECTED_HASH"
+    echo "║  Actual:   $ACTUAL_HASH"
+    echo "║                                                          ║"
+    echo "║  The agent must re-present the Commit Manifest with       ║"
+    echo "║  the correct message and get fresh approval.              ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+    exit 1
+fi
+
+rm "$APPROVAL_FILE"
+exit 0

@@ -66,6 +66,7 @@ STOP. Pre-action checklist:
   - Only "yes", "sí", "commit", "proceed" = VALID
 □ Did I self-review if >50 lines changed? If no → STOP, review first
 □ Did I show the commit message (or PR title/body) to the user for review before sending? Commit message, PR description, and push must be visible and adjustable. No silent commits.
+□ Did I generate the SHA256 hash token AFTER user approval and BEFORE `git commit`? The pre-commit hook will block mismatched messages.
 → If ANY box unchecked: STOP. Ask user before proceeding.
 ```
 
@@ -313,7 +314,7 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 
-**MECHANICAL ENFORCEMENT:** A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
+**MECHANICAL ENFORCEMENT:** A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The token must contain the SHA256 hash of the exact commit message. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
 
 **User override:** "Enable auto commit mode", "Don't ask me for commits", "I trust you with commits". See AGENTS-EXTENDED.md for override details.
 
@@ -321,7 +322,7 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 ## Anti-Rationalization
 
-See AGENTS-EXTENDED.md for full table (15+ common rationalizations and why they're wrong).
+See AGENTS-EXTENDED.md for full table (25+ common rationalizations and why they're wrong).
 
 **Key reminders:**
 - "I understand what they want." → You have 1% confidence. Skills force 95%.

@@ -2,17 +2,22 @@
 
 ## 1.1.0 (2026-05-26)
 
-v1.1.0: Fix 9 audit issues, add RELEASE-GUIDE, add release.sh
+v1.1.0: Fix 9 audit issues, add RELEASE-GUIDE, add release.sh, hash-bound commit hook
 
-- Remove broken cli-tools reference from AGENTS.md
 - Fix executable permissions on pre-commit hook and uninstall.sh
 - Remove orphan AGENTS.md.backup from root
 - Add SKILL.md to debugging-three-strikes
 - Add RELEASE-GUIDE.md to git-init-and-versioning (Phase 9)
 - Update Rule 6: 250 lines max, micro-skills exempt from 2-guide rule
-- Update HEALTH-CHECK.md AGENTS-EXTENDED line count
-- Add scripts/release.sh with -m flag for non-interactive usage
-- README: version badge updated automatically
+- Update HEALTH-CHECK.md metrics
+- Add scripts/release.sh with -m and -y flags for non-interactive usage
+- Recreate cli-tools skill with 2 guides (110-line SKILL.md)
+- Add competitive advantages section to README
+- Add RELEASE-NOTES section for v1.1.0
+- GitHub Releases: v1.0.0 + v1.1.0 published
+- **Pre-commit hook v2**: SHA256 hash binding for commit message integrity — prevents silent approval bypass
+- **Anti-rationalization table**: expanded to 25 entries (6 new failure-mode defenses for process compliance)
+- **Rule 0d**: added SHA256 token generation step to pre-action checklist
 
 
 ## 1.0.0 (2026-05-26)
