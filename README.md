@@ -56,14 +56,19 @@ Run `init-agents` in every new project — it merges AGENTS.md without overwriti
 
 ## What Makes This Different
 
-Most agent skills are encyclopedias — 500+ lines dumped into context before the agent understands the task. These skills do the opposite:
+Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline.
 
-- **Think Before Coding** — Skills force discovery, specs, and contracts before any code. Silent assumptions → costly rewrites.
-- **Lazy Loading** — SKILL.md is an index (~200 lines). Detailed guides load only when needed. Agent context stays lean.
-- **Mutation Approval Gate** — No git commit, push, or merge without your explicit "yes". Configurable per preference.
-- **Behavioral Guardrails** — Anti-rationalization, pre-action checklists, context eviction. The agent follows rules, not shortcuts.
+**Context budget engineering** — Other frameworks load all rules eagerly into your agent's limited context. We lazy-load: SKILL.md is a ~200-line index; detailed guides load only when needed. Result: 589 lines always-loaded instead of 1,500+.
 
-> "Build a landing page" → loads `frontend-web` skill → discovery → design lock → spec → implementation.
+**Mutation approval gate** — No other framework prevents an agent from committing to prod without asking. Ours does. Every git mutation requires your explicit "yes". Enterprise-ready safety.
+
+**Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 22-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
+
+**Unified lifecycle, not silos** — 44 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
+
+**Versioned and auto-updating** — VERSION file, RELEASE-NOTES, daily update checks. You choose when to pull. No other skill framework versions itself.
+
+> "Build a landing page" → loads `frontend-web` → discovery → design lock → spec → implementation.
 > "Fix a bug" → loads `debugging-and-error-recovery` → repro test → root cause → fix → verify.
 > Every task has a defined process. No guessing.
 
