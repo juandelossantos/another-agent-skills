@@ -14,10 +14,11 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 
 ---
 
-## 📦 What's New in v1.0.0
+## 📦 Latest Features
 
-- **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) track every change.
-- **Auto-update** — `init-agents` now checks for updates daily. You choose when to pull.
+- **Release automation** — `scripts/release.sh` handles semver bumps, changelogs, git tags, and optional auto-push. Supports `-m` and `-y` for CI/agent usage.
+- **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) + [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases) track every change.
+- **Auto-update** — `init-agents` checks for updates daily. You choose when to pull.
 - **5 specialized frontend skills** — `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` for targeted design directions.
 - **Design Core Extraction** — Three Dials System (Variance / Motion / Density) shared across all platforms via `engineering-fundamentals`.
 
