@@ -122,10 +122,9 @@ Platform skills are built on `engineering-fundamentals`. Never invoke `engineeri
 | "PWA", "offline", "Capacitor" | `frontend-pwa` |
 | "mobile app", "React Native", "Flutter" | `frontend-mobile` |
 | "desktop", "Tauri", "Electron" | `frontend-desktop` |
-| "CLI", "terminal" | `cli-tools` |
 | "multi-agent", "orchestrate", "parallel tasks" | `multi-agent-orchestration` |
 
-**If platform unclear** → Ask: "Web, PWA, mobile, desktop, or CLI?"
+**If platform unclear** → Ask: "Web, PWA, mobile, or desktop?"
 
 **If user has profile** → Use `preferences.primary_platform` to default skill.
 
@@ -217,11 +216,11 @@ SHIP    → shipping-[platform]
 
 **Skills load on-demand, not eagerly.**
 
-1. **Skill as Index** (~200 lines max): When to use, stack lock-in, phase summaries, QA gates.
+1. **Skill as Index** (~250 lines max): When to use, stack lock-in, phase summaries, QA gates.
 2. **Guides as Lazy Content**: Loaded only when phase reached. See AGENTS-EXTENDED.md for guide list.
 3. **Foundation loaded once**: `engineering-fundamentals` implicit. Not duplicated.
 
-**Verification:** Every skill < 250 lines. Every skill references ≥ 2 guides. No detail duplicated between SKILL.md and guides.
+**Verification:** Every skill < 250 lines (micro-skills < 100 exempt from 2-guide rule). Every skill references ≥ 2 guides. No detail duplicated between SKILL.md and guides.
 
 ---
 

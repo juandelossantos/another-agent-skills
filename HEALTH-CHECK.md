@@ -103,7 +103,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | File | Lines | Tokens (est.) | % of 200K |
 |---|---|---|---|
 | `AGENTS.md` | 337 | ~5,055 | 2.5% |
-| `AGENTS-EXTENDED.md` | 252 | ~3,780 | 1.9% |
+| `AGENTS-EXTENDED.md` | 252 | ~3,780 | 1.9% (acceptable) |
 | **Subtotal** | **589** | **~8,835** | **4.4%** |
 
 ### Loaded On-Demand
@@ -177,7 +177,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 ## Recommendations
 
-1. **💡 AGENTS-EXTENDED.md 14 lines over target (214 vs 200).** Minimal overhead — 210 tokens (0.1% of context). Only if pursuing strictness.
+1. **💡 AGENTS-EXTENDED.md at 252 lines.** Minimal overhead — ~1,890 tokens (0.9% of 200k context). Acceptable for the anti-rationalization + commit protocol content it carries.
 
 2. **💡 Create `SPEC.md` for this meta-project.** Optional since AGENTS.md serves as the de facto spec, but would clarify boundaries, audience, and what's out of scope.
 

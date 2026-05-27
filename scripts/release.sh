@@ -64,9 +64,27 @@ fi
 
 IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
 
-# --- Determine bump type -------------------------------------------
+# --- Parse arguments ------------------------------------------------
 
-BUMP="${1:-patch}"
+BUMP="patch"
+RELEASE_NOTES=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -m|--message)
+      RELEASE_NOTES="$2"
+      shift 2
+      ;;
+    patch|minor|major)
+      BUMP="$1"
+      shift
+      ;;
+    *)
+      error "Unknown argument: $1. Usage: release.sh [-m 'notes'] [patch|minor|major]"
+      exit 1
+      ;;
+  esac
+done
 
 case "$BUMP" in
   major)
@@ -81,28 +99,24 @@ case "$BUMP" in
   patch)
     PATCH=$((PATCH + 1))
     ;;
-  *)
-    error "Invalid bump type: $BUMP. Use: patch, minor, or major."
-    exit 1
-    ;;
 esac
 
 NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
 log "New version:     v${NEW_VERSION} (${BUMP} bump)"
 
-# --- Input release notes -------------------------------------------
+# --- Input release notes (if not provided via -m) -------------------
 
-NOTES_FILE=$(mktemp)
-cat > "$NOTES_FILE" << EOF
-
-Release notes for v${NEW_VERSION}:
-
-EOF
-
-${EDITOR:-nano} "$NOTES_FILE" 2>/dev/null || ${EDITOR:-vi} "$NOTES_FILE"
-
-RELEASE_NOTES=$(cat "$NOTES_FILE" | tail -n +3 | sed '/^$/d' || true)
-rm -f "$NOTES_FILE"
+if [[ -z "$RELEASE_NOTES" ]]; then
+  echo ""
+  log "Enter release notes (end with Ctrl+D or empty line):"
+  echo ""
+  NOTES_LINES=()
+  while IFS= read -r LINE; do
+    [[ -z "$LINE" ]] && break
+    NOTES_LINES+=("$LINE")
+  done
+  RELEASE_NOTES=$(printf '%s\n' "${NOTES_LINES[@]}")
+fi
 
 if [[ -z "$RELEASE_NOTES" ]]; then
   warn "No release notes provided. Proceeding with empty notes."
@@ -132,13 +146,24 @@ ok "VERSION updated to v${NEW_VERSION}"
 
 # 2. Update RELEASE-NOTES.md
 TODAY=$(date +%Y-%m-%d)
-NEW_SECTION="## ${NEW_VERSION} (${TODAY})"
-# Insert after the title line (# Release Notes)
-sed -i "s/^# Release Notes/# Release Notes\n\n${NEW_SECTION}\n\n${RELEASE_NOTES}\n/" "${REPO_DIR}/RELEASE-NOTES.md"
+NOTES_FILE=$(mktemp)
+{
+  echo "# Release Notes"
+  echo ""
+  echo "## ${NEW_VERSION} (${TODAY})"
+  echo ""
+  echo "${RELEASE_NOTES}"
+  echo ""
+  tail -n +2 "${REPO_DIR}/RELEASE-NOTES.md"
+} > "$NOTES_FILE"
+mv "$NOTES_FILE" "${REPO_DIR}/RELEASE-NOTES.md"
 ok "RELEASE-NOTES.md updated"
 
-# 3. Update README.md version badge
-sed -i "s/version-${CURRENT_VERSION}-blue/version-${NEW_VERSION}-blue/g; s/badge\/version-${CURRENT_VERSION}/badge\/version-${NEW_VERSION}/g" "${REPO_DIR}/README.md"
+# 3. Update README.md version badge (escape dots for sed)
+CURRENT_ESC=$(echo "$CURRENT_VERSION" | sed 's/\./\\./g')
+NEW_ESC=$(echo "$NEW_VERSION" | sed 's/\./\\./g')
+sed -i "s/version-${CURRENT_ESC}-blue/version-${NEW_ESC}-blue/g" "${REPO_DIR}/README.md"
+sed -i "s|badge/version-${CURRENT_ESC}|badge/version-${NEW_ESC}|g" "${REPO_DIR}/README.md"
 ok "README.md badge updated"
 
 # --- Show final diff -----------------------------------------------

@@ -1,5 +1,20 @@
 # Release Notes
 
+## 1.1.0 (2026-05-26)
+
+v1.1.0: Fix 9 audit issues, add RELEASE-GUIDE, add release.sh
+
+- Remove broken cli-tools reference from AGENTS.md
+- Fix executable permissions on pre-commit hook and uninstall.sh
+- Remove orphan AGENTS.md.backup from root
+- Add SKILL.md to debugging-three-strikes
+- Add RELEASE-GUIDE.md to git-init-and-versioning (Phase 9)
+- Update Rule 6: 250 lines max, micro-skills exempt from 2-guide rule
+- Update HEALTH-CHECK.md AGENTS-EXTENDED line count
+- Add scripts/release.sh with -m flag for non-interactive usage
+- README: version badge updated automatically
+
+
 ## 1.0.0 (2026-05-26)
 
 Initial versioned release of Another Agent Skills.

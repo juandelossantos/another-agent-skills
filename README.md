@@ -1,7 +1,7 @@
 # Another Agent Skills 👷
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.1.0](https://img.shields.io/badge/version-1.1.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
