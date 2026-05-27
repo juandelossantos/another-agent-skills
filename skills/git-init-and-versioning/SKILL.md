@@ -203,13 +203,21 @@ git commit -m "chore: initialize project with contracts and configuration
 
 ### Phase 8 — Document
 
-Create `SETUP.md` with: quick start, git workflow, env vars, useful commands. **First commit:** no node_modules/.next/build/.env. Include contracts+config. NOT generated code.
+Create `SETUP.md` with: quick start, git workflow, env vars, useful commands.
+
+---
+
+### Phase 9 (Optional) — Release Automation
+
+**If the user asks for versioning, releases, or changelogs.**
+
+→ See `RELEASE-GUIDE.md` for setup: VERSION file, RELEASE-NOTES.md, release.sh script.
 
 ---
 
 ## Examples
 
-See `REPO-STRUCTURE-GUIDE.md` for walkthroughs: New fullstack project, existing project without VCS.
+See `REPO-STRUCTURE-GUIDE.md` for walkthroughs or `RELEASE-GUIDE.md` for release automation.
 
 ---
 
