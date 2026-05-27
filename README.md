@@ -55,6 +55,21 @@ Run `init-agents` in every new project — it merges AGENTS.md without overwriti
 
 ---
 
+## Commands
+
+After installation, these commands are available in your terminal:
+
+| Command | What It Does |
+|---|---|
+| `init-agents` | Activates skill-driven mode in any project. Merges rules without overwriting. |
+| `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
+| `bash install.sh` | Full installer: 45 skills, shell config, global scripts. |
+| `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
+
+These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
+
+---
+
 ## What Makes This Different
 
 Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline.
@@ -65,7 +80,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 22-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
 
-**Unified lifecycle, not silos** — 44 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
+**Unified lifecycle, not silos** — 45 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
 
 **Versioned and auto-updating** — VERSION file, RELEASE-NOTES, daily update checks. You choose when to pull. No other skill framework versions itself.
 
@@ -94,7 +109,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | `user-onboarding` | First session | 30 preferences asked once, persisted forever |
 | `project-metrics` | Background | Build pass rate, rework, coverage logging |
 | `multi-agent-orchestration` | >2 agents | Parallel/pipeline/swarm patterns with `task` tool |
-| `cli-tools` | CLI/terminal | Arg parsing, exit codes, progress, colored output |
+| `cli-tools` | Build a CLI | Teaches agent to build CLIs (arg parsing, exit codes, colors, progress) |
 | `industrial-brutalist-ui` | Hard/industrial design | Swiss type, sharp contrast, experimental layout |
 | `minimalist-ui` | Clean/product UI | Editorial design (Notion/Linear), restrained palette |
 | `soft-premium-ui` | Polished/premium | Soft contrast, whitespace, spring motion |
