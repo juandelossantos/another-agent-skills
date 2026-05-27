@@ -42,7 +42,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Check | Status | Notes |
 |---|---|---|
 | `.gitignore` exists | ✅ PASS | Covers development/, .env, node_modules, *.backup.* |
-| Git initialized | ✅ PASS | 17 commits on main |
+| Git initialized | ✅ PASS | 90 commits on main |
 | Remote configured | ✅ PASS | github.com:juandelossantos/another-agent-skills |
 | Branch strategy | ✅ PASS | Trunk-based (main only) |
 | Pre-commit hook exists | ✅ PASS | `scripts/git-hooks/pre-commit` (34 lines) |
@@ -56,15 +56,15 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Check | Status | Notes |
 |---|---|---|
-| `AGENTS.md` exists | ✅ PASS | Core rules, 337 lines, always-loaded |
+| `AGENTS.md` exists | ✅ PASS | Core rules, 340 lines, always-loaded |
 | `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 252 lines, lazy-loaded |
-| `install.sh` exists | ✅ PASS | 478 lines, full-install script |
-| `scripts/init-agents.sh` | ✅ PASS | 174 lines, per-project init |
-| Skills organized | ✅ PASS | 20 skills in `skills/`, each < 250 lines |
-| Guides lazy-loaded | ✅ PASS | 42 guides, loaded on-demand per phase |
+| `install.sh` exists | ✅ PASS | 481 lines, full-install script |
+| `scripts/init-agents.sh` | ✅ PASS | 177 lines, per-project init |
+| Skills organized | ✅ PASS | 22 skills in `skills/`, each < 250 lines |
+| Guides lazy-loaded | ✅ PASS | 56 guides, loaded on-demand per phase |
 | Design CORE extracted | ✅ PASS | 3 shared guides in `engineering-fundamentals/guides/` |
 | ADRs documented | ✅ PASS | 4 ADRs in `ADRs/` |
-| `development/` convention | ✅ PASS | 14 analysis/incident files, git-ignored |
+| `development/` convention | ✅ PASS | 16 analysis/incident files, git-ignored |
 | Health Check exists | ✅ PASS | This file |
 | `SPEC.md` | ⚠️ WARN | **No SPEC.md** — this project is a self-evolving meta-project where AGENTS.md acts as the spec. Acceptable, but a formal SPEC.md would clarify boundaries. |
 | `HEALTH-CHECK.md` age-tracking | ⚠️ WARN | First check. No re-audit cycle yet. |
@@ -102,9 +102,9 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | File | Lines | Tokens (est.) | % of 200K |
 |---|---|---|---|
-| `AGENTS.md` | 337 | ~5,055 | 2.5% |
+| `AGENTS.md` | 340 | ~5,100 | 2.6% |
 | `AGENTS-EXTENDED.md` | 252 | ~3,780 | 1.9% (acceptable) |
-| **Subtotal** | **589** | **~8,835** | **4.4%** |
+| **Subtotal** | **592** | **~8,880** | **4.4%** |
 
 ### Loaded On-Demand
 
@@ -161,10 +161,10 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Platform | Skill | Lines |
 |---|---|---|
-| Web | `frontend-web` | 248 |
-| Mobile | `frontend-mobile` | 239 |
-| Desktop | `frontend-desktop` | 238 |
-| PWA/Offline | `frontend-pwa` | 195 |
+| Web | `frontend-web` | 212 |
+| Mobile | `frontend-mobile` | 240 |
+| Desktop | `frontend-desktop` | 237 |
+| PWA/Offline | `frontend-pwa` | 196 |
 
 ### Adaptability
 
@@ -195,8 +195,8 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Metric | Current | Target | Status |
 |---|---|---|---|---|
-| Skills ≤ 250 lines (SKILL.md only) | 20/20 | ≤ 250 each | ✅ |
-| Always-loaded context | 589 lines (~8,835 tok) | < 600 lines | ✅ |
+| Skills ≤ 250 lines (SKILL.md only) | 22/22 | ≤ 250 each | ✅ |
+| Always-loaded context | 592 lines (~8,880 tok) | < 600 lines | ✅ |
 | Skills total weight (SKILL.md + guides) | 3,238 + 965 (guides) | lazy-loaded | ⚪ INFO |
 | ADRs | 4 | ≥ 1 | ✅ |
 | Platform skills with CORE design | 4/4 (web, mobile, desktop, pwa) | 4/4 | ✅ |

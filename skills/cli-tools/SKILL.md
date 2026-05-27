@@ -92,89 +92,11 @@ This skill covers the patterns that separate professional CLI tools from ad-hoc 
 
 ## Language-Specific Patterns
 
-### Node.js (commander + clack)
-```typescript
-import { Command } from 'commander';
-import { intro, outro, spinner, cancel, isCancel } from '@clack/prompts';
-
-const program = new Command();
-program
-  .name('mycli')
-  .description('Does useful things')
-  .option('-d, --debug', 'verbose output')
-  .argument('<input>', 'input file')
-  .action(async (input, options) => {
-    intro('mycli');
-    const s = spinner();
-    s.start('Processing');
-    await process(input);
-    s.stop('Done');
-    outro('Complete');
-  });
-
-program.parse();
-```
-
-### Python (click)
-```python
-import click
-
-@click.command()
-@click.argument('input')
-@click.option('--output', '-o', help='Output file')
-@click.option('--verbose', '-v', is_flag=True, help='Verbose output')
-def cli(input, output, verbose):
-    """Process INPUT file."""
-    click.echo(f'Processing {input}')
-
-if __name__ == '__main__':
-    cli()
-```
-
-### Rust (clap)
-```rust
-use clap::Parser;
-
-#[derive(Parser)]
-#[command(name = "mycli")]
-struct Cli {
-    input: String,
-    #[arg(short, long)]
-    output: Option<String>,
-}
-
-fn main() {
-    let cli = Cli::parse();
-    println!("Processing {}", cli.input);
-}
-```
-
-### Go (cobra)
-```go
-var rootCmd = &cobra.Command{
-    Use:   "mycli",
-    Short: "Does useful things",
-    Run: func(cmd *cobra.Command, args []string) {
-        fmt.Println("Processing")
-    },
-}
-
-func main() {
-    rootCmd.Execute()
-}
-```
+→ See `LANGUAGE-GUIDE.md` for code examples in Node.js (commander/clack), Python (click), Rust (clap), and Go (cobra).
 
 ## Anti-Patterns
 
-| Anti-Pattern | Why It's Wrong |
-|---|---|
-| Manual `argv` parsing | Breaks on quoted args, flags, edge cases |
-| Exit 0 on error | Breaks CI pipelines, scripts |
-| All output to stdout | Can't separate data from logs |
-| Hardcoded paths | No `--config`, no env vars |
-| No `--help` | User has to read source to use it |
-| Silent failure | User doesn't know if it worked |
-| Colors in piped output | Garbage in logs, files |
+→ See `ANTI-SLOP-GUIDE.md` for CLI-specific anti-patterns and best practices.
 
 ## Verification
 
