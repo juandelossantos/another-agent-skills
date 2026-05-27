@@ -82,10 +82,11 @@ Read `DISCOVERY-GUIDE.md` for complete mobile checklist.
 
 ---
 
-### Phase 3 — Aesthetic Direction
-→ See `engineering-fundamentals` Phase 3.
+### Phase 3 — Three Dials System
 
-Same 8 directions (ED, SM, LDW, CB, UE, NB, PG, RT). Pick ONE.
+→ See `engineering-fundamentals/guides/DESIGN-CORE.md` for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, color principles, and dark mode protocol.
+
+Apply dials to mobile constraints: Reanimated for MOTION > 4, SafeArea-aware layouts for VARIANCE > 4, platform-native touch targets for DENSITY.
 
 ---
 
@@ -109,7 +110,7 @@ Forbidden: `Animated` API (use Reanimated), inline styles, `any` type.
 
 ### Phase 5 — Anti-Slop Rules (Mobile)
 
-→ See `engineering-fundamentals` Phase 4 for universal principles.
+→ See `engineering-fundamentals/guides/ANTI-SLOP-CORE.md` for universal AI tells, content density, copy protocol, and UI state requirements.
 
 **Mobile-specific rules:**
 
@@ -178,7 +179,7 @@ Read `ANIMATION-GUIDE.md`.
 
 ### Phase 8 — QA Gates
 
-→ See `engineering-fundamentals` Phase 5 for universal gates.
+→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` for universal checks first.
 
 **After QA gates, log metrics:**
 ```

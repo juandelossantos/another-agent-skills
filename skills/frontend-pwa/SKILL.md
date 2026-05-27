@@ -80,10 +80,11 @@ Read `DISCOVERY-GUIDE.md` for complete PWA checklist.
 
 ---
 
-### Phase 3 — Aesthetic Direction
-→ See `engineering-fundamentals` Phase 3.
+### Phase 3 — Three Dials System
 
-Same 8 directions (ED, SM, LDW, CB, UE, NB, PG, RT). Pick ONE.
+→ See `engineering-fundamentals/guides/DESIGN-CORE.md` for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, color principles, and dark mode protocol.
+
+Apply dials with PWA constraints: MOTION uses web APIs (Framer Motion + CSS), DENSITY must work across 280px→3840px viewports, VARIANCE collapses at mobile breakpoints.
 
 ---
 
@@ -106,7 +107,7 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 
 ### Phase 5 — Anti-Slop Rules (PWA)
 
-→ See `engineering-fundamentals` Phase 4.
+→ See `engineering-fundamentals/guides/ANTI-SLOP-CORE.md` for universal AI tells, content density, copy protocol, and UI state requirements.
 
 **PWA-specific:**
 - **Touch:** No hover-only interactions. Targets ≥44px (iOS) / 48dp (Android). `@media (hover: hover)` for hover conditionally.
@@ -141,7 +142,7 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 
 ### Phase 9 — QA Gates
 
-→ See `engineering-fundamentals` Phase 5 for universal gates.
+→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` for universal checks first.
 
 **After QA gates, log metrics:**
 ```

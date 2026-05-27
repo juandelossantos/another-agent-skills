@@ -1,6 +1,8 @@
 # Frontend Web — Design Guide
 
-Detailed reference for the Three Dials System, typography, color, and dark mode. Referenced from `frontend-web/SKILL.md` Phase 0b, 3, and 3b.
+**Web-specific design reference.** See `engineering-fundamentals/guides/DESIGN-CORE.md` for the universal Three Dials System, Brief Inference, color principles, and dark mode protocol.
+
+This document adds web-specific font selection, token application, banned lists, and platform-specific implementation.
 
 ---
 

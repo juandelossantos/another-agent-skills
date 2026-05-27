@@ -1,6 +1,8 @@
 # Frontend Web — Anti-Slop Guide
 
-Catalogue of AI tells, content density rules, and copy self-audit protocol. Referenced from `frontend-web/SKILL.md` Phase 5.
+**Web-specific AI tell catalogue.** See `engineering-fundamentals/guides/ANTI-SLOP-CORE.md` for universal tells, content density, copy protocol, and UI state requirements.
+
+This document adds web-specific layout tells, font bans, interactive patterns, and image asset rules.
 
 ---
 

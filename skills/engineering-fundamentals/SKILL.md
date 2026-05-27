@@ -118,15 +118,21 @@ Respect `AGENTS.md` lifecycle:
 
 ### Phase 3 — Design Direction (Path B only)
 
-Use the platform-specific skill's direction system (e.g., frontend-web: Three Dials System). Do not blend.
+Read `guides/DESIGN-CORE.md` for the universal Three Dials System (VARIANCE, MOTION, DENSITY), Brief Inference, color principles, and dark mode protocol.
 
-See platform skill for detailed direction selection.
+Then apply the **platform-specific skill's DESIGN-GUIDE.md** for banned lists, font stacks, and tool-specific tokens.
+
+Do not blend directions across platforms. Do not blend dial values.
 
 ---
 
 ### Phase 4 — Anti-Slop Principles
 
-**Intentionality:** NO defaults without justification. Every choice has a reason. Timid palettes, safe fonts, default layouts = forbidden.
+**Universal (read first):** See `guides/ANTI-SLOP-CORE.md` for the universal AI tell catalogue, content density rules, copy protocol, and UI state requirements.
+
+**Platform-specific:** Then apply the platform skill's ANTI-SLOP-GUIDE.md for banned fonts, platform-specific layout tells, and stack-specific rules.
+
+**Intentionality:** NO defaults without justification. Every choice has a reason.
 
 **Tokens Over Hardcoding:** NO hardcoded values. All from DESIGN.md/theme. Used twice = must be a token.
 
@@ -137,6 +143,10 @@ See platform skill for detailed direction selection.
 ---
 
 ### Phase 5 — Quality Gates
+
+**Universal (run first):** See `guides/PRE-FLIGHT-CORE.md` for the universal pre-output checklist — color, content, motion, AI tells, accessibility, technical checks.
+
+**Platform-specific:** Then run the platform skill's PRE-FLIGHT.md for build commands, layout verification, and native integration checks.
 
 Before declaring complete:
 

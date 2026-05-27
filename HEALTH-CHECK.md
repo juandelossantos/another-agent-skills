@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-26
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY (v2 frontend-web upgrade applied)
+**Status:** ✅ HEALTHY (v2 + CORE extraction across all platforms)
 
 ---
 
@@ -61,8 +61,9 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | `install.sh` exists | ✅ PASS | 478 lines, full-install script |
 | `scripts/init-agents.sh` | ✅ PASS | 174 lines, per-project init |
 | Skills organized | ✅ PASS | 20 skills in `skills/`, each < 250 lines |
-| Guides lazy-loaded | ✅ PASS | 40 guides, loaded on-demand per phase |
-| ADRs documented | ✅ PASS | 3 ADRs in `ADRs/` |
+| Guides lazy-loaded | ✅ PASS | 42 guides, loaded on-demand per phase |
+| Design CORE extracted | ✅ PASS | 3 shared guides in `engineering-fundamentals/guides/` |
+| ADRs documented | ✅ PASS | 4 ADRs in `ADRs/` |
 | `development/` convention | ✅ PASS | 14 analysis/incident files, git-ignored |
 | Health Check exists | ✅ PASS | This file |
 | `SPEC.md` | ⚠️ WARN | **No SPEC.md** — this project is a self-evolving meta-project where AGENTS.md acts as the spec. Acceptable, but a formal SPEC.md would clarify boundaries. |
@@ -197,7 +198,9 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Skills ≤ 250 lines (SKILL.md only) | 20/20 | ≤ 250 each | ✅ |
 | Always-loaded context | 589 lines (~8,835 tok) | < 600 lines | ✅ |
 | Skills total weight (SKILL.md + guides) | 3,238 + 965 (guides) | lazy-loaded | ⚪ INFO |
-| ADRs | 3 | ≥ 1 | ✅ |
+| ADRs | 4 | ≥ 1 | ✅ |
+| Platform skills with CORE design | 4/4 (web, mobile, desktop, pwa) | 4/4 | ✅ |
+| Platform-specific guides created | 6 (mobile 2, desktop 3, pwa 1) | — | ✅ |
 | Broken references | 0 | 0 | ✅ |
 | Mechanical enforcements | 1 (pre-commit hook) | ≥ 1 | ✅ |
 | Frontend anti-slop tells | 85+ | 85+ | ✅ |
@@ -205,3 +208,5 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Critical issues | 0 | 0 | ✅ |
 
 **v2 upgrade:** Replaced 8 fixed aesthetic directions with 3 parametric dials. Created 5 new skills, 6 new guides, 1 ADR.
+
+**CORE extraction:** Extracted universal design system into `engineering-fundamentals/guides/` (3 CORE guides). Migrated all 4 platform skills (web, mobile, desktop, pwa) to Three Dials System + CORE anti-slop. Created 6 platform-specific guides. ADR-004.

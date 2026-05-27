@@ -2,6 +2,8 @@
 
 **MANDATORY GATE.** Run every box before declaring done. If ANY box is unchecked, output is not finished.
 
+Run `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` first for universal checks. This document adds web-specific layout, hero, component, and build checks.
+
 ---
 
 ## Design Intent

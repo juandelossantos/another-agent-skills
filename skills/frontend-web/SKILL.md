@@ -60,13 +60,9 @@ Check for `STACK_CONFIG.md`:
 
 ### Phase 0b — Brief Inference (MANDATORY before code)
 
-**Read 6 signals before any code:** page kind, vibe words, reference URLs, audience, existing brand assets, quiet constraints (a11y-first, regulated, trust-first).
+See `engineering-fundamentals/guides/DESIGN-CORE.md` for the Brief Inference protocol, Design Read output format, and Anti-Default Discipline.
 
-**Output a one-line "Design Read":** `"Reading this as: <page kind> for <audience>, <vibe>, leaning toward <system>."`
-
-**Anti-Default Discipline:** Do not default to AI-purple gradients, centered hero over dark mesh, three equal feature cards, or Inter + slate-900.
-
-See `DESIGN-GUIDE.md` for vibe → dial mapping tables and signal extraction details.
+Then see `DESIGN-GUIDE.md` for web-specific vibe → dial mapping.
 
 ---
 
@@ -92,21 +88,9 @@ Read `DISCOVERY-GUIDE.md` for complete web checklist.
 
 ### Phase 3 — Three Dials System
 
-Replace 8 fixed aesthetic directions with **3 parametric dials** set after Design Read (Phase 0b):
+→ See `engineering-fundamentals/guides/DESIGN-CORE.md` for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, use case presets, color principles, and dark mode protocol.
 
-- **`DESIGN_VARIANCE: 7`** — 1 = Perfect Symmetry, 10 = Artsy Chaos
-- **`MOTION_INTENSITY: 5`** — 1 = Static, 10 = Cinematic / Physics
-- **`VISUAL_DENSITY: 4`** — 1 = Art Gallery / Airy, 10 = Cockpit / Packed Data
-
-| Use case | VAR | MOT | DEN |
-|---|---|---|---|
-| SaaS landing | 7 | 5 | 4 |
-| Agency portfolio | 8 | 7 | 3 |
-| Premium consumer | 7 | 5 | 3 |
-| Editorial / Blog | 6 | 3 | 3 |
-| Public-sector service | 3 | 2 | 5 |
-
-See `DESIGN-GUIDE.md` for vibe→dial inference, technical dial definitions, and mobile collapse rules.
+Then see `DESIGN-GUIDE.md` for web-specific font selection, token application, and banned lists.
 
 ---
 
@@ -150,32 +134,26 @@ Forbidden: GSAP by default, `tailwind.config.ts`, `middleware.ts`, Spline.
 
 ### Phase 5 — Anti-Slop Rules (Web)
 
-→ See `engineering-fundamentals` Phase 4 for universal principles.
+→ See `engineering-fundamentals/guides/ANTI-SLOP-CORE.md` for universal AI tells, content density rules, copy protocol, and UI state requirements.
+
+Then see `ANTI-SLOP-GUIDE.md` for web-specific layout tells (three feature cards, hero patterns, bento grids), font bans, and interactive patterns.
+
+**Web-specific additions:**
 
 **Typography**
 - BANNED as display: Inter, Roboto, Arial, Space Grotesk, Geist.
-- BANNED as serif defaults: Fraunces, Instrument Serif. Serif is very discouraged as default.
-- **Em-dash ban:** `—` banned in all visible text. Use comma, colon, or sentence break.
+- BANNED as serif defaults: Fraunces, Instrument Serif.
 - Preferred sans: Geist, Outfit, Satoshi. Pairings: Geist+GeistMono, Satoshi+JetBrainsMono.
 
-**Color**
-- **THE LILA RULE:** No AI-purple/blue glow default. Neutral bases (Zinc/Slate/Stone) + singular saturated accent.
-- **PREMIUM-CONSUMER PALETTE BAN:** Beige+brass+espresso (`#f5f1ea`, `#b08947`…) banned as default. Rotate: Cold Luxury, Forest, Black+Tan, Cobalt+Cream, Terracotta+Slate.
-- Max 1 accent (< 80% sat). One palette per project. No warm/cool gray mixing.
-
-**Layout & Content**
-- **Eyebrow restraint:** Max 1 per 3 sections. Count mechanically before shipping.
-- **Zigzag cap:** Max 2 consecutive text+image splits. Break pattern with full-width or bento.
+**Layout**
+- **Zigzag cap:** Max 2 consecutive text+image splits.
 - **Section-layout ban:** 8 sections → ≥4 different layout families.
-- **Hero:** Fits viewport, ≤2 headline lines, ≤20 subtext words, top padding max `pt-24`. No trust strip inside hero.
-- **No duplicate CTA intent.** No wrapped CTAs at desktop. **Copy self-audit** before shipping.
+- **Hero:** Fits viewport, ≤2 headline lines, ≤20 subtext words, top padding max `pt-24`.
 
 **Images & Assets**
 - See `IMAGE-STRATEGY.md` for image generation pipeline, social proof rules, and photography guidelines.
 - **No div-based fake screenshots** — BANNED.
 - Use `next/image` with `priority` on above-the-fold images.
-
-See `ANTI-SLOP-GUIDE.md` for 85+ AI tells catalogue, content density rules, spec-sheet alternatives, and full copy protocol.
 
 ---
 
@@ -212,11 +190,9 @@ Read `ANIMATION-GUIDE.md`.
 
 ### Phase 8 — QA Gates
 
-→ See `engineering-fundamentals` Phase 5 for universal gates.
+→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` for universal checks first.
 
-**Run `PRE-FLIGHT.md` before declaring done.** Every box must pass — this is a mechanical gate, not optional.
-
-**Quick checks:** Run `PRE-FLIGHT.md` (covers TypeScript, build, template residue, hardcoded colors, responsive, a11y, images, reduced motion, animation, design lock).
+**Then run `PRE-FLIGHT.md` before declaring done.** Every box must pass — this is a mechanical gate, not optional.
 
 **Log metrics:**
 ```

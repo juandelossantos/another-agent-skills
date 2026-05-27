@@ -81,12 +81,11 @@ Read `DISCOVERY-GUIDE.md` for complete desktop checklist.
 
 ---
 
-### Phase 3 — Aesthetic Direction
-→ See `engineering-fundamentals` Phase 3.
+### Phase 3 — Three Dials System
 
-Same 8 directions. Pick ONE.
+→ See `engineering-fundamentals/guides/DESIGN-CORE.md` for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, color principles, and dark mode protocol.
 
-**Desktop constraint:** Must feel native to each OS while maintaining brand consistency. No "web page in a window."
+**Desktop constraint:** Must feel native to each OS while maintaining brand consistency. Apply dials with OS-specific materials — Mica on Windows, Vibrancy on macOS, GTK/Qt on Linux.
 
 ---
 
@@ -115,7 +114,7 @@ Same 8 directions. Pick ONE.
 
 ### Phase 5 — Anti-Slop Rules (Desktop)
 
-→ See `engineering-fundamentals` Phase 4 for universal principles.
+→ See `engineering-fundamentals/guides/ANTI-SLOP-CORE.md` for universal AI tells, content density, copy protocol, and UI state requirements.
 
 **Desktop-specific rules:**
 
@@ -188,7 +187,7 @@ Read `PLATFORM-GUIDE.md`.
 
 ### Phase 8 — QA Gates
 
-→ See `engineering-fundamentals` Phase 5 for universal gates.
+→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` for universal checks first.
 
 **After QA gates, log metrics:**
 ```
