@@ -94,6 +94,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | `user-onboarding` | First session | 30 preferences asked once, persisted forever |
 | `project-metrics` | Background | Build pass rate, rework, coverage logging |
 | `multi-agent-orchestration` | >2 agents | Parallel/pipeline/swarm patterns with `task` tool |
+| `cli-tools` | CLI/terminal | Arg parsing, exit codes, progress, colored output |
 | `industrial-brutalist-ui` | Hard/industrial design | Swiss type, sharp contrast, experimental layout |
 | `minimalist-ui` | Clean/product UI | Editorial design (Notion/Linear), restrained palette |
 | `soft-premium-ui` | Polished/premium | Soft contrast, whitespace, spring motion |

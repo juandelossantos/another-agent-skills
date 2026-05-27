@@ -122,9 +122,10 @@ Platform skills are built on `engineering-fundamentals`. Never invoke `engineeri
 | "PWA", "offline", "Capacitor" | `frontend-pwa` |
 | "mobile app", "React Native", "Flutter" | `frontend-mobile` |
 | "desktop", "Tauri", "Electron" | `frontend-desktop` |
+| "CLI", "terminal", "command line" | `cli-tools` |
 | "multi-agent", "orchestrate", "parallel tasks" | `multi-agent-orchestration` |
 
-**If platform unclear** → Ask: "Web, PWA, mobile, or desktop?"
+**If platform unclear** → Ask: "Web, PWA, mobile, desktop, or CLI?"
 
 **If user has profile** → Use `preferences.primary_platform` to default skill.
 
