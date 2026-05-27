@@ -164,6 +164,7 @@ CURRENT_ESC=$(echo "$CURRENT_VERSION" | sed 's/\./\\./g')
 NEW_ESC=$(echo "$NEW_VERSION" | sed 's/\./\\./g')
 sed -i "s/version-${CURRENT_ESC}-blue/version-${NEW_ESC}-blue/g" "${REPO_DIR}/README.md"
 sed -i "s|badge/version-${CURRENT_ESC}|badge/version-${NEW_ESC}|g" "${REPO_DIR}/README.md"
+sed -i "s/Version: v${CURRENT_ESC}/Version: v${NEW_ESC}/g" "${REPO_DIR}/README.md"
 ok "README.md badge updated"
 
 # --- Show final diff -----------------------------------------------
