@@ -2,9 +2,10 @@
 # release.sh — Automated semver release with VERSION + RELEASE-NOTES + git tag
 #
 # Usage:
-#   bash scripts/release.sh          # patch bump (default)
-#   bash scripts/release.sh minor    # minor bump
-#   bash scripts/release.sh major    # major bump
+#   bash scripts/release.sh              # patch bump (default, interactive)
+#   bash scripts/release.sh minor        # minor bump
+#   bash scripts/release.sh major        # major bump
+#   bash scripts/release.sh minor -y     # non-interactive (auto-commit + auto-push)
 #
 # Pre-conditions:
 #   - Working tree clean (git diff --stat must be empty)
@@ -68,6 +69,7 @@ IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
 
 BUMP="patch"
 RELEASE_NOTES=""
+YES_FLAG=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -75,12 +77,16 @@ while [[ $# -gt 0 ]]; do
       RELEASE_NOTES="$2"
       shift 2
       ;;
+    -y|--yes)
+      YES_FLAG=true
+      shift
+      ;;
     patch|minor|major)
       BUMP="$1"
       shift
       ;;
     *)
-      error "Unknown argument: $1. Usage: release.sh [-m 'notes'] [patch|minor|major]"
+      error "Unknown argument: $1. Usage: release.sh [-m 'notes'] [-y] [patch|minor|major]"
       exit 1
       ;;
   esac
@@ -177,14 +183,15 @@ echo ""
 
 # --- Ask for commit approval ---------------------------------------
 
-echo -n "  Commit and tag v${NEW_VERSION}? [y/N] "
-read -r COMMIT_RESPONSE
-if [[ "$COMMIT_RESPONSE" != "y" && "$COMMIT_RESPONSE" != "Y" ]]; then
-  warn "Release aborted."
-  # Rollback changes
-  git -C "${REPO_DIR}" checkout -- VERSION RELEASE-NOTES.md README.md
-  ok "Rolled back. No changes made."
-  exit 0
+if [[ "$YES_FLAG" == false ]]; then
+  echo -n "  Commit and tag v${NEW_VERSION}? [y/N] "
+  read -r COMMIT_RESPONSE
+  if [[ "$COMMIT_RESPONSE" != "y" && "$COMMIT_RESPONSE" != "Y" ]]; then
+    warn "Release aborted."
+    git -C "${REPO_DIR}" checkout -- VERSION RELEASE-NOTES.md README.md
+    ok "Rolled back. No changes made."
+    exit 0
+  fi
 fi
 
 # --- Commit + Tag --------------------------------------------------
@@ -204,16 +211,22 @@ ok "Commit and tag v${NEW_VERSION} created."
 
 # --- Ask for push --------------------------------------------------
 
-echo ""
-echo -n "  Push commit and tag to origin? [y/N] "
-read -r PUSH_RESPONSE
-if [[ "$PUSH_RESPONSE" == "y" || "$PUSH_RESPONSE" == "Y" ]]; then
+if [[ "$YES_FLAG" == true ]]; then
   git -C "${REPO_DIR}" push origin main
   git -C "${REPO_DIR}" push origin "v${NEW_VERSION}"
   ok "Pushed to origin."
 else
-  log "Skipped push. You can push later:"
-  log "  git push origin main && git push origin v${NEW_VERSION}"
+  echo ""
+  echo -n "  Push commit and tag to origin? [y/N] "
+  read -r PUSH_RESPONSE
+  if [[ "$PUSH_RESPONSE" == "y" || "$PUSH_RESPONSE" == "Y" ]]; then
+    git -C "${REPO_DIR}" push origin main
+    git -C "${REPO_DIR}" push origin "v${NEW_VERSION}"
+    ok "Pushed to origin."
+  else
+    log "Skipped push. You can push later:"
+    log "  git push origin main && git push origin v${NEW_VERSION}"
+  fi
 fi
 
 ok "Release v${NEW_VERSION} complete."
