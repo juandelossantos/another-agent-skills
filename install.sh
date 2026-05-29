@@ -129,6 +129,38 @@ install_custom_skills() {
 }
 
 # ---------------------------------------------------------------------------
+install_opencode_plugin() {
+    info "Installing OpenCode agent-discipline plugin..."
+    local plugin_src="${SCRIPT_DIR}/.opencode/plugins/agent-discipline"
+    local plugin_dst="${HOME}/.config/opencode/plugins/agent-discipline"
+
+    if [[ ! -d "${plugin_src}" ]]; then
+        warn "Plugin source not found at ${plugin_src}. Skipping."
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/opencode/plugins"
+
+    if [[ -d "${plugin_dst}" ]]; then
+        if [[ -L "${plugin_dst}" ]]; then
+            rm "${plugin_dst}"
+        else
+            mv "${plugin_dst}" "${plugin_dst}.backup.$(date +%Y%m%d%H%M%S)"
+            warn "Backed up existing plugin: ${plugin_dst}"
+        fi
+    fi
+
+    cp -r "${plugin_src}" "${plugin_dst}"
+
+    if [[ -f "${plugin_dst}/package.json" ]]; then
+        info "Building plugin TypeScript..."
+        (cd "${plugin_dst}" && npm install --silent 2>/dev/null && npm run build --silent 2>/dev/null || true)
+    fi
+
+    ok "Installed agent-discipline plugin → ${plugin_dst}"
+}
+
+# ---------------------------------------------------------------------------
 # Zsh/Bash shell config block (same POSIX-compatible syntax)
 _write_posix_block() {
     local file="$1"
@@ -497,6 +529,7 @@ main() {
     setup_remote_skills
     link_remote_skills
     install_custom_skills
+    install_opencode_plugin
     update_shell_config
     create_global_scripts
     verify_installation
