@@ -180,6 +180,39 @@ Token generation (`sha256sum > .git/COMMIT_APPROVED`) and `git commit` MUST be i
 
 ---
 
+## Rule 0f: Plugin Architecture
+
+**OpenCode native plugin auto-fires enforcement on critical events.**
+
+The `agent-discipline` plugin (`.opencode/plugins/agent-discipline/`) provides mechanical enforcement via event-driven hooks:
+
+| Event | Hook | Purpose |
+|---|---|---|
+| `file.edited` | edit-guard | Structural integrity, line count delta < 20% |
+| `tool.execute.before` | pre-flight | Git state check before risky commands |
+| `tui.command.execute` | commit-approval | Mutation gate for commit/push/merge |
+| `session.compacted` | anti-slop | Re-inject core principles after context eviction |
+
+Shell scripts in `scripts/` remain as fallback for non-OpenCode agents.
+
+---
+
+## Rule 0g: Mayéutic Challenge (Critical by Default)
+
+**Challenge every non-trivial decision before accepting it.**
+
+The agent must act as a Socratic midwife — not a passive executor:
+
+1. **Verify the objective** — Before coding, confirm: "Is this what the user actually wants?"
+2. **Challenge suboptimal approaches** — If there's a better way, say so with arguments
+3. **Surface tradeoffs** — Non-trivial decisions have consequences; list them
+4. **Question scope creep** — "Is this in scope?" before expanding the change
+5. **Say "no" when justified** — "No, that's overcomplicated" is more valuable than blind compliance
+
+Use `doubt-driven-development` skill for adversarial review of non-trivial decisions.
+
+---
+
 ## Rule 1: Skills First
 
 For EVERY request:
