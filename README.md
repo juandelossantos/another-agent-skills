@@ -1,7 +1,7 @@
 # Another Agent Skills 👷
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.2.0](https://img.shields.io/badge/version-1.2.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.3.0](https://img.shields.io/badge/version-1.3.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -12,11 +12,20 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 
 > Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
 
+## Philosophy
+
+Agents lack discipline. This project treats them as critical collaborators, not obedient servants — with mechanical enforcement both must follow.
+
+We believe quality emerges from explicit contracts, not implicit trust. Every skill, hook, and rule exists because someone, somewhere, learned the hard way.
+
 ---
 
 ## 📦 Latest Features
 
+- **Agent discipline plugin (v1.3.0)** — Native OpenCode plugin with event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `commit-approval` (mutation gate), `session-compact` (anti-slop). Auto-fires on critical events.
+- **Multi-agent support (v1.3.0)** — Native plugin configs for Claude Code (`.claude-plugin/`), Cursor (`.cursor-plugin/`), and Kiro (`.kiro/`). Hooks auto-fire across all agents.
 - **Design review pipeline (new)** — 9 cross-platform quality skills: `critique` (heuristic review), `audit` (5-dimension technical scan), `clarify` (UX copy), `hard` (a11y/robustness fixes), `polish` (design details), `typeset` (typography), `adapt` (responsive), `optimize` (performance), `delight` (micro-interactions). Chain them: critique → audit → fix.
+- **Mayéutic agent (Rule 0g)** — Agents challenge decisions, verify objectives, propose better alternatives. Built on `doubt-driven-development`.
 - **Release automation** — `scripts/release.sh` handles semver bumps, changelogs, git tags, and optional auto-push. Supports `-m` and `-y` for CI/agent usage.
 - **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) + [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases) track every change.
 - **Auto-update** — `init-agents` checks for updates daily. You choose when to pull.
@@ -195,19 +204,28 @@ If it fails, ask the user before taking any action.
 
 ---
 
-### Other AI Agents (Claude Code, Cursor)
+### Other AI Agents (Claude Code, Cursor, Kiro)
 
 ```bash
 # Linux / macOS
-bash install.sh --agent claude    # Creates CLAUDE.md
-bash install.sh --agent cursor    # Creates .cursorrules
+bash install.sh --agent claude    # CLAUDE.md + .claude-plugin/
+bash install.sh --agent cursor    # .cursorrules + .cursor-plugin/
+bash install.sh --agent kiro     # .kiro/hooks/
+bash install.sh --agent all      # All adapters
 ```
 
 ```powershell
 # Windows
-.\install.ps1 -Agent claude       # Creates CLAUDE.md
-.\install.ps1 -Agent cursor       # Creates .cursorrules
+.\install.ps1 -Agent claude
+.\install.ps1 -Agent cursor
+.\install.ps1 -Agent kiro
+.\install.ps1 -Agent all
 ```
+
+**Hook support:** Each agent has native plugin/hook configs with automatic enforcement:
+- Claude Code: `.claude-plugin/agent-discipline/`
+- Cursor: `.cursor-plugin/agent-discipline/`
+- Kiro: `.kiro/hooks/agent-discipline.json`
 
 See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 

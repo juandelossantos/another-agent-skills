@@ -1,0 +1,19 @@
+{
+  "name": "agent-discipline",
+  "version": "1.0.0",
+  "description": "Another Agent Skills - Agent Discipline Hooks for Claude Code",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git *)",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/commit-approval.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

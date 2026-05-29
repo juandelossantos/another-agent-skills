@@ -1,0 +1,21 @@
+{
+  "name": "agent-discipline",
+  "version": "1.0.0",
+  "description": "Native OpenCode plugin for agent discipline enforcement",
+  "main": "dist/index.js",
+  "events": [
+    "file.edited",
+    "tool.execute.before",
+    "tui.command.execute",
+    "session.compacted"
+  ],
+  "hooks": {
+    "file.edited": "dist/hooks/edit-guard.js",
+    "tool.execute.before": "dist/hooks/pre-flight.js",
+    "tui.command.execute": "dist/hooks/commit-approval.js",
+    "session.compacted": "dist/hooks/session-compact.js"
+  },
+  "engines": {
+    "opencode": ">=1.0.0"
+  }
+}
