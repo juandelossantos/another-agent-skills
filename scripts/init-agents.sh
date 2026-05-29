@@ -58,7 +58,9 @@ backup_file() {
     echo "$backup"
 }
 
-# Append our rules to existing file with delimiters
+# Append our rules footer to existing file with delimiters
+# Never appends the full AGENTS_SOURCE — only the attribution footer.
+# The full rules are loaded dynamically by the agent framework via skills/.
 merge_into_file() {
     local target="$1"
     
@@ -71,28 +73,19 @@ merge_into_file() {
     backup=$(backup_file "$target")
     warn "Found existing $(basename "$target"). Making backup: $(basename "$backup")"
     
-    cat >> "$target" << BLOCK
+    cat >> "$target" << 'FOOTER'
 
 ---
 
-${DELIMITER_BEGIN}
+# >>> another-agent-skills-rules
 # The following rules are from Another Agent Skills (github.com/juandelossantos/another-agent-skills)
 # These rules ADD TO your existing workflow, they do not replace it.
-# If there are conflicts between your existing rules and ours, follow BOTH:
+# If there are conflicts between your existing rules and yours, follow BOTH:
 # - Your project-specific rules take priority for project details
 # - Our skill-driven rules take priority for workflow and quality
-${DELIMITER_END}
+# <<< another-agent-skills-rules
 
-BLOCK
-    
-    cat "$AGENTS_SOURCE" >> "$target"
-    
-    cat >> "$target" << BLOCK
-
-${DELIMITER_BEGIN}
-# End of Another Agent Skills rules
-${DELIMITER_END}
-BLOCK
+FOOTER
     
     ok "Merged Another Agent Skills rules into $(basename "$target")"
     log "Your original content is preserved. Backup: $(basename "$backup")"
