@@ -20,7 +20,7 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 - **Release automation** — `scripts/release.sh` handles semver bumps, changelogs, git tags, and optional auto-push. Supports `-m` and `-y` for CI/agent usage.
 - **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) + [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases) track every change.
 - **Auto-update** — `init-agents` checks for updates daily. You choose when to pull.
-- **5 specialized frontend skins** — `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` for targeted design directions.
+- **Design ecosystem** — 21 design skills across platforms (web, mobile, desktop, PWA), directions (industrial-brutalist, minimalist, soft-premium), and review pipeline. See [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md).
 - **Design Core Extraction** — Three Dials System (Variance / Motion / Density) shared across all platforms via `engineering-fundamentals`.
 
 ---
@@ -85,21 +85,54 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **Versioned and auto-updating** — VERSION file, RELEASE-NOTES, daily update checks. You choose when to pull. No other skill framework versions itself.
 
-> "Build a landing page" → loads `frontend-web` → discovery → design lock → spec → implementation.
+> "Ship an API" → loads `backend-api-mastery` → protocol decision → DB schema → endpoints → tests.
 > "Fix a bug" → loads `debugging-and-error-recovery` → repro test → root cause → fix → verify.
+> "Improve UI quality" → loads `critique-skill` → heuristic scoring → `audit-skill` → technical scan → fix chain.
 > Every task has a defined process. No guessing.
 
 ---
 
+## Development Lifecycle
+
+```mermaid
+flowchart LR
+    subgraph Core["Core Lifecycle"]
+        direction LR
+        DEF --> PLAN
+        PLAN --> BUILD
+        BUILD --> VER
+        VER --> REV
+        REV --> SHIP
+    end
+
+    subgraph Design["Design Review Pipeline"]
+        direction LR
+        CQ[Critique] --> AQ[Audit]
+        AQ --> FX[Fix Chain<br/>Clarify → Hard → Polish → Typeset → Adapt → Optimize]
+        FX --> DX[Delight]
+    end
+
+    VER -. "Trigger" .-> CQ
+    DX -. "Polished" .-> REV
+
+    click DEF "skills/spec-driven-development/SKILL.md"
+    click PLAN "skills/architecture-analysis/SKILL.md"
+    click BUILD "skills/backend-api-mastery/SKILL.md"
+    click VER "skills/project-health-check/SKILL.md"
+    click REV "skills/multi-agent-orchestration/SKILL.md"
+    click SHIP "skills/fullstack-shipping/SKILL.md"
+    click CQ "skills/critique-skill/SKILL.md"
+    click AQ "skills/audit-skill/SKILL.md"
+    click DX "skills/delight-skill/SKILL.md"
+```
+
+Every task starts at **Define** and moves through the pipeline. The **Design Review Pipeline** is triggered after Verify — it runs critique → audit → fix → delight before shipping.
+
 ## Skills at a Glance
 
 | Skill | When | What It Does |
-|---|---|---|
-| `engineering-fundamentals` | Implicit | Discovery, contracts, anti-slop, quality gates |
-| `frontend-web` | Web/UI task | Next.js, React, Tailwind, Framer Motion |
-| `frontend-pwa` | Offline/hybrid | Installable, offline-first, Capacitor migration |
-| `frontend-mobile` | Mobile app | React Native, Flutter, iOS/Android compliance |
-| `frontend-desktop` | Desktop app | Tauri v2, Electron, native OS integration |
+|---|---|
+| `engineering-fundamentals` | Foundation | Universal engineering philosophy: discovery protocols, contract-first design, anti-slop detection (25 patterns), quality gates, Three Dials design core, pre-flight enforcement, context eviction. Implicitly loaded by every skill. |
 | `backend-api-mastery` | API/backend | REST/GraphQL, DB, auth, testing, docs |
 | `spec-driven-development` | New features | Research-backed specs with critical thinking |
 | `architecture-analysis` | Stack decisions | 2-3 options evaluated with trade-offs |
@@ -110,23 +143,27 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | `user-onboarding` | First session | 30 preferences asked once, persisted forever |
 | `project-metrics` | Background | Build pass rate, rework, coverage logging |
 | `multi-agent-orchestration` | >2 agents | Parallel/pipeline/swarm patterns with `task` tool |
-| `cli-tools` | Build a CLI | Teaches agent to build CLIs (arg parsing, exit codes, colors, progress) |
-| `industrial-brutalist-ui` | Hard/industrial design | Swiss type, sharp contrast, experimental layout |
-| `minimalist-ui` | Clean/product UI | Editorial design (Notion/Linear), restrained palette |
-| `soft-premium-ui` | Polished/premium | Soft contrast, whitespace, spring motion |
-| `output-skill` | Truncated output | Full output enforcement, no placeholder comments |
-| `redesign-skill` | Existing codebase | UI audit first, then fix structure and styling |
-| `critique-skill` | Design quality | Heuristic scoring (Nielsen 10), persona tests, AI slop detection |
-| `audit-skill` | Technical quality | 5-dimension scan (a11y, perf, theming, responsive, anti-patterns) with P0-P3 |
-| `clarify-skill` | UX copy | Rewrite labels, errors, empty states, buttons, and tooltips |
-| `hard-skill` | Accessibility/robustness | Mechanical P0/P1 fixes: ARIA, keyboard, validation, boundaries |
-| `polish-skill` | Design details | Spacing, alignment, token drift, consistency fixes |
-| `typeset-skill` | Typography | Type ramp, line-height, letter-spacing, paragraph rhythm |
-| `adapt-skill` | Responsive | Breakpoints, touch targets, viewport, mobile layout |
-| `optimize-skill` | Performance | Bundle, images, animations, layout thrashing, lazy loading |
-| `delight-skill` | Micro-interactions | Hover, transitions, feedback, loading animation |
+| `cli-tools` | Build a CLI | arg parsing, exit codes, colors, progress bars |
 
-**Stack agnostic:** React/Next.js, Vue, Svelte, React Native, Flutter, Tauri, Electron, Node.js, Python, Go, Rust, PostgreSQL, MongoDB, SQLite — any modern framework.
+**Design platform skills →** See [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md) for the full design ecosystem: 21 platform and review skills including frontend-web, frontend-mobile, industrial-brutalist-ui, the 9-skill design review pipeline (critique → audit → fix → delight), and more.
+
+## Design Review Pipeline
+
+The pipeline turns subjective design feedback into a deterministic, measurable process. Each skill handles one dimension, and together they cover the full quality spectrum.
+
+| Skill | Dimension | Strength | Typical Score |
+|---|---|---|---|
+| `critique-skill` | Design quality | Heuristic review (Nielsen 10, 4 personas), AI slop detection, LLM + automated passes | 0-4 per heuristic |
+| `audit-skill` | Technical quality | 5-dimension scan: a11y, perf, theming, responsive, anti-patterns. P0-P3 severity | 0-4 per dimension |
+| `clarify-skill` | UX copy | Rewrites labels, errors, buttons, empty states, confirmations. Voice-tuned per audience | 8 QA gates |
+| `hard-skill` | Accessibility & robustness | Mechanical P0/P1 fixes: ARIA, keyboard nav, validation, error/empty/loading states | Traces to audit |
+| `polish-skill` | Design details | Fixes spacing, alignment, token drift, border radius, shadows. No design decisions | Token compliance |
+| `typeset-skill` | Typography | Applies type ramp, fixes line-height, letter-spacing, paragraph rhythm | 8 QA gates |
+| `adapt-skill` | Responsive layout | Breakpoints, touch targets (≥44px), viewport, mobile overflow | 9 QA gates |
+| `optimize-skill` | Performance | Bundle size, lazy loading, image optimization, animation compositing, layout thrashing | Lighthouse ≥90 |
+| `delight-skill` | Micro-interactions | Hover/tap feedback, state transitions, loading animation, success/error feedback | 9 QA gates |
+
+**Typical flow:** critique highlights design gaps → audit finds technical issues → clarify/hard/polish/typeset/adapt/optimize fix them → delight adds the polish. All skills are cross-platform and stack-agnostic.
 
 ---
 
@@ -179,11 +216,12 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 ## Documentation Map
 
 | File | What It Is |
-|---|---|---|
+|---|---|
 | [`AGENTS.md`](./AGENTS.md) | Core rules: context persistence, intent mapping, lifecycle, mutation approval |
 | [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Full anti-rationalization table, Commit Manifest Protocol, project-type matrix |
 | [`EXAMPLES.md`](./EXAMPLES.md) | Before/after skill usage demonstrations |
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
+| [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md) | All design-related skills: platforms, skins, review pipeline |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
 | [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.2.0) |
@@ -201,7 +239,8 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 
 **Every skill follows the same pattern:** SKILL.md as index + guides per phase. Lazy loading keeps initial context under 600 lines.
 
-**Design workflow:** See [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) for the full design ecosystem map — how skills chain together, which are universal vs platform-specific, and what to use in each scenario.
+**Design skills catalog:** See [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md) for the full design ecosystem — platform skills, direction skins, and the review pipeline with detailed descriptions.
+**Design workflow:** See [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) for the lifecycle map — how skills chain together, which are universal vs platform-specific, and what to use in each scenario.
 
 ---
 
