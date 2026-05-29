@@ -50,12 +50,14 @@ else
   echo "  ${YELLOW}⚠${NC} No staged changes. Did you forget 'git add'?"
 fi
 
-# 3. Unpulled remote changes (only branches, not tags)
+# 3. Unpulled remote changes (only when behind, not ahead)
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse origin/main 2>/dev/null || echo "$LOCAL")
 if [ "$LOCAL" != "$REMOTE" ]; then
-  echo "  ${RED}✗${NC} Unpulled remote changes detected. Run 'git pull --rebase' first."
-  exit 1
+  if ! git merge-base --is-ancestor "$REMOTE" "$LOCAL" 2>/dev/null; then
+    echo "  ${RED}✗${NC} Unpulled remote changes detected. Run 'git pull --rebase' first."
+    exit 1
+  fi
 fi
 echo "  ${GREEN}✓${NC} Remote up to date"
 
