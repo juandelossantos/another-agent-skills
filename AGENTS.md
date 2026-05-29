@@ -434,6 +434,31 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 ---
 
+## Rule 12b: PR Review Gate (MECHANICAL)
+
+**Before any PR merge (squash, merge, rebase-merge):**
+
+1. Run `bash scripts/pr-review-checklist.sh <PR_NUMBER>`
+2. If FAIL (exit 1): Fix issues before merge
+3. If WARN (exit 2): Review manually, proceed only if comfortable
+4. If PASS (exit 0): All mechanical checks passed
+
+**The checklist verifies:**
+- PR state (OPEN, mergeable, has reviews)
+- Diff size (files changed ≤50 preferred)
+- No secret files in diff
+- Code WITH tests (warn if without)
+- All SKILL.md files ≤250 lines
+- Hooks have escape hatch and hash verification
+- Commit messages are descriptive
+- PR description is detailed
+
+**Why:** Pre-commit hooks prevent bad commits. PR review checklist prevents bad merges. Both are mechanical gates that don't depend on human attention.
+
+**Common failure mode:** Agent merges PR without running checklist because "I already reviewed the diff." The checklist catches things humans miss when tired.
+
+---
+
 ## Anti-Rationalization
 
 See AGENTS-EXTENDED.md for full table (25+ common rationalizations and why they're wrong).
