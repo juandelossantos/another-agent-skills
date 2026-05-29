@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Preview v3 — Refined Colors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700;6..72,800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #1A1A18;
+    --bg-card: #222220;
+    --bg-code: #1E1E1C;
+    --text: #E8E6E3;
+    --text-secondary: #A09E9A;
+    --text-muted: #7A7772;
+    --accent: #DC5C20;
+    --accent-dim: rgba(220, 92, 32, 0.12);
+    --border: #2C2A28;
+    --border-light: #3A3835;
+    --green: #3CCE1E;
+    --tag-bg: rgba(220, 92, 32, 0.12);
+    --tag-text: #DC5C20;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #F2F0ED;
+    --bg-card: #F8F7F5;
+    --bg-code: #EEEDEA;
+    --text: #2A2826;
+    --text-secondary: #545250;
+    --text-muted: #6F6C68;
+    --accent: #B8450E;
+    --accent-dim: rgba(184, 69, 14, 0.1);
+    --border: #D8D6D2;
+    --border-light: #C8C6C2;
+    --green: #167A32;
+    --tag-bg: rgba(184, 69, 14, 0.1);
+    --tag-text: #B8450E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 48px;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .theme-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 48px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    width: fit-content;
+  }
+
+  .theme-toggle button {
+    padding: 8px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    transition: all 0.15s;
+  }
+
+  .theme-toggle button.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  .theme-toggle button:not(.active):hover {
+    color: var(--text);
+    background: var(--accent-dim);
+  }
+
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .preview-header h1 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .preview-header .issue {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .preview-header .issue span { color: var(--accent); }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  .type-block { margin-bottom: 32px; }
+
+  .type-block .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--tag-text);
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .type-block .spec {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .serif-display {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    margin-bottom: 4px;
+  }
+
+  .serif-heading-xl {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .sans-body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  .sans-body-large {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .mono-code {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--green);
+  }
+
+  .mono-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+
+  .accent-text { color: var(--accent); }
+
+  .editorial-sample {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 48px;
+  }
+
+  .editorial-sample .serif-display { font-size: clamp(2rem, 4vw, 3rem); }
+
+  .editorial-sample .meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .editorial-sample .body-block p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+
+  .hacker-sample {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    font-family: var(--mono);
+  }
+
+  .hacker-sample .header-line {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .hacker-sample .header-line span { color: var(--accent); }
+
+  .hacker-sample .prompt-line {
+    color: var(--green);
+    font-size: 0.8125rem;
+    margin-bottom: 8px;
+  }
+
+  .hacker-sample .output-line {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding-left: 16px;
+    margin-bottom: 8px;
+  }
+
+  .hacker-sample .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--green);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .pipeline-demo {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 48px;
+    font-family: var(--mono);
+  }
+
+  .pipeline-demo .stages {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .pipeline-demo .stage { text-align: center; }
+
+  .pipeline-demo .stage-letter {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-serif);
+  }
+
+  .pipeline-demo .stage-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+  }
+
+  .pipeline-demo .arrow {
+    color: var(--text-muted);
+    font-size: 1rem;
+    align-self: center;
+  }
+
+  .pipeline-demo .subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 24px;
+    letter-spacing: 0.1em;
+  }
+
+  .pairing-note {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    padding: 24px 32px;
+    margin-bottom: 32px;
+  }
+
+  .pairing-note h3 {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .pairing-note p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .pairing-note code {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    background: var(--bg);
+    padding: 1px 6px;
+  }
+
+  /* Palette comparison */
+  .palette-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 32px 0;
+  }
+
+  .palette-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 32px;
+  }
+
+  .palette-card h4 {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .palette-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .palette-item:last-child { border-bottom: none; }
+
+  .palette-item .swatch {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+  }
+
+  .palette-item .info {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .palette-item .info strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    body { padding: 24px; }
+    .preview-grid { grid-template-columns: 1fr; gap: 32px; }
+    .editorial-sample { grid-template-columns: 1fr; padding: 24px; }
+    .palette-comparison { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="preview-header">
+    <h1>Design Preview · Vol. 03 · Refined</h1>
+    <div class="issue">Issue № <span>28</span> · WARM COLOR · EYE COMFORT</div>
+  </div>
+
+  <div class="theme-toggle">
+    <button data-theme="dark" class="active">☾ DARK</button>
+    <button data-theme="light">☀ LIGHT</button>
+  </div>
+
+  <div class="section-label">01 / Palette · Refined for eye comfort</div>
+  <div class="palette-comparison">
+    <div class="palette-card">
+      <h4>/// dark theme</h4>
+      <div class="palette-item">
+        <div class="swatch" style="background:#1A1A18;"></div>
+        <div class="info"><strong>--bg</strong> &nbsp;#1A1A18 &nbsp;· Warm dark gray</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#222220;"></div>
+        <div class="info"><strong>--bg-card</strong> &nbsp;#222220 &nbsp;· Card surface</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#E8E6E3;"></div>
+        <div class="info"><strong>--text</strong> &nbsp;#E8E6E3 &nbsp;· Warm off-white</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#A09E9A;"></div>
+        <div class="info"><strong>--text-secondary</strong> &nbsp;#A09E9A</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#DC5C20;"></div>
+        <div class="info"><strong>--accent</strong> &nbsp;#DC5C20 &nbsp;· Burnt orange (4.64:1)</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#3CCE1E;"></div>
+        <div class="info"><strong>--green</strong> &nbsp;#3CCE1E &nbsp;· Less neon</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#2C2A28;"></div>
+        <div class="info"><strong>--border</strong> &nbsp;#2C2A28 &nbsp;· Warm border</div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <h4>/// light theme</h4>
+      <div class="palette-item">
+        <div class="swatch" style="background:#F2F0ED;"></div>
+        <div class="info"><strong>--bg</strong> &nbsp;#F2F0ED &nbsp;· Warm light gray</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#F8F7F5;"></div>
+        <div class="info"><strong>--bg-card</strong> &nbsp;#F8F7F5 &nbsp;· Near-white, warm</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#2A2826;"></div>
+        <div class="info"><strong>--text</strong> &nbsp;#2A2826 &nbsp;· Soft dark, not black</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#545250;"></div>
+        <div class="info"><strong>--text-secondary</strong> &nbsp;#545250 &nbsp;· 6.84:1 (AA)</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#6F6C68;"></div>
+        <div class="info"><strong>--text-muted</strong> &nbsp;#6F6C68 &nbsp;· 4.59:1 (AA)</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#B8450E;"></div>
+        <div class="info"><strong>--accent</strong> &nbsp;#B8450E &nbsp;· Burnt orange for light</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#167A32;"></div>
+        <div class="info"><strong>--green</strong> &nbsp;#167A32 &nbsp;· 4.78:1 (AA)</div>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background:#D8D6D2;"></div>
+        <div class="info"><strong>--border</strong> &nbsp;#D8D6D2 &nbsp;· Warm light border</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">02 / Typography · Serif + Sans + Mono</div>
+
+  <div class="preview-grid">
+    <div class="type-block">
+      <div class="tag">serif / display</div>
+      <div class="spec">Newsreader ExtraBold 800 · clamp(3rem, 8vw, 5.5rem)</div>
+      <div class="serif-display">Quality<span class="accent-text">.</span><br>Verified<span class="accent-text">.</span></div>
+    </div>
+
+    <div class="type-block">
+      <div class="tag">serif / heading</div>
+      <div class="spec">Newsreader Bold 700 · 2.5rem</div>
+      <div class="serif-heading-xl">Everything You<br>Need to Ship</div>
+    </div>
+
+    <div class="type-block">
+      <div class="tag">sans / body</div>
+      <div class="spec">System UI Regular 400 · 1rem / 1.7 leading</div>
+      <p class="sans-body">A verified quality pipeline that turns AI coding agents into disciplined senior engineers. 31 skills. 9 stages. No shortcuts.</p>
+    </div>
+
+    <div class="type-block">
+      <div class="tag">sans + mono</div>
+      <div class="spec">System UI 1.125rem + JetBrains Mono 0.8125rem</div>
+      <p class="sans-body-large" style="margin-bottom: 12px;">Install in under 30 seconds:</p>
+      <div class="mono-code">❯ git clone &amp;&amp; bash install.sh</div>
+    </div>
+
+    <div class="full-width">
+      <div class="section-label">03 / Editorial layout · Serif + Sans</div>
+    </div>
+
+    <div class="editorial-sample">
+      <div>
+        <div class="meta">fig. 01 / system</div>
+        <div class="serif-display" style="font-size: clamp(2rem, 4vw, 3rem);">From generic<br><span class="accent-text">to production.</span></div>
+        <div style="margin-top: 24px;">
+          <span class="mono-label">──── 9 stage pipeline · 31 skills · MIT</span>
+        </div>
+      </div>
+      <div class="body-block">
+        <p style="font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;">
+          /// methodology
+        </p>
+        <p>Every AI-generated interface passes through critique, audit, and verification gates before it reaches production. No shortcuts. No slop.</p>
+        <p style="margin-top: 12px;">Built on 31 composable skills organized into a verified quality pipeline — from design review to delight.</p>
+      </div>
+    </div>
+
+    <div class="hacker-sample">
+      <div class="header-line">╭─ <span>system</span> ─────────────────────────────────╮</div>
+      <div class="prompt-line">❯ ./install.sh</div>
+      <div class="output-line">→ Installing 31 custom skills...</div>
+      <div class="output-line">→ Configuring pre-commit hooks...</div>
+      <div class="output-line" style="color: var(--green);">✓ Installation complete. 54 skills ready.</div>
+      <div class="prompt-line" style="margin-top: 12px;">❯ init-agents <span class="cursor"></span></div>
+      <div class="header-line" style="margin-top: 12px;">╰────────────────────────────────────────────╯</div>
+    </div>
+
+    <div class="full-width">
+      <div class="section-label">04 / Pipeline · Editorial serif letters</div>
+    </div>
+
+    <div class="full-width pipeline-demo">
+      <div class="stages">
+        <div class="stage">
+          <div class="stage-letter" style="color: var(--accent);">C</div>
+          <div class="stage-label">CRITIQUE</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage">
+          <div class="stage-letter" style="color: var(--text);">A</div>
+          <div class="stage-label">AUDIT</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage">
+          <div class="stage-letter" style="color: var(--text);">H</div>
+          <div class="stage-label">HARDEN</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage">
+          <div class="stage-letter" style="color: var(--text);">P</div>
+          <div class="stage-label">POLISH</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage">
+          <div class="stage-letter" style="color: var(--green);">D</div>
+          <div class="stage-label">DELIGHT</div>
+        </div>
+      </div>
+      <div class="subtitle">
+        critique → audit → clarify → harden → polish → typeset → adapt → optimize → delight
+      </div>
+    </div>
+
+    <div class="full-width">
+      <div class="section-label">05 / Light theme · Warm, not white</div>
+    </div>
+
+    <div class="full-width" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border);">
+      <div style="background: var(--bg-card); padding: 32px;">
+        <div class="mono-label" style="margin-bottom: 16px;">surface / card</div>
+        <div style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; margin-bottom: 8px;">Production Grade</div>
+        <p class="sans-body">Page bg is warm light gray #F2F0ED, card bg is near-white #F8F7F5. No pure whites. No pure blacks.</p>
+      </div>
+      <div style="background: var(--bg-card); border-left: 1px solid var(--border); padding: 32px;">
+        <div class="hacker-sample" style="background: var(--bg-code); border: 1px solid var(--border); padding: 24px;">
+          <div class="header-line">╭─ <span>system</span> ───────────╮</div>
+          <div class="prompt-line">❯ deploy</div>
+          <div class="output-line" style="color: var(--green);">✓ Build passing</div>
+          <div class="header-line">╰─────────────────────────╯</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-family: var(--mono); font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em;">
+    DESIGN PREVIEW · VOL.03 · WARM PALETTE · NEWSREADER + SYSTEM UI + JETBRAINS MONO
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.theme-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelectorAll('.theme-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

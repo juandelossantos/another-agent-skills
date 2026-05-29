@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Preview — Another Agent Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #0A0A0A;
+    --bg-card: #111111;
+    --bg-code: #0D0D0D;
+    --text: #EAEAEA;
+    --text-secondary: #888888;
+    --text-muted: #555555;
+    --accent: #E61919;
+    --accent-dim: rgba(230, 25, 25, 0.1);
+    --border: #1A1A1A;
+    --border-light: #2A2A2A;
+    --green: #4AF626;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 48px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .preview-header h1 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .preview-header .issue {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .preview-header .issue span { color: var(--accent); }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    padding: 4px 0;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+  }
+
+  /* Grid layout for preview */
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  /* Palette */
+  .palette-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .palette-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+  }
+
+  .palette-swatch {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+  }
+
+  .palette-info {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .palette-info strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* Typography */
+  .type-sample { margin-bottom: 24px; }
+  .type-sample .label {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .display-hero { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95; margin-bottom: 4px; }
+  .display-hero .accent { color: var(--accent); }
+  .heading-xl { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  .heading-lg { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
+  .body-text { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; max-width: 480px; }
+  .body-small { font-size: 0.875rem; color: var(--text-muted); }
+  .mono-code { font-family: var(--mono); font-size: 0.8125rem; color: var(--green); }
+  .mono-label { font-family: var(--mono); font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
+  .accent-text { color: var(--accent); }
+
+  /* Editorial layout sample */
+  .editorial-sample {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 48px;
+  }
+
+  .editorial-sample .main-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+
+  .editorial-sample .meta {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .editorial-sample .body-block p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+
+  .divider { width: 100%; height: 1px; background: var(--border); margin: 0; }
+
+  /* Hacker elements sample */
+  .hacker-sample {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    font-family: var(--mono);
+  }
+
+  .hacker-sample .header-line {
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .hacker-sample .header-line span { color: var(--accent); }
+
+  .hacker-sample .prompt-line {
+    color: var(--green);
+    font-size: 0.8125rem;
+    margin-bottom: 8px;
+  }
+
+  .hacker-sample .output-line {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding-left: 16px;
+    margin-bottom: 4px;
+  }
+
+  .hacker-sample .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--green);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    body { padding: 24px; }
+    .preview-grid { grid-template-columns: 1fr; gap: 32px; }
+    .editorial-sample { grid-template-columns: 1fr; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="preview-header">
+    <h1>Design Preview · Vol. 01</h1>
+    <div class="issue">Issue № <span>26</span> · DEV/EDIT</div>
+  </div>
+
+  <!-- Section: Direction -->
+  <div class="section-label">01 / Direction</div>
+  <p style="font-size:1rem; color: var(--text-secondary); margin-bottom: 48px; max-width: 600px;">
+    Editorial layout (open-design.ai) × hacker/dev terminal accents (industrial-brutalist).<br>
+    Dark theme, rojo hazard como único acento fuerte, tipografía limpia para cuerpo, monospace para código.
+  </p>
+
+  <!-- Grid -->
+  <div class="preview-grid">
+    <!-- Palette -->
+    <div>
+      <div class="section-label" style="margin-bottom: 16px;">Palette</div>
+      <div class="palette-grid">
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #0A0A0A; border-color: #555;"></div>
+          <div class="palette-info"><strong>--bg</strong> &nbsp;#0A0A0A &nbsp;· Background</div>
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #111111; border-color: #555;"></div>
+          <div class="palette-info"><strong>--bg-card</strong> &nbsp;#111111 &nbsp;· Card surface</div>
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #EAEAEA;"></div>
+          <div class="palette-info"><strong>--text</strong> &nbsp;#EAEAEA &nbsp;· Primary text</div>
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #888888;"></div>
+          <div class="palette-info"><strong>--text-secondary</strong> &nbsp;#888888 &nbsp;· Secondary</div>
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #E61919;"></div>
+          <div class="palette-info"><strong>--accent</strong> &nbsp;#E61919 &nbsp;· Hazard red (sole accent)</div>
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #4AF626;"></div>
+          <div class="palette-info"><strong>--green</strong> &nbsp;#4AF626 &nbsp;· Terminal green (sparingly)</div>
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #1A1A1A;"></div>
+          <div class="palette-info"><strong>--border</strong> &nbsp;#1A1A1A &nbsp;· Dividers, borders</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div>
+      <div class="section-label" style="margin-bottom: 16px;">Typography</div>
+      <div class="type-sample">
+        <div class="label">Display (Inter ExtraBold 800) · clamp(3rem, 8vw, 5.5rem)</div>
+        <div class="display-hero">Quality<br><span class="accent">Verified.</span></div>
+      </div>
+      <div class="type-sample">
+        <div class="label">Heading XL (Inter Bold 700) · 2rem</div>
+        <div class="heading-xl">Everything You Need</div>
+      </div>
+      <div class="type-sample">
+        <div class="label">Body (Inter Regular 400) · 1rem / 1.6 leading</div>
+        <p class="body-text">A verified quality pipeline that turns AI coding agents into disciplined senior engineers. No shortcuts. Just process.</p>
+      </div>
+      <div class="type-sample">
+        <div class="label">Mono (JetBrains Mono) · 0.8125rem · Code &amp; terminal</div>
+        <div class="mono-code">❯ git clone https://github.com/... &amp;&amp; bash install.sh</div>
+      </div>
+      <div class="type-sample">
+        <div class="label">Mono label · 0.6875rem · Uppercase, tracking 0.12em</div>
+        <div class="mono-label">design review pipeline / vol.01 / issue № 26</div>
+      </div>
+    </div>
+
+    <!-- Layout sample -->
+    <div class="full-width" style="margin-top: 16px;">
+      <div class="section-label" style="margin-bottom: 16px;">Layout · Editorial × Hacker</div>
+    </div>
+
+    <!-- Editorial layout sample -->
+    <div class="editorial-sample">
+      <div>
+        <div class="meta">fig. 01 / system</div>
+        <div class="main-title">From generic<br><span style="color: var(--accent);">to production.</span></div>
+        <div style="margin-top: 24px; font-family: var(--mono); font-size: 0.6875rem; color: var(--text-muted); letter-spacing: 0.05em;">
+          ──── 9 stage pipeline · 31 skills · MIT
+        </div>
+      </div>
+      <div class="body-block">
+        <p style="font-size: 0.8125rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; font-family: var(--mono);">
+          /// methodology
+        </p>
+        <p>Every AI-generated interface passes through critique, audit, and verification gates before it reaches production. No shortcuts. No slop. Just a mechanical, repeatable process that turns agents into disciplined engineers.</p>
+        <p style="margin-top: 12px;">Built on 31 composable skills organized into a verified quality pipeline — from design review to delight.</p>
+      </div>
+    </div>
+
+    <!-- Hacker terminal sample -->
+    <div class="hacker-sample">
+      <div class="header-line">╭─ <span>system</span> ─────────────────────────────────╮</div>
+      <div class="prompt-line">❯ ./install.sh</div>
+      <div class="output-line">→ Installing 31 custom skills...</div>
+      <div class="output-line">→ Configuring pre-commit hooks...</div>
+      <div class="output-line" style="color: var(--green);">✓ Installation complete. 54 skills ready.</div>
+      <div class="prompt-line" style="margin-top: 12px;">❯ init-agents <span class="cursor"></span></div>
+      <div class="header-line" style="margin-top: 12px;">╰────────────────────────────────────────────╯</div>
+    </div>
+
+    <!-- Pipeline concept -->
+    <div class="full-width" style="margin-top: 16px;">
+      <div class="section-label" style="margin-bottom: 16px;">Pipeline · Editorial flow (not 9 circles)</div>
+    </div>
+
+    <div class="full-width" style="background: var(--bg-card); border: 1px solid var(--border); padding: 48px; font-family: var(--mono);">
+      <div style="display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+        <div style="text-align: center;">
+          <div style="color: var(--accent); font-size: 1.5rem; font-weight: 700;">C</div>
+          <div style="font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 4px;">CRITIQUE</div>
+        </div>
+        <div style="color: var(--text-muted); font-size: 1rem; align-self: center;">→</div>
+        <div style="text-align: center;">
+          <div style="color: var(--text); font-size: 1.5rem; font-weight: 700;">A</div>
+          <div style="font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 4px;">AUDIT</div>
+        </div>
+        <div style="color: var(--text-muted); font-size: 1rem; align-self: center;">→</div>
+        <div style="text-align: center;">
+          <div style="color: var(--text); font-size: 1.5rem; font-weight: 700;">H</div>
+          <div style="font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 4px;">HARDEN</div>
+        </div>
+        <div style="color: var(--text-muted); font-size: 1rem; align-self: center;">→</div>
+        <div style="text-align: center;">
+          <div style="color: var(--text); font-size: 1.5rem; font-weight: 700;">P</div>
+          <div style="font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 4px;">POLISH</div>
+        </div>
+        <div style="color: var(--text-muted); font-size: 1rem; align-self: center;">→</div>
+        <div style="text-align: center;">
+          <div style="color: var(--green); font-size: 1.5rem; font-weight: 700;">D</div>
+          <div style="font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 4px;">DELIGHT</div>
+        </div>
+      </div>
+      <div style="font-size: 0.6875rem; color: var(--text-muted); text-align: center; margin-top: 24px; letter-spacing: 0.1em;">
+        critique → audit → clarify → harden → polish → typeset → adapt → optimize → delight
+      </div>
+    </div>
+
+    <!-- Accents & details -->
+    <div class="full-width" style="margin-top: 16px;">
+      <div class="section-label" style="margin-bottom: 16px;">Details · Borders, labels, accents</div>
+    </div>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+      <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 16px 24px;">
+        <div style="font-family: var(--mono); font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em;">LABEL / 01</div>
+        <div style="font-size: 0.875rem; margin-top: 8px;">Section label · 0.625rem mono</div>
+      </div>
+      <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 16px 24px;">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 6px; height: 6px; background: var(--accent); display: inline-block;"></span>
+          <span style="font-family: var(--mono); font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em;">HAZARD DOT</span>
+        </div>
+        <div style="font-size: 0.875rem; margin-top: 8px;">Red dot as accent marker</div>
+      </div>
+      <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 16px 24px;">
+        <div style="font-family: var(--mono); font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em;">─── DIVIDER</div>
+        <div style="font-size: 0.875rem; margin-top: 8px;">Thin horizontal rules</div>
+      </div>
+      <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 16px 24px;">
+        <div style="font-family: var(--mono); font-size: 0.625rem; color: var(--accent); letter-spacing: 0.1em;">/// ACCENT</div>
+        <div style="font-size: 0.875rem; margin-top: 8px;">Slash framing for sections</div>
+      </div>
+    </div>
+
+    <!-- Structure note -->
+    <div class="full-width" style="margin-top: 32px;">
+      <div class="section-label" style="margin-bottom: 16px;">Page Structure · Proposed</div>
+      <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; font-family: var(--mono); font-size: 0.75rem; color: var(--text-secondary); line-height: 2;">
+        <span style="color: var(--accent);">◆</span> Header &nbsp;· fixed, 56px, logo + nav + GitHub<br>
+        <span style="color: var(--accent);">◆</span> Hero &nbsp;· tagline + subtitle + pipeline + install command + stats<br>
+        <span style="color: var(--accent);">◆</span> Pipeline &nbsp;· 9 stages with descriptions, editorial layout<br>
+        <span style="color: var(--accent);">◆</span> Skills &nbsp;· asymmetric grid, each category with icon + description<br>
+        <span style="color: var(--accent);">◆</span> Quick Start &nbsp;· 3 numbered steps with code blocks<br>
+        <span style="color: var(--accent);">◆</span> Why Different &nbsp;· positioning vs alternatives<br>
+        <span style="color: var(--accent);">◆</span> FAQ &nbsp;· border-bottom accordion<br>
+        <span style="color: var(--accent);">◆</span> Footer &nbsp;· border-top, links, copyright
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-family: var(--mono); font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em;">
+    DESIGN PREVIEW · VOL.01 · open-design.ai × INDUSTRIAL-BRUTALIST · ANOTHER AGENT SKILLS
+  </div>
+</div>
+
+</body>
+</html>

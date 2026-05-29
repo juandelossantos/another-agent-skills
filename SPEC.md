@@ -42,7 +42,7 @@ Rejected:
 - **Themes**: CSS custom properties with `data-theme` attribute toggle
 - **i18n**: JSON translation files, JS runtime swap
 - **Icons**: Inline SVG (no icon library dependency)
-- **Font**: System UI stack (`system-ui, -apple-system, sans-serif`) + optional Inter (self-hosted woff2)
+- **Font**: Newsreader (Google Fonts, serif display) + System UI (`system-ui, -apple-system, sans-serif`) + JetBrains Mono (Google Fonts, code/labels)
 - **Markdown docs**: GitHub-flavored Markdown, rendered by GitHub
 - **Hosting**: GitHub Pages (`juandelossantos.github.io/another-agent-skills`)
 - **CI/CD**: GitHub Actions — build static files, deploy to Pages on push to main
@@ -151,7 +151,7 @@ another-agent-skills/
 
 - [x] GitHub repository (exists)
 - [x] GitHub Pages enabled (repo settings)
-- [x] Inter font (self-hosted woff2 or Google Fonts)
+- [x] Newsreader + JetBrains Mono fonts (Google Fonts)
 
 ## Risks & Mitigations
 

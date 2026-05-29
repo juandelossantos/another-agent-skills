@@ -14,57 +14,56 @@ Product showcase landing page for an open-source agent skills framework. Target:
 
 ## Typography
 
-- **Sans display**: Geist (self-hosted woff2) — clean, modern, developer-friendly
-- **Mono**: JetBrains Mono — for code blocks, install commands
-- **Fallback**: `system-ui, -apple-system, sans-serif`
+- **Display / Headlines**: Newsreader (serif) — editorial weight, magazine feel
+- **Body / UI**: System UI (`system-ui, -apple-system, sans-serif`) — zero external load, clean
+- **Mono**: JetBrains Mono — for code blocks, install commands, labels
+- **Variable font**: Newsreader has `opsz` axis — `opsz 72` for display, `opsz 6` for body
 
 ### Type Scale
 
 | Token | Size | Weight | Line-Height | Usage |
 |---|---|---|---|---|
-| display | clamp(2.5rem, 5vw, 4rem) | 800 | 1.05 | Hero H1 |
-| heading-1 | clamp(1.75rem, 3vw, 2.25rem) | 700 | 1.15 | Section titles |
-| heading-2 | 1.125rem | 600 | 1.3 | Card titles, step headers |
-| body | 1rem | 400 | 1.6 | Description text |
-| body-small | 0.875rem | 400 | 1.5 | Secondary text |
-| caption | 0.75rem | 600 | 1 | Labels, badges, stats |
-| code | 0.8125rem | — | 1.5 | Install blocks, inline code |
+| display | clamp(3rem, 8vw, 5.5rem) | 800 | 0.92 | Hero H1 |
+| heading-xl | 2.5rem | 700 | 1.05 | Section titles |
+| heading-lg | 1.75rem | 600 | 1.15 | Card titles |
+| body | 1rem | 400 | 1.7 | Description text |
+| body-small | 0.875rem | 400 | 1.6 | Secondary text |
+| caption | 0.75rem | 600 | 1.4 | Labels, badges, stats (minimum) |
+| code | 0.8125rem | — | 1.5 | Install blocks, code |
 
 ## Color Palette
 
 ### Dark Theme
 
-| Token | Value | Usage |
-|---|---|---|
-| --bg | #0A0A0B | Page background |
-| --bg-secondary | #141416 | Card, section backgrounds |
-| --bg-tertiary | #1C1C1F | Toggle group, input bg |
-| --text | #F5F5F4 | Primary body text |
-| --text-secondary | #A1A1AA | Secondary, descriptions |
-| --text-muted | #71717A | Labels, captions |
-| --accent | #3B82F6 | Interactive elements (sparingly) |
-| --accent-hover | #60A5FA | Button hover state |
-| --accent-subtle | rgba(59, 130, 246, 0.1) | Badge backgrounds |
-| --border | #27272A | Dividers, card borders |
-| --success | #22C55E | Copied state |
-| --pipeline-bg | #0F0F11 | Pipeline section background |
+| Token | Value | Usage | Contrast |
+|---|---|---|---|
+| --bg | #1A1A18 | Page background (warm dark gray) | — |
+| --bg-card | #222220 | Card, section backgrounds | — |
+| --bg-code | #1E1E1C | Code block backgrounds | — |
+| --text | #E8E6E3 | Primary body text | 13.99:1 AAA |
+| --text-secondary | #A09E9A | Secondary, descriptions | 6.52:1 AA |
+| --text-muted | #7A7772 | Labels, captions | 3.91:1 AA-lg |
+| --accent | #DC5C20 | Interactive elements (burnt orange) | 4.64:1 AA |
+| --accent-dim | rgba(220, 92, 32, 0.12) | Subtle accent backgrounds | — |
+| --border | #2C2A28 | Dividers, card borders | decorative |
+| --border-light | #3A3835 | Lighter borders | decorative |
+| --green | #3CCE1E | Terminal success, copied state | 8.33:1 AAA |
 
 ### Light Theme
 
-| Token | Value | Usage |
-|---|---|---|
-| --bg | #FAFAF8 | Page background (warm bone) |
-| --bg-secondary | #F0EFED | Card backgrounds |
-| --bg-tertiary | #E8E7E4 | Toggle group |
-| --text | #1C1917 | Primary body |
-| --text-secondary | #6B6B76 | Secondary |
-| --text-muted | #A1A1AA | Labels |
-| --accent | #2563EB | Interactive |
-| --accent-hover | #1D4ED8 | Hover |
-| --accent-subtle | rgba(37, 99, 235, 0.08) | Badge |
-| --border | #E3E2E0 | Dividers |
-| --success | #16A34A | Copied |
-| --pipeline-bg | #F5F4F2 | Pipeline bg |
+| Token | Value | Usage | Contrast |
+|---|---|---|---|
+| --bg | #F2F0ED | Page background (warm light gray) | — |
+| --bg-card | #F8F7F5 | Card backgrounds (warm near-white) | — |
+| --bg-code | #EEEDEA | Code block backgrounds | — |
+| --text | #2A2826 | Primary body text | 12.91:1 AAA |
+| --text-secondary | #545250 | Secondary, descriptions | 6.84:1 AA |
+| --text-muted | #6F6C68 | Labels, captions | 4.59:1 AA |
+| --accent | #B8450E | Interactive elements (burnt orange) | 4.74:1 AA |
+| --accent-dim | rgba(184, 69, 14, 0.1) | Subtle accent backgrounds | — |
+| --border | #D8D6D2 | Dividers, card borders | decorative |
+| --border-light | #C8C6C2 | Lighter borders | decorative |
+| --green | #167A32 | Terminal success, copied state | 4.78:1 AA |
 
 ## Pipeline Stage Colors
 
@@ -87,13 +86,14 @@ Each of the 9 stages gets a distinct, muted color. No purple.
 - ❌ Purple gradients or mesh gradients anywhere
 - ❌ "From AI Slop", "Elevate", "Seamless", "Unleash", "Supercharge"
 - ❌ Three or more equal-sized cards in a row
-- ❌ Em-dashes (—) in copy
+- ❌ Em-dashes (—) in copy (use spaced en-dash instead)
 - ❌ "Scroll to explore" indicators
 - ❌ Version footers ("v1.2.0", "Build 0042")
-- ❌ Fake terminal/product UI made of divs
+- ❌ Fake terminal/product UI made of divs (terminal is acceptable as design accent, not as functional mockup)
 - ❌ Pills/tags floating over images
 - ❌ Gradient text on headings
 - ❌ `border-radius: 999px` on containers or cards
+- ❌ Inter, Geist, or any generic sans-serif for headings (reserved for body/system only)
 
 ## Component Specs
 
