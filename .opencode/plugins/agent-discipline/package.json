@@ -1,0 +1,20 @@
+{
+  "name": "agent-discipline",
+  "version": "1.0.0",
+  "description": "Native OpenCode plugin for agent discipline enforcement. Auto-fires on critical events to prevent rule violations.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "keywords": ["opencode", "plugin", "agent", "discipline", "hooks"],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "opencode": ">=1.0.0"
+  }
+}
