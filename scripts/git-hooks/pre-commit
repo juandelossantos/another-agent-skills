@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v4)
+# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v5)
 # Installed by init-agents.sh.
 # 1) Runs pre-flight check (working tree, branch, upstream, remote)
 # 2) Structural integrity gate on staged HTML files
-# 3) Blocks commits without explicit approval token
-# Bypass: git commit --no-verify (intentional process violation)
+# 3) Verifies COMMIT_APPROVED token hash matches commit message
+# 4) Escape hatch: OVERRIDE: reason → logged, 3 escapes = ESCALATION
 #
-# v3: Added pre-flight check integration (INCIDENT-004)
-# v4: Added edit-guard structural integrity check on staged HTML (INCIDENT-005)
+# v5: Remove --no-verify bypass, add hash verification, add escape hatch with logging
 
 set -euo pipefail
 
@@ -15,7 +14,17 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
 NC='\033[0m'
+
+COMMIT_APPROVED="${REPO_ROOT}/.git/COMMIT_APPROVED"
+OVERRIDE_LOG="${REPO_ROOT}/.git/OVERRIDE_LOG"
+ESCALATION_THRESHOLD=3
+
+count_overrides() {
+  if [ ! -f "$OVERRIDE_LOG" ]; then echo 0; return; fi
+  grep -c "|agent|pre-commit|" "$OVERRIDE_LOG" 2>/dev/null || echo 0
+}
 
 echo ""
 echo "╔════════════════════════════════════════════╗"
@@ -25,55 +34,53 @@ echo "╚═══════════════════════�
 # 1. Branch check
 BRANCH=$(git branch --show-current)
 if [ -z "$BRANCH" ]; then
-  echo "  ✗ Detached HEAD. Checkout a branch before committing."
+  echo "  ${RED}✗${NC} Detached HEAD. Checkout a branch before committing."
   exit 1
 fi
-echo "  ✓ Branch: $BRANCH"
+echo "  ${GREEN}✓${NC} Branch: $BRANCH"
 
 # 2. Staged changes
 if [ -n "$(git status --porcelain)" ]; then
-  echo "  ✓ Staged changes ready"
+  echo "  ${GREEN}✓${NC} Staged changes ready"
 else
-  echo "  ⚠ No staged changes. Did you forget 'git add'?"
+  echo "  ${YELLOW}⚠${NC} No staged changes. Did you forget 'git add'?"
 fi
 
 # 3. Unpulled remote changes
 FETCH_OUTPUT=$(git fetch --dry-run 2>&1)
 if [ -n "$FETCH_OUTPUT" ]; then
-  echo "  ✗ Unpulled remote changes detected. Run 'git pull --rebase' first."
+  echo "  ${RED}✗${NC} Unpulled remote changes detected. Run 'git pull --rebase' first."
   exit 1
 fi
-echo "  ✓ Remote up to date"
+echo "  ${GREEN}✓${NC} Remote up to date"
 
 # 4. Structural integrity gate (staged HTML files)
 EDIT_GUARD="${REPO_ROOT}/scripts/edit-guard.sh"
 if [ -f "$EDIT_GUARD" ]; then
   STAGED_HTML=$(git diff --cached --name-only --diff-filter=ACM | grep -i '\.html$' || true)
   if [ -n "$STAGED_HTML" ]; then
-    echo "  ✓ Structural integrity check on HTML files..."
+    echo "  ${GREEN}✓${NC} Structural integrity check on HTML files..."
     INTEGRITY_FAIL=0
     for f in $STAGED_HTML; do
       if [ ! -f "$f" ]; then continue; fi
       FILENAME=$(basename "$f")
       case "$FILENAME" in
         index.html)
-          # index.html requires specific structural sections
           if ! bash "$EDIT_GUARD" check "$f" \
             "lifecycle-flow" "hero__actions" \
             "</main>" "</html>" "DOCTYPE"; then
             echo "    ${RED}✗${NC} $f — structural markers missing"
             INTEGRITY_FAIL=1
           else
-            echo "    ✓ $f — all markers present"
+            echo "    ${GREEN}✓${NC} $f — all markers present"
           fi
           ;;
         *)
-          # Generic HTML check: DOCTYPE, html close, body close
           if ! bash "$EDIT_GUARD" check "$f" "DOCTYPE" "</html>"; then
             echo "    ${RED}✗${NC} $f — basic structure missing"
             INTEGRITY_FAIL=1
           else
-            echo "    ✓ $f — basic structure valid"
+            echo "    ${GREEN}✓${NC} $f — basic structure valid"
           fi
           ;;
       esac
@@ -95,9 +102,8 @@ if [ -f "$EDIT_GUARD" ]; then
   fi
 fi
 
-# 5. Mutation approval token
-APPROVAL_FILE=".git/COMMIT_APPROVED"
-if [ ! -f "$APPROVAL_FILE" ]; then
+# 5. Mutation approval token with hash verification
+if [ ! -f "$COMMIT_APPROVED" ]; then
   echo ""
   echo "╔════════════════════════════════════════════════════════════╗"
   echo "║  BLOCKED: No commit approval token found.               ║"
@@ -105,13 +111,61 @@ if [ ! -f "$APPROVAL_FILE" ]; then
   echo "║  The agent must present a Commit Manifest and get        ║"
   echo "║  your explicit approval before committing.               ║"
   echo "║                                                          ║"
-  echo "║  To bypass this check temporarily:                       ║"
-  echo "║    git commit --no-verify                                ║"
+  echo "║  Commit Manifest Protocol:                               ║"
+  echo "║  1. Present what will change                            ║"
+  echo "║  2. Explain impact and risk                              ║"
+  echo "║  3. Ask: 'Do you approve this commit?'                   ║"
+  echo "║  4. Wait for explicit 'yes'/'sí'/'commit'               ║"
+  echo "║  5. Generate token AFTER approval                        ║"
   echo "╚════════════════════════════════════════════════════════════╝"
   echo ""
   exit 1
 fi
 
-echo "  ✓ Commit approval token present"
+TOKEN_CONTENT=$(cat "$COMMIT_APPROVED" 2>/dev/null || echo "")
+TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f1)
+
+COMMIT_MSG_FILE="${REPO_ROOT}/.git/COMMIT_EDITMSG"
+if [ -f "$COMMIT_MSG_FILE" ]; then
+  ACTUAL_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
+  ACTUAL_HASH=$(printf '%s\t%s' "$ACTUAL_MSG" "$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f2)" | sha256sum | cut -d' ' -f1)
+
+  if [ "$TOKEN_HASH" != "$ACTUAL_HASH" ]; then
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  BLOCKED: Token hash mismatch.                          ║"
+    echo "║                                                          ║"
+    echo "║  The COMMIT_APPROVED token does not match the           ║"
+    echo "║  commit message. Possible causes:                       ║"
+    echo "║  - Commit message was modified after token creation     ║"
+    echo "║  - Token was created for a different commit             ║"
+    echo "║                                                          ║"
+    echo "║  To proceed:                                            ║"
+    echo "║  1. Restore original commit message, OR                  ║"
+    echo "║  2. Run Commit Manifest Protocol again to get new token  ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+    exit 1
+  fi
+fi
+
+OVERRIDE_COUNT=$(count_overrides)
+if [ "$OVERRIDE_COUNT" -ge "$ESCALATION_THRESHOLD" ]; then
+  echo ""
+  echo "╔════════════════════════════════════════════════════════════╗"
+  echo "║  ESCALATION REQUIRED                                      ║"
+  echo "║                                                          ║"
+  echo "║  This branch has ${OVERRIDE_COUNT} override(s) logged.               ║"
+  echo "║                                                          ║"
+  echo "║  This is a process violation pattern.                    ║"
+  echo "║                                                          ║"
+  echo "║  STOP. Do not continue.                                  ║"
+  echo "║  Get explicit user approval for a complete session review.║"
+  echo "╚════════════════════════════════════════════════════════════╝"
+  echo ""
+  exit 1
+fi
+
+echo "  ${GREEN}✓${NC} Commit approval token valid (hash verified)"
 echo ""
 exit 0
