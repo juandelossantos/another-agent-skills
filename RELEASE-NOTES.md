@@ -1,5 +1,37 @@
 # Release Notes
 
+## 1.4.1 (2026-05-29)
+
+v1.4.1: Guardian Pattern enforcement, Session Start Protocol, PR Review Gate, safe reinstall.
+
+### Guardian Pattern (Rule 12 expansion)
+
+- **DECISION POINT block**: Mandatory format before any mutation (commit, push, merge, rebase)
+- **Session Start Protocol**: Agent MUST read Rules 0-12, check git state, acknowledge Guardian Pattern before any tool execution
+- **guardianReminder hook**: Plugin fires alert whenever mutation tool is detected, validates decision point was presented
+- **ANTI_SLOP_REMINDER**: Now includes Guardian Pattern reminder alongside core principles
+
+### PR Review Gate (Rule 12b)
+
+- **scripts/pr-review-checklist.sh**: Mechanical checklist before PR merge
+  - Verifies: PR state, diff size, no secrets, tests, skills ≤250l, hook compliance
+  - Exit codes: 0=pass, 1=fail, 2=warn
+- **AGENTS.md**: Rule 12b documented with full workflow
+
+### Safe Reinstall
+
+- **init-agents**: Backs up existing hooks before overwriting (prevents data loss)
+- **pre-commit fix**: Uses `git rev-parse` + `is-ancestor` instead of `fetch --dry-run` (avoids tag false positives)
+- **pre-commit fix**: Allows commits when ahead of origin, only blocks when behind
+
+### Plugin Enhancement
+
+- OpenCode agent-discipline plugin now registers 5 hooks: editGuard, preFlight, guardianReminder, commitApproval, sessionCompact
+
+### Documentation
+
+- README updated with v1.4.1 features: Guardian Pattern, Session Start Protocol, PR Review Gate, safe reinstall
+
 ## 1.4.0 (2026-05-29)
 
 v1.4.0: Add mechanical enforcement gates (Phase 3), restructure 7 skills with lazy loading.

@@ -1,7 +1,7 @@
 # Another Agent Skills 👷
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.4.0](https://img.shields.io/badge/version-1.4.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.4.1](https://img.shields.io/badge/version-1.4.1-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -22,8 +22,12 @@ We believe quality emerges from explicit contracts, not implicit trust. Every sk
 
 ## 📦 Latest Features
 
-- **Agent discipline plugin (v1.4.0)** — Native OpenCode plugin with event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `commit-approval` (mutation gate), `session-compact` (anti-slop). Auto-fires on critical events.
-- **Mechanical enforcement gates (v1.4.0)** — Pre-commit v6 with 9 gates: branch check, staged changes, remote sync, HTML integrity, hash verification, build verification (bash -n), anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement. Commit-msg v3 with hash verification. Escape hatch with OVERRIDE logging.
+- **Agent discipline plugin (v1.4.1)** — Native OpenCode plugin with event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `commit-approval` (mutation gate), `guardian-reminder` (pre-decision enforcement), `session-compact` (anti-slop + Guardian Pattern). Auto-fires on critical events.
+- **Guardian Pattern (v1.4.1)** — Mandatory DECISION POINT block before any mutation: commit, push, merge, rebase. Agent must present rationale and wait for explicit approval. Invalid responses: "ok", "mmhm", "continue".
+- **Session Start Protocol (v1.4.1)** — Agent MUST read Rules 0-12, check git state, and acknowledge Guardian Pattern before executing any tool. Failure = Rule 12 violation.
+- **PR Review Gate (v1.4.1)** — Mechanical checklist (`pr-review-checklist.sh`) before merge: verifies PR state, diff size, no secrets, skills ≤250l, hook compliance, commit coherence.
+- **Safe reinstall (v1.4.1)** — `init-agents` now backs up existing hooks before overwriting. `install.sh` merges shell config blocks without destroying existing content.
+- **Mechanical enforcement gates (v1.4.0)** — Pre-commit v6 with 9 gates: branch check, staged changes, remote sync, HTML integrity, hash verification, build verification (bash -n), anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement.
 - **Multi-agent support (v1.4.0)** — Native plugin configs for Claude Code (`.claude-plugin/`), Cursor (`.cursor-plugin/`), and Kiro (`.kiro/`). Hooks auto-fire across all agents.
 - **Design review pipeline (new)** — 9 cross-platform quality skills: `critique` (heuristic review), `audit` (5-dimension technical scan), `clarify` (UX copy), `hard` (a11y/robustness fixes), `polish` (design details), `typeset` (typography), `adapt` (responsive), `optimize` (performance), `delight` (micro-interactions). Chain them: critique → audit → fix.
 - **Mayéutic agent (Rule 0g)** — Agents challenge decisions, verify objectives, propose better alternatives. Built on `doubt-driven-development`.
