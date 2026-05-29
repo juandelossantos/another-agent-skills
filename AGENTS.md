@@ -398,3 +398,14 @@ Skills loaded from:
 - Claude-compatible: `.claude/skills/<name>/SKILL.md`
 
 **For full rules, anti-rationalization table, skill hierarchy, and guide list → See AGENTS-EXTENDED.md**
+
+---
+
+# >>> another-agent-skills-rules
+# The following rules are from Another Agent Skills (github.com/juandelossantos/another-agent-skills)
+# These rules ADD TO your existing workflow, they do not replace it.
+# If there are conflicts between your existing rules and ours, follow BOTH:
+# - Your project-specific rules take priority for project details
+# - Our skill-driven rules take priority for workflow and quality
+# <<< another-agent-skills-rules
+

@@ -287,7 +287,7 @@ Does not remove your user profile (`~/.config/opencode/user-profile.json`) or th
 Built on the shoulders of:
 - **Addy Osmani** — [`agent-skills`](https://github.com/addyosmani/agent-skills) (23 upstream skills)
 - **Leonxlnx** — [`taste-skill`](https://github.com/Leonxlnx/taste-skill) — design taste and anti-slop frontend
-- **Alexandru Tufiș** — [`impeccable.style`](https://impeccable.style) — design review pipeline inspiration (critique → audit → fix → delight)
+- **Paul Bakaus** — [`impeccable.style`](https://impeccable.style) — design review pipeline inspiration (critique → audit → fix → delight)
 - **Julius Brussee** — [`caveman`](https://github.com/JuliusBrussee/caveman) — token optimization inspiration
 - **Andrej Karpathy** — Behavioral observations on LLM coding failures
 - **OpenCode team** — Native skill framework and invocation system
