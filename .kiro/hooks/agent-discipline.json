@@ -1,0 +1,37 @@
+{
+  "name": "agent-discipline",
+  "description": "Another Agent Skills - Agent Discipline Hooks for Kiro",
+  "hooks": [
+    {
+      "title": "Pre-Flight Git Check",
+      "description": "Run git state check before shell commands",
+      "event": "Pre Tool Use",
+      "toolName": "shell",
+      "action": "Run Command",
+      "command": "bash scripts/pre-flight.sh"
+    },
+    {
+      "title": "Commit Approval Gate",
+      "description": "Block commits without explicit approval",
+      "event": "Prompt Submit",
+      "action": "Run Command",
+      "command": "bash scripts/commit-approval.sh"
+    },
+    {
+      "title": "Edit Guard - Verify",
+      "description": "Verify file integrity after edits",
+      "event": "File Save",
+      "filePattern": "*.{ts,js,tsx,jsx,html,css,md,json,yaml,yml}",
+      "action": "Run Command",
+      "command": "bash scripts/edit-guard.sh verify"
+    },
+    {
+      "title": "Edit Guard - Preflight",
+      "description": "Record baseline before edits",
+      "event": "Pre Tool Use",
+      "toolName": "write",
+      "action": "Run Command",
+      "command": "bash scripts/edit-guard.sh preflight"
+    }
+  ]
+}

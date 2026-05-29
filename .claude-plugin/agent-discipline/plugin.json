@@ -1,0 +1,12 @@
+{
+  "name": "agent-discipline",
+  "version": "1.0.0",
+  "description": "Another Agent Skills - Agent Discipline Hooks for Claude Code",
+  "hooks": {
+    "beforeCommit": "./hooks/commit-approval.sh",
+    "beforeEdit": "./hooks/edit-guard.sh",
+    "preToolUse": {
+      "shell": "./hooks/pre-flight.sh"
+    }
+  }
+}

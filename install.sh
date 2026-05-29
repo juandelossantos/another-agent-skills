@@ -373,7 +373,7 @@ verify_installation() {
 }
 
 # ---------------------------------------------------------------------------
-AGENT_USAGE="Usage: bash install.sh --agent {claude|cursor|all}"
+AGENT_USAGE="Usage: bash install.sh --agent {claude|cursor|kiro|all}"
 
 install_agent_adapter() {
     local agent="$1"
@@ -388,6 +388,7 @@ install_agent_adapter() {
     case "${agent}" in
         claude)
             info "Installing Claude Code adapter..."
+            # Copy CLAUDE.md
             dest="${PWD}/CLAUDE.md"
             if [[ ! -f "${template_dir}/CLAUDE.md" ]]; then
                 error "Template CLAUDE.md not found in ${template_dir}"
@@ -399,9 +400,24 @@ install_agent_adapter() {
             fi
             cp "${template_dir}/CLAUDE.md" "${dest}"
             ok "Installed CLAUDE.md → ${dest}"
+            # Copy Claude plugin
+            if [[ -d "${SCRIPT_DIR}/.claude-plugin" ]]; then
+                cp -r "${SCRIPT_DIR}/.claude-plugin" "${PWD}/"
+                ok "Installed .claude-plugin/ → ${PWD}/"
+            fi
+            # Copy scripts/ (required by hooks)
+            if [[ -d "${SCRIPT_DIR}/scripts" ]]; then
+                if [[ ! -d "${PWD}/scripts" ]]; then
+                    mkdir -p "${PWD}/scripts"
+                fi
+                cp "${SCRIPT_DIR}/scripts/"*.sh "${PWD}/scripts/"
+                chmod +x "${PWD}/scripts/"*.sh
+                ok "Installed scripts/ → ${PWD}/scripts/"
+            fi
             ;;
         cursor)
             info "Installing Cursor adapter..."
+            # Copy .cursorrules
             dest="${PWD}/.cursorrules"
             if [[ ! -f "${template_dir}/.cursorrules" ]]; then
                 error "Template .cursorrules not found in ${template_dir}"
@@ -413,12 +429,47 @@ install_agent_adapter() {
             fi
             cp "${template_dir}/.cursorrules" "${dest}"
             ok "Installed .cursorrules → ${dest}"
+            # Copy Cursor plugin
+            if [[ -d "${SCRIPT_DIR}/.cursor-plugin" ]]; then
+                cp -r "${SCRIPT_DIR}/.cursor-plugin" "${PWD}/"
+                ok "Installed .cursor-plugin/ → ${PWD}/"
+            fi
+            # Copy scripts/ (required by hooks)
+            if [[ -d "${SCRIPT_DIR}/scripts" ]]; then
+                if [[ ! -d "${PWD}/scripts" ]]; then
+                    mkdir -p "${PWD}/scripts"
+                fi
+                cp "${SCRIPT_DIR}/scripts/"*.sh "${PWD}/scripts/"
+                chmod +x "${PWD}/scripts/"*.sh
+                ok "Installed scripts/ → ${PWD}/scripts/"
+            fi
+            ;;
+        kiro)
+            info "Installing Kiro adapter..."
+            # Copy Kiro hooks config
+            if [[ -d "${SCRIPT_DIR}/.kiro" ]]; then
+                mkdir -p "${PWD}/.kiro"
+                cp -r "${SCRIPT_DIR}/.kiro/hooks" "${PWD}/.kiro/"
+                ok "Installed .kiro/hooks/ → ${PWD}/.kiro/"
+            else
+                warn "Kiro hooks directory not found"
+            fi
+            # Copy scripts/ (required by hooks)
+            if [[ -d "${SCRIPT_DIR}/scripts" ]]; then
+                if [[ ! -d "${PWD}/scripts" ]]; then
+                    mkdir -p "${PWD}/scripts"
+                fi
+                cp "${SCRIPT_DIR}/scripts/"*.sh "${PWD}/scripts/"
+                chmod +x "${PWD}/scripts/"*.sh
+                ok "Installed scripts/ → ${PWD}/scripts/"
+            fi
             ;;
         *)
             echo "${AGENT_USAGE}"
             echo ""
-            echo "  claude   Install CLAUDE.md (Claude Code adapter)"
-            echo "  cursor   Install .cursorrules (Cursor adapter)"
+            echo "  claude   Install CLAUDE.md + .claude-plugin/ (Claude Code adapter)"
+            echo "  cursor   Install .cursorrules + .cursor-plugin/ (Cursor adapter)"
+            echo "  kiro     Install .kiro/hooks/ (Kiro adapter)"
             echo "  all      Install all adapters"
             return 1
             ;;
@@ -429,6 +480,7 @@ install_all_adapters() {
     local errors=0
     install_agent_adapter claude || ((errors++))
     install_agent_adapter cursor || ((errors++))
+    install_agent_adapter kiro || ((errors++))
     return "${errors}"
 }
 

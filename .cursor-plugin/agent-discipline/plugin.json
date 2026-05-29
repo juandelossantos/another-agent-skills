@@ -1,0 +1,12 @@
+{
+  "name": "agent-discipline",
+  "version": "1.0.0",
+  "description": "Another Agent Skills - Agent Discipline Hooks for Cursor",
+  "hooks": {
+    "beforeShellExecution": "./hooks/commit-approval.sh",
+    "afterFileEdit": "./hooks/edit-guard.sh",
+    "preToolUse": {
+      "shell": "./hooks/pre-flight.sh"
+    }
+  }
+}
