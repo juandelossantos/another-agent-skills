@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { getFileInfo, verifyLineCountChange, FileIntegrity, getGitState, isRiskyCommand, hasApprovalToken, readApprovalToken } from "./lib";
+import { getFileInfo, verifyLineCountChange, FileIntegrity, getGitState, isRiskyCommand, hasApprovalToken, readApprovalToken, logOverride, getOverrideCount, isEscalationRequired, ESCALATION_THRESHOLD } from "./lib";
 
 const editGuardMap = new Map<string, { filePath: string; beforeIntegrity: FileIntegrity | null }>();
 
@@ -36,6 +36,7 @@ export function preFlight(event: { tool: string; command?: string }): { allow: b
 }
 
 const BLOCKED_COMMANDS = ["git commit", "git push", "git merge", "git rebase", "git reset", "git cherry-pick", "git revert"];
+const OVERRIDE_PREFIX = "OVERRIDE:";
 
 export function commitApproval(event: { command: string; args?: string[] }): { allow: boolean; message?: string; requiresUserInput?: boolean } {
   const { command, args } = event;
@@ -43,6 +44,24 @@ export function commitApproval(event: { command: string; args?: string[] }): { a
   const fullCommand = args && args.length > 0 ? `${command} ${args.join(" ")}` : command;
   const isBlocked = BLOCKED_COMMANDS.some((blocked) => fullCommand.startsWith(blocked));
   if (!isBlocked) return { allow: true };
+
+  if (fullCommand.startsWith(OVERRIDE_PREFIX)) {
+    const reason = fullCommand.substring(OVERRIDE_PREFIX.length).trim();
+    if (isEscalationRequired()) {
+      return {
+        allow: false,
+        message: `[ESCALATION] ${getOverrideCount()}+ overrides on this branch. Process violation pattern detected. STOP. Get explicit session approval.`,
+        requiresUserInput: true,
+      };
+    }
+    logOverride(reason);
+    const count = getOverrideCount();
+    return {
+      allow: true,
+      message: `[commit-approval] Override logged (${count}/${ESCALATION_THRESHOLD}). Proceeding with "${fullCommand}".`,
+    };
+  }
+
   if (!hasApprovalToken()) {
     return { allow: false, message: `[commit-approval] Mutation detected: "${fullCommand}". COMMIT_APPROVED token required. Run Commit Manifest Protocol first.`, requiresUserInput: true };
   }

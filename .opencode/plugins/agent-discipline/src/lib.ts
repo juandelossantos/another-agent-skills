@@ -4,7 +4,9 @@ import * as crypto from "crypto";
 import { execSync } from "child_process";
 
 const COMMIT_APPROVED_PATH = ".git/COMMIT_APPROVED";
+const OVERRIDE_LOG_PATH = ".git/OVERRIDE_LOG";
 const DELIMITER = "\t";
+export const ESCALATION_THRESHOLD = 3;
 
 export interface FileIntegrity {
   path: string;
@@ -100,4 +102,34 @@ export function createApprovalToken(commitMessage: string): string {
   const token = `${sha256}${DELIMITER}${timestamp}${DELIMITER}${commitMessage}`;
   fs.writeFileSync(COMMIT_APPROVED_PATH, token, "utf-8");
   return sha256;
+}
+
+export function logOverride(reason: string): void {
+  const timestamp = new Date().toISOString();
+  const branch = getCurrentBranch();
+  const entry = `${timestamp}|agent|pre-commit|${reason}`;
+  fs.appendFileSync(OVERRIDE_LOG_PATH, entry + "\n", "utf-8");
+}
+
+export function getOverrideCount(): number {
+  if (!fs.existsSync(OVERRIDE_LOG_PATH)) return 0;
+  try {
+    const content = fs.readFileSync(OVERRIDE_LOG_PATH, "utf-8");
+    const lines = content.split("\n").filter((line) => line.includes("|agent|pre-commit|"));
+    return lines.length;
+  } catch {
+    return 0;
+  }
+}
+
+export function isEscalationRequired(): boolean {
+  return getOverrideCount() >= ESCALATION_THRESHOLD;
+}
+
+function getCurrentBranch(): string {
+  try {
+    return execSync("git branch --show-current", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim();
+  } catch {
+    return "unknown";
+  }
 }

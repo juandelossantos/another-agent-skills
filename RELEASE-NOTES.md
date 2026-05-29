@@ -1,5 +1,43 @@
 # Release Notes
 
+## 1.4.0 (2026-05-29)
+
+v1.4.0: Add mechanical enforcement gates (Phase 3), restructure 7 skills with lazy loading.
+
+### Enforcement Gates
+
+- **Pre-commit v6** (9 gates): Branch check, staged changes, remote sync, HTML integrity, hash verification, build verification (bash -n on shell scripts), anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement (warn on new scripts without design doc)
+- **Commit-msg v3**: SHA256 hash verification aligned with pre-commit algorithm
+- **Escape hatch**: OVERRIDE: reason → logged to .git/OVERRIDE_LOG, 3 escapes = ESCALATION required
+- **OpenCode plugin**: Agent discipline plugin with editGuard, preFlight, commitApproval, sessionCompact hooks
+
+### Skills Restructured (Lazy Loading)
+
+- **test-driven-development**: 383l → 72l + 5 guides (TDD-CYCLE, PROVE-IT, TEST-PYRAMID, WRITING-TESTS, ANTI-PATTERNS, BROWSER-TESTING)
+- **debugging-and-error-recovery**: 300l → 63l + 2 guides (TRIAGE, ERROR-PATTERNS)
+- **code-review-and-quality**: 347l → 79l + 3 guides (FIVE-AXIS, REVIEW-PROCESS, CHANGE-SIZING)
+- **git-workflow-and-versioning**: 300l → 66l + 3 guides (COMMIT-PRINCIPLES, BRANCHING, PRE-COMMIT)
+- **documentation-and-adrs**: 278l → 62l + 3 guides (ADR-GUIDE, INLINE-DOCS, README)
+- **incremental-implementation**: 245l (unchanged, already ≤250l)
+- **planning-and-task-breakdown**: 223l (unchanged, already ≤250l)
+
+All skills now ≤250 lines via lazy loading pattern (SKILL.md as index + guides/ loaded on-demand).
+
+### Install Script
+
+- install.sh: Added install_opencode_plugin() function to copy agent-discipline plugin to ~/.config/opencode/plugins/
+
+## 1.3.0 (2026-05-29)
+
+v1.3.0: Add native JS plugin for agent discipline.
+
+### Agent Discipline Plugin
+
+- **OpenCode plugin**: Native JavaScript plugin in .opencode/plugins/agent-discipline/
+- **Hooks**: editGuard (file integrity on edit/create/delete), preFlight (git state before risky commands), commitApproval (mutation gate for commit/push/merge), sessionCompact (context eviction reminder)
+- **Override tracking**: logOverride(), getOverrideCount(), isEscalationRequired() for 3-strikes escalation
+- **Multi-agent support**: Claude Code (.claude-plugin/), Cursor (.cursor-plugin/), Kiro (.kiro/)
+
 ## 1.2.0 (2026-05-28)
 
 v1.2.0: Add 9-skill design review pipeline, restructure README with Mermaid diagram and DESIGN-SKILLS.md catalog.

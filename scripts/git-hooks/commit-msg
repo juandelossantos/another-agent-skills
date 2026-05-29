@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Hash Verification (v2)
-# Installed by init-agents.sh. Verifies commit message hash against
-# .git/COMMIT_APPROVED token. Must run AFTER pre-commit hook.
-# Bypass: git commit --no-verify (skips ALL hooks)
-#
-# v2: Receives message file path as $1 (git >= 2.54 compatible).
-# Reads the message, computes SHA256, compares with token.
+# commit-msg — Another Agent Skills Hash Verification (v3)
+# Verifies commit message hash against .git/COMMIT_APPROVED token.
+# Algorithm: sha256(message + "\t" + timestamp) must match stored hash.
+# Token format: hash\ttimestamp\tmessage (tab-separated)
 
 set -euo pipefail
 
 APPROVAL_FILE=".git/COMMIT_APPROVED"
+COMMIT_MSG_FILE="${1:-.git/COMMIT_EDITMSG}"
 
 if [ ! -f "$APPROVAL_FILE" ]; then
     echo ""
@@ -23,28 +21,31 @@ if [ ! -f "$APPROVAL_FILE" ]; then
     exit 1
 fi
 
-COMMIT_MSG=$(cat "$1")
-EXPECTED_HASH=$(cat "$APPROVAL_FILE" | tr -d '[:space:]')
-ACTUAL_HASH=$(printf '%s' "$COMMIT_MSG" | sha256sum | cut -d' ' -f1)
+TOKEN_CONTENT=$(cat "$APPROVAL_FILE" 2>/dev/null || echo "")
+TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f1)
+TOKEN_TS=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f2)
 
-if [ "$ACTUAL_HASH" != "$EXPECTED_HASH" ]; then
+COMMIT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
+
+ACTUAL_HASH=$(printf '%s\t%s' "$COMMIT_MSG" "$TOKEN_TS" | sha256sum | cut -d' ' -f1)
+
+if [ "$TOKEN_HASH" != "$ACTUAL_HASH" ]; then
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  BLOCKED: Commit message hash mismatch.                 ║"
+    echo "║  BLOCKED: Token hash mismatch.                          ║"
     echo "║                                                          ║"
-    echo "║  The approval token was generated for a different         ║"
-    echo "║  commit message than the one being committed.             ║"
+    echo "║  The COMMIT_APPROVED token does not match the           ║"
+    echo "║  commit message. Possible causes:                       ║"
+    echo "║  - Commit message was modified after token creation     ║"
+    echo "║  - Token was created for a different commit             ║"
     echo "║                                                          ║"
-    echo "║  Message: $(echo "$COMMIT_MSG" | head -1)"
-    echo "║  Expected: $EXPECTED_HASH"
-    echo "║  Actual:   $ACTUAL_HASH"
-    echo "║                                                          ║"
-    echo "║  The agent must re-present the Commit Manifest with       ║"
-    echo "║  the correct message and get fresh approval.              ║"
+    echo "║  To proceed:                                            ║"
+    echo "║  1. Restore original commit message, OR                  ║"
+    echo "║  2. Run Commit Manifest Protocol again to get new token  ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
     exit 1
 fi
 
-rm "$APPROVAL_FILE"
+rm -f "$APPROVAL_FILE"
 exit 0

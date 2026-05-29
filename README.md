@@ -1,7 +1,7 @@
 # Another Agent Skills 👷
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.3.0](https://img.shields.io/badge/version-1.3.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.4.0](https://img.shields.io/badge/version-1.4.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -22,8 +22,9 @@ We believe quality emerges from explicit contracts, not implicit trust. Every sk
 
 ## 📦 Latest Features
 
-- **Agent discipline plugin (v1.3.0)** — Native OpenCode plugin with event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `commit-approval` (mutation gate), `session-compact` (anti-slop). Auto-fires on critical events.
-- **Multi-agent support (v1.3.0)** — Native plugin configs for Claude Code (`.claude-plugin/`), Cursor (`.cursor-plugin/`), and Kiro (`.kiro/`). Hooks auto-fire across all agents.
+- **Agent discipline plugin (v1.4.0)** — Native OpenCode plugin with event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `commit-approval` (mutation gate), `session-compact` (anti-slop). Auto-fires on critical events.
+- **Mechanical enforcement gates (v1.4.0)** — Pre-commit v6 with 9 gates: branch check, staged changes, remote sync, HTML integrity, hash verification, build verification (bash -n), anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement. Commit-msg v3 with hash verification. Escape hatch with OVERRIDE logging.
+- **Multi-agent support (v1.4.0)** — Native plugin configs for Claude Code (`.claude-plugin/`), Cursor (`.cursor-plugin/`), and Kiro (`.kiro/`). Hooks auto-fire across all agents.
 - **Design review pipeline (new)** — 9 cross-platform quality skills: `critique` (heuristic review), `audit` (5-dimension technical scan), `clarify` (UX copy), `hard` (a11y/robustness fixes), `polish` (design details), `typeset` (typography), `adapt` (responsive), `optimize` (performance), `delight` (micro-interactions). Chain them: critique → audit → fix.
 - **Mayéutic agent (Rule 0g)** — Agents challenge decisions, verify objectives, propose better alternatives. Built on `doubt-driven-development`.
 - **Release automation** — `scripts/release.sh` handles semver bumps, changelogs, git tags, and optional auto-push. Supports `-m` and `-y` for CI/agent usage.
@@ -242,12 +243,12 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md) | All design-related skills: platforms, skins, review pipeline |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.2.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.4.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (23/24 passes, 0 criticals) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`scripts/pre-flight.sh`](./scripts/pre-flight.sh) | Pre-action git state check + pre-commit hook v3 enforcement |
+| [`scripts/pre-flight.sh`](./scripts/pre-flight.sh) | Pre-action git state check + pre-commit hook v6 enforcement (9 gates) |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
 | [`uninstall.sh`](./uninstall.sh) | Clean uninstaller (Linux/macOS) |
