@@ -118,6 +118,19 @@ After completing edits, the agent MUST STOP before any git add/commit. No commit
 
 **Common failure mode:** User says "fix these 5 things" → agent edits 5 files → agent commits all 5 as one batch without asking. The fix: after the last edit, STOP. Present manifest. Only commit after explicit approval. The edits were approved. The commit is not.
 
+**Mechanical enforcement against batch-mode:**
+
+```
+VALID:                             INVALID (batch-mode):
+  msg: "Edits done. Manifest:"       msg: "Edits done."
+  block: COMMIT MANIFEST             bash: token + git add + git commit
+  bash: printf '...' | sha256sum
+  user: "sí"
+  bash: git add && git commit
+```
+
+Token generation (`sha256sum > .git/COMMIT_APPROVED`) and `git commit` MUST be in separate bash calls. Never in the same bash call. The pre-commit hook will block commits where the token was not generated, but the agent must enforce the SEPARATION between token creation and execution as a mechanical discipline.
+
 ---
 
 ## Rule 0e: Context Compression & Eviction
