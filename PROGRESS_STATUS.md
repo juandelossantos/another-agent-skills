@@ -1,7 +1,7 @@
 # Project Progress Status
 
-> **Last updated:** 2026-05-25  
-> **Current version:** 11.0/10  
+> **Last updated:** 2026-05-29  
+> **Current version:** 11.1/10  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
 > **Current plan:** [Roadmap v12](../../development/ROADMAP_V12.md)
 
@@ -59,6 +59,8 @@
 | 3 Strikes Protocol | ✅ Active | `skills/debugging-three-strikes/GUIDE.md` (stop after 3 failed fix attempts) |
 | User profile: github_username | ✅ Active | `skills/user-onboarding/SKILL.md` + `ONBOARDING-QUESTIONS-GUIDE.md` |
 | Incident documentation | ✅ Active | `development/INCIDENT_001` + `INCIDENT_002` |
+| Edit-guard structural integrity gate | ✅ Active | `scripts/edit-guard.sh` + `AGENTS.md` Step 3 |
+| Pre-commit structural HTML check (v4) | ✅ Active | `scripts/git-hooks/pre-commit` |
 
 ### What Was Refactored This Cycle
 
@@ -88,6 +90,9 @@
 - Troubleshooting guide — common issues
 - New skill tracks: CLI, IoT, GameDev, Container
 - Internationalization — separate language files from skill logic
+- Self-host Google Fonts (Newsreader + JetBrains Mono)
+- Generate 1200×630 PNG OG image from SVG
+- Copy button micro-interaction (scale + check icon)
 
 ---
 
@@ -115,6 +120,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
+| **11.1** | 2026-05-29 | Hero section repair (arrows, command, install box). Edit-guard structural integrity gate (INCIDENT-005). Pre-commit hook v4 with HTML marker validation. All project files committed (i18n, JS, deploy config). .gitignore cleanup. |
 | **11.0** | 2026-05-25 | All 15 skills ≤ 248 lines. Windows support (install.ps1 + uninstall.ps1). Cross-shell (Zsh/Bash/Fish). Agent adapters (Claude/Cursor). Uninstall scripts. Multi-agent orchestration skill. |
 | 10.0 | 2026-05-25 | All 14 skills < 356 lines, lazy loading on 13/14, smart merge, universal paths, token optimization applied |
 | 9.6 | 2026-05-24 | 13 skills, multi-platform (web/PWA/mobile), context persistence, lazy loading backend-api-mastery |
