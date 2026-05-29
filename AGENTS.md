@@ -8,6 +8,28 @@
 
 ---
 
+## Session Start Protocol (MANDATORY)
+
+**Before ANY action or tool execution:**
+
+1. Read AGENTS.md Rules 0 through 12
+2. Check Git state: `git status && git fetch --dry-run && git branch --show-current`
+3. Present Guardian Pattern acknowledgment:
+
+```
+SESSION START [timestamp]
+Branch: [current]
+Guardian Pattern: ACTIVE — Decision Points REQUIRED before any mutation
+Protocol: Read AGENTS.md, no mutations without approval
+→ Ready.
+```
+
+4. **DO NOT execute any tool without completing this protocol.**
+
+**Failure is a Rule 12 violation.** All mutations blocked without explicit user approval.
+
+---
+
 ## Rule 0: User Profile Verification
 
 **Before any skill, check `~/.config/opencode/user-profile.json`.**
