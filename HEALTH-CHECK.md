@@ -1,8 +1,8 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-05-26
+**Date:** 2026-05-28
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY (v2 + CORE extraction across all platforms)
+**Status:** ✅ HEALTHY (v1.2.0 — design review pipeline added)
 
 ---
 
@@ -12,7 +12,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Warnings | **2** (minor) |
-| Passes | **23/24** (96%) |
+| Passes | **31/33** (94%) |
 | Overall | **HEALTHY** |
 
 ---
@@ -28,10 +28,11 @@
 | Commit/Push separation | ❌ Combined | ✅ Separate decisions | New |
 | 3 Strikes Protocol | ❌ None | ✅ GUIDE.md | New |
 | Purpose-driven sessions | ❌ None | ✅ `.sessionrc` | New |
-| ADRs | 0 | 2 | +2 |
+| Design review pipeline | ❌ None | ✅ 9 skills: critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight | New |
+| ADRs | 0 | 4 | +4 |
 | Incident docs | 0 | 3 | +3 |
 | User profile fields | basic | github_username + author_name | Extended |
-| All references intact | — | 19/19 verified | ✅ |
+| All references intact | — | 22/22 verified | ✅ |
 
 ---
 
@@ -60,7 +61,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 252 lines, lazy-loaded |
 | `install.sh` exists | ✅ PASS | 481 lines, full-install script |
 | `scripts/init-agents.sh` | ✅ PASS | 177 lines, per-project init |
-| Skills organized | ✅ PASS | 22 skills in `skills/`, each < 250 lines |
+| Skills organized | ✅ PASS | 31 skills in `skills/`, each < 250 lines |
 | Guides lazy-loaded | ✅ PASS | 56 guides, loaded on-demand per phase |
 | Design CORE extracted | ✅ PASS | 3 shared guides in `engineering-fundamentals/guides/` |
 | ADRs documented | ✅ PASS | 4 ADRs in `ADRs/` |
@@ -196,19 +197,20 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 ## Metrics Summary
 
 | Metric | Current | Target | Status |
-|---|---|---|---|---|
-| Skills ≤ 250 lines (SKILL.md only) | 22/22 | ≤ 250 each | ✅ |
+|---|---|---|---|---|---|
+| Skills ≤ 250 lines (SKILL.md only) | 31/31 | ≤ 250 each | ✅ |
 | Always-loaded context | 592 lines (~8,880 tok) | < 600 lines | ✅ |
-| Skills total weight (SKILL.md + guides) | 3,238 + 965 (guides) | lazy-loaded | ⚪ INFO |
+| Skills total weight (SKILL.md + guides) | 4,643 + 965 (guides) | lazy-loaded | ⚪ INFO |
 | ADRs | 4 | ≥ 1 | ✅ |
 | Platform skills with CORE design | 4/4 (web, mobile, desktop, pwa) | 4/4 | ✅ |
 | Platform-specific guides created | 6 (mobile 2, desktop 3, pwa 1) | — | ✅ |
+| Design review pipeline skills | 9 (critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight) | — | ✅ |
 | Broken references | 0 | 0 | ✅ |
-| Mechanical enforcements | 2 (pre-commit hook + hash binding) | ≥ 1 | ✅ |
+| Mechanical enforcements | 3 (pre-commit hook + hash binding + pre-flight.sh) | ≥ 1 | ✅ |
 | Frontend anti-slop tells | 85+ | 85+ | ✅ |
-| Pre-flight checks | 93 | 93 | ✅ |
 | Critical issues | 0 | 0 | ✅ |
+| Anti-rationalization entries | 28 | 25+ | ✅ |
 
-**v2 upgrade:** Replaced 8 fixed aesthetic directions with 3 parametric dials. Created 5 new skills, 6 new guides, 1 ADR.
+**v1.2.0 upgrade:** Added 9-skill design review pipeline (critique → delight). Restructured README with Mermaid lifecycle diagram and DESIGN-SKILLS.md catalog. 31 total skills.
 
 **CORE extraction:** Extracted universal design system into `engineering-fundamentals/guides/` (3 CORE guides). Migrated all 4 platform skills (web, mobile, desktop, pwa) to Three Dials System + CORE anti-slop. Created 6 platform-specific guides. ADR-004.

@@ -21,17 +21,19 @@
 ## Rule 1: Skill Hierarchy (Full Table)
 
 | Layer | Skills | Purpose |
-|---|---|---|
+|---|---|---|---|
 | **Foundation** | `engineering-fundamentals` | Discovery, contracts, anti-slop, quality gates |
 | **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile`, `frontend-desktop` | Web, PWA, native mobile, desktop |
 | **Backend** | `backend-api-mastery` | API, DB, auth |
 | **DevOps** | `fullstack-shipping` | CI/CD, deploy |
 | **Process** | `spec-driven-development`, `architecture-analysis`, `planning-and-task-breakdown` | Planning, analysis |
 | **Quality** | `project-health-check`, `code-review-and-quality`, `dev-environment-audit` | Auditing, review |
+| **Design Review** | `critique-skill`, `audit-skill`, `clarify-skill`, `hard-skill`, `polish-skill`, `typeset-skill`, `adapt-skill`, `optimize-skill`, `delight-skill` | Heuristic review → audit → fix → delight |
 | **Metrics** | `project-metrics` | Quality logging (background) |
 | **Git** | `git-init-and-versioning`, `git-workflow-and-versioning` | Setup, workflow |
 | **Debug** | `debugging-and-error-recovery` | Root cause analysis |
 | **Ideation** | `idea-refine`, `interview-me` | Brainstorming, requirements |
+| **Design Skins** | `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` | Visual direction and output enforcement |
 
 ---
 
@@ -163,6 +165,9 @@ User can disable this gate by saying:
 | "I'll generate the token and commit, then tell the user." | Post-hoc notification is not approval. Present first, commit after. |
 | "The user said 'continue' / 'sigamos' / 'dale'." | These are INVALID for commits. Only "yes", "sí", "commit", "proceed" are valid. |
 | "I'm in flow, stopping would break momentum." | Speed without consent is arrogance, not efficiency. The gate exists for this exact moment. |
+| "Critique is for designers, not devs." | Design quality affects every user. A 10-minute critique run prevents days of redesign. |
+| "I'll ship first, audit later." | Post-ship findings rarely get fixed. Run audit before ship, not after. |
+| "The UI works fine, it doesn't need delight." | Micro-interactions are not decoration — they communicate state changes. Missing feedback confuses users. |
 
 ---
 

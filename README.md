@@ -81,7 +81,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 25-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
 
-**Unified lifecycle, not silos** — 54 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety/wiring) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
+**Unified lifecycle, not silos** — 54 skills wired into a single spec→plan→build→verify→review→ship pipeline with a design review loop (critique → audit → fix → delight) before shipping. Every skill follows the same lazy-loading pattern.
 
 **Versioned and auto-updating** — VERSION file, RELEASE-NOTES, daily update checks. You choose when to pull. No other skill framework versions itself.
 
@@ -131,7 +131,7 @@ Every task starts at **Define** and moves through the pipeline. The **Design Rev
 ## Skills at a Glance
 
 | Skill | When | What It Does |
-|---|---|
+|---|---|---|
 | `engineering-fundamentals` | Foundation | Universal engineering philosophy: discovery protocols, contract-first design, anti-slop detection (25 patterns), quality gates, Three Dials design core, pre-flight enforcement, context eviction. Implicitly loaded by every skill. |
 | `backend-api-mastery` | API/backend | REST/GraphQL, DB, auth, testing, docs |
 | `spec-driven-development` | New features | Research-backed specs with critical thinking |
