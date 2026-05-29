@@ -85,6 +85,7 @@ No asumir. Preguntar siempre. El usuario sabe dónde quiere estar.
 
 ```
 □ Run pre-flight: bash scripts/pre-flight.sh (diagnostic only — no action without asking)
+□ Run design gate: bash scripts/design-gate.sh (BLOCKING if change touches design or visual assets — web, mobile, desktop, or any UI)
 □ Present git state + branch to user and ask intent
 □ Is this action reversible? If no → REQUIRE explicit approval
 □ Does this action affect user data or repository state? If yes → REQUIRE explicit approval
@@ -101,6 +102,8 @@ No asumir. Preguntar siempre. El usuario sabe dónde quiere estar.
 **Irreversible actions:** git commit, push, merge, rebase, reset, cherry-pick, revert, file deletion, overwriting existing files, executing scripts that modify system state.
 
 **Mechanical enforcement:** The pre-commit hook (v3+, installed by `init-agents`) runs the pre-flight check BEFORE any commit is allowed. Even if the agent skips the manual pre-flight + interview before edits, the commit will be blocked by the hook. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
+
+**Design gate mechanical enforcement:** The `scripts/design-gate.sh` script checks for DESIGN.md, design/DESIGN-LOCK.md, and `.opencode/.design-skill-loaded` BEFORE visual work starts. If the agent attempts to create or modify HTML, CSS, or visual assets without completing the design process, this gate blocks. The gate is invoked manually by the agent per the Integrity Checklist above. There is no pre-commit hook for this (yet) — it relies on the agent's discipline to run it. If skipped, the output will be generic, and the user will reject it.
 
 ### Step 4 — Edit-to-Commit Barrier (BLOCKING)
 

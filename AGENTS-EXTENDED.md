@@ -168,6 +168,9 @@ User can disable this gate by saying:
 | "Critique is for designers, not devs." | Design quality affects every user. A 10-minute critique run prevents days of redesign. |
 | "I'll ship first, audit later." | Post-ship findings rarely get fixed. Run audit before ship, not after. |
 | "The UI works fine, it doesn't need delight." | Micro-interactions are not decoration — they communicate state changes. Missing feedback confuses users. |
+| "I already know the design direction, I don't need to load a skill." | Knowledge drifts. The skill enforces a documented process with gates. If you skip loading it, there's no record that design was ever considered. |
+| "I'll create DESIGN.md myself, I don't need the visual skill." | DESIGN.md written without the skill's discovery phase and anti-slop rules is just guesswork. The skill prevents the generic output you're trying to avoid. |
+| "The design gate is just a script, I can skip it." | Skipping the design gate means shipping visual work without design approval. That's exactly the slop this project exists to prevent. The gate is your discipline. |
 
 ---
 
