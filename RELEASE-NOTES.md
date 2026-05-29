@@ -1,5 +1,30 @@
 # Release Notes
 
+## 1.2.0 (2026-05-28)
+
+v1.2.0: Add 9-skill design review pipeline, restructure README with Mermaid diagram and DESIGN-SKILLS.md catalog.
+
+### New Skills (Design Review Pipeline)
+
+- **critique-skill** — Two-pass design quality review with Nielsen 10 heuristics scoring, 4 persona tests, 25-entry AI slop anti-patterns catalog
+- **audit-skill** — Five-dimension technical quality audit (a11y, perf, theming, responsive, anti-patterns) with P0-P3 severity routing
+- **clarify-skill** — UX copy rewriting for labels, errors, empty states, buttons, tooltips, and confirmations with voice tuning per audience
+- **hard-skill** — Mechanical P0/P1 fixes for accessibility (ARIA, keyboard, focus), input validation, state handling, and confirmation dialogs
+- **polish-skill** — Design detail fixes: spacing tokens, alignment, border radius, shadow depth, color token drift
+- **typeset-skill** — Typography correction: type ramp application, line-height tuning, letter-spacing, paragraph rhythm
+- **adapt-skill** — Responsive layout fixes: breakpoint gaps, touch targets (≥44px), viewport (100dvh), overflow, hover-only actions
+- **optimize-skill** — Performance fixes: bundle code-splitting, lazy loading, image optimization, animation compositing, layout thrashing elimination
+- **delight-skill** — Micro-interactions: hover/tap feedback, state transitions (150-400ms), loading skeletons, success/error animation, page enter stagger
+
+### Documentation
+
+- **README restructured**: Added Mermaid flowchart showing Core Lifecycle ↔ Design Review Pipeline interaction; consolidated Skills at a Glance to 12 core lifecycle skills with a link to DESIGN-SKILLS.md for the 21 design skills
+- **DESIGN-SKILLS.md**: New catalog documenting all 21 design-related skills across three tiers (platform, direction, review pipeline) with ecosystem map and usage triggers
+- **Documentation Map**: Fixed table separator format, added DESIGN-SKILLS.md entry, updated pre-flight hook description
+- Pre-commit hook v3: SHA256-based mutation approval enforcement (Rule 0d mechanical checklist)
+- scripts/pre-flight.sh: 5-point git state diagnostic (repo, branch, working tree, remote, upstream)
+- AGENTS.md Rule 0d: Pre-Action Checklist + Branch Interview protocol
+
 ## 1.1.0 (2026-05-26)
 
 v1.1.0: Fix 9 audit issues, add RELEASE-GUIDE, add release.sh, hash-bound commit hook
