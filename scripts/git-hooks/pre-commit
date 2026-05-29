@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v5)
+# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v6)
 # Installed by init-agents.sh.
 # 1) Runs pre-flight check (working tree, branch, upstream, remote)
 # 2) Structural integrity gate on staged HTML files
 # 3) Verifies COMMIT_APPROVED token hash matches commit message
 # 4) Escape hatch: OVERRIDE: reason → logged, 3 escapes = ESCALATION
+# 5) Build verification: bash -n on staged shell scripts
+# 6) Anti-slop: detect generic AI-generated patterns
+# 7) Debug 3-strikes: track fix/debug commits, escalate at 3
+# 8) SPEC enforcement: warn when new scripts lack spec
 #
-# v5: Remove --no-verify bypass, add hash verification, add escape hatch with logging
+# v6: Add Phase 3 mechanical gates
 
 set -euo pipefail
 
@@ -167,5 +171,174 @@ if [ "$OVERRIDE_COUNT" -ge "$ESCALATION_THRESHOLD" ]; then
 fi
 
 echo "  ${GREEN}✓${NC} Commit approval token valid (hash verified)"
+
+# ============================================================
+# PHASE 3 GATES
+# ============================================================
+
+# 6. Build Verification Gate — syntax check shell scripts
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  BUILD VERIFICATION                       ║"
+echo "╚════════════════════════════════════════════╝"
+
+BUILD_FAIL=0
+STAGED_SHELL=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(sh|bash)$' || true)
+if [ -n "$STAGED_SHELL" ]; then
+  echo "  Checking shell script syntax..."
+  for f in $STAGED_SHELL; do
+    if [ ! -f "$f" ]; then continue; fi
+    if bash -n "$f" 2>&1; then
+      echo "    ${GREEN}✓${NC} $f — syntax OK"
+    else
+      echo "    ${RED}✗${NC} $f — syntax error"
+      BUILD_FAIL=1
+    fi
+  done
+  if [ "$BUILD_FAIL" -eq 1 ]; then
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  BUILD VERIFICATION FAILED                              ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Shell script syntax errors detected. Fix before       ║${NC}"
+    echo "  ${RED}║  committing. Run: bash -n <file> to diagnose.          ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+else
+  echo "  ${YELLOW}−${NC} No shell scripts staged — skipped"
+fi
+
+# 7. Anti-Slop Gate — detect generic AI-generated patterns
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  ANTI-SLOP DETECTION                       ║"
+echo "╚════════════════════════════════════════════╝"
+
+SLOP_PATTERNS=(
+  "I'd be happy to"
+  "I'd love to"
+  "Sure thing"
+  "Here's the code"
+  "This is a placeholder"
+  "Lorem ipsum"
+  "temp.placeholder"
+  "TODO: fix this later"
+  "The following code"
+  "As you can see"
+)
+
+SLOP_FAIL=0
+STAGED_ALL=$(git diff --cached --name-only --diff-filter=ACM | xargs -I {} echo "{}" 2>/dev/null || true)
+if [ -n "$STAGED_ALL" ]; then
+  echo "  Scanning for AI slop patterns..."
+  for f in $STAGED_ALL; do
+    if [ ! -f "$f" ]; then continue; fi
+    case "$f" in
+      *.png|*.jpg|*.jpeg|*.gif|*.svg|*.ico) continue ;;
+      *.lock|*.sum) continue ;;
+      scripts/git-hooks/*|.git/hooks/*) continue ;;
+    esac
+    for pattern in "${SLOP_PATTERNS[@]}"; do
+      if grep -qF "$pattern" "$f" 2>/dev/null; then
+        echo "    ${RED}✗${NC} $f — contains slop: '$pattern'"
+        SLOP_FAIL=1
+      fi
+    done
+  done
+  if [ "$SLOP_FAIL" -eq 1 ]; then
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  ANTI-SLOP BLOCKED                                     ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Generic AI-generated content detected. Remove or       ║${NC}"
+    echo "  ${RED}║  replace with project-specific content.                 ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Patterns detected: filler phrases, placeholder text, ║${NC}"
+    echo "  ${RED}║  generic explanations that add no value.               ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+  echo "  ${GREEN}✓${NC} No slop patterns detected"
+else
+  echo "  ${YELLOW}−${NC} No files staged — skipped"
+fi
+
+# 8. Debug 3-Strikes Gate — track fix/debug commits
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  DEBUG STRIKES TRACKING                    ║"
+echo "╚════════════════════════════════════════════╝"
+
+DEBUG_LOG="${REPO_ROOT}/.git/DEBUG_STRIKES"
+COMMIT_MSG=$(head -1 "$COMMIT_MSG_FILE" 2>/dev/null | tr '[:upper:]' '[:lower:]' || echo "")
+
+  DEBUG_STRIKE=0
+  if echo "$COMMIT_MSG" | grep -qE '^(fix|hotfix|bug|debug|patch)[:\s]'; then
+    DEBUG_STRIKE=1
+    DEBUG_COUNT=$(grep -c "DEBUG_STRIKE" "$DEBUG_LOG" 2>/dev/null || echo "0")
+    DEBUG_COUNT=$((${DEBUG_COUNT:-0} + 1))
+    echo "$COMMIT_MSG" | cut -c1-60 > "$DEBUG_LOG"
+    echo "DEBUG_STRIKE:$DEBUG_COUNT:$(date +%s)" >> "$DEBUG_LOG"
+    echo "  ${YELLOW}⚠${NC} Debug/fix commit detected (strike $DEBUG_COUNT/3)"
+  else
+    DEBUG_COUNT=$(grep -c "DEBUG_STRIKE" "$DEBUG_LOG" 2>/dev/null || echo "0")
+    if [ "${DEBUG_COUNT:-0}" -gt 0 ]; then
+    echo "  ${YELLOW}−${NC} Previous debug strikes: $DEBUG_COUNT"
+  else
+    echo "  ${GREEN}✓${NC} No debug strikes"
+  fi
+fi
+
+if [ "$DEBUG_COUNT" -ge 3 ]; then
+  echo ""
+  echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+  echo "  ${RED}║  DEBUG 3-STRIKES ESCALATION                             ║${NC}"
+  echo "  ${RED}║                                                         ║${NC}"
+  echo "  ${RED}║  This branch has $DEBUG_COUNT debug/fix commits.                  ║${NC}"
+  echo "  ${RED}║                                                         ║${NC}"
+  echo "  ${RED}║  Pattern suggests:                                      ║${NC}"
+  echo "  ${RED}║  - Symptom not root cause being fixed repeatedly         ║${NC}"
+  echo "  ${RED}║  - Missing test coverage for regression                  ║${NC}"
+  echo "  ${RED}║  - Technical debt being patched, not resolved           ║${NC}"
+  echo "  ${RED}║                                                         ║${NC}"
+  echo "  ${RED}║  Required: Debug session with test coverage analysis.    ║${NC}"
+  echo "  ${RED}║  Use: skill debugging-and-error-recovery                 ║${NC}"
+  echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+  echo ""
+  exit 1
+fi
+
+# 9. SPEC Gate — check for spec when committing new functionality
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  SPEC ENFORCEMENT                           ║"
+echo "╚════════════════════════════════════════════╝"
+
+STAGED_NEW_SCRIPT=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^scripts/[^g]' || true)
+if [ -n "$STAGED_NEW_SCRIPT" ]; then
+  if ! git diff --cached --name-only | grep -qE '(SPEC\.md|DESIGN\.md|design/)'; then
+    echo "  ${YELLOW}⚠${NC} New script(s) staged without spec update:"
+    echo "    $STAGED_NEW_SCRIPT" | tr ' ' '\n' | sed 's/^/    /'
+    echo ""
+    echo "  ${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${YELLOW}║  SPEC RECOMMENDED                                       ║${NC}"
+    echo "  ${YELLOW}║                                                         ║${NC}"
+    echo "  ${YELLOW}║  New scripts should be accompanied by spec or design    ║${NC}"
+    echo "  ${YELLOW}║  doc. This is not blocked but is tracked.               ║${NC}"
+    echo "  ${YELLOW}║                                                         ║${NC}"
+    echo "  ${YELLOW}║  To skip: Add OVERRIDE: reason before your commit msg   ║${NC}"
+    echo "  ${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
+  else
+    echo "  ${GREEN}✓${NC} Spec/design doc updated alongside scripts"
+  fi
+else
+  echo "  ${YELLOW}−${NC} No new scripts — skipped"
+fi
+
+echo ""
+echo "  ${GREEN}✓${NC} All Phase 3 gates passed"
 echo ""
 exit 0
