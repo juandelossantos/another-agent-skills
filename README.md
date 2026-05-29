@@ -16,10 +16,11 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 
 ## 📦 Latest Features
 
+- **Design review pipeline (new)** — 9 cross-platform quality skills: `critique` (heuristic review), `audit` (5-dimension technical scan), `clarify` (UX copy), `hard` (a11y/robustness fixes), `polish` (design details), `typeset` (typography), `adapt` (responsive), `optimize` (performance), `delight` (micro-interactions). Chain them: critique → audit → fix.
 - **Release automation** — `scripts/release.sh` handles semver bumps, changelogs, git tags, and optional auto-push. Supports `-m` and `-y` for CI/agent usage.
 - **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) + [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases) track every change.
 - **Auto-update** — `init-agents` checks for updates daily. You choose when to pull.
-- **5 specialized frontend skills** — `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` for targeted design directions.
+- **5 specialized frontend skins** — `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` for targeted design directions.
 - **Design Core Extraction** — Three Dials System (Variance / Motion / Density) shared across all platforms via `engineering-fundamentals`.
 
 ---
@@ -31,7 +32,7 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-bash install.sh          # Installs 45 skills globally
+bash install.sh          # Installs 54 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
@@ -40,11 +41,11 @@ init-agents              # In any project: activates skill-driven mode
 ```powershell
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-.\install.ps1            # Installs 45 skills globally
+.\install.ps1            # Installs 54 skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 22 custom skills + 23 upstream skills.
+**That's it.** Your AI agent now has 31 custom skills + 23 upstream skills.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it merges AGENTS.md without overwriting existing rules, and creates `.sessionrc`.
@@ -63,7 +64,7 @@ After installation, these commands are available in your terminal:
 |---|---|
 | `init-agents` | Activates skill-driven mode in any project. Merges rules without overwriting. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 45 skills, shell config, global scripts. |
+| `bash install.sh` | Full installer: 54 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
@@ -80,7 +81,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 25-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
 
-**Unified lifecycle, not silos** — 45 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
+**Unified lifecycle, not silos** — 54 skills from 3 sources (addyosmani lifecycle, taste-skill design, and custom safety/wiring) wired into a single spec→plan→build→verify→review→ship pipeline. Every skill follows the same lazy-loading pattern.
 
 **Versioned and auto-updating** — VERSION file, RELEASE-NOTES, daily update checks. You choose when to pull. No other skill framework versions itself.
 
@@ -115,6 +116,15 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | `soft-premium-ui` | Polished/premium | Soft contrast, whitespace, spring motion |
 | `output-skill` | Truncated output | Full output enforcement, no placeholder comments |
 | `redesign-skill` | Existing codebase | UI audit first, then fix structure and styling |
+| `critique-skill` | Design quality | Heuristic scoring (Nielsen 10), persona tests, AI slop detection |
+| `audit-skill` | Technical quality | 5-dimension scan (a11y, perf, theming, responsive, anti-patterns) with P0-P3 |
+| `clarify-skill` | UX copy | Rewrite labels, errors, empty states, buttons, and tooltips |
+| `hard-skill` | Accessibility/robustness | Mechanical P0/P1 fixes: ARIA, keyboard, validation, boundaries |
+| `polish-skill` | Design details | Spacing, alignment, token drift, consistency fixes |
+| `typeset-skill` | Typography | Type ramp, line-height, letter-spacing, paragraph rhythm |
+| `adapt-skill` | Responsive | Breakpoints, touch targets, viewport, mobile layout |
+| `optimize-skill` | Performance | Bundle, images, animations, layout thrashing, lazy loading |
+| `delight-skill` | Micro-interactions | Hover, transitions, feedback, loading animation |
 
 **Stack agnostic:** React/Next.js, Vue, Svelte, React Native, Flutter, Tauri, Electron, Node.js, Python, Go, Rust, PostgreSQL, MongoDB, SQLite — any modern framework.
 
@@ -173,15 +183,15 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | [`AGENTS.md`](./AGENTS.md) | Core rules: context persistence, intent mapping, lifecycle, mutation approval |
 | [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Full anti-rationalization table, Commit Manifest Protocol, project-type matrix |
 | [`EXAMPLES.md`](./EXAMPLES.md) | Before/after skill usage demonstrations |
-| [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree |
+| [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.1.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.2.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (23/24 passes, 0 criticals) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`scripts/pre-flight.sh`](./scripts/pre-flight.sh) | Pre-action git state check (branch, working tree, remote) |
+| [`scripts/pre-flight.sh`](./scripts/pre-flight.sh) | Pre-action git state check + pre-commit hook v3 enforcement |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
 | [`uninstall.sh`](./uninstall.sh) | Clean uninstaller (Linux/macOS) |
