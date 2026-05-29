@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 
 export interface GitState {
   branch: string;
-  status: "clean" | "dirty";
+  status: "clean" | "dirty" | "unknown";
   ahead: number;
   behind: number;
   upstream: string | null;
