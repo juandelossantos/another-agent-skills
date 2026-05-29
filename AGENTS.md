@@ -81,29 +81,48 @@ Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
 
 No asumir. Preguntar siempre. El usuario sabe dónde quiere estar.
 
-### Step 3 — Integrity Checklist
+### Step 3 — Edit Guard (BLOCKING for every edit)
+
+**Before ANY file edit (edit/write/create tool):**
 
 ```
-□ Run pre-flight: bash scripts/pre-flight.sh (diagnostic only — no action without asking)
-□ Run design gate: bash scripts/design-gate.sh (BLOCKING if change touches design or visual assets — web, mobile, desktop, or any UI)
-□ Present git state + branch to user and ask intent
-□ Is this action reversible? If no → REQUIRE explicit approval
-□ Does this action affect user data or repository state? If yes → REQUIRE explicit approval
-□ Have I presented the full scope to the user? If no → STOP, present first
-□ Is the user's last message an explicit "yes/sí/commit" for THIS specific action?
-  - "sigamos" / "ok" / "dale" / "continue" / silence = NOT VALID for commits
-  - Only "yes", "sí", "commit", "proceed" = VALID
-□ Did I self-review if >50 lines changed? If no → STOP, review first
-□ Did I show the commit message (or PR title/body) to the user for review before sending? Commit message, PR description, and push must be visible and adjustable. No silent commits.
-□ Did I generate the SHA256 hash token AFTER user approval and BEFORE `git commit`? The pre-commit hook will block mismatched messages.
-→ If ANY box unchecked: STOP. Ask user before proceeding.
+□ bash scripts/edit-guard.sh preflight <file> <marker> [marker...]
+   — Verifies file exists and known structural markers are present.
+   — REQUIRED markers for HTML files: at least 3 class/id markers from that file.
+   — FAIL → File is corrupted. STOP. Recover from git or ask user.
+□ bash scripts/edit-guard.sh count <file> "<exact oldString>"
+   — Verifies oldString appears exactly once (edit tool will fail otherwise).
+   — FAIL (0) → String not found. Read file to find actual text.
+   — FAIL (>1) → Not unique. Add more context to oldString.
+□ Read the file section to be edited (at minimum the target lines, ideally the full file).
+□ wc -l <file> → record line count.
 ```
+
+**AFTER each edit (immediately, before next tool call):**
+
+```
+□ wc -l <file> → compare to pre-edit count. Difference > 20% → BLOCKING.
+□ bash scripts/edit-guard.sh verify <file>
+   — Compares line count with pre-flight baseline.
+   — FAIL → Edit truncated/expanded file unexpectedly. STOP.
+□ grep -Fc "<oldString>" <file> = 0 (old text removed)
+□ grep -Fc "<newString>" <file> > 0 (new text present)
+□ bash scripts/edit-guard.sh check <file> <same markers as preflight>
+   — All structural markers still present. FAIL → sections were deleted. STOP.
+□ If >50 lines changed: self-review every changed line.
+```
+
+**Design gate:** `bash scripts/design-gate.sh` (BLOCKING if change touches design or visual assets — web, mobile, desktop, or any UI)
+
+### Step 3b — Pre-Commit Integrity Checklist
 
 **Irreversible actions:** git commit, push, merge, rebase, reset, cherry-pick, revert, file deletion, overwriting existing files, executing scripts that modify system state.
 
 **Mechanical enforcement:** The pre-commit hook (v3+, installed by `init-agents`) runs the pre-flight check BEFORE any commit is allowed. Even if the agent skips the manual pre-flight + interview before edits, the commit will be blocked by the hook. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
 
 **Design gate mechanical enforcement:** The `scripts/design-gate.sh` script checks for DESIGN.md, design/DESIGN-LOCK.md, and `.opencode/.design-skill-loaded` BEFORE visual work starts. If the agent attempts to create or modify HTML, CSS, or visual assets without completing the design process, this gate blocks. The gate is invoked manually by the agent per the Integrity Checklist above. There is no pre-commit hook for this (yet) — it relies on the agent's discipline to run it. If skipped, the output will be generic, and the user will reject it.
+
+**Edit guard mechanical enforcement:** The `scripts/edit-guard.sh` script checks structural integrity before and after every edit. The pre-commit hook validates staged HTML files for structural sanity. If the file line count changes by more than 20% after an edit, or if known structural markers go missing, the commit is blocked. The guard relies on agent discipline to run it before/after each edit, but the pre-commit hook catches corrupted files at commit time.
 
 ### Step 4 — Edit-to-Commit Barrier (BLOCKING)
 

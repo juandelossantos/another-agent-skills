@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Another Agent Skills — Production-grade agent skills for AI coding assistants</title>
+<meta name="description" content="54 composable skills that turn AI coding agents into disciplined senior engineers. Define → Plan → Build → Verify → Review → Ship. Open source.">
+<meta name="keywords" content="AI agents, coding skills, development lifecycle, code review, OpenCode, agent skills">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Another Agent Skills",
+  "description": "54 composable skills that turn AI coding agents into disciplined senior engineers",
+  "url": "https://juandelossantos.github.io/another-agent-skills/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Emilio Sierra Puentes - juandelossantos"
+  }
+}
+</script>
+
+<link rel="canonical" href="https://juandelossantos.github.io/another-agent-skills/">
+
+<meta property="og:title" content="Another Agent Skills">
+<meta property="og:description" content="54 composable skills that turn AI coding agents into disciplined senior engineers. Define → Plan → Build → Verify → Review → Ship.">
+<meta property="og:url" content="https://juandelossantos.github.io/another-agent-skills/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://juandelossantos.github.io/another-agent-skills/assets/og-image.svg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Another Agent Skills">
+<meta name="twitter:description" content="54 composable skills that turn AI coding agents into disciplined senior engineers. Define → Plan → Build → Verify → Review → Ship.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700;6..72,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700;6..72,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="preload" as="style" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="#" class="header__logo" aria-label="Another Agent Skills home">
+      <span class="header__logo-text">Another Agent Skills</span>
+    </a>
+    <ul class="header__links">
+      <li><a href="#lifecycle" data-i18n="nav.pipeline">Lifecycle</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" aria-label="GitHub repository" class="header__github" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang" aria-label="Toggle language">ES</button>
+      <button class="header__control header__theme" data-action="theme" aria-label="Toggle theme">☾</button>
+      <button class="header__hamburger" data-action="menu" aria-label="Menu" aria-expanded="false">☰</button>
+    </div>
+  </nav>
+  <nav class="header__mobile" data-mobile-menu aria-hidden="true">
+    <ul class="header__mobile-links">
+      <li><a href="#lifecycle" data-i18n="nav.pipeline">Lifecycle</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" data-i18n="nav.github" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="container hero__inner">
+      <p class="hero__tag" data-i18n="hero.tag">/// system</p>
+
+      <h1 class="hero__title">
+        <span data-i18n="hero.title1">Turn AI agents into</span><br>
+        <span class="hero__accent" data-i18n="hero.title2">disciplined senior engineers.</span>
+      </h1>
+
+      <p class="hero__subtitle">
+        <span data-i18n="hero.subtitle1">54 composable skills wired into a single</span>
+        <span class="hero__flow-accent" data-i18n="hero.subtitle2">flow.</span>
+      </p>
+
+      <div class="terminal" data-terminal>
+        <div class="terminal__bar">
+          <span class="terminal__dot terminal__dot--r"></span>
+          <span class="terminal__dot terminal__dot--y"></span>
+          <span class="terminal__dot terminal__dot--g"></span>
+          <span class="terminal__title">install.sh — zsh</span>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal__lines" data-terminal-lines>
+            <div class="terminal__tline">
+              <span class="terminal__prompt">~ $</span>
+              <span class="terminal__typing"></span>
+              <span class="terminal__cursor">▊</span>
+            </div>
+          </div>
+          <div class="terminal__output" data-terminal-output>
+            <div class="terminal__out-line">Installing 54 skills...</div>
+            <div class="terminal__out-line">Wiring 6-stage lifecycle...</div>
+            <div class="terminal__out-line">DONE. Run <span class="terminal__cmd">init-agents</span> in any project.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lifecycle-flow" data-lifecycle>
+        <div class="lifecycle-flow__inner">
+          <div class="lifecycle-flow__stage" data-lifecycle data-stage="0">
+            <span class="lifecycle-flow__name">DEFINE</span>
+          </div>
+          <svg class="lifecycle-flow__arr" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h7M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lifecycle-flow__stage" data-lifecycle data-stage="1">
+            <span class="lifecycle-flow__name">PLAN</span>
+          </div>
+          <svg class="lifecycle-flow__arr" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h7M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lifecycle-flow__stage" data-lifecycle data-stage="2">
+            <span class="lifecycle-flow__name">BUILD</span>
+          </div>
+          <svg class="lifecycle-flow__arr" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h7M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lifecycle-flow__stage" data-lifecycle data-stage="3">
+            <span class="lifecycle-flow__name">VERIFY</span>
+          </div>
+          <svg class="lifecycle-flow__arr" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h7M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lifecycle-flow__stage" data-lifecycle data-stage="4">
+            <span class="lifecycle-flow__name">REVIEW</span>
+          </div>
+          <svg class="lifecycle-flow__arr" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h7M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lifecycle-flow__stage" data-lifecycle data-stage="5">
+            <span class="lifecycle-flow__name">SHIP</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="hero__actions-label" data-i18n="hero.quickstart">Use it now —</p>
+      <div class="hero__actions">
+        <div class="hero__install">
+          <span class="hero__code">git clone https://github.com/juandelossantos/another-agent-skills.git &amp;&amp; cd another-agent-skills &amp;&amp; bash install.sh</span>
+          <button class="hero__copy" data-action="copy" aria-label="Copy to clipboard">⎘</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pipeline" id="lifecycle" data-reveal aria-label="Design review pipeline">
+    <div class="container">
+      <p class="section__label" data-i18n="pipeline.label">02 / design review</p>
+      <h2 class="section__title" data-i18n="pipeline.title">From Critique to Delight</h2>
+      <p class="section__subtitle" data-i18n="pipeline.subtitle">A 9-stage design review pipeline triggered after Verify. Each stage is a composable skill that targets a specific dimension of production-grade output.</p>
+      <div class="pipeline__grid">
+        <div class="pipeline__card" style="--stage-c:#DC2626">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">C</span>
+            <span class="pipeline__card-label">CRITIQUE</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.critique">Two-pass design review with personas and scoring</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#D97706">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">A</span>
+            <span class="pipeline__card-label">AUDIT</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.audit">Five-dimension technical quality scan</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#059669">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">C</span>
+            <span class="pipeline__card-label">CLARIFY</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.clarify">UX copy rewrite for clarity and tone</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#2563EB">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">H</span>
+            <span class="pipeline__card-label">HARDEN</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.harden">ARIA, keyboard, validation, error states</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#7C3AED">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">P</span>
+            <span class="pipeline__card-label">POLISH</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.polish">Spacing tokens, alignment, shadow drift</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#9333EA">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">T</span>
+            <span class="pipeline__card-label">TYPESET</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.typeset">Type ramp, rhythm, letter-spacing audit</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#DB2777">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">A</span>
+            <span class="pipeline__card-label">ADAPT</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.adapt">Responsive breakpoints, touch targets, dvh</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#0D9488">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">O</span>
+            <span class="pipeline__card-label">OPTIMIZE</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.optimize">Bundle, lazy loading, animation compositing</p>
+        </div>
+        <div class="pipeline__card" style="--stage-c:#E11D48">
+          <div class="pipeline__card-header">
+            <span class="pipeline__card-letter">D</span>
+            <span class="pipeline__card-label">DELIGHT</span>
+          </div>
+          <p class="pipeline__card-desc" data-i18n="pipeline.delight">Micro-interactions, hover/tap feedback, motion</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills" id="skills" aria-label="Skills catalog">
+    <div class="container">
+      <p class="section__label" data-i18n="skills.label">03 / skills</p>
+      <h2 class="section__title" data-i18n="skills.title">Everything You Need</h2>
+      <div class="skills__grid"></div>
+    </div>
+  </section>
+
+  <section class="quickstart" id="quickstart" aria-label="Quick start">
+    <div class="container">
+      <p class="section__label" data-i18n="quickstart.label">04 / quick start</p>
+      <h2 class="section__title" data-i18n="quickstart.title">Start in Seconds</h2>
+      <div class="quickstart__steps"></div>
+    </div>
+  </section>
+
+  <section class="why" id="why" aria-label="Why Another Agent Skills">
+    <div class="container">
+      <p class="section__label" data-i18n="why.label">05 / why different</p>
+      <h2 class="section__title" data-i18n="why.title">Not Just Another Framework</h2>
+      <div class="why__content"></div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-label="Frequently asked questions">
+    <div class="container">
+      <p class="section__label" data-i18n="faq.label">06 / faq</p>
+      <h2 class="section__title" data-i18n="faq.title">Questions</h2>
+      <div class="faq__list"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__links">
+      <a href="docs/QUICKSTART.md" data-i18n="footer.quickstart">Quick Start</a>
+      <a href="docs/PIPELINE.md" data-i18n="footer.pipeline">Pipeline</a>
+      <a href="docs/SKILLS-CATALOG.md" data-i18n="footer.skills">Skills Catalog</a>
+      <a href="docs/PROCESS.md" data-i18n="footer.process">Process</a>
+      <a href="docs/CONTRIBUTING.md" data-i18n="footer.contributing">Contributing</a>
+      <a href="docs/FAQ.md" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <p class="footer__copy" data-i18n="footer.copyright">© 2026 — MIT License — Another Agent Skills</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+</body>
+</html>

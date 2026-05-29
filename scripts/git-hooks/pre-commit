@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v3)
+# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v4)
 # Installed by init-agents.sh.
 # 1) Runs pre-flight check (working tree, branch, upstream, remote)
-# 2) Blocks commits without explicit approval token
+# 2) Structural integrity gate on staged HTML files
+# 3) Blocks commits without explicit approval token
 # Bypass: git commit --no-verify (intentional process violation)
 #
 # v3: Added pre-flight check integration (INCIDENT-004)
+# v4: Added edit-guard structural integrity check on staged HTML (INCIDENT-005)
 
 set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 echo ""
 echo "╔════════════════════════════════════════════╗"
@@ -39,7 +45,57 @@ if [ -n "$FETCH_OUTPUT" ]; then
 fi
 echo "  ✓ Remote up to date"
 
-# 4. Mutation approval token
+# 4. Structural integrity gate (staged HTML files)
+EDIT_GUARD="${REPO_ROOT}/scripts/edit-guard.sh"
+if [ -f "$EDIT_GUARD" ]; then
+  STAGED_HTML=$(git diff --cached --name-only --diff-filter=ACM | grep -i '\.html$' || true)
+  if [ -n "$STAGED_HTML" ]; then
+    echo "  ✓ Structural integrity check on HTML files..."
+    INTEGRITY_FAIL=0
+    for f in $STAGED_HTML; do
+      if [ ! -f "$f" ]; then continue; fi
+      FILENAME=$(basename "$f")
+      case "$FILENAME" in
+        index.html)
+          # index.html requires specific structural sections
+          if ! bash "$EDIT_GUARD" check "$f" \
+            "lifecycle-flow" "hero__actions" \
+            "</main>" "</html>" "DOCTYPE"; then
+            echo "    ${RED}✗${NC} $f — structural markers missing"
+            INTEGRITY_FAIL=1
+          else
+            echo "    ✓ $f — all markers present"
+          fi
+          ;;
+        *)
+          # Generic HTML check: DOCTYPE, html close, body close
+          if ! bash "$EDIT_GUARD" check "$f" "DOCTYPE" "</html>"; then
+            echo "    ${RED}✗${NC} $f — basic structure missing"
+            INTEGRITY_FAIL=1
+          else
+            echo "    ✓ $f — basic structure valid"
+          fi
+          ;;
+      esac
+    done
+    if [ "$INTEGRITY_FAIL" -eq 1 ]; then
+      echo ""
+      echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+      echo "  ${RED}║  STRUCTURAL INTEGRITY BLOCKED                           ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  Staged HTML files are missing critical structural       ║${NC}"
+      echo "  ${RED}║  markers. File sections may have been deleted.          ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  Read the file, identify missing sections, and restore.  ║${NC}"
+      echo "  ${RED}║  Use: git diff --cached -- <file> for staged version.   ║${NC}"
+      echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+      echo ""
+      exit 1
+    fi
+  fi
+fi
+
+# 5. Mutation approval token
 APPROVAL_FILE=".git/COMMIT_APPROVED"
 if [ ! -f "$APPROVAL_FILE" ]; then
   echo ""
