@@ -1,29 +1,61 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Mutation Approval Gate (v2)
-# Installed by init-agents.sh. Blocks commits without explicit approval.
+# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v3)
+# Installed by init-agents.sh.
+# 1) Runs pre-flight check (working tree, branch, upstream, remote)
+# 2) Blocks commits without explicit approval token
 # Bypass: git commit --no-verify (intentional process violation)
 #
-# v2 improvement (INCIDENT-003):
-# Existence check only. Hash verification moved to commit-msg hook
-# (which receives the message file path as $1, compatible with git 2.54+).
+# v3: Added pre-flight check integration (INCIDENT-004)
 
 set -euo pipefail
 
-APPROVAL_FILE=".git/COMMIT_APPROVED"
+REPO_ROOT=$(git rev-parse --show-toplevel)
 
-if [ ! -f "$APPROVAL_FILE" ]; then
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  BLOCKED: No commit approval token found.               ║"
-    echo "║                                                          ║"
-    echo "║  The agent must present a Commit Manifest and get        ║"
-    echo "║  your explicit approval before committing.               ║"
-    echo "║                                                          ║"
-    echo "║  To bypass this check temporarily:                       ║"
-    echo "║    git commit --no-verify                                ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
-    echo ""
-    exit 1
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  PRE-FLIGHT CHECK                          ║"
+echo "╚════════════════════════════════════════════╝"
+
+# 1. Branch check
+BRANCH=$(git branch --show-current)
+if [ -z "$BRANCH" ]; then
+  echo "  ✗ Detached HEAD. Checkout a branch before committing."
+  exit 1
+fi
+echo "  ✓ Branch: $BRANCH"
+
+# 2. Staged changes
+if [ -n "$(git status --porcelain)" ]; then
+  echo "  ✓ Staged changes ready"
+else
+  echo "  ⚠ No staged changes. Did you forget 'git add'?"
 fi
 
+# 3. Unpulled remote changes
+FETCH_OUTPUT=$(git fetch --dry-run 2>&1)
+if [ -n "$FETCH_OUTPUT" ]; then
+  echo "  ✗ Unpulled remote changes detected. Run 'git pull --rebase' first."
+  exit 1
+fi
+echo "  ✓ Remote up to date"
+
+# 4. Mutation approval token
+APPROVAL_FILE=".git/COMMIT_APPROVED"
+if [ ! -f "$APPROVAL_FILE" ]; then
+  echo ""
+  echo "╔════════════════════════════════════════════════════════════╗"
+  echo "║  BLOCKED: No commit approval token found.               ║"
+  echo "║                                                          ║"
+  echo "║  The agent must present a Commit Manifest and get        ║"
+  echo "║  your explicit approval before committing.               ║"
+  echo "║                                                          ║"
+  echo "║  To bypass this check temporarily:                       ║"
+  echo "║    git commit --no-verify                                ║"
+  echo "╚════════════════════════════════════════════════════════════╝"
+  echo ""
+  exit 1
+fi
+
+echo "  ✓ Commit approval token present"
+echo ""
 exit 0

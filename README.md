@@ -135,6 +135,19 @@ init-agents          # Creates AGENTS.md + .sessionrc with purpose
 init-agents          # Merges skills into existing AGENTS.md or CLAUDE.md — never overwrites
 ```
 
+### Pre-Flight Check
+
+Before any edit in this repo:
+
+```bash
+bash scripts/pre-flight.sh
+```
+
+Checks: correct branch, clean working tree, remote up to date, upstream configured.
+If it fails, ask the user before taking any action.
+
+---
+
 ### Other AI Agents (Claude Code, Cursor)
 
 ```bash
@@ -156,10 +169,11 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 ## Documentation Map
 
 | File | What It Is |
-|---|---|
+|---|---|---|
 | [`AGENTS.md`](./AGENTS.md) | Core rules: context persistence, intent mapping, lifecycle, mutation approval |
 | [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Full anti-rationalization table, Commit Manifest Protocol, project-type matrix |
 | [`EXAMPLES.md`](./EXAMPLES.md) | Before/after skill usage demonstrations |
+| [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
 | [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.1.0) |
@@ -167,6 +181,7 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
+| [`scripts/pre-flight.sh`](./scripts/pre-flight.sh) | Pre-action git state check (branch, working tree, remote) |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
 | [`uninstall.sh`](./uninstall.sh) | Clean uninstaller (Linux/macOS) |
@@ -175,6 +190,8 @@ See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) for full instructions.
 | `skills/<name>/*-GUIDE.md` | Phase-specific guides (loaded on-demand) |
 
 **Every skill follows the same pattern:** SKILL.md as index + guides per phase. Lazy loading keeps initial context under 600 lines.
+
+**Design workflow:** See [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) for the full design ecosystem map — how skills chain together, which are universal vs platform-specific, and what to use in each scenario.
 
 ---
 

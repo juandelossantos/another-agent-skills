@@ -51,13 +51,41 @@
 
 ---
 
-## Rule 0d: Pre-Action Checklist (MECHANICAL)
+## Rule 0d: Pre-Action Checklist + Branch Interview (MECHANICAL)
 
-**Before ANY destructive or irreversible action, verbalize this checklist:**
+**Before ANY edit, creation, or deletion of files — MANDATORY: run pre-flight, then interview the user about branch strategy.**
+
+### Step 1 — Run Pre-Flight
+
+This repo: `bash scripts/pre-flight.sh`
+Any repo: `git status && git fetch --dry-run && git branch --show-current`
+
+### Step 2 — Present State & Ask
+
+After pre-flight, PRESENT the state and ASK the user about branch intent:
 
 ```
-STOP. Pre-action checklist:
-□ Did I run `git status` and `git fetch --dry-run`? Unclean working tree or unpulled remote changes = BLOCKING
+Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
+→ "Estás en [branch]. Quieres seguir aquí, crear una rama nueva, o cambiar?"
+```
+
+**Decision matrix:**
+
+| Pre-flight result | Agent action |
+|---|---|
+| Clean + correct branch + up to date | Preguntar: "Seguir en [branch] o crear rama feature?" |
+| Dirty working tree | Preguntar: "Commit, stash, o descartar cambios?" |
+| Behind remote | Preguntar: "Hacer pull --rebase ahora?" |
+| Wrong branch | Preguntar: "Cambiar a [target] o crear rama nueva?" |
+| Detached HEAD | Preguntar: "Crear rama desde aquí o checkout a main?" |
+
+No asumir. Preguntar siempre. El usuario sabe dónde quiere estar.
+
+### Step 3 — Integrity Checklist
+
+```
+□ Run pre-flight: bash scripts/pre-flight.sh (diagnostic only — no action without asking)
+□ Present git state + branch to user and ask intent
 □ Is this action reversible? If no → REQUIRE explicit approval
 □ Does this action affect user data or repository state? If yes → REQUIRE explicit approval
 □ Have I presented the full scope to the user? If no → STOP, present first
@@ -71,6 +99,8 @@ STOP. Pre-action checklist:
 ```
 
 **Irreversible actions:** git commit, push, merge, rebase, reset, cherry-pick, revert, file deletion, overwriting existing files, executing scripts that modify system state.
+
+**Mechanical enforcement:** The pre-commit hook (v3+, installed by `init-agents`) runs the pre-flight check BEFORE any commit is allowed. Even if the agent skips the manual pre-flight + interview before edits, the commit will be blocked by the hook. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
 
 ---
 

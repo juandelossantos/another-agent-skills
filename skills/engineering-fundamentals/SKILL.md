@@ -28,16 +28,41 @@ Platform skills add implementation specifics to this philosophy.
 
 ## Pre-Flight: Repo State Check (Before ANY phase)
 
-Before any phase, if the project is a git repository:
-1. `git status` — working tree must be clean (no unstaged changes, no untracked files that would conflict)
-2. `git log --oneline -3` — understand recent context
-3. `git fetch --dry-run` — check if remote has unpulled changes (blocking: do NOT work on a stale base)
+**MANDATORY.** Run before Phase 0 and before any edit, creation, or deletion of files.
 
-**If working tree is dirty** → commit or stash before new work.
-**If remote has unpulled changes** → `git pull --rebase` before new work.
-**If not a git repo** → `git init` first (see `git-init-and-versioning`).
+### Step 1 — Diagnose
 
-This is not optional. It runs before Phase 0 and before any edit, creation, or deletion of files.
+This repo: `bash scripts/pre-flight.sh`
+Any repo: `git status && git fetch --dry-run && git branch --show-current`
+
+Then `git log --oneline -3` to understand recent context.
+
+### Step 2 — Present & Ask (MANDATORY)
+
+Present the full state to the user and ask about branch intent BEFORE any action:
+
+```
+Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
+→ "Estás en [branch]. Quieres seguir aquí, crear una rama nueva, o cambiar?"
+```
+
+| State | Ask |
+|---|---|
+| Clean + correct branch + up to date | "Seguir en [branch] o crear rama feature?" |
+| Dirty working tree | "Commit, stash, o descartar cambios?" |
+| Behind remote | "Hacer pull --rebase ahora?" |
+| Wrong branch | "Cambiar a [target] o crear rama nueva?" |
+| Detached HEAD | "Crear rama desde aquí o checkout a main?" |
+
+### Step 3 — Verify
+
+- If not a git repo → `git init` first (see `git-init-and-versioning`)
+- If working tree is dirty → ask: commit, stash, or discard
+- If remote has unpulled changes → ask: do pull --rebase now?
+
+### Enforcement
+
+The pre-commit hook (v3+) runs this check mechanically at commit time — even if the agent skips Steps 1-2 before editing, the commit will be blocked. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
 
 ---
 

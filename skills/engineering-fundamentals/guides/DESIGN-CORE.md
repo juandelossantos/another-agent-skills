@@ -72,6 +72,7 @@ Replace 8 fixed aesthetic directions with **3 parametric dials** set after Desig
 | Minimal / calm / Linear-style | 5-6 | 3-4 | 2-3 |
 | Premium consumer / Apple-y | 7-8 | 5-7 | 3-4 |
 | Playful / agency / Dribbble | 9-10 | 8-10 | 3-4 |
+| Landing / portfolio / marketing (default) | 7-9 | 6-8 | 3-5 |
 | Trust-first / public-sector | 3-4 | 2-3 | 4-5 |
 | Redesign — preserve brand | match | +1 | match |
 | Redesign — overhaul | +2 | +2 | match |
@@ -94,8 +95,9 @@ Override: if brand explicitly asks for purple, embrace it with a consistent pale
 
 AI-default beige+brass+espresso hex families are **banned as the default reach**:
 
-**Banned backgrounds:** `#f5f1ea`, `#f7f5f1`, `#fbf8f1`, `#efeae0`, `#ece6db`
-**Banned accents:** `#b08947`, `#9c6e2a`, `#bc7c3a`, `#b6553a`, `#9a2436`
+**Banned backgrounds:** `#f5f1ea`, `#f7f5f1`, `#fbf8f1`, `#efeae0`, `#ece6db`, `#e8dfcb`
+**Banned accents:** `#b08947`, `#b6553a`, `#9a2436`, `#9c6e2a`, `#bc7c3a`, `#7d5621`
+**Banned text:** `#1a1714`, `#1a1814`, `#1b1814`
 
 **Default alternatives (rotate, do not reuse consecutively):**
 - Cold Luxury: silver-grey + chrome + smoke
