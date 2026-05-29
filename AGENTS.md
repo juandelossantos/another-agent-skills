@@ -102,6 +102,22 @@ No asumir. Preguntar siempre. El usuario sabe dónde quiere estar.
 
 **Mechanical enforcement:** The pre-commit hook (v3+, installed by `init-agents`) runs the pre-flight check BEFORE any commit is allowed. Even if the agent skips the manual pre-flight + interview before edits, the commit will be blocked by the hook. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
 
+### Step 4 — Edit-to-Commit Barrier (BLOCKING)
+
+After completing edits, the agent MUST STOP before any git add/commit. No commit without a Commit Manifest:
+
+```
+□ Edits done → STOP. No git commands.
+□ Did user explicitly approve THIS commit? (previous "yes" does NOT transfer)
+□ Present Commit Manifest block before every commit.
+□ Wait for explicit "yes" / "sí" / "commit" / "proceed".
+□ Only then generate SHA256 token and commit.
+```
+
+**This barrier exists specifically to prevent "batch-mode commits"** — where multiple file edits flow naturally into a commit because the agent doesn't pause between editing and versioning. Every commit is a separate decision, even if it closes a batch of work the user already approved.
+
+**Common failure mode:** User says "fix these 5 things" → agent edits 5 files → agent commits all 5 as one batch without asking. The fix: after the last edit, STOP. Present manifest. Only commit after explicit approval. The edits were approved. The commit is not.
+
 ---
 
 ## Rule 0e: Context Compression & Eviction
