@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "pipeline": "Lifecycle",
+    "skills": "Skills",
+    "quickstart": "Inicio rápido",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "tag": "/// sistema",
+    "title1": "Convierte agentes de IA en",
+    "title2": "ingenieros senior disciplinados.",
+    "subtitle1": "54 skills componibles en un solo",
+    "subtitle2": "flow.",
+    "quickstart": "Pruébalo ahora —",
+    "social": "★ 500+ GitHub · 54 skills · MIT"
+  },
+  "pipeline": {
+    "label": "02 / design review",
+    "title": "De Critique a Delight",
+    "subtitle": "Un pipeline de design review de 9 etapas activado después de Verify. Cada etapa es una skill componible que apunta a una dimensión específica de calidad profesional.",
+    "critique": "Revisión de diseño con personas y scoring",
+    "audit": "Escaneo técnico de cinco dimensiones",
+    "clarify": "Reescritura de UX copy para claridad y tono",
+    "harden": "ARIA, teclado, validación, estados de error",
+    "polish": "Tokens de espaciado, alineación, sombras",
+    "typeset": "Escala tipográfica, ritmo, interletraje",
+    "adapt": "Breakpoints responsive, touch targets, dvh",
+    "optimize": "Bundle, lazy loading, composición de animaciones",
+    "delight": "Micro-interacciones, feedback hover/tap, motion",
+    "footnote": "Cada etapa es una skill componible. Úsalas todas o elige las que necesites."
+  },
+  "skills": {
+    "label": "03 / skills",
+    "title": "Todo lo que necesitas"
+  },
+  "quickstart": {
+    "label": "04 / inicio rápido",
+    "title": "Empieza en segundos"
+  },
+  "why": {
+    "label": "05 / por qué diferente",
+    "title": "No solo otro framework"
+  },
+  "faq": {
+    "label": "06 / faq",
+    "title": "Preguntas"
+  },
+  "footer": {
+    "quickstart": "Inicio rápido",
+    "pipeline": "Pipeline",
+    "skills": "Catálogo de skills",
+    "process": "Proceso",
+    "contributing": "Contribuir",
+    "faq": "FAQ",
+    "copyright": "© 2026 — Licencia MIT — Another Agent Skills"
+  }
+}

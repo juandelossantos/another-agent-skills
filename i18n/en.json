@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "pipeline": "Lifecycle",
+    "skills": "Skills",
+    "quickstart": "Quick Start",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "tag": "/// system",
+    "title1": "Turn AI agents into",
+    "title2": "disciplined senior engineers.",
+    "subtitle1": "54 composable skills wired into a single",
+    "subtitle2": "flow.",
+    "quickstart": "Use it now —",
+    "social": "★ 500+ GitHub · 54 skills · MIT"
+  },
+  "pipeline": {
+    "label": "02 / design review",
+    "title": "From Critique to Delight",
+    "subtitle": "A 9-stage design review pipeline triggered after Verify. Each stage is a composable skill that targets a specific dimension of production-grade output.",
+    "critique": "Two-pass design review with personas and scoring",
+    "audit": "Five-dimension technical quality scan",
+    "clarify": "UX copy rewrite for clarity and tone",
+    "harden": "ARIA, keyboard, validation, error states",
+    "polish": "Spacing tokens, alignment, shadow drift",
+    "typeset": "Type ramp, rhythm, letter-spacing audit",
+    "adapt": "Responsive breakpoints, touch targets, dvh",
+    "optimize": "Bundle, lazy loading, animation compositing",
+    "delight": "Micro-interactions, hover/tap feedback, motion",
+    "footnote": "Each stage is a composable skill. Use them all, or pick what you need."
+  },
+  "skills": {
+    "label": "03 / skills",
+    "title": "Everything You Need"
+  },
+  "quickstart": {
+    "label": "04 / quick start",
+    "title": "Start in Seconds"
+  },
+  "why": {
+    "label": "05 / why different",
+    "title": "Not Just Another Framework"
+  },
+  "faq": {
+    "label": "06 / faq",
+    "title": "Questions"
+  },
+  "footer": {
+    "quickstart": "Quick Start",
+    "pipeline": "Pipeline",
+    "skills": "Skills Catalog",
+    "process": "Process",
+    "contributing": "Contributing",
+    "faq": "FAQ",
+    "copyright": "© 2026 — MIT License — Another Agent Skills"
+  }
+}

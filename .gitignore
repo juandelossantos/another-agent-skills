@@ -15,3 +15,10 @@ development/
 # Generated artifacts (not project source)
 .last-update-check
 .sessionrc
+
+# Design iteration screenshots (root level)
+/*.png
+/hero-english.txt
+
+# Edit-guard temp data
+.opencode/.edit-guard/

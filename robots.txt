@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://juandelossantos.github.io/another-agent-skills/sitemap.xml
