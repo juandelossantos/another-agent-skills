@@ -31,7 +31,7 @@ fi
 
 # Token exists - read it for logging
 TOKEN_CONTENT=$(cat "$APPROVAL_FILE" 2>/dev/null || echo "")
-TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d'|' -f1)
+TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f1)
 
 echo ""
 echo "╔════════════════════════════════════════════════════════════╗"

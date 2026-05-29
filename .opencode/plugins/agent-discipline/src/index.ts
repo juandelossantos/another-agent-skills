@@ -1,7 +1,4 @@
-import { editGuard } from "./hooks/edit-guard";
-import { preFlight } from "./hooks/pre-flight";
-import { commitApproval } from "./hooks/commit-approval";
-import { sessionCompact } from "./hooks/session-compact";
+import { editGuard, preFlight, commitApproval, sessionCompact } from "./hooks";
 
 export function register(plugin: any) {
   plugin.on("file.edited", editGuard);
