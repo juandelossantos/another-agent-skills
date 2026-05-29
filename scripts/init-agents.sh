@@ -163,11 +163,20 @@ install_precommit_hook() {
     fi
     
     mkdir -p "./.git/hooks"
+    
+    if [[ -f "${hook_dst}" ]]; then
+        cp "${hook_dst}" "${hook_dst}.backup.$(date +%Y%m%d%H%M%S)"
+        warn "Backed up existing pre-commit hook"
+    fi
     cp "${hook_src}" "${hook_dst}"
     chmod +x "${hook_dst}"
     ok "Installed pre-commit hook (${hook_dst})"
     
     if [[ -f "${commit_msg_src}" ]]; then
+        if [[ -f "${commit_msg_dst}" ]]; then
+            cp "${commit_msg_dst}" "${commit_msg_dst}.backup.$(date +%Y%m%d%H%M%S)"
+            warn "Backed up existing commit-msg hook"
+        fi
         cp "${commit_msg_src}" "${commit_msg_dst}"
         chmod +x "${commit_msg_dst}"
         ok "Installed commit-msg hook (${commit_msg_dst})"
