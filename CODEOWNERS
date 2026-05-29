@@ -1,0 +1,6 @@
+# CODEOWNERS — Another Agent Skills
+# Default owner for all files
+* @juandelossantos
+
+# Plugin architecture (future-proofing for multi-maintainer)
+.opencode/plugins/agent-discipline/ @juandelossantos
