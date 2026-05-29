@@ -72,12 +72,53 @@ export function commitApproval(event: { command: string; args?: string[] }): { a
   return { allow: true, message: `[commit-approval] Token valid. Proceeding with "${fullCommand}".` };
 }
 
+const GUARDIAN_PATTERN_REMINDER = `【GUARDIAN PATTERN - MANDATORY】
+Before ANY mutation (commit, push, merge, rebase, reset, branch -d, clean, stash pop):
+1. Present DECISION POINT block (type, branch, files, rationale, Rule 12 check)
+2. Wait for explicit approval (yes/sí/commit/proceed)
+3. INVALID responses: ok, mmhm, continue, dale, sigamos, silence, emoji
+
+NEVER proceed with mutation without user confirmation.`;
+
 const ANTI_SLOP_REMINDER = `[session-compact] Context evicted. Remember:
 - Simplicity first: would a senior say this is overcomplicated?
 - Surgical changes: every changed line traces to user's request
 - Goal-driven: define success criteria before coding
-- Think before coding: surface tradeoffs, ask before guessing`;
+- Think before coding: surface tradeoffs, ask before guessing
+${GUARDIAN_PATTERN_REMINDER}`;
 
 export function sessionCompact(event: { reason: string; evictedCount?: number }): { allow: boolean; reminder?: string } {
   return { allow: true, reminder: ANTI_SLOP_REMINDER };
+}
+
+export function guardianReminder(event: { tool: string; command?: string }): { allow: boolean; message?: string; requiresUserInput?: boolean } {
+  const { tool, command } = event;
+  const isMutationTool = ["bash", "write", "edit", "delete"].includes(tool);
+  if (!isMutationTool) return { allow: true };
+
+  const isMutation = command && (
+    command.includes("git commit") ||
+    command.includes("git push") ||
+    command.includes("git merge") ||
+    command.includes("git rebase") ||
+    command.includes("git reset") ||
+    command.includes("git branch -d") ||
+    command.includes("git clean") ||
+    command.includes("git stash pop") ||
+    command.includes("git revert")
+  );
+
+  if (isMutation) {
+    return {
+      allow: true,
+      message: `【GUARDIAN PATTERN ALERT】
+Mutation detected: "${command.trim()}"
+Did you present DECISION POINT block and receive explicit approval?
+If NOT: STOP. Present the block now and wait for yes/sí/proceed.
+If YES: Proceed with mutation.`,
+      requiresUserInput: false,
+    };
+  }
+
+  return { allow: true };
 }
