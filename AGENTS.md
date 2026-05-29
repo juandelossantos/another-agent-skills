@@ -415,22 +415,40 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 **No git operation that mutates the repository without explicit user approval.**
 
-**MANDATORY for every mutation:**
-1. Present what will change
-2. Explain impact and risk
-3. **MECHANICAL CHECK:** "Did the user say 'yes', 'sí', or 'commit' for THIS specific action?"
-4. **Wait for explicit approval:** "yes", "sí", "commit", "proceed"
-5. **Invalid responses:** "ok", "mmhm", "sigamos", "dale", "continue", silence, emoji reactions
+### Guardian Pattern - MANDATORY DECISION POINT
 
-**NEVER batch approval.** Previous approval does not transfer. Every commit is a separate decision.
+**Before ANY mutation, present this block:**
 
-**Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
+```
+DECISION POINT: [mutation type: commit|push|merge|rebase|etc]
+BRANCH: [current branch]
+FILES/AFFECTED: [what will change]
+RATIONALE: [why this mutation is needed]
+RULE 12 CHECK: [Did user explicitly approve THIS mutation? yes/no]
+→ "Do you approve this mutation?"
+```
 
-**All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
+**This block is MANDATORY and BLOCKING.** I cannot proceed until user says "yes", "sí", "commit", or "proceed".
 
-**MECHANICAL ENFORCEMENT:** A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The token must contain the SHA256 hash of the exact commit message. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
+### MANDATORY for every mutation:
 
-**User override:** "Enable auto commit mode", "Don't ask me for commits", "I trust you with commits". See AGENTS-EXTENDED.md for override details.
+1. Present the DECISION POINT block (above)
+2. Wait for explicit approval
+3. **Invalid responses:** "ok", "mmhm", "sigamos", "dale", "continue", "adelante", silence, emoji reactions
+
+### Rules:
+
+- **NEVER batch approval.** Previous approval does not transfer. Every mutation is a separate decision.
+- **Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
+- **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
+
+### MECHANICAL ENFORCEMENT:
+
+A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The token must contain the SHA256 hash of the exact commit message. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
+
+### User override:
+
+"Enable auto commit mode", "Don't ask me for commits", "I trust you with commits". See AGENTS-EXTENDED.md for override details.
 
 ---
 
