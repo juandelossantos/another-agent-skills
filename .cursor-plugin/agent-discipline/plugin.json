@@ -1,12 +1,9 @@
 {
   "name": "agent-discipline",
   "version": "1.0.0",
-  "description": "Another Agent Skills - Agent Discipline Hooks for Cursor",
+  "description": "Another Agent Skills - Agent Discipline Hooks for Cursor (hook names need verification)",
   "hooks": {
-    "beforeShellExecution": "./hooks/commit-approval.sh",
-    "afterFileEdit": "./hooks/edit-guard.sh",
-    "preToolUse": {
-      "shell": "./hooks/pre-flight.sh"
-    }
-  }
-}
+    "onCommit": "./hooks/commit-approval.sh",
+    "onBeforeShellExecution": "./hooks/pre-flight.sh"
+  },
+  "note": "Hook names are approximate. Verify against Cursor extension API documentation."

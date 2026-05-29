@@ -25,10 +25,10 @@ if [ ! -f "$APPROVAL_FILE" ]; then
   echo "║  2. Explain impact and risk                              ║"
   echo "║  3. Ask: 'Do you approve this commit?'                   ║"
   echo "║  4. Wait for explicit 'yes'/'sí'/'commit'               ║"
-  echo "║  5. Generate: printf 'msg' | sha256sum > .git/COMMIT_APPROVED"
+  echo "║  5. Generate token AFTER approval                       ║"
   echo "║                                                          ║"
-  echo "║  To bypass (process violation):                         ║"
-  echo "║    git commit --no-verify                               ║"
+  echo "║  NEVER bypass this gate. Doing so is a process violation.║"
+  echo "║  The COMMIT_APPROVED token is your proof of approval.   ║"
   echo "╚════════════════════════════════════════════════════════════╝"
   echo ""
   exit 1
