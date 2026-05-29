@@ -87,22 +87,31 @@ These are **project commands** you run in your terminal. They are NOT skills —
 
 ## What Makes This Different
 
-Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline.
+Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline — with mechanical enforcement, not just suggestions.
 
-**Context budget engineering** — Other frameworks load all rules eagerly into your agent's limited context. We lazy-load: SKILL.md is a ~200-line index; detailed guides load only when needed. Result: 589 lines always-loaded instead of 1,500+.
+### Five Layers Beyond Prompts
 
-**Mutation approval gate** — No other framework prevents an agent from committing to prod without asking. Ours does. Every git mutation requires your explicit "yes". Enterprise-ready safety.
+**1. Mechanical Enforcement** — Pre-commit v6 blocks commits without approval. 9 automated gates verify everything from git state to anti-slop patterns. SHA256 hash verification on every commit. Escape hatch with 3-strikes escalation. No other framework does this.
 
-**Behavioral guardrails** — Other frameworks assume agents follow instructions. We built a 25-entry anti-rationalization table because they won't always. Plus pre-action checklist and automatic context eviction at 70% usage.
+**2. Native Plugin** — OpenCode agent-discipline plugin with 5 event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `guardian-reminder` (pre-decision), `commit-approval` (mutation gate), `session-compact` (anti-slop + Guardian Pattern). Multi-agent adapters for Claude, Cursor, and Kiro.
 
-**Unified lifecycle, not silos** — 54 skills wired into a single spec→plan→build→verify→review→ship pipeline with a design review loop (critique → audit → fix → delight) before shipping. Every skill follows the same lazy-loading pattern.
+**3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. This turns Agent⇔Human interaction from casual chat into an auditable engineering process.
 
-**Versioned and auto-updating** — VERSION file, RELEASE-NOTES, daily update checks. You choose when to pull. No other skill framework versions itself.
+**4. Context Engineering** — Lazy loading: skills are ~100-line indexes; detailed guides load only on-demand. Result: ~3,800 tokens always-loaded vs ~6,900 in eager mode (45% savings). Auto-eviction at 70% context usage. Session Start Protocol ensures the agent reads rules before any tool execution.
+
+**5. Process Discipline** — PR Review Gate (mechanical checklist before merge). 25-entry anti-rationalization table. Debug 3-strikes escalation. SPEC enforcement on new scripts. Commit Manifest Protocol with token + hash + timestamp verification.
+
+### Context Budget Comparison
+
+| System | Always-loaded | Lazy loading | Guides | Context control |
+|--------|--------------|--------------|--------|-----------------|
+| Raw SKILL.md files | ~6,900 tokens | No | Inline | None |
+| Another Agent Skills | **~3,800 tokens** | Yes, on-demand | Yes, per phase | Auto-evict at 70% |
 
 > "Ship an API" → loads `backend-api-mastery` → protocol decision → DB schema → endpoints → tests.
 > "Fix a bug" → loads `debugging-and-error-recovery` → repro test → root cause → fix → verify.
-> "Improve UI quality" → loads `critique-skill` → heuristic scoring → `audit-skill` → technical scan → fix chain.
-> Every task has a defined process. No guessing.
+> "Review a PR" → runs `pr-review-checklist.sh` → verifies 8 mechanical gates → merge.
+> Every task has a defined process, every mutation has a decision point. No guessing.
 
 ---
 
