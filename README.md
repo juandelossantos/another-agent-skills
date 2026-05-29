@@ -12,6 +12,12 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 
 > Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
 
+## Philosophy
+
+Agents lack discipline. This project treats them as critical collaborators, not obedient servants — with mechanical enforcement both must follow.
+
+We believe quality emerges from explicit contracts, not implicit trust. Every skill, hook, and rule exists because someone, somewhere, learned the hard way.
+
 ---
 
 ## 📦 Latest Features
