@@ -50,9 +50,10 @@ else
   echo "  ${YELLOW}⚠${NC} No staged changes. Did you forget 'git add'?"
 fi
 
-# 3. Unpulled remote changes
-FETCH_OUTPUT=$(git fetch --dry-run 2>&1)
-if [ -n "$FETCH_OUTPUT" ]; then
+# 3. Unpulled remote changes (only branches, not tags)
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse origin/main 2>/dev/null || echo "$LOCAL")
+if [ "$LOCAL" != "$REMOTE" ]; then
   echo "  ${RED}✗${NC} Unpulled remote changes detected. Run 'git pull --rebase' first."
   exit 1
 fi
