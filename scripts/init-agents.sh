@@ -348,6 +348,31 @@ EOF
     log "Add .sessionrc to .gitignore to keep it local-only."
 }
 
+# Install CI template from STACK_CONFIG.md
+install_ci_template() {
+    local ci_dst=".github/workflows/ci.yml"
+    local ci_src="${SCRIPT_DIR}/../templates/ci.yml"
+
+    # Don't overwrite existing CI
+    if [[ -f "$ci_dst" ]]; then
+        log "CI workflow already exists. Skipping."
+        return 0
+    fi
+
+    # Don't create if no .github/workflows directory
+    if [[ ! -d ".github/workflows" ]]; then
+        mkdir -p ".github/workflows"
+    fi
+
+    if [[ -f "$ci_src" ]]; then
+        cp "$ci_src" "$ci_dst"
+        ok "Installed CI workflow (${ci_dst})"
+        log "CI reads STACK_CONFIG.md and runs test/lint/build automatically."
+    else
+        warn "CI template not found at ${ci_src}. Skipping."
+    fi
+}
+
 # Main logic
 main() {
     # Check for updates before doing anything else
@@ -369,6 +394,9 @@ main() {
 
     # Detect stack and create STACK_CONFIG.md (used by all skills)
     detect_stack_and_create_config
+
+    # Install CI template if GitHub Actions is not set up
+    install_ci_template
 
     # Create .sessionrc for purpose-driven sessions
     if [[ ! -f "./.sessionrc" ]]; then

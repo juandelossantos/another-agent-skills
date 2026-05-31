@@ -194,10 +194,10 @@ main (siempre estable)
 │   ├── feat/project-pre-commit-hook (init-agents instala hook en el proyecto del usuario)
 │   └── feat/secret-detection (grep for API keys, tokens, passwords)
 │
-├── FASE 4 — Our own infrastructure
-│   ├── feat/enforcement-tests (BATS tests para nuestros scripts)
-│   ├── feat/ci-pipeline (.github/workflows/ci.yml)
-│   └── feat/hook-runtime-controls (env vars)
+├── FASE 4 — Universal Engineering Practices
+│   ├── feat/ci-template (init-agents instala CI automatico)
+│   ├── feat/runtime-hook-controls (env vars para tuning)
+│   └── feat/hook-test-template (BATS template para usuario)
 │
 ├── FASE 5 — Stack Analysis
 │   └── feat/stack-analysis (detect stack, suggest MCPs + best practices)
@@ -231,10 +231,10 @@ FASE 3 — Project-level enforcement ⭐ PRIORIDAD MÁXIMA (depende de Fase 2.5)
   ├── feat/project-pre-commit-hook — init-agents instala hook en el proyecto del usuario
   └── feat/secret-detection — grep for API keys, tokens, passwords
 
-FASE 4 — Our own infrastructure (paralelizables, 1 semana):
-  ├── feat/enforcement-tests (6-8h)
-  ├── feat/ci-pipeline (2-3h)
-  └── feat/hook-runtime-controls (2-3h)
+FASE 4 — Universal Engineering Practices (paralelizables, 1 semana):
+  ├── feat/ci-template (3-4h) — init-agents instala CI que lee STACK_CONFIG.md
+  ├── feat/runtime-hook-controls (2-3h) — env vars para tuning de hooks
+  └── feat/hook-test-template (2-3h) — BATS template para usuario
 
 FASE 5 — Stack Analysis (depende de Fase 2.5):
   └── feat/stack-analysis (3-4h)
@@ -249,24 +249,34 @@ FASE 6 — Website + Docs (1-2 semanas):
 ```
 main (siempre estable)
 │
-├── FASE 1 — Quick wins
-│   ├── feat/soul-md
-│   ├── feat/reaudit-healthcheck
-│   └── feat/rules-layered
+├── FASE 1 — Quick wins ✅
+│   ├── feat/soul-md ✅
+│   ├── feat/reaudit-healthcheck ✅
+│   └── feat/rules-layered ✅
 │
-├── FASE 2 — Skills expandidas
-│   ├── feat/expand-debugging
-│   ├── feat/expand-tdd
-│   └── feat/expand-git-workflow
+├── FASE 2 — Skills expandidas ✅
+│   ├── feat/expand-debugging ✅
+│   ├── feat/expand-tdd ✅
+│   └── feat/expand-git-workflow ✅
 │
-├── FASE 3 — Infrastructure
-│   ├── feat/enforcement-tests
-│   ├── feat/ci-pipeline
-│   └── feat/hook-runtime-controls
+├── FASE 2.5 — STACK_CONFIG.md ✅
+│   └── feat/stack-config ✅
 │
-└── FASE 4 — Website + Docs + Final
+├── FASE 3 — Project enforcement ✅
+│   ├── feat/project-pre-commit-hook ✅
+│   └── feat/secret-detection ✅
+│
+├── FASE 4 — Universal Engineering Practices
+│   ├── feat/ci-template
+│   ├── feat/runtime-hook-controls
+│   └── feat/hook-test-template
+│
+├── FASE 5 — Stack Analysis
+│   └── feat/stack-analysis
+│
+└── FASE 6 — Website + Docs
     ├── feat/selective-install
-    ├── feat/website-complete (secciones vacías + nuevas secciones HTML)
+    ├── feat/website-complete
     ├── feat/i18n-new-sections
     ├── feat/docs-pages
     ├── feat/readme-upgrade
@@ -286,15 +296,15 @@ FASE 2 — Skills expandidas (secuenciales, 1-2 semanas):
   ├── feat/expand-tdd (4-6h)
   └── feat/expand-git-workflow (3-4h)
 
-FASE 3 — Infrastructure (paralelizables, 1 semana):
-  ├── feat/enforcement-tests (6-8h)
-  ├── feat/ci-pipeline (2-3h)
-  └── feat/hook-runtime-controls (2-3h)
+FASE 4 — Universal Engineering Practices (paralelizables, 1 semana):
+  ├── feat/ci-template (3-4h) — init-agents instala CI que lee STACK_CONFIG.md
+  ├── feat/runtime-hook-controls (2-3h) — env vars para tuning de hooks
+  └── feat/hook-test-template (2-3h) — BATS template para usuario
 
-FASE 3.5 — Stack Analysis (depende de Fase 2):
+FASE 5 — Stack Analysis (depende de Fase 2.5):
   └── feat/stack-analysis (3-4h)
 
-FASE 4 — Website + Docs + Final (1-2 semanas):
+FASE 6 — Website + Docs + Final (1-2 semanas):
   ├── feat/selective-install (4-6h)
   ├── feat/website-complete — skills grid, quick start, why different, FAQ + nuevas secciones HTML (9-12h)
   ├── feat/i18n-new-sections (1h)
@@ -419,26 +429,33 @@ FASE 4 — Website + Docs + Final (1-2 semanas):
 - **Esfuerzo:** 1-2 horas (parte de 4.6b)
 - **Impacto:** Alto — previene el error más común en seguridad.
 
-### FASE 4 — Our own infrastructure (1 semana)
+### FASE 4 — Universal Engineering Practices (1 semana)
 
-#### 4.7. Enforcement script tests
-- **Directorio nuevo:** `tests/`
-- **Framework:** BATS (Bash Automated Testing System)
-- **Archivos:** `tests/pre-flight.bats`, `tests/edit-guard.bats`, `tests/commit-approval.bats`, `tests/design-gate.bats`
-- **Esfuerzo:** 6-8 horas
-- **Impacto:** Crítico — si enforcement se rompe, todo se derrumba
+**Filosofía:** Estas no son "nuestras herramientas internas". Son engineering practices que cualquier proyecto necesita. `init-agents` las instala automáticamente.
 
-#### 4.8. CI pipeline
-- **Archivo nuevo:** `.github/workflows/ci.yml`
-- **Jobs:** lint bash scripts, tsc para plugin, validate SKILL.md structure, run BATS tests
+#### 4.7. CI Template (universal)
+- **Archivo nuevo:** `templates/ci.yml` (template para GitHub Actions)
+- **Trigger:** `init-agents` copia a `.github/workflows/ci.yml` si no existe
+- **Qué hace:** Lee `STACK_CONFIG.md` y ejecuta test/lint/build automáticamente
+- **Stack-agnostic:** Funciona para Node, Rust, Python, Go, Ruby, Dart — cualquiera que tenga STACK_CONFIG.md
+- **Esfuerzo:** 3-4 horas
+- **Impacto:** Alto — todo proyecto debería tener CI, y ours se adapta automáticamente al stack
+
+#### 4.8. Runtime Hook Controls (universal)
+- **Archivo modificado:** `scripts/project-pre-commit`
+- **Acción:** Agregar env vars que el usuario puede configurar:
+  - `SKILLS_HOOK_LEVEL=minimal|standard|strict` — controla qué checks corre
+  - `SKILLS_DISABLED_HOOKS="tests,secrets"` — desactiva checks específicos
+  - `SKILLS_TEST_TIMEOUT=60` — timeout para tests (evita que un test colgado bloquee commits)
 - **Esfuerzo:** 2-3 horas
-- **Impacto:** Medio — detecta errores automáticamente
+- **Impacto:** Medio — flexibilidad sin editar archivos
 
-#### 4.9. Runtime hook controls
-- **Archivos modificados:** `scripts/edit-guard.sh`, `scripts/pre-flight.sh`
-- **Acción:** Agregar env vars `SKILLS_HOOK_LEVEL=minimal|standard|strict` y `SKILLS_DISABLED_HOOKS=...`
+#### 4.9. Hook Test Template (universal)
+- **Archivo nuevo:** `templates/tests/hooks.bats` (template BATS)
+- **Trigger:** `init-agents` copia a `tests/hooks.bats` si el usuario quiere tests
+- **Qué hace:** Valida que el hook del usuario funciona correctamente
 - **Esfuerzo:** 2-3 horas
-- **Impacto:** Medio — flexibilidad sin editar config
+- **Impacto:** Medio — los usuarios pueden testear sus propios hooks
 
 ### FASE 5 — Stack Analysis (3-4 horas)
 
