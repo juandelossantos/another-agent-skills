@@ -322,20 +322,20 @@ Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? →
 
 ### Hash-Bound Token Generation
 
-**After user approval, before `git commit`, the agent MUST write the SHA256 hash of the EXACT commit message to `.git/COMMIT_APPROVED`:**
+**The agent CANNOT generate tokens.** Only the user can approve commits by running:
 
 ```bash
-printf '%s\t%s' "exact commit message" "$(date +%s)" | sha256sum | cut -d' ' -f1 | tr -d '\n' > .git/COMMIT_APPROVED
+bash scripts/approve-commit.sh "exact commit message"
 ```
 
-The pre-commit hook (v2) verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
+The script prompts the user for confirmation, then generates the SHA256 hash token. The pre-commit hook verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
 
-**Why hash-binding matters:**
-| Without hash | With hash |
+**Why user-initiated tokens matter:**
+| Agent generates token | User generates token |
 |---|---|
-| Agent can write any value to COMMIT_APPROVED silently | Agent must consciously formulate the message first |
-| Message can change after approval without detection | Message is locked at token creation time |
-| "I'll figure out the message later" rationalization | Forces exact message commitment |
+| Agent can auto-approve without waiting | User must consciously approve |
+| Violation is silent (no friction) | Violation requires user action |
+| Agent can change message after approval | Message is locked at approval time |
 
 ### Post-Commit Verification
 

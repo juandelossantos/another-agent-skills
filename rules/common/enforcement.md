@@ -61,7 +61,15 @@ Before ANY mutation, present the DECISION POINT block (see AGENTS-EXTENDED.md fo
 
 ### MECHANICAL ENFORCEMENT:
 
-A pre-commit git hook blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists with the SHA256 hash of the exact commit message. See AGENTS-EXTENDED.md for full Commit Manifest Protocol, hash-bound token generation, session-level lock, and user override details.
+A pre-commit git hook blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists with the SHA256 hash of the exact commit message. **The agent CANNOT generate this token.** Only the user can approve commits by running:
+
+```bash
+bash scripts/approve-commit.sh "commit message here"
+```
+
+This creates a mechanical gate: the agent presents the plan, the user approves via the script, then the agent commits. The agent has no way to bypass this — the token generation is user-initiated only.
+
+See AGENTS-EXTENDED.md for full Commit Manifest Protocol, session-level lock, and user override details.
 
 ---
 
