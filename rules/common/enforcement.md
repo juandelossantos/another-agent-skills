@@ -59,6 +59,8 @@ Before ANY mutation, present the DECISION POINT block (see AGENTS-EXTENDED.md fo
 - **Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
 - **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 - **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit manifest → get approval → commit. Never bundle "I'll fix X and commit" as one decision. Each commit is unique — even if multiple changes were approved together.
+- **"yes commit" = commit approval.** When user types "yes commit" in chat, agent runs approve-commit.sh and commits. Plain "yes" = plan approval only.
+- **"yes push" = push approval.** When user types "yes push" in chat, agent pushes to origin. Plain "yes" = plan approval only.
 
 ### MECHANICAL ENFORCEMENT:
 

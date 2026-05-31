@@ -213,19 +213,25 @@ User can disable this gate by saying:
 | Decision | What it means | How to approve |
 |---|---|---|
 | **Plan** | "Yes, make these changes" | User says "yes" in chat |
-| **Commit** | "Yes, save these changes to git" | User runs approve-commit.sh |
+| **Commit** | "Yes, save these changes to git" | User says "yes commit" in chat |
+| **Push** | "Yes, send to remote" | User says "yes push" in chat |
 
-**Never bundle plan + commit as one decision.** Even if the user approved the plan, the commit requires separate approval via approve-commit.sh.
+**Never bundle plan + commit as one decision.** Even if the user approved the plan, the commit requires "yes commit".
+
+**Keywords:**
+- `yes` alone = plan approval only (no git operations)
+- `yes commit` = commit approval (agent runs approve-commit.sh and commits)
+- `yes push` = push approval (agent pushes to origin)
 
 **Correct flow:**
-1. Agent presents plan → user approves
+1. Agent presents plan → user says "yes"
 2. Agent executes plan
-3. Agent presents Commit Manifest → user runs approve-commit.sh
+3. Agent presents Commit Manifest → user says "yes commit"
 4. Agent commits
 
 **Incorrect flow (violates Rule 12):**
-1. Agent presents "I'll fix X and commit" → user approves
-2. Agent does everything in one step
+1. Agent presents "I'll fix X and commit" → user says "yes"
+2. Agent commits without "yes commit"
 | Force-pushed lost history | History protected, every mutation approved |
 
 **Anti-rationalization:** "The user seems impatient" → The user will be MORE impatient debugging changes they never approved.
