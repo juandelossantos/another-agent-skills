@@ -1,8 +1,8 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-05-28
+**Date:** 2026-05-30
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY (v1.2.0 — design review pipeline added)
+**Status:** ✅ HEALTHY (v1.4.1 — SOUL.md added, enforcement hardened)
 
 ---
 
@@ -11,28 +11,28 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Warnings | **2** (minor) |
-| Passes | **31/33** (94%) |
+| Warnings | **3** (minor) |
+| Passes | **34/37** (92%) |
 | Overall | **HEALTHY** |
 
 ---
 
-## Improvements (vs. Pre-P5 Holistic Review)
+## What Changed Since Last Audit (v1.2.0 → v1.4.1)
 
-| Area | Before | After | Δ |
+| Area | v1.2.0 | v1.4.1 | Δ |
 |---|---|---|---|
-| Skills > 250 lines | **6** | **0** | ✅ Eliminated |
-| Total skill weight | 1,836 lines | 1,324 lines | **-512 lines (-28%)** |
-| Always-loaded context | 510 lines | 525 lines | +15 lines (expected, from Rule 12/push separation additions) |
-| Pre-commit hook | ❌ None | ✅ Mechanical enforce | New |
-| Commit/Push separation | ❌ Combined | ✅ Separate decisions | New |
-| 3 Strikes Protocol | ❌ None | ✅ GUIDE.md | New |
-| Purpose-driven sessions | ❌ None | ✅ `.sessionrc` | New |
-| Design review pipeline | ❌ None | ✅ 9 skills: critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight | New |
-| ADRs | 0 | 4 | +4 |
-| Incident docs | 0 | 3 | +3 |
-| User profile fields | basic | github_username + author_name | Extended |
-| All references intact | — | 22/22 verified | ✅ |
+| SKILL.md files | 31 | **38** | +7 skills |
+| GUIDE.md files | 56 | **45** | -11 (consolidated) |
+| Total skill lines | 2,801 | **5,453** | +2,652 (deeper skills) |
+| AGENTS.md | 340 lines | **429 lines** | +89 (Guardian Pattern, Rule 12b — restructured, verbose details moved to AGENTS-EXTENDED) |
+| AGENTS-EXTENDED.md | 252 lines | **280 lines** | +28 |
+| Always-loaded context | 592 lines | **429 lines** | -163 (AGENTS.md restructured, verbose details moved to AGENTS-EXTENDED.md lazy-loaded) |
+| Pre-commit hook | v2 | **v6** | 9 gates (was 2) |
+| ADRs | 4 | **5** | +1 (native plugin) |
+| Commits | 90 | **129** | +39 |
+| SOUL.md | ❌ | **✅ (134 lines)** | New |
+| Native plugin | ❌ | **✅ (TypeScript, 4 hooks)** | New |
+| Design skins | 0 | **3** | industrial-brutalist, minimalist, soft-premium |
 
 ---
 
@@ -43,10 +43,11 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Check | Status | Notes |
 |---|---|---|
 | `.gitignore` exists | ✅ PASS | Covers development/, .env, node_modules, *.backup.* |
-| Git initialized | ✅ PASS | 90 commits on main |
+| Git initialized | ✅ PASS | 129 commits on main |
 | Remote configured | ✅ PASS | github.com:juandelossantos/another-agent-skills |
 | Branch strategy | ✅ PASS | Trunk-based (main only) |
-| Pre-commit hook exists | ✅ PASS | `scripts/git-hooks/pre-commit` (v2, hash-bound) |
+| Pre-commit hook exists | ✅ PASS | `scripts/git-hooks/pre-commit` (v6, hash-bound, 9 gates) |
+| SOUL.md exists | ✅ PASS | 134 lines, project identity document |
 | `.env.example` | ⚠️ N/A | No env vars needed for this project |
 | CI/CD config | ⚠️ N/A | Not needed for docs-only repo |
 | No secrets committed | ✅ PASS | Verified |
@@ -57,18 +58,21 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Check | Status | Notes |
 |---|---|---|
-| `AGENTS.md` exists | ✅ PASS | Core rules, 340 lines, always-loaded |
-| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 252 lines, lazy-loaded |
-| `install.sh` exists | ✅ PASS | 481 lines, full-install script |
-| `scripts/init-agents.sh` | ✅ PASS | 177 lines, per-project init |
-| Skills organized | ✅ PASS | 31 skills in `skills/`, each < 250 lines |
-| Guides lazy-loaded | ✅ PASS | 56 guides, loaded on-demand per phase |
-| Design CORE extracted | ✅ PASS | 3 shared guides in `engineering-fundamentals/guides/` |
-| ADRs documented | ✅ PASS | 4 ADRs in `ADRs/` |
-| `development/` convention | ✅ PASS | 16 analysis/incident files, git-ignored |
-| Health Check exists | ✅ PASS | This file |
-| `SPEC.md` | ⚠️ WARN | **No SPEC.md** — this project is a self-evolving meta-project where AGENTS.md acts as the spec. Acceptable, but a formal SPEC.md would clarify boundaries. |
-| `HEALTH-CHECK.md` age-tracking | ⚠️ WARN | First check. No re-audit cycle yet. |
+| `SOUL.md` exists | ✅ PASS | New — project identity, 7 principles, 6 anti-goals |
+| `AGENTS.md` exists | ✅ PASS | Core rules, 429 lines, always-loaded |
+| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 280 lines, lazy-loaded |
+| `install.sh` exists | ✅ PASS | Full-install script |
+| `scripts/init-agents.sh` | ✅ PASS | Per-project init |
+| Skills organized | ✅ PASS | 38 skills in `skills/`, each ≤ 250 lines |
+| Guides lazy-loaded | ✅ PASS | 45 guides, loaded on-demand per phase |
+| Design CORE extracted | ✅ PASS | Shared guides in `engineering-fundamentals/guides/` |
+| ADRs documented | ✅ PASS | 5 ADRs in `ADRs/` |
+| Native plugin | ✅ PASS | `.opencode/plugins/agent-discipline/` (TypeScript) |
+| Design skins | ✅ PASS | 3 skins: industrial-brutalist, minimalist, soft-premium |
+| `development/` convention | ✅ PASS | Analysis/incident files, git-ignored |
+| Health Check exists | ✅ PASS | This file (re-audited) |
+| `SPEC.md` | ⚠️ WARN | No SPEC.md — AGENTS.md acts as de facto spec |
+| `HEALTH-CHECK.md` age-tracking | ⚠️ WARN | Re-audited today. Needs re-check in 7 days. |
 
 ---
 
@@ -78,12 +82,15 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Mechanism | Type | Status |
 |---|---|---|
-| **Rule 12: Pre-commit hook** | Shell script (v2) | ✅ Blocks `git commit` without hash-verified `.git/COMMIT_APPROVED` token |
+| **Rule 12: Pre-commit hook** | Shell script (v6) | ✅ Blocks `git commit` without hash-verified `.git/COMMIT_APPROVED` token |
+| **9 pre-commit gates** | Shell script | ✅ Pre-flight, HTML integrity, token hash, build verify, anti-slop, debug strikes, SPEC |
 | **Commit Manifest Protocol** | Process rule | ✅ Visible block before every commit |
 | **Post-commit verification** | Process rule | ✅ Build, tests, regressions after each commit |
 | **Rule 0d: Pre-action checklist** | Process rule | ✅ Verbalized before destructive actions |
+| **Rule 12b: PR Review Gate** | Process rule | ✅ `pr-review-checklist.sh` before merge |
 | **3 Strikes Protocol** | GUIDE.md (lazy) | ✅ Systematic diagnosis after 3 failed fixes |
 | **Self-review principle** | ADR-001 | ✅ Mandatory for changes > 50 lines |
+| **Native plugin hooks** | TypeScript | ✅ editGuard, preFlight, commitApproval, sessionCompact |
 
 ### Process Safeguards
 
@@ -92,7 +99,7 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Commit and push are SEPARATE decisions | ✅ |
 | Invalid responses defined (ok/sigamos/continue = NOT valid) | ✅ |
 | Session-level lock: no "approved mode" | ✅ |
-| 25 anti-rationalization excuses against skipping gates | ✅ |
+| 25+ anti-rationalization excuses against skipping gates | ✅ |
 | Incident documentation for violations | ✅ INCIDENT_001, INCIDENT_002, INCIDENT_003 |
 
 ---
@@ -103,41 +110,75 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | File | Lines | Tokens (est.) | % of 200K |
 |---|---|---|---|
-| `AGENTS.md` | 340 | ~5,100 | 2.6% |
-| `AGENTS-EXTENDED.md` | 252 | ~3,780 | 1.9% (acceptable) |
-| **Subtotal** | **592** | **~8,880** | **4.4%** |
+| `AGENTS.md` | 429 | ~6,435 | 3.2% |
+| `AGENTS-EXTENDED.md` | 280 | ~4,200 | 2.1% |
+| **Subtotal** | **429** | **~6,435** | **3.2%** |
 
 ### Loaded On-Demand
 
 | Item | Lines | Tokens | Condition |
 |---|---|---|---|
-| 1 active SKILL.md | ~225 | ~3,375 | Per skill invocation |
+| 1 active SKILL.md | ~143 (avg) | ~2,145 | Per skill invocation |
 | 0-2 guides | ~0-200 | ~0-3,000 | Per phase reached |
 
 ### Typical Session Budget
 
 | Component | Tokens |
 |---|---|
-| AGENTS.md + AGENTS-EXTENDED.md | ~7,875 |
-| 1 active skill | ~3,375 |
+| AGENTS.md | ~6,435 |
+| 1 active skill | ~2,145 |
 | 0-1 guides | ~1,500 |
 | Conversation + history (~30 msgs) | ~60,000 |
 | User code (~500 lines) | ~10,000 |
-| **Total** | **~82,750 (41%)** |
+| **Total** | **~72,080 (36%)** |
 
-**Margin:** ~59% available for debugging, extra skills, large codebases, or extended conversations.
+**Margin:** ~64% available for debugging, extra skills, large codebases, or extended conversations.
 
 ### Context Management Features
 
 | Feature | Location | Status |
 |---|---|---|
 | Rule 0e: Context Compression & Eviction | AGENTS.md | ✅ |
-| SESSION_CONTEXT archiving | AGENTS.md Rule 0e | ✅ Archive created |
+| SESSION_CONTEXT archiving | AGENTS.md Rule 0e | ✅ |
 | Lazy loading (skills as index + guides) | AGENTS.md Rule 6 | ✅ |
 | Context budget (60/25/15 split) | AGENTS.md Rule 8 | ✅ |
 | History compaction (>20 msgs → 3 points) | AGENTS.md Rule 8 | ✅ |
 | Context > 70% → stop loading guides | AGENTS.md Rule 0e | ✅ |
 | Never evict: active skill, user code, errors | AGENTS.md Rule 0e | ✅ |
+
+---
+
+## Skill Health
+
+### Size Distribution
+
+| Range | Count | Status |
+|---|---|---|
+| 200-250 lines | 9 | ✅ Optimal |
+| 100-199 lines | 17 | ✅ Good |
+| 50-99 lines | 12 | ⚠️ Thin — could use expansion |
+| < 50 lines | 0 | ✅ None |
+
+### Thin Skills (under 100 lines)
+
+These skills are functional but could benefit from expansion:
+
+| Skill | Lines | Priority |
+|---|---|---|
+| `debugging-three-strikes` | 20 | Low (micro-skill, intentionally short) |
+| `output-skill` | 48 | Low (micro-skill) |
+| `redesign-skill` | 60 | Medium |
+| `documentation-and-adrs` | 62 | Low |
+| `debugging-and-error-recovery` | 63 | **High** — core lifecycle skill |
+| `soft-premium-ui` | 65 | Low (design skin) |
+| `git-workflow-and-versioning` | 66 | **High** — core lifecycle skill |
+| `minimalist-ui` | 68 | Low (design skin) |
+| `industrial-brutalist-ui` | 71 | Low (design skin) |
+| `test-driven-development` | 72 | **High** — core lifecycle skill |
+| `code-review-and-quality` | 79 | Medium |
+| `multi-agent-orchestration` | 80 | Medium |
+
+**Action:** Expand `debugging-and-error-recovery`, `git-workflow-and-versioning`, and `test-driven-development` to 120+ lines each (planned for v1.5.0).
 
 ---
 
@@ -178,11 +219,15 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 ## Recommendations
 
-1. **💡 AGENTS-EXTENDED.md at 252 lines.** Minimal overhead — ~1,890 tokens (0.9% of 200k context). Acceptable for the anti-rationalization + commit protocol content it carries.
+1. **⚠️ Expand 3 core lifecycle skills.** `debugging-and-error-recovery` (63 lines), `test-driven-development` (72 lines), and `git-workflow-and-versioning` (66 lines) are underdeveloped for their importance. Plan v1.5.0 addresses this.
 
-2. **💡 Create `SPEC.md` for this meta-project.** Optional since AGENTS.md serves as the de facto spec, but would clarify boundaries, audience, and what's out of scope.
+2. **⚠️ Add tests for enforcement scripts.** `pre-flight.sh`, `edit-guard.sh`, `commit-approval.sh` have no test coverage. If they break silently, the entire enforcement chain fails. Plan v1.5.0 addresses this with BATS tests.
 
-3. **💡 Pre-commit hook v2 deployed (hash-bound).** Incident-003 addressed. 3rd recurrence → mechanical fix finally in place. Verify no regression in commit workflow.
+3. **✅ Always-loaded context reduced to 429 lines.** Down from 531 in v1.4.1. Verbose protocol details moved to AGENTS-EXTENDED.md (lazy-loaded). Context budget: 3.2% of 200K.
+
+4. **💡 Create `SPEC.md` for this meta-project.** Optional since AGENTS.md serves as the de facto spec, but would clarify boundaries, audience, and what's out of scope.
+
+5. **💡 Add CI pipeline.** No automated testing exists. Plan v1.5.0 addresses this.
 
 ---
 
@@ -190,27 +235,27 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Date | Decision | Rationale |
 |---|---|---|
-| 2026-05-25 | ✅ CONTINUE | System is healthy. 0 criticals. 2 minor warnings (non-blocking). Proceed to P4 or next request. |
+| 2026-05-30 | ✅ CONTINUE | System healthy. 0 criticals. 3 minor warnings. SOUL.md added. Plan v1.5.0 addresses all gaps. |
+| 2026-05-28 | ✅ CONTINUE | System healthy. 0 criticals. 2 minor warnings (non-blocking). |
 
 ---
 
 ## Metrics Summary
 
 | Metric | Current | Target | Status |
-|---|---|---|---|---|---|
-| Skills ≤ 250 lines (SKILL.md only) | 31/31 | ≤ 250 each | ✅ |
-| Always-loaded context | 592 lines (~8,880 tok) | < 600 lines | ✅ |
-| Skills total weight (SKILL.md + guides) | 4,643 + 965 (guides) | lazy-loaded | ⚪ INFO |
-| ADRs | 4 | ≥ 1 | ✅ |
-| Platform skills with CORE design | 4/4 (web, mobile, desktop, pwa) | 4/4 | ✅ |
-| Platform-specific guides created | 6 (mobile 2, desktop 3, pwa 1) | — | ✅ |
-| Design review pipeline skills | 9 (critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight) | — | ✅ |
+|---|---|---|---|
+| SKILL.md files | 38 | ≥ 30 | ✅ |
+| Skills ≤ 250 lines | 38/38 | ≤ 250 each | ✅ |
+| Always-loaded context | 429 lines (~6,435 tok) | < 500 lines | ✅ |
+| Total skill weight (SKILL.md) | 5,453 lines | lazy-loaded | ⚪ INFO |
+| ADRs | 5 | ≥ 1 | ✅ |
+| Platform skills | 4 (web, mobile, desktop, pwa) | 4/4 | ✅ |
+| Design review pipeline | 9 skills | — | ✅ |
+| Design skins | 3 | — | ✅ |
 | Broken references | 0 | 0 | ✅ |
-| Mechanical enforcements | 3 (pre-commit hook + hash binding + pre-flight.sh) | ≥ 1 | ✅ |
+| Mechanical enforcements | 4 (pre-commit v6 + plugin + pre-flight + edit-guard) | ≥ 1 | ✅ |
 | Frontend anti-slop tells | 85+ | 85+ | ✅ |
 | Critical issues | 0 | 0 | ✅ |
 | Anti-rationalization entries | 28 | 25+ | ✅ |
-
-**v1.2.0 upgrade:** Added 9-skill design review pipeline (critique → delight). Restructured README with Mermaid lifecycle diagram and DESIGN-SKILLS.md catalog. 31 total skills.
-
-**CORE extraction:** Extracted universal design system into `engineering-fundamentals/guides/` (3 CORE guides). Migrated all 4 platform skills (web, mobile, desktop, pwa) to Three Dials System + CORE anti-slop. Created 6 platform-specific guides. ADR-004.
+| SOUL.md | ✅ 134 lines | exists | ✅ |
+| Native plugin | ✅ TypeScript, 4 hooks | exists | ✅ |

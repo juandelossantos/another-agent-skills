@@ -92,6 +92,153 @@ See `multi-agent-orchestration` SKILL.md + GUIDE.md for complete patterns.
 
 ---
 
+## Rule 0d: Edit Guard Protocol (Full Reference)
+
+### Before EVERY file edit (edit/write/create tool):
+
+```
+□ bash scripts/edit-guard.sh preflight <file> <marker> [marker...]
+   — Verifies file exists and known structural markers are present.
+   — REQUIRED markers for HTML files: at least 3 class/id markers from that file.
+   — FAIL → File is corrupted. STOP. Recover from git or ask user.
+□ bash scripts/edit-guard.sh count <file> "<exact oldString>"
+   — Verifies oldString appears exactly once (edit tool will fail otherwise).
+   — FAIL (0) → String not found. Read file to find actual text.
+   — FAIL (>1) → Not unique. Add more context to oldString.
+□ Read the file section to be edited (at minimum the target lines, ideally the full file).
+□ wc -l <file> → record line count.
+```
+
+### AFTER each edit (immediately, before next tool call):
+
+```
+□ wc -l <file> → compare to pre-edit count. Difference > 20% → BLOCKING.
+□ bash scripts/edit-guard.sh verify <file>
+   — Compares line count with pre-flight baseline.
+   — FAIL → Edit truncated/expanded file unexpectedly. STOP.
+□ grep -Fc "<oldString>" <file> = 0 (old text removed)
+□ grep -Fc "<newString>" <file> > 0 (new text present)
+□ bash scripts/edit-guard.sh check <file> <same markers as preflight>
+   — All structural markers still present. FAIL → sections were deleted. STOP.
+□ If >50 lines changed: self-review every changed line.
+```
+
+### Design gate
+
+`bash scripts/design-gate.sh` — BLOCKING if change touches design or visual assets (web, mobile, desktop, or any UI). Checks for DESIGN.md, design/DESIGN-LOCK.md, and `.opencode/.design-skill-loaded` BEFORE visual work starts.
+
+---
+
+## Rule 0d: Edit-to-Commit Barrier (Full Reference)
+
+### Batch-Mode Prevention
+
+This barrier exists specifically to prevent "batch-mode commits" — where multiple file edits flow naturally into a commit because the agent doesn't pause between editing and versioning.
+
+**Common failure mode:** User says "fix these 5 things" → agent edits 5 files → agent commits all 5 as one batch without asking. The fix: after the last edit, STOP. Present manifest. Only commit after explicit approval. The edits were approved. The commit is not.
+
+```
+VALID:                             INVALID (batch-mode):
+  msg: "Edits done. Manifest:"       msg: "Edits done."
+  block: COMMIT MANIFEST             bash: token + git add + git commit
+  bash: printf '...' | sha256sum
+  user: "sí"
+  bash: git add && git commit
+```
+
+Token generation (`sha256sum > .git/COMMIT_APPROVED`) and `git commit` MUST be in separate bash calls. Never in the same bash call.
+
+---
+
+## Rule 12: Commit Manifest Protocol (MANDATORY)
+
+**This is not optional. This is mechanical enforcement of Rule 12.**
+
+### Before EVERY git commit, the agent MUST:
+
+1. **STOP all action.** Do not type any git command yet.
+2. **Output the Commit Manifest block exactly as shown below.**
+3. **Wait for user's explicit typed approval.**
+4. **Only then commit. Push is a SEPARATE decision after commit.**
+
+### Commit Manifest Block
+
+```
+╔════════════════════════════════════════════════════════════╗
+║  COMMIT MANIFEST — APPROVAL REQUIRED                     ║
+╠════════════════════════════════════════════════════════════╣
+║  Files changed: [list every file]                        ║
+║  Lines changed: +X / -Y                                  ║
+║  Commit message: "..."                                   ║
+╠════════════════════════════════════════════════════════════╣
+║  RULE 12 CHECKLIST:                                      ║
+║  □ User's last message is "yes", "sí", or "commit"     ║
+║  □ Previous approval does NOT transfer to this commit  ║
+║  □ This is a SEPARATE decision from any previous commit  ║
+╠════════════════════════════════════════════════════════════╣
+║  USER MUST EXPLICITLY APPROVE THIS SPECIFIC COMMIT       ║
+║  Valid responses: "yes" / "sí" / "commit" / "proceed"   ║
+║  INVALID (do NOT accept): "ok" / "sigamos" / "continue" ║
+║  / "dale" / silence / emoji reactions                    ║
+╚════════════════════════════════════════════════════════════╝
+```
+
+### Session-Level Lock
+
+**After ANY user approval, reset to "unapproved" state immediately.**
+
+| User says | What is approved | Next commit requires |
+|---|---|---|
+| "yes" | ONE commit ONLY | New "yes" |
+| "commit" | ONE commit ONLY | New "yes" |
+| "proceed" | ONE commit ONLY | New "yes" |
+| "ok" / "sigamos" / silence | NOTHING — INVALID | Explicit "yes" |
+
+**There is NO session-level "approved mode." Every commit is a separate decision.**
+
+### Hash-Bound Token Generation
+
+**After user approval, before `git commit`, the agent MUST write the SHA256 hash of the EXACT commit message to `.git/COMMIT_APPROVED`:**
+
+```bash
+printf '%s\t%s' "exact commit message" "$(date +%s)" | sha256sum | cut -d' ' -f1 | tr -d '\n' > .git/COMMIT_APPROVED
+```
+
+The pre-commit hook verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
+
+### Push Decision (After Commit, Not Before)
+
+Push is a **separate decision** from commit. After commit completes:
+
+```
+✅ Commit: abc1234
+→ Push to origin/main? (yes / no / later)
+```
+
+- **yes**: push now
+- **no / later**: commit stays local. Can accumulate multiple commits then push with explicit "push now"
+
+**Never push without asking.**
+
+---
+
+## Rule 12b: PR Review Checklist (Full Reference)
+
+The script `scripts/pr-review-checklist.sh` verifies:
+
+- PR state (OPEN, mergeable, has reviews)
+- Diff size (files changed ≤50 preferred)
+- No secret files in diff
+- Code WITH tests (warn if without)
+- All SKILL.md files ≤250 lines
+- Hooks have escape hatch and hash verification
+- Commit messages are descriptive
+- PR description is detailed
+
+**Exit codes:** 0 = PASS, 1 = FAIL (fix before merge), 2 = WARN (review manually)
+
+---
+
 ## Rule 6: Lazy Loading (Guide Reference)
 
 **Guides by phase:** DISCOVERY → P1 | PROTOCOL → P3 | AUTH → P5 | ANIMATION → Animation | TESTING → Test | CICD → CI/CD | DEPLOY → Deploy | LAUNCH-CHECKLIST → Ship | EXAMPLES → Troubleshooting | BUILD-INTEGRATION → Git

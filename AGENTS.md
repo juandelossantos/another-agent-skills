@@ -1,6 +1,7 @@
 # AGENTS.md
 
 > Version: see [VERSION](VERSION)
+> Identity: see [SOUL.md](SOUL.md) — who we are, what we believe, what we never do.
 
 ## Skill-Driven Execution Model
 
@@ -60,6 +61,7 @@ Protocol: Read AGENTS.md, no mutations without approval
    - "continue" → Resume. Re-read DESIGN-LOCK.md before BUILD.
    - "start fresh" → Archive. Start fresh.
    - Also: If DESIGN-LOCK.md > 7d → Ask "Still valid?" If no context → New project.
+
 ---
 
 ## Rule 0c: Behavioral Principles
@@ -88,92 +90,30 @@ After pre-flight, PRESENT the state and ASK the user about branch intent:
 
 ```
 Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
-→ "Estás en [branch]. Quieres seguir aquí, crear una rama nueva, o cambiar?"
+→ "You're on [branch]. Stay here, create a feature branch, or switch?"
 ```
 
 **Decision matrix:**
 
 | Pre-flight result | Agent action |
 |---|---|
-| Clean + correct branch + up to date | Preguntar: "Seguir en [branch] o crear rama feature?" |
-| Dirty working tree | Preguntar: "Commit, stash, o descartar cambios?" |
-| Behind remote | Preguntar: "Hacer pull --rebase ahora?" |
-| Wrong branch | Preguntar: "Cambiar a [target] o crear rama nueva?" |
-| Detached HEAD | Preguntar: "Crear rama desde aquí o checkout a main?" |
+| Clean + correct branch + up to date | Ask: "Stay on [branch] or create feature branch?" |
+| Dirty working tree | Ask: "Commit, stash, or discard changes?" |
+| Behind remote | Ask: "Run pull --rebase now?" |
+| Wrong branch | Ask: "Switch to [target] or create new branch?" |
+| Detached HEAD | Ask: "Create branch from here or checkout main?" |
 
-No asumir. Preguntar siempre. El usuario sabe dónde quiere estar.
+No assumptions. Always ask. The user knows where they want to be.
 
 ### Step 3 — Edit Guard (BLOCKING for every edit)
 
-**Before ANY file edit (edit/write/create tool):**
+Run `bash scripts/edit-guard.sh` before and after every file edit. See AGENTS-EXTENDED.md for full preflight/verify/check protocol.
 
-```
-□ bash scripts/edit-guard.sh preflight <file> <marker> [marker...]
-   — Verifies file exists and known structural markers are present.
-   — REQUIRED markers for HTML files: at least 3 class/id markers from that file.
-   — FAIL → File is corrupted. STOP. Recover from git or ask user.
-□ bash scripts/edit-guard.sh count <file> "<exact oldString>"
-   — Verifies oldString appears exactly once (edit tool will fail otherwise).
-   — FAIL (0) → String not found. Read file to find actual text.
-   — FAIL (>1) → Not unique. Add more context to oldString.
-□ Read the file section to be edited (at minimum the target lines, ideally the full file).
-□ wc -l <file> → record line count.
-```
-
-**AFTER each edit (immediately, before next tool call):**
-
-```
-□ wc -l <file> → compare to pre-edit count. Difference > 20% → BLOCKING.
-□ bash scripts/edit-guard.sh verify <file>
-   — Compares line count with pre-flight baseline.
-   — FAIL → Edit truncated/expanded file unexpectedly. STOP.
-□ grep -Fc "<oldString>" <file> = 0 (old text removed)
-□ grep -Fc "<newString>" <file> > 0 (new text present)
-□ bash scripts/edit-guard.sh check <file> <same markers as preflight>
-   — All structural markers still present. FAIL → sections were deleted. STOP.
-□ If >50 lines changed: self-review every changed line.
-```
-
-**Design gate:** `bash scripts/design-gate.sh` (BLOCKING if change touches design or visual assets — web, mobile, desktop, or any UI)
-
-### Step 3b — Pre-Commit Integrity Checklist
-
-**Irreversible actions:** git commit, push, merge, rebase, reset, cherry-pick, revert, file deletion, overwriting existing files, executing scripts that modify system state.
-
-**Mechanical enforcement:** The pre-commit hook (v3+, installed by `init-agents`) runs the pre-flight check BEFORE any commit is allowed. Even if the agent skips the manual pre-flight + interview before edits, the commit will be blocked by the hook. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
-
-**Design gate mechanical enforcement:** The `scripts/design-gate.sh` script checks for DESIGN.md, design/DESIGN-LOCK.md, and `.opencode/.design-skill-loaded` BEFORE visual work starts. If the agent attempts to create or modify HTML, CSS, or visual assets without completing the design process, this gate blocks. The gate is invoked manually by the agent per the Integrity Checklist above. There is no pre-commit hook for this (yet) — it relies on the agent's discipline to run it. If skipped, the output will be generic, and the user will reject it.
-
-**Edit guard mechanical enforcement:** The `scripts/edit-guard.sh` script checks structural integrity before and after every edit. The pre-commit hook validates staged HTML files for structural sanity. If the file line count changes by more than 20% after an edit, or if known structural markers go missing, the commit is blocked. The guard relies on agent discipline to run it before/after each edit, but the pre-commit hook catches corrupted files at commit time.
+**Design gate:** `bash scripts/design-gate.sh` (BLOCKING if change touches design or visual assets)
 
 ### Step 4 — Edit-to-Commit Barrier (BLOCKING)
 
-After completing edits, the agent MUST STOP before any git add/commit. No commit without a Commit Manifest:
-
-```
-□ Edits done → STOP. No git commands.
-□ Did user explicitly approve THIS commit? (previous "yes" does NOT transfer)
-□ Present Commit Manifest block before every commit.
-□ Wait for explicit "yes" / "sí" / "commit" / "proceed".
-□ Only then generate SHA256 token and commit.
-```
-
-**This barrier exists specifically to prevent "batch-mode commits"** — where multiple file edits flow naturally into a commit because the agent doesn't pause between editing and versioning. Every commit is a separate decision, even if it closes a batch of work the user already approved.
-
-**Common failure mode:** User says "fix these 5 things" → agent edits 5 files → agent commits all 5 as one batch without asking. The fix: after the last edit, STOP. Present manifest. Only commit after explicit approval. The edits were approved. The commit is not.
-
-**Mechanical enforcement against batch-mode:**
-
-```
-VALID:                             INVALID (batch-mode):
-  msg: "Edits done. Manifest:"       msg: "Edits done."
-  block: COMMIT MANIFEST             bash: token + git add + git commit
-  bash: printf '...' | sha256sum
-  user: "sí"
-  bash: git add && git commit
-```
-
-Token generation (`sha256sum > .git/COMMIT_APPROVED`) and `git commit` MUST be in separate bash calls. Never in the same bash call. The pre-commit hook will block commits where the token was not generated, but the agent must enforce the SEPARATION between token creation and execution as a mechanical discipline.
+After completing edits, the agent MUST STOP before any git add/commit. No commit without a Commit Manifest. See AGENTS-EXTENDED.md for full Commit Manifest Protocol, hash-bound token generation, and batch-mode prevention rules.
 
 ---
 
@@ -437,65 +377,24 @@ Examples: `SESSION_CONTEXT.md`, `SIMULATION.md`, `AUDIT_*.md`, `REVIEW_*.md`, `R
 
 **No git operation that mutates the repository without explicit user approval.**
 
-### Guardian Pattern - MANDATORY DECISION POINT
+### Guardian Pattern — MANDATORY DECISION POINT
 
-**Before ANY mutation, present this block:**
-
-```
-DECISION POINT: [mutation type: commit|push|merge|rebase|etc]
-BRANCH: [current branch]
-FILES/AFFECTED: [what will change]
-RATIONALE: [why this mutation is needed]
-RULE 12 CHECK: [Did user explicitly approve THIS mutation? yes/no]
-→ "Do you approve this mutation?"
-```
-
-**This block is MANDATORY and BLOCKING.** I cannot proceed until user says "yes", "sí", "commit", or "proceed".
-
-### MANDATORY for every mutation:
-
-1. Present the DECISION POINT block (above)
-2. Wait for explicit approval
-3. **Invalid responses:** "ok", "mmhm", "sigamos", "dale", "continue", "adelante", silence, emoji reactions
+Before ANY mutation, present the DECISION POINT block (see AGENTS-EXTENDED.md for template). Wait for explicit "yes" / "sí" / "commit" / "proceed". **Invalid:** "ok", "mmhm", "sigamos", "dale", "continue", silence, emoji reactions.
 
 ### Rules:
-
 - **NEVER batch approval.** Previous approval does not transfer. Every mutation is a separate decision.
 - **Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
 - **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 
 ### MECHANICAL ENFORCEMENT:
 
-A pre-commit git hook (installed by `init-agents`) blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists. The token must contain the SHA256 hash of the exact commit message. The agent creates this token only after receiving explicit user approval via the Commit Manifest Protocol. See AGENTS-EXTENDED.md for full protocol.
-
-### User override:
-
-"Enable auto commit mode", "Don't ask me for commits", "I trust you with commits". See AGENTS-EXTENDED.md for override details.
+A pre-commit git hook blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists with the SHA256 hash of the exact commit message. See AGENTS-EXTENDED.md for full Commit Manifest Protocol, hash-bound token generation, session-level lock, and user override details.
 
 ---
 
 ## Rule 12b: PR Review Gate (MECHANICAL)
 
-**Before any PR merge (squash, merge, rebase-merge):**
-
-1. Run `bash scripts/pr-review-checklist.sh <PR_NUMBER>`
-2. If FAIL (exit 1): Fix issues before merge
-3. If WARN (exit 2): Review manually, proceed only if comfortable
-4. If PASS (exit 0): All mechanical checks passed
-
-**The checklist verifies:**
-- PR state (OPEN, mergeable, has reviews)
-- Diff size (files changed ≤50 preferred)
-- No secret files in diff
-- Code WITH tests (warn if without)
-- All SKILL.md files ≤250 lines
-- Hooks have escape hatch and hash verification
-- Commit messages are descriptive
-- PR description is detailed
-
-**Why:** Pre-commit hooks prevent bad commits. PR review checklist prevents bad merges. Both are mechanical gates that don't depend on human attention.
-
-**Common failure mode:** Agent merges PR without running checklist because "I already reviewed the diff." The checklist catches things humans miss when tired.
+Before any PR merge: run `bash scripts/pr-review-checklist.sh <PR_NUMBER>`. FAIL → fix. WARN → review manually. PASS → proceed. See AGENTS-EXTENDED.md for full checklist contents.
 
 ---
 
@@ -528,4 +427,3 @@ Skills loaded from:
 # - Your project-specific rules take priority for project details
 # - Our skill-driven rules take priority for workflow and quality
 # <<< another-agent-skills-rules
-
