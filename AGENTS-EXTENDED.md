@@ -205,6 +205,27 @@ User can disable this gate by saying:
 | "I assumed you wanted to commit" | "You explicitly approved every change" |
 | 5 broken commits in a session | 1 clean commit with your knowledge |
 | "Why is this in my repo?" | "You saw it before it was committed" |
+
+### Plan and Commit are ALWAYS Separate
+
+**The plan is about WHAT to do. The commit is about WHETHER to save it.** These are fundamentally different decisions.
+
+| Decision | What it means | How to approve |
+|---|---|---|
+| **Plan** | "Yes, make these changes" | User says "yes" in chat |
+| **Commit** | "Yes, save these changes to git" | User runs approve-commit.sh |
+
+**Never bundle plan + commit as one decision.** Even if the user approved the plan, the commit requires separate approval via approve-commit.sh.
+
+**Correct flow:**
+1. Agent presents plan → user approves
+2. Agent executes plan
+3. Agent presents Commit Manifest → user runs approve-commit.sh
+4. Agent commits
+
+**Incorrect flow (violates Rule 12):**
+1. Agent presents "I'll fix X and commit" → user approves
+2. Agent does everything in one step
 | Force-pushed lost history | History protected, every mutation approved |
 
 **Anti-rationalization:** "The user seems impatient" → The user will be MORE impatient debugging changes they never approved.

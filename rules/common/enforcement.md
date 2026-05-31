@@ -58,6 +58,7 @@ Before ANY mutation, present the DECISION POINT block (see AGENTS-EXTENDED.md fo
 - **NEVER batch approval.** Previous approval does not transfer. Every mutation is a separate decision.
 - **Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
 - **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
+- **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit manifest → get approval → commit. Never bundle "I'll fix X and commit" as one decision. Each commit is unique — even if multiple changes were approved together.
 
 ### MECHANICAL ENFORCEMENT:
 
