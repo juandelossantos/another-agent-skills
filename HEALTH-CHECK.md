@@ -1,8 +1,9 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-05-30
+**Version:** 1.5.0-rc
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY (v1.5.0-pre — universal enforcement, stack-agnostic)
+**Status:** ✅ HEALTHY
 
 ---
 
@@ -11,28 +12,9 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Warnings | **3** (minor) |
-| Passes | **36/39** (92%) |
+| Warnings | **5** (minor, non-blocking) |
+| Passes | **38/43** (88%) |
 | Overall | **HEALTHY** |
-
----
-
-## What Changed This Session
-
-| Area | Before | After | Δ |
-|---|---|---|---|
-| SOUL.md | ❌ | **134 lines** | New — project identity |
-| AGENTS.md | 531 lines | **111 lines** | **-79%** (thin orchestrator) |
-| Rules files | 0 | **5** (rules/common/) | New — modular rules |
-| Always-loaded context | 7,965 tokens | **3,675 tokens** | **-54%** |
-| Skills expanded | 3 under 100 lines | **0 under 100 lines** (core skills) | +3 expanded |
-| skill-lint.sh | ❌ | **✅ 0 errors** | New — Rule 6 enforcement |
-| approve-commit.sh | ❌ | **✅ user-gated** | New — Rule 12 enforcement |
-| STACK_CONFIG.md | ❌ | **✅ universal detection** | New — stack-agnostic |
-| Project enforcement hook | ❌ | **✅ lifecycle enforcement** | New — tests, build, secrets |
-| CI template | ❌ | **✅ universal** | New — reads STACK_CONFIG.md |
-| Runtime controls | ❌ | **✅ env vars** | New — SKILLS_HOOK_LEVEL, etc. |
-| INCIDENT_004 | ❌ | **✅ documented** | New — auto-approval fix |
 
 ---
 
@@ -41,21 +23,22 @@
 | Metric | Value | Status |
 |---|---|---|
 | SKILL.md files | 38 | ✅ |
-| GUIDE.md + *-GUIDE.md files | 47 (2 + 45) | ✅ |
-| Total skill lines | 5,659 | ✅ |
-| AGENTS.md | 111 lines | ✅ |
-| SOUL.md | 134 lines | ✅ |
-| AGENTS-EXTENDED.md | 355 lines | ✅ |
-| Rules files | 5 (390 lines) | ✅ |
-| Scripts | 10 | ✅ |
-| Templates | 2 (ci.yml, hooks.bats) | ✅ |
+| GUIDE.md files (*-GUIDE.md) | 45 | ✅ |
+| Scripts | 15 | ✅ |
+| Rules files | 5 (391 lines) | ✅ |
+| Templates | 4 (ci.yml, hooks.bats, CLAUDE.md, .cursorrules) | ✅ |
 | ADRs | 5 | ✅ |
-| Incident docs | 4 | ✅ |
+| Incident docs | 4 (INCIDENT_001–004) | ✅ |
+| AGENTS.md | 111 lines (thin orchestrator) | ✅ |
+| SOUL.md | 134 lines (project identity) | ✅ |
+| AGENTS-EXTENDED.md | 376 lines (lazy-loaded protocol) | ✅ |
+| Total skill lines | 5,659 | ✅ |
+| Total guide lines | 3,055 | ✅ |
 | Always-loaded context | 245 lines (~3,675 tokens, 1.8% of 200K) | ✅ |
-| Pre-commit hook gates | 9 | ✅ |
+| Pre-commit hook gates | 10 (branch, staged, remote, HTML, hash, build, anti-slop, debug, SPEC, skill-lint) | ✅ |
 | skill-lint | 0 errors, 5 warnings | ✅ |
-| Thin skills (<100 lines) | 10 (non-core) | ⚠️ |
-| Commits | 139 | ✅ |
+| Commits | 145 | ✅ |
+| Unpushed commits | 17 | ⚠️ |
 
 ---
 
@@ -71,22 +54,6 @@
 | Dart | pubspec.lock | ✅ | ✅ |
 | Swift | Package.resolved | ❌ | ⚠️ Not yet |
 | Unknown | Fallback with user prompt | ✅ | ✅ |
-
----
-
-## Philosophy Alignment (SOUL.md)
-
-| Principle | Evidence | Status |
-|---|---|---|
-| Quality from explicit contracts | STACK_CONFIG.md, pre-commit hook, approve-commit.sh | ✅ |
-| Rules in visible blocks, not memory | Guardian Pattern, DECISION POINT before mutations | ✅ |
-| Hook verifies integrity | SHA256 hash verification, skill-lint, build verification | ✅ |
-| Speed is side effect of precision | METR study cited, process-over-speed | ✅ |
-| Context is finite | 245 lines always-loaded, lazy-load skills, 60/25/15 budget | ✅ |
-| "No" > blind compliance | Mayéutic Challenge, anti-rationalization table | ✅ |
-| Learn from failures fast | INCIDENT_001-004, 3 incidents → 3 enforcement levels | ✅ |
-
-**All 7 principles followed.**
 
 ---
 
@@ -106,14 +73,46 @@
 
 ---
 
+## Philosophy Alignment (SOUL.md)
+
+| # | Principle | Evidence | Status |
+|---|---|---|---|
+| 1 | Quality from explicit contracts | STACK_CONFIG.md, pre-commit hook, approve-commit.sh | ✅ |
+| 2 | Rules in visible blocks, not memory | Guardian Pattern, DECISION POINT before mutations | ✅ |
+| 3 | Hook verifies integrity | SHA256 hash verification, skill-lint, build verification | ✅ |
+| 4 | Speed is side effect of precision | METR study cited, process-over-speed | ✅ |
+| 5 | Context is finite | 245 lines always-loaded, lazy-load skills, 60/25/15 budget | ✅ |
+| 6 | "No" > blind compliance | Mayéutic Challenge, anti-rationalization table | ✅ |
+| 7 | Learn from failures fast | INCIDENT_001-004, 3 incidents → 3 enforcement levels | ✅ |
+
+**All 7 principles followed.**
+
+---
+
+## Unique Practices (vs ECC, Taste Skill, Impeccable, Open Design)
+
+| Practice | Status |
+|---|---|
+| SHA256 hash-bound commit tokens | ✅ Unique |
+| 10 pre-commit gates | ✅ Unique |
+| Debug 3-strikes escalation | ✅ Unique |
+| Stack-agnostic CI via STACK_CONFIG.md | ✅ Unique |
+| User-gated commits (plan ≠ commit) | ✅ Unique |
+| Guardian Pattern | ✅ Unique |
+| Incident-driven enforcement | ✅ Unique |
+| Runtime hook controls | ✅ Unique |
+
+---
+
 ## Recommendations
 
 | # | Action | Priority |
 |---|---|---|
-| 1 | Push 11 unpushed commits to origin | Alta |
-| 2 | Add Swift to stack detection (Package.resolved) | Media |
-| 3 | Fix 5 skill-lint warnings (add "when to activate") | Media |
-| 4 | Complete Fase 4 (CI template, runtime controls, hook tests) | Media |
+| 1 | Push 17 unpushed commits | Alta |
+| 2 | Update README with current metrics | Alta |
+| 3 | Add ECC to credits | Media |
+| 4 | Fix 5 skill-lint warnings | Baja |
+| 5 | Add Swift to stack detection | Baja |
 
 ---
 
@@ -121,6 +120,6 @@
 
 | Date | Decision | Rationale |
 |---|---|---|
-| 2026-05-30 | ✅ CONTINUE | 0 criticals, 3 minor warnings. Session improvements applied. Ready for next phase. |
-| 2026-05-30 | ✅ CONTINUE | v1.4.1 — SOUL.md added, enforcement hardened. |
-| 2026-05-28 | ✅ CONTINUE | v1.2.0 — design review pipeline added. |
+| 2026-05-30 | ✅ RELEASE READY | 0 criticals, 5 minor warnings. Code outpaces docs — ship then fix. |
+| 2026-05-30 | ✅ CONTINUE | v1.4.1 enforcement hardened. |
+| 2026-05-28 | ✅ CONTINUE | v1.2.0 design review pipeline. |

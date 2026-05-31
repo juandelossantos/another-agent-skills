@@ -1,41 +1,43 @@
-# Another Agent Skills 👷
+# Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.4.1](https://img.shields.io/badge/version-1.4.1-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.5.0](https://img.shields.io/badge/version-1.5.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
-**Production-grade agent skills that turn AI coding assistants into disciplined senior engineers.**
+**38 composable skills + mechanical enforcement that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process.**
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
 
-> Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
-
-## Philosophy
-
-Agents lack discipline. This project treats them as critical collaborators, not obedient servants — with mechanical enforcement both must follow.
-
-We believe quality emerges from explicit contracts, not implicit trust. Every skill, hook, and rule exists because someone, somewhere, learned the hard way.
+> Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, Kiro, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
 
 ---
 
-## 📦 Latest Features
+## What Makes This Different
 
-- **Agent discipline plugin (v1.4.1)** — Native OpenCode plugin with event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `commit-approval` (mutation gate), `guardian-reminder` (pre-decision enforcement), `session-compact` (anti-slop + Guardian Pattern). Auto-fires on critical events.
-- **Guardian Pattern (v1.4.1)** — Mandatory DECISION POINT block before any mutation: commit, push, merge, rebase. Agent must present rationale and wait for explicit approval. Invalid responses: "ok", "mmhm", "continue".
-- **Session Start Protocol (v1.4.1)** — Agent MUST read Rules 0-12, check git state, and acknowledge Guardian Pattern before executing any tool. Failure = Rule 12 violation.
-- **PR Review Gate (v1.4.1)** — Mechanical checklist (`pr-review-checklist.sh`) before merge: verifies PR state, diff size, no secrets, skills ≤250l, hook compliance, commit coherence.
-- **Safe reinstall (v1.4.1)** — `init-agents` now backs up existing hooks before overwriting. `install.sh` merges shell config blocks without destroying existing content.
-- **Mechanical enforcement gates (v1.4.0)** — Pre-commit v6 with 9 gates: branch check, staged changes, remote sync, HTML integrity, hash verification, build verification (bash -n), anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement.
-- **Multi-agent support (v1.4.0)** — Native plugin configs for Claude Code (`.claude-plugin/`), Cursor (`.cursor-plugin/`), and Kiro (`.kiro/`). Hooks auto-fire across all agents.
-- **Design review pipeline (new)** — 9 cross-platform quality skills: `critique` (heuristic review), `audit` (5-dimension technical scan), `clarify` (UX copy), `hard` (a11y/robustness fixes), `polish` (design details), `typeset` (typography), `adapt` (responsive), `optimize` (performance), `delight` (micro-interactions). Chain them: critique → audit → fix.
-- **Mayéutic agent (Rule 0g)** — Agents challenge decisions, verify objectives, propose better alternatives. Built on `doubt-driven-development`.
-- **Release automation** — `scripts/release.sh` handles semver bumps, changelogs, git tags, and optional auto-push. Supports `-m` and `-y` for CI/agent usage.
-- **Versioned releases** — `VERSION` + [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) + [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases) track every change.
-- **Auto-update** — `init-agents` checks for updates daily. You choose when to pull.
-- **Design ecosystem** — 21 design skills across platforms (web, mobile, desktop, PWA), directions (industrial-brutalist, minimalist, soft-premium), and review pipeline. See [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md).
-- **Design Core Extraction** — Three Dials System (Variance / Motion / Density) shared across all platforms via `engineering-fundamentals`.
+Most agent skill frameworks give you prompts. This one gives you **engineering discipline** — with mechanical enforcement, not suggestions.
+
+### Six Layers Beyond Prompts
+
+**1. SOUL.md — Portable Agent Identity** — A single document that defines who the agent is, what it believes, and what it never does. Travels across projects and sessions. Not just rules — a philosophy.
+
+**2. Mechanical Enforcement** — Pre-commit v6 with 10 gates: branch check, staged changes, remote sync, HTML integrity, SHA256 hash verification, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, skill-lint. No other framework does this.
+
+**3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. Plan approval ≠ commit approval — always separate decisions.
+
+**4. Context Engineering** — Lazy loading: skills are ~250-line indexes; detailed guides load only on-demand. Result: ~3,675 tokens always-loaded (1.8% of 200K) vs ~7,965 in eager mode (54% savings). Auto-eviction at 70% context usage.
+
+**5. Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, Ruby, Dart, or unknown) and creates `STACK_CONFIG.md` with your actual commands. CI, hooks, and skills all read from this file. Works for any project, not just specific frameworks.
+
+**6. Process Discipline** — User-gated commits (approve-commit.sh). PR Review Gate. 25-entry anti-rationalization table. Debug 3-strikes escalation. Mayéutic Challenge (agents that push back). Incident-driven enforcement evolution.
+
+### Context Budget
+
+| System | Always-loaded | Lazy loading | Guides | Context control |
+|--------|--------------|--------------|--------|-----------------|
+| Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
+| **Another Agent Skills** | **~3,675 tokens** | Yes, on-demand | Yes, 45 guides | Auto-evict at 70% |
 
 ---
 
@@ -46,7 +48,7 @@ We believe quality emerges from explicit contracts, not implicit trust. Every sk
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-bash install.sh          # Installs 54 skills globally
+bash install.sh          # Installs skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
@@ -55,17 +57,22 @@ init-agents              # In any project: activates skill-driven mode
 ```powershell
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-.\install.ps1            # Installs 54 skills globally
+.\install.ps1            # Installs skills globally
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 31 custom skills + 23 upstream skills.
+**That's it.** Your AI agent now has 38 custom skills + 45 guides.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
-Run `init-agents` in every new project — it merges AGENTS.md without overwriting existing rules, and creates `.sessionrc`.
+Run `init-agents` in every new project — it:
+- Merges AGENTS.md without overwriting existing rules
+- Detects your stack and creates `STACK_CONFIG.md`
+- Installs lifecycle enforcement hook (tests, build, secrets)
+- Installs CI pipeline (reads STACK_CONFIG.md)
+- Creates `.sessionrc` for purpose-driven sessions
 
 > **Safety:** Backs up before replacing. `init-agents` merges — never overwrites.
-> **Auto-update:** Skills stay current with daily background pull.
+> **Universal:** Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
 > **Agent adapters:** `bash install.sh --agent claude` or `.\install.ps1 -Agent claude`
 
 ---
@@ -318,8 +325,10 @@ Does not remove your user profile (`~/.config/opencode/user-profile.json`) or th
 
 Built on the shoulders of:
 - **Addy Osmani** — [`agent-skills`](https://github.com/addyosmani/agent-skills) (23 upstream skills)
+- **Affaan Mustafa** — [`ECC`](https://github.com/affaan-m/ECC) (inspiration for cross-platform enforcement, shared memory gap analysis, and SOUL.md pattern)
 - **Leonxlnx** — [`taste-skill`](https://github.com/Leonxlnx/taste-skill) — design taste and anti-slop frontend
 - **Paul Bakaus** — [`impeccable.style`](https://impeccable.style) — design review pipeline inspiration (critique → audit → fix → delight)
+- **tw93** — [`open-design`](https://github.com/nexu-io/open-design) — stack-agnostic design system approach
 - **Julius Brussee** — [`caveman`](https://github.com/JuliusBrussee/caveman) — token optimization inspiration
 - **Andrej Karpathy** — Behavioral observations on LLM coding failures
 - **OpenCode team** — Native skill framework and invocation system
