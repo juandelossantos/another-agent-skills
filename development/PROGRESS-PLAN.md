@@ -175,39 +175,39 @@ Docs:
 ### Estructura de branches
 
 ```
-main (siempre estable)
+main (siempre estable, v1.5.0 released)
 │
-├── FASE 1 — Quick wins ✅
+├── FASE 1 — Quick wins ✅ COMPLETADA
 │   ├── feat/soul-md ✅
 │   ├── feat/reaudit-healthcheck ✅
 │   └── feat/rules-layered ✅
 │
-├── FASE 2 — Skills expandidas
+├── FASE 2 — Skills expandidas ✅ COMPLETADA
 │   ├── feat/expand-debugging ✅ (89 lines + 2 guides)
 │   ├── feat/expand-tdd ✅ (138 lines)
 │   └── feat/expand-git-workflow ✅ (180 lines)
 │
-├── FASE 2.5 — STACK_CONFIG.md ⭐ NUEVA
-│   └── feat/stack-config (init-agents crea STACK_CONFIG.md con comandos detectados)
+├── FASE 2.5 — STACK_CONFIG.md ✅ COMPLETADA
+│   └── feat/stack-config ✅ (universal detection, 7 stacks + unknown)
 │
-├── FASE 3 — Project-level enforcement ⭐ PRIORIDAD MÁXIMA
-│   ├── feat/project-pre-commit-hook (init-agents instala hook en el proyecto del usuario)
-│   └── feat/secret-detection (grep for API keys, tokens, passwords)
+├── FASE 3 — Project enforcement ✅ COMPLETADA
+│   ├── feat/project-pre-commit-hook ✅ (lifecycle enforcement)
+│   └── feat/secret-detection ✅ (integrated in hook)
 │
-├── FASE 4 — Universal Engineering Practices
-│   ├── feat/ci-template (init-agents instala CI automatico)
-│   ├── feat/runtime-hook-controls (env vars para tuning)
-│   └── feat/hook-test-template (BATS template para usuario)
+├── FASE 4 — Universal Engineering Practices ✅ COMPLETADA
+│   ├── feat/ci-template ✅ (universal, reads STACK_CONFIG.md)
+│   ├── feat/runtime-hook-controls ✅ (SKILLS_HOOK_LEVEL, etc.)
+│   └── feat/hook-test-template ✅ (BATS template)
 │
-├── FASE 5 — Stack Analysis
-│   └── feat/stack-analysis (detect stack, suggest MCPs + best practices)
+├── FASE 5 — Stack Analysis ✅ COMPLETADA
+│   └── feat/stack-analysis ✅ (category-based, not framework-based)
 │
-└── FASE 6 — Website + Docs
+└── FASE 6 — Website + Docs ⏳ PRÓXIMA
     ├── feat/selective-install
-    ├── feat/website-complete
+    ├── feat/website-complete (skills grid, quick start, why different, FAQ)
     ├── feat/i18n-new-sections
-    ├── feat/docs-pages
-    ├── feat/readme-upgrade
+    ├── feat/docs-pages (6 doc pages)
+    ├── feat/readme-upgrade (ya parcialmente hecho en v1.5.0)
     └── feat/og-image-png
 ```
 
@@ -222,6 +222,7 @@ FASE 1 — Quick wins ✅ COMPLETADA:
 FASE 2 — Skills expandidas ✅ COMPLETADA:
   ├── feat/expand-debugging ✅ (89 lines + 2 guides)
   ├── feat/expand-tdd ✅ (138 lines)
+  └── feat/expand-git-workflow ✅ (180 lines)
   └── feat/expand-git-workflow ✅ (180 lines)
 
 FASE 2.5 — STACK_CONFIG.md ⭐ NUEVA (depende de Fase 2, antes de Fase 3):
