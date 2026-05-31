@@ -91,9 +91,238 @@ FOOTER
     log "Your original content is preserved. Backup: $(basename "$backup")"
 }
 
-# Create .sessionrc with purpose-driven defaults
-# This enables per-project session configuration
-# Used by AGENTS.md Rule 3 (Lifecycle) for purpose-driven skill routing
+# Detect project stack and create STACK_CONFIG.md
+# This provides commands to all skills (git-workflow, test-driven, etc.)
+detect_stack_and_create_config() {
+    if [[ -f "./STACK_CONFIG.md" ]]; then
+        log "STACK_CONFIG.md already exists. Skipping."
+        return 0
+    fi
+
+    local stack_type="unknown"
+    local framework=""
+    local runtime=""
+    local test_cmd=""
+    local lint_cmd=""
+    local typecheck_cmd=""
+    local build_cmd=""
+    local dev_cmd=""
+    local lockfile=""
+    local auto_detected=false
+
+    # === UNIVERSAL LOCKFILE DETECTION ===
+    # Lockfiles are universal indicators of an ecosystem.
+    # We detect the ecosystem from the lockfile, not from hardcoded stack names.
+
+    if [[ -f "package-lock.json" ]] || [[ -f "yarn.lock" ]] || [[ -f "pnpm-lock.yaml" ]] || [[ -f "bun.lockb" ]]; then
+        stack_type="node"
+        runtime="node"
+        lockfile="package-lock.json"
+        [[ -f "yarn.lock" ]] && lockfile="yarn.lock"
+        [[ -f "pnpm-lock.yaml" ]] && lockfile="pnpm-lock.yaml"
+        [[ -f "bun.lockb" ]] && lockfile="bun.lockb"
+        auto_detected=true
+    elif [[ -f "Cargo.lock" ]]; then
+        stack_type="rust"
+        runtime="cargo"
+        lockfile="Cargo.lock"
+        auto_detected=true
+    elif [[ -f "poetry.lock" ]] || [[ -f "Pipfile.lock" ]]; then
+        stack_type="python"
+        runtime="python"
+        lockfile="poetry.lock"
+        [[ -f "Pipfile.lock" ]] && lockfile="Pipfile.lock"
+        auto_detected=true
+    elif [[ -f "go.sum" ]]; then
+        stack_type="go"
+        runtime="go"
+        lockfile="go.sum"
+        auto_detected=true
+    elif [[ -f "Gemfile.lock" ]]; then
+        stack_type="ruby"
+        runtime="ruby"
+        lockfile="Gemfile.lock"
+        auto_detected=true
+    elif [[ -f "pubspec.lock" ]]; then
+        stack_type="dart"
+        runtime="dart"
+        lockfile="pubspec.lock"
+        auto_detected=true
+    fi
+
+    # === CONFIG FILE DETECTION (fallback if no lockfile) ===
+    # Config files without lockfiles still indicate an ecosystem.
+
+    if [[ "$auto_detected" == false ]]; then
+        if [[ -f "package.json" ]]; then
+            stack_type="node"
+            runtime="node"
+            auto_detected=true
+        elif [[ -f "Cargo.toml" ]]; then
+            stack_type="rust"
+            runtime="cargo"
+            auto_detected=true
+        elif [[ -f "pyproject.toml" ]] || [[ -f "setup.py" ]] || [[ -f "requirements.txt" ]]; then
+            stack_type="python"
+            runtime="python"
+            auto_detected=true
+        elif [[ -f "go.mod" ]]; then
+            stack_type="go"
+            runtime="go"
+            auto_detected=true
+        elif [[ -f "Gemfile" ]]; then
+            stack_type="ruby"
+            runtime="ruby"
+            auto_detected=true
+        elif [[ -f "pubspec.yaml" ]]; then
+            stack_type="dart"
+            runtime="dart"
+            auto_detected=true
+        elif [[ -f "Package.swift" ]]; then
+            stack_type="swift"
+            runtime="swift"
+            auto_detected=true
+        elif [[ -f "CMakeLists.txt" ]] || [[ -f "Makefile" ]] || [[ -f "build.gradle" ]] || [[ -f "pom.xml" ]]; then
+            # Generic build systems — we know it's a project, but not which language
+            stack_type="generic"
+            auto_detected=true
+        fi
+    fi
+
+    # === FRAMEWORK DETECTION (Node.js only, for now) ===
+
+    if [[ "$stack_type" == "node" ]] && [[ -f "package.json" ]]; then
+        if grep -q '"next"' package.json 2>/dev/null; then framework="next.js"
+        elif grep -q '"react"' package.json 2>/dev/null; then framework="react"
+        elif grep -q '"vue"' package.json 2>/dev/null; then framework="vue"
+        elif grep -q '"svelte"' package.json 2>/dev/null; then framework="svelte"
+        elif grep -q '"angular"' package.json 2>/dev/null; then framework="angular"
+        elif grep -q '"express"' package.json 2>/dev/null; then framework="express"
+        elif grep -q '"hono"' package.json 2>/dev/null; then framework="hono"
+        elif grep -q '@nestjs' package.json 2>/dev/null; then framework="nestjs"
+        fi
+    fi
+
+    # === AUTO-EXTRACT COMMANDS (for known ecosystems) ===
+
+    if [[ "$stack_type" == "node" ]] && [[ -f "package.json" ]]; then
+        test_cmd=$(node -e "const p=require('./package.json'); console.log(p.scripts?.test||'')" 2>/dev/null || echo "")
+        lint_cmd=$(node -e "const p=require('./package.json'); console.log(p.scripts?.lint||'')" 2>/dev/null || echo "")
+        build_cmd=$(node -e "const p=require('./package.json'); console.log(p.scripts?.build||'')" 2>/dev/null || echo "")
+        dev_cmd=$(node -e "const p=require('./package.json'); console.log(p.scripts?.dev||'')" 2>/dev/null || echo "")
+        if grep -q '"typescript"' package.json 2>/dev/null || [[ -f "tsconfig.json" ]]; then
+            typecheck_cmd="npx tsc --noEmit"
+        fi
+        [[ -z "$test_cmd" ]] && test_cmd="npm test"
+        [[ -z "$lint_cmd" ]] && lint_cmd="npm run lint"
+        [[ -z "$build_cmd" ]] && build_cmd="npm run build"
+    fi
+
+    if [[ "$stack_type" == "rust" ]]; then
+        test_cmd="cargo test"
+        lint_cmd="cargo clippy"
+        typecheck_cmd="cargo check"
+        build_cmd="cargo build"
+        dev_cmd="cargo run"
+    fi
+
+    if [[ "$stack_type" == "python" ]]; then
+        if grep -q "pytest" pyproject.toml 2>/dev/null || [[ -f "pytest.ini" ]] || [[ -f "conftest.py" ]]; then
+            test_cmd="pytest"
+        else
+            test_cmd="python -m pytest"
+        fi
+        if command -v ruff &>/dev/null; then lint_cmd="ruff check"; else lint_cmd="flake8"; fi
+        typecheck_cmd="mypy ."
+        build_cmd="python -m build"
+    fi
+
+    if [[ "$stack_type" == "go" ]]; then
+        test_cmd="go test ./..."
+        lint_cmd="golangci-lint run"
+        typecheck_cmd="go vet ./..."
+        build_cmd="go build ./..."
+        dev_cmd="go run ."
+    fi
+
+    if [[ "$stack_type" == "ruby" ]]; then
+        test_cmd="bundle exec rspec"
+        lint_cmd="rubocop"
+        typecheck_cmd="solargraph check"
+        build_cmd="bundle exec rake build"
+        dev_cmd="bundle exec rails server"
+    fi
+
+    if [[ "$stack_type" == "dart" ]]; then
+        test_cmd="dart test"
+        lint_cmd="dart analyze"
+        typecheck_cmd="dart analyze"
+        build_cmd="dart build exe"
+        dev_cmd="dart run"
+    fi
+
+    if [[ "$stack_type" == "swift" ]]; then
+        test_cmd="swift test"
+        lint_cmd="swiftlint"
+        typecheck_cmd="swift build"
+        build_cmd="swift build"
+        dev_cmd="swift run"
+    fi
+
+    # === ASK USER FOR UNKNOWN STACKS ===
+    # If we couldn't detect the stack, ask the developer.
+    # This is aligned with Rule 0c: Think Before Coding — ask, don't guess.
+
+    if [[ "$auto_detected" == false ]]; then
+        log "Could not detect your project's stack automatically."
+        log "I'll create STACK_CONFIG.md with placeholders. You can configure commands manually."
+        echo ""
+    fi
+
+    # === GENERATE STACK_CONFIG.md ===
+
+    cat > "./STACK_CONFIG.md" << EOF
+# Stack Configuration
+
+**Detected:** ${stack_type}${framework:+ (${framework})}${runtime:+ — ${runtime}}
+**Auto-detected:** ${auto_detected}
+**Generated by:** init-agents (another-agent-skills)
+
+## Commands
+
+| Action | Command |
+|---|---|
+| Test | \`${test_cmd:-<configure: what command runs your tests?>}\` |
+| Lint | \`${lint_cmd:-<configure: what command lints your code?>}\` |
+| Type check | \`${typecheck_cmd:-<configure: what command checks types?>}\` |
+| Build | \`${build_cmd:-<configure: what command builds your project?>}\` |
+| Dev | \`${dev_cmd:-<configure: what command starts your dev server?>}\` |
+
+## Lockfile
+
+${lockfile:+\`${lockfile}\` detected}
+${lockfile:-No lockfile detected}
+
+## How to Configure
+
+If any command shows \`<configure: ...>\`, edit this file and replace with your actual command.
+Skills (git-workflow, test-driven, etc.) read this file for project-specific behavior.
+
+## Re-detect
+
+After changing your project setup, re-run:
+\`\`\`bash
+rm STACK_CONFIG.md && bash init-agents.sh
+\`\`\`
+EOF
+
+    ok "Created STACK_CONFIG.md (${stack_type}${framework:+ — ${framework}})"
+    if [[ "$auto_detected" == false ]]; then
+        warn "Stack not auto-detected. Please configure commands in STACK_CONFIG.md."
+    else
+        log "Skills will read this file for project-specific commands."
+    fi
+}
 create_sessionrc() {
     local purpose="development"
     local user_profile="$HOME/.config/opencode/user-profile.json"
@@ -137,7 +366,10 @@ main() {
     
     # Install pre-commit hook for Rule 12 mechanical enforcement
     install_precommit_hook
-    
+
+    # Detect stack and create STACK_CONFIG.md (used by all skills)
+    detect_stack_and_create_config
+
     # Create .sessionrc for purpose-driven sessions
     if [[ ! -f "./.sessionrc" ]]; then
         create_sessionrc
