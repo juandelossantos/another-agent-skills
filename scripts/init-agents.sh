@@ -379,13 +379,13 @@ main() {
 }
 
 install_precommit_hook() {
-    local hook_src="${SCRIPT_DIR}/git-hooks/pre-commit"
+    local hook_src="${SCRIPT_DIR}/project-pre-commit"
     local hook_dst="./.git/hooks/pre-commit"
     local commit_msg_src="${SCRIPT_DIR}/git-hooks/commit-msg"
     local commit_msg_dst="./.git/hooks/commit-msg"
     
     if [[ ! -f "${hook_src}" ]]; then
-        warn "Pre-commit hook source not found at ${hook_src}. Skipping."
+        warn "Project pre-commit hook source not found at ${hook_src}. Skipping."
         return 0
     fi
     
@@ -402,7 +402,7 @@ install_precommit_hook() {
     fi
     cp "${hook_src}" "${hook_dst}"
     chmod +x "${hook_dst}"
-    ok "Installed pre-commit hook (${hook_dst})"
+    ok "Installed lifecycle pre-commit hook (${hook_dst})"
     
     if [[ -f "${commit_msg_src}" ]]; then
         if [[ -f "${commit_msg_dst}" ]]; then
@@ -414,7 +414,8 @@ install_precommit_hook() {
         ok "Installed commit-msg hook (${commit_msg_dst})"
     fi
     
-    log "Both hooks required for commit: pre-commit (existence) + commit-msg (hash integrity)."
+    log "Hook enforces: tests pass, build succeeds, no secrets."
+    log "Commands read from STACK_CONFIG.md (stack-agnostic)."
 }
 
 main "$@"
