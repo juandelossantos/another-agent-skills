@@ -14,33 +14,6 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 
 ---
 
-## What Makes This Different
-
-Most agent skill frameworks give you prompts. This one gives you **engineering discipline** — with mechanical enforcement, not suggestions.
-
-### Six Layers Beyond Prompts
-
-**1. SOUL.md — Portable Agent Identity** — A single document that defines who the agent is, what it believes, and what it never does. Travels across projects and sessions. Not just rules — a philosophy.
-
-**2. Mechanical Enforcement** — Pre-commit v6 with 10 gates: branch check, staged changes, remote sync, HTML integrity, SHA256 hash verification, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, skill-lint. No other framework does this.
-
-**3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. Plan approval ≠ commit approval — always separate decisions.
-
-**4. Context Engineering** — Lazy loading: skills are ~250-line indexes; detailed guides load only on-demand. Result: ~3,675 tokens always-loaded (1.8% of 200K) vs ~7,965 in eager mode (54% savings). Auto-eviction at 70% context usage.
-
-**5. Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, Ruby, Dart, or unknown) and creates `STACK_CONFIG.md` with your actual commands. CI, hooks, and skills all read from this file. Works for any project, not just specific frameworks.
-
-**6. Process Discipline** — User-gated commits (approve-commit.sh). PR Review Gate. 25-entry anti-rationalization table. Debug 3-strikes escalation. Mayéutic Challenge (agents that push back). Incident-driven enforcement evolution.
-
-### Context Budget
-
-| System | Always-loaded | Lazy loading | Guides | Context control |
-|--------|--------------|--------------|--------|-----------------|
-| Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
-| **Another Agent Skills** | **~3,675 tokens** | Yes, on-demand | Yes, 45 guides | Auto-evict at 70% |
-
----
-
 ## Quick Start
 
 ### Linux / macOS
@@ -96,24 +69,41 @@ These are **project commands** you run in your terminal. They are NOT skills —
 
 Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline — with mechanical enforcement, not just suggestions.
 
-### Five Layers Beyond Prompts
+### Six Layers Beyond Prompts
 
-**1. Mechanical Enforcement** — Pre-commit v6 blocks commits without approval. 9 automated gates verify everything from git state to anti-slop patterns. SHA256 hash verification on every commit. Escape hatch with 3-strikes escalation. No other framework does this.
+**1. SOUL.md — Portable Agent Identity** — A single document that defines who the agent is, what it believes, and what it never does. Travels across projects and sessions. Not just rules — a philosophy.
 
-**2. Native Plugin** — OpenCode agent-discipline plugin with 5 event-driven hooks: `edit-guard` (file integrity), `pre-flight` (git state), `guardian-reminder` (pre-decision), `commit-approval` (mutation gate), `session-compact` (anti-slop + Guardian Pattern). Multi-agent adapters for Claude, Cursor, and Kiro.
+**2. Mechanical Enforcement** — Pre-commit v6 with 10 gates: branch check, staged changes, remote sync, HTML integrity, SHA256 hash verification, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, skill-lint. No other framework does this.
 
-**3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. This turns Agent⇔Human interaction from casual chat into an auditable engineering process.
+**3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. Plan approval ≠ commit approval — always separate decisions.
 
-**4. Context Engineering** — Lazy loading: skills are ~100-line indexes; detailed guides load only on-demand. Result: ~3,800 tokens always-loaded vs ~6,900 in eager mode (45% savings). Auto-eviction at 70% context usage. Session Start Protocol ensures the agent reads rules before any tool execution.
+**4. Context Engineering** — Lazy loading: skills are ~250-line indexes; detailed guides load only on-demand. Result: ~3,675 tokens always-loaded (1.8% of 200K) vs ~7,965 in eager mode (54% savings). Auto-eviction at 70% context usage.
 
-**5. Process Discipline** — PR Review Gate (mechanical checklist before merge). 25-entry anti-rationalization table. Debug 3-strikes escalation. SPEC enforcement on new scripts. Commit Manifest Protocol with token + hash + timestamp verification.
+**5. Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, Ruby, Dart, or unknown) and creates `STACK_CONFIG.md` with your actual commands. CI, hooks, and skills all read from this file. Works for any project, not just specific frameworks.
 
-### Context Budget Comparison
+**6. Process Discipline** — User-gated commits (approve-commit.sh). PR Review Gate. 25-entry anti-rationalization table. Debug 3-strikes escalation. Mayéutic Challenge (agents that push back). Incident-driven enforcement evolution.
+
+### Context Budget
 
 | System | Always-loaded | Lazy loading | Guides | Context control |
 |--------|--------------|--------------|--------|-----------------|
-| Raw SKILL.md files | ~6,900 tokens | No | Inline | None |
-| Another Agent Skills | **~3,800 tokens** | Yes, on-demand | Yes, per phase | Auto-evict at 70% |
+| Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
+| **Another Agent Skills** | **~3,675 tokens** | Yes, on-demand | Yes, 45 guides | Auto-evict at 70% |
+
+---
+
+## What's New in v1.5.0
+
+- **SOUL.md** — Portable agent identity: 7 principles, 6 anti-goals, value hierarchy
+- **Universal stack detection** — `init-agents` detects Node, Rust, Python, Go, Ruby, Dart, or unknown and creates `STACK_CONFIG.md`
+- **Project enforcement hook** — Lifecycle enforcement in user projects: tests pass, build succeeds, no secrets
+- **CI template** — Universal GitHub Actions workflow that reads `STACK_CONFIG.md`
+- **Stack analysis** — Category-based recommendations for MCPs, skills, and best practices
+- **approve-commit.sh** — User-gated commits with stale token detection
+- **skill-lint.sh** — Rule 6 enforcement: skills must be ≤250-line indexes
+- **Runtime hook controls** — `SKILLS_HOOK_LEVEL`, `SKILLS_DISABLED_HOOKS`, `SKILLS_TEST_TIMEOUT`
+- **Rules layered architecture** — AGENTS.md 111 lines + 5 modular rules (391 lines)
+- **Expanded skills** — debugging (+2 guides), TDD (+66 lines), git-workflow (+114 lines)
 
 > "Ship an API" → loads `backend-api-mastery` → protocol decision → DB schema → endpoints → tests.
 > "Fix a bug" → loads `debugging-and-error-recovery` → repro test → root cause → fix → verify.
