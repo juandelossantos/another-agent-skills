@@ -59,6 +59,14 @@ Same violation happened again when token hash mismatched. Agent regenerated toke
 
 **Additional fix needed:** When token is invalid, agent MUST present new DECISION POINT before regenerating.
 
+## Recurrence: INCIDENT_004c
+
+Agent fixed README, committed, pushed, and edited release — all without presenting DECISION POINT for each action.
+
+**Root cause:** Agent confused "user asked me to fix this" with "user approved commit + push + release edit." Each is a separate decision.
+
+**Rule clarification:** A user request to "fix X" = plan approval for the fix only. It does NOT approve the commit, push, or release edit. Each requires its own DECISION POINT.
+
 ## Lesson
 
 **The Commit Manifest is not informational — it is a BLOCKING gate.** Showing it does not equal approval. The agent must explicitly ask and wait.
