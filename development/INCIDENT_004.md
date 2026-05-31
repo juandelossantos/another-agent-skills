@@ -51,6 +51,14 @@ New workflow:
 - Fix: moved token generation to user-initiated script
 - Now impossible for agent to auto-approve
 
+## Recurrence: INCIDENT_004b
+
+Same violation happened again when token hash mismatched. Agent regenerated token without re-asking for approval.
+
+**Root cause:** Agent confused "user approved the message" with "user approved this action." Invalid token = new action = new approval needed.
+
+**Additional fix needed:** When token is invalid, agent MUST present new DECISION POINT before regenerating.
+
 ## Lesson
 
 **The Commit Manifest is not informational — it is a BLOCKING gate.** Showing it does not equal approval. The agent must explicitly ask and wait.

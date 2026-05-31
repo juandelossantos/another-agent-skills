@@ -2,13 +2,12 @@
 # approve-commit.sh — Records user approval for commit
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
-# Philosophy: The agent STOPS and waits for user approval. Once approved,
-# this script records the approval mechanically. The agent cannot skip
-# the "stop and wait" step — but can run this script after approval.
+# Philosophy:
+# 1. The agent presents the plan → user approves the PLAN (says "yes" in chat)
+# 2. The user runs this script → user approves the COMMIT (types "yes" here)
+# 3. These are SEPARATE decisions. Approving the plan ≠ approving the commit.
 #
-# Usage:
-#   bash scripts/approve-commit.sh "commit message" "yes"    # Agent runs after user approves
-#   bash scripts/approve-commit.sh "commit message"          # Interactive mode (user runs directly)
+# If a stale token exists, forces interactive mode to prevent auto-regeneration.
 
 set -euo pipefail
 
@@ -26,6 +25,22 @@ if [[ -z "$COMMIT_MSG" ]]; then
   echo -e "${RED}Error: No commit message provided.${NC}"
   echo "Usage: bash scripts/approve-commit.sh \"feat: your message\" [yes]"
   exit 1
+fi
+
+# Check for stale token — if it exists, force interactive mode
+if [[ -f "$COMMIT_APPROVED" ]]; then
+  EXISTING_HASH=$(cat "$COMMIT_APPROVED" | cut -d$'\t' -f1)
+  # Verify if existing token matches current message
+  PAYLOAD_CHECK=$(cat "$COMMIT_APPROVED" | cut -d$'\t' -f2)
+  EXPECTED_HASH=$(printf '%s\t%s' "$COMMIT_MSG" "$PAYLOAD_CHECK" | sha256sum | cut -d' ' -f1)
+
+  if [[ "$EXISTING_HASH" != "$EXPECTED_HASH" ]]; then
+    echo ""
+    echo -e "${YELLOW}⚠${NC} Stale token detected. Previous approval was for a different commit."
+    echo "  Regenerating requires interactive approval."
+    echo ""
+    APPROVAL=""  # Force interactive mode
+  fi
 fi
 
 # Interactive mode (user runs directly)
