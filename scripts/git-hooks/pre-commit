@@ -341,6 +341,34 @@ else
   echo "  ${YELLOW}−${NC} No new scripts — skipped"
 fi
 
+# 10. Skill Lint Gate — validate skill structure on SKILL.md changes
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  SKILL LINT                                ║"
+echo "╚════════════════════════════════════════════╝"
+
+SKILL_LINT="${REPO_ROOT}/scripts/skill-lint.sh"
+STAGED_SKILLS=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'skills/.*/SKILL\.md$' || true)
+if [ -n "$STAGED_SKILLS" ] && [ -f "$SKILL_LINT" ]; then
+  echo "  Checking skill structure compliance..."
+  if bash "$SKILL_LINT" "$REPO_ROOT/skills"; then
+    echo "  ${GREEN}✓${NC} All skills compliant"
+  else
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  SKILL LINT FAILED                                       ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  One or more skills violate Rule 6 (skills as indexes).  ║${NC}"
+    echo "  ${RED}║  Move detailed content to guides/ and keep SKILL.md     ║${NC}"
+    echo "  ${RED}║  as a ~250-line index.                                   ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+else
+  echo "  ${YELLOW}−${NC} No SKILL.md changes — skipped"
+fi
+
 echo ""
 echo "  ${GREEN}✓${NC} All Phase 3 gates passed"
 echo ""
