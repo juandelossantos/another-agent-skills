@@ -150,78 +150,6 @@ Token generation (`sha256sum > .git/COMMIT_APPROVED`) and `git commit` MUST be i
 
 ---
 
-## Rule 12: Commit Manifest Protocol (MANDATORY)
-
-**This is not optional. This is mechanical enforcement of Rule 12.**
-
-### Before EVERY git commit, the agent MUST:
-
-1. **STOP all action.** Do not type any git command yet.
-2. **Output the Commit Manifest block exactly as shown below.**
-3. **Wait for user's explicit typed approval.**
-4. **Only then commit. Push is a SEPARATE decision after commit.**
-
-### Commit Manifest Block
-
-```
-╔════════════════════════════════════════════════════════════╗
-║  COMMIT MANIFEST — APPROVAL REQUIRED                     ║
-╠════════════════════════════════════════════════════════════╣
-║  Files changed: [list every file]                        ║
-║  Lines changed: +X / -Y                                  ║
-║  Commit message: "..."                                   ║
-╠════════════════════════════════════════════════════════════╣
-║  RULE 12 CHECKLIST:                                      ║
-║  □ User's last message is "yes", "sí", or "commit"     ║
-║  □ Previous approval does NOT transfer to this commit  ║
-║  □ This is a SEPARATE decision from any previous commit  ║
-╠════════════════════════════════════════════════════════════╣
-║  USER MUST EXPLICITLY APPROVE THIS SPECIFIC COMMIT       ║
-║  Valid responses: "yes" / "sí" / "commit" / "proceed"   ║
-║  INVALID (do NOT accept): "ok" / "sigamos" / "continue" ║
-║  / "dale" / silence / emoji reactions                    ║
-╚════════════════════════════════════════════════════════════╝
-```
-
-### Session-Level Lock
-
-**After ANY user approval, reset to "unapproved" state immediately.**
-
-| User says | What is approved | Next commit requires |
-|---|---|---|
-| "yes" | ONE commit ONLY | New "yes" |
-| "commit" | ONE commit ONLY | New "yes" |
-| "proceed" | ONE commit ONLY | New "yes" |
-| "ok" / "sigamos" / silence | NOTHING — INVALID | Explicit "yes" |
-
-**There is NO session-level "approved mode." Every commit is a separate decision.**
-
-### Hash-Bound Token Generation
-
-**After user approval, before `git commit`, the agent MUST write the SHA256 hash of the EXACT commit message to `.git/COMMIT_APPROVED`:**
-
-```bash
-printf '%s\t%s' "exact commit message" "$(date +%s)" | sha256sum | cut -d' ' -f1 | tr -d '\n' > .git/COMMIT_APPROVED
-```
-
-The pre-commit hook verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
-
-### Push Decision (After Commit, Not Before)
-
-Push is a **separate decision** from commit. After commit completes:
-
-```
-✅ Commit: abc1234
-→ Push to origin/main? (yes / no / later)
-```
-
-- **yes**: push now
-- **no / later**: commit stays local. Can accumulate multiple commits then push with explicit "push now"
-
-**Never push without asking.**
-
----
-
 ## Rule 12b: PR Review Checklist (Full Reference)
 
 The script `scripts/pr-review-checklist.sh` verifies:
@@ -397,7 +325,7 @@ Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? →
 **After user approval, before `git commit`, the agent MUST write the SHA256 hash of the EXACT commit message to `.git/COMMIT_APPROVED`:**
 
 ```bash
-printf '%s' "exact commit message" | sha256sum | cut -d' ' -f1 > .git/COMMIT_APPROVED
+printf '%s\t%s' "exact commit message" "$(date +%s)" | sha256sum | cut -d' ' -f1 | tr -d '\n' > .git/COMMIT_APPROVED
 ```
 
 The pre-commit hook (v2) verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
