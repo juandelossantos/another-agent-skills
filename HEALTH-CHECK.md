@@ -24,9 +24,9 @@
 | SKILL.md files | 31 | **38** | +7 skills |
 | GUIDE.md files | 56 | **45** | -11 (consolidated) |
 | Total skill lines | 2,801 | **5,453** | +2,652 (deeper skills) |
-| AGENTS.md | 340 lines | **429 lines** | +89 (Guardian Pattern, Rule 12b — restructured, verbose details moved to AGENTS-EXTENDED) |
+| AGENTS.md | 340 lines | **111 lines** | -229 (restructured to thin orchestrator, rules split into `rules/common/`) |
 | AGENTS-EXTENDED.md | 252 lines | **280 lines** | +28 |
-| Always-loaded context | 592 lines | **429 lines** | -163 (AGENTS.md restructured, verbose details moved to AGENTS-EXTENDED.md lazy-loaded) |
+| Always-loaded context | 592 lines | **111 lines** | -481 (rules split into `rules/common/`, loaded on-demand) |
 | Pre-commit hook | v2 | **v6** | 9 gates (was 2) |
 | ADRs | 4 | **5** | +1 (native plugin) |
 | Commits | 90 | **129** | +39 |
@@ -59,8 +59,9 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 | Check | Status | Notes |
 |---|---|---|
 | `SOUL.md` exists | ✅ PASS | New — project identity, 7 principles, 6 anti-goals |
-| `AGENTS.md` exists | ✅ PASS | Core rules, 429 lines, always-loaded |
-| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended rules, 280 lines, lazy-loaded |
+| `AGENTS.md` exists | ✅ PASS | Orchestrator, 111 lines, always-loaded |
+| `AGENTS-EXTENDED.md` exists | ✅ PASS | Extended protocol, 427 lines, lazy-loaded |
+| `rules/common/` exists | ✅ PASS | 5 modular rule files (behavioral, enforcement, context, skills, project) |
 | `install.sh` exists | ✅ PASS | Full-install script |
 | `scripts/init-agents.sh` | ✅ PASS | Per-project init |
 | Skills organized | ✅ PASS | 38 skills in `skills/`, each ≤ 250 lines |
@@ -110,9 +111,9 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | File | Lines | Tokens (est.) | % of 200K |
 |---|---|---|---|
-| `AGENTS.md` | 429 | ~6,435 | 3.2% |
+| `AGENTS.md` | 111 | ~1,665 | 0.8% |
 | `AGENTS-EXTENDED.md` | 280 | ~4,200 | 2.1% |
-| **Subtotal** | **429** | **~6,435** | **3.2%** |
+| **Subtotal** | **111** | **~1,665** | **0.8%** |
 
 ### Loaded On-Demand
 
@@ -125,14 +126,14 @@ This is a **meta-project** (agent workflow rules, not an application). No packag
 
 | Component | Tokens |
 |---|---|
-| AGENTS.md | ~6,435 |
-| 1 active skill | ~2,145 |
+| AGENTS.md (orchestrator) | ~1,665 |
+| 1 active rule file (on-demand) | ~1,200 |
 | 0-1 guides | ~1,500 |
 | Conversation + history (~30 msgs) | ~60,000 |
 | User code (~500 lines) | ~10,000 |
-| **Total** | **~72,080 (36%)** |
+| **Total** | **~66,010 (33%)** |
 
-**Margin:** ~64% available for debugging, extra skills, large codebases, or extended conversations.
+**Margin:** ~67% available for debugging, extra skills, large codebases, or extended conversations.
 
 ### Context Management Features
 
@@ -223,7 +224,7 @@ These skills are functional but could benefit from expansion:
 
 2. **⚠️ Add tests for enforcement scripts.** `pre-flight.sh`, `edit-guard.sh`, `commit-approval.sh` have no test coverage. If they break silently, the entire enforcement chain fails. Plan v1.5.0 addresses this with BATS tests.
 
-3. **✅ Always-loaded context reduced to 429 lines.** Down from 531 in v1.4.1. Verbose protocol details moved to AGENTS-EXTENDED.md (lazy-loaded). Context budget: 3.2% of 200K.
+3. **✅ Always-loaded context reduced to 111 lines.** Rules split into 5 modular files under `rules/common/`. Agent loads orchestrator (111 lines) at session start, loads specific rules on-demand per phase. Context budget: 0.8% of 200K.
 
 4. **💡 Create `SPEC.md` for this meta-project.** Optional since AGENTS.md serves as the de facto spec, but would clarify boundaries, audience, and what's out of scope.
 
@@ -246,7 +247,7 @@ These skills are functional but could benefit from expansion:
 |---|---|---|---|
 | SKILL.md files | 38 | ≥ 30 | ✅ |
 | Skills ≤ 250 lines | 38/38 | ≤ 250 each | ✅ |
-| Always-loaded context | 429 lines (~6,435 tok) | < 500 lines | ✅ |
+| Always-loaded context | 111 lines (~1,665 tok) | < 200 lines | ✅ |
 | Total skill weight (SKILL.md) | 5,453 lines | lazy-loaded | ⚪ INFO |
 | ADRs | 5 | ≥ 1 | ✅ |
 | Platform skills | 4 (web, mobile, desktop, pwa) | 4/4 | ✅ |
