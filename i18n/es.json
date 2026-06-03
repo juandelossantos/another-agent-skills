@@ -5,6 +5,7 @@
     "skills": "Skills",
     "quickstart": "Inicio rápido",
     "faq": "FAQ",
+    "docs": "Docs",
     "github": "GitHub →"
   },
   "hero": {
@@ -148,6 +149,7 @@
     "skills": "Skills",
     "quickstart": "Inicio rápido",
     "faq": "FAQ",
+    "docs": "Documentación",
     "github": "GitHub",
     "copyright": "Hecho por <a href=\"https://github.com/juandelossantos\" target=\"blank\">@juandelossantos</a> · Powered by <a href=\"https://github.com/juandelossantos/another-agent-skills\" target=\"blank\">Another Agent Skills</a>"
   }
