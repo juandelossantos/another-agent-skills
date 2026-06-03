@@ -250,6 +250,15 @@
     "optimize": "8. optimize-skill — Performance",
     "delight": "9. delight-skill — Micro-interacciones",
     "prevPage": "Filosofía",
-    "nextPage": "Reglas"
+    "nextPage": "Reglas",
+    "critiqueDesc": "Revisión heurística usando las 10 heurísticas de usabilidad de Nielsen y 4 tests de persona. Detecta patrones de AI slop. Produce un score por heurística.",
+    "auditDesc": "Escaneo de 5 dimensiones: accesibilidad, performance, theming, responsive, anti-patrones. Scoring de severidad P0-P3.",
+    "clarifyDesc": "Reescribe labels, errores, botones, empty states, confirmaciones. Voz ajustada por audiencia.",
+    "hardDesc": "Fixes mecánicos P0/P1: atributos ARIA, navegación por teclado, validación de formularios, estados de error/empty/loading.",
+    "polishDesc": "Fixes de espaciado, alineación, drift de tokens, border radius, shadows. Sin decisiones de diseño — solo compliance.",
+    "typesetDesc": "Aplica rampa de tipografía, corrige line-height, letter-spacing, ritmo de párrafos.",
+    "adaptDesc": "Breakpoints, touch targets (≥44px), manejo de viewport, overflow mobile.",
+    "optimizeDesc": "Tamaño de bundle, lazy loading, optimización de imágenes, compositing de animaciones, layout thrashing.",
+    "delightDesc": "Feedback hover/tap, transiciones de estado, animación de carga, feedback de éxito/error."
   }
 }
