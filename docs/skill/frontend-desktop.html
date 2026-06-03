@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>frontend-desktop — Another Agent Skills</title>
+<meta name="description" content="Build production-grade desktop applications with native OS integration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> frontend-desktop</div>
+
+    <h1>frontend-desktop</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Build production-grade desktop applications with native OS integration.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">237 lines</span>
+      <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
+      <span class="skill-card__badge">guide: PLATFORM-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Language Detection</h3>
+→ See <code>engineering-fundamentals</code> Phase 0.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery Gate</h3>
+→ See <code>engineering-fundamentals</code> Phase 1 for universal discovery.
+<br>
+<strong>Desktop-specific questions:</strong>
+1. **OS targets**: Windows, macOS, Linux — all or subset?
+2. **Window model**: Single window, multi-window, tabbed interface?
+3. **Native APIs**: File system, notifications, system tray, menus, global shortcuts?
+4. **Distribution**: App store, direct download, auto-updater required?
+5. **Offline**: Fully offline or occasional sync?
+<br>
+Read <code>DISCOVERY-GUIDE.md</code> for complete desktop checklist.
+<br>
+---
+<br>
+<h3>Phase 2 — Write Contracts</h3>
+→ See <code>engineering-fundamentals</code> Phase 2.
+<br>
+<strong>Desktop-specific additions:</strong>
+<ul>
+<li>SPEC.md must include: Platform targets (OS + versions), Distribution method, Native API requirements, Code signing strategy.</li>
+<br>
+---
+<br>
+<h3>Phase 3 — Three Dials System</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/DESIGN-CORE.md</code> for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, color principles, and dark mode protocol.
+<br>
+<strong>Desktop constraint:</strong> Must feel native to each OS while maintaining brand consistency. Apply dials with OS-specific materials — Mica on Windows, Vibrancy on macOS, GTK/Qt on Linux.
+<br>
+---
+<br>
+<h3>Phase 4 — Stack Lock-in</h3>
+<br>
+<strong>Default: Tauri v2</strong>
+<br>
+| Tool | Minimum | Notes |
+|---|---|---|
+| Rust | 1.78+ | Tauri core |
+| Tauri CLI | 2.0+ | <code>tauri dev`, `tauri build</code> |
+| Node.js | 20.9+ | Frontend build tooling |
+| Vite | 6+ | Bundler (Tauri default) |
+| React | 19.2+ | UI framework (adaptable) |
+| TypeScript | 5.7+ | |
+<br>
+<strong>Alternative: Electron</strong>
+<br>
+| Tool | Minimum | Notes |
+|---|---|---|
+| Electron | 33+ | Chromium + Node.js |
+| Node.js | 20.9+ | |
+| Vite | 6+ | Recommended over webpack |
+<br>
+---
+<br>
+<h3>Phase 5 — Anti-Slop Rules (Desktop)</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/ANTI-SLOP-CORE.md</code> for universal AI tells, content density, copy protocol, and UI state requirements.
+<br>
+<strong>Desktop-specific rules:</strong>
+<br>
+<strong>Native Feel</strong>
+<ul>
+<li>No generic browser chrome. Use native title bars, shadows, and window controls.</li>
+<ul>
+<li>macOS: Vibrancy, unified title bar, native menu bar.</li>
+<ul>
+<li>Windows: Mica/Acrylic material, system menu integration.</li>
+<ul>
+<li>Linux: Respect GTK/Qt theme integration.</li>
+<br>
+<strong>Typography</strong>
+<ul>
+<li>Use system font stack per OS (San Francisco macOS, Segoe UI Windows, Ubuntu Linux).</li>
+<ul>
+<li>Display font can be distinctive; body must feel native.</li>
+<br>
+<strong>Color</strong>
+<ul>
+<li>Respect OS dark/light mode via <code>prefers-color-scheme</code> AND native theme APIs.</li>
+<ul>
+<li>No hardcoded light-mode-only UIs.</li>
+<br>
+<strong>Window Behavior</strong>
+<ul>
+<li>Proper min/max/default window sizes.</li>
+<ul>
+<li>Remember window position and size between sessions.</li>
+<ul>
+<li>Handle fullscreen, minimize to tray, and close-to-tray gracefully.</li>
+<br>
+<strong>Input</strong>
+<ul>
+<li>Full keyboard shortcut support (Cmd/Ctrl+K, Cmd/Ctrl+W, etc.).</li>
+<ul>
+<li>Right-click context menus where expected.</li>
+<ul>
+<li>Drag-and-drop for files and content.</li>
+<br>
+---
+<br>
+<h3>Phase 6 — Native OS Integration</h3>
+<br>
+Read <code>PLATFORM-GUIDE.md</code>.
+<br>
+<strong>Summary:</strong>
+<ul>
+<li>**Menus:** Native menu bar (macOS), system menu (Windows/Linux).</li>
+<ul>
+<li>**System Tray:** Icon, context menu, left/right click behavior.</li>
+<ul>
+<li>**Notifications:** Native OS notifications, not in-app toasts.</li>
+<ul>
+<li>**File System:** Native dialogs (open, save, pick folder), NOT <code><input type="file"></code>.</li>
+<ul>
+<li>**Global Shortcuts:** Register/unregister on focus/blur.</li>
+<ul>
+<li>**Window Management:** Multi-window, window state persistence.</li>
+<br>
+---
+<br>
+<h3>Phase 7 — Build with Tokens</h3>
+<br>
+<strong>BEFORE WRITING CODE:</strong>
+<br>
+1. **Read <code>design/DESIGN-LOCK.md</code>** — Verify approved direction.
+2. **Check <code>design/approved/</code>** — Screenshots, previews.
+3. **Cross-check with <code>DESIGN.md</code>** — Tokens must match locked system.
+<br>
+<strong>Then build:</strong>
+<br>
+4. Apply tokens from <code>DESIGN.md</code> to frontend CSS + native window chrome config.
+5. Configure <code>tauri.conf.json` / `electron-builder.yml</code>:
+   - Window defaults (size, min/max, resizable, fullscreen)
+   - Title bar style (hidden for custom, native for standard)
+   - System tray config
+   - Menu definitions
+6. Build sections with canonical desktop patterns:
+   - Sidebar navigation (resizable, collapsible)
+   - Main content area with native scrollbars
+   - Status bar / bottom bar
+   - Contextual panels (properties, inspector)
+7. Implement native IPC commands (Tauri: Rust commands; Electron: IPC main↔renderer).
+8. Ensure keyboard shortcuts work on all target platforms.
+9. Handle OS theme changes dynamically.
+<br>
+---
+<br>
+<h3>Phase 8 — QA Gates</h3>
+<br>
+→ See <code>engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md</code> for universal checks first.
+<br>
+<strong>After QA gates, log metrics:</strong>
+<code>`</code>
+LOG METRIC: gate
+<ul>
+<li>project: [detect from git remote or directory]</li>
+<ul>
+<li>gate_name: frontend-desktop-qa</li>
+<ul>
+<li>result: pass/fail</li>
+<ul>
+<li>checks_passed: [N]/12</li>
+<code>`</code>
+<br>
+<strong>Desktop-specific checks:</strong>
+<br>
+1. **TypeScript** — <code>npm run typecheck</code> passes.
+2. **Build** — <code>npm run tauri build` (or `electron-builder</code>) succeeds for target OS.
+3. **Native API tests** — File dialogs, notifications, tray, menus tested.
+4. **OS theme** — Respects dark/light mode on all platforms.
+5. **Keyboard shortcuts** — All shortcuts work with correct modifiers (Cmd macOS, Ctrl Windows/Linux).
+6. **Window state** — Position and size persist between launches.
+7. **No web-only patterns** — No <code><input type="file">`, no `alert()</code>, no browser-specific APIs.
+8. **Accessibility** — Native OS accessibility (VoiceOver macOS, NVDA Windows, Orca Linux).
+9. **Code signing** — macOS notarized, Windows signed, Linux AppImage/flatpak.
+10. **Auto-updater** — Updates download and install silently (if applicable).
+11. **Offline** — App works without internet (if specified).
+12. **Distribution** — Installer/.app/.dmg/.exe/.AppImage generated.
+<br>
+---
+<br>
+<h2 id="examples & troubleshooting">examples & troubleshooting</h2>
+<br>
+Read <code>EXAMPLES.md</code>:
+<ul>
+<li>Desktop app walkthrough (Tauri v2)</li>
+<ul>
+<li>Native menu setup</li>
+<ul>
+<li>System tray configuration</li>
+<ul>
+<li>File system integration</li>
+<ul>
+<li>Troubleshooting (build, signing, notarization, permissions)</li>
+<br>
+---
+<br>
+<h2 id="red flags (desktop-specific)">red flags (desktop-specific)</h2>
+<br>
+Web app in desktop window, no OS theme, no native file dialogs, no keyboard shortcuts, no signing, no window persistence, browser APIs as primary UX, "works on my machine."
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+Config file (tauri/electron) set. Native menus. PLATFORM-GUIDE.md read. Code signing configured. Build passes for target OSes. No browser-only APIs. Window state persistence.
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

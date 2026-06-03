@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started — Another Agent Skills</title>
+<meta name="description" content="Installation, setup, and first project walkthrough for Another Agent Skills.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" aria-current="page" data-i18n="nav.docs">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+        <li><a href="getting-started.html" class="sidebar__link sidebar__link--active" data-i18n="nav.gettingStarted">Getting Started</a></li>
+        <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+        <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+        <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">Enforcement</a></li>
+        <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+        <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+        <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+        <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+        <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.gettingStarted">Getting Started</span></div>
+    <h1 data-i18n="gettingStarted.title">Getting Started</h1>
+    <h2 id="prerequisites" data-i18n="gettingStarted.prerequisites">Prerequisites</h2>
+    <ul>
+      <li><strong data-i18n="gettingStarted.prereqGit">Git</strong></li>
+      <li><strong data-i18n="gettingStarted.prereqBash">Bash (Linux/macOS) or PowerShell (Windows)</strong></li>
+      <li data-i18n="gettingStarted.prereqAgent"><strong>OpenCode</strong> recommended, or any compatible agent (Claude Code, Cursor, Devin Desktop, Kiro)</li>
+    </ul>
+    <h2 id="installation" data-i18n="gettingStarted.installation">Installation</h2>
+    <h3 data-i18n="gettingStarted.linuxMac">Linux / macOS</h3>
+    <pre><code>git clone https://github.com/juandelossantos/another-agent-skills.git
+cd another-agent-skills
+bash install.sh
+init-agents</code></pre>
+    <h3 data-i18n="gettingStarted.windows">Windows (PowerShell)</h3>
+    <pre><code>git clone https://github.com/juandelossantos/another-agent-skills.git
+cd another-agent-skills
+.\install.ps1
+init-agents</code></pre>
+    <h2 id="new-project" data-i18n="gettingStarted.newProject">New Project</h2>
+    <p data-i18n="gettingStarted.newProjectDesc">Start from scratch in an empty directory:</p>
+    <pre><code>mkdir my-project &amp;&amp; cd my-project
+git init
+init-agents</code></pre>
+    <p data-i18n="gettingStarted.nextStepsSummary">After running, you'll see a "Next Steps" summary:</p>
+    <h2 id="existing-project" data-i18n="gettingStarted.existingProject">Existing Project</h2>
+    <p data-i18n="gettingStarted.existingProjectDesc">If you already have code and want to add skill-driven enforcement:</p>
+    <pre><code>cd your-existing-project
+init-agents</code></pre>
+    <p data-i18n="gettingStarted.whatHappens">What happens:</p>
+    <ol>
+      <li data-i18n="gettingStarted.existingStep1">Detects existing AGENTS.md, CLAUDE.md, or .cursorrules</li>
+      <li data-i18n="gettingStarted.existingStep2">Backs up existing file</li>
+      <li data-i18n="gettingStarted.existingStep3">Merges our rules (preserving yours)</li>
+      <li data-i18n="gettingStarted.existingStep4">Detects your stack and creates STACK_CONFIG.md if missing</li>
+      <li data-i18n="gettingStarted.existingStep5">Installs hooks (backs up existing hooks)</li>
+      <li data-i18n="gettingStarted.existingStep6">Shows "Next Steps" with improvement suggestions</li>
+    </ol>
+    <h2 id="stack-detection" data-i18n="gettingStarted.stackDetection">Stack Detection</h2>
+    <p data-i18n="gettingStarted.stackDetectionDesc"><code>init-agents</code> automatically detects your project stack from lockfiles and config files:</p>
+    <table>
+      <tr><th>Stack</th><th>Detects from</th></tr>
+      <tr><td>Node.js</td><td>package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb</td></tr>
+      <tr><td>Rust</td><td>Cargo.lock, Cargo.toml</td></tr>
+      <tr><td>Python</td><td>poetry.lock, Pipfile.lock, pyproject.toml</td></tr>
+      <tr><td>Go</td><td>go.sum, go.mod</td></tr>
+      <tr><td>Ruby</td><td>Gemfile.lock, Gemfile</td></tr>
+      <tr><td>Dart</td><td>pubspec.lock, pubspec.yaml</td></tr>
+    </table>
+    <p data-i18n="gettingStarted.stackCreates">It creates <code>STACK_CONFIG.md</code> with your actual commands (test, lint, build, dev). All skills read from this file.</p>
+    <h2 id="agent-adapters" data-i18n="gettingStarted.agentAdapters">Agent Adapters</h2>
+    <h3 data-i18n="gettingStarted.openCodeDefault">OpenCode (default)</h3>
+    <p data-i18n="gettingStarted.openCodeDesc">No extra setup. Skills load automatically via the skill tool.</p>
+    <h3 data-i18n="gettingStarted.claudeCode">Claude Code</h3>
+    <pre><code>bash install.sh --agent claude</code></pre>
+    <p data-i18n="gettingStarted.claudeCodeDesc">Creates <code>.claude-plugin/agent-discipline/</code> with hooks. To also load SOUL.md and AGENTS.md rules, copy the key principles into your CLAUDE.md.</p>
+    <h3 data-i18n="gettingStarted.cursor">Cursor</h3>
+    <pre><code>bash install.sh --agent cursor</code></pre>
+    <p data-i18n="gettingStarted.cursorDesc">Creates <code>.cursor-plugin/agent-discipline/</code> with hooks.</p>
+    <h3 data-i18n="gettingStarted.devinDesktop">Devin Desktop</h3>
+    <pre><code>bash install.sh --agent kiro</code></pre>
+    <p data-i18n="gettingStarted.devinDesktopDesc">Creates <code>.kiro/hooks/agent-discipline.json</code> with pre-flight, commit approval, and edit guard hooks.</p>
+    <h3 data-i18n="gettingStarted.anyGitAgent">Any Git-Based Agent</h3>
+    <p data-i18n="gettingStarted.anyGitAgentDesc">The git hooks work with any agent that uses git. Copy the hooks to your project:</p>
+    <pre><code>cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
+cp scripts/git-hooks/commit-msg .git/hooks/commit-msg
+chmod +x .git/hooks/pre-commit .git/hooks/commit-msg
+cp scripts/approve-commit.sh scripts/</code></pre>
+    <h2 id="troubleshooting" data-i18n="gettingStarted.troubleshooting">Troubleshooting</h2>
+    <table>
+      <tr><th>Issue</th><th>Solution</th></tr>
+      <tr><td>"init-agents: command not found"</td><td>Source your shell config: <code>source ~/.zshrc</code></td></tr>
+      <tr><td>"STACK_CONFIG.md not found"</td><td>Run <code>init-agents</code> in your project</td></tr>
+      <tr><td>Pre-commit hook not firing</td><td>Run <code>bash scripts/init-agents.sh</code> to reinstall</td></tr>
+      <tr><td>Token hash mismatch</td><td>Stale token. Run <code>bash scripts/approve-commit.sh "message" --auto</code> again</td></tr>
+    </table>
+    <div class="docs__nav">
+      <a href="index.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="gettingStarted.prevPage">Overview</span></a>
+      <a href="lifecycle.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="gettingStarted.nextPage">Lifecycle</span><span class="docs__nav-label"> →</span></a>
+    </div>
+  </div>
+  <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
+</main>
+<script src="js/docs.js?v=2"></script>
+</body>
+</html>

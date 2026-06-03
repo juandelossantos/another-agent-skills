@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>architecture-analysis — Another Agent Skills</title>
+<meta name="description" content="Evaluate architecture options with critical thinking before any build decision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> architecture-analysis</div>
+
+    <h1>architecture-analysis</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Evaluate architecture options with critical thinking before any build decision.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">202 lines</span>
+      <span class="skill-card__badge">guide: ARCHITECTURE-TEMPLATE-GUIDE</span>
+      <span class="skill-card__badge">guide: CHALLENGE-GUIDE</span>
+      <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Context Assessment</h3>
+<br>
+1. **Check existing decisions:**
+   - <code>SPEC.md</code> exists? Read Architecture Decisions.
+   - <code>architecture/ARCHITECTURE.md</code> exists? Don't contradict without approval.
+<br>
+2. **Assess complexity:**
+   - Simple (single-page, no backend, no auth) → Lightweight rec.
+   - Non-trivial (multi-page, data persistence, auth, API) → Full analysis.
+   - Complex (multi-team, high scale, regulated, distributed) → Extended + trade-off matrix.
+<br>
+3. **Check health:** Existing codebase → Verify <code>HEALTH-CHECK.md</code> recent.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery</h3>
+<br>
+→ **See <code>DISCOVERY-GUIDE.md</code> for complete interview (6 questions + assumptions + complexity assessment).**
+<br>
+Summary:
+<ul>
+<li>Surface 4+ technical assumptions. Confirm before proceeding.</li>
+<ul>
+<li>Ask: scale, team, ops, data, latency, constraints.</li>
+<ul>
+<li>Lock context with explicit user confirmation.</li>
+<br>
+---
+<br>
+<h3>Phase 2 — Candidate Research</h3>
+<br>
+<strong>Research before proposing. Never invent from memory.</strong>
+<br>
+1. **Identify candidates:**
+   - Search "best [type] framework [current year] [scale]"
+   - Verify maintenance status (commits, issues, releases)
+   - **Always use current year.**
+<br>
+2. **Find benchmarks:**
+   - Performance under similar load
+   - Migration stories from user's current stack
+   - Known limitations for this use case
+<br>
+3. **Present findings concisely:**
+   <code>`</code>
+   RESEARCH FINDINGS:
+   - [Tech A]: Dominant in [domain], excellent for [strength]. Limitation: [weakness].
+   - [Tech B]: Rising adoption, great for [strength]. Limitation: [weakness].
+   → Any of this change your thinking?
+   <code>`</code>
+<br>
+---
+<br>
+<h3>Phase 3 — Generate Options</h3>
+<br>
+<strong>Exactly 2 or 3 options. Never one (false certainty). Never four+ (analysis paralysis).</strong>
+<br>
+Each option includes:
+<br>
+| Field | Description |
+|---|---|
+| **Name** | Short, memorable label |
+| **Stack** | Concrete tools with versions |
+| **Pattern** | MVC, MVVM, Clean, Hexagonal, Serverless, Modular Monolith |
+| **Pros** | 3 genuine advantages FOR THIS PROJECT |
+| **Contras** | 3 genuine disadvantages (honest, even if kills sale) |
+| **Ideal for** | Scenario where this is clear winner |
+| **Main risk** | Biggest thing that could go wrong |
+<br>
+---
+<br>
+<h3>Phase 4 — Critical Challenge</h3>
+<br>
+→ **See <code>CHALLENGE-GUIDE.md</code> for challenge patterns and presentation format.**
+<br>
+<strong>Senior engineering happens here. Don't blindly accept user preference.</strong>
+<br>
+Analyze user's preference against options. Challenge assumptions.
+<br>
+<strong>If user has no preference:</strong> Recommend based on context.
+<br>
+---
+<br>
+<h3>Phase 5 — Recommendation & Lock</h3>
+<br>
+<strong>Present ONE recommendation with honest confidence.</strong>
+<br>
+<code>`</code>
+RECOMMENDATION:
+<br>
+Based on [specific user answers], recommend:
+→ Option [X]: [Name]
+<br>
+Justification:
+<ul>
+<li>[Reason 1 tied to context]</li>
+<ul>
+<li>[Reason 2 tied to context]</li>
+<ul>
+<li>[Trade-off accepted: sacrifice X because Y matters more]</li>
+<br>
+Confidence: HIGH / MEDIUM / LOW
+<ul>
+<li>HIGH: Clear match</li>
+<ul>
+<li>MEDIUM: Good match, one significant risk</li>
+<ul>
+<li>LOW: All options have serious trade-offs</li>
+<br>
+→ Accept? Reply "yes" or ask for changes.
+<code>`</code>
+<br>
+<strong>If rejected:</strong> Back to Phase 3. Max 2 cycles. If still undecided: "We need to lock a decision. Which option feels least wrong?"
+<br>
+---
+<br>
+<h3>Phase 6 — Document Decision</h3>
+<br>
+→ **See <code>ARCHITECTURE-TEMPLATE-GUIDE.md</code> for SPEC.md section + ARCHITECTURE.md template.**
+<br>
+<strong>Architecture without documentation is fiction.</strong>
+<br>
+1. Update <code>SPEC.md</code> Architecture Decisions section.
+2. Create <code>architecture/ARCHITECTURE.md</code> with stack, pattern, structure, risks, migration path.
+<br>
+---
+<br>
+<h2 id="example">example</h2>
+<br>
+<strong>User:</strong> "I want microservices for my MVP."
+<br>
+<strong>Agent:</strong>
+1. Phase 1: Team = 2 devs, scale = 0, timeline = 2 months.
+2. Phase 2: Research microservices overhead vs monolith speed.
+3. Phase 3: Options — A: Microservices (K8s), B: Modular Monolith (Next.js), C: Serverless.
+4. Phase 4: "With 2 devs and 2 months, microservices = 40% time on infrastructure. Modular monolith separates concerns now, extract services later."
+5. Phase 5: Recommend B. User accepts.
+6. Phase 6: Document in SPEC.md + architecture/ARCHITECTURE.md.
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Response |
+|---|---|
+| "User already chose stack, go with it." | Senior engineers challenge bad decisions. |
+| "Microservices are modern, so better." | Modern != appropriate. Context determines correctness. |
+| "I know React best, recommend it." | Familiarity bias harms user. Recommend what fits. |
+| "Just an MVP, architecture doesn't matter." | MVPs become production. "Speed" decisions become permanent. |
+| "Kubernetes is industry standard." | Standard for Google ≠ standard for 3-person startup. |
+| "User asked for implementation, not options." | Rotten foundation = wasted implementation. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+<ul>
+<li>Recommends stack without asking scale, team, constraints.</li>
+<ul>
+<li>Presents only one option.</li>
+<ul>
+<li>Agrees with user without analyzing trade-offs.</li>
+<ul>
+<li>Uses "best practice" without qualifying context.</li>
+<ul>
+<li>Decisions not documented in SPEC.md.</li>
+<ul>
+<li>Skips discovery, jumps to "just use Next.js."</li>
+<ul>
+<li>Recommends technology heard of but not researched.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+<ul>
+<li>[ ] ≥2 options generated with honest pros AND cons.</li>
+<ul>
+<li>[ ] User context (scale, team, constraints) discovered.</li>
+<ul>
+<li>[ ] Critical challenge questioned ≥1 assumption.</li>
+<ul>
+<li>[ ] Single option recommended with justification tied to context.</li>
+<ul>
+<li>[ ] User explicitly accepted.</li>
+<ul>
+<li>[ ] <code>SPEC.md</code> has Architecture Decisions section.</li>
+<ul>
+<li>[ ] <code>architecture/ARCHITECTURE.md</code> exists with stack, pattern, structure, risks.</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

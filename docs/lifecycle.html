@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lifecycle — Another Agent Skills</title>
+<meta name="description" content="The 6-phase development lifecycle: Define, Plan, Build, Verify, Review, Ship.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link sidebar__link--active" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+    </ul></nav>
+  </aside>
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.lifecycle">Lifecycle</span></div>
+    <h1 data-i18n="lifecycle.title">The 6-Phase Lifecycle</h1>
+    <p data-i18n="lifecycle.subtitle">Every project follows the same disciplined flow. No shortcuts. No skipped steps.</p>
+    <h2 id="visual-flow" data-i18n="lifecycle.visualFlow">Visual Flow</h2>
+    <pre><code>DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP</code></pre>
+    <h2 id="phase-define" data-i18n="lifecycle.phase1">DEFINE</h2>
+    <p><strong data-i18n="lifecycle.phase1Goal">Write the spec before any code.</strong></p>
+    <h3 data-i18n="lifecycle.phase1Skills">Skills</h3>
+    <ul><li><code>spec-driven-development</code> — Research-backed specs with critical thinking</li><li><code>architecture-analysis</code> — 2-3 options evaluated with trade-offs</li></ul>
+    <p><strong data-i18n="lifecycle.phase1Output">Output:</strong> SPEC.md, DESIGN.md, .gitignore</p>
+    <p><strong data-i18n="lifecycle.phase1Gate">Gate:</strong> <span data-i18n="lifecycle.phase1GateDesc">No code until contract exists (Rule 7).</span></p>
+    <h2 id="phase-plan" data-i18n="lifecycle.phase2">PLAN</h2>
+    <p><strong data-i18n="lifecycle.phase2Goal">Break work into atomic tasks.</strong></p>
+    <h2 id="phase-build" data-i18n="lifecycle.phase3">BUILD</h2>
+    <p><strong data-i18n="lifecycle.phase3Goal">Implement one slice at a time.</strong></p>
+    <p><strong data-i18n="lifecycle.phase3Gate">Gate:</strong> <span data-i18n="lifecycle.phase3GateDesc">Each slice tested before expanding.</span></p>
+    <h2 id="phase-verify" data-i18n="lifecycle.phase4">VERIFY</h2>
+    <p><strong data-i18n="lifecycle.phase4Goal">Run tests. Check builds. Verify behavior.</strong></p>
+    <p><strong data-i18n="lifecycle.phase4ToolGap">TOOL_GAP:</strong> <span data-i18n="lifecycle.phase4ToolGapDesc">If tools can't reach the world, report "ship status unknown." Never fake a win.</span></p>
+    <h2 id="phase-review" data-i18n="lifecycle.phase5">REVIEW</h2>
+    <p><strong data-i18n="lifecycle.phase5Goal">Code review. Security. Performance. Quality.</strong></p>
+    <h2 id="phase-ship" data-i18n="lifecycle.phase6">SHIP</h2>
+    <p><strong data-i18n="lifecycle.phase6Goal">Clean commits. CI/CD. Deploy.</strong></p>
+    <h2 id="purpose-driven" data-i18n="lifecycle.purposeDriven">Purpose-Driven Execution</h2>
+    <p data-i18n="lifecycle.purposeDesc">The lifecycle weights phases by session purpose:</p>
+    <div class="docs__nav">
+      <a href="getting-started.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="lifecycle.prevPage">Getting Started</span></a>
+      <a href="skills.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="lifecycle.nextPage">Skills</span></a>
+    </div>
+  </div>
+  <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
+</main>
+<script src="js/docs.js?v=2"></script>
+</body>
+</html>

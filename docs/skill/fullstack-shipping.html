@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fullstack-shipping — Another Agent Skills</title>
+<meta name="description" content="End-to-end build, test, and deploy workflows with production-grade discipline.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> fullstack-shipping</div>
+
+    <h1>fullstack-shipping</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">End-to-end build, test, and deploy workflows with production-grade discipline.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">225 lines</span>
+      <span class="skill-card__badge">guide: CICD-GUIDE</span>
+      <span class="skill-card__badge">guide: DEPLOY-GUIDE</span>
+      <span class="skill-card__badge">guide: LAUNCH-CHECKLIST-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Context Assessment</h3>
+<br>
+1. **Check existing infrastructure:**
+   - Does <code>DEPLOYMENT.md` or `SHIP.md</code> exist? Read it.
+   - Does <code>.github/workflows/</code> or CI config exist? Analyze current setup.
+   - Does <code>SPEC.md</code> have a Testing Strategy or Boundaries section?
+<br>
+2. **Determine shipping maturity:**
+   - **Greenfield:** No CI/CD, no tests, no monitoring → Full setup required.
+   - **Brownfield:** Some setup exists → Audit gaps, extend where needed.
+   - **Established:** CI/CD exists → Verify, optimize, or add new checks.
+<br>
+3. **Check health status:**
+   - Verify <code>HEALTH-CHECK.md</code> is recent. Critical issues must be resolved before shipping.
+<br>
+---
+<br>
+<h3>Phase 1 — Shipping Discovery (MANDATORY)</h3>
+<br>
+<strong>NO PIPELINE IS DESIGNED UNTIL THIS PHASE IS COMPLETE.</strong>
+<br>
+<strong>Assumptions:</strong> Surface deploy target, team size, rollback strategy, monitoring.
+<br>
+<strong>Discover (8 questions):</strong> Environment (Vercel/AWS/etc), Stages (staging+prod?), Team size, Rollback plan, DB migrations, Domains/SSL, Monitoring needs, Compliance.
+<br>
+<strong>Extended (non-trivial):</strong> Traffic/load, Geography/CDN, Budget, Secrets management.
+<br>
+<strong>Confirm:</strong> "Is this correct? Shall we design the pipeline?" Only proceed after explicit yes.
+<br>
+---
+<br>
+<h3>Phase 2 — Research (MANDATORY for greenfield)</h3>
+<br>
+<strong>Research current best practices for [current year]. Never use outdated knowledge.</strong>
+<br>
+1. **CI/CD platforms:**
+   - "GitHub Actions vs GitLab CI vs CircleCI [current year]"
+   - "Vercel CI vs Netlify CI [current year]"
+   - "Self-hosted CI [current year] security"
+<br>
+2. **Testing in CI:**
+   - "Vitest in GitHub Actions [current year]"
+   - "Playwright E2E CI setup [current year]"
+   - "Contract testing in CI [current year]"
+<br>
+3. **Deployment patterns:**
+   - "Blue-green deployment [current year]"
+   - "Canary releases [current year]"
+   - "Database migrations zero-downtime [current year]"
+<br>
+4. **Monitoring:**
+   - "OpenTelemetry vs vendor monitoring [current year]"
+   - "Sentry vs Rollbar vs LogRocket [current year]"
+   - "Uptime monitoring [current year] free tiers"
+<br>
+---
+<br>
+<h3>Phase 3 — CI/CD Pipeline Design</h3>
+<br>
+<strong>Generate 2-3 pipeline strategy options. Never default to GitHub Actions without justification.</strong>
+<br>
+→ **See <code>CICD-GUIDE.md</code> for the full 3 options and critical challenges.**
+<br>
+---
+<br>
+<h3>Phase 4 — Testing in Pipeline</h3>
+<br>
+| Trigger | Tests | Gate |
+|---|---|---|
+| Every PR | Lint, TypeCheck, Unit | Block merge on fail |
+| Merge to <code>main</code> | Unit + Integration | Block deploy on fail |
+| Push to staging | + E2E (smoke) | Manual approval for prod |
+| Tag release | Full E2E + visual regression | Requires green staging |
+<br>
+Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows), Contract (Zod/OpenAPI), Visual (Chromatic/Playwright screenshots).
+<br>
+---
+<br>
+<h3>Phase 5 — Deployment Orchestration</h3>
+<br>
+→ **Ver <code>DEPLOY-GUIDE.md</code> para estrategias de entorno, migraciones, secrets y rollback.**
+<br>
+---
+<br>
+<h3>Phase 6 — Monitoring & Alerting</h3>
+<br>
+<strong>"Production" means "we don't know if it's working unless we watch it."</strong>
+<br>
+→ **Ver <code>DEPLOY-GUIDE.md</code> para categorías de monitoreo y reglas de alertas.**
+<br>
+---
+<br>
+<h3>Phase 7 — Launch Checklist (MANDATORY)</h3>
+<br>
+<strong>NO LAUNCH WITHOUT THIS CHECKLIST COMPLETE.</strong>
+<br>
+→ **Ver <code>LAUNCH-CHECKLIST-GUIDE.md</code> para el checklist completo de Pre-Launch, Launch Day y Post-Launch.**
+<br>
+---
+<br>
+<h3>Phase 8 — Lock & Document</h3>
+<br>
+<strong>Create <code>DEPLOYMENT.md</code></strong> with: Pipeline overview (CI/CD flow), Environments table (preview/staging/prod with URL+branch+trigger), Testing stages, DB migrations, Secrets, Rollback procedure, Monitoring, Launch checklist.
+<br>
+---
+<br>
+<h2 id="examples">examples</h2>
+<br>
+<h3>Example 1: Solo Dev Landing Page</h3>
+<br>
+User: "Ship my landing page to production."
+<br>
+Agent:
+1. Phase 1: Discover — Vercel, no staging needed (low risk), solo dev, no DB.
+2. Phase 2: Research — Vercel deploy from Git is simplest.
+3. Phase 3: Option A (Platform-native) — Connect GitHub repo to Vercel, auto-deploy <code>main</code>.
+4. Phase 4: Tests in CI — Lint + build check on PR. Optional: Lighthouse CI.
+5. Phase 5: Production only (no staging, low risk).
+6. Phase 6: UptimeRobot free tier for monitoring.
+7. Phase 7: Run launch checklist.
+8. Phase 8: Create minimal <code>DEPLOYMENT.md</code>.
+<br>
+<h3>Example 2: E-Commerce Platform</h3>
+<br>
+User: "We're launching our e-commerce platform next week."
+<br>
+Agent:
+1. Phase 1: Discover — AWS, needs staging + production, team of 4, Stripe integration, PostgreSQL, rollback critical.
+2. Phase 2: Research — "AWS ECS blue-green deployment [current year]", "Stripe webhook testing in CI [current year]".
+3. Phase 3: Option C (Full control) — GitHub Actions → Docker → ECR → ECS with blue-green.
+4. Phase 4: Full test matrix — unit, integration, Stripe webhook simulation, E2E purchase flow.
+5. Phase 5: Staging mirrors production (same DB version, same secrets structure). Migrations tested on staging.
+6. Phase 6: Sentry for errors, Datadog for metrics, PagerDuty for alerts.
+7. Phase 7: Full launch checklist, 48-hour monitoring plan.
+8. Phase 8: Create comprehensive <code>DEPLOYMENT.md</code> with runbooks.
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Why It's Wrong |
+|---|---|
+| "I'll deploy manually, it's faster." | Manual deploys are not reproducible, not auditable, and prone to human error. |
+| "We don't need staging, we'll test in production." | Testing in production is not testing — it's experimenting with users. Staging catches failures before they hurt revenue. |
+| "CI/CD is overkill for a small project." | A 20-minute CI/CD setup prevents "why isn't this working in production?" debugging at 2 AM. |
+| "I test locally, CI is redundant." | CI runs in a clean environment. Local tests depend on your machine's state. |
+| "Monitoring is expensive, we'll add it later." | You can't fix what you can't see. Free tiers of Sentry + UptimeRobot catch 90% of issues. |
+| "Rollback is just redeploying the previous commit." | If the previous commit has a database migration, redeploying code without rolling back the DB breaks everything. |
+| "Launch checklists are bureaucracy." | Checklists prevent launches where the domain isn't configured or the database isn't migrated. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+<ul>
+<li>The agent deploys to production without any CI/CD pipeline.</li>
+<ul>
+<li>The agent skips tests in the deployment process.</li>
+<ul>
+<li>The agent deploys database migrations without a rollback plan.</li>
+<ul>
+<li>The agent does not configure any monitoring or alerting.</li>
+<ul>
+<li>The agent suggests testing in production instead of staging.</li>
+<ul>
+<li>The agent commits secrets to the repository.</li>
+<ul>
+<li>The agent deploys during high-traffic hours without a reason.</li>
+<ul>
+<li>The agent does not document the deployment process.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+Before declaring "shipped", confirm:
+<ul>
+<li>[ ] Phase 1: Discovery complete with 8+ questions answered.</li>
+<ul>
+<li>[ ] Phase 2: Research completed with current year sources.</li>
+<ul>
+<li>[ ] Phase 3: CI/CD strategy chosen with 2-3 options evaluated.</li>
+<ul>
+<li>[ ] Phase 4: Testing strategy defined for PR, merge, staging, and production.</li>
+<ul>
+<li>[ ] Phase 5: Deployment orchestration includes environments, migrations, secrets, rollback.</li>
+<ul>
+<li>[ ] Phase 6: Monitoring tools installed with actionable alerting rules.</li>
+<ul>
+<li>[ ] Phase 7: Launch checklist (pre, during, post) completed.</li>
+<ul>
+<li>[ ] Phase 8: <code>DEPLOYMENT.md</code> created with pipeline, environments, tests, rollback, monitoring.</li>
+<ul>
+<li>[ ] <code>SPEC.md</code> updated with Deployment & Testing Strategy sections.</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

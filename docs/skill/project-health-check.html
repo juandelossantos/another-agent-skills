@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>project-health-check — Another Agent Skills</title>
+<meta name="description" content="Audit existing projects before new work. Use when entering projects with code,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> project-health-check</div>
+
+    <h1>project-health-check</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Audit existing projects before new work. Use when entering projects with code,</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">210 lines</span>
+      <span class="skill-card__badge">guide: AUDIT-CHECKLIST-GUIDE</span>
+      <span class="skill-card__badge">guide: REPORT-TEMPLATE-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Detect Context</h3>
+<br>
+1. **Check <code>HEALTH-CHECK.md</code>:**
+   - Within 7 days → Read. Skip to Phase 3 (Re-audit decision).
+   - Older than 7 days → Read, then Phase 1.
+   - Missing → Phase 1.
+<br>
+2. **Check <code>AGENTS.md</code>:** Missing → HIGH risk.
+<br>
+3. **Check <code>SPEC.md</code>:** Missing → decisions undocumented.
+<br>
+---
+<br>
+<h3>Phase 1 — Full Audit</h3>
+<br>
+<strong>NO CODE WRITTEN.</strong>
+<br>
+→ **See <code>AUDIT-CHECKLIST-GUIDE.md</code> for complete 6-category checklist (stack, structure, code quality, config, dependencies, workflow compliance).**
+<br>
+For each check: record <code>PASS`, `WARN`, `FAIL</code>.
+<br>
+<h3>Phase 1b — Drift Detection</h3>
+<br>
+Inspired by Sub-Zero Skill. Check for drift between what docs claim and what's actually true.
+<br>
+| Drift Type | Check | How |
+|---|---|---|
+| **Stats drift** | README says "38 skills" but count differs | <code>ls skills/ \| wc -l</code> vs README claim |
+| **Version drift** | VERSION file != README badge | <code>cat VERSION</code> vs grep badge in README |
+| **Feature drift** | Docs mention feature X, X doesn't exist | Grep for feature references, verify existence |
+| **Command drift** | README says <code>npm test`, project uses `cargo test</code> | Check STACK_CONFIG.md vs actual |
+| **Link drift** | Docs reference page X, X doesn't exist | Check internal links |
+<br>
+<strong>Output drift as:</strong>
+<code>`</code>
+⚠️ DRIFT: [description] — expected [X], found [Y]
+<code>`</code>
+<br>
+Drift is a WARNING, not a BLOCKER. Document it, let user decide.
+<br>
+---
+<br>
+<h3>Phase 2 — Generate Report</h3>
+<br>
+→ **See <code>REPORT-TEMPLATE-GUIDE.md` for `HEALTH-CHECK.md</code> template.**
+<br>
+Write report in project root. Include: summary, stack versions, structure, code quality, recommendations (prioritized), decision log.
+<br>
+<strong>Rules:</strong> Honest. No sugarcoat. Link files and line numbers. Distinguish blocking vs non-blocking. One-sentence impact per issue.
+<br>
+---
+<br>
+<h3>Phase 3 — User Decision Gate (BLOCKING)</h3>
+<br>
+<strong>FULL STOP.</strong> Present report. Wait explicit decision.
+<br>
+<code>`</code>
+🏥 PROJECT HEALTH CHECK COMPLETE
+<br>
+[Summary: X critical, Y warnings, Z passes]
+<br>
+Top issues:
+1. [Most critical]
+2. [Second most critical]
+...
+<br>
+Options:
+A. FIX FIRST — Remediation plan, fix criticals before new features.
+B. PROCEED WITH CAUTION — Document risks, build without degrading standards further.
+C. IGNORE — Proceed as requested, note technical debt increase.
+<br>
+→ What do you choose?
+<code>`</code>
+<br>
+<strong>Valid:</strong> "A"/"Fix first" → Phase 4. "B"/"Proceed" → Phase 5. "C"/"Ignore" → Phase 5 with risk.
+<br>
+<strong>Invalid:</strong> Vague "ok" or "sure". Ask again with explicit options.
+<br>
+---
+<br>
+<h3>Phase 4 — Remediation (If A)</h3>
+<br>
+1. Create <code>REMEDIATION.md</code> with ordered tasks.
+2. Invoke <code>planning-and-task-breakdown</code>.
+3. Execute ONE AT A TIME.
+4. Re-run health check after.
+5. Then proceed to original request.
+<br>
+<strong>Example tasks:</strong> Upgrade Next.js, migrate <code>tailwind.config.ts` → CSS `@theme`, replace Inter → distinctive font, add Vitest, create `SPEC.md</code>.
+<br>
+---
+<br>
+<h3>Phase 5 — Proceed with Risk (If B or C)</h3>
+<br>
+1. Append to <code>HEALTH-CHECK.md</code>:
+   <code>`</code>markdown
+   ## Decision
+   - **Chosen:** B
+   - **Date:** YYYY-MM-DD
+   - **Rationale:** [Reason]
+   - **Accepted risks:** [List]
+   <code>`</code>
+2. If C: Add WARNING comment at top of new files.
+3. Proceed to original request.
+<br>
+---
+<br>
+<h2 id="recursive behavior">recursive behavior</h2>
+<br>
+<strong>Re-audit every 7 days.</strong> Codebases rot fast.
+<br>
+<ul>
+<li>New session: Check <code>HEALTH-CHECK.md</code> age.</li>
+<ul>
+<li>>7 days: Re-run full audit before significant work.</li>
+<ul>
+<li><=7 days: Read <code>HEALTH-CHECK.md</code>, verify no new criticals.</li>
+<ul>
+<li>After remediation: Re-run immediately.</li>
+<br>
+---
+<br>
+<h2 id="examples">examples</h2>
+<br>
+<strong>User:</strong> "Add dark mode toggle."
+<br>
+<strong>Agent:</strong>
+1. Check <code>HEALTH-CHECK.md</code> → 14 days old.
+2. Run full audit.
+3. Find: Next.js 14, no <code>DESIGN.md`, hardcoded `bg-gray-900</code>.
+4. Report: 2 critical, 4 warnings.
+5. Present A/B/C. User chooses B.
+6. Document. Build with CSS custom properties (prep for token migration).
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Response |
+|---|---|
+| "User wants quick fix, don't slow them." | 5-min audit prevents hours debugging degraded codebase. |
+| "Audited last week, probably fine." | Codebases rot in days. Re-audit mandatory. |
+| "User didn't ask for audit." | Doctor doesn't wait for patient to ask for diagnosis. |
+| "No time to fix everything." | Option B exists for reason. |
+| "Someone else's mess." | Any code we touch becomes our responsibility. |
+| "I'll match existing style." | Matching slop creates more slop. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+<ul>
+<li>Agent writes code before checking <code>HEALTH-CHECK.md</code> age.</li>
+<ul>
+<li>Agent ignores failing checks without user confirmation.</li>
+<ul>
+<li>Agent "fixes" silently without documenting.</li>
+<ul>
+<li>User says "just do it" and agent doesn't present A/B/C.</li>
+<ul>
+<li>Agent audits but doesn't write <code>HEALTH-CHECK.md</code>.</li>
+<ul>
+<li>Agent uses bad patterns (<code>bg-blue-500</code>) in new code.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+<ul>
+<li>[ ] <code>HEALTH-CHECK.md</code> exists and dated.</li>
+<ul>
+<li>[ ] Existing project: Audit before new code.</li>
+<ul>
+<li>[ ] Returning project: Audit age checked.</li>
+<ul>
+<li>[ ] User explicitly chose A, B, or C.</li>
+<ul>
+<li>[ ] Decision documented in <code>HEALTH-CHECK.md</code>.</li>
+<ul>
+<li>[ ] If B/C: Risks listed and accepted.</li>
+<ul>
+<li>[ ] New code doesn't replicate red flags found.</li>
+<ul>
+<li>[ ] Drift detected between docs and reality (stats, version, features, commands, links).</li>
+<br>
+---
+<br>
+<h2 id="troubleshooting">troubleshooting</h2>
+<br>
+| Problem | Fix |
+|---|---|
+| Audit takes too long | Sample 10 files max per category, note "sampled". |
+| <code>package.json</code> missing | Adapt checks for Python/Go/Rust. |
+| User frustrated by gate | Emphasize: prevents debugging later. |
+| Health check always failing | Review if standards fit project maturity. |
+| User always chooses C | Explain long-term cost, respect autonomy. |
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

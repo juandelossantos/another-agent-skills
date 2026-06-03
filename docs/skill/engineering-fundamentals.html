@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>engineering-fundamentals — Another Agent Skills</title>
+<meta name="description" content="Universal engineering philosophy for all platform skills. Defines discovery,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> engineering-fundamentals</div>
+
+    <h1>engineering-fundamentals</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Universal engineering philosophy for all platform skills. Defines discovery,</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">239 lines</span>
+      <span class="skill-card__badge">guide: ANTI-SLOP-CORE</span>
+      <span class="skill-card__badge">guide: DESIGN-CORE</span>
+      <span class="skill-card__badge">guide: PRE-FLIGHT-CORE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="universal process">universal process</h2>
+<br>
+<h3>Phase 0 — Language Detection</h3>
+<br>
+Detect immediately. Spanish keywords → Spanish. English keywords → English. Other → that language, fallback to English. Never mix.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery Gate (MANDATORY)</h3>
+<br>
+<strong>NO CODE UNTIL COMPLETE.</strong>
+<br>
+<strong>Surface:** Audience, Core problem, Scale (MVP/Standard/Complex), Platform-specific. **Discover (min 5):** Audience, Purpose, Scope, Context, Constraints. **Extended (non-trivial):</strong> Data, Security, Integrations, Offline, Scalability.
+<br>
+<strong>Confirm:</strong> Summarize. Ask "Is this correct? Shall we proceed?" Only after explicit yes, proceed.
+<br>
+---
+<br>
+<h3>Phase 2 — Write Contracts</h3>
+<br>
+<h4>2A: SPEC.md</h4>
+<br>
+If no SPEC.md exists and this is new work (not a one-off tweak), invoke <code>spec-driven-development</code>.
+<br>
+Must include: Objective, Scope, Tech stack (locked versions), Project structure, Acceptance criteria, Boundaries.
+<br>
+<h4>2B: DESIGN.md (VISUAL ONLY)</h4>
+<br>
+<strong>CRITICAL:** DESIGN.md is for **visual identity and tokens ONLY</strong>.
+<br>
+<strong>What goes in:</strong> Colors, Typography, Spacing, Border radius, Elevation/shadows, Motion tokens, Component visual tokens, Do's and Don'ts.
+<br>
+<strong>What NEVER goes in:</strong> Tech versions, folder structure, API routes, state management, auth, DB schema, business logic.
+<br>
+<strong>Paths:</strong>
+<ul>
+<li>**Path A** — DESIGN.md exists: Read it, extract tokens, build within them.</li>
+<ul>
+<li>**Path B** — No DESIGN.md, user wants visual system: Generate with visual tokens only. Present for confirmation.</li>
+<ul>
+<li>**Path C** — No DESIGN.md, one-off task: Do the task. Mention once that DESIGN.md improves consistency.</li>
+<br>
+<strong>AFTER DESIGN.md CONFIRMED — MANDATORY STOP:</strong>
+<br>
+Do NOT write code yet. DEFINE is complete, not BUILD.
+<br>
+1. Check if SPEC.md exists. If not, invoke <code>spec-driven-development</code>.
+2. Invoke <code>planning-and-task-breakdown</code> for implementation plan.
+3. Only after plan exists and is confirmed, proceed to BUILD.
+<br>
+<h4>2C: Design Asset Lock (MANDATORY after visual approval)</h4>
+<br>
+Create <code>design/</code> directory:
+<br>
+<code>`</code>
+design/
+├── DESIGN-LOCK.md          # Snapshot of approved visual decisions
+└── approved/               # Screenshots, previews, moodboards
+<code>`</code>
+<br>
+<code>DESIGN-LOCK.md</code> must contain: Direction, Final Palette, Final Typography, Key Decisions, References.
+<br>
+<strong>Rules:</strong>
+<ul>
+<li>DESIGN-LOCK.md is a SNAPSHOT. Never changes after approval unless explicitly requested.</li>
+<ul>
+<li>During BUILD, MUST read <code>design/DESIGN-LOCK.md</code> before writing any code. Do not rely on memory.</li>
+<br>
+<h4>2D: Lifecycle Awareness</h4>
+<br>
+Respect <code>AGENTS.md</code> lifecycle:
+<ul>
+<li>DEFINE → <code>spec-driven-development</code></li>
+<ul>
+<li>PLAN → <code>planning-and-task-breakdown</code></li>
+<ul>
+<li>BUILD → Platform-specific skill + <code>incremental-implementation</code></li>
+<ul>
+<li>VERIFY → <code>debugging-and-error-recovery</code></li>
+<ul>
+<li>REVIEW → <code>code-review-and-quality</code></li>
+<ul>
+<li>SHIP → <code>shipping-and-launch</code></li>
+<br>
+---
+<br>
+<h3>Phase 3 — Design Direction (Path B only)</h3>
+<br>
+Read <code>guides/DESIGN-CORE.md</code> for the universal Three Dials System (VARIANCE, MOTION, DENSITY), Brief Inference, color principles, and dark mode protocol.
+<br>
+Then apply the **platform-specific skill's DESIGN-GUIDE.md** for banned lists, font stacks, and tool-specific tokens.
+<br>
+Do not blend directions across platforms. Do not blend dial values.
+<br>
+---
+<br>
+<h3>Phase 4 — Anti-Slop Principles</h3>
+<br>
+<strong>Universal (read first):</strong> See <code>guides/ANTI-SLOP-CORE.md</code> for the universal AI tell catalogue, content density rules, copy protocol, and UI state requirements.
+<br>
+<strong>Platform-specific:</strong> Then apply the platform skill's ANTI-SLOP-GUIDE.md for banned fonts, platform-specific layout tells, and stack-specific rules.
+<br>
+<strong>Intentionality:</strong> NO defaults without justification. Every choice has a reason.
+<br>
+<strong>Tokens Over Hardcoding:</strong> NO hardcoded values. All from DESIGN.md/theme. Used twice = must be a token.
+<br>
+<strong>Performance:</strong> NO convenience-over-performance tradeoffs. Measure: 60fps, fast loads, minimal bundles.
+<br>
+<strong>Accessibility:</strong> NOT optional. Always: 4.5:1 contrast, focus indicators, reduced motion. Accessibility is a gate.
+<br>
+---
+<br>
+<h3>Phase 5 — Quality Gates</h3>
+<br>
+<strong>Universal (run first):</strong> See <code>guides/PRE-FLIGHT-CORE.md</code> for the universal pre-output checklist — color, content, motion, AI tells, accessibility, technical checks.
+<br>
+<strong>Platform-specific:</strong> Then run the platform skill's PRE-FLIGHT.md for build commands, layout verification, and native integration checks.
+<br>
+Before declaring complete:
+<br>
+1. **Contracts present** — SPEC.md and DESIGN.md exist and were read.
+2. **Design Lock present** — <code>design/DESIGN-LOCK.md</code> exists and was read before coding.
+3. **No hardcoded tokens** — All colors, fonts, spacing from token system.
+4. **Accessibility** — Contrast 4.5:1, focus indicators, reduced motion fallback.
+5. **Build passes** — Compilation succeeds without errors.
+6. **Visual consistency** — No design element deviates from DESIGN.md without explicit approval.
+<br>
+---
+<br>
+<h3>Phase 5b — Error Path Design</h3>
+<br>
+Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main paths."
+<br>
+<strong>Every tool call, gate, loop, and session needs a failure path:</strong>
+<br>
+| Component | Failure Mode | Required Path |
+|---|---|---|
+| Tool call | Command fails, tool missing, network down | Return error as observation, never panic |
+| Gate (pre-commit) | Hook blocks, token invalid | Explicit bypass with human approval |
+| Loop (debug) | Same bug 3 times | 3-Strikes Protocol → escalate to user |
+| Session | Context loss, truncation | Continuation over recap (Rule 0i) |
+| Verification | Can't reach real world | TOOL_GAP → "ship status unknown" (Rule 0h) |
+<br>
+<strong>Anti-patterns:</strong>
+<ul>
+<li>"It'll probably work" → No failure path = not a workflow, it's a hope.</li>
+<ul>
+<li>"Just retry" → Retry without diagnosis is noise. Include: what failed, why, what's different.</li>
+<br>
+---
+<br>
+<h3>Phase 6 — Common Rationalizations</h3>
+<br>
+| Excuse | Why It's Wrong |
+|---|---|
+| "Default for now." | #1 sign of AI output. |
+| "Too small for DESIGN.md." | 3 lines of tokens help even one-offs. |
+| "Quality later." | Quality is a gate, not afterthought. |
+| "user didn't ask for [practice]." | Senior engineers apply best practices by default. |
+| "I remember design." | Context drifts. DESIGN-LOCK.md is ground truth. |
+| "I know what they want." | 1% confidence. Discovery forces 95%. |
+<br>
+---
+<br>
+<h3>Phase 7 — Red Flags</h3>
+<br>
+Code before reqs. "Start building?" before "done" defined. Assumptions unsurfaced. Contracts skipped. Hardcoded values. Accessibility optional. DESIGN-LOCK.md not read. Features not in spec.
+<br>
+---
+<br>
+<h2 id="platform skill template">platform skill template</h2>
+<br>
+Every platform skill follows <code>PLATFORM-SKILL-TEMPLATE.md` — read it before creating. Core structure: Stack Detection → Discovery → Contracts → Direction → Anti-Slop → Build → QA → Verification. Each phase references `engineering-fundamentals</code> + adds platform-specific rules.
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+SPEC.md with Objective/Scope/Stack/Acceptance/Boundaries. DESIGN.md with visual tokens. DESIGN-LOCK.md read before coding. Discovery done before code. User confirmed each gate. No hardcoded tokens. Accessibility (4.5:1 contrast, focus, reduced motion). Build passes.
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

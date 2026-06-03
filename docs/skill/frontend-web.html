@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>frontend-web — Another Agent Skills</title>
+<meta name="description" content="Build production-grade web interfaces. Built on engineering-fundamentals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> frontend-web</div>
+
+    <h1>frontend-web</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Build production-grade web interfaces. Built on engineering-fundamentals.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">212 lines</span>
+      <span class="skill-card__badge">guide: ANIMATION-GUIDE</span>
+      <span class="skill-card__badge">guide: ANTI-SLOP-GUIDE</span>
+      <span class="skill-card__badge">guide: DESIGN-GUIDE</span>
+      <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
+      <span class="skill-card__badge">guide: REDESIGN-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Language Detection</h3>
+→ See <code>engineering-fundamentals</code> Phase 0.
+<br>
+---
+<br>
+<h3>Phase 0b — Brief Inference (MANDATORY before code)</h3>
+<br>
+See <code>engineering-fundamentals/guides/DESIGN-CORE.md</code> for the Brief Inference protocol, Design Read output format, and Anti-Default Discipline.
+<br>
+Then see <code>DESIGN-GUIDE.md</code> for web-specific vibe → dial mapping.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery Gate</h3>
+→ See <code>engineering-fundamentals</code> Phase 1 for universal discovery.
+<br>
+<strong>Web-specific questions:</strong>
+1. **Pages**: How many pages/sections?
+2. **SEO**: Public-facing and indexable?
+3. **Animations**: Scroll effects, entrance animations, micro-interactions?
+<br>
+Read <code>DISCOVERY-GUIDE.md</code> for complete web checklist.
+<br>
+---
+<br>
+<h3>Phase 2 — Write Contracts</h3>
+→ See <code>engineering-fundamentals</code> Phase 2.
+<br>
+<strong>Web-specific additions:</strong>
+<ul>
+<li>SPEC.md must include: Tech stack (locked versions), Project structure, SEO requirements if public.</li>
+<br>
+---
+<br>
+<h3>Phase 3 — Three Dials System</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/DESIGN-CORE.md</code> for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, use case presets, color principles, and dark mode protocol.
+<br>
+Then see <code>DESIGN-GUIDE.md</code> for web-specific font selection, token application, and banned lists.
+<br>
+---
+<br>
+<h3>Phase 3b — Design System Map</h3>
+<br>
+| Brief reads as… | Use |
+|---|---|
+| Enterprise / Microsoft-adjacent | <code>@fluentui/react-components</code> |
+| Material-flavored | <code>@material/web</code> + M3 tokens |
+| IBM-style B2B | <code>@carbon/react</code> |
+| Shopify surfaces | Polaris React |
+| Atlassian product | <code>@atlaskit/*</code> |
+| GitHub-style devtool | <code>@primer/react-brand</code> |
+| Public-sector (UK/US) | <code>govuk-frontend` / `uswds</code> |
+| Modern accessible React | <code>@radix-ui/themes</code> |
+| Modern SaaS | shadcn/ui |
+| Tailwind indie build | Tailwind v4 + <code>dark:</code> |
+<br>
+<strong>Rules:</strong> One system per project. Use official packages — do not recreate CSS by hand. For aesthetics without packages (glassmorphism, bento, brutalism, editorial, dark tech), build with native CSS + Tailwind.
+<br>
+---
+<br>
+<h3>Phase 4 — Stack Lock-in</h3>
+<br>
+| Tool | Minimum | Notes |
+|---|---|---|
+| Node.js | 20.9+ | |
+| Next.js | 16.1.1+ | App Router, async params, RSC by default |
+| React | 19.2+ | |
+| TypeScript | 5.7+ | |
+| Tailwind CSS | v4 | <code>@theme` in CSS, not `tailwind.config.ts</code> |
+| shadcn CLI | latest | Registry-based, copy-not-install |
+| Framer Motion | 12+ | Primary animation engine |
+| lucide-react | latest | Default icons |
+<br>
+Optional: <code>lenis`, `split-type`, `gsap` + `@gsap/react</code> (pinned sections only).
+<br>
+Forbidden: GSAP by default, <code>tailwind.config.ts`, `middleware.ts</code>, Spline.
+<br>
+---
+<br>
+<h3>Phase 5 — Anti-Slop Rules (Web)</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/ANTI-SLOP-CORE.md</code> for universal AI tells, content density rules, copy protocol, and UI state requirements.
+<br>
+Then see <code>ANTI-SLOP-GUIDE.md</code> for web-specific layout tells (three feature cards, hero patterns, bento grids), font bans, and interactive patterns.
+<br>
+<strong>Web-specific additions:</strong>
+<br>
+<strong>Typography</strong>
+<ul>
+<li>BANNED as display: Inter, Roboto, Arial, Space Grotesk, Geist.</li>
+<ul>
+<li>BANNED as serif defaults: Fraunces, Instrument Serif.</li>
+<ul>
+<li>Preferred sans: Geist, Outfit, Satoshi. Pairings: Geist+GeistMono, Satoshi+JetBrainsMono.</li>
+<br>
+<strong>Layout</strong>
+<ul>
+<li>**Zigzag cap:** Max 2 consecutive text+image splits.</li>
+<ul>
+<li>**Section-layout ban:** 8 sections → ≥4 different layout families.</li>
+<ul>
+<li>**Hero:** Fits viewport, ≤2 headline lines, ≤20 subtext words, top padding max <code>pt-24</code>.</li>
+<br>
+<strong>Images & Assets</strong>
+<ul>
+<li>See <code>IMAGE-STRATEGY.md</code> for image generation pipeline, social proof rules, and photography guidelines.</li>
+<ul>
+<li>**No div-based fake screenshots** — BANNED.</li>
+<ul>
+<li>Use <code>next/image` with `priority</code> on above-the-fold images.</li>
+<br>
+---
+<br>
+<h3>Phase 6 — Animation System</h3>
+<br>
+Read <code>ANIMATION-GUIDE.md</code>.
+<br>
+<strong>Summary:</strong>
+<ul>
+<li>**Primary:** Framer Motion <code>Reveal</code> component.</li>
+<ul>
+<li>**Fallback:** CSS <code>animation-timeline</code> for scroll effects, WAAPI for precise JS animations.</li>
+<ul>
+<li>**Accessibility:** Every animation MUST respect <code>prefers-reduced-motion</code>.</li>
+<ul>
+<li>**Performance:** Only <code>transform` and `opacity</code> may be animated.</li>
+<br>
+---
+<br>
+<h3>Phase 7 — Build with Tokens</h3>
+<br>
+<strong>BEFORE WRITING CODE:</strong>
+<br>
+1. **Read <code>design/DESIGN-LOCK.md</code>** — Verify approved direction, palette, typography.
+2. **Check <code>design/approved/</code>** — Screenshots, previews, moodboards.
+3. **Cross-check with <code>DESIGN.md</code>** — Tokens in code must match locked system.
+<br>
+<strong>Then build:</strong>
+<br>
+4. Apply tokens from <code>DESIGN.md` to `src/app/globals.css</code>.
+5. Use <code>next/font/google` for fonts in `layout.tsx</code>.
+6. Build sections in canonical order: Nav → Hero → Value Prop → Services → About → Testimonials → CTA → Footer.
+7. Use <code>whileInView</code> for entrance animations.
+8. Use <code><Image>` with descriptive `alt</code> text.
+9. <code>"use client"</code> only when hooks, events, or state present.
+<br>
+---
+<br>
+<h3>Phase 8 — QA Gates</h3>
+<br>
+→ See <code>engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md</code> for universal checks first.
+<br>
+<strong>Then run <code>PRE-FLIGHT.md</code> before declaring done.</strong> Every box must pass — this is a mechanical gate, not optional.
+<br>
+<strong>Log metrics:</strong>
+<code>`</code>
+LOG METRIC: gate - project: [detect] - gate_name: frontend-web-qa - result: pass/fail
+LOG METRIC: build - project: [detect] - result: pass/fail - warnings: [count]
+<code>`</code>
+<br>
+---
+<br>
+<h2 id="examples & troubleshooting">examples & troubleshooting</h2>
+<br>
+Read <code>EXAMPLES.md</code>:
+<ul>
+<li>Landing page walkthrough (15 steps)</li>
+<ul>
+<li>Adding animation to existing component</li>
+<ul>
+<li>Troubleshooting (Next.js 16 params, fonts, FOUC, hydration, build)</li>
+<br>
+<br>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>frontend-mobile — Another Agent Skills</title>
+<meta name="description" content="Build production-grade mobile apps with native design tokens and platform compliance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> frontend-mobile</div>
+
+    <h1>frontend-mobile</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Build production-grade mobile apps with native design tokens and platform compliance.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">240 lines</span>
+      <span class="skill-card__badge">guide: ANIMATION-GUIDE</span>
+      <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Language Detection</h3>
+→ See <code>engineering-fundamentals</code> Phase 0.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery Gate</h3>
+→ See <code>engineering-fundamentals</code> Phase 1 for universal discovery.
+<br>
+<strong>Mobile-specific questions:</strong>
+1. **Platforms**: iOS only, Android only, or both?
+2. **Navigation**: Tabs, stack, drawer, or custom?
+3. **Offline**: Does the app work without internet?
+4. **Push notifications**: Needed?
+5. **Native features**: Camera, GPS, biometric auth, contacts?
+6. **App Store**: Public store, enterprise, or internal distribution?
+<br>
+Read <code>DISCOVERY-GUIDE.md</code> for complete mobile checklist.
+<br>
+---
+<br>
+<h3>Phase 2 — Write Contracts</h3>
+→ See <code>engineering-fundamentals</code> Phase 2.
+<br>
+<strong>Mobile-specific additions:</strong>
+<ul>
+<li>SPEC.md must include: Platform targets (iOS min version, Android min SDK), App Store requirements.</li>
+<br>
+---
+<br>
+<h3>Phase 3 — Three Dials System</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/DESIGN-CORE.md</code> for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, color principles, and dark mode protocol.
+<br>
+Apply dials to mobile constraints: Reanimated for MOTION > 4, SafeArea-aware layouts for VARIANCE > 4, platform-native touch targets for DENSITY.
+<br>
+---
+<br>
+<h3>Phase 4 — Stack Lock-in</h3>
+<br>
+| Tool | Minimum | Notes |
+|---|---|---|
+| React Native | 0.76+ | New Architecture (Fabric) enabled |
+| Expo SDK | 52+ | EAS Build, Expo Router |
+| TypeScript | 5.7+ | |
+| React Navigation | 7+ | If not using Expo Router |
+| Reanimated | 3.16+ | Primary animation engine |
+| React Native Gesture Handler | 2.20+ | Gestures |
+| lucide-react-native | latest | Icons |
+<br>
+Optional: <code>expo-camera`, `expo-location`, `@shopify/flash-list</code>.
+<br>
+Forbidden: <code>Animated` API (use Reanimated), inline styles, `any</code> type.
+<br>
+---
+<br>
+<h3>Phase 5 — Anti-Slop Rules (Mobile)</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/ANTI-SLOP-CORE.md</code> for universal AI tells, content density, copy protocol, and UI state requirements.
+<br>
+<strong>Mobile-specific rules:</strong>
+<br>
+<strong>Typography</strong>
+<ul>
+<li>No system default fonts as display (San Francisco, Roboto).</li>
+<ul>
+<li>Pair distinctive display + refined body font.</li>
+<ul>
+<li>Use <code>expo-font` with `useFonts</code> hook.</li>
+<br>
+<strong>Color</strong>
+<ul>
+<li>No system default colors (<code>systemBlue`, `systemGray</code>).</li>
+<ul>
+<li>Use theme tokens from <code>DESIGN.md</code> or theme provider.</li>
+<br>
+<strong>Layout</strong>
+<ul>
+<li>No web patterns in mobile (hover states, tooltips on touch).</li>
+<ul>
+<li>Use platform conventions: iOS HIG, Android Material Design 3.</li>
+<ul>
+<li>Think in screens, not pages. Mobile-first: verify 375pt (iPhone SE).</li>
+<ul>
+<li>Respect SafeAreaView and avoid the notch/status bar.</li>
+<br>
+<strong>Motion</strong>
+<ul>
+<li>No animation of <code>width`, `height`, `top`, `left`, `margin`, `padding</code>.</li>
+<ul>
+<li>Only <code>transform` and `opacity</code> for 60fps.</li>
+<br>
+<strong>Native Feel</strong>
+<ul>
+<li>No default flat solid colors.</li>
+<ul>
+<li>Touch targets minimum 44pt (iOS) or 48dp (Android).</li>
+<br>
+---
+<br>
+<h3>Phase 6 — Animation System</h3>
+<br>
+Read <code>ANIMATION-GUIDE.md</code>.
+<br>
+<strong>Summary:</strong>
+<ul>
+<li>**Primary:** Reanimated <code>useAnimatedStyle` + `withSpring</code>.</li>
+<ul>
+<li>**Fallback:** React Native <code>Animated</code> API for simple cases.</li>
+<ul>
+<li>**Gestures:** React Native Gesture Handler for swipe, pinch, long-press.</li>
+<ul>
+<li>**Accessibility:** Every animation MUST respect <code>AccessibilityInfo</code> reduced motion.</li>
+<ul>
+<li>**Performance:** Only <code>transform` and `opacity</code> may be animated.</li>
+<br>
+---
+<br>
+<h3>Phase 7 — Build with Tokens</h3>
+<br>
+<strong>BEFORE WRITING CODE:</strong>
+<br>
+1. **Read <code>design/DESIGN-LOCK.md</code>** — Verify approved direction, palette, typography.
+2. **Check <code>design/approved/</code>** — Screenshots, previews, moodboards.
+3. **Cross-check with <code>DESIGN.md</code>** — Tokens must match locked system.
+<br>
+<strong>Then build:</strong>
+<br>
+4. Apply tokens to a theme provider (e.g., <code>ThemeProvider` or `StyleSheet.create</code> constants).
+5. Use <code>expo-font</code> for fonts in the root component.
+6. Build screens with canonical order:
+   - Splash / Onboarding
+   - Authentication (if needed)
+   - Main App Shell (tabs, drawer, or stack)
+   - Home / Dashboard
+   - Feature Screens
+   - Profile / Settings
+7. Use Reanimated <code>useAnimatedStyle</code> for entrance animations.
+8. Use <code><Image>` from `expo-image` with `contentFit` and `accessibilityLabel</code>.
+9. Ensure <code>SafeAreaView</code> wraps every screen.
+<br>
+---
+<br>
+<h3>Phase 8 — QA Gates</h3>
+<br>
+→ See <code>engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md</code> for universal checks first.
+<br>
+<strong>After QA gates, log metrics:</strong>
+<code>`</code>
+LOG METRIC: gate
+<ul>
+<li>project: [detect from git remote or directory]</li>
+<ul>
+<li>gate_name: frontend-mobile-qa</li>
+<ul>
+<li>result: pass/fail</li>
+<ul>
+<li>checks_passed: [N]/12</li>
+<code>`</code>
+<br>
+<strong>Mobile-specific checks:</strong>
+<br>
+1. **TypeScript** — <code>npx tsc --noEmit</code> passes.
+2. **Build** — <code>eas build --local` or `npx expo prebuild</code> succeeds.
+3. **No template residue** — Remove default Expo text and assets.
+4. **No hardcoded colors** — Search <code>color: '#</code>, replace with tokens.
+5. **Responsive** — Check 375pt, 428pt, tablet sizes.
+6. **Accessibility** — Contrast 4.5:1, <code>accessibilityLabel`, `AccessibilityInfo</code>.
+7. **Images** — Every <code><Image>` has `accessibilityLabel</code>. Cache policy configured.
+8. **Reduced motion** — Respect <code>AccessibilityInfo.isReduceMotionEnabled()</code>.
+9. **Animation performance** — Only <code>transform` and `opacity</code>. No layout thrashing.
+10. **Design Lock present** — <code>design/DESIGN-LOCK.md</code> exists and was read.
+11. **Visual consistency** — No color, font, or spacing deviates without approval.
+12. **Platform compliance** — Follows iOS HIG and Android Material 3.
+<br>
+---
+<br>
+<h2 id="examples & troubleshooting">examples & troubleshooting</h2>
+<br>
+Read <code>EXAMPLES.md</code>:
+<ul>
+<li>New mobile app walkthrough (15 steps)</li>
+<ul>
+<li>Adding animation to existing component</li>
+<ul>
+<li>Troubleshooting (Expo prebuild, fonts, SafeArea, gesture conflicts)</li>
+<br>
+---
+<br>
+<h2 id="red flags (mobile-specific)">red flags (mobile-specific)</h2>
+<br>
+<ul>
+<li>System default colors or generic palettes used.</li>
+<ul>
+<li>Display font is San Francisco, Roboto, or system default.</li>
+<ul>
+<li>Generic centered card grid with no native consideration.</li>
+<ul>
+<li>Animations use <code>width`, `height`, or `margin</code> transitions.</li>
+<ul>
+<li>No <code>AccessibilityInfo</code> reduced-motion check.</li>
+<ul>
+<li>Web patterns (hover, tooltips) suggested in a mobile app.</li>
+<ul>
+<li>Code generated before DESIGN.md confirmed or PLAN created.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+<ul>
+<li><code>DESIGN.md</code> exists in project root.</li>
+<ul>
+<li><code>design/DESIGN-LOCK.md</code> exists with approved decisions.</li>
+<ul>
+<li>Theme provider or <code>StyleSheet.create</code> contains tokens.</li>
+<ul>
+<li><code>accessibilityLabel</code> on every interactive element.</li>
+<ul>
+<li><code>AccessibilityInfo</code> reduced-motion check exists.</li>
+<ul>
+<li>Build passes (<code>eas build` or `expo prebuild</code>).</li>
+<ul>
+<li>No generic system color utilities.</li>
+<ul>
+<li>Animation code only touches <code>transform` and `opacity</code>.</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

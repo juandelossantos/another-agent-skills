@@ -75,7 +75,15 @@ if [ -f "$EDIT_GUARD" ]; then
     for f in $STAGED_HTML; do
       if [ ! -f "$f" ]; then continue; fi
       FILENAME=$(basename "$f")
-      case "$FILENAME" in
+      case "$f" in
+        docs/index.html)
+          if ! bash "$EDIT_GUARD" check "$f" "DOCTYPE" "</html>"; then
+            echo "    ${RED}✗${NC} $f — basic structure missing"
+            INTEGRITY_FAIL=1
+          else
+            echo "    ${GREEN}✓${NC} $f — basic structure valid"
+          fi
+          ;;
         index.html)
           if ! bash "$EDIT_GUARD" check "$f" \
             "lifecycle-flow" "hero__actions" \

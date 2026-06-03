@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>git-init-and-versioning — Another Agent Skills</title>
+<meta name="description" content="Initialize and configure Git repositories before any code is written.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> git-init-and-versioning</div>
+
+    <h1>git-init-and-versioning</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Initialize and configure Git repositories before any code is written.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">250 lines</span>
+      <span class="skill-card__badge">guide: BRANCHING-GUIDE</span>
+      <span class="skill-card__badge">guide: BUILD-INTEGRATION-GUIDE</span>
+      <span class="skill-card__badge">guide: RELEASE-GUIDE</span>
+      <span class="skill-card__badge">guide: REPO-STRUCTURE-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Detect Current State</h3>
+<br>
+1. **Check for <code>.git/</code> directory:**
+   - Exists → Read <code>git remote -v`, list branches, check `.gitignore</code>
+   - Missing → This project has never been versioned
+<br>
+2. **Check for <code>.gitignore</code>:**
+   - Exists → Audit it against the stack (see Phase 3)
+   - Missing → Must be created
+<br>
+3. **Check for <code>.env.example</code>:**
+   - Exists → Verify it documents required variables without secrets
+   - Missing → Must be created
+<br>
+4. **Check for <code>README.md</code>:**
+   - Exists → Verify it has setup instructions
+   - Missing → Create minimal README
+<br>
+---
+<br>
+<h3>Phase 1 — Repository Structure Decision (MANDATORY)</h3>
+<br>
+<strong>NO FILES ARE CREATED UNTIL THIS DECISION IS MADE.</strong>
+<br>
+→ **Ver <code>REPO-STRUCTURE-GUIDE.md</code> para el cuestionario completo y casos de uso.**
+<br>
+<strong>Lock the decision</strong> and document it in <code>SETUP.md` or `README.md</code>.
+<br>
+---
+<br>
+<h3>Phase 2 — Initialize Repository</h3>
+<br>
+1. **If no <code>.git/</code> exists:**
+   <code>`</code>bash
+   git init
+   git branch -M main
+   <code>`</code>
+<br>
+2. **Configure basic Git settings:**
+   <code>`</code>bash
+   git config user.name "[detected or asked]"
+   git config user.email "[detected or asked]"
+   <code>`</code>
+<br>
+3. **Add remote (if user has a GitHub/GitLab URL):**
+   <code>`</code>bash
+   git remote add origin [user-provided-url]
+   <code>`</code>
+<br>
+4. **Verify:**
+   <code>`</code>bash
+   git status
+   git log --oneline
+   <code>`</code>
+<br>
+---
+<br>
+<h3>Phase 3 — Create <code>.gitignore</code></h3>
+<br>
+<strong>Generate a <code>.gitignore` tailored to the tech stack from `SPEC.md</code>.</strong>
+<br>
+Read <code>GITIGNORE-TEMPLATES.md</code> in this skill directory for complete templates by stack (Node.js, Python, Rust, Go).
+<br>
+<strong>Summary of rules:</strong>
+<ul>
+<li><code>.env` and `.env.*</code> are ALWAYS ignored. No exceptions.</li>
+<ul>
+<li>Build outputs are ALWAYS ignored.</li>
+<ul>
+<li>IDE-specific files are ALWAYS ignored (except shared <code>.vscode/extensions.json</code>).</li>
+<ul>
+<li>Package manager lockfiles (<code>package-lock.json`, `yarn.lock`, `Cargo.lock</code>) are COMMITTED unless user explicitly requests otherwise.</li>
+<br>
+<strong>If no SPEC.md exists, ask the user for their stack before proceeding.</strong>
+<br>
+---
+<br>
+<h3>Phase 4 — Create <code>.env.example</code></h3>
+<br>
+<strong>Document every environment variable the project needs. NEVER include real values or secrets.</strong>
+<br>
+<code>`</code>bash
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+<br>
+# Auth
+NEXTAUTH_SECRET=generate_with_openssl_rand_base64_32
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+<br>
+# API Keys (external services)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+<br>
+# App Config
+NODE_ENV=development
+PORT=3000
+<code>`</code>
+<br>
+<strong>Rules:</strong>
+<ul>
+<li>Include a comment explaining each variable.</li>
+<ul>
+<li>Use placeholder values that clearly indicate they are fake (<code>...`, `your_value_here`, `generate_with...</code>).</li>
+<ul>
+<li>Mark required variables as <code># REQUIRED</code>.</li>
+<ul>
+<li>If a variable has a default, document it.</li>
+<br>
+<strong>Presentation to user:</strong>
+<code>`</code>
+I've created .env.example with the environment variables this project needs.
+→ Review it and add any variables I might have missed.
+→ Copy it to .env and fill in real values: cp .env.example .env
+<code>`</code>
+<br>
+---
+<br>
+<h3>Phase 5 — Branching Strategy Configuration</h3>
+<br>
+<strong>Decide and document the branching model.</strong>
+<br>
+→ **See <code>BRANCHING-GUIDE.md</code> for the 3 options and documentation format.**
+<br>
+---
+<br>
+<h3>Phase 6 — Pre-Commit Auto-Review Gate</h3>
+<br>
+<strong>THIS IS THE CRITICAL ADDITION.</strong>
+<br>
+During BUILD phase, before every <code>git commit</code>, the agent MUST run a self-review. This gate prevents "commit now, fix later."
+<br>
+<strong>Create <code>.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md`)</strong> from the template in `PRE_COMMIT_CHECKLIST.md</code> in this skill directory.
+<br>
+<strong>In SKILL.md, instruct the agent:</strong>
+<blockquote>"During BUILD phase, read <code>.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md</code>) before every commit. Run through the checklist. Only commit if all checks pass."</blockquote>
+<br>
+<strong>After pre-commit review, log metrics:</strong>
+<code>`</code>
+LOG METRIC: gate
+<ul>
+<li>project: [detect from git remote or directory name]</li>
+<ul>
+<li>gate_name: pre-commit-checklist</li>
+<ul>
+<li>result: pass/fail</li>
+<ul>
+<li>checks_passed: [N]/6</li>
+<code>`</code>
+<br>
+---
+<br>
+<h3>Phase 7 — First Commit</h3>
+<br>
+<strong>The first commit should include the project contracts, not generated boilerplate.</strong>
+<br>
+<code>`</code>bash
+# Stage contracts and configuration
+git add SPEC.md DESIGN.md API-DESIGN.md .gitignore .env.example README.md SETUP.md
+git commit -m "chore: initialize project with contracts and configuration
+<br>
+<ul>
+<li>Add SPEC.md with project scope and acceptance criteria</li>
+<ul>
+<li>Add DESIGN.md with visual design system</li>
+<ul>
+<li>Add API-DESIGN.md with backend architecture (if applicable)</li>
+<ul>
+<li>Add .gitignore for [stack]</li>
+<ul>
+<li>Add .env.example documenting required environment variables</li>
+<ul>
+<li>Add README.md with setup instructions</li>
+<ul>
+<li>Configure [trunk-based/feature branch/gitflow] workflow"</li>
+<code>`</code>
+<br>
+<strong>Rules for first commit:</strong>
+<ul>
+<li>Must NOT include <code>node_modules/`, `.next/`, build outputs, or `.env</code></li>
+<ul>
+<li>SHOULD include all human-written contracts and configs</li>
+<ul>
+<li>SHOULD NOT include generated code (create-next-app output can come in next commit)</li>
+<br>
+---
+<br>
+<h3>Phase 8 — Document</h3>
+<br>
+Create <code>SETUP.md</code> with: quick start, git workflow, env vars, useful commands.
+<br>
+---
+<br>
+<h3>Phase 9 (Optional) — Release Automation</h3>
+<br>
+<strong>If the user asks for versioning, releases, or changelogs.</strong>
+<br>
+→ See <code>RELEASE-GUIDE.md</code> for setup: VERSION file, RELEASE-NOTES.md, release.sh script.
+<br>
+---
+<br>
+<h2 id="examples">examples</h2>
+<br>
+See <code>REPO-STRUCTURE-GUIDE.md` for walkthroughs or `RELEASE-GUIDE.md</code> for release automation.
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Why It's Wrong |
+|---|---|
+| "I'll set up Git later." | Without Git, no revert, review, or collaboration. |
+| ".gitignore is optional." | You'll commit node_modules, .env, or build outputs. |
+| "The user already has a repo." | Verify. Many are just <code>git init</code> with no structure. |
+| "Auto-review slows me down." | 2 min review prevents hours debugging. |
+| "I'll remember the env variables." | <code>.env.example</code> is documentation. Future you needs it. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+Code before Git init. Missing .gitignore. .env committed. First commit has node_modules. No .env.example. Assumes mono-repo. No branching documented. Commits without pre-commit checklist.
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+Before BUILD: .git/ exists | .gitignore covers stack | .env ignored + .env.example | Repo structure decided | Branching documented | Pre-commit checklist exists | First commit = contracts+config, NOT generated code | Setup docs exist | Remote configured (if URL provided).
+<br>
+---
+<br>
+<h2 id="integration with build phase">integration with build phase</h2>
+<br>
+See <code>BUILD-INTEGRATION-GUIDE.md</code> for pre-commit gate. **Goal:** Precision, not speed. 45 min upfront = 5-15h saved.
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

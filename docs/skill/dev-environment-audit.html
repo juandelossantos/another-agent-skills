@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dev-environment-audit — Another Agent Skills</title>
+<meta name="description" content="Audit development environment (MCPs, CLI tools, runtimes) before code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> dev-environment-audit</div>
+
+    <h1>dev-environment-audit</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Audit development environment (MCPs, CLI tools, runtimes) before code.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">152 lines</span>
+      <span class="skill-card__badge">guide: AUDIT-CHECKLIST-GUIDE</span>
+      <span class="skill-card__badge">guide: ENV-TEMPLATE-GUIDE</span>
+      <span class="skill-card__badge">guide: IDEAL-SETS-GUIDE</span>
+      <span class="skill-card__badge">guide: INSTALL-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Context Assessment</h3>
+<br>
+1. **Check <code>docs/DEV-ENVIRONMENT.md</code>:**
+   - <7 days → Read. Verify tools still available.
+   - >7 days → Read, re-audit.
+   - Missing → Full audit.
+<br>
+2. **Determine project type:**
+   - Read <code>SPEC.md</code> Tech Stack and Testing Strategy.
+   - No <code>SPEC.md</code> → Infer from conversation.
+<br>
+3. **Assess complexity:**
+   - Simple (single-page, no backend) → Lightweight audit
+   - Non-trivial (multi-page, backend, tests) → Full audit
+   - Complex (multi-platform, enterprise) → Extended + security/compliance
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery</h3>
+<br>
+If project type unclear, ask:
+1. **Type**: Web app, API, mobile, desktop, or CLI?
+2. **Testing**: Unit, integration, E2E, visual regression?
+3. **Design workflow**: Figma, Penpot, or similar?
+4. **Deploy target**: Vercel, AWS, GCP, self-hosted?
+5. **Team tools**: GitHub Actions, docs generators, collaboration?
+<br>
+Only after confirmation, proceed to Phase 2.
+<br>
+---
+<br>
+<h3>Phase 2 — Audit Installed Tools</h3>
+<br>
+→ **See <code>AUDIT-CHECKLIST-GUIDE.md</code> for complete 3-category checklist (MCPs, CLI tools, project-specific).**
+<br>
+Summary: Check MCP servers, CLI tools (<code>--version`), project files (`package.json`, `Dockerfile</code>, etc.).
+<br>
+---
+<br>
+<h3>Phase 3 — Gap Analysis</h3>
+<br>
+→ **See <code>IDEAL-SETS-GUIDE.md</code> for tool sets by project type and priority levels.**
+<br>
+Compare installed vs "Ideal Set" for this project type. Determine priority per missing tool: BLOCKING, HIGH, MEDIUM, LOW.
+<br>
+---
+<br>
+<h3>Phase 4 — Recommend & Install (BLOCKING)</h3>
+<br>
+→ **See <code>INSTALL-GUIDE.md</code> for presentation format and installation rules.**
+<br>
+<strong>Present findings. Don't install without explicit confirmation.</strong>
+<br>
+<ul>
+<li>Only install what user approves.</li>
+<ul>
+<li>If "none" → document, proceed with workarounds.</li>
+<ul>
+<li>If BLOCKING missing and user refuses → warn strongly.</li>
+<ul>
+<li>Provide exact install commands.</li>
+<br>
+---
+<br>
+<h3>Phase 5 — Document</h3>
+<br>
+→ **See <code>ENV-TEMPLATE-GUIDE.md` for `docs/DEV-ENVIRONMENT.md</code> template.**
+<br>
+Create/update doc with tools, MCPs, installed-by-audit log, workarounds, next audit date.
+<br>
+<strong>Rules:</strong> Document installed AND missing. Record workarounds. Set next audit (7 days or after major changes).
+<br>
+---
+<br>
+<h2 id="example">example</h2>
+<br>
+<strong>Context:</strong> SPEC.md indicates Next.js + PostgreSQL + Prisma + Vercel.
+<br>
+<strong>Agent:</strong>
+1. Phase 0: No <code>DEV-ENVIRONMENT.md</code>.
+2. Phase 1: Not needed — type clear from SPEC.md.
+3. Phase 2: MCPs: Playwright ✅, Figma ❌, GitHub ✅. CLI: Node ✅, pnpm ✅, Git ✅, Docker ❌, Vercel ❌.
+4. Phase 3: BLOCKING: Docker (local PostgreSQL). HIGH: Vercel CLI, Figma MCP.
+5. Phase 4: Present. User approves Docker + Vercel. Declines Figma.
+6. Phase 5: Create <code>docs/DEV-ENVIRONMENT.md</code> with tools, workarounds, next audit.
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Response |
+|---|---|
+| "Install everything to be safe." | Bloat slows machines. Install only what project needs. |
+| "User didn't ask for audit." | Missing tools cause cryptic errors later. Proactive > reactive. |
+| "They probably have Docker." | Assume nothing. Check. |
+| "MCPs are optional." | MCPs unlock testing superpowers. Without them, agent is blind. |
+| "I'll install silently." | Never install without consent. User owns their machine. |
+| "They'll figure it out." | "Figuring out" wastes hours. 2-min audit saves debugging time. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+<ul>
+<li>Assumes tools exist without checking.</li>
+<ul>
+<li>Installs without user confirmation.</li>
+<ul>
+<li>Skips audit because "probably fine."</li>
+<ul>
+<li>Doesn't document missing tools or workarounds.</li>
+<ul>
+<li>Recommends unrelated tools (K8s for landing page).</li>
+<ul>
+<li>Doesn't create/update <code>docs/DEV-ENVIRONMENT.md</code>.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+<ul>
+<li>[ ] <code>docs/DEV-ENVIRONMENT.md</code> exists and dated.</li>
+<ul>
+<li>[ ] BLOCKING tools installed or have approved workaround.</li>
+<ul>
+<li>[ ] User explicitly approved every installation.</li>
+<ul>
+<li>[ ] MCP status documented.</li>
+<ul>
+<li>[ ] CLI versions recorded (or "NOT FOUND" noted).</li>
+<ul>
+<li>[ ] Workarounds described.</li>
+<ul>
+<li>[ ] Next audit date set.</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

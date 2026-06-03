@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>spec-driven-development — Another Agent Skills</title>
+<meta name="description" content="Native pipeline from user request to verified code. Creates comprehensive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> spec-driven-development</div>
+
+    <h1>spec-driven-development</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Native pipeline from user request to verified code. Creates comprehensive</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">163 lines</span>
+      <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
+      <span class="skill-card__badge">guide: SPEC-TEMPLATE-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="pipeline (prompt → code)">pipeline (prompt → code)</h2>
+<br>
+<h3>P0 — Context Assessment</h3>
+Check <code>SPEC.md</code>. Exists → read, extend. Missing → new spec.
+If existing code: check <code>HEALTH-CHECK.md` age. >7 days → re-audit via `project-health-check</code>.
+Assess complexity: Simple (skip P1). Non-trivial (full). Complex (inline <code>architecture-analysis</code>).
+<br>
+<h3>P1 — Domain Research (Non-Trivial)</h3>
+Search best practices for [domain/technology] [current year]. **Always use current year. Never hardcode.** Common pitfalls, architecture patterns, latest versions. Present as context, not prescription.
+<br>
+<strong>Use template:</strong>
+<code>`</code>
+RESEARCH FINDINGS:
+1. [Technology/Pattern]: Projects like yours typically use [X] because [reason].
+2. [Domain Insight]: [Specific insight].
+3. [Risk]: [Common pitfall]. Mitigation: [approach].
+→ Does this match your understanding?
+<code>`</code>
+<br>
+<h3>P2 — Deep Discovery (MANDATORY)</h3>
+Read <code>DISCOVERY-GUIDE.md</code>. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
+<br>
+<h3>P3 — Architecture Decision Gate</h3>
+Non-trivial → invoke <code>architecture-analysis</code>. Simple → note "Standard stack per platform skill."
+<br>
+<strong>Architecture gate template:</strong>
+<code>`</code>
+Before writing the spec, we need to lock architecture.
+The spec depends on: frontend framework, backend approach, data layer, auth strategy, deployment target.
+<code>`</code>
+<br>
+<h3>P4 — Write SPEC.md</h3>
+Read <code>SPEC-TEMPLATE-GUIDE.md</code>. 10 sections: Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries. Success criteria MUST be testable.
+<br>
+<h3>P5 — Plan</h3>
+Components, dependencies, order, risks, verification checkpoints. User must review.
+<br>
+<h3>P6 — Tasks</h3>
+Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5 files per task.
+<br>
+<strong>Task template:</strong>
+<code>`</code>markdown
+<ul>
+<li>[ ] Task: [Description]</li>
+  - Acceptance: [What must be true when done]
+  - Verify: [How to confirm]
+  - Files: [Which files will be touched]
+<code>`</code>
+<br>
+<h3>P7 — Environment Audit</h3>
+Check <code>docs/DEV-ENVIRONMENT.md`. Missing → invoke `dev-environment-audit</code>. Verify Node.js, package manager, Git, test tools.
+<br>
+<h3>P8 — Implement Gate (MANDATORY)</h3>
+Full stop. Confirm: SPEC ✅ | PLAN ✅ | TASKS ✅ | ARCH ✅ | ENV ✅.
+Require explicit "yes" / "sí" / "proceed" / "let's go". Invalid: "ok" / "sure".
+Only then invoke <code>incremental-implementation` + `test-driven-development</code>.
+<br>
+<strong>After completion, log metrics:</strong>
+<code>`</code>
+LOG METRIC: gate
+<ul>
+<li>project: [detect from git remote or directory]</li>
+<ul>
+<li>gate_name: spec-implement</li>
+<ul>
+<li>result: pass</li>
+<code>`</code>
+<code>`</code>
+LOG METRIC: discovery
+<ul>
+<li>project: [detect]</li>
+<ul>
+<li>duration_minutes: [P1 to P8]</li>
+<ul>
+<li>questions_asked: [count]</li>
+<ul>
+<li>user_confirms: [count]</li>
+<code>`</code>
+<br>
+<strong>Quick reference:</strong> <code>SPEC-FLOW.md</code> for one-page pipeline visualization + memory aid.
+<br>
+---
+<br>
+<h2 id="multi-agent integration">multi-agent integration</h2>
+<br>
+Delegate phases via <code>multi-agent-orchestration</code>:
+<code>`</code>
+P0-P3: Orchestrator (single agent)
+P4:    Subagent writes SPEC.md
+P5-P6: Subagent plans + breaks tasks
+P8:    Parallel subagents per module
+<code>`</code>
+Each subagent receives only relevant skill. See <code>multi-agent-orchestration/GUIDE.md</code>.
+<br>
+---
+<br>
+<h2 id="keeping the spec alive">keeping the spec alive</h2>
+<br>
+Update spec first, then code. Commit alongside code. Reference in PRs. Revisit in retrospectives.
+<br>
+---
+<br>
+<h2 id="integration map">integration map</h2>
+<br>
+| Phase | Skill to Inline |
+|---|---|
+| P0 (existing code) | <code>project-health-check</code> |
+| P3 (non-trivial) | <code>architecture-analysis</code> |
+| P5-P6 | <code>planning-and-task-breakdown</code> |
+| P7 | <code>dev-environment-audit</code> |
+| P8 (parallel) | <code>multi-agent-orchestration</code> |
+| After P8 | <code>incremental-implementation`, `test-driven-development</code> |
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Why It's Wrong |
+|---|---|
+| "Too simple for a spec." | 2-line spec prevents ambiguity. |
+| "Impatient user, skip research." | Research takes minutes. Rebuilding due to bad assumptions takes hours. |
+| "I'll spec after coding." | That's docs. Value is forcing clarity BEFORE code. |
+| "Spec slows us down." | 20 min spec prevents hours rework. |
+| "User said just build it." | Ask: "5 minutes of planning saves hours — ok?" |
+| "Requirements will change anyway." | That's why it's a living doc. Outdated spec > no spec. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+Code before SPEC.md. Research skipped for non-trivial. Phase 8 bypassed with vague "ok." Features added that weren't in spec. Agent asks "start building?" before defining "done." <code>[year]</code> without "current" prefix.
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+<ul>
+<li>[ ] SPEC.md exists with 10 sections</li>
+<ul>
+<li>[ ] Plan reviewed by user</li>
+<ul>
+<li>[ ] Tasks broken with acceptance criteria</li>
+<ul>
+<li>[ ] User said explicit "yes" before code</li>
+<ul>
+<li>[ ] Success criteria are testable</li>
+<ul>
+<li>[ ] Spec committed alongside code</li>
+<ul>
+<li>[ ] Metrics logged after Phase 8</li>
+<ul>
+<li>[ ] <code>[current year]</code> used in research (not hardcoded year)</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>
