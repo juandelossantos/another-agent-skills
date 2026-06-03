@@ -90,6 +90,24 @@
     "stackDesc": "Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.",
     "stackDetail": "init-agents detects your stack automatically. Creates STACK_CONFIG.md."
   },
+  "skills": {
+    "label": "06 / skills",
+    "title": "Everything you need.",
+    "titleAccent": "Nothing you don't.",
+    "catFoundation": "Foundation",
+    "catFrontend": "Frontend",
+    "catBackend": "Backend",
+    "catDevops": "DevOps",
+    "catProcess": "Process",
+    "catQuality": "Quality",
+    "catDesignReview": "Design Review",
+    "catMetrics": "Metrics",
+    "catGit": "Git",
+    "catDebug": "Debug",
+    "catIdeation": "Ideation",
+    "catDesignSkins": "Design Skins",
+    "stats": "38 skills · 45 guides · 0 shortcuts"
+  },
   "references": {
     "label": "references",
     "title": "Sources",
