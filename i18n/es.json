@@ -73,6 +73,23 @@
     "principle7": "Aprendemos de nuestros propios fallos más rápido que la competencia lanza features.",
     "compact": "Transformamos agentes de IA de siervos obedientes en ingenieros senior disciplinados."
   },
+  "compatible": {
+    "label": "05 / agentes compatibles",
+    "title": "Diseñado para OpenCode.",
+    "titleAccent": "Portable a todo lo demás.",
+    "subtitle": "Una instalación. Cualquier agente. Cualquier stack.",
+    "agent1": "OpenCode",
+    "agent2": "Claude Code",
+    "agent3": "Cursor",
+    "agent4": "GitHub Copilot",
+    "agent5": "Kiro",
+    "agent6": "Gemini CLI",
+    "agent7": "Windsurf",
+    "agent8": "Cualquier agente",
+    "stackTitle": "Agnóstico de stack.",
+    "stackDesc": "Funciona con Node, Rust, Python, Go, Ruby, Dart, o cualquier stack.",
+    "stackDetail": "init-agents detecta tu stack automáticamente. Crea STACK_CONFIG.md."
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",
