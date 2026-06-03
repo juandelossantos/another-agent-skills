@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills — Another Agent Skills</title>
+<meta name="description" content="Browse all 41 composable skills with filtering by category and lifecycle phase.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Skills</div>
+
+    <h1>Skills Catalog</h1>
+    <p>41 composable skills. Each one handles a specific engineering discipline.</p>
+
+    <p class="skills__stats">41 skills · 46 guides · 0 shortcuts</p>
+
+    <h2 id="filter">Filter by Category</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space-xl);">
+      <button class="skill-filter active" data-category="all">All</button>
+      <button class="skill-filter" data-category="foundation">Foundation</button>
+      <button class="skill-filter" data-category="frontend">Frontend</button>
+      <button class="skill-filter" data-category="backend">Backend</button>
+      <button class="skill-filter" data-category="process">Process</button>
+      <button class="skill-filter" data-category="quality">Quality</button>
+      <button class="skill-filter" data-category="design">Design</button>
+      <button class="skill-filter" data-category="devops">DevOps</button>
+      <button class="skill-filter" data-category="debug">Debug</button>
+      <button class="skill-filter" data-category="git">Git</button>
+    </div>
+
+    <div class="skills-grid" id="skills-grid">
+      <!-- Foundation -->
+      <a href="skill/engineering-fundamentals.html" class="skill-card" data-category="foundation">
+        <div class="skill-card__name">engineering-fundamentals</div>
+        <div class="skill-card__desc">Universal engineering philosophy. Discovery, contracts, anti-slop, quality gates.</div>
+        <span class="skill-card__badge">Foundation</span>
+      </a>
+      <a href="skill/context-engineering.html" class="skill-card" data-category="foundation">
+        <div class="skill-card__name">context-engineering</div>
+        <div class="skill-card__desc">Feed agents the right information at the right time.</div>
+        <span class="skill-card__badge">Foundation</span>
+      </a>
+      <a href="skill/user-onboarding.html" class="skill-card" data-category="foundation">
+        <div class="skill-card__name">user-onboarding</div>
+        <div class="skill-card__desc">30 preferences asked once, persisted forever.</div>
+        <span class="skill-card__badge">Foundation</span>
+      </a>
+
+      <!-- Frontend -->
+      <a href="skill/frontend-web.html" class="skill-card" data-category="frontend">
+        <div class="skill-card__name">frontend-web</div>
+        <div class="skill-card__desc">Production-grade web interfaces with anti-AI-slop rules.</div>
+        <span class="skill-card__badge">Frontend</span>
+      </a>
+      <a href="skill/frontend-mobile.html" class="skill-card" data-category="frontend">
+        <div class="skill-card__name">frontend-mobile</div>
+        <div class="skill-card__desc">Native mobile apps with platform compliance.</div>
+        <span class="skill-card__badge">Frontend</span>
+      </a>
+      <a href="skill/frontend-desktop.html" class="skill-card" data-category="frontend">
+        <div class="skill-card__name">frontend-desktop</div>
+        <div class="skill-card__desc">Cross-platform desktop apps with native OS integration.</div>
+        <span class="skill-card__badge">Frontend</span>
+      </a>
+      <a href="skill/frontend-pwa.html" class="skill-card" data-category="frontend">
+        <div class="skill-card__name">frontend-pwa</div>
+        <div class="skill-card__desc">Installable, offline-first web apps.</div>
+        <span class="skill-card__badge">Frontend</span>
+      </a>
+      <a href="skill/industrial-brutalist-ui.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">industrial-brutalist-ui</div>
+        <div class="skill-card__desc">Swiss typographic print with military terminal aesthetics.</div>
+        <span class="skill-card__badge">Design</span>
+      </a>
+      <a href="skill/minimalist-ui.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">minimalist-ui</div>
+        <div class="skill-card__desc">Editorial product UI inspired by Notion and Linear.</div>
+        <span class="skill-card__badge">Design</span>
+      </a>
+      <a href="skill/soft-premium-ui.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">soft-premium-ui</div>
+        <div class="skill-card__desc">Polished, calm, expensive UI with premium fonts.</div>
+        <span class="skill-card__badge">Design</span>
+      </a>
+      <a href="skill/industrial-brutalist-ui.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">redesign-skill</div>
+        <div class="skill-card__desc">Systematic approach to improving existing codebases.</div>
+        <span class="skill-card__badge">Design</span>
+      </a>
+
+      <!-- Backend -->
+      <a href="skill/backend-api-mastery.html" class="skill-card" data-category="backend">
+        <div class="skill-card__name">backend-api-mastery</div>
+        <div class="skill-card__desc">Production APIs: protocol, DB, auth, testing, docs.</div>
+        <span class="skill-card__badge">Backend</span>
+      </a>
+      <a href="skill/cli-tools.html" class="skill-card" data-category="backend">
+        <div class="skill-card__name">cli-tools</div>
+        <div class="skill-card__desc">Arg parsing, exit codes, colors, progress bars.</div>
+        <span class="skill-card__badge">Backend</span>
+      </a>
+
+      <!-- Process -->
+      <a href="skill/spec-driven-development.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">spec-driven-development</div>
+        <div class="skill-card__desc">Research-backed specs with critical thinking.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/architecture-analysis.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">architecture-analysis</div>
+        <div class="skill-card__desc">2-3 options evaluated with trade-offs.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/planning-and-task-breakdown.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">planning-and-task-breakdown</div>
+        <div class="skill-card__desc">Decompose into verifiable chunks.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/incremental-implementation.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">incremental-implementation</div>
+        <div class="skill-card__desc">Thin vertical slices, test each.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/source-driven-development.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">source-driven-development</div>
+        <div class="skill-card__desc">Verify against official docs.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/doubt-driven-development.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">doubt-driven-development</div>
+        <div class="skill-card__desc">Adversarial fresh-context review of non-trivial decisions.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/interview-me.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">interview-me</div>
+        <div class="skill-card__desc">Extract what the user actually wants.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/idea-refine.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">idea-refine</div>
+        <div class="skill-card__desc">Refine vague ideas into sharp concepts.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+      <a href="skill/multi-agent-orchestration.html" class="skill-card" data-category="process">
+        <div class="skill-card__name">multi-agent-orchestration</div>
+        <div class="skill-card__desc">Parallel/pipeline/swarm patterns.</div>
+        <span class="skill-card__badge">Process</span>
+      </a>
+
+      <!-- Quality -->
+      <a href="skill/code-review-and-quality.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">code-review-and-quality</div>
+        <div class="skill-card__desc">Five-axis review with severity labels and TOOL_GAP.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/test-driven-development.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">test-driven-development</div>
+        <div class="skill-card__desc">Failing test first, then make it pass.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/security-and-hardening.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">security-and-hardening</div>
+        <div class="skill-card__desc">OWASP prevention, input validation.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/performance-optimization.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">performance-optimization</div>
+        <div class="skill-card__desc">Measure first, optimize only what matters.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/code-simplification.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">code-simplification</div>
+        <div class="skill-card__desc">Reduce complexity while preserving behavior.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/output-skill.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">output-skill</div>
+        <div class="skill-card__desc">Keeps agent outputs complete.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/documentation-and-adrs.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">documentation-and-adrs</div>
+        <div class="skill-card__desc">Document the why, not just the what.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+
+      <!-- Design Review -->
+      <a href="skill/critique-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">critique-skill</div>
+        <div class="skill-card__desc">Two-pass design review with scoring.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/audit-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">audit-skill</div>
+        <div class="skill-card__desc">Five-dimension technical quality audit.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/clarify-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">clarify-skill</div>
+        <div class="skill-card__desc">Rewrite confusing UX copy.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/hard-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">hard-skill</div>
+        <div class="skill-card__desc">Deterministic mechanical fixes for P0/P1 issues.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/polish-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">polish-skill</div>
+        <div class="skill-card__desc">Design detail fixes: spacing, alignment, consistency.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/typeset-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">typeset-skill</div>
+        <div class="skill-card__desc">Typography and reading rhythm fixes.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/adapt-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">adapt-skill</div>
+        <div class="skill-card__desc">Responsive layout fixes.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/optimize-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">optimize-skill</div>
+        <div class="skill-card__desc">Performance fixes: bundle, lazy loading, images.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+      <a href="skill/delight-skill.html" class="skill-card" data-category="design">
+        <div class="skill-card__name">delight-skill</div>
+        <div class="skill-card__desc">Micro-interactions and transitions.</div>
+        <span class="skill-card__badge">Design Review</span>
+      </a>
+
+      <!-- DevOps -->
+      <a href="skill/fullstack-shipping.html" class="skill-card" data-category="devops">
+        <div class="skill-card__name">fullstack-shipping</div>
+        <div class="skill-card__desc">CI/CD, deployment, monitoring, rollback.</div>
+        <span class="skill-card__badge">DevOps</span>
+      </a>
+      <a href="skill/shipping-and-launch.html" class="skill-card" data-category="devops">
+        <div class="skill-card__name">shipping-and-launch</div>
+        <div class="skill-card__desc">Pre-launch checklist, monitoring, TOOL_GAP.</div>
+        <span class="skill-card__badge">DevOps</span>
+      </a>
+      <a href="skill/ci-cd-and-automation.html" class="skill-card" data-category="devops">
+        <div class="skill-card__name">ci-cd-and-automation</div>
+        <div class="skill-card__desc">Automated quality gates on every change.</div>
+        <span class="skill-card__badge">DevOps</span>
+      </a>
+      <a href="skill/deprecation-and-migration.html" class="skill-card" data-category="devops">
+        <div class="skill-card__name">deprecation-and-migration</div>
+        <div class="skill-card__desc">Remove old systems safely.</div>
+        <span class="skill-card__badge">DevOps</span>
+      </a>
+      <a href="skill/dev-environment-audit.html" class="skill-card" data-category="devops">
+        <div class="skill-card__name">dev-environment-audit</div>
+        <div class="skill-card__desc">MCPs, CLI tools, runtime verification.</div>
+        <span class="skill-card__badge">DevOps</span>
+      </a>
+
+      <!-- Debug -->
+      <a href="skill/debugging-and-error-recovery.html" class="skill-card" data-category="debug">
+        <div class="skill-card__name">debugging-and-error-recovery</div>
+        <div class="skill-card__desc">Systematic root-cause debugging.</div>
+        <span class="skill-card__badge">Debug</span>
+      </a>
+      <a href="skill/debugging-three-strikes.html" class="skill-card" data-category="debug">
+        <div class="skill-card__name">debugging-three-strikes</div>
+        <div class="skill-card__desc">Stop after 3 failed fix attempts.</div>
+        <span class="skill-card__badge">Debug</span>
+      </a>
+
+      <!-- Git -->
+      <a href="skill/git-init-and-versioning.html" class="skill-card" data-category="git">
+        <div class="skill-card__name">git-init-and-versioning</div>
+        <div class="skill-card__desc">Git init, branching, pre-commit gates.</div>
+        <span class="skill-card__badge">Git</span>
+      </a>
+      <a href="skill/git-workflow-and-versioning.html" class="skill-card" data-category="git">
+        <div class="skill-card__name">git-workflow-and-versioning</div>
+        <div class="skill-card__desc">Atomic commits, clean history.</div>
+        <span class="skill-card__badge">Git</span>
+      </a>
+
+      <!-- Metrics -->
+      <a href="skill/project-health-check.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">project-health-check</div>
+        <div class="skill-card__desc">Full codebase audit + drift detection.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+      <a href="skill/project-metrics.html" class="skill-card" data-category="quality">
+        <div class="skill-card__name">project-metrics</div>
+        <div class="skill-card__desc">Build pass rate, rework, coverage logging.</div>
+        <span class="skill-card__badge">Quality</span>
+      </a>
+    </div>
+
+    <div class="docs__nav">
+      <a href="lifecycle.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Previous</span>
+        <span class="docs__nav-title">Lifecycle</span>
+      </a>
+      <a href="enforcement.html" class="docs__nav-link">
+        <span class="docs__nav-label">Next →</span>
+        <span class="docs__nav-title">Enforcement</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<style>
+.skill-filter {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.skill-filter:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.skill-filter.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+.skill-card.hidden {
+  display: none;
+}
+</style>
+
+<script src="js/docs.js"></script>
+<script>
+document.querySelectorAll('.skill-filter').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.skill-filter').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    var cat = this.dataset.category;
+    document.querySelectorAll('.skill-card[data-category]').forEach(function(card) {
+      card.classList.toggle('hidden', cat !== 'all' && card.dataset.category !== cat);
+    });
+  });
+});
+</script>
+</body>
+</html>
