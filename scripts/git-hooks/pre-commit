@@ -179,6 +179,38 @@ echo "  ${GREEN}✓${NC} Commit approval token valid (hash verified)"
 # PHASE 3 GATES
 # ============================================================
 
+# 6. Skill Gate — verify skills were consulted before implementation
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  SKILL GATE                                ║"
+echo "╚════════════════════════════════════════════╝"
+
+SKILL_GATE="${REPO_ROOT}/scripts/skill-gate.sh"
+if [ -f "$SKILL_GATE" ]; then
+  if ! bash "$SKILL_GATE" check 2>&1; then
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  SKILL GATE BLOCKED                                     ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Rule 1: 'Always check skills first.'                  ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  No skills were consulted before implementation.        ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Required:                                              ║${NC}"
+    echo "  ${RED}║  1. Load using-agent-skills                             ║${NC}"
+    echo "  ${RED}║  2. Identify applicable skill                           ║${NC}"
+    echo "  ${RED}║  3. Load and follow the skill                           ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  To bypass: echo 'override: reason' > .git/SKILLS_     ║${NC}"
+    echo "  ${RED}║             CONSULTED                                   ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+else
+  echo "  ${YELLOW}−${NC} skill-gate.sh not found — skipped"
+fi
+
 # 6. Build Verification Gate — syntax check shell scripts
 echo ""
 echo "╔════════════════════════════════════════════╗"

@@ -35,6 +35,37 @@
 | **Ideation** | `idea-refine`, `interview-me` | Brainstorming, requirements |
 | **Design Skins** | `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` | Visual direction and output enforcement |
 
+### Skill Gate Enforcement (MECHANICAL)
+
+**Rule 1 is enforced mechanically, not just behaviorally.**
+
+The `skill-gate.sh` script provides filesystem-level verification that skills were consulted:
+
+```bash
+# Check if skills were loaded (used by pre-commit hook)
+bash scripts/skill-gate.sh check
+
+# Mark that skills were consulted (agent runs this after loading skills)
+bash scripts/skill-gate.sh mark <skill-name>
+
+# Reset for new session
+bash scripts/skill-gate.sh reset
+```
+
+**How it works:**
+1. Agent loads skills via `skill()` tool during session start
+2. Agent runs `skill-gate.sh mark <skill-name>` to register consultation
+3. Pre-commit hook runs `skill-gate.sh check` before allowing commits
+4. If no skills were consulted → commit is BLOCKED
+
+**Why this is mechanical, not behavioral:**
+- The `skill` tool loads skills into conversation context (invisible to shell)
+- `skill-gate.sh` creates a filesystem marker (visible to shell)
+- The pre-commit hook checks the marker (enforced by git)
+- The agent cannot bypass the pre-commit hook without user approval
+
+**Incident evidence:** This was created after INCIDENT_004/004b/004c where the agent bypassed Rule 1 and implemented code without loading skills. The behavioral rule alone was insufficient — mechanical enforcement was required.
+
 ---
 
 ## Rule 3: Project-Type Matrix (Full)
