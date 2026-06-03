@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Review Pipeline — Another Agent Skills</title>
+<meta name="description" content="The 9-skill design review pipeline: critique, audit, clarify, hard, polish, typeset, adapt, optimize, delight.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
+        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="design-review.html" class="sidebar__link sidebar__link--active">Design Review</a></li>
+        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Design Review</div>
+
+    <h1>Design Review Pipeline</h1>
+    <p>The pipeline turns subjective design feedback into a deterministic, measurable process. Each skill handles one dimension.</p>
+
+    <h2 id="pipeline">The Pipeline</h2>
+    <pre><code>critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight</code></pre>
+
+    <h2 id="skills">9 Skills</h2>
+
+    <h3 id="critique">1. critique-skill — Design Quality</h3>
+    <p>Heuristic review using Nielsen's 10 usability heuristics and 4 persona tests. Detects AI slop patterns. Produces a score per heuristic.</p>
+    <p><strong>Output:</strong> Score 0-4 per heuristic, list of findings</p>
+
+    <h3 id="audit">2. audit-skill — Technical Quality</h3>
+    <p>5-dimension scan: accessibility, performance, theming, responsive, anti-patterns. P0-P3 severity scoring.</p>
+    <p><strong>Output:</strong> Score 0-4 per dimension, severity-classified findings</p>
+
+    <h3 id="clarify">3. clarify-skill — UX Copy</h3>
+    <p>Rewrites labels, errors, buttons, empty states, confirmations. Voice-tuned per audience.</p>
+    <p><strong>Output:</strong> Rewritten copy with 8 QA gates</p>
+
+    <h3 id="hard">4. hard-skill — Accessibility & Robustness</h3>
+    <p>Mechanical P0/P1 fixes: ARIA attributes, keyboard navigation, form validation, error/empty/loading states.</p>
+    <p><strong>Output:</strong> Fixed code, traces to audit findings</p>
+
+    <h3 id="polish">5. polish-skill — Design Details</h3>
+    <p>Fixes spacing, alignment, token drift, border radius, shadows. No design decisions — only compliance.</p>
+    <p><strong>Output:</strong> Token-compliant styles</p>
+
+    <h3 id="typeset">6. typeset-skill — Typography</h3>
+    <p>Applies type ramp, fixes line-height, letter-spacing, paragraph rhythm.</p>
+    <p><strong>Output:</strong> Typography fixes with 8 QA gates</p>
+
+    <h3 id="adapt">7. adapt-skill — Responsive Layout</h3>
+    <p>Breakpoints, touch targets (≥44px), viewport handling, mobile overflow.</p>
+    <p><strong>Output:</strong> Responsive fixes with 9 QA gates</p>
+
+    <h3 id="optimize">8. optimize-skill — Performance</h3>
+    <p>Bundle size, lazy loading, image optimization, animation compositing, layout thrashing.</p>
+    <p><strong>Output:</strong> Performance fixes targeting Lighthouse ≥90</p>
+
+    <h3 id="delight">9. delight-skill — Micro-interactions</h3>
+    <p>Hover/tap feedback, state transitions, loading animation, success/error feedback.</p>
+    <p><strong>Output:</strong> Interaction fixes with 9 QA gates</p>
+
+    <h2 id="typical-flow">Typical Flow</h2>
+    <ol>
+      <li><strong>critique</strong> highlights design gaps</li>
+      <li><strong>audit</strong> finds technical issues</li>
+      <li><strong>clarify/hard/polish/typeset/adapt/optimize</strong> fix them</li>
+      <li><strong>delight</strong> adds the polish</li>
+    </ol>
+    <p>All skills are cross-platform and stack-agnostic.</p>
+
+    <h2 id="when-to-run">When to Run Which Skills</h2>
+    <table>
+      <tr><th>Scenario</th><th>Skills to Run</th></tr>
+      <tr><td>New UI component</td><td>critique → audit → hard → delight</td></tr>
+      <tr><td>Existing page redesign</td><td>critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight</td></tr>
+      <tr><td>Accessibility fix</td><td>audit → hard</td></tr>
+      <tr><td>Performance issue</td><td>audit → optimize</td></tr>
+      <tr><td>Typography cleanup</td><td>typeset</td></tr>
+      <tr><td>Responsive fix</td><td>adapt</td></tr>
+      <tr><td>Full quality pass</td><td>All 9 skills</td></tr>
+    </table>
+
+    <div class="docs__nav">
+      <a href="philosophy.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Previous</span>
+        <span class="docs__nav-title">Philosophy</span>
+      </a>
+      <a href="rules.html" class="docs__nav-link">
+        <span class="docs__nav-label">Next →</span>
+        <span class="docs__nav-title">Rules</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="js/docs.js"></script>
+</body>
+</html>
