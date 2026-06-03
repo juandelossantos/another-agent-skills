@@ -152,7 +152,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
-| **1.6.1** | 2026-06-03 | Fix skill count inconsistency (54→38), docs plan created, health check refreshed. |
+| **1.6.1** | 2026-06-03 | Ecosystem insights: TOOL_GAP verdict, severity labels, error path design, drift detection, continuation-over-recap. Forked 3 upstream skills (doubt-driven, shipping, context-engineering). Mandatory manifest gate for commits. pre-commit v7, commit-msg v4. Prior Art section in README. 5 lint warnings fixed. |
 | **1.6.0** | 2026-06-03 | Landing page redesign: FAQ, quick start, skills grid, compatible agents, philosophy, enforcement, how it works sections. skill-gate.sh, approve-commit.sh --auto, Rule 12 formalization. |
 | **1.5.0** | 2026-05-30 | SOUL.md, universal stack detection, project enforcement hook, CI template, stack analysis, approve-commit.sh, skill-lint.sh, runtime hook controls, rules layered architecture. |
 | **1.4.1** | 2026-05-29 | Guardian Pattern enforcement, Session Start Protocol, PR Review Gate, safe reinstall. |

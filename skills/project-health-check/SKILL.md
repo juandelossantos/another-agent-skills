@@ -51,6 +51,25 @@ Diagnose before operating. Audit against engineering standards. Surface misalign
 
 For each check: record `PASS`, `WARN`, `FAIL`.
 
+### Phase 1b — Drift Detection
+
+Inspired by Sub-Zero Skill. Check for drift between what docs claim and what's actually true.
+
+| Drift Type | Check | How |
+|---|---|---|
+| **Stats drift** | README says "38 skills" but count differs | `ls skills/ \| wc -l` vs README claim |
+| **Version drift** | VERSION file != README badge | `cat VERSION` vs grep badge in README |
+| **Feature drift** | Docs mention feature X, X doesn't exist | Grep for feature references, verify existence |
+| **Command drift** | README says `npm test`, project uses `cargo test` | Check STACK_CONFIG.md vs actual |
+| **Link drift** | Docs reference page X, X doesn't exist | Check internal links |
+
+**Output drift as:**
+```
+⚠️ DRIFT: [description] — expected [X], found [Y]
+```
+
+Drift is a WARNING, not a BLOCKER. Document it, let user decide.
+
 ---
 
 ### Phase 2 — Generate Report
@@ -176,6 +195,7 @@ C. IGNORE — Proceed as requested, note technical debt increase.
 - [ ] Decision documented in `HEALTH-CHECK.md`.
 - [ ] If B/C: Risks listed and accepted.
 - [ ] New code doesn't replicate red flags found.
+- [ ] Drift detected between docs and reality (stats, version, features, commands, links).
 
 ---
 

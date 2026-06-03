@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-06-03
-**Version:** 1.6.0
+**Version:** 1.6.1
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 
@@ -22,23 +22,25 @@
 
 | Metric | Value | Status |
 |---|---|---|
-| SKILL.md files | 38 | ✅ |
+| SKILL.md files | 41 | ✅ |
 | GUIDE.md files (*-GUIDE.md) | 46 | ✅ |
 | Scripts | 20 | ✅ |
 | Rules files | 5 (393 lines) | ✅ |
 | Templates | 4 (ci.yml, hooks.bats, CLAUDE.md, .cursorrules) | ✅ |
 | ADRs | 5 | ✅ |
 | Incident docs | 4 (INCIDENT_001–004) | ✅ |
-| AGENTS.md | 111 lines (thin orchestrator) | ✅ |
-| SOUL.md | 134 lines (project identity) | ✅ |
+| AGENTS.md | 119 lines (thin orchestrator) | ✅ |
+| SOUL.md | 139 lines (project identity) | ✅ |
 | AGENTS-EXTENDED.md | 376 lines (lazy-loaded protocol) | ✅ |
-| Total skill lines | 5,659 | ✅ |
+| Total skill lines | 6,196 | ✅ |
 | Total guide lines | 3,055 | ✅ |
-| Always-loaded context | 245 lines (~3,675 tokens, 1.8% of 200K) | ✅ |
-| Pre-commit hook gates | 10 (branch, staged, remote, HTML, hash, build, anti-slop, debug, SPEC, skill-lint) | ✅ |
-| skill-lint | 0 errors, 5 warnings | ✅ |
-| Commits | 182 | ✅ |
-| Unpushed commits | 0 | ✅ |
+| Always-loaded context | 258 lines (~3,870 tokens, 1.9% of 200K) | ✅ |
+| Pre-commit hook | v7 (pre-flight, HTML, skill gate, build, anti-slop, debug, SPEC, skill-lint) | ✅ |
+| commit-msg hook | v4 (token validation + deletion) | ✅ |
+| approve-commit.sh | Manifest gate required | ✅ |
+| skill-lint | 0 errors, 0 warnings | ✅ |
+| Commits | 191 | ✅ |
+| Unpushed commits | 9 | ⚠️ |
 
 ---
 

@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Hash Verification (v3)
+# commit-msg — Another Agent Skills Hash Verification (v4)
+# SINGLE SOURCE OF TRUTH for commit approval validation.
+# pre-commit hook (v7) no longer validates tokens — this hook does.
+#
 # Verifies commit message hash against .git/COMMIT_APPROVED token.
 # Algorithm: sha256(message + "\t" + timestamp) must match stored hash.
-# Token format: hash\ttimestamp\tmessage (tab-separated)
+# Token format: hash\ttimestamp (tab-separated)
+#
+# After successful validation, DELETES the token so it cannot be reused.
+# No token after commit = next commit must go through approval flow.
 
 set -euo pipefail
 

@@ -14,6 +14,10 @@ metadata:
 
 # Soft Premium UI
 
+## When to Use
+
+Use when: user chooses premium agency / luxury / calm design direction.
+
 Engineer $150k+ agency-level digital experiences. Haptic depth, cinematic spatial rhythm, obsessive micro-interactions.
 
 ## Banned Elements
