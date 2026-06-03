@@ -108,6 +108,12 @@
     "catDesignSkins": "Design Skins",
     "stats": "38 skills · 45 guides · 0 atajos"
   },
+  "quickstart": {
+    "label": "07 / inicio rápido",
+    "title": "Empezá en segundos.",
+    "then": "Después en cualquier proyecto:",
+    "conclusion": "Tu agente ahora tiene 38 skills + 45 guides. Cada proyecto. Cada vez."
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",

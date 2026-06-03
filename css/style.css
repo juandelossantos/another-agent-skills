@@ -1228,6 +1228,68 @@ ul { list-style: none; }
 }
 
 /* =========================================================
+   5h. QUICK START
+   ========================================================= */
+
+.quickstart {
+  padding: var(--space-3xl) 0;
+}
+
+.quickstart__code {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  padding: var(--space-lg);
+  margin-top: var(--space-xl);
+  overflow-x: auto;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-revealed="true"] .quickstart__code {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-revealed="true"] .quickstart__code:nth-child(2) { transition-delay: 100ms; }
+[data-revealed="true"] .quickstart__code:nth-child(4) { transition-delay: 300ms; }
+
+.quickstart__code pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+
+.quickstart__code code {
+  color: var(--text);
+}
+
+.quickstart__then {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-xl);
+  text-align: center;
+}
+
+.quickstart__conclusion {
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .quickstart__code {
+    padding: var(--space-md);
+  }
+  .quickstart__code pre {
+    font-size: 0.75rem;
+  }
+}
+
+/* =========================================================
    6. SECTIONS (shared)
    ========================================================= */
 
