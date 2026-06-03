@@ -25,6 +25,7 @@ Platform skills add implementation specifics to this philosophy.
 3. **Anti-Slop** — Default AI output is generic. Intentionality prevents that.
 4. **Gates Before Progress** — Every phase ends with user confirmation.
 5. **Behavioral Discipline** — See AGENTS.md Rule 0c. Think before coding. Simplicity first. Surgical changes. Goal-driven execution.
+6. **Error Paths Are Main Paths** — See below. Every tool call, gate, loop, and session needs a failure path designed at build time, not patched post-incident.
 
 ## Pre-Flight: Repo State Check (Before ANY phase)
 
@@ -181,6 +182,26 @@ Before declaring complete:
 4. **Accessibility** — Contrast 4.5:1, focus indicators, reduced motion fallback.
 5. **Build passes** — Compilation succeeds without errors.
 6. **Visual consistency** — No design element deviates from DESIGN.md without explicit approval.
+
+---
+
+### Phase 5b — Error Path Design
+
+Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main paths."
+
+**Every tool call, gate, loop, and session needs a failure path:**
+
+| Component | Failure Mode | Required Path |
+|---|---|---|
+| Tool call | Command fails, tool missing, network down | Return error as observation, never panic |
+| Gate (pre-commit) | Hook blocks, token invalid | Explicit bypass with human approval |
+| Loop (debug) | Same bug 3 times | 3-Strikes Protocol → escalate to user |
+| Session | Context loss, truncation | Continuation over recap (Rule 0i) |
+| Verification | Can't reach real world | TOOL_GAP → "ship status unknown" (Rule 0h) |
+
+**Anti-patterns:**
+- "It'll probably work" → No failure path = not a workflow, it's a hope.
+- "Just retry" → Retry without diagnosis is noise. Include: what failed, why, what's different.
 
 ---
 
