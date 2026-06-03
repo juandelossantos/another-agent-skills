@@ -439,6 +439,10 @@ $ bash install.sh</code></pre>
           <summary class="faq__question" data-i18n="faq.q6">Can I customize the skills?</summary>
           <p class="faq__answer" data-i18n="faq.a6">Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 41 or pick the ones that matter to your workflow.</p>
         </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q7">Can an agent still break the rules despite enforcement?</summary>
+          <p class="faq__answer" data-i18n="faq.a7">Yes. The hooks enforce git operations — they require tokens, and tokens require manifests. But no system can fully prevent an agent from acting against protocol. The agent could generate a token without presenting the manifest, interpret ambiguous responses as approval, or push without asking. The human must stay alert. These gates create friction, not guarantees.</p>
+        </details>
       </div>
     </div>
   </section>

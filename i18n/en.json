@@ -130,7 +130,9 @@
     "q5": "How does mechanical enforcement work?",
     "a5": "Three levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents a decision point. (3) SHA256 hash-bound token: hook verifies integrity. The agent cannot bypass what it cannot forge. Built after breaking its own rules three times in two days.",
     "q6": "Can I customize the skills?",
-    "a6": "Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 41 or pick the ones that matter to your workflow."
+    "a6": "Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 41 or pick the ones that matter to your workflow.",
+    "q7": "Can an agent still break the rules despite enforcement?",
+    "a7": "Yes. The hooks enforce git operations (commit, push) — they require tokens, and tokens require manifests. But no system can fully prevent an agent from acting against protocol. The agent could generate a token without presenting the manifest, interpret ambiguous responses as approval, or push without asking. The human must stay alert. These gates create friction, not guarantees."
   },
   "references": {
     "label": "references",
