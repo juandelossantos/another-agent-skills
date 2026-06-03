@@ -161,6 +161,14 @@
   border-bottom-color: var(--accent);
 }
 
+.docs__nav-link {
+  border: 1px solid var(--border) !important;
+}
+
+.docs__nav-link:hover {
+  border-color: var(--accent) !important;
+}
+
 /* =========================================================
    4. CODE BLOCKS
    ========================================================= */

@@ -124,7 +124,9 @@
     "filterDesign": "Diseño",
     "filterDevops": "DevOps",
     "filterDebug": "Debug",
-    "filterGit": "Git"
+    "filterGit": "Git",
+    "prevPage": "Ciclo de vida",
+    "nextPage": "Enforcement"
   },
   "enforcement": {
     "title": "Enforcement",
