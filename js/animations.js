@@ -35,41 +35,6 @@
   }
 
   /* -----------------------------------------
-      Pipeline stagger animation
-      ----------------------------------------- */
-
-  function initPipeline() {
-    var stages = document.querySelectorAll('.pipeline__card');
-    if (!stages.length) return;
-
-    function revealAll() {
-      Array.prototype.forEach.call(stages, function(s) {
-        s.setAttribute('data-revealed', 'true');
-      });
-    }
-
-    if (reduced) { revealAll(); return; }
-
-    if ('IntersectionObserver' in window) {
-      var observer = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting) {
-          Array.prototype.forEach.call(stages, function(s, i) {
-            setTimeout(function() {
-              s.setAttribute('data-revealed', 'true');
-            }, i * 80);
-          });
-          observer.unobserve(entries[0].target);
-        }
-      }, { threshold: 0.2 });
-
-      var container = stages[0].closest('[id]') || stages[0].parentElement;
-      if (container) observer.observe(container);
-    } else {
-      revealAll();
-    }
-  }
-
-  /* -----------------------------------------
       Lifecycle flow stagger
       ----------------------------------------- */
 
@@ -142,7 +107,6 @@
 
   function init() {
     initReveals();
-    initPipeline();
     initLifecycleStagger();
     initTerminalGlow();
   }

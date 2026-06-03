@@ -1,6 +1,6 @@
 {
   "nav": {
-    "pipeline": "Lifecycle",
+    "lifecycle": "Ciclo de vida",
     "skills": "Skills",
     "quickstart": "Inicio rápido",
     "faq": "FAQ"
@@ -26,37 +26,6 @@
     "metr": "Cuando los desarrolladores usaron IA, tardaron 19% más. Los desarrolladores estimaron que la IA les ahorró 20% del tiempo. Los expertos predijeron 38% más rápido.",
     "metrSource": "— Becker et al., METR, julio 2025",
     "conclusion": "La diferencia entre \"capaz\" y \"confiable\" no es inteligencia. Es proceso."
-  },
-  "pipeline": {
-    "label": "02 / design review",
-    "title": "De Critique a Delight",
-    "subtitle": "Un pipeline de design review de 9 etapas activado después de Verify. Cada etapa es una skill componible que apunta a una dimensión específica de calidad profesional.",
-    "critique": "Revisión de diseño con personas y scoring",
-    "audit": "Escaneo técnico de cinco dimensiones",
-    "clarify": "Reescritura de UX copy para claridad y tono",
-    "harden": "ARIA, teclado, validación, estados de error",
-    "polish": "Tokens de espaciado, alineación, sombras",
-    "typeset": "Escala tipográfica, ritmo, interletraje",
-    "adapt": "Breakpoints responsive, touch targets, dvh",
-    "optimize": "Bundle, lazy loading, composición de animaciones",
-    "delight": "Micro-interacciones, feedback hover/tap, motion",
-    "footnote": "Cada etapa es una skill componible. Úsalas todas o elige las que necesites."
-  },
-  "skills": {
-    "label": "03 / skills",
-    "title": "Todo lo que necesitas"
-  },
-  "quickstart": {
-    "label": "04 / inicio rápido",
-    "title": "Empieza en segundos"
-  },
-  "why": {
-    "label": "05 / por qué diferente",
-    "title": "No solo otro framework"
-  },
-  "faq": {
-    "label": "06 / faq",
-    "title": "Preguntas"
   },
   "references": {
     "label": "referencias",
