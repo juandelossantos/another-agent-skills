@@ -380,6 +380,7 @@ main() {
 
     local existing_target
     existing_target=$(detect_target)
+    local is_new_project=false
     
     if [[ -n "$existing_target" ]]; then
         merge_into_file "$existing_target"
@@ -387,6 +388,7 @@ main() {
         # No existing agent config → copy normally
         cp "$AGENTS_SOURCE" "./AGENTS.md"
         ok "Created AGENTS.md with Another Agent Skills rules"
+        is_new_project=true
     fi
     
     # Install pre-commit hook for Rule 12 mechanical enforcement
@@ -404,6 +406,60 @@ main() {
     else
         log ".sessionrc already exists. Skipping."
     fi
+
+    # Show next steps
+    show_next_steps "$is_new_project" "$existing_target"
+}
+
+show_next_steps() {
+    local is_new="$1"
+    local target_file="$2"
+    local stack="unknown"
+    [[ -f "./STACK_CONFIG.md" ]] && stack=$(grep -oP '(?<=stack: ).*' ./STACK_CONFIG.md 2>/dev/null || echo "unknown")
+    [[ "$stack" == "unknown" ]] && stack="your stack"
+    local target_name="AGENTS.md"
+    [[ -n "$target_file" ]] && target_name=$(basename "$target_file")
+
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    if [[ "$is_new" == "true" ]]; then
+        echo "║  NEW PROJECT — READY TO GO                               ║"
+    else
+        echo "║  PROJECT UPDATED — RULES MERGED                          ║"
+    fi
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+
+    if [[ "$is_new" == "true" ]]; then
+        echo "  What was installed:"
+        echo "    ✓ AGENTS.md — skill-driven rules and lifecycle"
+        echo "    ✓ STACK_CONFIG.md — ${stack} commands detected"
+        echo "    ✓ Pre-commit hook — enforcement gates active"
+        echo "    ✓ .sessionrc — purpose-driven sessions"
+        echo ""
+        echo "  Next steps:"
+        echo "    1. Open this project in OpenCode"
+        echo "    2. The agent loads skills automatically when it detects a task"
+        echo "    3. Try these prompts:"
+        echo "       • \"Add a login page\" → loads frontend-web skill"
+        echo "       • \"Set up an API\" → loads backend-api-mastery skill"
+        echo "       • \"Review my code\" → loads code-review-and-quality skill"
+        echo "       • \"What's the health of this project?\" → loads project-health-check"
+    else
+        echo "  What was added to your project:"
+        echo "    ✓ Skill-driven rules merged into ${target_name}"
+        echo "    ✓ Pre-commit hook installed (existing hook backed up)"
+        echo "    ✓ STACK_CONFIG.md — ${stack} commands detected"
+        echo ""
+        echo "  Your existing workflows are untouched."
+        echo "  Skills ADD TO your workflow — they don't replace it."
+        echo ""
+        echo "  Next steps:"
+        echo "    • Try: \"Check project health\" → loads project-health-check"
+        echo "    • Try: \"Review recent changes\" → loads code-review-and-quality"
+        echo "    • Your existing CLAUDE.md/AGENTS.md rules still take priority"
+    fi
+    echo ""
 }
 
 install_precommit_hook() {
