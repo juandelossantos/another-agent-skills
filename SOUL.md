@@ -67,6 +67,10 @@ The Mayéutic Challenge: agents that push back, surface tradeoffs, and question 
 
 Three Rule 12 violations in 48 hours produced three levels of enforcement. Each incident was documented, analyzed, and mechanically prevented. The project's learning velocity is its strongest signal.
 
+### 8. Verification without evidence is inspection
+
+A claim that cannot be verified is not verified. When tools cannot reach the world — no network, no build environment, no test runner — the honest answer is "ship status unknown," not "looks good to me." Inspired by Sub-Zero's TOOL_GAP verdict: never fake a win on a gap.
+
 ---
 
 ## What We Will NEVER Do
@@ -89,6 +93,7 @@ Three Rule 12 violations in 48 hours produced three levels of enforcement. Each 
 | Simplicity vs. Completeness | **Simplicity** | If a senior engineer would say "this is overcomplicated," it is. |
 | Automation vs. Control | **Control** | The agent suggests. The human decides. Always. |
 | Features vs. Enforcement | **Enforcement** | A feature without a gate is a liability. |
+| Recap vs. Continuation | **Continuation** | Recap wastes tokens. Continuation preserves momentum. |
 
 ---
 

@@ -29,6 +29,37 @@ Multi-dimensional code review with quality gates. Every change gets reviewed bef
 4. **Security** — Any vulnerabilities?
 5. **Performance** — Any bottlenecks?
 
+## Severity Labels
+
+Every finding gets a severity label. Use these in review output:
+
+| Label | Meaning | Action |
+|---|---|---|
+| 🔴 `blocking` | Must fix before merge | YES — blocks approval |
+| 🟠 `important` | Should fix; may block depending on context | YES — discuss if disagree |
+| 🟡 `nit` | Minor style or preference issue | NO — not blocking |
+| 🔵 `suggestion` | Optional improvement worth considering | NO — FYI only |
+| 📚 `learning` | Educational note for the author | NO — knowledge sharing |
+| 🌟 `praise` | Explicitly highlight great work | NO — morale |
+
+## TOOL_GAP: When You Can't Verify
+
+Inspired by Sub-Zero Skill. If verification tools cannot reach the world:
+
+| Verdict | Meaning | Action |
+|---|---|---|
+| ✅ PASS | Evidence confirms the claim | Proceed |
+| ❌ FAIL | Evidence contradicts the claim | Fix, re-verify (max 3 cycles) |
+| ⚠️ TOOL_GAP | Cannot reach the world to verify | **STOP. Report "ship status unknown." Never fake a win.** |
+
+**Examples of TOOL_GAP:**
+- "Tests pass" but test runner isn't installed → TOOL_GAP
+- "URL returns 200" but no network access → TOOL_GAP
+- "Build works" but build tool missing → TOOL_GAP
+- "Code is clean" but linter not available → TOOL_GAP
+
+**Rule:** The absence of evidence is not evidence of absence. If you can't check, say so.
+
 ## Core Workflows
 
 ### Review Process
@@ -61,7 +92,10 @@ Understand context + review tests first
 Review code (5 axes)
      │
      ▼
-Categorize findings (Critical, Nit, Optional, FYI)
+Categorize findings with severity labels
+     │
+     ▼
+Check: Can I verify? → TOOL_GAP if not
      │
      ▼
 Verify: tests pass, build succeeds

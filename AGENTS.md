@@ -59,6 +59,8 @@ Protocol: Read AGENTS.md, skills loaded, no mutations without approval
 - **Rule 0b:** Auto-recover context on project re-entry
 - **Rule 0c:** Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven
 - **Rule 0g:** Mayéutic Challenge — challenge non-trivial decisions, say "no" when justified
+- **Rule 0h:** TOOL_GAP — When verification tools can't reach the world, report "ship status unknown" and STOP. Never fake a win on a gap.
+- **Rule 0i:** Continuation Over Recap — After context loss, resume from last verified state. Don't recap everything. Ask "Where were we?" not "Let me summarize."
 
 ### Enforcement (→ `rules/common/enforcement.md`)
 - **Rule 0d:** Pre-flight → branch interview → edit guard → commit barrier
