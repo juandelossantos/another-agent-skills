@@ -55,7 +55,7 @@
     "level2Desc": "Agent presents DECISION POINT before every mutation. Agent can skip the presentation.",
     "level3Title": "Level 3: SHA256 Hash-Bound Token",
     "level3Desc": "Hook verifies integrity. Agent cannot bypass what it cannot forge.",
-    "incidentRef": "Three Rule 12 violations in 48 hours. Three levels of enforcement.",
+    "incidentRef": "We broke our own rules three times in two days. Then we made breaking them impossible.",
     "conclusion": "We learn from our own failures. Faster than competitors ship features.",
     "statsLabel": "Mechanical enforcement",
     "statsValue": "10 pre-commit gates"
@@ -126,7 +126,7 @@
     "q4": "Is it free?",
     "a4": "Yes. MIT License. Open source. No subscriptions. No paid tiers. The installer is free, the skills are free, the enforcement is free.",
     "q5": "How does mechanical enforcement work?",
-    "a5": "Three levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents DECISION POINT. (3) SHA256 hash-bound token: hook verifies integrity. The agent cannot bypass what it cannot forge. This was built after 3 Rule 12 violations in 48 hours.",
+    "a5": "Three levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents a decision point. (3) SHA256 hash-bound token: hook verifies integrity. The agent cannot bypass what it cannot forge. We built this after breaking our own rules three times in two days.",
     "q6": "Can I customize the skills?",
     "a6": "Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 38 or pick the ones that matter to your workflow."
   },

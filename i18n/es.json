@@ -55,7 +55,7 @@
     "level2Desc": "El agente presenta un DECISION POINT antes de cada mutación. El agente puede saltarse la presentación.",
     "level3Title": "Nivel 3: Token con Hash SHA256",
     "level3Desc": "El hook verifica integridad. El agente no puede falsificar lo que no puede forjar.",
-    "incidentRef": "Tres violaciones de Rule 12 en 48 horas. Tres niveles de enforcement.",
+    "incidentRef": "Rompió nuestras propias reglas tres veces en dos días. Después las hizo imposibles de romper.",
     "conclusion": "Aprendemos de nuestros propios fallos. Más rápido que la competencia lanza features.",
     "statsLabel": "Enforcement mecánico",
     "statsValue": "10 pre-commit gates"
@@ -126,7 +126,7 @@
     "q4": "¿Es gratis?",
     "a4": "Sí. Licencia MIT. Open source. Sin suscripciones. Sin tiers pagos. El instalador es gratis, los skills son gratis, el enforcement es gratis.",
     "q5": "¿Cómo funciona el enforcement mecánico?",
-    "a5": "Tres niveles: (1) Reglas de proceso: el agente recuerda. (2) Manifiesto visible: el agente presenta un DECISION POINT. (3) Token con hash SHA256: el hook verifica integridad. El agente no puede falsificar lo que no puede forjar. Esto se construyó después de 3 violaciones de Rule 12 en 48 horas.",
+    "a5": "Tres niveles: (1) Reglas de proceso: el agente recuerda. (2) Manifiesto visible: el agente presenta un punto de decisión. (3) Token con hash SHA256: el hook verifica integridad. El agente no puede falsificar lo que no puede forjar. Construimos esto después de romper nuestras propias reglas tres veces en dos días.",
     "q6": "¿Puedo personalizar los skills?",
     "a6": "Sí. Los skills son archivos Markdown en el directorio `skills/`. Editalos, agregá nuevos, eliminá los que no necesitás. El framework es modular: usá los 38 o elegí los que importan a tu flujo de trabajo."
   },
