@@ -408,8 +408,38 @@ $ bash install.sh</code></pre>
     </div>
   </section>
 
-  <!-- SECTIONS: FAQ -->
-  <section class="placeholder" aria-hidden="true" style="display:none"></section>
+  <section class="faq" id="faq" data-reveal aria-label="Frequently asked questions">
+    <div class="container">
+      <p class="section__label" data-i18n="faq.label">08 / faq</p>
+      <h2 class="section__title" data-i18n="faq.title">Questions.</h2>
+      <div class="faq__list">
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q1">What is Another Agent Skills?</summary>
+          <p class="faq__answer" data-i18n="faq.a1">A framework of 38 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a 6-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q2">How is it different from other skill frameworks?</summary>
+          <p class="faq__answer" data-i18n="faq.a2">Three things: (1) Mechanical enforcement via SHA256 hash-bound tokens and 10 pre-commit gates. (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 245 lines always-loaded (1.8% of 200K context). Other frameworks give you prompts. We give you process.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q3">Which agents does it support?</summary>
+          <p class="faq__answer" data-i18n="faq.a3">Designed for OpenCode. Portable to Claude Code, Cursor, GitHub Copilot, Kiro, Gemini CLI, Windsurf, and any agent that reads AGENTS.md. Stack-agnostic: works with Node, Rust, Python, Go, Ruby, Dart, or any stack.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q4">Is it free?</summary>
+          <p class="faq__answer" data-i18n="faq.a4">Yes. MIT License. Open source. No subscriptions. No paid tiers. The installer is free, the skills are free, the enforcement is free.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q5">How does mechanical enforcement work?</summary>
+          <p class="faq__answer" data-i18n="faq.a5">Three levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents DECISION POINT. (3) SHA256 hash-bound token: hook verifies integrity. The agent cannot bypass what it cannot forge. This was built after 3 Rule 12 violations in 48 hours.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q6">Can I customize the skills?</summary>
+          <p class="faq__answer" data-i18n="faq.a6">Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 38 or pick the ones that matter to your workflow.</p>
+        </details>
+      </div>
+    </div>
+  </section>
 </main>
 
   <section class="references" id="references" aria-label="References">

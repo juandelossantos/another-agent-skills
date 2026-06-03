@@ -114,6 +114,22 @@
     "then": "Después en cualquier proyecto:",
     "conclusion": "Tu agente ahora tiene 38 skills + 45 guides. Cada proyecto. Cada vez."
   },
+  "faq": {
+    "label": "08 / faq",
+    "title": "Preguntas.",
+    "q1": "¿Qué es Another Agent Skills?",
+    "a1": "Un framework de 38 skills compuestos que transforma agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Los skills siguen un flujo de 6 fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.",
+    "q2": "¿Cómo es diferente de otros frameworks de skills?",
+    "a2": "Tres cosas: (1) Enforcement mecánico con tokens SHA256 y 10 pre-commit gates. (2) Guardian Pattern: DECISION POINT antes de cada mutación. (3) Context engineering: 245 líneas siempre cargadas (1.8% de 200K de contexto). Otros frameworks dan prompts. Nosotros damos proceso.",
+    "q3": "¿Qué agentes soporta?",
+    "a3": "Diseñado para OpenCode. Portable a Claude Code, Cursor, GitHub Copilot, Kiro, Gemini CLI, Windsurf, y cualquier agente que lea AGENTS.md. Agnóstico de stack: funciona con Node, Rust, Python, Go, Ruby, Dart, o cualquier stack.",
+    "q4": "¿Es gratis?",
+    "a4": "Sí. Licencia MIT. Open source. Sin suscripciones. Sin tiers pagos. El instalador es gratis, los skills son gratis, el enforcement es gratis.",
+    "q5": "¿Cómo funciona el enforcement mecánico?",
+    "a5": "Tres niveles: (1) Reglas de proceso: el agente recuerda. (2) Manifiesto visible: el agente presenta un DECISION POINT. (3) Token con hash SHA256: el hook verifica integridad. El agente no puede falsificar lo que no puede forjar. Esto se construyó después de 3 violaciones de Rule 12 en 48 horas.",
+    "q6": "¿Puedo personalizar los skills?",
+    "a6": "Sí. Los skills son archivos Markdown en el directorio `skills/`. Editalos, agregá nuevos, eliminá los que no necesitás. El framework es modular: usá los 38 o elegí los que importan a tu flujo de trabajo."
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",

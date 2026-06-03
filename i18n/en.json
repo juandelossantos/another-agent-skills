@@ -114,6 +114,22 @@
     "then": "Then in any project:",
     "conclusion": "Your agent now has 38 skills + 45 guides. Every project. Every time."
   },
+  "faq": {
+    "label": "08 / faq",
+    "title": "Questions.",
+    "q1": "What is Another Agent Skills?",
+    "a1": "A framework of 38 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a 6-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.",
+    "q2": "How is it different from other skill frameworks?",
+    "a2": "Three things: (1) Mechanical enforcement via SHA256 hash-bound tokens and 10 pre-commit gates. (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 245 lines always-loaded (1.8% of 200K context). Other frameworks give you prompts. We give you process.",
+    "q3": "Which agents does it support?",
+    "a3": "Designed for OpenCode. Portable to Claude Code, Cursor, GitHub Copilot, Kiro, Gemini CLI, Windsurf, and any agent that reads AGENTS.md. Stack-agnostic: works with Node, Rust, Python, Go, Ruby, Dart, or any stack.",
+    "q4": "Is it free?",
+    "a4": "Yes. MIT License. Open source. No subscriptions. No paid tiers. The installer is free, the skills are free, the enforcement is free.",
+    "q5": "How does mechanical enforcement work?",
+    "a5": "Three levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents DECISION POINT. (3) SHA256 hash-bound token: hook verifies integrity. The agent cannot bypass what it cannot forge. This was built after 3 Rule 12 violations in 48 hours.",
+    "q6": "Can I customize the skills?",
+    "a6": "Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 38 or pick the ones that matter to your workflow."
+  },
   "references": {
     "label": "references",
     "title": "Sources",
