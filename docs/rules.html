@@ -47,25 +47,85 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.rules">Rules</span></div>
     <h1 data-i18n="rules.title">Rules</h1>
-    <p data-i18n="rules.subtitle">Behavioral rules that govern agent conduct.</p>
+    <p data-i18n="rules.subtitle">Behavioral rules that govern agent conduct across all sessions.</p>
+
     <h2 data-i18n="rules.behavioral">Behavioral Rules</h2>
+
     <h3 data-i18n="rules.rule0">Rule 0: User Profile Verification</h3>
-    <h3 data-i18n="rules.rule0h">Rule 0h: TOOL_GAP</h3>
-    <p data-i18n="rules.rule0hDesc">When tools can't verify, report "ship status unknown." Never fake a win.</p>
-    <h3 data-i18n="rules.rule0i">Rule 0i: Continuation Over Recap</h3>
+    <p data-i18n="rules.rule0Desc">Check user profile before any skill. Load preferences from user-profile.json.</p>
+
+    <h3 data-i18n="rules.rule0b">Rule 0b: Context Persistence</h3>
+    <p data-i18n="rules.rule0bDesc">Auto-recover context on project re-entry. Check HEALTH-CHECK.md age, resume from last verified state.</p>
+
+    <h3 data-i18n="rules.rule0c">Rule 0c: Behavioral Principles</h3>
+    <p data-i18n="rules.rule0cDesc">Think Before Coding. Simplicity First. Surgical Changes. Goal-Driven Execution.</p>
+
+    <h3 data-i18n="rules.rule0g">Rule 0g: Mayéutic Challenge</h3>
+    <p data-i18n="rules.rule0gDesc">Challenge non-trivial decisions. Say "no" when justified. An agent that says "no" prevents more damage than one that says "yes" to everything.</p>
+
+    <h3 data-i18n="rules.rule0h">Rule 0h: TOOL_GAP <span class="skill-card__badge">New</span></h3>
+    <p data-i18n="rules.rule0hDesc">When verification tools cannot reach the world, report "ship status unknown" and STOP. Never fake a win on a gap.</p>
+
+    <h3 data-i18n="rules.rule0i">Rule 0i: Continuation Over Recap <span class="skill-card__badge">New</span></h3>
     <p data-i18n="rules.rule0iDesc">After context loss, resume from last verified state. Don't recap everything.</p>
+
     <h2 data-i18n="rules.enforcement">Enforcement Rules</h2>
+
+    <h3 data-i18n="rules.rule0d">Rule 0d: Pre-Action Checklist</h3>
+    <p data-i18n="rules.rule0dDesc">Pre-flight → branch interview → edit guard → commit barrier. Run before ANY mutation.</p>
+
     <h3 data-i18n="rules.rule12">Rule 12: Guardian Pattern</h3>
-    <p data-i18n="rules.rule12Desc">DECISION POINT before every mutation.</p>
+    <p data-i18n="rules.rule12Desc">DECISION POINT before every mutation. Invalid responses: "ok", "mmhm", silence. Plan approval ≠ commit approval — always separate decisions.</p>
+
+    <h3 data-i18n="rules.rule12b">Rule 12b: PR Review Gate</h3>
+    <p data-i18n="rules.rule12bDesc">pr-review-checklist.sh before merge. 8 mechanical gates.</p>
+
     <h2 data-i18n="rules.context">Context Rules</h2>
+
+    <h3 data-i18n="rules.rule0e">Rule 0e: Context Compression</h3>
+    <p data-i18n="rules.rule0eDesc">Evict at 70% context usage. Compress history. Never evict active work.</p>
+
+    <h3 data-i18n="rules.rule0f">Rule 0f: Plugin Architecture</h3>
+    <p data-i18n="rules.rule0fDesc">Native plugin hooks for mechanical enforcement.</p>
+
     <h3 data-i18n="rules.rule6">Rule 6: Lazy Loading</h3>
+    <p data-i18n="rules.rule6Desc">Skills as ~250-line indexes. Guides loaded on-demand.</p>
+
     <h3 data-i18n="rules.rule8">Rule 8: Context Budget</h3>
+    <p data-i18n="rules.rule8Desc">60/25/15 budget. Compaction at >20 messages.</p>
+
     <h2 data-i18n="rules.skills">Skills Rules</h2>
+
     <h3 data-i18n="rules.rule1">Rule 1: Skills First</h3>
+    <p data-i18n="rules.rule1Desc">Always check skills first. Never implement directly if a skill applies.</p>
+
+    <h3 data-i18n="rules.rule2">Rule 2: Intent Mapping</h3>
+    <p data-i18n="rules.rule2Desc">Detect platform before acting.</p>
+
     <h3 data-i18n="rules.rule3">Rule 3: Lifecycle</h3>
+    <p data-i18n="rules.rule3Desc">DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP.</p>
+
     <h2 data-i18n="rules.project">Project Rules</h2>
+
+    <h3 data-i18n="rules.rule4">Rule 4: Turbo Mode</h3>
+    <p data-i18n="rules.rule4Desc">Reduces scope, never discipline.</p>
+
+    <h3 data-i18n="rules.rule5">Rule 5: Stack Agnosticism</h3>
+    <p data-i18n="rules.rule5Desc">Defaults with user override.</p>
+
     <h3 data-i18n="rules.rule7">Rule 7: No Code Before Contract</h3>
-        <div class="docs__nav">
+    <p data-i18n="rules.rule7Desc">No code until SPEC.md, DESIGN.md, .gitignore exist.</p>
+
+    <h3 data-i18n="rules.rule9">Rule 9: Verification</h3>
+    <p data-i18n="rules.rule9Desc">Verification checklist before marking complete.</p>
+
+    <h3 data-i18n="rules.rule10">Rule 10: Language Compliance</h3>
+    <p data-i18n="rules.rule10Desc">Never mix languages.</p>
+
+    <h3 data-i18n="rules.rule11">Rule 11: Development Artifacts</h3>
+    <p data-i18n="rules.rule11Desc">Development artifacts go in development/.</p>
+
+    <div class="docs__nav">
       <a href="design-review.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="rules.prevPage">Design Review</span></a>
       <a href="agents.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="rules.nextPage">Agents</span><span class="docs__nav-label"> →</span></a>
     </div>
