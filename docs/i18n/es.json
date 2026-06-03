@@ -115,7 +115,16 @@
     "filterCategory": "Filtrar por categoría",
     "filterPhase": "Filtrar por fase del ciclo de vida",
     "all": "Todos",
-    "stats": "41 skills · 46 guías · 0 atajos"
+    "stats": "41 skills · 46 guías · 0 atajos",
+    "filterFoundation": "Fundamentos",
+    "filterFrontend": "Frontend",
+    "filterBackend": "Backend",
+    "filterProcess": "Proceso",
+    "filterQuality": "Calidad",
+    "filterDesign": "Diseño",
+    "filterDevops": "DevOps",
+    "filterDebug": "Debug",
+    "filterGit": "Git"
   },
   "enforcement": {
     "title": "Enforcement",
@@ -174,5 +183,22 @@
   },
   "toc": {
     "title": "En esta página"
+  },
+  "designReview": {
+    "title": "Pipeline de revisión de diseño",
+    "subtitle": "9 skills. Un pipeline. Calidad determinista.",
+    "pipeline": "El pipeline",
+    "skills": "9 Skills",
+    "critique": "1. critique-skill — Calidad de diseño",
+    "audit": "2. audit-skill — Calidad técnica",
+    "clarify": "3. clarify-skill — Copy de UX",
+    "hard": "4. hard-skill — Accesibilidad",
+    "polish": "5. polish-skill — Detalles de diseño",
+    "typeset": "6. typeset-skill — Tipografía",
+    "adapt": "7. adapt-skill — Responsive",
+    "optimize": "8. optimize-skill — Performance",
+    "delight": "9. delight-skill — Micro-interacciones",
+    "prevPage": "Filosofía",
+    "nextPage": "Reglas"
   }
 }

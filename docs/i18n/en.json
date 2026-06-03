@@ -115,7 +115,16 @@
     "filterCategory": "Filter by category",
     "filterPhase": "Filter by lifecycle phase",
     "all": "All",
-    "stats": "41 skills · 46 guides · 0 shortcuts"
+    "stats": "41 skills · 46 guides · 0 shortcuts",
+    "filterFoundation": "Foundation",
+    "filterFrontend": "Frontend",
+    "filterBackend": "Backend",
+    "filterProcess": "Process",
+    "filterQuality": "Quality",
+    "filterDesign": "Design",
+    "filterDevops": "DevOps",
+    "filterDebug": "Debug",
+    "filterGit": "Git"
   },
   "enforcement": {
     "title": "Enforcement",
@@ -174,5 +183,22 @@
   },
   "toc": {
     "title": "On this page"
+  },
+  "designReview": {
+    "title": "Design Review Pipeline",
+    "subtitle": "9 skills. One pipeline. Deterministic quality.",
+    "pipeline": "The Pipeline",
+    "skills": "9 Skills",
+    "critique": "1. critique-skill — Design Quality",
+    "audit": "2. audit-skill — Technical Quality",
+    "clarify": "3. clarify-skill — UX Copy",
+    "hard": "4. hard-skill — Accessibility",
+    "polish": "5. polish-skill — Design Details",
+    "typeset": "6. typeset-skill — Typography",
+    "adapt": "7. adapt-skill — Responsive",
+    "optimize": "8. optimize-skill — Performance",
+    "delight": "9. delight-skill — Micro-interactions",
+    "prevPage": "Philosophy",
+    "nextPage": "Rules"
   }
 }
