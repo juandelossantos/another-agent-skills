@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-06-03  
+> **Last updated:** 2026-06-03T14:30:00Z  
 > **Current version:** 1.6.0  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** [PROGRESS-PLAN.md](../../development/PROGRESS-PLAN.md)
+> **Current plan:** [DOCS-PLAN.md](../../development/DOCS-PLAN.md) | [PROGRESS-PLAN.md](../../development/PROGRESS-PLAN.md)
 
 ---
 
@@ -108,11 +108,20 @@
 
 ## What's Left
 
+### In Progress
+
+- **Documentation System** — Multi-page static docs (9 pages + 38 skill pages)
+  - Plan: `development/DOCS-PLAN.md`
+  - Progress: `development/DOCS-PROGRESS.md`
+  - Status: Planning complete, ready for implementation
+  - Target: v1.7.0
+
+### Planned
+
 - CI/CD testing — GitHub Actions on Ubuntu, macOS, Windows
 - Skill validation tests — frontmatter, guide references, line count enforcement
 - Troubleshooting guide — common issues
 - New skill tracks: CLI, IoT, GameDev, Container
-- Internationalization — separate language files from skill logic
 - Self-host Google Fonts (Newsreader + JetBrains Mono)
 - Generate 1200×630 PNG OG image from SVG
 - Copy button micro-interaction (scale + check icon)
@@ -143,6 +152,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
+| **1.6.1** | 2026-06-03 | Fix skill count inconsistency (54→38), docs plan created, health check refreshed. |
 | **1.6.0** | 2026-06-03 | Landing page redesign: FAQ, quick start, skills grid, compatible agents, philosophy, enforcement, how it works sections. skill-gate.sh, approve-commit.sh --auto, Rule 12 formalization. |
 | **1.5.0** | 2026-05-30 | SOUL.md, universal stack detection, project enforcement hook, CI template, stack analysis, approve-commit.sh, skill-lint.sh, runtime hook controls, rules layered architecture. |
 | **1.4.1** | 2026-05-29 | Guardian Pattern enforcement, Session Start Protocol, PR Review Gate, safe reinstall. |

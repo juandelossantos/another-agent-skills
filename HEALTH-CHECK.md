@@ -37,7 +37,7 @@
 | Always-loaded context | 245 lines (~3,675 tokens, 1.8% of 200K) | ✅ |
 | Pre-commit hook gates | 10 (branch, staged, remote, HTML, hash, build, anti-slop, debug, SPEC, skill-lint) | ✅ |
 | skill-lint | 0 errors, 5 warnings | ✅ |
-| Commits | 180 | ✅ |
+| Commits | 182 | ✅ |
 | Unpushed commits | 0 | ✅ |
 
 ---
@@ -108,11 +108,12 @@
 
 | Category | Changes |
 |---|---|
-| **Commits** | 19 commits (16 between v1.5.0→v1.6.0, 3 after v1.6.0) |
-| **Files changed** | 17 files, +1,788 lines, -310 lines |
+| **Commits** | 21 commits (16 v1.5.0→v1.6.0, 5 after v1.6.0) |
+| **Files changed** | 21 files, +1,800 lines, -320 lines |
 | **New features** | skill-gate.sh, approve-commit.sh --auto mode, FAQ section, quick start, skills grid, compatible agents, philosophy section, enforcement section, how it works section |
-| **Fixes** | Hero section, METR citation, footer credits, rule 12 jargon, border separator |
+| **Fixes** | Hero section, METR citation, footer credits, rule 12 jargon, border separator, skill count unification (54→38) |
 | **Refactors** | Removed pipeline from landing, reordered sections |
+| **Planning** | Documentation system plan (DOCS-PLAN.md, DOCS-PROGRESS.md) |
 
 ---
 
@@ -120,10 +121,9 @@
 
 | # | Action | Priority |
 |---|---|---|
-| 1 | Update README with v1.6.0 metrics (currently shows v1.5.0) | Alta |
-| 2 | Update PROGRESS_STATUS.md (shows v11.1/10, outdated) | Alta |
-| 3 | Add Swift to stack detection | Baja |
-| 4 | Fix 5 skill-lint warnings | Baja |
+| 1 | Implement documentation system (DOCS-PLAN.md) | Alta |
+| 2 | Add Swift to stack detection | Baja |
+| 3 | Fix 5 skill-lint warnings | Baja |
 
 ---
 
@@ -131,6 +131,7 @@
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-06-03 | ✅ HEALTHY + DOCS PLANNED | 0 criticals, skill count unified, documentation system planned for v1.7.0. |
 | 2026-06-03 | ✅ HEALTHY | 0 criticals, 3 minor warnings. v1.6.0 released with 19 new commits. |
 | 2026-05-30 | ✅ RELEASE READY | 0 criticals, 5 minor warnings. Code outpaces docs — ship then fix. |
 | 2026-05-30 | ✅ CONTINUE | v1.4.1 enforcement hardened. |
