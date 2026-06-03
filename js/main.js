@@ -27,8 +27,8 @@
   var translations = {};
 
   function loadLang(lang) {
-    var path = 'i18n/' + lang + '.json';
-    fetch(path)
+    var path = 'i18n/' + lang + '.json?v=' + Date.now();
+    fetch(path, { cache: 'no-store' })
       .then(function(r) { return r.json(); })
       .then(function(data) {
         translations = data;
@@ -160,7 +160,7 @@
   }
 
   function copyCommand(btn) {
-    var code = btn.parentElement.querySelector('code');
+    var code = btn.parentElement.querySelector('.hero__code, code');
     if (!code) return;
 
     var text = code.textContent.replace('❯ ', '');
