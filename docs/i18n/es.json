@@ -171,5 +171,8 @@
   },
   "footer": {
     "docs": "Documentación"
+  },
+  "toc": {
+    "title": "En esta página"
   }
 }
