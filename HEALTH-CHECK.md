@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-05-30
-**Version:** 1.5.0-rc
+**Date:** 2026-06-03
+**Version:** 1.6.0
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 
@@ -12,8 +12,8 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Warnings | **5** (minor, non-blocking) |
-| Passes | **38/43** (88%) |
+| Warnings | **3** (minor, non-blocking) |
+| Passes | **41/44** (93%) |
 | Overall | **HEALTHY** |
 
 ---
@@ -23,9 +23,9 @@
 | Metric | Value | Status |
 |---|---|---|
 | SKILL.md files | 38 | ✅ |
-| GUIDE.md files (*-GUIDE.md) | 45 | ✅ |
-| Scripts | 15 | ✅ |
-| Rules files | 5 (391 lines) | ✅ |
+| GUIDE.md files (*-GUIDE.md) | 46 | ✅ |
+| Scripts | 20 | ✅ |
+| Rules files | 5 (393 lines) | ✅ |
 | Templates | 4 (ci.yml, hooks.bats, CLAUDE.md, .cursorrules) | ✅ |
 | ADRs | 5 | ✅ |
 | Incident docs | 4 (INCIDENT_001–004) | ✅ |
@@ -37,8 +37,8 @@
 | Always-loaded context | 245 lines (~3,675 tokens, 1.8% of 200K) | ✅ |
 | Pre-commit hook gates | 10 (branch, staged, remote, HTML, hash, build, anti-slop, debug, SPEC, skill-lint) | ✅ |
 | skill-lint | 0 errors, 5 warnings | ✅ |
-| Commits | 145 | ✅ |
-| Unpushed commits | 17 | ⚠️ |
+| Commits | 180 | ✅ |
+| Unpushed commits | 0 | ✅ |
 
 ---
 
@@ -104,15 +104,26 @@
 
 ---
 
+## Changes Since v1.5.0
+
+| Category | Changes |
+|---|---|
+| **Commits** | 19 commits (16 between v1.5.0→v1.6.0, 3 after v1.6.0) |
+| **Files changed** | 17 files, +1,788 lines, -310 lines |
+| **New features** | skill-gate.sh, approve-commit.sh --auto mode, FAQ section, quick start, skills grid, compatible agents, philosophy section, enforcement section, how it works section |
+| **Fixes** | Hero section, METR citation, footer credits, rule 12 jargon, border separator |
+| **Refactors** | Removed pipeline from landing, reordered sections |
+
+---
+
 ## Recommendations
 
 | # | Action | Priority |
 |---|---|---|
-| 1 | Push 17 unpushed commits | Alta |
-| 2 | Update README with current metrics | Alta |
-| 3 | Add ECC to credits | Media |
+| 1 | Update README with v1.6.0 metrics (currently shows v1.5.0) | Alta |
+| 2 | Update PROGRESS_STATUS.md (shows v11.1/10, outdated) | Alta |
+| 3 | Add Swift to stack detection | Baja |
 | 4 | Fix 5 skill-lint warnings | Baja |
-| 5 | Add Swift to stack detection | Baja |
 
 ---
 
@@ -120,6 +131,7 @@
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-06-03 | ✅ HEALTHY | 0 criticals, 3 minor warnings. v1.6.0 released with 19 new commits. |
 | 2026-05-30 | ✅ RELEASE READY | 0 criticals, 5 minor warnings. Code outpaces docs — ship then fix. |
 | 2026-05-30 | ✅ CONTINUE | v1.4.1 enforcement hardened. |
 | 2026-05-28 | ✅ CONTINUE | v1.2.0 design review pipeline. |

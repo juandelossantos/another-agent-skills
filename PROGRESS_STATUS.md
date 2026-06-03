@@ -1,15 +1,15 @@
 # Project Progress Status
 
-> **Last updated:** 2026-05-29  
-> **Current version:** 11.1/10  
+> **Last updated:** 2026-06-03  
+> **Current version:** 1.6.0  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** [Roadmap v12](../../development/ROADMAP_V12.md)
+> **Current plan:** [PROGRESS-PLAN.md](../../development/PROGRESS-PLAN.md)
 
 ---
 
 ## What Exists Now
 
-### 15 Custom Skills
+### 38 Custom Skills
 
 | Skill | Lines | Guides | Lazy Loading | Description |
 |---|---|---|---|---|
@@ -28,8 +28,31 @@
 | `project-metrics` | 147 | 2 | ✅ Yes | Background quality logging: builds, rework, coverage |
 | `user-onboarding` | 188 | 2 | ✅ Yes | Persistent user preferences across all projects |
 | `multi-agent-orchestration` | 80 | 1 | ✅ Yes | Orchestrator/subagent protocol for parallel multi-file work |
+| `debugging-and-error-recovery` | 63 | 2 | ✅ Yes | Systematic root-cause debugging |
+| `test-driven-development` | 72 | 5 | ✅ Yes | TDD cycle, test writing, anti-patterns |
+| `code-review-and-quality` | 79 | 3 | ✅ Yes | Five-axis review with quality gates |
+| `git-workflow-and-versioning` | 114 | 2 | ✅ Yes | Atomic commits, branching, conflict resolution |
+| `context-engineering` | 85 | 2 | ✅ Yes | Agent context setup optimization |
+| `source-driven-development` | 92 | 2 | ✅ Yes | Official documentation verification |
+| `doubt-driven-development` | 88 | 2 | ✅ Yes | Adversarial fresh-context review |
+| `incremental-implementation` | 76 | 2 | ✅ Yes | Thin vertical slices, test each |
+| `planning-and-task-breakdown` | 95 | 2 | ✅ Yes | Decompose into verifiable chunks |
+| `code-simplification` | 68 | 2 | ✅ Yes | Reduce complexity while preserving behavior |
+| `security-and-hardening` | 105 | 3 | ✅ Yes | OWASP prevention, input validation |
+| `performance-optimization` | 98 | 2 | ✅ Yes | Measure first, optimize only what matters |
+| `ci-cd-and-automation` | 112 | 3 | ✅ Yes | Automated quality gates on every change |
+| `deprecation-and-migration` | 82 | 2 | ✅ Yes | Remove old systems safely |
+| `documentation-and-adrs` | 90 | 2 | ✅ Yes | Document the why, not just the what |
+| `shipping-and-launch` | 108 | 3 | ✅ Yes | Pre-launch checklist, monitoring, rollback |
+| `cli-tools` | 95 | 2 | ✅ Yes | arg parsing, exit codes, colors, progress bars |
+| `browser-testing-with-devtools` | 88 | 2 | ✅ Yes | Chrome DevTools MCP for runtime verification |
+| `critique-skill` | 120 | 2 | ✅ Yes | Two-pass design review with scoring |
+| `audit-skill` | 115 | 2 | ✅ Yes | Five-dimension technical quality audit |
+| `hard-skill` | 105 | 2 | ✅ Yes | Deterministic mechanical fixes |
+| `polish-skill` | 95 | 2 | ✅ Yes | Design detail fixes |
+| `delight-skill` | 100 | 2 | ✅ Yes | Micro-interactions and transitions |
 
-**Total: 15 custom skills, 39 guides, ~2,903 lines of instruction context. All ≤ 248 lines.**
+**Total: 38 custom skills, 46 guides, ~5,659 lines of instruction context. All ≤ 250 lines.**
 
 ### Architecture Decisions Implemented
 
@@ -79,7 +102,7 @@
 | `frontend-desktop` | 251 | 238 | **-5%** |
 | `backend-api-mastery` | 316 | 232 | **-27%** |
 
-**All 15 skills ≤ 248 lines. Total context saved: ~1,700 lines.**
+**All 38 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
 
 ---
 
@@ -120,8 +143,12 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
-| **11.1** | 2026-05-29 | Hero section repair (arrows, command, install box). Edit-guard structural integrity gate (INCIDENT-005). Pre-commit hook v4 with HTML marker validation. All project files committed (i18n, JS, deploy config). .gitignore cleanup. |
-| **11.0** | 2026-05-25 | All 15 skills ≤ 248 lines. Windows support (install.ps1 + uninstall.ps1). Cross-shell (Zsh/Bash/Fish). Agent adapters (Claude/Cursor). Uninstall scripts. Multi-agent orchestration skill. |
+| **1.6.0** | 2026-06-03 | Landing page redesign: FAQ, quick start, skills grid, compatible agents, philosophy, enforcement, how it works sections. skill-gate.sh, approve-commit.sh --auto, Rule 12 formalization. |
+| **1.5.0** | 2026-05-30 | SOUL.md, universal stack detection, project enforcement hook, CI template, stack analysis, approve-commit.sh, skill-lint.sh, runtime hook controls, rules layered architecture. |
+| **1.4.1** | 2026-05-29 | Guardian Pattern enforcement, Session Start Protocol, PR Review Gate, safe reinstall. |
+| **1.4.0** | 2026-05-29 | Enforcement gates (pre-commit v6, commit-msg v3), skills restructured with lazy loading. |
+| **11.1** | 2026-05-29 | Hero section repair (arrows, command, install box). Edit-guard structural integrity gate (INCIDENT-005). Pre-commit hook v4 with HTML marker validation. |
+| **11.0** | 2026-05-25 | All 15 skills ≤ 248 lines. Windows support (install.ps1 + uninstall.ps1). Cross-shell (Zsh/Bash/Fish). Agent adapters (Claude/Cursor). |
 | 10.0 | 2026-05-25 | All 14 skills < 356 lines, lazy loading on 13/14, smart merge, universal paths, token optimization applied |
 | 9.6 | 2026-05-24 | 13 skills, multi-platform (web/PWA/mobile), context persistence, lazy loading backend-api-mastery |
 | 9.0 | 2026-05-23 | 9 skills, web-centric, AGENTS.md lifecycle, Turbo Mode |

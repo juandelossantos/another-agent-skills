@@ -1,5 +1,42 @@
 # Release Notes
 
+## 1.6.0 (2026-06-03)
+
+v1.6.0: Landing page redesign with new sections, mechanical enforcement scripts, and Rule 12 formalization.
+
+### Landing Page Enhancements
+
+- **FAQ section** — 6 frequently asked questions with clear answers
+- **Quick Start section** — 3-step installation guide on landing page
+- **Skills grid** — Visual showcase of all 38 skills
+- **Compatible agents section** — OpenCode, Claude Code, Cursor, Kiro support
+- **Philosophy section** — SOUL.md principles explained
+- **Enforcement section** — 3 levels of mechanical enforcement
+- **How it works section** — 6-phase lifecycle visual
+
+### New Scripts
+
+- **skill-gate.sh** — Mechanical Rule 1 enforcement: registers skill consultation before any action
+- **approve-commit.sh --auto** — Approval in chat, token auto-generated (no manual copy-paste)
+
+### Rule 12 Formalization
+
+- **Approval keywords** — "yes commit" and "yes push" now formally accepted as approval
+- **Guardian Pattern reminder** — Updated enforcement text to remove jargon
+
+### Fixes
+
+- Hero section: copy function, i18n cache-busting, honest social proof
+- METR citation accurate + references section
+- Footer credits and nav consistency
+- Border separator removed
+
+### Documentation
+
+- README updated with v1.6.0 features
+- PROGRESS_STATUS.md updated with current metrics (38 skills, 46 guides)
+- HEALTH-CHECK.md refreshed (v1.6.0 audit)
+
 ## 1.4.1 (2026-05-29)
 
 v1.4.1: Guardian Pattern enforcement, Session Start Protocol, PR Review Gate, safe reinstall.

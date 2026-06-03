@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.5.0](https://img.shields.io/badge/version-1.5.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.6.0](https://img.shields.io/badge/version-1.6.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -92,18 +92,18 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.5.0
+## What's New in v1.6.0
 
-- **SOUL.md** — Portable agent identity: 7 principles, 6 anti-goals, value hierarchy
-- **Universal stack detection** — `init-agents` detects Node, Rust, Python, Go, Ruby, Dart, or unknown and creates `STACK_CONFIG.md`
-- **Project enforcement hook** — Lifecycle enforcement in user projects: tests pass, build succeeds, no secrets
-- **CI template** — Universal GitHub Actions workflow that reads `STACK_CONFIG.md`
-- **Stack analysis** — Category-based recommendations for MCPs, skills, and best practices
-- **approve-commit.sh** — User-gated commits with stale token detection
-- **skill-lint.sh** — Rule 6 enforcement: skills must be ≤250-line indexes
-- **Runtime hook controls** — `SKILLS_HOOK_LEVEL`, `SKILLS_DISABLED_HOOKS`, `SKILLS_TEST_TIMEOUT`
-- **Rules layered architecture** — AGENTS.md 111 lines + 5 modular rules (391 lines)
-- **Expanded skills** — debugging (+2 guides), TDD (+66 lines), git-workflow (+114 lines)
+- **FAQ section** — 6 frequently asked questions with clear answers
+- **Quick Start section** — 3-step installation guide on landing page
+- **Skills grid** — Visual showcase of all 38 skills
+- **Compatible agents section** — OpenCode, Claude Code, Cursor, Kiro support
+- **Philosophy section** — SOUL.md principles explained
+- **Enforcement section** — 3 levels of mechanical enforcement
+- **How it works section** — 6-phase lifecycle visual
+- **skill-gate.sh** — Mechanical Rule 1 enforcement script
+- **approve-commit.sh --auto** — Approval in chat, token auto-generated
+- **Rule 12 formalization** — "yes commit" and "yes push" as approval keywords
 
 > "Ship an API" → loads `backend-api-mastery` → protocol decision → DB schema → endpoints → tests.
 > "Fix a bug" → loads `debugging-and-error-recovery` → repro test → root cause → fix → verify.
