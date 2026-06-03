@@ -528,3 +528,13 @@
   z-index: 20;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
+
+/* What's New list styling */
+.whats-new__item {
+  font-weight: 600;
+  color: var(--text);
+}
+.whats-new__desc {
+  font-weight: 400;
+  color: var(--text-secondary);
+}

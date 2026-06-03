@@ -37,7 +37,18 @@
     "version": "Current version",
     "skillsCount": "Skills",
     "guidesCount": "Guides",
-    "license": "License"
+    "license": "License",
+    "whatsNew": "What's New in v1.7.0",
+    "whatsNewItem1": "Documentation system",
+    "whatsNewDesc1": "51 pages: 10 main docs + 41 individual skill pages",
+    "whatsNewItem2": "Bilingual docs",
+    "whatsNewDesc2": "Full EN/ES support with language toggle that persists across pages",
+    "whatsNewItem3": "Skills catalog",
+    "whatsNewDesc3": "Browse all 41 skills with category filters",
+    "whatsNewItem4": "Generation script",
+    "whatsNewDesc4": "Auto-generate skill pages from SKILL.md files",
+    "whatsNewItem5": "Landing page integration",
+    "whatsNewDesc5": "\"Docs\" link in header/footer, \"Learn more\" links to docs"
   },
   "gettingStarted": {
     "title": "Getting Started",
