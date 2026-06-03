@@ -251,14 +251,17 @@ User can disable this gate by saying:
 
 **Keywords:**
 - `yes` alone = plan approval only (no git operations)
-- `yes commit` = commit approval (agent runs approve-commit.sh and commits)
+- `yes commit` = commit approval (agent runs approve-commit.sh --auto and commits)
 - `yes push` = push approval (agent pushes to origin)
 
 **Correct flow:**
 1. Agent presents plan → user says "yes"
 2. Agent executes plan
 3. Agent presents Commit Manifest → user says "yes commit"
-4. Agent commits
+4. Agent runs `bash scripts/approve-commit.sh "msg" --auto` (no prompt — approval is in chat)
+5. Agent commits
+
+**NEVER:** Agent commits without "yes commit" in chat. Chat history is the audit trail.
 
 **Incorrect flow (violates Rule 12):**
 1. Agent presents "I'll fix X and commit" → user says "yes"
@@ -380,20 +383,22 @@ Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? →
 
 ### Hash-Bound Token Generation
 
-**The agent CANNOT generate tokens.** Only the user can approve commits by running:
+**The agent generates tokens AFTER user approval in chat.** The flow:
 
-```bash
-bash scripts/approve-commit.sh "exact commit message"
-```
+1. Agent presents Commit Manifest
+2. User says "yes commit" in chat
+3. Agent runs `bash scripts/approve-commit.sh "msg" --auto`
+4. Script generates token (no interactive prompt — approval is in chat history)
+5. Agent commits
 
-The script prompts the user for confirmation, then generates the SHA256 hash token. The pre-commit hook verifies this hash against `.git/COMMIT_EDITMSG`. If the message differs even by one character, the commit is blocked.
-
-**Why user-initiated tokens matter:**
-| Agent generates token | User generates token |
+**Why this works:**
+| Without "yes commit" | With "yes commit" |
 |---|---|
-| Agent can auto-approve without waiting | User must consciously approve |
-| Violation is silent (no friction) | Violation requires user action |
-| Agent can change message after approval | Message is locked at approval time |
+| Agent cannot run --auto (no approval) | Agent runs --auto (approval in chat) |
+| Commit is blocked | Commit proceeds |
+| Chat history shows no approval | Chat history shows "yes commit" |
+
+**Audit trail:** The conversation history is the audit trail. If the agent commits without "yes commit" in chat, it's a visible Rule 12 violation.
 
 ### Post-Commit Verification
 
