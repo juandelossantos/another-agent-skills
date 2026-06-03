@@ -18,8 +18,8 @@
   <nav class="header__nav container">
     <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
     <ul class="header__links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html">Docs</a></li>
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
       <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
     </ul>
     <div class="header__controls">
@@ -31,34 +31,35 @@
 
 <main class="docs" id="main">
   <aside class="docs__sidebar">
-    <p class="sidebar__title">Docs</p>
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
     <nav>
       <ul class="sidebar__nav">
-        <li><a href="index.html" class="sidebar__link">Overview</a></li>
-        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
-        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
-        <li><a href="skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
-        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
-        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
-        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
-        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
-        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
-        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
+        <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+        <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+        <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+        <li><a href="skills.html" class="sidebar__link sidebar__link--active" data-i18n="nav.skills">Skills</a></li>
+        <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">Enforcement</a></li>
+        <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+        <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+        <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+        <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+        <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
       </ul>
     </nav>
   </aside>
 
   <div class="docs__content">
-    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Skills</div>
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.skills">Skills</span></div>
 
-    <h1>Skills Catalog</h1>
-    <p>41 composable skills. Each one handles a specific engineering discipline.</p>
+    <h1 data-i18n="skills.title">Skills Catalog</h1>
+    <p data-i18n="skills.subtitle">41 composable skills. Each one handles a specific engineering discipline.</p>
 
-    <p class="skills__stats">41 skills · 46 guides · 0 shortcuts</p>
+    <p class="skills__stats" data-i18n="skills.stats">41 skills · 46 guides · 0 shortcuts</p>
 
-    <h2 id="filter">Filter by Category</h2>
+    <h2 id="filter" data-i18n="skills.filterCategory">Filter by Category</h2>
     <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space-xl);">
-      <button class="skill-filter active" data-category="all">All</button>
+      <button class="skill-filter active" data-category="all" data-i18n="skills.all">All</button>
       <button class="skill-filter" data-category="foundation">Foundation</button>
       <button class="skill-filter" data-category="frontend">Frontend</button>
       <button class="skill-filter" data-category="backend">Backend</button>
