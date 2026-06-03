@@ -55,6 +55,8 @@
       }
       if (val) el.textContent = val;
     });
+    // Rebuild TOC after translations so links show translated text
+    setTimeout(rebuildTOC, 50);
   }
 
   function setLang(lang) {
@@ -139,8 +141,10 @@
      7. TABLE OF CONTENTS (auto-generate from h2/h3)
      ========================================================= */
 
-  var tocList = document.querySelector('.toc__list');
-  if (tocList) {
+  function rebuildTOC() {
+    var tocList = document.querySelector('.toc__list');
+    if (!tocList) return;
+    tocList.innerHTML = '';
     var headings = document.querySelectorAll('.docs__content h2, .docs__content h3');
     headings.forEach(function(heading, i) {
       if (!heading.id) heading.id = 'heading-' + i;
@@ -153,5 +157,8 @@
       tocList.appendChild(li);
     });
   }
+
+  // Build TOC on initial load
+  rebuildTOC();
 
 })();
