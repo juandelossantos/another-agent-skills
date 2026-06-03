@@ -169,6 +169,14 @@
   border-color: var(--accent) !important;
 }
 
+.skill-card {
+  border: 1px solid var(--border) !important;
+}
+
+.skill-card:hover {
+  border-color: var(--accent) !important;
+}
+
 /* =========================================================
    4. CODE BLOCKS
    ========================================================= */
