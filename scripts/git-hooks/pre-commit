@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v6)
+# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v7)
 # Installed by init-agents.sh.
 # 1) Runs pre-flight check (working tree, branch, upstream, remote)
 # 2) Structural integrity gate on staged HTML files
-# 3) Verifies COMMIT_APPROVED token hash matches commit message
-# 4) Escape hatch: OVERRIDE: reason → logged, 3 escapes = ESCALATION
-# 5) Build verification: bash -n on staged shell scripts
-# 6) Anti-slop: detect generic AI-generated patterns
-# 7) Debug 3-strikes: track fix/debug commits, escalate at 3
-# 8) SPEC enforcement: warn when new scripts lack spec
+# 3) Escape hatch: OVERRIDE: reason → logged, 3 escapes = ESCALATION
+# 4) Build verification: bash -n on staged shell scripts
+# 5) Anti-slop: detect generic AI-generated patterns
+# 6) Debug 3-strikes: track fix/debug commits, escalate at 3
+# 7) SPEC enforcement: warn when new scripts lack spec
 #
-# v6: Add Phase 3 mechanical gates
+# Token validation moved to commit-msg hook (v7).
+# pre-commit runs BEFORE commit message is written, so it cannot
+# validate a token that depends on the message hash.
+# commit-msg runs AFTER message is written and handles validation + cleanup.
+#
+# v7: Remove token validation from pre-commit (design bug fix)
 
 set -euo pipefail
 
@@ -109,52 +113,10 @@ if [ -f "$EDIT_GUARD" ]; then
   fi
 fi
 
-# 5. Mutation approval token with hash verification
-if [ ! -f "$COMMIT_APPROVED" ]; then
-  echo ""
-  echo "╔════════════════════════════════════════════════════════════╗"
-  echo "║  BLOCKED: No commit approval token found.               ║"
-  echo "║                                                          ║"
-  echo "║  The agent must present a Commit Manifest and get        ║"
-  echo "║  your explicit approval before committing.               ║"
-  echo "║                                                          ║"
-  echo "║  Commit Manifest Protocol:                               ║"
-  echo "║  1. Present what will change                            ║"
-  echo "║  2. Explain impact and risk                              ║"
-  echo "║  3. Ask: 'Do you approve this commit?'                   ║"
-  echo "║  4. Wait for explicit 'yes'/'sí'/'commit'               ║"
-  echo "║  5. Generate token AFTER approval                        ║"
-  echo "╚════════════════════════════════════════════════════════════╝"
-  echo ""
-  exit 1
-fi
-
-TOKEN_CONTENT=$(cat "$COMMIT_APPROVED" 2>/dev/null || echo "")
-TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f1)
-
-COMMIT_MSG_FILE="${REPO_ROOT}/.git/COMMIT_EDITMSG"
-if [ -f "$COMMIT_MSG_FILE" ]; then
-  ACTUAL_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
-  ACTUAL_HASH=$(printf '%s\t%s' "$ACTUAL_MSG" "$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f2)" | sha256sum | cut -d' ' -f1)
-
-  if [ "$TOKEN_HASH" != "$ACTUAL_HASH" ]; then
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  BLOCKED: Token hash mismatch.                          ║"
-    echo "║                                                          ║"
-    echo "║  The COMMIT_APPROVED token does not match the           ║"
-    echo "║  commit message. Possible causes:                       ║"
-    echo "║  - Commit message was modified after token creation     ║"
-    echo "║  - Token was created for a different commit             ║"
-    echo "║                                                          ║"
-    echo "║  To proceed:                                            ║"
-    echo "║  1. Restore original commit message, OR                  ║"
-    echo "║  2. Run Commit Manifest Protocol again to get new token  ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
-    echo ""
-    exit 1
-  fi
-fi
+# 5. Mutation approval — handled by commit-msg hook (runs after message is written)
+# Token validation moved to commit-msg hook v7 because pre-commit runs BEFORE
+# COMMIT_EDITMSG is written, making hash validation impossible here.
+# If no token exists when commit-msg runs, it will BLOCK and require approval.
 
 OVERRIDE_COUNT=$(count_overrides)
 if [ "$OVERRIDE_COUNT" -ge "$ESCALATION_THRESHOLD" ]; then
@@ -172,8 +134,6 @@ if [ "$OVERRIDE_COUNT" -ge "$ESCALATION_THRESHOLD" ]; then
   echo ""
   exit 1
 fi
-
-echo "  ${GREEN}✓${NC} Commit approval token valid (hash verified)"
 
 # ============================================================
 # PHASE 3 GATES
