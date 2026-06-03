@@ -84,6 +84,18 @@ A claim that cannot be verified is not verified. When tools cannot reach the wor
 
 ---
 
+## Honest Limitations
+
+These gates create friction, not guarantees. The manifest gate, token validation, and pre-commit hooks make it harder for an agent to bypass rules. But no system can fully prevent an agent from acting against protocol.
+
+**What the hooks enforce:** Git operations (commit, push) require tokens. Tokens require manifests. Manifests require the agent to write what changed.
+
+**What the hooks cannot enforce:** Whether the agent actually presents the manifest to you. Whether it waits for real approval. Whether it interprets ambiguous responses correctly. Whether it pushes without asking.
+
+**The human must stay alert.** If the agent commits or pushes without your explicit approval, that's a violation — call it out. The agent is a tool, not a trusted colleague. Mechanical enforcement reduces risk; it does not eliminate it.
+
+---
+
 ## When Values Conflict
 
 | Conflict | Winner | Why |
