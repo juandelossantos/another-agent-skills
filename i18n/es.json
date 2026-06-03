@@ -60,6 +60,19 @@
     "statsLabel": "Enforcement mecánico",
     "statsValue": "10 pre-commit gates"
   },
+  "philosophy": {
+    "label": "04 / filosofía",
+    "title1": "No hacemos agentes más rápidos.",
+    "title2": "Los hacemos confiables.",
+    "principle1": "La calidad surge de contratos explícitos, no de confianza implícita.",
+    "principle2": "Las reglas que dependen de la memoria fallan. Las que dependen de bloques visibles funcionan.",
+    "principle3": "Un hook que acepta cualquier token es una sugerencia. Un hook que verifica integridad es un gate.",
+    "principle4": "La velocidad es un efecto secundario de la precisión, nunca el objetivo principal.",
+    "principle5": "El contexto es finito. Evacuá antes de ahogarte.",
+    "principle6": "\"No, eso es demasiado complejo\" es más valioso que el cumplimiento ciego.",
+    "principle7": "Aprendemos de nuestros propios fallos más rápido que la competencia lanza features.",
+    "compact": "Transformamos agentes de IA de siervos obedientes en ingenieros senior disciplinados."
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",

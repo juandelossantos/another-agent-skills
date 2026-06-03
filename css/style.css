@@ -966,6 +966,83 @@ ul { list-style: none; }
 }
 
 /* =========================================================
+   5e. PHILOSOPHY
+   ========================================================= */
+
+.philosophy {
+  padding: var(--space-3xl) 0;
+}
+
+.philosophy__list {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: var(--space-xl) auto 0;
+}
+
+.philosophy__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-revealed="true"] .philosophy__item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-revealed="true"] .philosophy__item:nth-child(1) { transition-delay: 0ms; }
+[data-revealed="true"] .philosophy__item:nth-child(2) { transition-delay: 100ms; }
+[data-revealed="true"] .philosophy__item:nth-child(3) { transition-delay: 150ms; }
+[data-revealed="true"] .philosophy__item:nth-child(4) { transition-delay: 200ms; }
+[data-revealed="true"] .philosophy__item:nth-child(5) { transition-delay: 250ms; }
+[data-revealed="true"] .philosophy__item:nth-child(6) { transition-delay: 300ms; }
+[data-revealed="true"] .philosophy__item:nth-child(7) { transition-delay: 350ms; }
+
+.philosophy__item:last-child {
+  border-bottom: none;
+}
+
+.philosophy__num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  min-width: 24px;
+  padding-top: 4px;
+}
+
+.philosophy__text {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--text);
+  line-height: 1.6;
+  font-variation-settings: 'opsz' 18;
+}
+
+.philosophy__compact {
+  max-width: 700px;
+  margin: var(--space-xl) auto 0;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  font-variation-settings: 'opsz' 18;
+}
+
+@media (max-width: 768px) {
+  .philosophy__text {
+    font-size: 1rem;
+  }
+}
+
+/* =========================================================
    6. SECTIONS (shared)
    ========================================================= */
 

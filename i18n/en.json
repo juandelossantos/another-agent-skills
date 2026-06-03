@@ -60,6 +60,19 @@
     "statsLabel": "Mechanical enforcement",
     "statsValue": "10 pre-commit gates"
   },
+  "philosophy": {
+    "label": "04 / philosophy",
+    "title1": "We don't make agents faster.",
+    "title2": "We make them reliable.",
+    "principle1": "Quality emerges from explicit contracts, not implicit trust.",
+    "principle2": "Rules that depend on memory fail. Rules that depend on visible blocks succeed.",
+    "principle3": "A hook that accepts any token is a suggestion. A hook that verifies integrity is a gate.",
+    "principle4": "Speed is a side effect of precision, never the primary goal.",
+    "principle5": "Context is finite. Evict before you drown.",
+    "principle6": "\"No, that's overcomplicated\" is more valuable than blind compliance.",
+    "principle7": "We learn from our own failures faster than competitors ship features.",
+    "compact": "We turn AI coding agents from obedient servants into disciplined senior engineers."
+  },
   "references": {
     "label": "references",
     "title": "Sources",
