@@ -16,6 +16,10 @@ metadata:
 
 **Scope:** Existing projects that need a visual upgrade. Not for greenfield builds.
 
+## When to Use
+
+Use when: upgrading visual design of existing codebase. Not for greenfield projects.
+
 ## Process: Scan → Diagnose → Fix
 
 ### Phase 1: Scan

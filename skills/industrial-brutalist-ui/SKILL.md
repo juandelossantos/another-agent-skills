@@ -14,6 +14,10 @@ metadata:
 
 # Industrial Brutalism & Tactical Telemetry UI
 
+## When to Use
+
+Use when: user chooses brutalist / military / industrial / tactical design direction.
+
 Architect web interfaces synthesizing mid-century Swiss design, industrial manuals, and retro-futuristic aerospace terminals.
 
 ## Visual Archetype (Pick ONE per project)

@@ -16,6 +16,10 @@ metadata:
 
 **Runs automatically in background. Do NOT invoke directly.**
 
+## When to Use
+
+Automatically in background after every significant action. No direct invocation needed.
+
 Logs empirical quality metrics after every significant action, enabling retrospectives, trend analysis, and continuous improvement.
 
 ## Purpose

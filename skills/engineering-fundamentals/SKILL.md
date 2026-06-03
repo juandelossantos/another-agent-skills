@@ -18,6 +18,10 @@ metadata:
 
 Platform skills add implementation specifics to this philosophy.
 
+## When to Use
+
+Implicitly loaded by all platform skills (frontend-web, frontend-mobile, backend-api, etc.). Never invoke directly — platform skills reference this as their foundation.
+
 ## Core Philosophy
 
 1. **Contracts Before Code** — No file until SPEC.md, DESIGN.md, DESIGN-LOCK.md, .gitignore exist.
