@@ -14,6 +14,19 @@
     "quickstart": "Use it now —",
     "social": "Open source · MIT License · Works offline"
   },
+  "problem": {
+    "label": "01 / the problem",
+    "title": "AI agents are capable but undisciplined.",
+    "card1Title": "No tests before commit",
+    "card1Desc": "They ship code that looks correct but breaks in production.",
+    "card2Title": "No review before push",
+    "card2Desc": "They overwrite each other's work without noticing.",
+    "card3Title": "Generic output only",
+    "card3Desc": "They produce the same patterns regardless of context.",
+    "metr": "When developers used AI, they took 19% longer. Developers estimated AI saved them 20% of the time. Experts predicted 38% faster.",
+    "metrSource": "— Becker et al., METR, July 2025",
+    "conclusion": "The gap between \"capable\" and \"reliable\" is not intelligence. It's process."
+  },
   "pipeline": {
     "label": "02 / design review",
     "title": "From Critique to Delight",
@@ -44,6 +57,14 @@
   "faq": {
     "label": "06 / faq",
     "title": "Questions"
+  },
+  "references": {
+    "label": "references",
+    "title": "Sources",
+    "metrTitle": "Becker, J., Rush, N., Barnes, E., & Rein, D. (2025).",
+    "metrPaper": "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.",
+    "metrVenue": "METR.",
+    "metrLink": "arXiv:2507.09089"
   },
   "footer": {
     "quickstart": "Quick Start",
