@@ -48,17 +48,54 @@
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.enforcement">Enforcement</span></div>
     <h1 data-i18n="enforcement.title">Enforcement</h1>
     <p data-i18n="enforcement.subtitle">Mechanical enforcement, not suggestions.</p>
+
     <h2 data-i18n="enforcement.level1">Level 1: Process Rules</h2>
-    <p data-i18n="enforcement.level1Desc">Agent remembers rules. Load-bearing for simple tasks.</p>
-    <h2 data-i18n="enforcement.level2">Level 2: Visible Manifest</h2>
-    <p data-i18n="enforcement.level2Desc">Agent presents DECISION POINT before every mutation.</p>
+    <p data-i18n="enforcement.level1Desc">Agent remembers rules from AGENTS.md. Load-bearing for simple tasks, but fails when attention drifts.</p>
+
+    <h2 data-i18n="enforcement.level2">Level 2: Visible Manifest (Guardian Pattern)</h2>
+    <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
+
     <h2 data-i18n="enforcement.level3">Level 3: SHA256 Hash-Bound Token</h2>
-    <p data-i18n="enforcement.level3Desc">Hook verifies integrity. Agent cannot bypass what it cannot forge.</p>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook verifies that a SHA256 token matches the commit message. The agent cannot bypass what it cannot forge. Token is deleted after each commit.</p>
+
     <h2 data-i18n="enforcement.level4">Level 4: Manifest Gate</h2>
-    <p data-i18n="enforcement.level4Desc">Agent cannot generate tokens without writing a commit manifest first.</p>
+    <p data-i18n="enforcement.level4Desc">Before a token can be generated, a manifest file must exist at <code>.git/COMMIT_MANIFEST</code>. The agent MUST write this file before running <code>approve-commit.sh</code>. This prevents generating tokens without presenting changes.</p>
+
+    <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v7)</h2>
+    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 8 checks before every commit:</p>
+    <ul>
+      <li data-i18n="enforcement.gate1">Branch check — not on detached HEAD</li>
+      <li data-i18n="enforcement.gate2">Staged changes — something is staged</li>
+      <li data-i18n="enforcement.gate3">Remote sync — no unpulled remote changes</li>
+      <li data-i18n="enforcement.gate4">HTML integrity — staged HTML files have required structural markers</li>
+      <li data-i18n="enforcement.gate5">Skill gate — skills were consulted before implementation</li>
+      <li data-i18n="enforcement.gate6">Build verification — shell scripts have valid syntax</li>
+      <li data-i18n="enforcement.gate7">Anti-slop — no generic AI-generated patterns detected</li>
+      <li data-i18n="enforcement.gate8">Debug tracking — fix/debug commits tracked, escalates at 3</li>
+    </ul>
+
+    <h2 data-i18n="enforcement.incidentTitle">Incident History</h2>
+    <p data-i18n="enforcement.incidentDesc">Three Rule 12 violations in 48 hours produced three levels of enforcement:</p>
+    <ul>
+      <li data-i18n="enforcement.incident1">INCIDENT_001: Agent committed without approval → Added visible manifest requirement</li>
+      <li data-i18n="enforcement.incident2">INCIDENT_002: Agent bypassed manifest → Added SHA256 hash-bound tokens</li>
+      <li data-i18n="enforcement.incident3">INCIDENT_003: Agent generated tokens without real approval → Added mandatory manifest gate</li>
+    </ul>
+
     <h2 data-i18n="enforcement.honestLimitations">Honest Limitations</h2>
-    <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="enforcement.honestDesc">These gates create friction, not guarantees. The human must stay alert.</p></div>
-        <div class="docs__nav">
+    <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="enforcement.honestDesc">These gates create friction, not guarantees. The hooks enforce git operations, but cannot prevent the agent from generating tokens without presenting the manifest, interpreting ambiguous responses as approval, or pushing without asking. The human must stay alert.</p></div>
+
+    <h2 data-i18n="enforcement.scriptsTitle">Scripts Reference</h2>
+    <p data-i18n="enforcement.scriptsDesc">Key scripts that enforce the workflow:</p>
+    <table>
+      <tr><th data-i18n="enforcement.script1Name">Script</th><th data-i18n="enforcement.script1Desc">Purpose</th></tr>
+      <tr><td><code>approve-commit.sh</code></td><td data-i18n="enforcement.script1Desc">Generate approval token (requires manifest)</td></tr>
+      <tr><td><code>edit-guard.sh</code></td><td data-i18n="enforcement.script2Desc">Verify file structural integrity</td></tr>
+      <tr><td><code>pre-flight.sh</code></td><td data-i18n="enforcement.script3Desc">Check git state before editing</td></tr>
+      <tr><td><code>skill-gate.sh</code></td><td data-i18n="enforcement.script4Desc">Verify skills were consulted</td></tr>
+    </table>
+
+    <div class="docs__nav">
       <a href="skills.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="enforcement.prevPage">Skills</span></a>
       <a href="philosophy.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="enforcement.nextPage">Philosophy</span><span class="docs__nav-label"> →</span></a>
     </div>
