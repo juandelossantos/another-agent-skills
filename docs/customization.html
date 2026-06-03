@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customization — Another Agent Skills</title>
-<meta name="description" content="How to extend the framework: edit skills, create new ones, configure enforcement.">
+<meta name="description" content="How to extend the framework.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,13 +13,12 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-
 <header class="header" id="top">
   <nav class="header__nav container">
     <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
     <ul class="header__links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html">Docs</a></li>
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
       <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
     </ul>
     <div class="header__controls">
@@ -28,138 +27,40 @@
     </div>
   </nav>
 </header>
-
 <main class="docs" id="main">
   <aside class="docs__sidebar">
-    <p class="sidebar__title">Docs</p>
-    <nav>
-      <ul class="sidebar__nav">
-        <li><a href="index.html" class="sidebar__link">Overview</a></li>
-        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
-        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
-        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
-        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
-        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
-        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
-        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
-        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
-        <li><a href="customization.html" class="sidebar__link sidebar__link--active">Customization</a></li>
-      </ul>
-    </nav>
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link sidebar__link--active" data-i18n="nav.customization">Customization</a></li>
+    </ul></nav>
   </aside>
-
   <div class="docs__content">
-    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Customization</div>
-
-    <h1>Customization</h1>
-    <p>How to extend the framework.</p>
-
-    <h2 id="edit-skills">Editing Existing Skills</h2>
-    <p>Skills are Markdown files in the <code>skills/</code> directory. Edit them directly:</p>
-    <pre><code>skills/
-└── your-skill/
-    ├── SKILL.md          # Skill index (≤250 lines)
-    └── guides/
-        └── GUIDE.md      # Detailed guide (loaded on-demand)</code></pre>
-    <p><strong>Rules:</strong></p>
-    <ul>
-      <li>SKILL.md must be ≤250 lines</li>
-      <li>Must have a "When to Use" section</li>
-      <li>Must have YAML frontmatter with name and description</li>
-      <li>Guides go in <code>guides/</code> subdirectory</li>
-    </ul>
-
-    <h2 id="new-skills">Creating New Skills</h2>
-    <p>Create a new directory in <code>skills/</code> with a <code>SKILL.md</code>:</p>
-    <pre><code>---
-name: my-new-skill
-description: >
-  What this skill does. When to activate it.
----
-
-# My New Skill
-
-## When to Use
-
-Use when: [specific trigger condition].
-
-## Process
-
-1. Step one
-2. Step two
-3. Step three
-
-## Output
-
-What the skill produces.
-
-## Common Rationalizations
-
-| Rationalization | Reality |
-|---|---|
-| "Skip this skill" | [Why that's wrong] |</code></pre>
-
-    <h2 id="adding-guides">Adding Guides</h2>
-    <p>For detailed content that exceeds 250 lines, create guides:</p>
-    <pre><code>skills/my-skill/
-├── SKILL.md
-└── guides/
-    ├── DETAILED-GUIDE.md
-    └── REFERENCE-GUIDE.md</code></pre>
-    <p>Reference guides from SKILL.md:</p>
-    <pre><code>## Detailed Guide
-→ See `guides/DETAILED-GUIDE.md`</code></pre>
-
-    <h2 id="config-enforcement">Configuring Enforcement</h2>
-    <p>Runtime hook controls via environment variables:</p>
-    <table>
-      <tr><th>Variable</th><th>Values</th><th>Effect</th></tr>
-      <tr><td><code>SKILLS_HOOK_LEVEL</code></td><td>minimal, standard, strict</td><td>Controls which checks run</td></tr>
-      <tr><td><code>SKILLS_DISABLED_HOOKS</code></td><td>Comma-separated list</td><td>Disables specific checks</td></tr>
-      <tr><td><code>SKILLS_TEST_TIMEOUT</code></td><td>Seconds (default: 60)</td><td>Timeout for test commands</td></tr>
-    </table>
-
-    <h2 id="stack-config">STACK_CONFIG.md Customization</h2>
-    <p>Edit <code>STACK_CONFIG.md</code> in your project to customize commands:</p>
-    <pre><code>stack: node
-test: npm test
-lint: npm run lint
-typecheck: npx tsc --noEmit
-build: npm run build
-dev: npm run dev</code></pre>
-    <p>All skills read from this file. Change commands here, and every skill adapts.</p>
-
-    <h2 id="user-profile">User Profile Preferences</h2>
-    <p>Your preferences are stored at <code>~/.config/opencode/user-profile.json</code>:</p>
-    <pre><code>{
-  "session_defaults": {
-    "default_purpose": "development"
-  },
-  "stack_preferences": {
-    "typescript": true,
-    "testing_framework": "vitest"
-  }
-}</code></pre>
-    <p>These persist across all projects. Run <code>init-agents</code> to update.</p>
-
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.customization">Customization</span></div>
+    <h1 data-i18n="customization.title">Customization</h1>
+    <p data-i18n="customization.subtitle">How to extend the framework.</p>
+    <h2 data-i18n="customization.editSkills">Editing Existing Skills</h2>
+    <h2 data-i18n="customization.newSkills">Creating New Skills</h2>
+    <h2 data-i18n="customization.addGuides">Adding Guides</h2>
+    <h2 data-i18n="customization.configEnforcement">Configuring Enforcement</h2>
+    <h2 data-i18n="customization.stackConfig">STACK_CONFIG.md Customization</h2>
+    <h2 data-i18n="customization.userProfile">User Profile Preferences</h2>
     <div class="docs__nav">
-      <a href="agents.html" class="docs__nav-link">
-        <span class="docs__nav-label">← Previous</span>
-        <span class="docs__nav-title">Agents</span>
-      </a>
-      <a href="index.html" class="docs__nav-link">
-        <span class="docs__nav-label">Back to</span>
-        <span class="docs__nav-title">Overview</span>
-      </a>
+      <a href="agents.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="customization.prevPage">Agents</span></a>
+      <a href="index.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="customization.nextPage">Overview</span></a>
     </div>
   </div>
-
-  <aside class="docs__toc">
-    <p class="toc__title">On this page</p>
-    <ul class="toc__list"></ul>
-  </aside>
+  <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
 </main>
-
-<script src="js/docs.js"></script>
+<script src="js/docs.js?v=2"></script>
 </body>
 </html>

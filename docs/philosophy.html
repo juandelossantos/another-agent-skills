@@ -17,8 +17,8 @@
   <nav class="header__nav container">
     <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
     <ul class="header__links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html">Docs</a></li>
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
       <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
     </ul>
     <div class="header__controls">
@@ -29,74 +29,43 @@
 </header>
 <main class="docs" id="main">
   <aside class="docs__sidebar">
-    <p class="sidebar__title">Docs</p>
-    <nav>
-      <ul class="sidebar__nav">
-        <li><a href="index.html" class="sidebar__link">Overview</a></li>
-        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
-        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
-        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
-        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
-        <li><a href="philosophy.html" class="sidebar__link sidebar__link--active">Philosophy</a></li>
-        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
-        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
-        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
-        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
-      </ul>
-    </nav>
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="philosophy.html" class="sidebar__link sidebar__link--active" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+    </ul></nav>
   </aside>
   <div class="docs__content">
-    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Philosophy</div>
-    <h1>Philosophy</h1>
-    <p>SOUL.md principles and what we never do.</p>
-    <h2 id="principles">8 Principles</h2>
-    <h3 id="p1">1. Quality emerges from explicit contracts, not implicit trust</h3>
-    <p>An agent that "knows" the rules will eventually break them. An agent that must present a DECISION BLOCK before every mutation cannot skip the decision.</p>
-    <h3 id="p2">2. Rules that depend on memory fail. Rules that depend on visible blocks succeed.</h3>
-    <p>Three incidents taught us this. Knowing isn't doing. The fix was mechanical enforcement.</p>
-    <h3 id="p3">3. A hook that accepts any token is a suggestion. A hook that verifies integrity is a gate.</h3>
-    <p>Evolution: v1 process rules, v2 visible manifest, v3 SHA256 token, v4 manifest gate.</p>
-    <h3 id="p4">4. Speed is a side effect of precision, never the primary goal</h3>
-    <p>The METR study found developers 19% slower with AI but feeling 20% faster.</p>
-    <h3 id="p5">5. Context is finite. Evict before you drown.</h3>
-    <p>Our lazy-loading architecture saves 50% of always-loaded tokens.</p>
-    <h3 id="p6">6. "No, that's overcomplicated" is more valuable than blind compliance</h3>
-    <p>The Mayéutic Challenge: agents that push back, surface tradeoffs, and question scope creep.</p>
-    <h3 id="p7">7. Learn from our own failures faster than competitors ship features</h3>
-    <p>Three Rule 12 violations in 48 hours produced three levels of enforcement.</p>
-    <h3 id="p8">8. Verification without evidence is inspection</h3>
-    <p>When tools cannot reach the world, the honest answer is "ship status unknown."</p>
-    <h2 id="anti-goals">What We Will NEVER Do</h2>
-    <ul>
-      <li>Never prioritize speed over approval</li>
-      <li>Never ship without mechanical enforcement</li>
-      <li>Never make the agent dumber to save tokens</li>
-      <li>Never add quantity over quality</li>
-      <li>Never trust the agent's self-report</li>
-      <li>Never abandon the human in the loop</li>
-    </ul>
-    <h2 id="values">When Values Conflict</h2>
-    <table>
-      <tr><th>Conflict</th><th>Winner</th><th>Why</th></tr>
-      <tr><td>Speed vs. Safety</td><td>Safety</td><td>A bad commit is faster to make than to fix</td></tr>
-      <tr><td>Breadth vs. Depth</td><td>Depth</td><td>One complete skill beats five stubs</td></tr>
-      <tr><td>Simplicity vs. Completeness</td><td>Simplicity</td><td>If a senior engineer says "overcomplicated," it is</td></tr>
-      <tr><td>Automation vs. Control</td><td>Control</td><td>The agent suggests. The human decides.</td></tr>
-      <tr><td>Features vs. Enforcement</td><td>Enforcement</td><td>A feature without a gate is a liability</td></tr>
-      <tr><td>Recap vs. Continuation</td><td>Continuation</td><td>Recap wastes tokens. Continuation preserves momentum.</td></tr>
-    </table>
-    <h2 id="limitations">Honest Limitations</h2>
-    <div class="docs__callout">
-      <div class="docs__callout-title">Warning</div>
-      <p>These gates create friction, not guarantees. No system can fully prevent an agent from acting against protocol. The human must stay alert.</p>
-    </div>
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.philosophy">Philosophy</span></div>
+    <h1 data-i18n="philosophy.title">Philosophy</h1>
+    <p data-i18n="philosophy.subtitle">SOUL.md principles and what we never do.</p>
+    <h2 data-i18n="philosophy.principle1">1. Quality emerges from explicit contracts, not implicit trust.</h2>
+    <h2 data-i18n="philosophy.principle2">2. Rules that depend on memory fail. Rules that depend on visible blocks succeed.</h2>
+    <h2 data-i18n="philosophy.principle3">3. A hook that accepts any token is a suggestion. A hook that verifies integrity is a gate.</h2>
+    <h2 data-i18n="philosophy.principle4">4. Speed is a side effect of precision, never the primary goal.</h2>
+    <h2 data-i18n="philosophy.principle5">5. Context is finite. Evict before you drown.</h2>
+    <h2 data-i18n="philosophy.principle6">6. "No, that's overcomplicated" is more valuable than blind compliance.</h2>
+    <h2 data-i18n="philosophy.principle7">7. We learn from our own failures faster than competitors ship features.</h2>
+    <h2 data-i18n="philosophy.principle8">8. Verification without evidence is inspection.</h2>
+    <h2 data-i18n="philosophy.antiGoals">What We Will NEVER Do</h2>
+    <h2 data-i18n="philosophy.honestLimitations">Honest Limitations</h2>
+    <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="philosophy.honestDesc">These gates create friction, not guarantees. The human must stay alert.</p></div>
     <div class="docs__nav">
-      <a href="enforcement.html" class="docs__nav-link"><span class="docs__nav-label">← Previous</span><span class="docs__nav-title">Enforcement</span></a>
-      <a href="design-review.html" class="docs__nav-link"><span class="docs__nav-label">Next →</span><span class="docs__nav-title">Design Review</span></a>
+      <a href="enforcement.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="philosophy.prevPage">Enforcement</span></a>
+      <a href="design-review.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="philosophy.nextPage">Design Review</span></a>
     </div>
   </div>
   <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
 </main>
-<script src="js/docs.js"></script>
+<script src="js/docs.js?v=2"></script>
 </body>
 </html>

@@ -13,13 +13,12 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-
 <header class="header" id="top">
   <nav class="header__nav container">
     <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
     <ul class="header__links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html">Docs</a></li>
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
       <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
     </ul>
     <div class="header__controls">
@@ -28,109 +27,44 @@
     </div>
   </nav>
 </header>
-
 <main class="docs" id="main">
   <aside class="docs__sidebar">
-    <p class="sidebar__title">Docs</p>
-    <nav>
-      <ul class="sidebar__nav">
-        <li><a href="index.html" class="sidebar__link">Overview</a></li>
-        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
-        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
-        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
-        <li><a href="enforcement.html" class="sidebar__link sidebar__link--active">Enforcement</a></li>
-        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
-        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
-        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
-        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
-        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
-      </ul>
-    </nav>
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="enforcement.html" class="sidebar__link sidebar__link--active" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+    </ul></nav>
   </aside>
-
   <div class="docs__content">
-    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Enforcement</div>
-
-    <h1>Enforcement</h1>
-    <p>Mechanical enforcement, not suggestions.</p>
-
-    <h2 id="levels">Four Levels of Enforcement</h2>
-
-    <h3 id="level-1">Level 1: Process Rules</h3>
-    <p>Agent remembers rules from AGENTS.md. Load-bearing for simple tasks, but fails when attention drifts.</p>
-
-    <h3 id="level-2">Level 2: Visible Manifest (Guardian Pattern)</h3>
-    <p>Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
-
-    <h3 id="level-3">Level 3: SHA256 Hash-Bound Token</h3>
-    <p>The commit-msg hook verifies that a SHA256 token matches the commit message. The agent cannot bypass what it cannot forge. Token is deleted after each commit.</p>
-
-    <h3 id="level-4">Level 4: Manifest Gate</h3>
-    <p>Before a token can be generated, a manifest file must exist at <code>.git/COMMIT_MANIFEST</code>. The agent MUST write this file before running <code>approve-commit.sh</code>. This prevents generating tokens without presenting changes.</p>
-    <p>The flow:</p>
-    <ol>
-      <li>Agent writes manifest (files, changes, impact, risk)</li>
-      <li>Agent presents manifest to user</li>
-      <li>User approves</li>
-      <li>Agent generates token</li>
-      <li>Git commit validates token, deletes it</li>
-    </ol>
-
-    <h2 id="pre-commit-gates">Pre-Commit Gates (v7)</h2>
-    <p>The pre-commit hook runs 8 checks before every commit:</p>
-    <table>
-      <tr><th>Gate</th><th>What it checks</th></tr>
-      <tr><td>Branch check</td><td>Not on detached HEAD</td></tr>
-      <tr><td>Staged changes</td><td>Something is staged</td></tr>
-      <tr><td>Remote sync</td><td>No unpulled remote changes</td></tr>
-      <tr><td>HTML integrity</td><td>Staged HTML files have required structural markers</td></tr>
-      <tr><td>Skill gate</td><td>Skills were consulted before implementation</td></tr>
-      <tr><td>Build verification</td><td>Shell scripts have valid syntax</td></tr>
-      <tr><td>Anti-slop</td><td>No generic AI-generated patterns detected</td></tr>
-      <tr><td>Debug tracking</td><td>Fix/debug commits tracked, escalates at 3</td></tr>
-    </table>
-
-    <h2 id="incident-history">Incident History</h2>
-    <p>Three Rule 12 violations in 48 hours produced three levels of enforcement:</p>
-    <ul>
-      <li><strong>INCIDENT_001:</strong> Agent committed without approval → Added visible manifest requirement</li>
-      <li><strong>INCIDENT_002:</strong> Agent bypassed manifest → Added SHA256 hash-bound tokens</li>
-      <li><strong>INCIDENT_003:</strong> Agent generated tokens without real approval → Added mandatory manifest gate</li>
-    </ul>
-
-    <h2 id="honest-limitations">Honest Limitations</h2>
-    <div class="docs__callout">
-      <div class="docs__callout-title">Warning</div>
-      <p>These gates create friction, not guarantees. The hooks enforce git operations, but cannot prevent the agent from generating tokens without presenting the manifest, interpreting ambiguous responses as approval, or pushing without asking. The human must stay alert.</p>
-    </div>
-
-    <h2 id="scripts">Scripts Reference</h2>
-    <table>
-      <tr><th>Script</th><th>Purpose</th></tr>
-      <tr><td><code>approve-commit.sh</code></td><td>Generate approval token (requires manifest)</td></tr>
-      <tr><td><code>edit-guard.sh</code></td><td>Verify file structural integrity</td></tr>
-      <tr><td><code>pre-flight.sh</code></td><td>Check git state before editing</td></tr>
-      <tr><td><code>skill-gate.sh</code></td><td>Verify skills were consulted</td></tr>
-    </table>
-
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.enforcement">Enforcement</span></div>
+    <h1 data-i18n="enforcement.title">Enforcement</h1>
+    <p data-i18n="enforcement.subtitle">Mechanical enforcement, not suggestions.</p>
+    <h2 data-i18n="enforcement.level1">Level 1: Process Rules</h2>
+    <p data-i18n="enforcement.level1Desc">Agent remembers rules. Load-bearing for simple tasks.</p>
+    <h2 data-i18n="enforcement.level2">Level 2: Visible Manifest</h2>
+    <p data-i18n="enforcement.level2Desc">Agent presents DECISION POINT before every mutation.</p>
+    <h2 data-i18n="enforcement.level3">Level 3: SHA256 Hash-Bound Token</h2>
+    <p data-i18n="enforcement.level3Desc">Hook verifies integrity. Agent cannot bypass what it cannot forge.</p>
+    <h2 data-i18n="enforcement.level4">Level 4: Manifest Gate</h2>
+    <p data-i18n="enforcement.level4Desc">Agent cannot generate tokens without writing a commit manifest first.</p>
+    <h2 data-i18n="enforcement.honestLimitations">Honest Limitations</h2>
+    <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="enforcement.honestDesc">These gates create friction, not guarantees. The human must stay alert.</p></div>
     <div class="docs__nav">
-      <a href="skills.html" class="docs__nav-link">
-        <span class="docs__nav-label">← Previous</span>
-        <span class="docs__nav-title">Skills</span>
-      </a>
-      <a href="philosophy.html" class="docs__nav-link">
-        <span class="docs__nav-label">Next →</span>
-        <span class="docs__nav-title">Philosophy</span>
-      </a>
+      <a href="skills.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="enforcement.prevPage">Skills</span></a>
+      <a href="philosophy.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="enforcement.nextPage">Philosophy</span></a>
     </div>
   </div>
-
-  <aside class="docs__toc">
-    <p class="toc__title">On this page</p>
-    <ul class="toc__list"></ul>
-  </aside>
+  <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
 </main>
-
-<script src="js/docs.js"></script>
+<script src="js/docs.js?v=2"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent Compatibility — Another Agent Skills</title>
+<title>Agents — Another Agent Skills</title>
 <meta name="description" content="Compatible agents: OpenCode, Claude Code, Cursor, Devin Desktop, and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,12 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-
 <header class="header" id="top">
   <nav class="header__nav container">
     <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
     <ul class="header__links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html">Docs</a></li>
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
       <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
     </ul>
     <div class="header__controls">
@@ -28,110 +27,41 @@
     </div>
   </nav>
 </header>
-
 <main class="docs" id="main">
   <aside class="docs__sidebar">
-    <p class="sidebar__title">Docs</p>
-    <nav>
-      <ul class="sidebar__nav">
-        <li><a href="index.html" class="sidebar__link">Overview</a></li>
-        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
-        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
-        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
-        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
-        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
-        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
-        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
-        <li><a href="agents.html" class="sidebar__link sidebar__link--active">Agents</a></li>
-        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
-      </ul>
-    </nav>
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link sidebar__link--active" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+    </ul></nav>
   </aside>
-
   <div class="docs__content">
-    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Agents</div>
-
-    <h1>Agent Compatibility</h1>
-    <p>Git hooks work everywhere. Skill concepts load automatically for OpenCode.</p>
-
-    <h2 id="compatibility">What Works Where</h2>
-    <table>
-      <tr><th>Feature</th><th>OpenCode</th><th>Claude Code</th><th>Cursor</th><th>Devin Desktop</th><th>Any Git Agent</th></tr>
-      <tr><td>Git hooks</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
-      <tr><td>Manifest gate</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
-      <tr><td>SOUL.md / AGENTS.md</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
-      <tr><td>SKILL.md concepts</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
-      <tr><td>Stack detection</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
-      <tr><td>i18n</td><td>Auto</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
-    </table>
-
-    <h2 id="open-code">OpenCode (Recommended)</h2>
-    <p>No extra setup. Skills load automatically via the skill tool.</p>
-    <pre><code>bash install.sh          # Installs skills globally
-cd your-project
-init-agents              # Activates in this project</code></pre>
-
-    <h2 id="claude-code">Claude Code</h2>
-    <pre><code>bash install.sh --agent claude</code></pre>
-    <p>Creates <code>.claude-plugin/agent-discipline/</code> with hooks. To also load SOUL.md and AGENTS.md rules:</p>
-    <pre><code># Copy rules into Claude's config
-cp SOUL.md .claude/CLAUDE.md.append
-cp AGENTS.md .claude/CLAUDE.md.append</code></pre>
-    <p><strong>Key principles to add to CLAUDE.md:</strong></p>
-    <ul>
-      <li>Rule 0h: TOOL_GAP</li>
-      <li>Rule 0i: Continuation Over Recap</li>
-      <li>Principle 8: Verification without evidence is inspection</li>
-      <li>Severity labels: blocking → important → nit → suggestion → learning → praise</li>
-    </ul>
-
-    <h2 id="cursor">Cursor</h2>
-    <pre><code>bash install.sh --agent cursor</code></pre>
-    <p>Creates <code>.cursor-plugin/agent-discipline/</code> with hooks. To load rules:</p>
-    <pre><code>cat SOUL.md AGENTS.md >> .cursorrules</code></pre>
-
-    <h2 id="devin">Devin Desktop</h2>
-    <p>Formerly Windsurf. Acquired by Cognition Labs in 2025.</p>
-    <pre><code>bash install.sh --agent kiro</code></pre>
-    <p>Creates <code>.kiro/hooks/agent-discipline.json</code> with pre-flight, commit approval, and edit guard hooks.</p>
-
-    <h2 id="other">Other Agents</h2>
-    <p><strong>GitHub Copilot, Gemini CLI, and any git-based agent:</strong> Copy the hooks to your project:</p>
-    <pre><code>cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
-cp scripts/git-hooks/commit-msg .git/hooks/commit-msg
-chmod +x .git/hooks/pre-commit .git/hooks/commit-msg
-cp scripts/approve-commit.sh scripts/</code></pre>
-
-    <h2 id="own-system">Using Principles in Your Own System</h2>
-    <p>The core principles are agent-agnostic. Adopt them anywhere:</p>
-    <table>
-      <tr><th>Principle</th><th>How to Use</th></tr>
-      <tr><td>TOOL_GAP</td><td>When tools can't verify, report "ship status unknown." Never fake success.</td></tr>
-      <tr><td>Severity Labels</td><td>Classify findings: blocking → important → nit → suggestion → learning → praise.</td></tr>
-      <tr><td>Error Path Design</td><td>Every tool call, gate, and loop needs a failure path.</td></tr>
-      <tr><td>Continuation Over Recap</td><td>After context loss, resume. Don't waste tokens re-explaining.</td></tr>
-      <tr><td>Drift Detection</td><td>Check docs vs reality regularly.</td></tr>
-      <tr><td>Manifest Gate</td><td>Require a written summary before commit approval.</td></tr>
-    </table>
-
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.agents">Agents</span></div>
+    <h1 data-i18n="agents.title">Agent Compatibility</h1>
+    <p data-i18n="agents.subtitle">Git hooks work everywhere. Skill concepts load automatically for OpenCode.</p>
+    <h2 data-i18n="agents.whatWorks">What Works Where</h2>
+    <h2 data-i18n="agents.setupPerAgent">Setup per Agent</h2>
+    <h3 data-i18n="agents.openCode">OpenCode (Recommended)</h3>
+    <h3 data-i18n="agents.claudeCode">Claude Code</h3>
+    <h3 data-i18n="agents.cursor">Cursor</h3>
+    <h3 data-i18n="agents.devinDesktop">Devin Desktop</h3>
+    <h3 data-i18n="agents.anyGit">Any Git-Based Agent</h3>
     <div class="docs__nav">
-      <a href="rules.html" class="docs__nav-link">
-        <span class="docs__nav-label">← Previous</span>
-        <span class="docs__nav-title">Rules</span>
-      </a>
-      <a href="customization.html" class="docs__nav-link">
-        <span class="docs__nav-label">Next →</span>
-        <span class="docs__nav-title">Customization</span>
-      </a>
+      <a href="rules.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="agents.prevPage">Rules</span></a>
+      <a href="customization.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="agents.nextPage">Customization</span></a>
     </div>
   </div>
-
-  <aside class="docs__toc">
-    <p class="toc__title">On this page</p>
-    <ul class="toc__list"></ul>
-  </aside>
+  <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
 </main>
-
-<script src="js/docs.js"></script>
+<script src="js/docs.js?v=2"></script>
 </body>
 </html>
