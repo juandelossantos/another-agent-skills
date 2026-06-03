@@ -54,7 +54,11 @@
       var key = el.getAttribute('data-i18n');
       var val = getNested(translations, key);
       if (val) {
-        el.textContent = val;
+        if (el.hasAttribute('data-i18n-html')) {
+          el.innerHTML = val;
+        } else {
+          el.textContent = val;
+        }
       }
     });
   }

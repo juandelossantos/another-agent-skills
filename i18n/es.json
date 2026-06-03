@@ -1,9 +1,11 @@
 {
   "nav": {
-    "lifecycle": "Ciclo de vida",
+    "howitworks": "Cómo funciona",
+    "enforcement": "Enforcement",
     "skills": "Skills",
     "quickstart": "Inicio rápido",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "github": "GitHub →"
   },
   "hero": {
     "tag": "/// sistema",
@@ -139,12 +141,12 @@
     "metrLink": "arXiv:2507.09089"
   },
   "footer": {
+    "howitworks": "Cómo funciona",
+    "enforcement": "Enforcement",
+    "skills": "Skills",
     "quickstart": "Inicio rápido",
-    "pipeline": "Pipeline",
-    "skills": "Catálogo de skills",
-    "process": "Proceso",
-    "contributing": "Contribuir",
     "faq": "FAQ",
-    "copyright": "© 2026 — Licencia MIT — Another Agent Skills"
+    "github": "GitHub",
+    "copyright": "Hecho por <a href=\"https://github.com/juandelossantos\" target=\"blank\">@juandelossantos</a> · Powered by <a href=\"https://github.com/juandelossantos/another-agent-skills\" target=\"blank\">Another Agent Skills</a>"
   }
 }
