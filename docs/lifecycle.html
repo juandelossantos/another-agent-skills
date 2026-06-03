@@ -50,27 +50,59 @@
     <p data-i18n="lifecycle.subtitle">Every project follows the same disciplined flow. No shortcuts. No skipped steps.</p>
     <h2 id="visual-flow" data-i18n="lifecycle.visualFlow">Visual Flow</h2>
     <pre><code>DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP</code></pre>
-    <h2 id="phase-define" data-i18n="lifecycle.phase1">DEFINE</h2>
-    <p><strong data-i18n="lifecycle.phase1Goal">Write the spec before any code.</strong></p>
+
+    <h2 id="phase-define" data-i18n="lifecycle.phase1Heading">Phase 1: DEFINE</h2>
+    <p data-i18n="lifecycle.phase1Desc">Write the spec before any code. Interview requirements. Lock scope.</p>
     <h3 data-i18n="lifecycle.phase1Skills">Skills</h3>
-    <ul><li><code>spec-driven-development</code> — Research-backed specs with critical thinking</li><li><code>architecture-analysis</code> — 2-3 options evaluated with trade-offs</li></ul>
-    <p><strong data-i18n="lifecycle.phase1Output">Output:</strong> SPEC.md, DESIGN.md, .gitignore</p>
+    <p data-i18n="lifecycle.phase1SkillList"><code>spec-driven-development</code>, <code>architecture-analysis</code>, <code>interview-me</code>, <code>idea-refine</code></p>
+    <p><strong data-i18n="lifecycle.phase1Output">Output:</strong> <span data-i18n="lifecycle.phase1OutputList">SPEC.md, DESIGN.md, .gitignore</span></p>
     <p><strong data-i18n="lifecycle.phase1Gate">Gate:</strong> <span data-i18n="lifecycle.phase1GateDesc">No code until contract exists (Rule 7).</span></p>
-    <h2 id="phase-plan" data-i18n="lifecycle.phase2">PLAN</h2>
-    <p><strong data-i18n="lifecycle.phase2Goal">Break work into atomic tasks.</strong></p>
-    <h2 id="phase-build" data-i18n="lifecycle.phase3">BUILD</h2>
-    <p><strong data-i18n="lifecycle.phase3Goal">Implement one slice at a time.</strong></p>
+
+    <h2 id="phase-plan" data-i18n="lifecycle.phase2Heading">Phase 2: PLAN</h2>
+    <p data-i18n="lifecycle.phase2Desc">Break work into atomic tasks. Each task must be independently testable.</p>
+    <h3 data-i18n="lifecycle.phase2Skills">Skills</h3>
+    <p data-i18n="lifecycle.phase2SkillList"><code>planning-and-task-breakdown</code></p>
+    <p><strong data-i18n="lifecycle.phase2Output">Output:</strong> <span data-i18n="lifecycle.phase2OutputList">Task list with acceptance criteria</span></p>
+
+    <h2 id="phase-build" data-i18n="lifecycle.phase3Heading">Phase 3: BUILD</h2>
+    <p data-i18n="lifecycle.phase3Desc">Implement one slice at a time. Test each slice before expanding.</p>
+    <h3 data-i18n="lifecycle.phase3Skills">Skills</h3>
+    <p data-i18n="lifecycle.phase3SkillList"><code>incremental-implementation</code>, <code>test-driven-development</code>, <code>source-driven-development</code>, <code>doubt-driven-development</code></p>
+    <p><strong data-i18n="lifecycle.phase3Output">Output:</strong> <span data-i18n="lifecycle.phase3OutputList">Working code with tests</span></p>
     <p><strong data-i18n="lifecycle.phase3Gate">Gate:</strong> <span data-i18n="lifecycle.phase3GateDesc">Each slice tested before expanding.</span></p>
-    <h2 id="phase-verify" data-i18n="lifecycle.phase4">VERIFY</h2>
-    <p><strong data-i18n="lifecycle.phase4Goal">Run tests. Check builds. Verify behavior.</strong></p>
-    <p><strong data-i18n="lifecycle.phase4ToolGap">TOOL_GAP:</strong> <span data-i18n="lifecycle.phase4ToolGapDesc">If tools can't reach the world, report "ship status unknown." Never fake a win.</span></p>
-    <h2 id="phase-review" data-i18n="lifecycle.phase5">REVIEW</h2>
-    <p><strong data-i18n="lifecycle.phase5Goal">Code review. Security. Performance. Quality.</strong></p>
-    <h2 id="phase-ship" data-i18n="lifecycle.phase6">SHIP</h2>
-    <p><strong data-i18n="lifecycle.phase6Goal">Clean commits. CI/CD. Deploy.</strong></p>
+
+    <h2 id="phase-verify" data-i18n="lifecycle.phase4Heading">Phase 4: VERIFY</h2>
+    <p data-i18n="lifecycle.phase4Desc">Run tests. Check builds. Verify behavior.</p>
+    <h3 data-i18n="lifecycle.phase4Skills">Skills</h3>
+    <p data-i18n="lifecycle.phase4SkillList"><code>test-driven-development</code>, <code>debugging-and-error-recovery</code>, <code>browser-testing-with-devtools</code></p>
+    <p><strong data-i18n="lifecycle.phase4Output">Output:</strong> <span data-i18n="lifecycle.phase4OutputList">Passing tests, clean build</span></p>
+    <div class="docs__callout"><div class="docs__callout-title">⚠ TOOL_GAP</div><p data-i18n="lifecycle.phase4ToolGapDesc">If tools cannot reach the world, report "ship status unknown." Never fake a win. The absence of evidence is not evidence of absence.</p></div>
+
+    <h2 id="phase-review" data-i18n="lifecycle.phase5Heading">Phase 5: REVIEW</h2>
+    <p data-i18n="lifecycle.phase5Desc">Code review. Security. Performance. Quality.</p>
+    <h3 data-i18n="lifecycle.phase5Skills">Skills</h3>
+    <p data-i18n="lifecycle.phase5SkillList"><code>code-review-and-quality</code>, <code>security-and-hardening</code>, <code>performance-optimization</code></p>
+    <p><strong data-i18n="lifecycle.phase5Output">Output:</strong> <span data-i18n="lifecycle.phase5OutputList">Review report, quality gates passed</span></p>
+    <p data-i18n="lifecycle.phase5DesignDesc">If UI work, run the 9-skill design review pipeline: critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight</p>
+
+    <h2 id="phase-ship" data-i18n="lifecycle.phase6Heading">Phase 6: SHIP</h2>
+    <p data-i18n="lifecycle.phase6Desc">Clean commits. CI/CD. Deploy.</p>
+    <h3 data-i18n="lifecycle.phase6Skills">Skills</h3>
+    <p data-i18n="lifecycle.phase6SkillList"><code>git-workflow-and-versioning</code>, <code>ci-cd-and-automation</code>, <code>shipping-and-launch</code></p>
+    <p><strong data-i18n="lifecycle.phase6Output">Output:</strong> <span data-i18n="lifecycle.phase6OutputList">Deployed code, documentation updated</span></p>
+
     <h2 id="purpose-driven" data-i18n="lifecycle.purposeDriven">Purpose-Driven Execution</h2>
     <p data-i18n="lifecycle.purposeDesc">The lifecycle weights phases by session purpose:</p>
-        <div class="docs__nav">
+    <table>
+      <tr><th data-i18n="lifecycle.purposeTableHeader1">Purpose</th><th data-i18n="lifecycle.purposeTableHeader2">Primary Phases</th><th data-i18n="lifecycle.purposeTableHeader3">Key Skills</th></tr>
+      <tr><td data-i18n="lifecycle.purposeRow1a">Brainstorming</td><td data-i18n="lifecycle.purposeRow1b">DEFINE</td><td data-i18n="lifecycle.purposeRow1c">interview-me, idea-refine</td></tr>
+      <tr><td data-i18n="lifecycle.purposeRow2a">Development</td><td data-i18n="lifecycle.purposeRow2b">DEFINE → BUILD</td><td data-i18n="lifecycle.purposeRow2c">spec-driven, incremental, TDD</td></tr>
+      <tr><td data-i18n="lifecycle.purposeRow3a">Code Review</td><td data-i18n="lifecycle.purposeRow3b">REVIEW</td><td data-i18n="lifecycle.purposeRow3c">code-review, security, performance</td></tr>
+      <tr><td data-i18n="lifecycle.purposeRow4a">Debugging</td><td data-i18n="lifecycle.purposeRow4b">VERIFY</td><td data-i18n="lifecycle.purposeRow4c">debugging-and-error-recovery</td></tr>
+      <tr><td data-i18n="lifecycle.purposeRow5a">PR Review</td><td data-i18n="lifecycle.purposeRow5b">REVIEW → SHIP</td><td data-i18n="lifecycle.purposeRow5c">pr-review-checklist.sh</td></tr>
+    </table>
+
+    <div class="docs__nav">
       <a href="getting-started.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="lifecycle.prevPage">Getting Started</span></a>
       <a href="skills.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="lifecycle.nextPage">Skills</span><span class="docs__nav-label"> →</span></a>
     </div>
