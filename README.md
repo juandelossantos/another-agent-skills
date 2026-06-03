@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.6.1](https://img.shields.io/badge/version-1.6.1-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.7.0](https://img.shields.io/badge/version-1.7.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -92,7 +92,13 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.6.1
+## What's New in v1.7.0
+
+- **Documentation system** — 51 pages: 10 main docs + 41 individual skill pages
+- **Bilingual docs** — Full EN/ES support with language toggle that persists across pages
+- **Skills catalog** — Browse all 41 skills with category filters
+- **Generation script** — Auto-generate skill pages from SKILL.md files
+- **Landing page integration** — "Docs" link in header/footer, "Learn more" links to docs
 
 - **TOOL_GAP verdict** — When verification tools can't reach the world, report "ship status unknown." Never fake a win. Inspired by Sub-Zero Skill.
 - **Severity labels** — 6-level code review classification: 🔴 blocking → 🟠 important → 🟡 nit → 🔵 suggestion → 📚 learning → 🌟 praise. Inspired by awesome-skills/code-review-skill.
@@ -335,7 +341,7 @@ If it fails, ask the user before taking any action.
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.6.1) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.7.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

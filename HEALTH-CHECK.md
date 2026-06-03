@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-06-03
-**Version:** 1.6.1
+**Version:** 1.7.0
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 
@@ -41,6 +41,8 @@
 | skill-lint | 0 errors, 0 warnings | ✅ |
 | Commits | 191 | ✅ |
 | Unpushed commits | 9 | ⚠️ |
+| Doc pages | 51 (10 main + 41 skill) | ✅ |
+| Doc i18n | EN: 162 keys, ES: 162 keys | ✅ |
 
 ---
 
