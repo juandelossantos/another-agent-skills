@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lifecycle — Another Agent Skills</title>
+<meta name="description" content="The 6-phase development lifecycle: Define, Plan, Build, Verify, Review, Ship.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="lifecycle.html" class="sidebar__link sidebar__link--active">Lifecycle</a></li>
+        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
+        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Lifecycle</div>
+
+    <h1>The 6-Phase Lifecycle</h1>
+    <p>Every project follows the same disciplined flow. No shortcuts. No skipped steps.</p>
+
+    <h2 id="visual-flow">Visual Flow</h2>
+    <pre><code>DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP</code></pre>
+
+    <h2 id="phase-define">Phase 1: DEFINE</h2>
+    <p><strong>Goal:</strong> Write the spec before any code.</p>
+    <h3>Skills</h3>
+    <ul>
+      <li><code>spec-driven-development</code> — Research-backed specs with critical thinking</li>
+      <li><code>architecture-analysis</code> — 2-3 options evaluated with trade-offs</li>
+      <li><code>interview-me</code> — Extract what the user actually wants</li>
+      <li><code>idea-refine</code> — Refine vague ideas into sharp concepts</li>
+    </ul>
+    <p><strong>Output:</strong> SPEC.md, DESIGN.md, .gitignore</p>
+    <p><strong>Gate:</strong> No code until contract exists (Rule 7).</p>
+
+    <h2 id="phase-plan">Phase 2: PLAN</h2>
+    <p><strong>Goal:</strong> Break work into atomic tasks.</p>
+    <h3>Skills</h3>
+    <ul>
+      <li><code>planning-and-task-breakdown</code> — Decompose into verifiable chunks</li>
+    </ul>
+    <p><strong>Output:</strong> Task list with acceptance criteria</p>
+
+    <h2 id="phase-build">Phase 3: BUILD</h2>
+    <p><strong>Goal:</strong> Implement one slice at a time.</p>
+    <h3>Skills</h3>
+    <ul>
+      <li><code>incremental-implementation</code> — Thin vertical slices</li>
+      <li><code>test-driven-development</code> — Failing test first, then make it pass</li>
+      <li><code>source-driven-development</code> — Verify against official docs</li>
+      <li><code>doubt-driven-development</code> — Adversarial review of non-trivial decisions</li>
+    </ul>
+    <p><strong>Output:</strong> Working code with tests</p>
+    <p><strong>Gate:</strong> Each slice tested before expanding.</p>
+
+    <h2 id="phase-verify">Phase 4: VERIFY</h2>
+    <p><strong>Goal:</strong> Run tests. Check builds. Verify behavior.</p>
+    <h3>Skills</h3>
+    <ul>
+      <li><code>test-driven-development</code> — Run test suite</li>
+      <li><code>debugging-and-error-recovery</code> — Systematic root-cause debugging</li>
+      <li><code>browser-testing-with-devtools</code> — Runtime verification</li>
+    </ul>
+    <p><strong>Output:</strong> Passing tests, clean build</p>
+    <p><strong>TOOL_GAP:</strong> If tools can't reach the world, report "ship status unknown." Never fake a win.</p>
+
+    <h2 id="phase-review">Phase 5: REVIEW</h2>
+    <p><strong>Goal:</strong> Code review. Security. Performance. Quality.</p>
+    <h3>Skills</h3>
+    <ul>
+      <li><code>code-review-and-quality</code> — Five-axis review with severity labels</li>
+      <li><code>security-and-hardening</code> — OWASP prevention</li>
+      <li><code>performance-optimization</code> — Measure first, optimize only what matters</li>
+    </ul>
+    <p><strong>Output:</strong> Review report, quality gates passed</p>
+    <p><strong>Design Review Pipeline</strong> (if UI work): critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight</p>
+
+    <h2 id="phase-ship">Phase 6: SHIP</h2>
+    <p><strong>Goal:</strong> Clean commits. CI/CD. Deploy.</p>
+    <h3>Skills</h3>
+    <ul>
+      <li><code>git-workflow-and-versioning</code> — Atomic commits, clean history</li>
+      <li><code>ci-cd-and-automation</code> — Automated quality gates</li>
+      <li><code>shipping-and-launch</code> — Pre-launch checklist, monitoring, rollback</li>
+    </ul>
+    <p><strong>Output:</strong> Deployed code, documentation updated</p>
+
+    <h2 id="purpose-driven">Purpose-Driven Execution</h2>
+    <p>The lifecycle weights phases by session purpose:</p>
+    <table>
+      <tr><th>Purpose</th><th>Primary Phases</th><th>Key Skills</th></tr>
+      <tr><td>Brainstorming</td><td>DEFINE</td><td>interview-me, idea-refine</td></tr>
+      <tr><td>Development</td><td>DEFINE → BUILD</td><td>spec-driven, incremental, TDD</td></tr>
+      <tr><td>Code Review</td><td>REVIEW</td><td>code-review, security, performance</td></tr>
+      <tr><td>Debugging</td><td>VERIFY</td><td>debugging-and-error-recovery</td></tr>
+      <tr><td>PR Review</td><td>REVIEW → SHIP</td><td>pr-review-checklist.sh</td></tr>
+    </table>
+
+    <div class="docs__nav">
+      <a href="getting-started.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Previous</span>
+        <span class="docs__nav-title">Getting Started</span>
+      </a>
+      <a href="skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">Next →</span>
+        <span class="docs__nav-title">Skills</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="js/docs.js"></script>
+</body>
+</html>
