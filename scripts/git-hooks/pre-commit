@@ -268,6 +268,7 @@ echo "║  DEBUG STRIKES TRACKING                    ║"
 echo "╚════════════════════════════════════════════╝"
 
 DEBUG_LOG="${REPO_ROOT}/.git/DEBUG_STRIKES"
+COMMIT_MSG_FILE="${REPO_ROOT}/.git/COMMIT_EDITMSG"
 COMMIT_MSG=$(head -1 "$COMMIT_MSG_FILE" 2>/dev/null | tr '[:upper:]' '[:lower:]' || echo "")
 
   DEBUG_STRIKE=0
