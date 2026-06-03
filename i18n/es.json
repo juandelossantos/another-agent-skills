@@ -27,6 +27,24 @@
     "metrSource": "— Becker et al., METR, julio 2025",
     "conclusion": "La diferencia entre \"capaz\" y \"confiable\" no es inteligencia. Es proceso."
   },
+  "howitworks": {
+    "label": "02 / cómo funciona",
+    "title": "Seis fases. Cada vez.",
+    "subtitle": "Todo proyecto sigue el mismo flujo disciplinado. Sin atajos. Sin pasos saltados.",
+    "phase1Name": "DEFINIR",
+    "phase1Desc": "Escribí el spec antes de cualquier código. Entrevistá requisitos. Bloqueá el alcance.",
+    "phase2Name": "PLANEAR",
+    "phase2Desc": "Dividí el trabajo en tareas atómicas. Estimá esfuerzo. Identificá dependencias.",
+    "phase3Name": "CONSTRUIR",
+    "phase3Desc": "Implementá un slice a la vez. Testeá cada uno antes de expandir.",
+    "phase4Name": "VERIFICAR",
+    "phase4Desc": "Corré tests. Chequeá builds. Verificá que el comportamiento coincida con el spec.",
+    "phase5Name": "REVISAR",
+    "phase5Desc": "Code review. Auditoría de seguridad. Chequeo de performance. Quality gates.",
+    "phase6Name": "ENTREGAR",
+    "phase6Desc": "Commits limpios. CI/CD. Deploy. Documentación.",
+    "conclusion": "Ninguna fase es opcional. Cada paso tiene una skill. Cada skill tiene un gate."
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",

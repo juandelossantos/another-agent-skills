@@ -27,6 +27,24 @@
     "metrSource": "— Becker et al., METR, July 2025",
     "conclusion": "The gap between \"capable\" and \"reliable\" is not intelligence. It's process."
   },
+  "howitworks": {
+    "label": "02 / how it works",
+    "title": "Six phases. Every time.",
+    "subtitle": "Every project follows the same disciplined flow. No shortcuts. No skipped steps.",
+    "phase1Name": "DEFINE",
+    "phase1Desc": "Write the spec before any code. Interview requirements. Lock scope.",
+    "phase2Name": "PLAN",
+    "phase2Desc": "Break work into atomic tasks. Estimate effort. Identify dependencies.",
+    "phase3Name": "BUILD",
+    "phase3Desc": "Implement one slice at a time. Test each before expanding.",
+    "phase4Name": "VERIFY",
+    "phase4Desc": "Run tests. Check builds. Verify behavior matches spec.",
+    "phase5Name": "REVIEW",
+    "phase5Desc": "Code review. Security audit. Performance check. Quality gates.",
+    "phase6Name": "SHIP",
+    "phase6Desc": "Clean commits. CI/CD. Deployment. Documentation.",
+    "conclusion": "No phase is optional. Every step has a skill. Every skill has a gate."
+  },
   "references": {
     "label": "references",
     "title": "Sources",
