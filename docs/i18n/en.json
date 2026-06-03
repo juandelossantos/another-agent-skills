@@ -330,7 +330,17 @@
     "addGuides": "Adding Guides",
     "configEnforcement": "Configuring Enforcement",
     "stackConfig": "STACK_CONFIG.md Customization",
-    "userProfile": "User Profile Preferences"
+    "userProfile": "User Profile Preferences",
+    "editSkillsDesc": "Skills are Markdown files in the skills/ directory. Edit them directly. Each skill has a SKILL.md index (≤250 lines) and optional guides in guides/.",
+    "editSkillsExample": "Example: Editing a skill",
+    "newSkillsDesc": "Create a new directory in skills/ with a SKILL.md file. Include YAML frontmatter with name and description, a \"When to Use\" section, and keep it under 250 lines.",
+    "newSkillsExample": "SKILL.md template",
+    "addGuidesDesc": "For detailed content that exceeds 250 lines, create guides in the guides/ subdirectory. Reference them from SKILL.md.",
+    "configEnforcementDesc": "Runtime hook controls via environment variables: SKILLS_HOOK_LEVEL, SKILLS_DISABLED_HOOKS, SKILLS_TEST_TIMEOUT.",
+    "stackConfigDesc": "Edit STACK_CONFIG.md in your project to customize commands (test, lint, build, dev). All skills read from this file.",
+    "userProfileDesc": "Your preferences are stored at ~/.config/opencode/user-profile.json. These persist across all projects.",
+    "prevPage": "Agents",
+    "nextPage": "Overview"
   },
   "footer": {
     "docs": "Documentation"

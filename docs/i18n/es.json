@@ -330,7 +330,17 @@
     "addGuides": "Agregar guías",
     "configEnforcement": "Configurar enforcement",
     "stackConfig": "Personalización de STACK_CONFIG.md",
-    "userProfile": "Preferencias del perfil de usuario"
+    "userProfile": "Preferencias del perfil de usuario",
+    "editSkillsDesc": "Los skills son archivos Markdown en el directorio skills/. Editalos directamente.",
+    "editSkillsExample": "Ejemplo: Editar un skill",
+    "newSkillsDesc": "Crear un nuevo directorio en skills/ con un archivo SKILL.md. Incluir frontmatter YAML con nombre y descripción.",
+    "newSkillsExample": "Plantilla SKILL.md",
+    "addGuidesDesc": "Para contenido detallado que excede 250 líneas, crear guías en guides/.",
+    "configEnforcementDesc": "Controles de hooks via variables de entorno: SKILLS_HOOK_LEVEL, SKILLS_DISABLED_HOOKS, SKILLS_TEST_TIMEOUT.",
+    "stackConfigDesc": "Editar STACK_CONFIG.md en tu proyecto para personalizar comandos (test, lint, build, dev).",
+    "userProfileDesc": "Tus preferencias están en ~/.config/opencode/user-profile.json. Persisten en todos los proyectos.",
+    "prevPage": "Agentes",
+    "nextPage": "Descripción general"
   },
   "footer": {
     "docs": "Documentación"

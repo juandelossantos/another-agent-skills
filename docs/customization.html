@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customization — Another Agent Skills</title>
-<meta name="description" content="How to extend the framework.">
+<meta name="description" content="How to extend the framework: edit skills, create new ones, configure enforcement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -48,13 +48,78 @@
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.customization">Customization</span></div>
     <h1 data-i18n="customization.title">Customization</h1>
     <p data-i18n="customization.subtitle">How to extend the framework.</p>
+
     <h2 data-i18n="customization.editSkills">Editing Existing Skills</h2>
+    <p data-i18n="customization.editSkillsDesc">Skills are Markdown files in the skills/ directory. Edit them directly.</p>
+    <pre><code>skills/
+├── your-skill/
+│   ├── SKILL.md          # Skill index (≤250 lines)
+│   └── guides/
+│       └── GUIDE.md      # Detailed guide (loaded on-demand)</code></pre>
+
     <h2 data-i18n="customization.newSkills">Creating New Skills</h2>
+    <p data-i18n="customization.newSkillsDesc">Create a new directory in skills/ with a SKILL.md file.</p>
+    <pre><code>---
+name: my-new-skill
+description: >
+  What this skill does. When to activate it.
+---
+
+# My New Skill
+
+## When to Use
+
+Use when: [specific trigger condition].
+
+## Process
+
+1. Step one
+2. Step two
+3. Step three
+
+## Output
+
+What the skill produces.</code></pre>
+
     <h2 data-i18n="customization.addGuides">Adding Guides</h2>
+    <p data-i18n="customization.addGuidesDesc">For detailed content that exceeds 250 lines, create guides in the guides/ subdirectory.</p>
+    <pre><code>skills/my-skill/
+├── SKILL.md
+└── guides/
+    ├── DETAILED-GUIDE.md
+    └── REFERENCE-GUIDE.md</code></pre>
+
     <h2 data-i18n="customization.configEnforcement">Configuring Enforcement</h2>
+    <p data-i18n="customization.configEnforcementDesc">Runtime hook controls via environment variables.</p>
+    <table>
+      <tr><th>Variable</th><th>Values</th><th>Effect</th></tr>
+      <tr><td><code>SKILLS_HOOK_LEVEL</code></td><td>minimal, standard, strict</td><td>Controls which checks run</td></tr>
+      <tr><td><code>SKILLS_DISABLED_HOOKS</code></td><td>Comma-separated list</td><td>Disables specific checks</td></tr>
+      <tr><td><code>SKILLS_TEST_TIMEOUT</code></td><td>Seconds (default: 60)</td><td>Timeout for test commands</td></tr>
+    </table>
+
     <h2 data-i18n="customization.stackConfig">STACK_CONFIG.md Customization</h2>
+    <p data-i18n="customization.stackConfigDesc">Edit STACK_CONFIG.md in your project to customize commands.</p>
+    <pre><code>stack: node
+test: npm test
+lint: npm run lint
+typecheck: npx tsc --noEmit
+build: npm run build
+dev: npm run dev</code></pre>
+
     <h2 data-i18n="customization.userProfile">User Profile Preferences</h2>
-        <div class="docs__nav">
+    <p data-i18n="customization.userProfileDesc">Your preferences are stored at ~/.config/opencode/user-profile.json.</p>
+    <pre><code>{
+  "session_defaults": {
+    "default_purpose": "development"
+  },
+  "stack_preferences": {
+    "typescript": true,
+    "testing_framework": "vitest"
+  }
+}</code></pre>
+
+    <div class="docs__nav">
       <a href="agents.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="customization.prevPage">Agents</span></a>
       <a href="index.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="customization.nextPage">Overview</span><span class="docs__nav-label"> →</span></a>
     </div>
