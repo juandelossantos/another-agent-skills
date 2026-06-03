@@ -43,7 +43,7 @@ generate_html() {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../../css/style.css?v=2">
 <link rel="stylesheet" href="../css/docs.css">
 </head>
 <body>
@@ -112,7 +112,7 @@ ${content}
   </aside>
 </main>
 
-<script src="../js/docs.js"></script>
+<!-- Skill pages use landing page CSS only, no docs.js needed -->
 </body>
 </html>
 HTMLEOF
