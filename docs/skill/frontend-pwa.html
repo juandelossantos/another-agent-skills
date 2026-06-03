@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>frontend-pwa — Another Agent Skills</title>
+<meta name="description" content="Build installable, offline-first web apps for all devices with migration path to">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> frontend-pwa</div>
+
+    <h1>frontend-pwa</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Build installable, offline-first web apps for all devices with migration path to</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">196 lines</span>
+      <span class="skill-card__badge">guide: DEVICE-MATRIX-GUIDE</span>
+      <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
+      <span class="skill-card__badge">guide: PWA-ARCHITECTURE-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Language Detection</h3>
+→ See <code>engineering-fundamentals</code> Phase 0.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery Gate</h3>
+→ See <code>engineering-fundamentals</code> Phase 1 for universal discovery.
+<br>
+<strong>PWA-specific questions:</strong>
+1. **Offline**: Must work without internet? Which parts?
+2. **Installable**: Installable from browser?
+3. **Native migration**: Future App Store / Google Play?
+4. **Devices**: Mobile only, or tablet, desktop, TV?
+5. **Touch vs mouse**: Users touch or use mouse?
+6. **Push notifications**: Needed?
+7. **Background sync**: Sync when connection returns?
+<br>
+Read <code>DISCOVERY-GUIDE.md</code> for complete PWA checklist.
+<br>
+---
+<br>
+<h3>Phase 2 — Write Contracts</h3>
+→ See <code>engineering-fundamentals</code> Phase 2.
+<br>
+<strong>PWA-specific additions:</strong>
+<ul>
+<li>SPEC.md must include: Offline strategy, Install requirements, Device matrix, Native bridge needs.</li>
+<br>
+---
+<br>
+<h3>Phase 3 — Three Dials System</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/DESIGN-CORE.md</code> for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, color principles, and dark mode protocol.
+<br>
+Apply dials with PWA constraints: MOTION uses web APIs (Framer Motion + CSS), DENSITY must work across 280px→3840px viewports, VARIANCE collapses at mobile breakpoints.
+<br>
+---
+<br>
+<h3>Phase 4 — Stack Lock-in</h3>
+<br>
+| Tool | Minimum | Notes |
+|---|---|---|
+| Node.js | 20.9+ | |
+| Next.js | 16.1.1+ | App Router |
+| React | 19.2+ | |
+| TypeScript | 5.7+ | |
+| Tailwind CSS | v4 | <code>@theme</code> in CSS |
+| Workbox | 7+ | Service worker generation |
+| Capacitor | 6+ | Native bridge (optional, if migration planned) |
+| Vite PWA | 0.20+ | If using Vite |
+<br>
+Optional: <code>next-pwa`, `@capacitor/core</code> + plugins.
+<br>
+---
+<br>
+<h3>Phase 5 — Anti-Slop Rules (PWA)</h3>
+<br>
+→ See <code>engineering-fundamentals/guides/ANTI-SLOP-CORE.md</code> for universal AI tells, content density, copy protocol, and UI state requirements.
+<br>
+<strong>PWA-specific:</strong>
+<ul>
+<li>**Touch:** No hover-only interactions. Targets ≥44px (iOS) / 48dp (Android). <code>@media (hover: hover)</code> for hover conditionally.</li>
+<ul>
+<li>**Viewport:** No <code>100vh` on mobile. Use `100dvh</code>.</li>
+<ul>
+<li>**Device agnostic:** Test 280px→3840px. Container queries for component layouts.</li>
+<ul>
+<li>**Offline-first:** Never assume internet. Cache critical assets. Show stale data while syncing.</li>
+<br>
+---
+<br>
+<h3>Phase 6 — Universal Responsive</h3>
+<br>
+→ **See <code>DEVICE-MATRIX-GUIDE.md</code> for device matrix, container queries, touch vs mouse patterns.**
+<br>
+---
+<br>
+<h3>Phase 7 — PWA Architecture</h3>
+<br>
+→ **See <code>PWA-ARCHITECTURE-GUIDE.md</code> for service worker, manifest, offline pages, native migration path.**
+<br>
+---
+<br>
+<h3>Phase 8 — Build with Tokens</h3>
+<br>
+1. Read <code>design/DESIGN-LOCK.md` and `design/approved/</code>
+2. Apply tokens to <code>globals.css</code>
+3. <code>manifest.json` / `manifest.ts</code>
+4. Service worker registration
+5. Capacitor config (if migration planned)
+6. Viewport units: <code>dvh</code> where appropriate
+<br>
+---
+<br>
+<h3>Phase 9 — QA Gates</h3>
+<br>
+→ See <code>engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md</code> for universal checks first.
+<br>
+<strong>After QA gates, log metrics:</strong>
+<code>`</code>
+LOG METRIC: gate
+<ul>
+<li>project: [detect from git remote or directory]</li>
+<ul>
+<li>gate_name: frontend-pwa-qa</li>
+<ul>
+<li>result: pass/fail</li>
+<ul>
+<li>checks_passed: [N]/20</li>
+<code>`</code>
+<br>
+<strong>PWA-specific checks (13-20):</strong>
+<br>
+13. **Offline test** — Disable network. App loads, cached data visible.
+14. **Install test** — Lighthouse PWA audit passes.
+15. **Device matrix** — Tested 375px, 768px, 1024px, 1920px.
+16. **Touch targets** — Interactive elements ≥44px / 48dp.
+17. **No hover-only** — Every hover has touch equivalent.
+18. **Viewport safe** — No <code>100vh` without `100dvh</code> fallback.
+19. **Foldable** — Layout works on 280px, survives foldable transitions.
+20. **Capacitor ready** — If migration planned, <code>npx cap sync</code> succeeds.
+<br>
+---
+<br>
+<h2 id="examples & troubleshooting">examples & troubleshooting</h2>
+<br>
+→ Read <code>EXAMPLES.md</code>.
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+<ul>
+<li>No service worker or manifest.</li>
+<ul>
+<li><code>100vh` without `100dvh</code> fallback.</li>
+<ul>
+<li>Hover-only without touch alternatives.</li>
+<ul>
+<li>No offline page.</li>
+<ul>
+<li>No container queries.</li>
+<ul>
+<li>Untested on tablet/desktop.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+<ul>
+<li><code>manifest.json` with `display: standalone</code>.</li>
+<ul>
+<li>Service worker registered.</li>
+<ul>
+<li>Offline page exists.</li>
+<ul>
+<li>No <code>100vh` without `100dvh</code>.</li>
+<ul>
+<li>Container queries used.</li>
+<ul>
+<li>Touch targets ≥44px.</li>
+<ul>
+<li>Hover guarded with <code>@media (hover: hover)</code>.</li>
+<ul>
+<li>Tested on ≥4 breakpoints.</li>
+<ul>
+<li>Capacitor config if migration planned.</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>user-onboarding — Another Agent Skills</title>
+<meta name="description" content="Capture user preferences once, persist across all projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> user-onboarding</div>
+
+    <h1>user-onboarding</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Capture user preferences once, persist across all projects.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">188 lines</span>
+      <span class="skill-card__badge">guide: ONBOARDING-QUESTIONS-GUIDE</span>
+      <span class="skill-card__badge">guide: USAGE-EXAMPLES-GUIDE</span>
+
+    </div>
+
+    <div class="docs__skill-content">
+<br>
+<h2 id="core process">core process</h2>
+<br>
+<h3>Phase 0 — Detect Profile</h3>
+<br>
+1. **Check <code>~/.config/opencode/user-profile.json</code>:**
+   - <90 days → Read, skip to Phase 3 (Quick Verify)
+   - >90 days → Read, ask "Update profile?"
+   - Missing → Full onboarding
+<br>
+2. **Check stale preferences:** Mentioned technologies outdated (e.g., Next.js 14 when current is 16)? Suggest update.
+<br>
+---
+<br>
+<h3>Phase 1 — Discovery Interview (Full Onboarding)</h3>
+<br>
+→ **See <code>ONBOARDING-QUESTIONS-GUIDE.md</code> for complete 30-question interview (7 sections: Identity, Technical, Design, Workflow, Commit, Constraints, Session Purpose).**
+<br>
+Summary: 27 questions covering identity, technical preferences (platform, framework, stack), design taste, workflow style, constraints.
+<br>
+<strong>Rules:</strong>
+<ul>
+<li>Ask once. Store permanently.</li>
+<ul>
+<li>Never include secrets, API keys, or sensitive data.</li>
+<ul>
+<li>Update <code>updated_at</code> on any change.</li>
+<ul>
+<li>Version schema for backward compatibility.</li>
+<br>
+---
+<br>
+<h3>Phase 2 — Persist & Lock</h3>
+<br>
+<strong>Save to <code>~/.config/opencode/user-profile.json</code>:</strong>
+<br>
+<code>`</code>json
+{
+  "version": "1.0",
+  "created_at": "2026-05-24",
+  "updated_at": "2026-05-24",
+  "identity": {
+    "name": "Juan",
+    "role": "developer",
+    "industry": "fintech",
+    "experience_years": "3-5",
+    "team_size": "solo",
+    "github_username": "juandelossantos",
+    "author_name": "Juan de los Santos"
+  },
+  "preferences": {
+    "language": "es",
+    "primary_platform": "web",
+    "web_framework": "react",
+    "mobile_approach": null,
+    "desktop_framework": null,
+    "backend_stack": "nodejs",
+    "styling_approach": "tailwind",
+    "database": "postgresql",
+    "deployment": "vercel"
+  },
+  "design": {
+    "aesthetic": "minimalist",
+    "color_preference": "dark",
+    "typography_care": "high",
+    "animation_level": "moderate"
+  },
+  "workflow": {
+    "communication_style": "detailed",
+    "decision_style": "propose_options",
+    "commit_review": "auto_review_with_approval",
+    "context_persistence": true,
+    "documentation_level": "comprehensive",
+    "commit_approval": "manual"
+  },
+  "constraints": {
+    "budget_context": "startup",
+    "time_pressure": "moderate",
+    "open_source": false,
+    "accessibility_priority": "important"
+  },
+  "session_defaults": {
+    "default_purpose": "development",
+    "purpose_skills_map": {
+      "brainstorming": ["idea-refine", "architecture-analysis"],
+      "development": ["spec-driven-development", "test-driven-development", "incremental-implementation"],
+      "code_review": ["project-health-check", "code-review-and-quality"],
+      "pr_review": ["git-workflow-and-versioning", "code-review-and-quality"],
+      "debugging": ["debugging-and-error-recovery", "test-driven-development"],
+      "custom": []
+    }
+  }
+}
+<code>`</code>
+<br>
+---
+<br>
+<h3>Phase 3 — Quick Verify (if profile exists)</h3>
+<br>
+<code>`</code>
+PROFILE DETECTED:
+<br>
+Name: Juan | Role: Developer | Industry: Fintech
+Platform: Web (React) + Node.js + PostgreSQL + Vercel
+Design: Minimalist, dark mode, moderate animation
+Communication: Detailed, proposes options
+Default purpose: Development
+<br>
+→ Still correct? (yes/sí)
+→ Update anything? (reply with section number)
+<code>`</code>
+<br>
+---
+<br>
+<h2 id="how other skills use this profile">how other skills use this profile</h2>
+<br>
+→ **See <code>USAGE-EXAMPLES-GUIDE.md</code> for 5 skill-specific examples and preference update workflow.**
+<br>
+<strong>Without profile:</strong> "React or Vue? What stack?"
+<br>
+<strong>With profile:</strong> "I see you prefer React + Tailwind. Confirm for this project?"
+<br>
+---
+<br>
+<h2 id="common rationalizations">common rationalizations</h2>
+<br>
+| Excuse | Response |
+|---|---|
+| "Ask every time." | Repetitive questions waste time. Saved profile makes every interaction faster. |
+| "User might change mind." | Quick Verify and easy updates exist. Profile is default, not prison. |
+| "Multiple people, same machine." | Support multiple profiles: <code>user-profile-juan.json`, `user-profile-maria.json</code>. |
+| "Just bureaucracy." | 3 minutes onboarding saves 10+ minutes repeated questions per project. |
+<br>
+---
+<br>
+<h2 id="red flags">red flags</h2>
+<br>
+<ul>
+<li>Asks "React or Vue?" when profile already specifies.</li>
+<ul>
+<li>Ignores user preference, defaults to agent's own.</li>
+<ul>
+<li>Profile contains secrets or API keys.</li>
+<ul>
+<li>Profile never updated even after user changes preferences.</li>
+<br>
+---
+<br>
+<h2 id="verification">verification</h2>
+<br>
+Before any skill runs discovery:
+<ul>
+<li>[ ] Checked <code>~/.config/opencode/user-profile.json</code></li>
+<ul>
+<li>[ ] If exists: Used to personalize and skip redundant questions</li>
+<ul>
+<li>[ ] If missing: Ran full onboarding</li>
+<ul>
+<li>[ ] If outdated: Offered update</li>
+<ul>
+<li>[ ] Never stored secrets in profile</li>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="../js/docs.js"></script>
+</body>
+</html>
