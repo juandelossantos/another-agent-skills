@@ -227,7 +227,47 @@
     </div>
   </section>
 
-  <!-- SECTIONS: Enforcement, Philosophy, Compatible Agents, Skills Grid, Quick Start, FAQ -->
+  <section class="enforcement" id="enforcement" data-reveal aria-label="Enforcement">
+    <div class="container">
+      <p class="section__label" data-i18n="enforcement.label">03 / enforcement</p>
+      <h2 class="section__title" data-i18n="enforcement.title">Rules that depend on memory fail.</h2>
+      <p class="section__title section__title--accent" data-i18n="enforcement.titleAccent">Rules that depend on visible blocks succeed.</p>
+      <div class="enforcement__levels">
+        <div class="enforcement__level enforcement__level--weak">
+          <span class="enforcement__level-num">01</span>
+          <div class="enforcement__level-content">
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level1Title">Level 1: Process Rules</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level1Desc">Agent remembers the rules. Fails when context degrades.</p>
+          </div>
+        </div>
+        <div class="enforcement__arrow" aria-hidden="true">↓</div>
+        <div class="enforcement__level enforcement__level--mid">
+          <span class="enforcement__level-num">02</span>
+          <div class="enforcement__level-content">
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level2Title">Level 2: Visible Manifest</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level2Desc">Agent presents DECISION POINT before every mutation. Agent can skip the presentation.</p>
+          </div>
+        </div>
+        <div class="enforcement__arrow" aria-hidden="true">↓</div>
+        <div class="enforcement__level enforcement__level--strong">
+          <span class="enforcement__level-num">03</span>
+          <div class="enforcement__level-content">
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level3Title">Level 3: SHA256 Hash-Bound Token</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">Hook verifies integrity. Agent cannot bypass what it cannot forge.</p>
+          </div>
+          <span class="enforcement__check">✓</span>
+        </div>
+      </div>
+      <p class="enforcement__incident" data-i18n="enforcement.incidentRef">Three Rule 12 violations in 48 hours. Three levels of enforcement.</p>
+      <p class="enforcement__conclusion" data-i18n="enforcement.conclusion">We learn from our own failures. Faster than competitors ship features.</p>
+      <div class="enforcement__stats">
+        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">10 pre-commit gates</span>
+        <span class="enforcement__stats-label" data-i18n="enforcement.statsLabel">Mechanical enforcement</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTIONS: Philosophy, Compatible Agents, Skills Grid, Quick Start, FAQ -->
   <section class="placeholder" aria-hidden="true" style="display:none"></section>
 </main>
 

@@ -45,6 +45,21 @@
     "phase6Desc": "Commits limpios. CI/CD. Deploy. Documentación.",
     "conclusion": "Ninguna fase es opcional. Cada paso tiene una skill. Cada skill tiene un gate."
   },
+  "enforcement": {
+    "label": "03 / enforcement",
+    "title": "Las reglas que dependen de la memoria fallan.",
+    "titleAccent": "Las reglas que dependen de bloques visibles funcionan.",
+    "level1Title": "Nivel 1: Reglas de Proceso",
+    "level1Desc": "El agente recuerda las reglas. Falla cuando el contexto degrada.",
+    "level2Title": "Nivel 2: Manifiesto Visible",
+    "level2Desc": "El agente presenta un DECISION POINT antes de cada mutación. El agente puede saltarse la presentación.",
+    "level3Title": "Nivel 3: Token con Hash SHA256",
+    "level3Desc": "El hook verifica integridad. El agente no puede falsificar lo que no puede forjar.",
+    "incidentRef": "Tres violaciones de Rule 12 en 48 horas. Tres niveles de enforcement.",
+    "conclusion": "Aprendemos de nuestros propios fallos. Más rápido que la competencia lanza features.",
+    "statsLabel": "Enforcement mecánico",
+    "statsValue": "10 pre-commit gates"
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",

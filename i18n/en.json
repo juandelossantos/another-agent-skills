@@ -45,6 +45,21 @@
     "phase6Desc": "Clean commits. CI/CD. Deployment. Documentation.",
     "conclusion": "No phase is optional. Every step has a skill. Every skill has a gate."
   },
+  "enforcement": {
+    "label": "03 / enforcement",
+    "title": "Rules that depend on memory fail.",
+    "titleAccent": "Rules that depend on visible blocks succeed.",
+    "level1Title": "Level 1: Process Rules",
+    "level1Desc": "Agent remembers the rules. Fails when context degrades.",
+    "level2Title": "Level 2: Visible Manifest",
+    "level2Desc": "Agent presents DECISION POINT before every mutation. Agent can skip the presentation.",
+    "level3Title": "Level 3: SHA256 Hash-Bound Token",
+    "level3Desc": "Hook verifies integrity. Agent cannot bypass what it cannot forge.",
+    "incidentRef": "Three Rule 12 violations in 48 hours. Three levels of enforcement.",
+    "conclusion": "We learn from our own failures. Faster than competitors ship features.",
+    "statsLabel": "Mechanical enforcement",
+    "statsValue": "10 pre-commit gates"
+  },
   "references": {
     "label": "references",
     "title": "Sources",
