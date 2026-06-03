@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.6.0](https://img.shields.io/badge/version-1.6.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.6.1](https://img.shields.io/badge/version-1.6.1-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -92,18 +92,14 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.6.0
+## What's New in v1.6.1
 
-- **FAQ section** — 6 frequently asked questions with clear answers
-- **Quick Start section** — 3-step installation guide on landing page
-- **Skills grid** — Visual showcase of all 38 skills
-- **Compatible agents section** — OpenCode, Claude Code, Cursor, Kiro support
-- **Philosophy section** — SOUL.md principles explained
-- **Enforcement section** — 3 levels of mechanical enforcement
-- **How it works section** — 6-phase lifecycle visual
-- **skill-gate.sh** — Mechanical Rule 1 enforcement script
-- **approve-commit.sh --auto** — Approval in chat, token auto-generated
-- **Rule 12 formalization** — "yes commit" and "yes push" as approval keywords
+- **TOOL_GAP verdict** — When verification tools can't reach the world, report "ship status unknown." Never fake a win. Inspired by Sub-Zero Skill.
+- **Severity labels** — 6-level code review classification: 🔴 blocking → 🟠 important → 🟡 nit → 🔵 suggestion → 📚 learning → 🌟 praise. Inspired by awesome-skills/code-review-skill.
+- **Error path design** — "Error paths are main paths." Every tool call, gate, loop, and session needs a failure path. Inspired by Harness Books.
+- **Drift detection** — Docs vs reality consistency checks (stats, version, features, commands, links). Inspired by Sub-Zero Skill.
+- **Continuation over recap** — After context loss, resume from last verified state. Don't recap everything. Inspired by Harness Books.
+- **3 forked skills** — doubt-driven-development, shipping-and-launch, context-engineering: trimmed to ≤250 lines, added TOOL_GAP, now part of our project.
 
 > "Ship an API" → loads `backend-api-mastery` → protocol decision → DB schema → endpoints → tests.
 > "Fix a bug" → loads `debugging-and-error-recovery` → repro test → root cause → fix → verify.
@@ -322,6 +318,19 @@ Built on the shoulders of:
 - **Julius Brussee** — [`caveman`](https://github.com/JuliusBrussee/caveman) — token optimization inspiration
 - **Andrej Karpathy** — Behavioral observations on LLM coding failures
 - **OpenCode team** — Native skill framework and invocation system
+
+## Prior Art
+
+Ideas borrowed from the ecosystem, adapted to fit our philosophy:
+
+| Source | What We Took | How We Adapted |
+|---|---|---|
+| [Sub-Zero Skill](https://github.com/henchmarketing-rgb/sub-zero-skill) | TOOL_GAP verdict, fresh-context verification, drift detection | Added to SOUL.md principle 8, Rule 0h, code-review-and-quality, project-health-check, shipping-and-launch |
+| [awesome-skills/code-review-skill](https://github.com/awesome-skills/code-review-skill) | 6-level severity labels (blocking → praise) | Added to code-review-and-quality skill |
+| [Harness Books](https://github.com/wquguru/harness-books) | Error path design, continuation-over-recap, 10 principles of harness engineering | Added to engineering-fundamentals principle 6, Phase 5b, Rule 0i, SOUL.md value conflicts |
+| [AtomCode](https://github.com/atomgit-atomcode/atomcode) | Validated our stack-agnostic, context-aware, tool-safety architecture | No changes needed — confirmed our approach |
+
+**We don't copy. We synthesize.** These are ideas that aligned with our SOUL.md principles. We adapted them, not adopted them.
 
 ---
 
