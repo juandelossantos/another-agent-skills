@@ -1373,8 +1373,7 @@ ul { list-style: none; }
    ========================================================= */
 
 .references {
-  padding: var(--space-2xl) 0;
-  border-top: 1px solid var(--border);
+  padding: var(--space-3xl) 0;
 }
 
 .references__list {
