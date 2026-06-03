@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rules — Another Agent Skills</title>
+<meta name="description" content="All behavioral rules: TOOL_GAP, Continuation Over Recap, Guardian Pattern, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="skills.html" class="sidebar__link">Skills</a></li>
+        <li><a href="enforcement.html" class="sidebar__link">Enforcement</a></li>
+        <li><a href="philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="rules.html" class="sidebar__link sidebar__link--active">Rules</a></li>
+        <li><a href="agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="customization.html" class="sidebar__link">Customization</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html">Docs</a> <span>›</span> Rules</div>
+
+    <h1>Rules</h1>
+    <p>Behavioral rules that govern agent conduct across all sessions.</p>
+
+    <h2 id="behavioral">Behavioral Rules</h2>
+
+    <h3 id="rule-0">Rule 0: User Profile Verification</h3>
+    <p>Check user profile before any skill. Load preferences from <code>~/.config/opencode/user-profile.json</code>.</p>
+
+    <h3 id="rule-0b">Rule 0b: Context Persistence</h3>
+    <p>Auto-recover context on project re-entry. Check <code>HEALTH-CHECK.md</code> age, resume from last verified state.</p>
+
+    <h3 id="rule-0c">Rule 0c: Behavioral Principles</h3>
+    <p>Think Before Coding. Simplicity First. Surgical Changes. Goal-Driven Execution.</p>
+
+    <h3 id="rule-0g">Rule 0g: Mayéutic Challenge</h3>
+    <p>Challenge non-trivial decisions. Say "no" when justified. An agent that says "no" prevents more damage than one that says "yes" to everything.</p>
+
+    <h3 id="rule-0h">Rule 0h: TOOL_GAP <span class="skill-card__badge">New</span></h3>
+    <p>When verification tools can't reach the world, report "ship status unknown" and STOP. Never fake a win on a gap.</p>
+    <p><strong>Examples:</strong></p>
+    <ul>
+      <li>"Tests pass" but test runner isn't installed → TOOL_GAP</li>
+      <li>"URL returns 200" but no network access → TOOL_GAP</li>
+      <li>"Build works" but build tool missing → TOOL_GAP</li>
+    </ul>
+    <p><strong>Rule:</strong> The absence of evidence is not evidence of absence.</p>
+
+    <h3 id="rule-0i">Rule 0i: Continuation Over Recap <span class="skill-card__badge">New</span></h3>
+    <p>After context loss, resume from last verified state. Don't recap everything.</p>
+    <p><strong>Protocol:</strong></p>
+    <ol>
+      <li>Check git status — what's the last committed state?</li>
+      <li>Check PROGRESS_STATUS.md — what's in progress?</li>
+      <li>Ask user: "Where were we?" — don't recap, ask</li>
+      <li>Resume from last verified checkpoint</li>
+    </ol>
+
+    <h2 id="enforcement">Enforcement Rules</h2>
+
+    <h3 id="rule-0d">Rule 0d: Pre-Action Checklist</h3>
+    <p>Pre-flight → branch interview → edit guard → commit barrier. Run before ANY mutation.</p>
+
+    <h3 id="rule-12">Rule 12: Guardian Pattern</h3>
+    <p>DECISION POINT before every mutation. Invalid responses: "ok", "mmhm", silence. Plan approval ≠ commit approval — always separate decisions.</p>
+
+    <h3 id="rule-12b">Rule 12b: PR Review Gate</h3>
+    <p><code>pr-review-checklist.sh</code> before merge. 8 mechanical gates.</p>
+
+    <h2 id="context">Context Rules</h2>
+
+    <h3 id="rule-0e">Rule 0e: Context Compression</h3>
+    <p>Evict at 70% context usage. Compress history. Never evict active work.</p>
+
+    <h3 id="rule-0f">Rule 0f: Plugin Architecture</h3>
+    <p>Native plugin hooks for mechanical enforcement.</p>
+
+    <h3 id="rule-6">Rule 6: Lazy Loading</h3>
+    <p>Skills as ~250-line indexes. Guides loaded on-demand.</p>
+
+    <h3 id="rule-8">Rule 8: Context Budget</h3>
+    <p>60/25/15 budget. Compaction at >20 messages.</p>
+
+    <h2 id="skills">Skills Rules</h2>
+
+    <h3 id="rule-1">Rule 1: Skills First</h3>
+    <p>Always check skills first. Never implement directly if a skill applies.</p>
+
+    <h3 id="rule-2">Rule 2: Intent Mapping</h3>
+    <p>Detect platform before acting.</p>
+
+    <h3 id="rule-3">Rule 3: Lifecycle</h3>
+    <p>DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP.</p>
+
+    <h2 id="project">Project Rules</h2>
+
+    <h3 id="rule-4">Rule 4: Turbo Mode</h3>
+    <p>Reduces scope, never discipline.</p>
+
+    <h3 id="rule-5">Rule 5: Stack Agnosticism</h3>
+    <p>Defaults with user override.</p>
+
+    <h3 id="rule-7">Rule 7: No Code Before Contract</h3>
+    <p>No code until SPEC.md, DESIGN.md, .gitignore exist.</p>
+
+    <h3 id="rule-9">Rule 9: Verification</h3>
+    <p>Verification checklist before marking complete.</p>
+
+    <h3 id="rule-10">Rule 10: Language Compliance</h3>
+    <p>Never mix languages.</p>
+
+    <h3 id="rule-11">Rule 11: Development Artifacts</h3>
+    <p>Development artifacts go in <code>development/</code>.</p>
+
+    <div class="docs__nav">
+      <a href="design-review.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Previous</span>
+        <span class="docs__nav-title">Design Review</span>
+      </a>
+      <a href="agents.html" class="docs__nav-link">
+        <span class="docs__nav-label">Next →</span>
+        <span class="docs__nav-title">Agents</span>
+      </a>
+    </div>
+  </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
+</main>
+
+<script src="js/docs.js"></script>
+</body>
+</html>
