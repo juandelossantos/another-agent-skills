@@ -48,14 +48,63 @@
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.agents">Agents</span></div>
     <h1 data-i18n="agents.title">Agent Compatibility</h1>
     <p data-i18n="agents.subtitle">Git hooks work everywhere. Skill concepts load automatically for OpenCode.</p>
+
     <h2 data-i18n="agents.whatWorks">What Works Where</h2>
+    <table>
+      <tr><th>Feature</th><th>OpenCode</th><th>Claude Code</th><th>Cursor</th><th>Devin Desktop</th><th>Any Git Agent</th></tr>
+      <tr><td>Git hooks</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
+      <tr><td>Manifest gate</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
+      <tr><td>SOUL.md / AGENTS.md</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+      <tr><td>SKILL.md concepts</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+      <tr><td>Stack detection</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
+      <tr><td>i18n</td><td>Auto</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
+    </table>
+
     <h2 data-i18n="agents.setupPerAgent">Setup per Agent</h2>
+
     <h3 data-i18n="agents.openCode">OpenCode (Recommended)</h3>
+    <p data-i18n="agents.openCodeDesc">No extra setup. Skills load automatically via the skill tool.</p>
+    <p data-i18n="agents.openCodeExample">Just run init-agents in any project. The agent detects your stack, loads matching skills, and enforces the lifecycle automatically.</p>
+    <pre><code>bash install.sh
+cd your-project
+init-agents</code></pre>
+
     <h3 data-i18n="agents.claudeCode">Claude Code</h3>
+    <p data-i18n="agents.claudeCodeDesc">Copy rules into CLAUDE.md. Install adapter hooks. Skills load via CLAUDE.md reference.</p>
+    <p data-i18n="agents.claudeCodeExample">Creates .claude-plugin/ with hooks. Copy SOUL.md and AGENTS.md key principles into your CLAUDE.md.</p>
+    <pre><code>bash install.sh --agent claude</code></pre>
+
     <h3 data-i18n="agents.cursor">Cursor</h3>
+    <p data-i18n="agents.cursorDesc">Add rules to .cursorrules. Install adapter hooks. Skills load via .cursorrules reference.</p>
+    <p data-i18n="agents.cursorExample">Creates .cursor-plugin/ with hooks. Append SOUL.md and AGENTS.md to .cursorrules.</p>
+    <pre><code>bash install.sh --agent cursor</code></pre>
+
     <h3 data-i18n="agents.devinDesktop">Devin Desktop</h3>
-    <h3 data-i18n="agents.anyGit">Any Git-Based Agent</h3>
-        <div class="docs__nav">
+    <p data-i18n="agents.devinDesc">Install via Kiro adapter. Hooks load automatically from .kiro/hooks/.</p>
+    <p data-i18n="agents.devinExample">Creates .kiro/hooks/ with pre-flight, commit approval, and edit guard hooks.</p>
+    <pre><code>bash install.sh --agent kiro</code></pre>
+
+    <h3 data-i18n="agents.anyAgent">Any Git-Based Agent</h3>
+    <p data-i18n="agents.anyAgentDesc">Copy the git hooks to your project. Works with any agent that uses git.</p>
+    <p data-i18n="agents.anyAgentExample">The hooks enforce: pre-flight checks, skill consultation, build verification, anti-slop, debug tracking, commit approval with mandatory manifest.</p>
+    <pre><code>cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
+cp scripts/git-hooks/commit-msg .git/hooks/commit-msg
+chmod +x .git/hooks/pre-commit .git/hooks/commit-msg
+cp scripts/approve-commit.sh scripts/</code></pre>
+
+    <h2 data-i18n="agents.principlesTitle">Using Principles in Your Own System</h2>
+    <p data-i18n="agents.principlesDesc">The core principles are agent-agnostic. Adopt them anywhere:</p>
+    <table>
+      <tr><th>Principle</th><th>How to Use</th></tr>
+      <tr><td data-i18n="agents.principle1">TOOL_GAP — When tools can't verify, report "ship status unknown."</td><td>Never fake success when verification tools are unavailable.</td></tr>
+      <tr><td data-i18n="agents.principle2">Severity Labels — Classify findings: blocking → important → nit → suggestion → learning → praise.</td><td>Apply to any code review or quality check.</td></tr>
+      <tr><td data-i18n="agents.principle3">Error Path Design — Every tool call, gate, and loop needs a failure path.</td><td>Design failure paths at build time, not patched post-incident.</td></tr>
+      <tr><td data-i18n="agents.principle4">Continuation Over Recap — After context loss, resume. Don't waste tokens re-explaining.</td><td>Ask "Where were we?" instead of summarizing everything.</td></tr>
+      <tr><td data-i18n="agents.principle5">Drift Detection — Check docs vs reality regularly.</td><td>Verify stats, versions, features, commands, links match.</td></tr>
+      <tr><td data-i18n="agents.principle6">Manifest Gate — Require a written summary before commit approval.</td><td>Agent must write what changed before generating approval token.</td></tr>
+    </table>
+
+    <div class="docs__nav">
       <a href="rules.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="agents.prevPage">Rules</span></a>
       <a href="customization.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="agents.nextPage">Customization</span><span class="docs__nav-label"> →</span></a>
     </div>
