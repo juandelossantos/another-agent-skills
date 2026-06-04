@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Philosophy — Another Agent Skills</title>
-<meta name="description" content="SOUL.md principles, honest limitations, and what we never do.">
+<meta name="description" content="SOUL.md principles, honest limitations, and what this framework avoids.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -47,19 +47,88 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.philosophy">Philosophy</span></div>
     <h1 data-i18n="philosophy.title">Philosophy</h1>
-    <p data-i18n="philosophy.subtitle">SOUL.md principles and what we never do.</p>
-    <h2 data-i18n="philosophy.principle1">1. Quality emerges from explicit contracts, not implicit trust.</h2>
+    <p data-i18n="philosophy.subtitle">SOUL.md principles and what this framework avoids.</p>
+
+    <div style="background: var(--accent-dim); border-left: 4px solid var(--accent); padding: var(--space-lg); margin: var(--space-xl) 0; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+      <h2 data-i18n="philosophy.machineWarningTitle" style="margin-top: 0; color: var(--accent); font-size: 1.2rem;">The Agent Is a Machine, Not a Colleague</h2>
+      <p data-i18n="philosophy.machineWarningBody" style="margin-bottom: var(--space-sm);">An AI agent follows patterns, not understanding. It generates plausible outputs without grasping consequences.</p>
+      <p data-i18n="philosophy.machineWarningUser" style="margin-bottom: var(--space-sm); font-weight: 600;">The user must stay alert. Verify outputs. Make final decisions.</p>
+      <p data-i18n="philosophy.machineWarningRefs" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-sm);">Research backing this claim:</p>
+      <ul style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0; padding-left: var(--space-lg);">
+        <li><a href="https://arxiv.org/abs/2507.09089" target="_blank" rel="noopener" data-i18n="philosophy.ref1">Becker et al. (2025) — METR study: AI slowed experienced developers 19%</a></li>
+        <li><a href="https://arxiv.org/abs/2402.01680" target="_blank" rel="noopener" data-i18n="philosophy.ref2">Guo et al. (2024) — Multi-agent systems require human oversight</a></li>
+        <li><a href="https://arxiv.org/abs/2310.06775" target="_blank" rel="noopener" data-i18n="philosophy.ref3">Shapiro et al. (2023) — Autonomous agents need human-in-the-loop</a></li>
+        <li><a href="https://link.springer.com/article/10.1007/s43681-026-01147-7" target="_blank" rel="noopener" data-i18n="philosophy.ref4">Zhu et al. (2026) — Meaningful human oversight requires evaluative agency</a></li>
+        <li><a href="https://arxiv.org/abs/2510.09090" target="_blank" rel="noopener" data-i18n="philosophy.ref5">Kandikatla & Radeljic (2025) — Risk-based framework for oversight</a></li>
+      </ul>
+    </div>
+
+    <h2 data-i18n="philosophy.principle1">1. Quality emerges from explicit contracts, not implicit trust</h2>
+    <p data-i18n="philosophy.principle1Desc">An agent that "knows" the rules will eventually break them. An agent that must present a DECISION BLOCK before every mutation cannot skip the decision. The difference is architectural, not behavioral.</p>
+
     <h2 data-i18n="philosophy.principle2">2. Rules that depend on memory fail. Rules that depend on visible blocks succeed.</h2>
+    <p data-i18n="philosophy.principle2Desc">Three incidents taught us this. Rule 12 violations happened not because the agent didn't know the rule, but because knowing isn't doing. The fix was never "remind the agent harder." The fix was mechanical enforcement.</p>
+
     <h2 data-i18n="philosophy.principle3">3. A hook that accepts any token is a suggestion. A hook that verifies integrity is a gate.</h2>
-    <h2 data-i18n="philosophy.principle4">4. Speed is a side effect of precision, never the primary goal.</h2>
+    <p data-i18n="philosophy.principle3Desc">Evolution of enforcement: v1 process rules, v2 visible manifest, v3 SHA256 hash-bound token, v4 manifest gate. Each level removed a failure mode.</p>
+
+    <h2 data-i18n="philosophy.principle4">4. Speed is a side effect of precision, never the primary goal</h2>
+    <p data-i18n="philosophy.principle4Desc">The METR study found developers 19% slower with AI but feeling 20% faster. Speed without correctness is liability.</p>
+
     <h2 data-i18n="philosophy.principle5">5. Context is finite. Evict before you drown.</h2>
-    <h2 data-i18n="philosophy.principle6">6. "No, that's overcomplicated" is more valuable than blind compliance.</h2>
-    <h2 data-i18n="philosophy.principle7">7. We learn from our own failures faster than competitors ship features.</h2>
-    <h2 data-i18n="philosophy.principle8">8. Verification without evidence is inspection.</h2>
-    <h2 data-i18n="philosophy.antiGoals">What We Will NEVER Do</h2>
+    <p data-i18n="philosophy.principle5Desc">Our lazy-loading architecture (skills as ~250-line indexes, guides loaded on-demand) saves 50% of always-loaded tokens.</p>
+
+    <h2 data-i18n="philosophy.principle6">6. "No, that's overcomplicated" is more valuable than blind compliance</h2>
+    <p data-i18n="philosophy.principle6Desc">The Mayéutic Challenge: agents that push back, surface tradeoffs, and question scope creep.</p>
+
+    <h2 data-i18n="philosophy.principle7">7. Learn from our own failures faster than competitors ship features</h2>
+    <p data-i18n="philosophy.principle7Desc">Three Rule 12 violations in 48 hours produced three levels of enforcement. Each incident was documented, analyzed, and mechanically prevented.</p>
+
+    <h2 data-i18n="philosophy.principle8">8. Verification without evidence is inspection</h2>
+    <p data-i18n="philosophy.principle8Desc">When tools cannot reach the world, the honest answer is "ship status unknown," not "looks good to me."</p>
+
+    <h2 data-i18n="philosophy.antiGoals">What this framework avoids</h2>
+    <ul>
+      <li>Never prioritize speed over approval</li>
+      <li>Never ship without mechanical enforcement</li>
+      <li>Never make the agent dumber to save tokens</li>
+      <li>Never add quantity over quality</li>
+      <li>Never trust the agent's self-report</li>
+      <li>Never abandon the human in the loop</li>
+    </ul>
+
+    <h2 data-i18n="philosophy.valueHierarchy">When Values Conflict</h2>
+    <table>
+      <tr><th data-i18n="philosophy.valueHeader1">Conflict</th><th data-i18n="philosophy.valueHeader2">Winner</th><th data-i18n="philosophy.valueHeader3">Why</th></tr>
+      <tr><td data-i18n="philosophy.value1a">Speed vs. Safety</td><td data-i18n="philosophy.value1b">Safety</td><td data-i18n="philosophy.value1c">A bad commit is faster to make than to fix</td></tr>
+      <tr><td data-i18n="philosophy.value2a">Breadth vs. Depth</td><td data-i18n="philosophy.value2b">Depth</td><td data-i18n="philosophy.value2c">One complete skill beats five stubs</td></tr>
+      <tr><td data-i18n="philosophy.value3a">Simplicity vs. Completeness</td><td data-i18n="philosophy.value3b">Simplicity</td><td data-i18n="philosophy.value3c">If a senior engineer says "overcomplicated," it is</td></tr>
+      <tr><td data-i18n="philosophy.value4a">Automation vs. Control</td><td data-i18n="philosophy.value4b">Control</td><td data-i18n="philosophy.value4c">The agent suggests. The human decides.</td></tr>
+      <tr><td data-i18n="philosophy.value5a">Features vs. Enforcement</td><td data-i18n="philosophy.value5b">Enforcement</td><td data-i18n="philosophy.value5c">A feature without a gate is a liability</td></tr>
+      <tr><td data-i18n="philosophy.value6a">Recap vs. Continuation</td><td data-i18n="philosophy.value6b">Continuation</td><td data-i18n="philosophy.value6c">Recap wastes tokens. Continuation preserves momentum.</td></tr>
+    </table>
+
+    <h2 data-i18n="philosophy.antiRationalTitle">Anti-Rationalization Table</h2>
+    <p data-i18n="philosophy.antiRationalDesc">Common rationalizations and why they are wrong:</p>
+    <table>
+      <tr><th>Rationalization</th><th>Reality</th></tr>
+      <tr><td data-i18n="philosophy.rational1">"I understand what they want."</td><td data-i18n="philosophy.rational1Why">You have 1% confidence. Skills force 95%.</td></tr>
+      <tr><td data-i18n="philosophy.rational2">"Turbo mode means skip everything."</td><td data-i18n="philosophy.rational2Why">No. Skip OPTIONAL phases, not mandatory ones.</td></tr>
+      <tr><td data-i18n="philosophy.rational3">"The user already said yes before."</td><td data-i18n="philosophy.rational3Why">Every commit is a separate decision.</td></tr>
+      <tr><td data-i18n="philosophy.rational4">"It's faster to do it all at once."</td><td data-i18n="philosophy.rational4Why">It feels faster until something breaks and you can't find which of 500 changed lines caused it.</td></tr>
+      <tr><td data-i18n="philosophy.rational5">"Skip the doubt step, I'm confident."</td><td data-i18n="philosophy.rational5Why">Confidence correlates poorly with correctness on novel problems.</td></tr>
+    </table>
+
+    <h2 data-i18n="philosophy.metrTitle">METR Study Context</h2>
+    <p data-i18n="philosophy.metrDesc">The METR study (Becker et al., July 2025) found that when experienced developers used AI, they took 19% longer but estimated they saved 20% of the time. The perception of speed does not match reality. This is why this framework optimizes for getting it right, and speed follows. <a href="https://arxiv.org/abs/2507.09089" target="_blank" rel="noopener">Source: arXiv:2507.09089</a></p>
+
+    <h2 data-i18n="philosophy.mayeuticTitle">Mayéutic Challenge</h2>
+    <p data-i18n="philosophy.mayeuticDesc">Agents that push back, surface tradeoffs, and question scope creep. An agent that says "no" when justified prevents more damage than an agent that says "yes" to everything. The name comes from Socratic method — questioning to reveal truth.</p>
+
     <h2 data-i18n="philosophy.honestLimitations">Honest Limitations</h2>
-    <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="philosophy.honestDesc">These gates create friction, not guarantees. The human must stay alert.</p></div>
-        <div class="docs__nav">
+    <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="philosophy.honestDesc">These gates create friction, not guarantees. The manifest gate, token validation, and pre-commit hooks make it harder for an agent to bypass rules. But no system can fully prevent an agent from acting against protocol. The human must stay alert.</p></div>
+
+    <div class="docs__nav">
       <a href="enforcement.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="philosophy.prevPage">Enforcement</span></a>
       <a href="design-review.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="philosophy.nextPage">Design Review</span><span class="docs__nav-label"> →</span></a>
     </div>
