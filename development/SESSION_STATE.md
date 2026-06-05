@@ -1,52 +1,41 @@
-# Session State — 2026-06-04
+# Session State — 2026-06-04 (Updated)
 
 ## Where We Are
 
-**Branch:** feat/mayeutic-enforcement
-**Version:** 1.7.0 (main) / working on Mayéutic enforcement
-**Last commit:** feat: add task-manifest.sh for Mayéutic Challenge enforcement
+**Branch:** main
+**Version:** 1.8.0
+**Status:** v1.8.0 released, Mayéutic enforcement complete
 
-## What's Done (v1.7.0 on main)
+## What's Done (v1.8.0)
 
-- 41 skills (all ≤250 lines)
-- 51 doc pages (10 main + 41 skill)
-- EN/ES bilingual docs
-- Git hooks: pre-commit v7, commit-msg v4
-- Manifest gate for commits
-- Documentation system complete
+- Mayéutic enforcement via task manifest
+- Evals.md for 3 key skills
+- Memory.md for debugging skill
+- Conflict detection in doubt-driven-development
+- Level 4 enforcement on landing page
+- 51 doc pages, EN/ES bilingual
+- 41 skills, 0 lint warnings
 
-## What's In Progress (feat/mayeutic-enforcement)
+## What's Planned Next
 
-### Completed
-- Phase 1: scripts/task-manifest.sh ✓
+### Immediate
+1. Typed memory + provenance (future feature — after this release)
+2. Documentation system completion (in progress)
 
-### Remaining
-- Phase 2: Update AGENTS.md with manifest requirement
-- Phase 3: Update SOUL.md with enforcement note
-- Phase 4: Update docs/philosophy.html with honest limitations
-- Phase 5: Test and verify
-- Phase 6: Add evals.md to key skills
-- Phase 7: Add memory.md to debugging skill
-- Phase 8: Update docs with article insights
+### Long-term
+1. Multi-agent orchestration (out of scope for now)
+2. Goal-Driven Execution structure (marginal value, not worth implementing)
 
-## Key Decisions Made
+## Key Files
 
-1. Mayéutic Challenge is a behavioral gate, not a git hook
-2. Agent must write TASK_MANIFEST before executing
-3. Manifest must have minimum content (50+ chars, 4 fields)
-4. Honest limitations documented — agent can still bypass
-5. Evals.md and memory.md from article for skill improvements
-
-## Token/Memory/Context
-
-- Always-loaded: 270 lines (~4,070 tokens, 1.9%)
-- Lazy loading: 41 skills as ~250-line indexes
-- Auto-eviction at 70%
-- Continuation over recap: resume from last verified state
+- `scripts/task-manifest.sh` — Mayéutic enforcement
+- `development/MAYEUTIC-PLAN.md` — Full plan
+- `development/SESSION_STATE.md` — This file
+- `development/DOCS-PLAN.md` — Documentation system plan
 
 ## For Next Session
 
-1. Read this file first
-2. Check branch: feat/mayeutic-enforcement
-3. Continue with Phase 2: Update AGENTS.md
-4. Reference MAYEUTIC-PLAN.md for full plan
+1. Check branch: main
+2. Version: 1.8.0
+3. Reference this file for context
+4. Continue with typed memory + provenance OR documentation system
