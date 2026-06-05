@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-06-03T16:00:00Z  
-> **Current version:** 1.7.0  
+> **Last updated:** 2026-06-04T01:00:00Z  
+> **Current version:** 1.8.0  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Documentation system complete
+> **Current plan:** Mayéutic enforcement complete, typed memory + provenance planned
 
 ---
 

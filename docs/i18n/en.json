@@ -317,8 +317,8 @@
     "rational5Why": "Confidence correlates poorly with correctness on novel problems.",
     "metrTitle": "METR Study: Speed Is an Illusion",
     "metrDesc": "The METR study (Becker et al., July 2025) found that when experienced developers used AI, they took 19% longer but estimated they saved 20% of the time. The perception of speed does not match reality. This is why this framework optimizes for getting it right, and speed follows.",
-    "mayeuticTitle": "Mayéutic Challenge",
-    "mayeuticDesc": "Agents that push back, surface tradeoffs, and question scope creep. An agent that says \"no\" when justified prevents more damage than an agent that says \"yes\" to everything. The name comes from Socratic method — questioning to reveal truth.",
+    "mayeuticTitle": "Mayéutic Enforcement",
+    "mayeuticDesc": "The Mayéutic Challenge is enforced via the task manifest system. Before executing any non-trivial task, the agent must write a manifest with: files affected, edge cases, alternatives, risks. The script verifies the manifest exists and has content. This is a behavioral gate, not a git hook. The agent could write an empty manifest and execute anyway. The real enforcement is the agent's own discipline.",
     "valueHierarchy": "When Values Conflict",
     "valueHeader1": "Conflict",
     "valueHeader2": "Winner",
@@ -413,7 +413,11 @@
     "stackConfigDesc": "Edit STACK_CONFIG.md in your project to customize commands (test, lint, build, dev). All skills read from this file.",
     "userProfileDesc": "Your preferences are stored at ~/.config/opencode/user-profile.json. These persist across all projects.",
     "prevPage": "Agents",
-    "nextPage": "Overview"
+    "nextPage": "Overview",
+    "evalsTitle": "Self-Improving Skills with Evals",
+    "evalsDesc": "Skills can verify their own output quality using evals.md files. Each skill defines pass/fail checks that the agent runs after execution. This is the practical implementation of the Mayéutic Challenge — analyze before executing.",
+    "memoryTitle": "Learning from Past Sessions",
+    "memoryDesc": "Skills can maintain memory.md files that log lessons from past debugging sessions. This creates a learning loop where the skill improves over time. Entries are categorized as error, learning, or observation."
   },
   "footer": {
     "docs": "Documentation"

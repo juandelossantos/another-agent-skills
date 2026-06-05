@@ -61,7 +61,9 @@
     "incidentRef": "Rompió sus propias reglas tres veces en dos días. Después las hizo imposibles de romper.",
     "conclusion": "Se aprende de los propios fallos. Más rápido que la competencia lanza features.",
     "statsLabel": "Enforcement mecánico",
-    "statsValue": "10 pre-commit gates"
+    "statsValue": "8 pre-commit gates + puerta de manifiesto",
+    "level4Title": "Nivel 4: Puerta de Manifiesto",
+    "level4Desc": "El agente debe escribir un manifiesto antes de generar tokens de aprobación. No puede falsificar lo que no puede saltar."
   },
   "philosophy": {
     "label": "04 / filosofía",

@@ -94,6 +94,17 @@ These gates create friction, not guarantees. The manifest gate, token validation
 
 **The human must stay alert.** If the agent commits or pushes without your explicit approval, that's a violation — call it out. The agent is a tool, not a trusted colleague. Mechanical enforcement reduces risk; it does not eliminate it.
 
+## Mayéutic Enforcement
+
+The Mayéutic Challenge (Principle 6) is enforced via the task manifest system:
+
+1. Before executing any non-trivial task, the agent must write `.git/TASK_MANIFEST`
+2. The manifest must contain: files affected, edge cases, alternatives, risks
+3. `bash scripts/task-manifest.sh check` verifies the manifest exists and has content
+4. The agent cannot execute without a valid manifest
+
+**This is a behavioral gate, not a git hook.** The agent could write an empty manifest and execute anyway. The real enforcement is the agent's own discipline. The manifest creates friction, not guarantees.
+
 ---
 
 ## When Values Conflict

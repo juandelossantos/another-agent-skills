@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.7.0](https://img.shields.io/badge/version-1.7.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.8.0](https://img.shields.io/badge/version-1.8.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -92,13 +92,15 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.7.0
+## What's New in v1.8.0
 
+- **Mayéutic enforcement** — Task manifest system: agent must write manifest before executing non-trivial tasks
+- **Evals.md** — Pass/fail checks for test-driven-development, code-review-and-quality, spec-driven-development
+- **Memory.md** — Learning log for debugging-and-error-recovery skill
+- **Conflict detection** — Doubt-driven development now checks for rule conflicts
+- **Level 4 enforcement** — Manifest gate added to landing page
 - **Documentation system** — 51 pages: 10 main docs + 41 individual skill pages
-- **Bilingual docs** — Full EN/ES support with language toggle that persists across pages
-- **Skills catalog** — Browse all 41 skills with category filters
-- **Generation script** — Auto-generate skill pages from SKILL.md files
-- **Landing page integration** — "Docs" link in header/footer, "Learn more" links to docs
+- **Bilingual docs** — Full EN/ES support with language toggle
 
 - **TOOL_GAP verdict** — When verification tools can't reach the world, report "ship status unknown." Never fake a win. Inspired by Sub-Zero Skill.
 - **Severity labels** — 6-level code review classification: 🔴 blocking → 🟠 important → 🟡 nit → 🔵 suggestion → 📚 learning → 🌟 praise. Inspired by awesome-skills/code-review-skill.
