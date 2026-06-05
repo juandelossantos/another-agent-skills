@@ -61,7 +61,9 @@
     "incidentRef": "It broke its own rules three times in two days. Then it made breaking them impossible.",
     "conclusion": "It learns from its own failures. Faster than competitors ship features.",
     "statsLabel": "Mechanical enforcement",
-    "statsValue": "10 pre-commit gates"
+    "statsValue": "8 pre-commit gates + manifest gate",
+    "level4Title": "Level 4: Manifest Gate",
+    "level4Desc": "Agent must write a manifest before generating approval tokens. Cannot bypass what it cannot skip."
   },
   "philosophy": {
     "label": "04 / philosophy",
