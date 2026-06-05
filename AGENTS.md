@@ -61,6 +61,7 @@ Protocol: Read AGENTS.md, skills loaded, no mutations without approval
 - **Rule 0g:** Mayéutic Challenge — challenge non-trivial decisions, say "no" when justified
 - **Rule 0h:** TOOL_GAP — When verification tools can't reach the world, report "ship status unknown" and STOP. Never fake a win on a gap.
 - **Rule 0i:** Continuation Over Recap — After context loss, resume from last verified state. Don't recap everything. Ask "Where were we?" not "Let me summarize."
+- **Rule 0j:** Task Manifest — Before executing any non-trivial task, write .git/TASK_MANIFEST with: files affected, edge cases, alternatives, risks. Run `bash scripts/task-manifest.sh check` to verify.
 
 ### Enforcement (→ `rules/common/enforcement.md`)
 - **Rule 0d:** Pre-flight → branch interview → edit guard → commit barrier
