@@ -413,7 +413,11 @@
     "stackConfigDesc": "Edit STACK_CONFIG.md in your project to customize commands (test, lint, build, dev). All skills read from this file.",
     "userProfileDesc": "Your preferences are stored at ~/.config/opencode/user-profile.json. These persist across all projects.",
     "prevPage": "Agents",
-    "nextPage": "Overview"
+    "nextPage": "Overview",
+    "evalsTitle": "Self-Improving Skills with Evals",
+    "evalsDesc": "Skills can verify their own output quality using evals.md files. Each skill defines pass/fail checks that the agent runs after execution. This is the practical implementation of the Mayéutic Challenge — analyze before executing.",
+    "memoryTitle": "Learning from Past Sessions",
+    "memoryDesc": "Skills can maintain memory.md files that log lessons from past debugging sessions. This creates a learning loop where the skill improves over time. Entries are categorized as error, learning, or observation."
   },
   "footer": {
     "docs": "Documentation"
