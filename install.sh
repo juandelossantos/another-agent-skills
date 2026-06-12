@@ -161,6 +161,36 @@ install_opencode_plugin() {
 }
 
 # ---------------------------------------------------------------------------
+install_global_framework() {
+    info "Installing framework files to global directory..."
+    local global_dir="${HOME}/.config/opencode"
+
+    # rules/common/
+    mkdir -p "${global_dir}/rules/common"
+    cp -r "${SCRIPT_DIR}/rules/common/"* "${global_dir}/rules/common/"
+    ok "Installed rules/common/ → ${global_dir}/rules/common/"
+
+    # scripts/ (enforcement scripts only)
+    mkdir -p "${global_dir}/scripts"
+    for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
+                  approve-commit.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+        if [[ -f "${SCRIPT_DIR}/scripts/${script}" ]]; then
+            cp "${SCRIPT_DIR}/scripts/${script}" "${global_dir}/scripts/"
+            chmod +x "${global_dir}/scripts/${script}"
+        fi
+    done
+    ok "Installed enforcement scripts → ${global_dir}/scripts/"
+
+    # SOUL.md, AGENTS-EXTENDED.md, VERSION
+    for file in SOUL.md AGENTS-EXTENDED.md VERSION; do
+        if [[ -f "${SCRIPT_DIR}/${file}" ]]; then
+            cp "${SCRIPT_DIR}/${file}" "${global_dir}/${file}"
+        fi
+    done
+    ok "Installed framework files (SOUL.md, AGENTS-EXTENDED.md, VERSION)"
+}
+
+# ---------------------------------------------------------------------------
 # Zsh/Bash shell config block (same POSIX-compatible syntax)
 _write_posix_block() {
     local file="$1"
@@ -389,6 +419,32 @@ verify_installation() {
         warn "frontend-ui-engineering  → NOT LINKED"
     fi
 
+    # Verify global framework files
+    local global_dir="${HOME}/.config/opencode"
+    echo ""
+    info "Framework files:"
+    for file in SOUL.md AGENTS-EXTENDED.md VERSION; do
+        if [[ -f "${global_dir}/${file}" ]]; then
+            ok "${file} → INSTALLED"
+        else
+            error "${file} → MISSING"
+        fi
+    done
+    if [[ -d "${global_dir}/rules/common" ]]; then
+        local rule_count
+        rule_count=$(find "${global_dir}/rules/common" -name "*.md" | wc -l)
+        ok "rules/common/ → ${rule_count} rule files"
+    else
+        error "rules/common/ → MISSING"
+    fi
+    if [[ -d "${global_dir}/scripts" ]]; then
+        local script_count
+        script_count=$(find "${global_dir}/scripts" -name "*.sh" | wc -l)
+        ok "scripts/ → ${script_count} enforcement scripts"
+    else
+        error "scripts/ → MISSING"
+    fi
+
     echo ""
     echo ""
     echo "Next steps:"
@@ -530,6 +586,7 @@ main() {
     link_remote_skills
     install_custom_skills
     install_opencode_plugin
+    install_global_framework
     update_shell_config
     create_global_scripts
     verify_installation
