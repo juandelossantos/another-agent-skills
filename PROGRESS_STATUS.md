@@ -13,7 +13,7 @@
 
 | Skill | Lines | Guides | Lazy Loading | Description |
 |---|---|---|---|---|
-| `engineering-fundamentals` | 162 | 0 | N/A (foundation) | Universal philosophy: discovery, contracts, anti-slop, quality gates |
+| `engineering-fundamentals` | 162 | 3 | ✅ Yes | Universal philosophy: discovery, contracts, anti-slop, quality gates |
 | `frontend-web` | 248 | 3 | ✅ Yes | Production-grade web UIs with anti-AI-slop rules |
 | `frontend-pwa` | 195 | 4 | ✅ Yes | Installable, offline-first web apps with native migration path |
 | `frontend-mobile` | 239 | 3 | ✅ Yes | Native mobile apps with platform compliance |
@@ -28,10 +28,10 @@
 | `project-metrics` | 147 | 2 | ✅ Yes | Background quality logging: builds, rework, coverage |
 | `user-onboarding` | 188 | 2 | ✅ Yes | Persistent user preferences across all projects |
 | `multi-agent-orchestration` | 80 | 1 | ✅ Yes | Orchestrator/subagent protocol for parallel multi-file work |
-| `debugging-and-error-recovery` | 63 | 2 | ✅ Yes | Systematic root-cause debugging |
-| `test-driven-development` | 72 | 5 | ✅ Yes | TDD cycle, test writing, anti-patterns |
+| `debugging-and-error-recovery` | 63 | 4 | ✅ Yes | Systematic root-cause debugging |
+| `test-driven-development` | 72 | 6 | ✅ Yes | TDD cycle, test writing, anti-patterns |
 | `code-review-and-quality` | 79 | 3 | ✅ Yes | Five-axis review with quality gates |
-| `git-workflow-and-versioning` | 114 | 2 | ✅ Yes | Atomic commits, branching, conflict resolution |
+| `git-workflow-and-versioning` | 114 | 3 | ✅ Yes | Atomic commits, branching, conflict resolution |
 | `context-engineering` | 85 | 2 | ✅ Yes | Agent context setup optimization |
 | `source-driven-development` | 92 | 2 | ✅ Yes | Official documentation verification |
 | `doubt-driven-development` | 88 | 2 | ✅ Yes | Adversarial fresh-context review |
@@ -51,6 +51,11 @@
 | `hard-skill` | 105 | 2 | ✅ Yes | Deterministic mechanical fixes |
 | `polish-skill` | 95 | 2 | ✅ Yes | Design detail fixes |
 | `delight-skill` | 100 | 2 | ✅ Yes | Micro-interactions and transitions |
+| `adapt-skill` | 105 | 2 | ✅ Yes | Responsive layout fixes |
+| `typeset-skill` | 95 | 2 | ✅ Yes | Typography correction |
+| `output-skill` | 85 | 1 | ✅ Yes | Complete output enforcement |
+
+**Total: 41 custom skills, 22 guides across 6 skills. All ≤ 250 lines.**
 
 **Total: 41 custom skills, 46 guides, ~5,659 lines of instruction context. All ≤ 250 lines.**
 
@@ -104,7 +109,7 @@
 | `frontend-desktop` | 251 | 238 | **-5%** |
 | `backend-api-mastery` | 316 | 232 | **-27%** |
 
-**All 38 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
+**All 41 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
 
 ---
 
@@ -112,14 +117,14 @@
 
 ### In Progress
 
-- **Documentation System** — Multi-page static docs (9 pages + 38 skill pages)
+- **Documentation System** — 51 pages already built (10 main + 41 skill pages), bilingual EN/ES
   - Plan: `development/DOCS-PLAN.md`
-  - Progress: `development/DOCS-PROGRESS.md`
-  - Status: Planning complete, ready for implementation
-  - Target: v1.7.0
+  - Status: Built, deployed via GitHub Pages
 
 ### Planned
 
+- Clean up 34 orphan PNG files in root (design iteration artifacts)
+- Document i18n split (root = landing page, docs/ = documentation site)
 - CI/CD testing — GitHub Actions on Ubuntu, macOS, Windows
 - Skill validation tests — frontmatter, guide references, line count enforcement
 - Troubleshooting guide — common issues
@@ -137,6 +142,8 @@
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
 | No automated testing | Breaks not caught until user report | Manual testing after every change |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
+| 34 orphan PNGs in root | Repo clutter, larger clone size | Move to `design/` or gitignore |
+| Two i18n systems | Root (landing) vs docs/ (documentation) — undocumented split | Add comment in i18n files explaining scope |
 
 ---
 
