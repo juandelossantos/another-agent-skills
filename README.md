@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.8.0](https://img.shields.io/badge/version-1.8.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.9.0](https://img.shields.io/badge/version-1.9.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -39,6 +39,7 @@ The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it
 
 Run `init-agents` in every new project — it:
 - Merges AGENTS.md without overwriting existing rules
+- Links framework files (rules, scripts, SOUL.md) from global installation
 - Detects your stack and creates `STACK_CONFIG.md`
 - Installs lifecycle enforcement hook (tests, build, secrets)
 - Installs CI pipeline (reads STACK_CONFIG.md)
@@ -56,7 +57,7 @@ After installation, these commands are available in your terminal:
 
 | Command | What It Does |
 |---|---|
-| `init-agents` | Activates skill-driven mode in any project. Merges rules without overwriting. |
+| `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
 | `bash install.sh` | Full installer: 41 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
@@ -92,7 +93,15 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.8.0
+## What's New in v1.9.0
+
+- **Framework distribution** — `install.sh` now copies rules, scripts, SOUL.md, AGENTS-EXTENDED.md, and VERSION to `~/.config/opencode/`
+- **Smart symlinks** — `init-agents` links framework files from global installation to your project (never overwrites local files)
+- **Complete framework** — Running `init-agents` now delivers 12 linked files: rules, enforcement scripts, identity, and version
+- **Status report** — Clear INSTALLED/LINKED/SKIPPED/MISSING output so you know exactly what's set up
+- **Idempotent** — Re-running `init-agents` is safe. Symlinks are reused, local files preserved
+
+## What Was New in v1.8.0
 
 - **Mayéutic enforcement** — Task manifest system: agent must write manifest before executing non-trivial tasks
 - **Evals.md** — Pass/fail checks for test-driven-development, code-review-and-quality, spec-driven-development

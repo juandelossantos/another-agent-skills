@@ -1,5 +1,32 @@
 # Release Notes
 
+## 1.9.0 (2026-06-12)
+
+v1.9.0: Framework distribution — `init-agents` now delivers the complete framework, not just AGENTS.md.
+
+### Framework Distribution
+
+- **Global installation** — `install.sh` now copies rules/, enforcement scripts, SOUL.md, AGENTS-EXTENDED.md, and VERSION to `~/.config/opencode/`
+- **Smart symlinks** — `init-agents.sh` creates symlinks from the project to `~/.config/opencode/`, so all framework files are available without duplication
+- **Idempotent** — Running `init-agents` twice doesn't break anything. Existing symlinks are reused, local files are preserved
+- **Customization-safe** — If you have a local SOUL.md or rules/, they are never overwritten. The framework detects and respects them
+- **Resilient** — If `~/.config/opencode/` doesn't exist (install.sh not run), `init-agents` shows a clear warning and still creates AGENTS.md + STACK_CONFIG.md
+
+### Status Report
+
+- **Clear output** — `init-agents` now shows INSTALLED, LINKED, SKIPPED, and MISSING sections so you know exactly what was set up
+- **Framework links: 12 linked, 0 preserved, 0 missing** — complete visibility into what's connected
+
+### What's Linked
+
+| File | Source | Purpose |
+|---|---|---|
+| `rules/common/` | `~/.config/opencode/rules/common/` | 5 rule files (behavioral, enforcement, context, skills, project) |
+| `scripts/` | `~/.config/opencode/scripts/` | 8 enforcement scripts (skill-gate, edit-guard, task-manifest, etc.) |
+| `SOUL.md` | `~/.config/opencode/SOUL.md` | Framework identity |
+| `AGENTS-EXTENDED.md` | `~/.config/opencode/AGENTS-EXTENDED.md` | Anti-rationalization table |
+| `VERSION` | `~/.config/opencode/VERSION` | Framework version |
+
 ## 1.6.0 (2026-06-03)
 
 v1.6.0: Landing page redesign with new sections, mechanical enforcement scripts, and Rule 12 formalization.
