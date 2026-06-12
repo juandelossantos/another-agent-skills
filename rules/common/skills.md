@@ -51,7 +51,7 @@ Load `multi-agent-orchestration` before delegating.
 6. **Integrate** — Merge. Build. Test.
 7. **Commit** — Only Orchestrator (Rule 12). Subagents never touch git.
 
-See `multi-agent-orchestration/GUIDE.md` for examples, error recovery, and boundaries.
+See `skills/multi-agent-orchestration/GUIDE.md` for examples, error recovery, and boundaries.
 
 ---
 
