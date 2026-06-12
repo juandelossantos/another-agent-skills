@@ -1,41 +1,42 @@
-# Session State — 2026-06-04 (Updated)
+# Session State — 2026-06-12
 
 ## Where We Are
 
 **Branch:** main
-**Version:** 1.8.0
-**Status:** v1.8.0 released, Mayéutic enforcement complete
+**Version:** 1.9.0
+**Status:** v1.9.0 released, Framework Distribution complete
 
-## What's Done (v1.8.0)
+## What's Done (v1.9.0)
 
-- Mayéutic enforcement via task manifest
-- Evals.md for 3 key skills
-- Memory.md for debugging skill
-- Conflict detection in doubt-driven-development
-- Level 4 enforcement on landing page
-- 51 doc pages, EN/ES bilingual
-- 41 skills, 0 lint warnings
+- Framework distribution: install.sh copies rules/scripts/SOUL/EXTENDED/VERSION to global
+- Smart symlinks: init-agents links 12 framework files from global to project
+- Status report: INSTALLED/LINKED/SKIPPED/MISSING output
+- Idempotent, customization-safe, resilient
+- 31/31 tests pass
 
 ## What's Planned Next
 
 ### Immediate
-1. Typed memory + provenance (future feature — after this release)
+1. Fix workplan issues (#1-#7)
 2. Documentation system completion (in progress)
 
 ### Long-term
-1. Multi-agent orchestration (out of scope for now)
-2. Goal-Driven Execution structure (marginal value, not worth implementing)
+1. Typed memory + provenance
+2. Multi-agent orchestration
+3. CI/CD testing
+4. New skill tracks: CLI, IoT, GameDev, Container
 
 ## Key Files
 
+- `install.sh` — global installer (now includes framework distribution)
+- `scripts/init-agents.sh` — project setup (now creates smart symlinks)
 - `scripts/task-manifest.sh` — Mayéutic enforcement
-- `development/MAYEUTIC-PLAN.md` — Full plan
 - `development/SESSION_STATE.md` — This file
 - `development/DOCS-PLAN.md` — Documentation system plan
 
 ## For Next Session
 
 1. Check branch: main
-2. Version: 1.8.0
+2. Version: 1.9.0
 3. Reference this file for context
-4. Continue with typed memory + provenance OR documentation system
+4. Continue with workplan fixes OR documentation system

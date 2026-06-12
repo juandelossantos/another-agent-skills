@@ -1,15 +1,15 @@
 # Project Progress Status
 
-> **Last updated:** 2026-06-04T01:00:00Z  
-> **Current version:** 1.8.0  
+> **Last updated:** 2026-06-12  
+> **Current version:** 1.9.0  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Mayéutic enforcement complete, typed memory + provenance planned
+> **Current plan:** Framework distribution complete, typed memory + provenance planned
 
 ---
 
 ## What Exists Now
 
-### 38 Custom Skills
+### 41 Custom Skills
 
 | Skill | Lines | Guides | Lazy Loading | Description |
 |---|---|---|---|---|
@@ -52,7 +52,7 @@
 | `polish-skill` | 95 | 2 | ✅ Yes | Design detail fixes |
 | `delight-skill` | 100 | 2 | ✅ Yes | Micro-interactions and transitions |
 
-**Total: 38 custom skills, 46 guides, ~5,659 lines of instruction context. All ≤ 250 lines.**
+**Total: 41 custom skills, 46 guides, ~5,659 lines of instruction context. All ≤ 250 lines.**
 
 ### Architecture Decisions Implemented
 
@@ -84,6 +84,8 @@
 | Incident documentation | ✅ Active | `development/INCIDENT_001` + `INCIDENT_002` |
 | Edit-guard structural integrity gate | ✅ Active | `scripts/edit-guard.sh` + `AGENTS.md` Step 3 |
 | Pre-commit structural HTML check (v4) | ✅ Active | `scripts/git-hooks/pre-commit` |
+| Global framework distribution | ✅ Active | `install.sh` copies rules/scripts/SOUL/EXTENDED/VERSION to `~/.config/opencode/` |
+| Smart symlinks in projects | ✅ Active | `init-agents.sh` links 12 framework files from global to project |
 
 ### What Was Refactored This Cycle
 
@@ -152,6 +154,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
+| **1.9.0** | 2026-06-12 | Framework distribution: install.sh copies rules/scripts/SOUL/EXTENDED/VERSION to global; init-agents creates smart symlinks; status report (INSTALLED/LINKED/SKIPPED/MISSING); idempotent, customization-safe, resilient. |
 | **1.7.0** | 2026-06-03 | Documentation system: 51 pages (10 main + 41 skill), bilingual EN/ES, skills catalog with filters, generation script, landing page integration. |
 | **1.6.0** | 2026-06-03 | Landing page redesign: FAQ, quick start, skills grid, compatible agents, philosophy, enforcement, how it works sections. skill-gate.sh, approve-commit.sh --auto, Rule 12 formalization. |
 | **1.5.0** | 2026-05-30 | SOUL.md, universal stack detection, project enforcement hook, CI template, stack analysis, approve-commit.sh, skill-lint.sh, runtime hook controls, rules layered architecture. |
