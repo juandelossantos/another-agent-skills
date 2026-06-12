@@ -394,6 +394,9 @@ main() {
     # Install pre-commit hook for Rule 12 mechanical enforcement
     install_precommit_hook
 
+    # Link framework files from global installation
+    install_framework_symlinks
+
     # Detect stack and create STACK_CONFIG.md (used by all skills)
     detect_stack_and_create_config
 
@@ -415,7 +418,7 @@ show_next_steps() {
     local is_new="$1"
     local target_file="$2"
     local stack="unknown"
-    [[ -f "./STACK_CONFIG.md" ]] && stack=$(grep -oP '(?<=stack: ).*' ./STACK_CONFIG.md 2>/dev/null || echo "unknown")
+    [[ -f "./STACK_CONFIG.md" ]] && stack=$(grep -oP '(?<=Detected: ).*' ./STACK_CONFIG.md 2>/dev/null | head -1 || echo "unknown")
     [[ "$stack" == "unknown" ]] && stack="your stack"
     local target_name="AGENTS.md"
     [[ -n "$target_file" ]] && target_name=$(basename "$target_file")
@@ -430,35 +433,74 @@ show_next_steps() {
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
 
+    # --- INSTALLED (new files created) ---
+    echo "  INSTALLED:"
     if [[ "$is_new" == "true" ]]; then
-        echo "  What was installed:"
         echo "    ✓ AGENTS.md — skill-driven rules and lifecycle"
-        echo "    ✓ STACK_CONFIG.md — ${stack} commands detected"
-        echo "    ✓ Pre-commit hook — enforcement gates active"
-        echo "    ✓ .sessionrc — purpose-driven sessions"
-        echo ""
-        echo "  Next steps:"
-        echo "    1. Open this project in OpenCode"
-        echo "    2. The agent loads skills automatically when it detects a task"
-        echo "    3. Try these prompts:"
-        echo "       • \"Add a login page\" → loads frontend-web skill"
-        echo "       • \"Set up an API\" → loads backend-api-mastery skill"
-        echo "       • \"Review my code\" → loads code-review-and-quality skill"
-        echo "       • \"What's the health of this project?\" → loads project-health-check"
     else
-        echo "  What was added to your project:"
-        echo "    ✓ Skill-driven rules merged into ${target_name}"
-        echo "    ✓ Pre-commit hook installed (existing hook backed up)"
-        echo "    ✓ STACK_CONFIG.md — ${stack} commands detected"
-        echo ""
-        echo "  Your existing workflows are untouched."
-        echo "  Skills ADD TO your workflow — they don't replace it."
-        echo ""
-        echo "  Next steps:"
-        echo "    • Try: \"Check project health\" → loads project-health-check"
-        echo "    • Try: \"Review recent changes\" → loads code-review-and-quality"
-        echo "    • Your existing CLAUDE.md/AGENTS.md rules still take priority"
+        echo "    ✓ ${target_name} — skill-driven rules merged"
     fi
+    [[ -f "./STACK_CONFIG.md" ]] && echo "    ✓ STACK_CONFIG.md — ${stack}"
+    [[ -f "./.sessionrc" ]] && echo "    ✓ .sessionrc — purpose-driven sessions"
+    [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ pre-commit hook — lifecycle enforcement"
+    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — token validation"
+    echo ""
+
+    # --- LINKED (via ~/.config/opencode/) ---
+    local global_dir="${HOME}/.config/opencode"
+    if [[ -d "${global_dir}" ]]; then
+        echo "  LINKED (via global installation):"
+        [[ -L "./rules/common" ]] && echo "    ✓ rules/common/ — 5 rule files"
+        [[ -L "./SOUL.md" ]] && echo "    ✓ SOUL.md — framework identity"
+        [[ -L "./AGENTS-EXTENDED.md" ]] && echo "    ✓ AGENTS-EXTENDED.md — anti-rationalization table"
+        [[ -L "./VERSION" ]] && echo "    ✓ VERSION — framework version"
+        local linked_scripts=0
+        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh approve-commit.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+            [[ -L "./scripts/${s}" ]] && linked_scripts=$((linked_scripts + 1))
+        done
+        [[ ${linked_scripts} -gt 0 ]] && echo "    ✓ scripts/ — ${linked_scripts} enforcement scripts"
+        echo ""
+    fi
+
+    # --- SKIPPED (existed locally) ---
+    local has_skipped=false
+    for f in SOUL.md AGENTS-EXTENDED.md VERSION; do
+        if [[ -f "./${f}" ]] && [[ ! -L "./${f}" ]]; then
+            if [[ "${has_skipped}" == false ]]; then
+                echo "  SKIPPED (already existed, preserved):"
+                has_skipped=true
+            fi
+            echo "    ⚠ ./${f}"
+        fi
+    done
+    if [[ -d "./rules/common" ]] && [[ ! -L "./rules/common" ]]; then
+        if [[ "${has_skipped}" == false ]]; then
+            echo "  SKIPPED (already existed, preserved):"
+            has_skipped=true
+        fi
+        echo "    ⚠ ./rules/common/"
+    fi
+    if [[ "${has_skipped}" == true ]]; then
+        echo ""
+    fi
+
+    # --- MISSING ---
+    if [[ ! -d "${global_dir}" ]]; then
+        echo "  ⚠ Global directory not found: ${global_dir}"
+        echo "    Run install.sh to install framework files globally."
+        echo ""
+    fi
+
+    # --- NEXT STEPS ---
+    echo "  Next steps:"
+    echo "    1. Open this project in OpenCode"
+    echo "    2. The agent loads skills automatically when it detects a task"
+    echo ""
+    echo "  Try these prompts:"
+    echo "    • \"Add a login page\" → loads frontend-web skill"
+    echo "    • \"Set up an API\" → loads backend-api-mastery skill"
+    echo "    • \"Review my code\" → loads code-review-and-quality skill"
+    echo "    • \"What's the health of this project?\" → loads project-health-check"
     echo ""
 }
 
@@ -500,6 +542,64 @@ install_precommit_hook() {
     
     log "Hook enforces: tests pass, build succeeds, no secrets."
     log "Commands read from STACK_CONFIG.md (stack-agnostic)."
+}
+
+install_framework_symlinks() {
+    local global_dir="${HOME}/.config/opencode"
+    local linked=0
+    local skipped=0
+    local missing=0
+
+    if [[ ! -d "${global_dir}" ]]; then
+        warn "Global directory not found at ${global_dir}."
+        warn "Run install.sh first to install framework files globally."
+        echo ""
+        return 0
+    fi
+
+    link_or_skip() {
+        local src="$1" dst="$2" label="$3"
+        if [[ -e "${dst}" ]] || [[ -L "${dst}" ]]; then
+            if [[ -L "${dst}" ]]; then
+                local link_target
+                link_target=$(readlink "${dst}" 2>/dev/null || echo "")
+                if [[ "${link_target}" == "${src}" ]]; then
+                    ok "${label} — already linked"
+                    linked=$((linked + 1))
+                    return 0
+                fi
+            fi
+            warn "${label} — exists locally, preserved"
+            skipped=$((skipped + 1))
+            return 0
+        fi
+        if [[ ! -e "${src}" ]]; then
+            warn "${label} — not found in global directory"
+            missing=$((missing + 1))
+            return 0
+        fi
+        mkdir -p "$(dirname "${dst}")"
+        ln -s "${src}" "${dst}"
+        ok "${label} — linked"
+        linked=$((linked + 1))
+    }
+
+    # rules/common/
+    link_or_skip "${global_dir}/rules/common" "./rules/common" "rules/common/"
+
+    # Individual enforcement scripts (not the whole scripts/ dir — projects may have their own)
+    for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
+                  approve-commit.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+        link_or_skip "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
+    done
+
+    # SOUL.md, AGENTS-EXTENDED.md, VERSION
+    link_or_skip "${global_dir}/SOUL.md" "./SOUL.md" "SOUL.md"
+    link_or_skip "${global_dir}/AGENTS-EXTENDED.md" "./AGENTS-EXTENDED.md" "AGENTS-EXTENDED.md"
+    link_or_skip "${global_dir}/VERSION" "./VERSION" "VERSION"
+
+    echo ""
+    log "Framework links: ${linked} linked, ${skipped} preserved, ${missing} missing"
 }
 
 main "$@"
