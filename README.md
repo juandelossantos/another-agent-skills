@@ -434,7 +434,7 @@ Ideas borrowed from the ecosystem, adapted to fit our philosophy. We don't copy.
 | Source | What We Took | How We Adapted |
 |---|---|---|
 | [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 41 skills with lazy loading, guides, and enforcement |
-| [Addy Osmani, S. Saboo, S. Kartakis — *The New SDLC With Vibe Coding*](https://addyosmani.com/blog/) (2026) | Harness engineering, factory model, agentic engineering spectrum, 6 context types | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added AI review checklist, expanded Memory system |
+| [Addy Osmani, S. Saboo, S. Kartakis — *The New SDLC With Vibe Coding*](https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view) (2026) | Harness engineering, factory model, agentic engineering spectrum, 6 context types | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added AI review checklist, expanded Memory system |
 | [Affaan Mustafa / ECC](https://github.com/affaan-m/ECC) | Cross-platform enforcement, SOUL.md pattern, shared memory gap analysis | Created SOUL.md, mechanical enforcement, incident-driven evolution |
 | [Sub-Zero Skill](https://github.com/henchmarketing-rgb/sub-zero-skill) | TOOL_GAP verdict, fresh-context verification, drift detection | Added to SOUL.md principle 8, Rule 0h, code-review-and-quality, project-health-check, shipping-and-launch |
 | [awesome-skills/code-review-skill](https://github.com/awesome-skills/code-review-skill) | 6-level severity labels (blocking → praise) | Added to code-review-and-quality skill |
