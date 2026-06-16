@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.9.0](https://img.shields.io/badge/version-1.9.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.10.0](https://img.shields.io/badge/version-1.10.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -34,7 +34,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 41 custom skills + 45 guides.
+**That's it.** Your AI agent now has 41 custom skills + 47 guides.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -74,7 +74,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **1. SOUL.md — Portable Agent Identity** — A single document that defines who the agent is, what it believes, and what it never does. Travels across projects and sessions. Not just rules — a philosophy.
 
-**2. Mechanical Enforcement** — Pre-commit v7 with 8 gates: branch check, staged changes, remote sync, HTML integrity, skill gate, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, skill-lint. Token validation handled by commit-msg hook (v4). No other framework does this.
+**2. Mechanical Enforcement** — Pre-commit v8 with 9 gates: branch check, staged changes, remote sync, HTML integrity, skill gate, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, PROGRESS STATUS validation (`validate-skill-table.sh`), skill-lint. Token validation handled by commit-msg hook (v4). No other framework does this.
 
 **3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. Plan approval ≠ commit approval — always separate decisions.
 
@@ -89,9 +89,16 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | System | Always-loaded | Lazy loading | Guides | Context control |
 |--------|--------------|--------------|--------|-----------------|
 | Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
-| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | Yes, 45 guides | Auto-evict at 70% |
+| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | Yes, 47 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v1.10.0
+
+- **Progress validation gate** — `validate-skill-table.sh` runs in pre-commit hook v8, blocking commits where PROGRESS_STATUS.md skill table doesn't match disk state
+- **Steering file** — PROGRESS_STATUS.md promoted to 🟡 HIGH severity steering file, scanned on session start
+- **Inventory accuracy** — 7 upstream-only skills separated from 41 project-owned. Contradictory summary eliminated
+- **Shell scripts executable** — `install.ps1` and `scripts/project-pre-commit` fixed to 755
 
 ## What's New in v1.9.0
 
@@ -352,13 +359,13 @@ If it fails, ask the user before taking any action.
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.7.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.10.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
 | [`scripts/pre-flight.sh`](./scripts/pre-flight.sh) | Pre-action git state check |
-| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v7 (8 gates) |
+| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v8 (9 gates) |
 | [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v4 (token validation + deletion) |
 | [`scripts/approve-commit.sh`](./scripts/approve-commit.sh) | Commit approval with mandatory manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
