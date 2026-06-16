@@ -59,7 +59,7 @@
     </a>
     <ul class="header__links">
       <li><a href="#howitworks" data-i18n="nav.howitworks">How It Works</a></li>
-      <li><a href="#enforcement" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="#enforcement" data-i18n="nav.enforcement">The Harness</a></li>
       <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
       <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
       <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
@@ -77,7 +77,7 @@
   <nav class="header__mobile" data-mobile-menu aria-hidden="true">
     <ul class="header__mobile-links">
       <li><a href="#howitworks" data-i18n="nav.howitworks">How It Works</a></li>
-      <li><a href="#enforcement" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="#enforcement" data-i18n="nav.enforcement">The Harness</a></li>
       <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
       <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
       <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
@@ -231,33 +231,33 @@
     </div>
   </section>
 
-  <section class="enforcement" id="enforcement" data-reveal aria-label="Enforcement">
+  <section class="enforcement" id="enforcement" data-reveal aria-label="The Harness">
     <div class="container">
-      <p class="section__label" data-i18n="enforcement.label">03 / enforcement</p>
+      <p class="section__label" data-i18n="enforcement.label">03 / the harness</p>
       <h2 class="section__title" data-i18n="enforcement.title">Rules that depend on memory fail.</h2>
-      <p class="section__title section__title--accent" data-i18n="enforcement.titleAccent">Rules that depend on visible blocks succeed.</p>
+      <p class="section__title section__title--accent" data-i18n="enforcement.titleAccent">Rules that depend on the harness succeed.</p>
       <div class="enforcement__levels">
         <div class="enforcement__level enforcement__level--weak">
           <span class="enforcement__level-num">01</span>
           <div class="enforcement__level-content">
-            <h3 class="enforcement__level-title" data-i18n="enforcement.level1Title">Level 1: Process Rules</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level1Desc">Agent remembers the rules. Fails when context degrades.</p>
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level1Title">01: Instructions & Rules</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level1Desc">Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md.</p>
           </div>
         </div>
         <div class="enforcement__arrow" aria-hidden="true">↓</div>
         <div class="enforcement__level enforcement__level--mid">
           <span class="enforcement__level-num">02</span>
           <div class="enforcement__level-content">
-            <h3 class="enforcement__level-title" data-i18n="enforcement.level2Title">Level 2: Visible Manifest</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level2Desc">Agent presents DECISION POINT before every mutation. Agent can skip the presentation.</p>
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level2Title">02: Tools & Sandboxes</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level2Desc">Task-specific capabilities loaded on demand. 41 skills, 47 guides, MCP servers, terminal, CI.</p>
           </div>
         </div>
         <div class="enforcement__arrow" aria-hidden="true">↓</div>
         <div class="enforcement__level enforcement__level--strong">
           <span class="enforcement__level-num">03</span>
           <div class="enforcement__level-content">
-            <h3 class="enforcement__level-title" data-i18n="enforcement.level3Title">Level 3: SHA256 Hash-Bound Token</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">Hook verifies integrity. Agent cannot bypass what it cannot forge.</p>
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level3Title">03: Orchestration & Guardrails</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v8 (9 gates), commit-msg v4, approve-commit.sh.</p>
           </div>
           <span class="enforcement__check">✓</span>
         </div>
@@ -265,19 +265,19 @@
         <div class="enforcement__level enforcement__level--strong">
           <span class="enforcement__level-num">04</span>
           <div class="enforcement__level-content">
-            <h3 class="enforcement__level-title" data-i18n="enforcement.level4Title">Level 4: Manifest Gate</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level4Desc">Agent must write a manifest before generating approval tokens. Cannot bypass what it cannot skip.</p>
+            <h3 class="enforcement__level-title" data-i18n="enforcement.level4Title">04: Observability & Verification</h3>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level4Desc">Evidence it's working or quietly drifting. project-metrics, HEALTH-CHECK.md, validate-skill-table.sh, PROGRESS_STATUS.md.</p>
           </div>
           <span class="enforcement__check">✓</span>
         </div>
       </div>
-      <p class="enforcement__incident" data-i18n="enforcement.incidentRef">Three Rule 12 violations in 48 hours. Four levels of enforcement.</p>
+      <p class="enforcement__incident" data-i18n="enforcement.incidentRef">It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.</p>
       <p class="enforcement__conclusion" data-i18n="enforcement.conclusion">It learns from its own failures. Faster than competitors ship features.</p>
       <div class="enforcement__stats">
-        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">9 pre-commit gates</span>
-        <span class="enforcement__stats-label" data-i18n="enforcement.statsLabel">Mechanical enforcement</span>
+        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">9 pre-commit gates · 6 harness components · 0 shortcuts</span>
+        <span class="enforcement__stats-label" data-i18n="enforcement.statsLabel">Harness components</span>
       </div>
-      <a href="docs/enforcement.html" class="section__learn-more">How enforcement works →</a>
+      <a href="docs/enforcement.html" class="section__learn-more">How the Harness works →</a>
     </div>
   </section>
 

@@ -1,12 +1,12 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.10.0](https://img.shields.io/badge/version-1.10.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.11.0](https://img.shields.io/badge/version-1.11.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
-**41 composable skills + mechanical enforcement that turn AI coding agents into disciplined senior engineers.**
-**No bloat. No shortcuts. Just process.**
+**41 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
+**No bloat. No shortcuts. Just process. Harness. Repeat.**
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
 
@@ -34,7 +34,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 41 custom skills + 47 guides.
+**That's it.** Your AI agent now has 41 custom skills + 47 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -74,7 +74,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 **1. SOUL.md — Portable Agent Identity** — A single document that defines who the agent is, what it believes, and what it never does. Travels across projects and sessions. Not just rules — a philosophy.
 
-**2. Mechanical Enforcement** — Pre-commit v8 with 9 gates: branch check, staged changes, remote sync, HTML integrity, skill gate, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, PROGRESS STATUS validation (`validate-skill-table.sh`), skill-lint. Token validation handled by commit-msg hook (v4). No other framework does this.
+**2. The Harness (Mechanical Enforcement)** — Agent = Model + Harness. Six components (instructions, tools, sandboxes, orchestration, guardrails, observability) documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v8 with 9 gates: branch check, staged changes, remote sync, HTML integrity, skill gate, build verification, anti-slop detection (10 patterns), debug 3-strikes tracking, SPEC enforcement, PROGRESS STATUS validation (`validate-skill-table.sh`), skill-lint. Token validation handled by commit-msg hook (v4). No other framework does this.
 
 **3. Guardian Pattern** — Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected. Plan approval ≠ commit approval — always separate decisions.
 
@@ -92,6 +92,15 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | Yes, 47 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v1.11.0
+
+- **Harness Edition** — Agent = Model + Harness. Full architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md): 6 components (instructions, tools, sandboxes, orchestration, guardrails, observability)
+- **SOUL.md principles 9 & 10** — "Generation is solved. Verification, judgment, and direction are the new craft." + "Agent = Model + Harness. Most agent failures are configuration failures."
+- **AI-Generated Code Review Checklist** — 8 specific failure-mode checks for code produced by AI agents (hallucinated dependencies, superficial error handling, over-engineering)
+- **Memory.md ×2** — engineering-fundamentals (harness configuration failure incidents) + backend-api-mastery (AI API antipatterns)
+- **Landing page reframed** — "Enforcement" → "The Harness". Updated i18n EN/ES with harness terminology, vibe coding debt, FAQ q8-q10, paper reference
+- **Docs enforcement page** — Added Harness Architecture section, gate 9 (PROGRESS_STATUS validation), Spanish translations
 
 ## What's New in v1.10.0
 
@@ -354,12 +363,13 @@ If it fails, ask the user before taking any action.
 | [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Full anti-rationalization table, Commit Manifest Protocol, project-type matrix |
 | [`SOUL.md`](./SOUL.md) | Project identity: principles, values, what we never do |
 | [`EXAMPLES.md`](./EXAMPLES.md) | Before/after skill usage demonstrations |
+| [`docs/HARNESS.md`](./docs/HARNESS.md) | Harness architecture: 6 components, Agent = Model + Harness |
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/DESIGN-SKILLS.md`](./docs/DESIGN-SKILLS.md) | All design-related skills: platforms, skins, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`docs/EXAMPLES.md`](./docs/EXAMPLES.md) | Full 366-line before/after reference |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.10.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.11.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
