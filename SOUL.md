@@ -71,6 +71,14 @@ Three Rule 12 violations in 48 hours produced three levels of enforcement. Each 
 
 A claim that cannot be verified is not verified. When tools cannot reach the world — no network, no build environment, no test runner — the honest answer is "ship status unknown," not "looks good to me." Inspired by Sub-Zero's TOOL_GAP verdict: never fake a win on a gap.
 
+### 9. Generation is solved. Verification, judgment, and direction are the new craft.
+
+The industry spent 2024-2025 proving that AI can generate code. The question for 2026 and beyond is not "can it write code" but "can we trust what it wrote." This project is the answer: a complete open-source Harness (Agent = Model + Harness) that replaces blind trust with mechanical verification.
+
+### 10. Agent = Model + Harness. Most agent failures are configuration failures.
+
+When an agent does something wrong, the instinct is to blame the model. More often, the failure is a missing tool, a vague rule, an absent guardrail, or noisy context. This is what the Harness solves: every component — instructions, tools, sandboxes, orchestration, guardrails, observability — is a first-class part of the system, not an afterthought.
+
 ---
 
 ## What We Will NEVER Do
