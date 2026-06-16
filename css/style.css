@@ -861,10 +861,14 @@ ul { list-style: none; }
 [data-revealed="true"] .enforcement__level:nth-child(1) { transition-delay: 0ms; }
 [data-revealed="true"] .enforcement__level:nth-child(3) { transition-delay: 200ms; }
 [data-revealed="true"] .enforcement__level:nth-child(5) { transition-delay: 400ms; }
+[data-revealed="true"] .enforcement__level:nth-child(7) { transition-delay: 600ms; }
+
+[data-revealed="true"] .enforcement__level--weak {
+  opacity: 0.6;
+}
 
 .enforcement__level--weak {
   border-color: var(--border);
-  opacity: 0.6;
 }
 
 .enforcement__level--mid {
