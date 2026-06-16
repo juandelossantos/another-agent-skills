@@ -1,6 +1,6 @@
 # Project Progress Status
 
-> **Last updated:** 2026-06-12  
+> **Last updated:** 2026-06-16  
 > **Current version:** 1.9.0  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
 > **Current plan:** Framework distribution complete, typed memory + provenance planned
@@ -11,53 +11,51 @@
 
 ### 41 Custom Skills
 
-| Skill | Lines | Guides | Lazy Loading | Description |
-|---|---|---|---|---|
-| `engineering-fundamentals` | 162 | 3 | ✅ Yes | Universal philosophy: discovery, contracts, anti-slop, quality gates |
-| `frontend-web` | 248 | 3 | ✅ Yes | Production-grade web UIs with anti-AI-slop rules |
-| `frontend-pwa` | 195 | 4 | ✅ Yes | Installable, offline-first web apps with native migration path |
-| `frontend-mobile` | 239 | 3 | ✅ Yes | Native mobile apps with platform compliance |
-| `frontend-desktop` | 238 | 3 | ✅ Yes | Cross-platform desktop apps with native OS integration |
-| `backend-api-mastery` | 232 | 4 | ✅ Yes | Production APIs: protocol, DB, auth, testing, docs |
-| `fullstack-shipping` | 225 | 3 | ✅ Yes | CI/CD, deployment, monitoring, rollback, launch checklists |
-| `spec-driven-development` | 163 | 2 | ✅ Yes | Research-backed specs with critical thinking and implement gate |
-| `git-init-and-versioning` | 242 | 3 | ✅ Yes | Git setup, branching, pre-commit gates, commit approval |
-| `architecture-analysis` | 202 | 3 | ✅ Yes | Stack/pattern decisions with trade-offs and critical challenge |
-| `dev-environment-audit` | 152 | 4 | ✅ Yes | MCPs, CLI tools, runtime verification |
-| `project-health-check` | 190 | 2 | ✅ Yes | Audit existing codebases with A/B/C decision gate |
-| `project-metrics` | 147 | 2 | ✅ Yes | Background quality logging: builds, rework, coverage |
-| `user-onboarding` | 188 | 2 | ✅ Yes | Persistent user preferences across all projects |
-| `multi-agent-orchestration` | 80 | 1 | ✅ Yes | Orchestrator/subagent protocol for parallel multi-file work |
-| `debugging-and-error-recovery` | 63 | 4 | ✅ Yes | Systematic root-cause debugging |
-| `test-driven-development` | 72 | 6 | ✅ Yes | TDD cycle, test writing, anti-patterns |
-| `code-review-and-quality` | 79 | 3 | ✅ Yes | Five-axis review with quality gates |
-| `git-workflow-and-versioning` | 114 | 3 | ✅ Yes | Atomic commits, branching, conflict resolution |
-| `context-engineering` | 85 | 2 | ✅ Yes | Agent context setup optimization |
-| `source-driven-development` | 92 | 2 | ✅ Yes | Official documentation verification |
-| `doubt-driven-development` | 88 | 2 | ✅ Yes | Adversarial fresh-context review |
-| `incremental-implementation` | 76 | 2 | ✅ Yes | Thin vertical slices, test each |
-| `planning-and-task-breakdown` | 95 | 2 | ✅ Yes | Decompose into verifiable chunks |
-| `code-simplification` | 68 | 2 | ✅ Yes | Reduce complexity while preserving behavior |
-| `security-and-hardening` | 105 | 3 | ✅ Yes | OWASP prevention, input validation |
-| `performance-optimization` | 98 | 2 | ✅ Yes | Measure first, optimize only what matters |
-| `ci-cd-and-automation` | 112 | 3 | ✅ Yes | Automated quality gates on every change |
-| `deprecation-and-migration` | 82 | 2 | ✅ Yes | Remove old systems safely |
-| `documentation-and-adrs` | 90 | 2 | ✅ Yes | Document the why, not just the what |
-| `shipping-and-launch` | 108 | 3 | ✅ Yes | Pre-launch checklist, monitoring, rollback |
-| `cli-tools` | 95 | 2 | ✅ Yes | arg parsing, exit codes, colors, progress bars |
-| `browser-testing-with-devtools` | 88 | 2 | ✅ Yes | Chrome DevTools MCP for runtime verification |
-| `critique-skill` | 120 | 2 | ✅ Yes | Two-pass design review with scoring |
-| `audit-skill` | 115 | 2 | ✅ Yes | Five-dimension technical quality audit |
-| `hard-skill` | 105 | 2 | ✅ Yes | Deterministic mechanical fixes |
-| `polish-skill` | 95 | 2 | ✅ Yes | Design detail fixes |
-| `delight-skill` | 100 | 2 | ✅ Yes | Micro-interactions and transitions |
-| `adapt-skill` | 105 | 2 | ✅ Yes | Responsive layout fixes |
-| `typeset-skill` | 95 | 2 | ✅ Yes | Typography correction |
-| `output-skill` | 85 | 1 | ✅ Yes | Complete output enforcement |
+| Skill | Lines | Guides | Description |
+|---|---|---|---|
+| `adapt-skill` | 129 | 1 | Responsive layout fixes |
+| `architecture-analysis` | 202 | 3 | Evaluate architecture options with trade-offs |
+| `audit-skill` | 148 | 0 | Five-dimension technical quality audit |
+| `backend-api-mastery` | 232 | 4 | Production APIs: protocol, DB, auth, testing, docs |
+| `clarify-skill` | 163 | 0 | Rewrite confusing UX copy |
+| `cli-tools` | 110 | 2 | Terminal-based tools with standard UX |
+| `code-review-and-quality` | 113 | 0 | Multi-axis code review with quality gates |
+| `context-engineering` | 142 | 0 | Optimize agent context setup |
+| `critique-skill` | 132 | 1 | Two-pass design review with scoring |
+| `debugging-and-error-recovery` | 89 | 0 | Systematic root-cause debugging |
+| `debugging-three-strikes` | 20 | 1 | Stop speculative debugging at 3 failures |
+| `delight-skill` | 146 | 0 | Micro-interactions and transitions |
+| `dev-environment-audit` | 152 | 4 | MCPs, CLI tools, runtime verification |
+| `documentation-and-adrs` | 62 | 0 | Record decisions and documentation |
+| `doubt-driven-development` | 244 | 0 | Adversarial fresh-context review |
+| `engineering-fundamentals` | 239 | 0 | Universal philosophy: discovery, contracts, anti-slop |
+| `frontend-desktop` | 237 | 2 | Production desktop apps (Tauri/Electron) |
+| `frontend-mobile` | 240 | 2 | Production mobile apps (RN/Flutter) |
+| `frontend-pwa` | 196 | 3 | Offline-first web apps with native migration |
+| `frontend-web` | 212 | 5 | Production web interfaces with anti-slop rules |
+| `fullstack-shipping` | 225 | 3 | CI/CD, deployment, monitoring, rollback |
+| `git-init-and-versioning` | 250 | 4 | Git setup, branching, hooks, commit gates |
+| `git-workflow-and-versioning` | 180 | 0 | Atomic commits, branching, conflict resolution |
+| `hard-skill` | 147 | 0 | Deterministic P0/P1 mechanical fixes |
+| `incremental-implementation` | 245 | 0 | Thin vertical slices, test each |
+| `industrial-brutalist-ui` | 75 | 0 | Raw industrial mechanical UI |
+| `minimalist-ui` | 68 | 0 | Editorial product UI (Notion/Linear) |
+| `multi-agent-orchestration` | 80 | 1 | Orchestrate >2 agents in parallel/pipeline |
+| `optimize-skill` | 136 | 0 | Fix performance bottlenecks |
+| `output-skill` | 48 | 0 | Complete output enforcement |
+| `planning-and-task-breakdown` | 223 | 0 | Decompose into verifiable chunks |
+| `polish-skill` | 136 | 1 | Fix design detail: spacing, alignment, tokens |
+| `project-health-check` | 210 | 2 | Audit existing codebases with decision gate |
+| `project-metrics` | 151 | 2 | Background quality logging |
+| `redesign-skill` | 64 | 0 | Systematic UI improvement |
+| `shipping-and-launch` | 152 | 0 | Production launch prep and rollback |
+| `soft-premium-ui` | 69 | 0 | Polished, calm premium UI |
+| `spec-driven-development` | 163 | 2 | Research-backed specs with implement gate |
+| `test-driven-development` | 138 | 0 | TDD cycle with anti-pattern checks |
+| `typeset-skill` | 136 | 1 | Fix typography and reading rhythm |
+| `user-onboarding` | 188 | 2 | Persistent user preferences across projects |
 
-**Total: 41 custom skills, 22 guides across 6 skills. All ≤ 250 lines.**
-
-**Total: 41 custom skills, 46 guides, ~5,659 lines of instruction context. All ≤ 250 lines.**
+**Total: 41 custom skills, 47 guides, 3 evals, 1 memory. All SKILL.md ≤ 250 lines.**
 
 ### Architecture Decisions Implemented
 
@@ -123,9 +121,9 @@
 
 ### Planned
 
-- Clean up 34 orphan PNG files in root (design iteration artifacts)
-- Document i18n split (root = landing page, docs/ = documentation site)
 - CI/CD testing — GitHub Actions on Ubuntu, macOS, Windows
+- Add PROGRESS_STATUS.md to STEERING-GUIDE.md as 🟡 HIGH severity
+- Integrate validate-skill-table.sh into pre-commit hook
 - Skill validation tests — frontmatter, guide references, line count enforcement
 - Troubleshooting guide — common issues
 - New skill tracks: CLI, IoT, GameDev, Container
@@ -142,8 +140,6 @@
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
 | No automated testing | Breaks not caught until user report | Manual testing after every change |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
-| 34 orphan PNGs in root | Repo clutter, larger clone size | Move to `design/` or gitignore |
-| Two i18n systems | Root (landing) vs docs/ (documentation) — undocumented split | Add comment in i18n files explaining scope |
 
 ---
 

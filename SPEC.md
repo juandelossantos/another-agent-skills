@@ -81,7 +81,7 @@ another-agent-skills/
 ├── docs/
 │   ├── QUICKSTART.md      # 3 commands to start
 │   ├── PIPELINE.md        # Design review pipeline guide
-│   ├── SKILLS-CATALOG.md  # All 31 skills with descriptions
+│   ├── SKILLS-CATALOG.md  # All 41 skills with descriptions
 │   ├── PROCESS.md         # AGENTS.md, pre-commit, gates explainer
 │   ├── CONTRIBUTING.md    # How to add/modify skills
 │   └── FAQ.md             # Frequently asked questions
