@@ -12,8 +12,8 @@
     "tag": "/// sistema",
     "title1": "Convierte agentes de IA en",
     "title2": "ingenieros senior disciplinados.",
-    "subtitle1": "41 skills componibles en un solo",
-    "subtitle2": "flow.",
+    "subtitle1": "41 skills. 9 gates. Un harness.",
+    "subtitle2": "El modelo de fábrica para desarrollo asistido por IA.",
     "quickstart": "Pruébalo ahora —",
     "social": "Open source · Licencia MIT · Funciona offline"
   },
@@ -24,11 +24,11 @@
     "card1Desc": "Entregan código que parece correcto pero falla en producción.",
     "card2Title": "Sin review antes del push",
     "card2Desc": "Sobreescriben el trabajo de otros sin darse cuenta.",
-    "card3Title": "Solo output genérico",
-    "card3Desc": "Producen los mismos patrones sin importar el contexto.",
+    "card3Title": "Deuda de vibe coding",
+    "card3Desc": "Generan código rápido pero producen OpEx oculto: dependencias alucinadas, manejo de errores superficial, y gaps sutiles de correctness.",
     "metr": "Cuando los desarrolladores usaron IA, tardaron 19% más. Los desarrolladores estimaron que la IA les ahorró 20% del tiempo. Los expertos predijeron 38% más rápido.",
     "metrSource": "— Becker et al., METR, julio 2025",
-    "conclusion": "La diferencia entre \"capaz\" y \"confiable\" no es inteligencia. Es proceso."
+    "conclusion": "La diferencia entre \"capaz\" y \"confiable\" no es inteligencia. Es el harness."
   },
   "howitworks": {
     "label": "02 / cómo funciona",
@@ -49,21 +49,21 @@
     "conclusion": "Ninguna fase es opcional. Cada paso tiene una skill. Cada skill tiene un gate."
   },
   "enforcement": {
-    "label": "03 / enforcement",
+    "label": "03 / el harness",
     "title": "Las reglas que dependen de la memoria fallan.",
-    "titleAccent": "Las reglas que dependen de bloques visibles funcionan.",
-    "level1Title": "Nivel 1: Reglas de Proceso",
-    "level1Desc": "El agente recuerda las reglas. Falla cuando el contexto degrada.",
-    "level2Title": "Nivel 2: Manifiesto Visible",
-    "level2Desc": "El agente presenta un DECISION POINT antes de cada mutación. El agente puede saltarse la presentación.",
-    "level3Title": "Nivel 3: Token con Hash SHA256",
-    "level3Desc": "El hook verifica integridad. El agente no puede falsificar lo que no puede forjar.",
-    "incidentRef": "Rompió sus propias reglas tres veces en dos días. Después las hizo imposibles de romper.",
-    "conclusion": "Se aprende de los propios fallos. Más rápido que la competencia lanza features.",
-    "statsLabel": "Enforcement mecánico",
-    "statsValue": "9 pre-commit gates + puerta de manifiesto",
-    "level4Title": "Nivel 4: Puerta de Manifiesto",
-    "level4Desc": "El agente debe escribir un manifiesto antes de generar tokens de aprobación. No puede falsificar lo que no puede saltar."
+    "titleAccent": "Las reglas que dependen del harness funcionan.",
+    "level1Title": "01: Instrucciones y Reglas",
+    "level1Desc": "Quién es el agente, qué le importa, qué no debe hacer jamás. AGENTS.md, SOUL.md, STEERING-GUIDE.md.",
+    "level2Title": "02: Herramientas y Sandboxes",
+    "level2Desc": "Capacidades específicas cargadas bajo demanda. 41 skills, 47 guías, servidores MCP, terminal, CI.",
+    "level3Title": "03: Orquestación y Guardrails",
+    "level3Desc": "Cuándo se activa cada herramienta, cómo se coordinan, y hooks deterministas. Pre-commit v8 (9 gates), commit-msg v4, approve-commit.sh.",
+    "incidentRef": "Rompió sus propias reglas tres veces en dos días. Después construyó un harness que las hizo imposibles de romper.",
+    "conclusion": "Aprende de sus propios fallos. Más rápido que la competencia lanza features.",
+    "statsLabel": "Componentes del harness",
+    "statsValue": "9 pre-commit gates · 6 componentes del harness · 0 atajos",
+    "level4Title": "04: Observabilidad y Verificación",
+    "level4Desc": "Evidencia de que funciona o está derivando. project-metrics, HEALTH-CHECK.md, validate-skill-table.sh, PROGRESS_STATUS.md."
   },
   "philosophy": {
     "label": "04 / filosofía",
@@ -75,7 +75,9 @@
     "principle4": "La velocidad es un efecto secundario de la precisión, nunca el objetivo principal.",
     "principle5": "El contexto es finito. Evacuá antes de ahogarte.",
     "principle6": "\"No, eso es demasiado complejo\" es más valioso que el cumplimiento ciego.",
-    "principle7": "Se aprende de los propios fallos más rápido que la competencia lanza features.",
+    "principle7": "Aprende de los propios fallos más rápido que la competencia lanza features.",
+    "principle8": "Generation is solved. Verification, judgment, and direction are the new craft.",
+    "principle9": "Agente = Modelo + Harness. La mayoría de fallos de agentes son fallos de configuración.",
     "compact": "Transformamos agentes de IA de siervos obedientes en ingenieros senior disciplinados."
   },
   "compatible": {
@@ -111,13 +113,13 @@
     "catDebug": "Debug",
     "catIdeation": "Ideación",
     "catDesignSkins": "Design Skins",
-    "stats": "41 skills · 47 guides · 0 atajos"
+    "stats": "41 skills · 47 guías · 6 componentes del harness · 0 atajos"
   },
   "quickstart": {
     "label": "07 / inicio rápido",
     "title": "Empieza en segundos.",
     "then": "Después en cualquier proyecto:",
-    "conclusion": "Tu agente ahora tiene 41 skills + 47 guides. Cada proyecto. Cada vez."
+    "conclusion": "Tu agente ahora tiene 41 skills + 47 guías + 6 componentes del harness. Cada proyecto. Cada vez."
   },
   "faq": {
     "label": "08 / faq",
@@ -135,7 +137,13 @@
     "q6": "¿Puedo personalizar los skills?",
     "a6": "Sí. Los skills son archivos Markdown en el directorio `skills/`. Edítalos, agrega nuevos, elimina los que no necesitas. El framework es modular: usa los 41 o elige los que importan a tu flujo de trabajo.",
     "q7": "¿Puede un agente romper las reglas a pesar del enforcement?",
-    "a7": "Sí. Los hooks enforcement en operaciones de git (commit, push) — requieren tokens, y los tokens requieren manifiestos. Pero ningún sistema puede prevenir completamente que un agente actúe contra el protocolo. El agente podría generar un token sin presentar el manifiesto, interpretar respuestas ambiguas como aprobación, o hacer push sin preguntar. El usuario debe mantenerse alerta. Estas barreras crean fricción, no garantías."
+    "a7": "Sí. Los hooks enforcement en operaciones de git (commit, push) — requieren tokens, y los tokens requieren manifiestos. Pero ningún sistema puede prevenir completamente que un agente actúe contra el protocolo. El agente podría generar un token sin presentar el manifiesto, interpretar respuestas ambiguas como aprobación, o hacer push sin preguntar. El usuario debe mantenerse alerta. Estas barreras crean fricción, no garantías.",
+    "q8": "¿Qué es el Harness?",
+    "a8": "El Harness es todo lo que rodea al modelo de IA que convierte inteligencia cruda en output confiable. Seis componentes: Instrucciones y Reglas (quién es el agente), Herramientas (qué puede hacer), Sandboxes (dónde ejecuta), Orquestación (cuándo se activa cada cosa), Guardrails y Hooks (qué no puede evitar), y Observabilidad (evidencia de que funciona). Este proyecto es un Harness open-source completo. Ver docs/HARNESS.md.",
+    "q9": "¿Qué es el Factory Model?",
+    "a9": "El Factory Model significa que el output principal del desarrollador no es código — es el sistema que produce código. Diseñás el harness: especificaciones, agentes, tests, quality gates, feedback loops. Los agentes manejan la implementación. Vos manejás la arquitectura, verificación y juicio. Tu output es la fábrica, no los widgets.",
+    "q10": "¿Cuál es el fundamento teórico?",
+    "a10": "Los conceptos están basados en 'The New SDLC With Vibe Coding' de Addy Osmani, Shubham Saboo y Sokratis Kartakis (Mayo 2026). El paper define el espectro de vibe coding a agentic engineering, el Harness (Agente = Modelo + Harness), y el Factory Model. Este proyecto es una implementación open-source de esos principios."
   },
   "references": {
     "label": "referencias",
@@ -143,7 +151,10 @@
     "metrTitle": "Becker, J., Rush, N., Barnes, E. y Rein, D. (2025).",
     "metrPaper": "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.",
     "metrVenue": "METR.",
-    "metrLink": "arXiv:2507.09089"
+    "metrLink": "arXiv:2507.09089",
+    "paperTitle": "Osmani, A., Saboo, S. y Kartakis, S. (2026).",
+    "paperPaper": "The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic Engineering.",
+    "paperVenue": "Google."
   },
   "footer": {
     "howitworks": "Cómo funciona",

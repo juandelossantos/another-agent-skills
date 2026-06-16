@@ -12,8 +12,8 @@
     "tag": "/// system",
     "title1": "Turn AI agents into",
     "title2": "disciplined senior engineers.",
-    "subtitle1": "41 composable skills wired into a single",
-    "subtitle2": "flow.",
+    "subtitle1": "41 skills. 9 gates. One harness.",
+    "subtitle2": "The factory model for AI-assisted development.",
     "quickstart": "Use it now —",
     "social": "Open source · MIT License · Works offline"
   },
@@ -24,11 +24,11 @@
     "card1Desc": "They ship code that looks correct but breaks in production.",
     "card2Title": "No review before push",
     "card2Desc": "They overwrite each other's work without noticing.",
-    "card3Title": "Generic output only",
-    "card3Desc": "They produce the same patterns regardless of context.",
+    "card3Title": "Vibe coding debt",
+    "card3Desc": "They generate code fast but produce hidden OpEx: hallucinated dependencies, superficial error handling, and subtle correctness gaps.",
     "metr": "When developers used AI, they took 19% longer. Developers estimated AI saved them 20% of the time. Experts predicted 38% faster.",
     "metrSource": "— Becker et al., METR, July 2025",
-    "conclusion": "The gap between \"capable\" and \"reliable\" is not intelligence. It's process."
+    "conclusion": "The gap between \"capable\" and \"reliable\" is not intelligence. It's the harness."
   },
   "howitworks": {
     "label": "02 / how it works",
@@ -49,21 +49,21 @@
     "conclusion": "No phase is optional. Every step has a skill. Every skill has a gate."
   },
   "enforcement": {
-    "label": "03 / enforcement",
+    "label": "03 / the harness",
     "title": "Rules that depend on memory fail.",
-    "titleAccent": "Rules that depend on visible blocks succeed.",
-    "level1Title": "Level 1: Process Rules",
-    "level1Desc": "Agent remembers the rules. Fails when context degrades.",
-    "level2Title": "Level 2: Visible Manifest",
-    "level2Desc": "Agent presents DECISION POINT before every mutation. Agent can skip the presentation.",
-    "level3Title": "Level 3: SHA256 Hash-Bound Token",
-    "level3Desc": "Hook verifies integrity. Agent cannot bypass what it cannot forge.",
-    "incidentRef": "It broke its own rules three times in two days. Then it made breaking them impossible.",
+    "titleAccent": "Rules that depend on the harness succeed.",
+    "level1Title": "01: Instructions & Rules",
+    "level1Desc": "Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md.",
+    "level2Title": "02: Tools & Sandboxes",
+    "level2Desc": "Task-specific capabilities loaded on demand. 41 skills, 47 guides, MCP servers, terminal, CI.",
+    "level3Title": "03: Orchestration & Guardrails",
+    "level3Desc": "When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v8 (9 gates), commit-msg v4, approve-commit.sh.",
+    "incidentRef": "It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.",
     "conclusion": "It learns from its own failures. Faster than competitors ship features.",
-    "statsLabel": "Mechanical enforcement",
-    "statsValue": "9 pre-commit gates + manifest gate",
-    "level4Title": "Level 4: Manifest Gate",
-    "level4Desc": "Agent must write a manifest before generating approval tokens. Cannot bypass what it cannot skip."
+    "statsLabel": "Harness components",
+    "statsValue": "9 pre-commit gates · 6 harness components · 0 shortcuts",
+    "level4Title": "04: Observability & Verification",
+    "level4Desc": "Evidence it's working or quietly drifting. project-metrics, HEALTH-CHECK.md, validate-skill-table.sh, PROGRESS_STATUS.md."
   },
   "philosophy": {
     "label": "04 / philosophy",
@@ -76,6 +76,8 @@
     "principle5": "Context is finite. Evict before you drown.",
     "principle6": "\"No, that's overcomplicated\" is more valuable than blind compliance.",
     "principle7": "Learns from its own failures faster than competitors ship features.",
+    "principle8": "Generation is solved. Verification, judgment, and direction are the new craft.",
+    "principle9": "Agent = Model + Harness. Most agent failures are configuration failures.",
     "compact": "Turns AI coding agents from obedient servants into disciplined senior engineers."
   },
   "compatible": {
@@ -111,13 +113,13 @@
     "catDebug": "Debug",
     "catIdeation": "Ideation",
     "catDesignSkins": "Design Skins",
-    "stats": "41 skills · 47 guides · 0 shortcuts"
+    "stats": "41 skills · 47 guides · 6 harness components · 0 shortcuts"
   },
   "quickstart": {
     "label": "07 / quick start",
     "title": "Start in seconds.",
     "then": "Then in any project:",
-    "conclusion": "Your agent now has 41 skills + 47 guides. Every project. Every time."
+    "conclusion": "Your agent now has 41 skills + 47 guides + 6 harness components. Every project. Every time."
   },
   "faq": {
     "label": "08 / faq",
@@ -135,7 +137,13 @@
     "q6": "Can I customize the skills?",
     "a6": "Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 41 or pick the ones that matter to your workflow.",
     "q7": "Can an agent still break the rules despite enforcement?",
-    "a7": "Yes. The hooks enforce git operations (commit, push) — they require tokens, and tokens require manifests. But no system can fully prevent an agent from acting against protocol. The agent could generate a token without presenting the manifest, interpret ambiguous responses as approval, or push without asking. The human must stay alert. These gates create friction, not guarantees."
+    "a7": "Yes. The hooks enforce git operations (commit, push) — they require tokens, and tokens require manifests. But no system can fully prevent an agent from acting against protocol. The agent could generate a token without presenting the manifest, interpret ambiguous responses as approval, or push without asking. The human must stay alert. These gates create friction, not guarantees.",
+    "q8": "What is the Harness?",
+    "a8": "The Harness is everything around the AI model that turns raw intelligence into reliable output. Six components: Instructions & Rules (who the agent is), Tools (what it can do), Sandboxes (where it runs), Orchestration (when things fire), Guardrails & Hooks (what it cannot bypass), and Observability (evidence it works). This project is a complete open-source Harness. See docs/HARNESS.md.",
+    "q9": "What is the Factory Model?",
+    "a9": "The Factory Model means the developer's primary output is not code — it's the system that produces code. You design the harness: specifications, agents, tests, quality gates, feedback loops. The agents handle implementation. You handle architecture, verification, and judgment. Your output is the factory, not the widgets.",
+    "q10": "What's the theoretical foundation?",
+    "a10": "The concepts are based on 'The New SDLC With Vibe Coding' by Addy Osmani, Shubham Saboo, and Sokratis Kartakis (May 2026). The paper defines the spectrum from vibe coding to agentic engineering, the Harness (Agent = Model + Harness), and the Factory Model. This project is an open-source implementation of those principles."
   },
   "references": {
     "label": "references",
@@ -143,7 +151,10 @@
     "metrTitle": "Becker, J., Rush, N., Barnes, E., & Rein, D. (2025).",
     "metrPaper": "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.",
     "metrVenue": "METR.",
-    "metrLink": "arXiv:2507.09089"
+    "metrLink": "arXiv:2507.09089",
+    "paperTitle": "Osmani, A., Saboo, S., & Kartakis, S. (2026).",
+    "paperPaper": "The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic Engineering.",
+    "paperVenue": "Google."
   },
   "footer": {
     "howitworks": "How It Works",
