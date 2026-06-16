@@ -17,11 +17,11 @@
 | `architecture-analysis` | 202 | 3 | Evaluate architecture options with trade-offs |
 | `audit-skill` | 148 | 0 | Five-dimension technical quality audit |
 | `backend-api-mastery` | 232 | 4 | Production APIs: protocol, DB, auth, testing, docs |
-| `clarify-skill` | 163 | 0 | Rewrite confusing UX copy |
+| `clarify-skill` | 178 | 0 | Rewrite confusing UX copy |
 | `cli-tools` | 110 | 2 | Terminal-based tools with standard UX |
 | `code-review-and-quality` | 130 | 0 | Multi-axis code review with quality gates, AI-generated code review checklist |
 | `context-engineering` | 142 | 0 | Optimize agent context setup |
-| `critique-skill` | 132 | 1 | Two-pass design review with scoring |
+| `critique-skill` | 166 | 1 | Two-pass design review with scoring |
 | `debugging-and-error-recovery` | 89 | 0 | Systematic root-cause debugging |
 | `debugging-three-strikes` | 20 | 1 | Stop speculative debugging at 3 failures |
 | `delight-skill` | 146 | 0 | Micro-interactions and transitions |
@@ -32,7 +32,7 @@
 | `frontend-desktop` | 237 | 2 | Production desktop apps (Tauri/Electron) |
 | `frontend-mobile` | 240 | 2 | Production mobile apps (RN/Flutter) |
 | `frontend-pwa` | 196 | 3 | Offline-first web apps with native migration |
-| `frontend-web` | 212 | 5 | Production web interfaces with anti-slop rules |
+| `frontend-web` | 232 | 5 | Production web interfaces with anti-slop rules |
 | `fullstack-shipping` | 225 | 3 | CI/CD, deployment, monitoring, rollback |
 | `git-init-and-versioning` | 250 | 4 | Git setup, branching, hooks, commit gates |
 | `git-workflow-and-versioning` | 180 | 0 | Atomic commits, branching, conflict resolution |
@@ -55,7 +55,7 @@
 | `typeset-skill` | 136 | 1 | Fix typography and reading rhythm |
 | `user-onboarding` | 188 | 2 | Persistent user preferences across projects |
 
-**Total: 41 custom skills, 47 guides, 3 evals, 1 memory. All SKILL.md ≤ 250 lines.**
+**Total: 41 custom skills, 47 guides, 3 evals, 3 memory. All SKILL.md ≤ 250 lines.**
 
 ### Architecture Decisions Implemented
 
