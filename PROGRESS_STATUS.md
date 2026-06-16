@@ -1,9 +1,9 @@
 # Project Progress Status
 
 > **Last updated:** 2026-06-16  
-> **Current version:** 1.10.0  
+> **Current version:** 1.11.0 (Harness Edition — in development)  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Framework distribution complete, typed memory + provenance planned
+> **Current plan:** Harness Edition — full harness architecture docs, landing page rework, AI review checklist, Memory.md expansion
 
 ---
 
@@ -116,11 +116,11 @@
 ### In Progress
 
 - **v1.11.0 Harness Edition** — Harness architecture documentation, landing page rework, AI review checklist, Memory.md expansion
-  - [ ] F1: HARNESS.md + SOUL.md quote + README Prior Art
-  - [ ] F4: AI code review checklist (code-review-and-quality) + Memory.md (engineering-fundamentals, backend-api-mastery)
-  - [ ] F2: Landing i18n EN/ES — hero, problem, enforcement→harness, philosophy, skills stats, FAQ
-  - [ ] F3: Docs site — enforcement.html harness section, i18n, skills stats
-  - [ ] F5: Re-audit HEALTH-CHECK.md + PROGRESS_STATUS.md final
+  - [x] F1: HARNESS.md + SOUL.md quote + README Prior Art
+  - [x] F4: AI code review checklist (code-review-and-quality) + Memory.md (engineering-fundamentals, backend-api-mastery)
+  - [x] F2: Landing i18n EN/ES — hero, problem, enforcement→harness, philosophy, skills stats, FAQ
+  - [x] F3: Docs site — enforcement.html harness section, i18n, skills stats
+  - [x] F5: Re-audit HEALTH-CHECK.md + PROGRESS_STATUS.md final
 
 ### Planned
 
@@ -156,6 +156,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
+| **1.11.0** | 2026-06-16 | Harness Edition: HARNESS.md (6-component architecture), SOUL.md principles 9-10, AI-Generated Code Review Checklist (8 checks), Memory.md for 2 skills, landing page rework (hero→harness), docs enforcement page harness section. |
 | **1.10.0** | 2026-06-16 | Progress validation gate: validate-skill-table.sh in pre-commit hook (v8), PROGRESS_STATUS.md added to STEERING-GUIDE.md as HIGH severity, inventory rebuilt from disk, docs/i18n fixed. |
 | **1.9.0** | 2026-06-12 | Framework distribution: install.sh copies rules/scripts/SOUL/EXTENDED/VERSION to global; init-agents creates smart symlinks; status report (INSTALLED/LINKED/SKIPPED/MISSING); idempotent, customization-safe, resilient. |
 | **1.7.0** | 2026-06-03 | Documentation system: 51 pages (10 main + 41 skill), bilingual EN/ES, skills catalog with filters, generation script, landing page integration. |
