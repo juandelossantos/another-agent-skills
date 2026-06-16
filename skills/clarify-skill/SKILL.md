@@ -19,8 +19,22 @@ metadata:
 
 Functional text only — labels, errors, instructions, confirmations. Not marketing copy.
 
+## Writing Philosophy
+
+**Words are design material, not decoration.** Every word in an interface exists for one reason: to make it easier to understand, and therefore easier to use. Bring the same intentionality to copy that you bring to spacing and color.
+
+- **Write from the end user's side.** Name things by what people control and recognize, never by how the system is built. A person manages "notifications," not "webhook config."
+- **Describe what something does in plain terms.** Being specific is always better than being clever. "Save changes" not "Submit."
+- **Active voice by default.** A control says exactly what happens when used. The button "Publish" produces a toast that says "Published." Same name through the whole flow.
+- **Errors explain what happened and how to fix it.** Never apologize, never blame, never be vague. "This card number needs 16 digits. You entered 14."
+- **Empty states are invitations to act.** "No messages yet" is a dead end. "Your first message will appear here after you invite a teammate" sets expectation.
+- **Keep the register conversational but tuned:** plain verbs, sentence case, no filler. Match tone to audience — technical users get precise jargon; consumers get plain language; anxious users get reassurance.
+
+Every element does exactly one job. A label labels, an example demonstrates, and nothing quietly does double duty.
+
 ## When to Use
 
+- Writing feels templated or generic — no deliberate voice
 - Users don't understand a field or flow
 - Error messages blame the user or don't explain the fix
 - Button copy is ambiguous ("Submit", "OK", "Click here")
@@ -153,6 +167,7 @@ Adjust based on audience from PRODUCT.md:
 
 ## QA Gates
 
+- [ ] Writing Philosophy respected — active voice, end-user side, plain terms
 - [ ] All labels are specific, not generic
 - [ ] No button says "Submit" or "OK" alone
 - [ ] Error messages explain what, why, and fix
