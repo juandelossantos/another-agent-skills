@@ -457,6 +457,18 @@ $ bash install.sh</code></pre>
           <summary class="faq__question" data-i18n="faq.q7">Can an agent still break the rules despite enforcement?</summary>
           <p class="faq__answer" data-i18n="faq.a7">Yes. The hooks enforce git operations — they require tokens, and tokens require manifests. But no system can fully prevent an agent from acting against protocol. The agent could generate a token without presenting the manifest, interpret ambiguous responses as approval, or push without asking. The human must stay alert. These gates create friction, not guarantees.</p>
         </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q8">What is the Harness?</summary>
+          <p class="faq__answer" data-i18n="faq.a8">The Harness is everything around the AI model that turns raw intelligence into reliable output. Six components: Instructions &amp; Rules, Tools, Sandboxes, Orchestration, Guardrails &amp; Hooks, and Observability. This project is a complete open-source Harness. See docs/HARNESS.md.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q9">What is the Factory Model?</summary>
+          <p class="faq__answer" data-i18n="faq.a9">The Factory Model means the developer's primary output is not code — it's the system that produces code. You design the specifications, agents, tests, and quality gates. The agents handle implementation. You handle architecture, verification, and judgment.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question" data-i18n="faq.q10">What's the theoretical foundation?</summary>
+          <p class="faq__answer" data-i18n="faq.a10">The concepts are based on 'The New SDLC With Vibe Coding' by Addy Osmani, Shubham Saboo, and Sokratis Kartakis (May 2026). This project is an open-source implementation of those principles.</p>
+        </details>
       </div>
     </div>
   </section>
@@ -471,6 +483,11 @@ $ bash install.sh</code></pre>
           <em data-i18n="references.metrPaper">Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.</em>
           <span data-i18n="references.metrVenue">METR.</span>
           <a href="https://arxiv.org/abs/2507.09089" target="_blank" rel="noopener" data-i18n="references.metrLink">arXiv:2507.09089</a>
+        </li>
+        <li>
+          <span data-i18n="references.paperTitle">Osmani, A., Saboo, S., &amp; Kartakis, S. (2026).</span>
+          <em data-i18n="references.paperPaper">The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic Engineering.</em>
+          <span data-i18n="references.paperVenue">Google.</span>
         </li>
       </ol>
     </div>
