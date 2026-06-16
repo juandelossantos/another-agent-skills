@@ -60,6 +60,23 @@ Inspired by Sub-Zero Skill. If verification tools cannot reach the world:
 
 **Rule:** The absence of evidence is not evidence of absence. If you can't check, say so.
 
+## AI-Generated Code Review Checklist
+
+Code produced by AI agents has distinct failure modes that differ from human-written code. Review it with these additional checks:
+
+| Check | Why It Matters |
+|---|---|
+| **1. Hallucinated dependencies** | AI may reference packages that don't exist or have different APIs. Verify every import, require, and dependency against actual package registries. |
+| **2. Subtle correctness gaps** | Code that "looks right" and passes happy-path tests may fail under edge cases. Push on boundary conditions, empty states, concurrent access, and invalid inputs. |
+| **3. Superficial error handling** | AI commonly generates `try/catch(Exception)` with logging but no recovery. Verify that every error path has a meaningful fallback, not just a stack trace. |
+| **4. Imports from real packages** | AI can fabricate import paths, fake subpackages, or reference APIs that don't exist in the installed version. Cross-reference against the actual package's public API. |
+| **5. "Looks clever" skepticism** | Most clever AI-generated code is overengineered. If it's hard to understand at a glance, it's hard to maintain. Prefer simplicity over cleverness. |
+| **6. Error paths, not just happy path** | AI optimizes for the success case. Trace every function's failure modes: what happens when a network call fails, a file doesn't exist, a response is malformed? |
+| **7. Hallucinated configuration** | AI may invent config keys, environment variables, or CLI flags that don't exist. Verify against real documentation. |
+| **8. Over-engineered abstraction** | AI tends to create abstractions (factories, strategies, builders) before they're needed. Prefer concrete implementations; abstract only when duplication is proven. |
+
+**Pattern to reject:** "This looks right at a glance" without tracing through edge cases. AI-generated code requires the same or greater scrutiny than human-written code.
+
 ## Core Workflows
 
 ### Review Process

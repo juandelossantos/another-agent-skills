@@ -19,7 +19,7 @@
 | `backend-api-mastery` | 232 | 4 | Production APIs: protocol, DB, auth, testing, docs |
 | `clarify-skill` | 163 | 0 | Rewrite confusing UX copy |
 | `cli-tools` | 110 | 2 | Terminal-based tools with standard UX |
-| `code-review-and-quality` | 113 | 0 | Multi-axis code review with quality gates |
+| `code-review-and-quality` | 130 | 0 | Multi-axis code review with quality gates, AI-generated code review checklist |
 | `context-engineering` | 142 | 0 | Optimize agent context setup |
 | `critique-skill` | 132 | 1 | Two-pass design review with scoring |
 | `debugging-and-error-recovery` | 89 | 0 | Systematic root-cause debugging |
