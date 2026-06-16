@@ -1,5 +1,38 @@
 # Release Notes
 
+## 1.11.0 (2026-06-16)
+
+v1.11.0: Harness Edition — Agent = Model + Harness. Full 6-component harness architecture.
+
+### The Harness Architecture
+
+- **docs/HARNESS.md** — 6-component harness architecture (instructions, tools, sandboxes, orchestration, guardrails, observability)
+- **SOUL.md principles 9 & 10** — "Generation is solved. Verification, judgment, and direction are the new craft." + "Agent = Model + Harness. Most agent failures are configuration failures."
+- **AI-Generated Code Review Checklist** — 8 specific failure-mode checks for code produced by AI agents
+- **Memory.md ×2** — engineering-fundamentals (harness failures) + backend-api-mastery (API antipatterns)
+
+### Landing & Docs Reframe
+
+- **"Enforcement" → "The Harness"** across all docs: i18n EN/ES, sidebar nav, FAQ q8-q10, paper reference
+- **index.html** — FAQ entries + fallback texts synced, `data-i18n-html` for clickable HARNESS.md link
+- **docs/enforcement.html** — Harness Architecture section + gate 9 (PROGRESS_STATUS validation)
+- **All 10 docs HTML pages** — sidebar nav "Enforcement" → "The Harness"
+
+### Docs Site Audit
+
+- **PROGRESS_STATUS.md finalized**, HEALTH-CHECK.md re-audited (3 Memory.md, 170-line SOUL.md)
+- **PR #4 merged, v1.11.0 tagged, GitHub release published**
+- **Paper URL**: Google Drive PDF — added as clickable `<a>` in references and FAQ
+
+### README Restructure
+
+- **Badge v1.11.0**, tagline + 6 harness components
+- **New "The Harness" section** — dedicated section with architecture table
+- **"What's New v1.11.0"** replaces stale v1.10/v1.9/v1.8 changelogs
+- **Agent Compatibility** trimmed from 106 → 25 lines (matrix table + link to AGENT-ADAPTERS.md)
+- **Development Lifecycle** trimmed, **Design Review Pipeline** section removed
+- **HARNESS.md** added to Documentation Map
+
 ## 1.10.0 (2026-06-16)
 
 v1.10.0: Progress validation gate — PROGRESS_STATUS.md is now verified on every commit.
@@ -43,6 +76,32 @@ v1.9.0: Framework distribution — `init-agents` now delivers the complete frame
 | `SOUL.md` | `~/.config/opencode/SOUL.md` | Framework identity |
 | `AGENTS-EXTENDED.md` | `~/.config/opencode/AGENTS-EXTENDED.md` | Anti-rationalization table |
 | `VERSION` | `~/.config/opencode/VERSION` | Framework version |
+
+## 1.8.0 (2026-06-10)
+
+v1.8.0: Mayéutic Enforcement — Rule 0j Task Manifest, doubt-driven-development evals, Mayéutic Challenge.
+
+### Mayéutic Challenge (Rule 0g)
+
+- **SOUL.md** — New Mayéutic enforcement section: agent must challenge non-trivial decisions, say "no" when justified
+- **Rule 0j** — Task Manifest: `.git/TASK_MANIFEST` required before executing any non-trivial task. Includes files affected, edge cases, alternatives, risks
+- **scripts/task-manifest.sh** — Mechanical enforcement: `bash scripts/task-manifest.sh check` verifies manifest exists
+- **Landing page** — Level 4 manifest gate section added to enforcement flow
+- **i18n EN/ES** — Mayéutic enforcement translations for landing page
+
+### Evals & Memory
+
+- **evals.md ×3** — Added to: test-driven-development, code-review-and-quality, spec-driven-development
+- **memory.md** — Added to debugging-and-error-recovery (incident-driven learning)
+- **continuity docs** — Session state documentation for cross-session continuity
+
+### Docs Expansion
+
+- **What's New section** — Added to docs landing page (`docs/index.html`)
+- **Customization page** — Expanded with code examples and configuration guide
+- **Rules page** — Expanded with specific triggers and detailed descriptions
+- **Agents page** — Expanded with descriptions and setup examples
+- **Philosophy fix** — Clickable references with `target=_blank`
 
 ## 1.6.0 (2026-06-03)
 
