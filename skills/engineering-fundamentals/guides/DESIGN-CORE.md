@@ -24,7 +24,55 @@ Each platform skill references this guide. Do not duplicate this content.
 
 ---
 
-## 2. Three Dials System
+## 2. Design Principles
+
+### 2a. Ground in the Subject
+
+Before any visual decision, name three things explicitly:
+
+1. **Subject** — What is this page about? Be concrete: "a task manager for remote construction teams," not "a productivity app."
+2. **Audience** — Who reads this? "Site supervisors juggling 3 devices," not "users."
+3. **Single job** — What must this page accomplish? "Prove this tool saves 2 hrs/day," not "look professional."
+
+The subject's own world — its materials, instruments, artifacts, vernacular — is where distinctive design choices come from. A construction tool should reference site plans and safety vest orange, not startup-purple. Build with the brief's real content throughout.
+
+### 2b. Hero Is a Thesis
+
+The hero section is a thesis statement, not a template slot. Open with the single most characteristic thing about the subject, in whatever form suits it best:
+
+- A headline that names the job to be done
+- An interactive demo of the core mechanic
+- A data point that reframes the problem
+- A photograph of the subject in its actual environment
+
+Be deliberate: a big number with a smaller label, supporting stats, and a gradient accent is the template answer. Use it only if that is genuinely the best way to open this specific subject. The template hero (headline + subtext + CTA + mockup) is a fallback, never a default.
+
+### 2c. Typography Carries Personality
+
+Typography is the most visible carrier of a design's point of view. Choose deliberately:
+
+| Role | Goal | Anti-pattern |
+|---|---|---|
+| **Display face** | Characterful, used with restraint (headings only, max 2-3 sizes) | Default system font or AI-favorite (Inter, Space Grotesk, Geist) |
+| **Body face** | Complementary, readable at text sizes, distinct from display | Same family as display (default pair) |
+| **Utility face** | Data, captions, code (if needed) | Ignoring this role entirely |
+
+- Pair display and body deliberately. Satoshi + JetBrains Mono is a choice. Inter + Inter is not.
+- Set a clear type scale with intentional weights, widths, and spacing. The type treatment itself should be memorable.
+- Banned as display defaults: Inter, Roboto, Arial, Space Grotesk, Fraunces, Instrument Serif.
+
+### 2d. Structure Is Information
+
+Structural devices — numbering, eyebrows, dividers, labels — must encode something true about the content, not decorate it.
+
+- Numbered items (01, 02, 03) are appropriate only when the content is a real sequence: a process with ordered steps, a timeline, a narrative where position carries meaning.
+- If items could be reordered without loss, numbering is decoration. Use unlabeled sections or a grid instead.
+- Dividers should separate distinct concepts. If everything has a divider, nothing is separated.
+- Labels should name what something is, not where it appears. "Pricing" not "Section 3."
+
+---
+
+## 3. Three Dials System
 
 Replace 8 fixed aesthetic directions with **3 parametric dials** set after Design Read:
 

@@ -60,7 +60,15 @@ Check for `STACK_CONFIG.md`:
 
 ### Phase 0b — Brief Inference (MANDATORY before code)
 
-See `engineering-fundamentals/guides/DESIGN-CORE.md` for the Brief Inference protocol, Design Read output format, and Anti-Default Discipline.
+Before any design decision, state the contract:
+
+1. **Subject** — One concrete thing this page is about. Not "a productivity app" but "a Gantt chart for solo freelancers."
+2. **Audience** — Who reads it. Not "users" but "freelancers checking deadlines on mobile."
+3. **Single job** — What this page must accomplish. Not "look professional" but "prove this saves 2 hrs/week."
+
+Write this as a one-line Design Read (`"Reading this as: <page kind> for <audience>, <vibe>"`) and keep it visible during all phases. Every layout, color, and type decision that follows must trace back to this contract.
+
+See `engineering-fundamentals/guides/DESIGN-CORE.md` for the full Brief Inference protocol and Design Principles.
 
 Then see `DESIGN-GUIDE.md` for web-specific vibe → dial mapping.
 
@@ -110,6 +118,18 @@ Then see `DESIGN-GUIDE.md` for web-specific font selection, token application, a
 | Tailwind indie build | Tailwind v4 + `dark:` |
 
 **Rules:** One system per project. Use official packages — do not recreate CSS by hand. For aesthetics without packages (glassmorphism, bento, brutalism, editorial, dark tech), build with native CSS + Tailwind.
+
+---
+
+### Phase 3c — Design Plan Review (MANDATORY before code)
+
+Before writing any code, synthesize the design direction into a compact token system and critique it against the brief:
+
+1. **Extract tokens:** Color palette (4-6 hex values), typeface pairings (display + body + utility), layout concept (1-2 sentence description), signature element (the one memorable thing)
+2. **Review against the brief:** Does each token trace back to Subject, Audience, or Single Job? If a choice reads like the same default you'd produce for any project — revise it.
+3. **One bold choice:** Identify one real aesthetic risk you can justify. Spend boldness in one place; keep everything else quiet and disciplined.
+
+If any part of the plan reads generic, revise before writing code. Only after the plan passes its own critique should you proceed to build.
 
 ---
 

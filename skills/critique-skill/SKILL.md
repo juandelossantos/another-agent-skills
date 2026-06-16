@@ -21,7 +21,8 @@ Scored report with prioritized issues. Does not fix — use with `polish`, `dist
 
 ## When to Use
 
-- Page is functionally complete, before ship
+- Reviewing a **design plan** before any code is written (use Phase 0)
+- Page is functionally complete, before ship (use Phase 1-3)
 - "Does this feel right?" — need an honest second opinion
 - User flags AI tells, generic layout, or sloppy design
 - Before handing off for polish pass
@@ -29,9 +30,31 @@ Scored report with prioritized issues. Does not fix — use with `polish`, `dist
 Do NOT use for:
 - Technical quality (use `audit-skill`)
 - Incomplete work (use `shape` or `craft` first)
-- Greenfield design (use `frontend-web` Phase 3 + DESIGN-CORE.md)
+- Running Phase 0 on built code (use Phase 1-3)
+- Running Phase 1-3 on a plan with no code (use Phase 0)
 
 ## Process
+
+### Phase 0 — Design Plan Review (before code)
+
+Use when the design is still a plan: a token system, typeface pairings, layout sketches. Do NOT build before this phase passes.
+
+1. **Verify the contract:** Was Subject, Audience, and Single Job stated? If not, stop and require it (see `frontend-web` Phase 0b).
+2. **Critique each token against the brief:** Does each color, typeface, and layout decision trace back to the Subject, Audience, or Single Job? Flag any choice that reads like a generic default.
+3. **Check the bold choice:** Was one real aesthetic risk identified? If every decision is safe, the design will read as templated.
+4. **Cross-reference against DESIGN-CORE.md:** Are any design principles violated? (e.g., Lila Rule violated? Typography defaults? Structure-is-information ignored?)
+5. **Render verdict:** PASS (proceed to build) or REVISE (fix flagged items before coding).
+
+Output format:
+```
+Design Plan Review:
+  Contract: [Subject / Audience / Single Job]
+  Verdict: PASS / REVISE
+  Bold choice: [one sentence]
+  Issues:
+    [P1] — [what doesn't trace back to the brief]
+    [P2] — [generic default that needs a specific choice]
+```
 
 ### Phase 1 — LLM Design Review
 
@@ -121,6 +144,17 @@ Questions:
 | Persona cold | `delight` (personality), `onboard` (first-run) |
 
 ## QA Gates
+
+### Phase 0 (Plan Review)
+
+- [ ] Contract stated (Subject / Audience / Single Job)
+- [ ] Each token traced back to contract
+- [ ] One bold choice identified and justified
+- [ ] No generic defaults flagged without revision
+- [ ] Verdict rendered (PASS / REVISE)
+- [ ] REVISE items fixed before any code written
+
+### Phase 1-3 (Built Page)
 
 - [ ] Both passes completed (LLM + automated)
 - [ ] All 10 heuristics scored

@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.11.0](https://img.shields.io/badge/version-1.11.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.12.0](https://img.shields.io/badge/version-1.12.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -108,14 +108,12 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.11.0
+## What's New in v1.12.0
 
-- **Harness Edition** — Agent = Model + Harness. Full architecture in [`docs/HARNESS.md`](./docs/HARNESS.md): 6 components (instructions, tools, sandboxes, orchestration, guardrails, observability)
-- **SOUL.md principles 9 & 10** — "Generation is solved. Verification, judgment, and direction are the new craft." + "Agent = Model + Harness. Most agent failures are configuration failures."
-- **AI-Generated Code Review Checklist** — 8 specific failure-mode checks for code produced by AI agents
-- **Memory.md ×2** — engineering-fundamentals (harness failures) + backend-api-mastery (API antipatterns)
-- **Landing page reframed** — "Enforcement" → "The Harness". i18n EN/ES updated, FAQ q8-q10, paper reference
-- **Docs enforcement page** — Harness Architecture section + gate 9 (PROGRESS_STATUS validation)
+- **Anthropic Design Lessons** — 4 new design principles in `DESIGN-CORE.md`: Ground in the Subject, Hero Is a Thesis, Typography Carries Personality, Structure Is Information
+- **Design Plan Review** — New Phase 3c in `frontend-web`: token system → critique → build (antes de escribir código)
+- **Pre-Build Critique** — New Phase 0 in `critique-skill`: review design plans before code exists
+- **Writing Philosophy** — "Words are design material, not decoration" en `clarify-skill`
 
 ---
 
@@ -236,7 +234,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.11.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.12.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

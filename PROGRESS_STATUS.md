@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-06-16  
-> **Current version:** 1.11.0 (Harness Edition)  
+> **Current version:** 1.12.0 (Design Principles Edition)  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
 > **Current plan:** Troubleshooting guide, new skill tracks (CLI, IoT, GameDev), self-host fonts, OG image
 
@@ -115,9 +115,7 @@
 
 ### In Progress
 
-- **Animation fixes** — Harness reveal stagger, observer timing, weak opacity
-  - [x] css/style.css: nth-child(7) for level 04, weak opacity under [data-revealed]
-  - [x] js/animations.js: threshold 0, rootMargin -20px, requestAnimationFrame wrapper
+- (none)
 
 ### Planned
 
@@ -153,6 +151,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
+| **1.12.0** | 2026-06-16 | Design Principles Edition: 4 new principles in DESIGN-CORE.md (Ground in Subject, Hero as Thesis, Typography Carries Personality, Structure is Information), Phase 3c Design Plan Review in frontend-web, Phase 0 pre-build critique in critique-skill, Writing Philosophy in clarify-skill. |
 | **1.11.0** | 2026-06-16 | Harness Edition: HARNESS.md (6-component architecture), SOUL.md principles 9-10, AI-Generated Code Review Checklist (8 checks), Memory.md for 2 skills, landing page rework (hero→harness), docs enforcement page harness section. |
 | **1.10.0** | 2026-06-16 | Progress validation gate: validate-skill-table.sh in pre-commit hook (v8), PROGRESS_STATUS.md added to STEERING-GUIDE.md as HIGH severity, inventory rebuilt from disk, docs/i18n fixed. |
 | **1.9.0** | 2026-06-12 | Framework distribution: install.sh copies rules/scripts/SOUL/EXTENDED/VERSION to global; init-agents creates smart symlinks; status report (INSTALLED/LINKED/SKIPPED/MISSING); idempotent, customization-safe, resilient. |
