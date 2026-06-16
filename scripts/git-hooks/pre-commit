@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v7)
+# pre-commit — Another Agent Skills Pre-Flight + Mutation Approval Gate (v8)
 # Installed by init-agents.sh.
 # 1) Runs pre-flight check (working tree, branch, upstream, remote)
 # 2) Structural integrity gate on staged HTML files
@@ -342,7 +342,36 @@ else
   echo "  ${YELLOW}−${NC} No new scripts — skipped"
 fi
 
-# 10. Skill Lint Gate — validate skill structure on SKILL.md changes
+# 10. PROGRESS STATUS VALIDATION — verify skill table matches disk state
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  PROGRESS STATUS VALIDATION               ║"
+echo "╚════════════════════════════════════════════╝"
+
+VALIDATE_SCRIPT="${REPO_ROOT}/scripts/validate-skill-table.sh"
+STAGED_PROGRESS=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'PROGRESS_STATUS\.md$' || true)
+if [ -n "$STAGED_PROGRESS" ] && [ -f "$VALIDATE_SCRIPT" ]; then
+  echo "  Validating PROGRESS_STATUS.md skill table against disk..."
+  if bash "$VALIDATE_SCRIPT" "$REPO_ROOT"; then
+    echo "  ${GREEN}✓${NC} Skill table matches disk state"
+  else
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  PROGRESS STATUS MISMATCH                                ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  PROGRESS_STATUS.md does not match the actual skills/   ║${NC}"
+    echo "  ${RED}║  directory. Update the table to match disk state.       ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Run: bash scripts/validate-skill-table.sh              ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+else
+  echo "  ${YELLOW}−${NC} No PROGRESS_STATUS.md changes — skipped"
+fi
+
+# 11. Skill Lint Gate — validate skill structure on SKILL.md changes
 echo ""
 echo "╔════════════════════════════════════════════╗"
 echo "║  SKILL LINT                                ║"

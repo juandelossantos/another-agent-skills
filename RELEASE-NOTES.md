@@ -1,5 +1,22 @@
 # Release Notes
 
+## 1.10.0 (2026-06-16)
+
+v1.10.0: Progress validation gate — PROGRESS_STATUS.md is now verified on every commit.
+
+### Progress Validation Gate
+
+- **Pre-commit hook v8** — New gate: `validate-skill-table.sh` runs when PROGRESS_STATUS.md is staged. If the skill table doesn't match disk state, commit is **BLOCKED**
+- **Steering file** — PROGRESS_STATUS.md added to STEERING-GUIDE.md as 🟡 HIGH severity. Rule 0b now scans it on session start
+- **Inventory accuracy rebuilt** — Skill table rebuilt from actual disk state. 7 upstream skills separated from 41 project-owned. Line counts corrected. Contradictory summary eliminated
+- **Shell scripts made executable** — `install.ps1` and `scripts/project-pre-commit` now executable (were `644` instead of `755`)
+
+### Fixes
+
+- **SPEC.md** — "31 skills" → "41 skills" (stale count from v1.7.0)
+- **docs/i18n** — What's New section updated from v1.8.0 to v1.9.0 in both EN and ES
+- **HEALTH-CHECK.md** — Re-audited: 1 critical (stale inventory), 5 warnings, 53/53 passes
+
 ## 1.9.0 (2026-06-12)
 
 v1.9.0: Framework distribution — `init-agents` now delivers the complete framework, not just AGENTS.md.
