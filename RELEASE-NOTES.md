@@ -1,5 +1,25 @@
 # Release Notes
 
+## 1.12.0 (2026-06-16)
+
+v1.12.0: Design Principles Edition — 4 new design principles, pre-build plan review, writing philosophy.
+
+### Design Principles (DESIGN-CORE.md)
+
+- **Ground in the Subject** — Before any design decision, name Subject, Audience, and Single Job. Every layout/color/type decision traces back to this contract.
+- **Hero Is a Thesis** — The hero opens with the single most characteristic thing about the subject, not a template slot.
+- **Typography Carries Personality** — Pair display and body faces deliberately. No default system pairs. Typeface selection is a design decision.
+- **Structure Is Information** — Numbered markers, dividers, labels must encode something true about the content, not decorate it.
+
+### Pre-Build Design Plan Review
+
+- **frontend-web Phase 3c** — Create a compact token system (color, type, layout, signature) and critique it against the brief before writing any code.
+- **critique-skill Phase 0** — Design Plan Review: verify contract, check each token against brief, identify bold choice, cross-reference DESIGN-CORE.md. PASS/REVISE verdict antes de construir.
+
+### Writing Philosophy
+
+- **clarify-skill** — New "Writing Philosophy" section: words are design material, not decoration. Active voice, end-user side, plain terms, errors that explain.
+
 ## 1.11.0 (2026-06-16)
 
 v1.11.0: Harness Edition — Agent = Model + Harness. Full 6-component harness architecture.

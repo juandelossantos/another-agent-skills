@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-06-16
-**Version:** 1.11.0 (Harness Edition)
+**Version:** 1.12.0 (Design Principles Edition)
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 
@@ -32,7 +32,7 @@
 | AGENTS.md | ✅ 120 lines | Stable |
 | AGENTS-EXTENDED.md | ✅ 418 lines | Stable |
 | SOUL.md | ✅ 170 lines | Stable |
-| VERSION | ✅ 1.11.0 | Consistent across all files |
+| VERSION | ✅ 1.12.0 | Consistent across all files |
 | Always-loaded tokens | ✅ ~282 lines (~4,230 tokens, 1.9% of 200K) | Within budget |
 
 ---
@@ -69,7 +69,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v1.11.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v1.12.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 47 guides | Landing, docs, i18n EN/ES |
 | Gate count | ✅ 9 pre-commit gates | Landing, docs, i18n EN/ES |
 
@@ -95,6 +95,7 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-06-16 | v1.12.0 Design Principles Edition | DESIGN-CORE.md principles (Hero as Thesis, Typography Pairings, etc.), Phase 3c frontend-web, Phase 0 critique-skill, Writing Philosophy clarify-skill |
 | 2026-06-16 | v1.11.0 Harness Edition | HARNESS.md, SOUL.md principles 9-10, AI review checklist, Memory.md x3, landing i18n rework, docs harness section |
 | 2026-06-16 | v1.10.0 released | Progress validation gate: pre-commit v8, STEERING-GUIDE update, validate-skill-table.sh |
 | 2026-06-16 | Re-audit: C1,FIXED | PROGRESS_STATUS.md rebuilt, validation gate in place |
