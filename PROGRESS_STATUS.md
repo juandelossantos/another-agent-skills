@@ -115,16 +115,11 @@
 
 ### In Progress
 
-- **Documentation System** — 51 pages already built (10 main + 41 skill pages), bilingual EN/ES
-  - Plan: `development/DOCS-PLAN.md`
-  - Status: Built, deployed via GitHub Pages
+- **CI/CD testing** — GitHub Actions matrix on Ubuntu, macOS, Windows
+- **Skill validation tests** — frontmatter, guide references, line count enforcement
 
 ### Planned
 
-- CI/CD testing — GitHub Actions on Ubuntu, macOS, Windows
-- Add PROGRESS_STATUS.md to STEERING-GUIDE.md as 🟡 HIGH severity
-- Integrate validate-skill-table.sh into pre-commit hook
-- Skill validation tests — frontmatter, guide references, line count enforcement
 - Troubleshooting guide — common issues
 - New skill tracks: CLI, IoT, GameDev, Container
 - Self-host Google Fonts (Newsreader + JetBrains Mono)
