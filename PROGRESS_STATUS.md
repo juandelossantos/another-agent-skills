@@ -1,9 +1,9 @@
 # Project Progress Status
 
 > **Last updated:** 2026-06-16  
-> **Current version:** 1.11.0 (Harness Edition — in development)  
+> **Current version:** 1.11.0 (Harness Edition)  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Harness Edition — full harness architecture docs, landing page rework, AI review checklist, Memory.md expansion
+> **Current plan:** Troubleshooting guide, new skill tracks (CLI, IoT, GameDev), self-host fonts, OG image
 
 ---
 
@@ -115,12 +115,9 @@
 
 ### In Progress
 
-- **v1.11.0 Harness Edition** — Harness architecture documentation, landing page rework, AI review checklist, Memory.md expansion
-  - [x] F1: HARNESS.md + SOUL.md quote + README Prior Art
-  - [x] F4: AI code review checklist (code-review-and-quality) + Memory.md (engineering-fundamentals, backend-api-mastery)
-  - [x] F2: Landing i18n EN/ES — hero, problem, enforcement→harness, philosophy, skills stats, FAQ
-  - [x] F3: Docs site — enforcement.html harness section, i18n, skills stats
-  - [x] F5: Re-audit HEALTH-CHECK.md + PROGRESS_STATUS.md final
+- **Animation fixes** — Harness reveal stagger, observer timing, weak opacity
+  - [x] css/style.css: nth-child(7) for level 04, weak opacity under [data-revealed]
+  - [x] js/animations.js: threshold 0, rootMargin -20px, requestAnimationFrame wrapper
 
 ### Planned
 

@@ -32,7 +32,7 @@
 | AGENTS.md | ✅ 120 lines | Stable |
 | AGENTS-EXTENDED.md | ✅ 418 lines | Stable |
 | SOUL.md | ✅ 170 lines | Stable |
-| VERSION | ✅ 1.10.0 | Consistent across all files |
+| VERSION | ✅ 1.11.0 | Consistent across all files |
 | Always-loaded tokens | ✅ ~282 lines (~4,230 tokens, 1.9% of 200K) | Within budget |
 
 ---
