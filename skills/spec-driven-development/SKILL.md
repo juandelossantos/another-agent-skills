@@ -44,10 +44,30 @@ RESEARCH FINDINGS:
 → Does this match your understanding?
 ```
 
-### P2 — Deep Discovery (MANDATORY)
+### P2 — Structured Clarification (MANDATORY before plan)
+
+After research and before deep discovery, systematically identify underspecified areas:
+
+1. **Coverage scan** — Read the spec draft and flag every noun, verb, and number that is vague: "multiple users" (how many?), "fast" (what metric?), "modern" (which stack?), "secure" (what threat model?).
+2. **Sequential questioning** — Ask one question per gap. Record each answer in `SPEC.md` under a "Clarifications" section. Do NOT batch questions (overwhelms user).
+3. **Skip option** — If user explicitly says "spike/exploratory, skip clarification" — note it in SPEC.md and proceed. Silence is not consent.
+
+Output:
+```
+CLARIFICATION LOG:
+  Q1: "Multiple users — how many concurrent?"
+  A1: "Up to 50 concurrent, no auth needed for MVP"
+  Q2: "Fast — what's the target load time?"
+  A2: "Under 2s on 4G"
+  → 4 gaps closed, 0 remaining.
+```
+
+Only after all gaps are closed (or explicitly waived) proceed to P3.
+
+### P3 — Deep Discovery (MANDATORY)
 Read `DISCOVERY-GUIDE.md`. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
 
-### P3 — Architecture Decision Gate
+### P4 — Architecture Decision Gate
 Non-trivial → invoke `architecture-analysis`. Simple → note "Standard stack per platform skill."
 
 **Architecture gate template:**
@@ -56,13 +76,13 @@ Before writing the spec, we need to lock architecture.
 The spec depends on: frontend framework, backend approach, data layer, auth strategy, deployment target.
 ```
 
-### P4 — Write SPEC.md
+### P5 — Write SPEC.md
 Read `SPEC-TEMPLATE-GUIDE.md`. 10 sections: Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries. Success criteria MUST be testable.
 
-### P5 — Plan
+### P6 — Plan
 Components, dependencies, order, risks, verification checkpoints. User must review.
 
-### P6 — Tasks
+### P7 — Tasks
 Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5 files per task.
 
 **Task template:**
@@ -73,10 +93,10 @@ Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5
   - Files: [Which files will be touched]
 ```
 
-### P7 — Environment Audit
+### P8 — Environment Audit
 Check `docs/DEV-ENVIRONMENT.md`. Missing → invoke `dev-environment-audit`. Verify Node.js, package manager, Git, test tools.
 
-### P8 — Implement Gate (MANDATORY)
+### P9 — Implement Gate (MANDATORY)
 Full stop. Confirm: SPEC ✅ | PLAN ✅ | TASKS ✅ | ARCH ✅ | ENV ✅.
 Require explicit "yes" / "sí" / "proceed" / "let's go". Invalid: "ok" / "sure".
 Only then invoke `incremental-implementation` + `test-driven-development`.
@@ -91,12 +111,30 @@ LOG METRIC: gate
 ```
 LOG METRIC: discovery
 - project: [detect]
-- duration_minutes: [P1 to P8]
+- duration_minutes: [P1 to P9]
 - questions_asked: [count]
 - user_confirms: [count]
 ```
 
 **Quick reference:** `SPEC-FLOW.md` for one-page pipeline visualization + memory aid.
+
+### P10 — Convergence (post-implementation)
+
+After implementation, verify the codebase matches the spec:
+
+1. **Check each acceptance criterion** — For every item in SPEC.md Acceptance Criteria, confirm it is true in the running code. PASS or FAIL.
+2. **Check for unplanned features** — If code exists that was never in the spec, flag it. Either add to spec or justify removal.
+3. **Generate convergence report:**
+   ```
+   CONVERGENCE REPORT:
+     Acceptance criteria: 8/10 PASS, 2/10 FAIL
+       FAIL: "LCP < 2.5s on 4G" — measured 3.8s. Needs optimization pass.
+       FAIL: "Offline fallback" — not implemented. Spec says P1, built as P2.
+     Unplanned features: 1 — "Dark mode toggle" (not in spec, acceptable scope creep)
+     → Spec is accurate? Spec needs update? New tasks needed?
+   ```
+4. If gaps found: create new tasks, feed back through P7 (Tasks) and P2 (Clarification if needed).
+5. If clean: Deliver final report. Spec is done until next iteration.
 
 ---
 
@@ -104,10 +142,10 @@ LOG METRIC: discovery
 
 Delegate phases via `multi-agent-orchestration`:
 ```
-P0-P3: Orchestrator (single agent)
-P4:    Subagent writes SPEC.md
-P5-P6: Subagent plans + breaks tasks
-P8:    Parallel subagents per module
+P0-P4: Orchestrator (single agent)
+P5:    Subagent writes SPEC.md
+P6-P7: Subagent plans + breaks tasks
+P9:    Parallel subagents per module
 ```
 Each subagent receives only relevant skill. See `multi-agent-orchestration/GUIDE.md`.
 
@@ -124,11 +162,11 @@ Update spec first, then code. Commit alongside code. Reference in PRs. Revisit i
 | Phase | Skill to Inline |
 |---|---|
 | P0 (existing code) | `project-health-check` |
-| P3 (non-trivial) | `architecture-analysis` |
-| P5-P6 | `planning-and-task-breakdown` |
-| P7 | `dev-environment-audit` |
-| P8 (parallel) | `multi-agent-orchestration` |
-| After P8 | `incremental-implementation`, `test-driven-development` |
+| P4 (non-trivial) | `architecture-analysis` |
+| P6-P7 | `planning-and-task-breakdown` |
+| P8 | `dev-environment-audit` |
+| P9 (parallel) | `multi-agent-orchestration` |
+| After P9 | `incremental-implementation`, `test-driven-development` |
 
 ---
 
@@ -147,7 +185,7 @@ Update spec first, then code. Commit alongside code. Reference in PRs. Revisit i
 
 ## Red Flags
 
-Code before SPEC.md. Research skipped for non-trivial. Phase 8 bypassed with vague "ok." Features added that weren't in spec. Agent asks "start building?" before defining "done." `[year]` without "current" prefix.
+Code before SPEC.md. Research skipped for non-trivial. Phase 9 bypassed with vague "ok." Clarification skipped without explicit waiver. Features added that weren't in spec. Agent asks "start building?" before defining "done." `[year]` without "current" prefix.
 
 ---
 
@@ -159,5 +197,6 @@ Code before SPEC.md. Research skipped for non-trivial. Phase 8 bypassed with vag
 - [ ] User said explicit "yes" before code
 - [ ] Success criteria are testable
 - [ ] Spec committed alongside code
-- [ ] Metrics logged after Phase 8
+- [ ] Metrics logged after Phase 9
+- [ ] Convergence check done after implementation (P10)
 - [ ] `[current year]` used in research (not hardcoded year)
