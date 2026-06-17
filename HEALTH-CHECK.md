@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-06-16
-**Version:** 1.12.0 (Design Principles Edition)
+**Version:** 1.13.0 (Spec-Driven Refinements)
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 

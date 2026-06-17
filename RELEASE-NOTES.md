@@ -1,5 +1,28 @@
 # Release Notes
 
+## 1.13.0 (2026-06-16)
+
+v1.13.0: Spec-Driven Refinements — Clarification, Convergence, Research Artifact, Parallel Markers.
+
+### Structured Clarification (spec-driven-development)
+
+- **P2 — Structured Clarification** — New phase after research, before discovery. Coverage scan flags vague nouns/verbs/numbers. Sequential questioning (one gap per question). Records answers in SPEC.md "Clarifications" section. Skip option for spikes (explicit waiver required, silence is not consent).
+
+### Convergence Check (spec-driven-development)
+
+- **P10 — Convergence** — Post-implementation verification. Each SPEC.md acceptance criterion checked against running code. FAIL items generate new tasks. Unplanned features flagged as scope creep. Produces CONVERGENCE REPORT with PASS/FAIL per criterion.
+- Pipeline grows from 9 to 11 phases (P0-P10).
+
+### Research Artifact (architecture-analysis)
+
+- **Phase 2** — Findings now persist to `architecture/research.md` with evaluated technologies, benchmarks, sources, and decision context. Survives session boundaries and context compaction.
+- New verification gate: `architecture/research.md` exists.
+
+### Parallel Task Markers (planning-and-task-breakdown)
+
+- **`[S]`/`[P]`/`[Pm]` markers** — Task template now includes marker field for sequential, parallelizable, and merge-point tasks. Grouping examples show parallelization patterns.
+- New red flag: "All tasks marked [P] with no sequential tasks."
+
 ## 1.12.0 (2026-06-16)
 
 v1.12.0: Design Principles Edition — 4 new design principles, pre-build plan review, writing philosophy.
