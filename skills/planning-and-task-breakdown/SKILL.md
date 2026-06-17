@@ -81,7 +81,7 @@ Each vertical slice delivers working, testable functionality.
 Each task follows this structure:
 
 ```markdown
-## Task [N]: [Short descriptive title]
+## Task [N]: [Short descriptive title] `[S|P]`
 
 **Description:** One paragraph explaining what this task accomplishes.
 
@@ -187,11 +187,26 @@ If a task is L or larger, it should be broken into smaller tasks. An agent perfo
 
 ## Parallelization Opportunities
 
-When multiple agents or sessions are available:
+When multiple agents or sessions are available, mark tasks with `[S]` (sequential) or `[P]` (parallelizable):
 
-- **Safe to parallelize:** Independent feature slices, tests for already-implemented features, documentation
-- **Must be sequential:** Database migrations, shared state changes, dependency chains
-- **Needs coordination:** Features that share an API contract (define the contract first, then parallelize)
+| Marker | Meaning | Example |
+|---|---|---|
+| `[S]` | Sequential — must wait for dependency | `## Task 3: Add database schema [S]` |
+| `[P]` | Parallelizable — independent of other `[P]` tasks | `## Task 5: Build API endpoint [P]` |
+| `[Pm]` | Merge point — wait for all parallel branches | `## Task 8: Integration test [Pm]` |
+
+**Rules:**
+- Safe to parallelize: Independent feature slices, tests for already-implemented features, docs generation
+- Must be sequential: Database migrations, shared state changes, dependency chains
+- Needs coordination: Features that share an API contract (define the contract first, then parallelize)
+
+**Grouping example:**
+```
+Task 1: Define API contract [S]       ← must be first
+  Task 2: Implement API server [P]    ← parallel with Task 3
+  Task 3: Build frontend client [P]   ← parallel with Task 2
+  Task 4: Integration tests [Pm]      ← waits for both Task 2 + 3
+```
 
 ## Common Rationalizations
 
@@ -210,6 +225,7 @@ When multiple agents or sessions are available:
 - All tasks are XL-sized
 - No checkpoints between tasks
 - Dependency order isn't considered
+- All tasks marked `[P]` with no sequential ones (dependency chain missing)
 
 ## Verification
 
