@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.12.0](https://img.shields.io/badge/version-1.12.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.13.0](https://img.shields.io/badge/version-1.13.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -108,12 +108,12 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.12.0
+## What's New in v1.13.0
 
-- **Anthropic Design Lessons** — 4 new design principles in `DESIGN-CORE.md`: Ground in the Subject, Hero Is a Thesis, Typography Carries Personality, Structure Is Information
-- **Design Plan Review** — New Phase 3c in `frontend-web`: token system → critique → build (antes de escribir código)
-- **Pre-Build Critique** — New Phase 0 in `critique-skill`: review design plans before code exists
-- **Writing Philosophy** — "Words are design material, not decoration" en `clarify-skill`
+- **Structured Clarification** — New P2 in `spec-driven-development`: gap analysis with coverage-based questioning before planning
+- **Convergence Check** — New P10 in `spec-driven-development`: post-implementation spec vs code verification
+- **Research Artifact** — `architecture-analysis` now persists findings to `architecture/research.md`
+- **Parallel Task Markers** — `[S]`/`[P]`/`[Pm]` markers in `planning-and-task-breakdown` for multi-agent orchestration
 
 ---
 
@@ -234,7 +234,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.12.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.13.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
