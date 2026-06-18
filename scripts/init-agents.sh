@@ -443,7 +443,7 @@ show_next_steps() {
     [[ -f "./STACK_CONFIG.md" ]] && echo "    ✓ STACK_CONFIG.md — ${stack}"
     [[ -f "./.sessionrc" ]] && echo "    ✓ .sessionrc — purpose-driven sessions"
     [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ pre-commit hook — lifecycle enforcement"
-    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — token validation"
+    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — time-window approval (v5)"
     echo ""
 
     # --- LINKED (via ~/.config/opencode/) ---

@@ -1,19 +1,23 @@
 # Git Hooks — Another Agent Skills
 
-## pre-commit: Mutation Approval Gate
+## commit-msg: Time-Window Approval (v5)
 
 **Purpose:** Mechanical enforcement of Rule 12. Blocks `git commit` unless
-`.git/COMMIT_APPROVED` token exists.
+`.git/COMMIT_APPROVED` exists. Checks: file exists? <5 min old? message matches?
 
 **Flow:**
-1. Agent presents Commit Manifest → User says "yes"
-2. Agent creates `.git/COMMIT_APPROVED`
-3. Agent runs `git commit` → Hook consumes token → Commit proceeds
-4. Next commit requires new token
+1. Agent presents DECISION POINT → User says "yes commit" in chat
+2. Agent runs `bash scripts/commit-approval.sh "message"`
+3. Agent runs `git commit` → Hook verifies freshness → Commit proceeds
+4. File deleted after commit (next commit needs fresh approval)
+
+## pre-commit: Pre-Flight + Integrity Gates (v8)
+
+**Purpose:** Runs 9 checks before every commit: branch, staged, remote sync, HTML integrity, skill gate, build verification, anti-slop, debug tracking, PROGRESS_STATUS validation.
 
 **Installation per project:**
 ```bash
-init-agents   # copies this hook into .git/hooks/pre-commit
+init-agents   # copies hooks into .git/hooks/
 ```
 
 **Bypass (intentional violation):**
@@ -23,5 +27,5 @@ git commit --no-verify
 
 **Remove permanently:**
 ```bash
-rm .git/hooks/pre-commit
+rm .git/hooks/pre-commit .git/hooks/commit-msg
 ```
