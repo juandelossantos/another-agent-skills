@@ -5,8 +5,9 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
-**55 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
+**57 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process. Harness. Repeat.**
+**+3 meta-skills to create, improve, and harvest your own.**
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
 
@@ -34,7 +35,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 55 custom skills + 47 guides + 6 harness components.
+**That's it.** Your AI agent now has 57 custom skills + 47 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -108,6 +109,14 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
+## What's New in v2.1.0
+
+- **Meta-Skills** — Three new skills for creating, improving, and harvesting your own skills:
+  - [`skill-creator`](skills/skill-creator/SKILL.md) — Generate complete skills from descriptions
+  - [`skill-improver`](skills/skill-improver/SKILL.md) — Diagnose eval failures and propose fixes
+  - [`trace-harvesting`](skills/skill-creator/references/trace-harvesting.md) — Convert successful agent traces into skills
+  - Full guide: [`docs/META-SKILLS-GUIDE.md`](docs/META-SKILLS-GUIDE.md)
+
 ## What's New in v2.0.0
 
 - **55 Skills (from 41)** — 14 new skills covering the full development lifecycle: discovery pipeline (interview-me → idea-refine), UI foundation layer (frontend-ui-engineering, visual-frontend-mastery), security, performance, observability, deprecation, code simplification, and more. See [`development/14-NEW-SKILLS-GUIDE.md`](development/14-NEW-SKILLS-GUIDE.md).
@@ -164,7 +173,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (55 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
+**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
 
 ---
 
