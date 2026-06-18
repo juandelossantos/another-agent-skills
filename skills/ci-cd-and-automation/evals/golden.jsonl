@@ -1,0 +1,1 @@
+{"case_id":"golden_pipeline_001","input":"Set up CI for a Node.js project with lint, test, and deploy steps","expected_output":"pipeline_config","rubric":["trigger configuration (push/PR)","lint step","test step with caching","deploy step with approval"]}

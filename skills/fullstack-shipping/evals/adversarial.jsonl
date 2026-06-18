@@ -1,0 +1,2 @@
+{"case_id":"rephrase_deploy_001","type":"rephrasing","input":"Ship this to production with full monitoring","description":"Same shipping intent"}
+{"case_id":"boundary_build_001","type":"negative_boundary","input":"Write the code for the feature","description":"Implementation — not shipping"}

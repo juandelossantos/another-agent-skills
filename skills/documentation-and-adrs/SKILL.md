@@ -3,6 +3,14 @@ name: documentation-and-adrs
 description: >
   Records decisions and documentation. Use when making architectural decisions,
   changing public APIs, shipping features, or documenting context.
+version: 1.0.0
+license: MIT
+compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
+metadata:
+  audience: all-engineers
+  workflow: document
 ---
 
 # Documentation and ADRs

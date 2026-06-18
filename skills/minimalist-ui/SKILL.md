@@ -4,8 +4,11 @@ description: >
   Editorial product UI inspired by Notion and Linear. Warm monochrome palette,
   typographic contrast, flat bento grids, muted pastel accents. No gradients,
   no heavy shadows, no pill shapes for containers.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: nextjs-react-tailwind-shadcn

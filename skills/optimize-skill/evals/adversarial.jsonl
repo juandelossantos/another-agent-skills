@@ -1,0 +1,2 @@
+{"case_id":"rephrase_perf_001","type":"rephrasing","input":"The site is sluggish, especially on mobile networks","description":"Same performance intent, different wording"}
+{"case_id":"boundary_feature_001","type":"negative_boundary","input":"Add dark mode support to the site","description":"New feature — not performance optimization"}

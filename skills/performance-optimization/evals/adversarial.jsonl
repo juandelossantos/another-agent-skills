@@ -1,0 +1,2 @@
+{"case_id":"rephrase_perf_001","type":"rephrasing","input":"The app is slow, make it faster","description":"Same performance intent"}
+{"case_id":"boundary_design_001","type":"negative_boundary","input":"Redesign the UI","description":"UI redesign — not performance optimization"}

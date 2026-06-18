@@ -1,6 +1,8 @@
 # Browser Testing with DevTools
 
-For anything that runs in a browser, unit tests alone aren't enough — you need runtime verification. Use Chrome DevTools MCP to give your agent eyes into the browser: DOM inspection, console logs, network requests, performance traces, and screenshots.
+For anything that runs in a browser, unit tests alone aren't enough — you need runtime verification. Use available browser tools (built-in or MCP-based) to give your agent eyes into the browser: DOM inspection, console logs, network requests, performance traces, and screenshots.
+
+See `browser-testing-with-devtools` for which browser testing approaches are available.
 
 ## The DevTools Debugging Workflow
 

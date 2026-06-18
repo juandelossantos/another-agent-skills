@@ -1,0 +1,1 @@
+{"case_id":"golden_hero_001","input":"Create a hero section for a productivity app aimed at freelancers. The page should communicate that it saves 2 hours per week.","expected_output":"hero_section","rubric":["states Subject, Audience, and Single Job","hero fits viewport","headline is 2 lines max","uses next/image with priority","includes CTA button"]}

@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_spacing_001","type":"trigger_positive","input":"The spacing between sections is inconsistent, some have 40px others 60px","expected_skill":"polish-skill"}
+{"case_id":"trigger_pos_align_001","type":"trigger_positive","input":"The icons in the feature cards aren't aligned with the text","expected_skill":"polish-skill"}
+{"case_id":"trigger_neg_anim_001","type":"trigger_negative","input":"Add a bounce animation to the loading spinner","expected_skill":"polish-skill"}

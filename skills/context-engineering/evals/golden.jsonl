@@ -1,0 +1,1 @@
+{"case_id":"golden_context_001","input":"After 30 messages in this session, the agent started repeating itself and missing details from earlier in the conversation","expected_output":"context_optimization","rubric":["diagnoses the likely context issue","proposes compression strategy","identifies what to keep vs evict","sets up session boundaries"]}

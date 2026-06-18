@@ -1,0 +1,1 @@
+{"case_id":"golden_desktop_001","input":"Build a cross-platform desktop note-taking app with filesystem access","expected_output":"desktop_app_plan","rubric":["recommends Tauri or Electron with rationale","covers native OS integration (menus, system tray)","includes auto-update strategy","considers cross-platform testing"]}

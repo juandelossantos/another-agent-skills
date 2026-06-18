@@ -1,5 +1,34 @@
 # Release Notes
 
+## 2.0.0 (2026-06-18)
+
+v2.0.0: Standardized Frontmatter + Eval Foundation — From 41 to 55 skills.
+
+### Standardized Frontmatter (agentskills.io)
+- All 55 skills now include `version`, `allowed-tools`, `tier`, `license`, and `metadata` fields in YAML frontmatter.
+- Aligned with the agentskills.io open standard for cross-platform portability.
+
+### 14 New Skills
+- **Discovery Pipeline:** `interview-me` → `idea-refine` (pre-spec refinement)
+- **UI Foundation:** `frontend-ui-engineering` (cross-platform UI principles), `visual-frontend-mastery`
+- **Quality:** `code-simplification`, `security-and-hardening`, `deprecation-and-migration`
+- **Performance:** `performance-optimization` (system-level), `observability-and-instrumentation`
+- **API/Integration:** `api-and-interface-design`, `ci-cd-and-automation`
+- **Testing:** `browser-testing-with-devtools` (tool-agnostic)
+- **Other:** `source-driven-development`, `customize-opencode`
+
+### Skill Smells Detection
+- `skill-lint.sh` now detects 7 quality issues: weak descriptions, ALWAYS/NEVER caps, token limit warnings, missing frontmatter fields, and progressive disclosure gaps.
+
+### Tool-Agnostic Design
+- Removed hardcoded browser/MCP/CLI dependencies from 8 skills.
+- Skills describe the *what* (capabilities), not the *how* (specific tools).
+
+### Eval Framework (Phase 1)
+- `scripts/eval/schema.json` — JSON Schema for standardized skill evaluation.
+- `scripts/eval/run-evals.sh` — Eval runner with --all, --skill, --list modes.
+- `validate-skill-table.sh` now dynamic (handles any skill count).
+
 ## 1.15.0 (2026-06-17)
 
 v1.15.0: Three-Gate Approval — TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED.

@@ -1,0 +1,1 @@
+{"case_id":"golden_migrate_001","input":"We need to deprecate API v1 and migrate all users to v2","expected_output":"migration_plan","rubric":["sunset timeline","backward compatibility period","migration guide for users","fallback strategy"]}

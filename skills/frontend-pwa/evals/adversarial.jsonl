@@ -1,0 +1,2 @@
+{"case_id":"rephrase_pwa_001","type":"rephrasing","input":"Convert my web app into a PWA","description":"Same PWA intent"}
+{"case_id":"boundary_native_001","type":"negative_boundary","input":"Build a native Android app","description":"Native app — not PWA work"}

@@ -4,8 +4,11 @@ description: >
   Fix design detail issues: spacing, alignment, consistency, token
   compliance. Bridges what audit finds and what the design system
   specifies. Use after audit or when visual inconsistencies are spotted.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-designers
   stack: any

@@ -5,8 +5,11 @@ description: >
   Evaluates interfaces against Nielsen heuristics, cognitive load benchmarks,
   and 25 concrete anti-patterns. Use when a page is functionally done and you
   need to know if it reads as intentional or as AI slop.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-designers
   stack: any

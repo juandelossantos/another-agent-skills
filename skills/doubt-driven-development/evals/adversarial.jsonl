@@ -1,0 +1,2 @@
+{"case_id":"rephrase_doubt_001","type":"rephrasing","input":"Challenge my assumption that this approach is correct","description":"Same adversarial review intent"}
+{"case_id":"boundary_code_001","type":"negative_boundary","input":"Write the code for this feature","description":"Implementation — not adversarial review"}

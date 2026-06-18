@@ -1,0 +1,2 @@
+{"case_id":"rephrase_plan_001","type":"rephrasing","input":"Help me organize this project into steps I can follow","description":"Same planning intent, different wording"}
+{"case_id":"boundary_weather_001","type":"negative_boundary","input":"What's the weather like today?","description":"Weather question — completely unrelated to planning"}

@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_browser_001","type":"trigger_positive","input":"Test this page in a real browser to verify the UI","expected_skill":"browser-testing-with-devtools"}
+{"case_id":"trigger_pos_console_001","type":"trigger_positive","input":"Check the console errors in the browser","expected_skill":"browser-testing-with-devtools"}
+{"case_id":"trigger_neg_unit_001","type":"trigger_negative","input":"Write unit tests for this function","expected_skill":"browser-testing-with-devtools"}

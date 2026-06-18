@@ -1,0 +1,2 @@
+{"case_id":"rephrase_polish_001","type":"rephrasing","input":"The layout feels misaligned and the spacing is off","description":"Same polish intent, different wording"}
+{"case_id":"boundary_api_001","type":"negative_boundary","input":"Fix the login API endpoint","description":"Backend fix — not a design polish task"}

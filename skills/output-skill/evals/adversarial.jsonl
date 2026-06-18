@@ -1,0 +1,2 @@
+{"case_id":"rephrase_output_001","type":"rephrasing","input":"Don't skip any parts of the output","description":"Same output completeness intent"}
+{"case_id":"boundary_quality_001","type":"negative_boundary","input":"Review the quality of this code","description":"Code review — not output enforcement"}

@@ -3,8 +3,11 @@ name: project-health-check
 description: >
   Audit existing projects before new work. Use when entering projects with code,
   returning after gap, or user asks "check health", "audit codebase", "technical debt".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: audit-before-build

@@ -1,0 +1,2 @@
+{"case_id":"rephrase_mobile_001","type":"rephrasing","input":"Create a smartphone app for Android and iOS","description":"Same mobile intent, different wording"}
+{"case_id":"boundary_cli_001","type":"negative_boundary","input":"Build a CLI tool in Python","description":"CLI tool — not a mobile app"}

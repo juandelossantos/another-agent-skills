@@ -4,8 +4,11 @@ description: >
   Systematic approach to improving existing codebases. Scan the UI, diagnose
   issues across 8 categories, then fix in priority order. Works with existing
   stack, never breaks functionality.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: any

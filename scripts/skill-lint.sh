@@ -75,6 +75,60 @@ for skill_dir in "$SKILLS_DIR"/*/; do
   if [ "$lines" -lt 100 ]; then
     echo "  ${GREEN}✓${NC} $skill_name — Micro-skill ($lines lines), exempt from guide requirement"
   fi
+
+  # --- Skill Smells (based on agentskills.io standard + whitepaper Appendix A) ---
+
+  # Check 7: Description should not start with weak phrases
+  if head -10 "$skill_file" | grep -qiE '^description:.*"?[Aa] (helpful|simple|basic) skill'; then
+    echo "  ${RED}✗${NC} $skill_name — Description starts with weak phrase ('A helpful skill...')"
+    echo "       Rewrite: name the trigger, inputs, and output directly"
+    ERRORS=$((ERRORS + 1))
+  fi
+
+  # Check 8: Avoid "ALWAYS" and "NEVER" in caps (prefer rationale instead)
+  if grep -q '\bALWAYS\b' "$skill_file" 2>/dev/null || grep -q '\bNEVER\b' "$skill_file" 2>/dev/null; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — Contains ALWAYS or NEVER in caps"
+    echo "       Prefer explaining rationale instead of imperative commands"
+    WARNINGS=$((WARNINGS + 1))
+  fi
+
+  # Check 9: SKILL.md body should not exceed 5000 tokens (~1250 words heuristic)
+  word_count=$(wc -w < "$skill_file")
+  if [ "$word_count" -gt 1250 ]; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — $word_count words (may exceed 5000 token limit)"
+    echo "       Move detailed content to references/ directory"
+    WARNINGS=$((WARNINGS + 1))
+  fi
+
+  # Check 10: Should use at least one of scripts/, references/, assets/, or guides/
+  has_scripts=false; has_refs=false; has_assets=false; has_guides=false
+  [ -d "${skill_dir}scripts" ] && has_scripts=true
+  [ -d "${skill_dir}references" ] && has_refs=true
+  [ -d "${skill_dir}assets" ] && has_assets=true
+  [ -d "${skill_dir}guides" ] && has_guides=true
+  if [ "$lines" -ge 150 ] && ! $has_scripts && ! $has_refs && ! $has_assets && ! $has_guides; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — No scripts/, references/, assets/, or guides/ directories"
+    echo "       Skills over 150 lines should leverage progressive disclosure"
+    WARNINGS=$((WARNINGS + 1))
+  fi
+
+  # Check 11: Description should include version field
+  if ! head -15 "$skill_file" | grep -q "^version:"; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — Missing 'version' in YAML frontmatter"
+    WARNINGS=$((WARNINGS + 1))
+  fi
+
+  # Check 12: Description should include allowed-tools field
+  if ! head -15 "$skill_file" | grep -q "^allowed-tools:"; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — Missing 'allowed-tools' in YAML frontmatter"
+    WARNINGS=$((WARNINGS + 1))
+  fi
+
+  # Check 13: Description should include tier field
+  if ! head -15 "$skill_file" | grep -q "^tier:"; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — Missing 'tier' in YAML frontmatter"
+    WARNINGS=$((WARNINGS + 1))
+  fi
 done
 
 echo ""

@@ -5,8 +5,11 @@ description: >
   contracts, anti-slop, quality gates. All platform skills (frontend-web,
   frontend-mobile, backend-api, etc.) reference this skill as their foundation.
   Never invoke directly.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-engineers
   type: foundation-skill

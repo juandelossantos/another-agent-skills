@@ -1,0 +1,2 @@
+{"case_id":"rephrase_increment_001","type":"rephrasing","input":"Let's build this incrementally, test each piece before moving on","description":"Same incremental intent, different wording"}
+{"case_id":"boundary_design_001","type":"negative_boundary","input":"Design the database schema for the project","description":"Schema design — not incremental implementation"}

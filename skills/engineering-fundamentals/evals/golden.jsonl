@@ -1,0 +1,1 @@
+{"case_id":"golden_fund_001","input":"I'm about to start a new project. What should I consider from an engineering perspective?","expected_output":"engineering_principles","rubric":["mentions discovery before building","covers pre-flight checks","references quality gates","emphasizes contracts before code"]}

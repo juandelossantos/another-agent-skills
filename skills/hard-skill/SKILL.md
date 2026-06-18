@@ -5,8 +5,11 @@ description: >
   robustness, and state handling issues. Fixes what audit finds. Covers
   web, mobile, desktop, and PWA. Cross-platform only — does not fix
   design or copy issues.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write Edit
+tier: action-allowed
 metadata:
   audience: all-engineers
   stack: any

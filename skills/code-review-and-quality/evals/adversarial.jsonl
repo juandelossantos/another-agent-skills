@@ -1,0 +1,2 @@
+{"case_id":"rephrase_review_001","type":"rephrasing","input":"Can you review my changes before I push?","description":"Same review intent, different wording"}
+{"case_id":"boundary_ship_001","type":"negative_boundary","input":"Deploy to production please","description":"Deployment — not a code review task"}

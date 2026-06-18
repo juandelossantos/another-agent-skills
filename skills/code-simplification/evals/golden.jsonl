@@ -1,0 +1,1 @@
+{"case_id":"golden_simplify_001","input":"A validation function that has 3 nested if-else blocks, a switch, and a for loop to check 5 fields","expected_output":"simplified_code","rubric":["reduces nesting depth","removes unnecessary abstraction","each logical path is clear","tests still pass after refactor"]}

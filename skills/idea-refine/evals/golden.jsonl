@@ -1,0 +1,1 @@
+{"case_id":"golden_ideate_001","input":"I want to build something that helps people track their habits","expected_output":"refined_concept","rubric":["divergent phase generates multiple angles","convergent phase narrows to one direction","output includes user segment","identifies key assumptions to validate"]}

@@ -1,0 +1,1 @@
+{"case_id":"golden_health_001","input":"Audit this repository for health issues before we start a new sprint","expected_output":"project_health_report","rubric":["checks steering files (SPEC, DESIGN, STACK_CONFIG)","reviews skill inventory accuracy","identifies drift between docs and code","lists P0-P3 issues with severity","includes recommendations"]}

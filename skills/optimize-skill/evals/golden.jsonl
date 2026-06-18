@@ -1,0 +1,1 @@
+{"case_id":"golden_perf_001","input":"Landing page takes 8 seconds to load on 4G. Hero image is 5MB and there are 12 external JS files","expected_output":"performance_optimization","rubric":["identifies largest bottlenecks","suggests image optimization (WebP, lazy load)","recommends code splitting","estimates LCP improvement"]}

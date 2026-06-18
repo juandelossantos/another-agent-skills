@@ -1,0 +1,2 @@
+{"case_id":"rephrase_tdd_001","type":"rephrasing","input":"Test-drive this feature development","description":"Same TDD intent"}
+{"case_id":"boundary_manual_001","type":"negative_boundary","input":"Test the feature manually","description":"Manual testing — not TDD"}

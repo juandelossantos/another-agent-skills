@@ -1,0 +1,1 @@
+{"case_id":"golden_doubt_001","input":"I'm confident this caching layer is thread-safe, but I want a second opinion","expected_output":"adversarial_review","rubric":["extracts CLAIM and CONTRACT","invokes fresh-context reviewer","classifies findings","stop condition met"]}

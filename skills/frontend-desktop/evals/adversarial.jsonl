@@ -1,0 +1,2 @@
+{"case_id":"rephrase_desktop_001","type":"rephrasing","input":"Create a native desktop application","description":"Same desktop intent, different wording"}
+{"case_id":"boundary_server_001","type":"negative_boundary","input":"Set up a Node.js server","description":"Backend — not a desktop app"}

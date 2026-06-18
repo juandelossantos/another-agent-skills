@@ -1,0 +1,2 @@
+{"case_id":"rephrase_metrics_001","type":"rephrasing","input":"Record the quality data for this release","description":"Same metrics intent, different wording"}
+{"case_id":"boundary_refactor_001","type":"negative_boundary","input":"Refactor the auth module to use JWT","description":"Implementation refactor — not metrics logging"}

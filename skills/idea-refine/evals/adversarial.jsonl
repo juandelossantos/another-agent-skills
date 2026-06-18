@@ -1,0 +1,2 @@
+{"case_id":"rephrase_ideate_001","type":"rephrasing","input":"I have a concept, help me shape it","description":"Same idea refinement intent"}
+{"case_id":"boundary_build_001","type":"negative_boundary","input":"Build the feature","description":"Direct build — no ideation needed"}

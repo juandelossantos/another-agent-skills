@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_log_001","type":"trigger_positive","input":"Log the build metrics for this session","expected_skill":"project-metrics"}
+{"case_id":"trigger_pos_track_001","type":"trigger_positive","input":"Track our quality metrics across sprints","expected_skill":"project-metrics"}
+{"case_id":"trigger_neg_fix_001","type":"trigger_negative","input":"Fix the failing test in CI","expected_skill":"project-metrics"}

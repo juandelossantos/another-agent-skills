@@ -1,0 +1,1 @@
+{"case_id":"golden_launch_001","input":"Launch a new microservice to production — what do we check?","expected_output":"launch_checklist","rubric":["pre-launch verification steps","monitoring and alerting setup","rollback strategy","post-launch observation period"]}

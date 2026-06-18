@@ -1,0 +1,1 @@
+{"case_id":"golden_adr_001","input":"We decided to use PostgreSQL over MongoDB because the data is highly relational. Document this decision.","expected_output":"architecture_decision_record","rubric":["includes title and date","states the decision clearly","documents alternatives considered","explains the rationale","notes consequences"]}

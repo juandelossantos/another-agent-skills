@@ -4,8 +4,11 @@ description: >
   Fix responsive layout issues, missing mobile behavior, touch targets,
   and viewport handling. Applies proper breakpoint logic. Use when
   layouts break between breakpoints or mobile feels bolted-on.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-engineers
   stack: any

@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_ideate_001","type":"trigger_positive","input":"I have a rough idea, help me refine it","expected_skill":"idea-refine"}
+{"case_id":"trigger_pos_stress_001","type":"trigger_positive","input":"Stress-test my assumptions about this concept","expected_skill":"idea-refine"}
+{"case_id":"trigger_neg_execute_001","type":"trigger_negative","input":"Just build it, I know what I want","expected_skill":"idea-refine"}

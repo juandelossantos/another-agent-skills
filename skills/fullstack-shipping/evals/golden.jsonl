@@ -1,0 +1,1 @@
+{"case_id":"golden_release_001","input":"Prepare v2.0 release: CI passes, tests green, need a launch plan","expected_output":"launch_checklist","rubric":["includes pre-launch checklist","covers monitoring setup","has rollback plan","defines success criteria"]}

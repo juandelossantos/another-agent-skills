@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_commit_001","type":"trigger_positive","input":"I need to commit my changes, what should I do?","expected_skill":"git-workflow-and-versioning","description":"User asks about committing — should trigger git workflow"}
+{"case_id":"trigger_pos_conflict_001","type":"trigger_positive","input":"How do I resolve this merge conflict?","expected_skill":"git-workflow-and-versioning","description":"User has a merge conflict — should trigger git workflow"}
+{"case_id":"trigger_neg_design_001","type":"trigger_negative","input":"Design a landing page for my startup","expected_skill":"git-workflow-and-versioning","description":"Design task — not a git workflow question"}

@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_principles_001","type":"trigger_positive","input":"What are our engineering principles before we start building?","expected_skill":"engineering-fundamentals"}
+{"case_id":"trigger_pos_check_001","type":"trigger_positive","input":"Check if this follows our engineering standards and quality gates","expected_skill":"engineering-fundamentals"}
+{"case_id":"trigger_neg_page_001","type":"trigger_negative","input":"Build the login page with React","expected_skill":"engineering-fundamentals"}

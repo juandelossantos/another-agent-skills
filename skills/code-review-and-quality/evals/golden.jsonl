@@ -1,0 +1,1 @@
+{"case_id":"golden_review_001","input":"A PR with 20 files changed adding a new search feature","expected_output":"code_review","rubric":["checks correctness","reviews architecture and design","identifies security concerns","flags performance issues","each finding has severity label"]}

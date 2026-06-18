@@ -1,0 +1,1 @@
+{"case_id":"golden_audit_001","input":"Audit the checkout page","expected_output":"quality_audit_report","rubric":["covers all 5 dimensions","each finding has P0-P3 severity","findings routable to fix skills","includes specific locations or selectors"]}

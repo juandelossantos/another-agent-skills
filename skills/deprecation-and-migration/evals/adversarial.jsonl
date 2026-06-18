@@ -1,0 +1,2 @@
+{"case_id":"rephrase_sunset_001","type":"rephrasing","input":"Retire the old system and move users to the new one","description":"Same deprecation intent"}
+{"case_id":"boundary_create_001","type":"negative_boundary","input":"Create a new feature","description":"New feature — not deprecation"}

@@ -1,0 +1,1 @@
+{"case_id":"golden_onboard_001","input":"I'm starting a new project, set up my preferences","expected_output":"user_profile","rubric":["asks stack preference","sets primary platform","configures workflow style","persists to user-profile.json"]}

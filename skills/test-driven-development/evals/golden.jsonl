@@ -1,0 +1,1 @@
+{"case_id":"golden_tdd_001","input":"Implement a function that validates email addresses","expected_output":"tdd_cycle","rubric":["RED: writes failing test first","GREEN: minimal code to pass","REFACTOR: cleans up","all tests pass at end"]}

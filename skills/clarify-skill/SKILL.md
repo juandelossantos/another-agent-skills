@@ -5,8 +5,11 @@ description: >
   button copy, error messages, empty states, tooltips, and confirmation
   dialogs. Use when users don't understand a field, error messages blame the
   user, or button copy is ambiguous.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-designers
   stack: any

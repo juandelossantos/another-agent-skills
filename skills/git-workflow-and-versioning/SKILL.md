@@ -3,8 +3,11 @@ name: git-workflow-and-versioning
 description: >
   Structures git workflow practices. Use when making any code change. Use when committing,
   branching, resolving conflicts, or organizing parallel streams.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write Edit
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: version-control

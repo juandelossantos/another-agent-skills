@@ -1,0 +1,2 @@
+{"case_id":"rephrase_git_001","type":"rephrasing","input":"Help me with git, I'm stuck on my branch","description":"Same git help intent, different wording"}
+{"case_id":"boundary_geo_001","type":"negative_boundary","input":"What's the capital of France?","description":"Geography question — completely unrelated to git"}

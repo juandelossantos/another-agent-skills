@@ -1,0 +1,2 @@
+{"case_id":"rephrase_uieng_001","type":"rephrasing","input":"Create a consistent component system for all platforms","description":"Same UI engineering intent"}
+{"case_id":"boundary_impl_001","type":"negative_boundary","input":"Build the login form in React","description":"Platform-specific implementation — not universal UI principles"}

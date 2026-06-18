@@ -5,8 +5,11 @@ description: >
   Creates ~/.config/opencode/user-profile.json used by all skills to personalize
   discovery, recommendations, and defaults. Triggers on: first session,
   "setup preferences", "remember my stack", "my defaults", "user profile".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: action-allowed
 metadata:
   audience: all-users
   workflow: discover-persist-reuse

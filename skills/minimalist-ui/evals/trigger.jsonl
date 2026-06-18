@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_linear_001","type":"trigger_positive","input":"Design a clean, minimalist interface inspired by Linear","expected_skill":"minimalist-ui"}
+{"case_id":"trigger_pos_notion_001","type":"trigger_positive","input":"I want a Notion-inspired editorial UI","expected_skill":"minimalist-ui"}
+{"case_id":"trigger_neg_raw_001","type":"trigger_negative","input":"Design a brutalist dark theme with heavy borders","expected_skill":"minimalist-ui"}

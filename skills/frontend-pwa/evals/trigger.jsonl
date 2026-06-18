@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_pwa_001","type":"trigger_positive","input":"Make my web app work offline with a service worker","expected_skill":"frontend-pwa"}
+{"case_id":"trigger_pos_install_001","type":"trigger_positive","input":"Build a PWA that can be installed on phones","expected_skill":"frontend-pwa"}
+{"case_id":"trigger_neg_native_001","type":"trigger_negative","input":"Build a native iOS app with Swift","expected_skill":"frontend-pwa"}

@@ -1,0 +1,1 @@
+{"case_id":"golden_module_001","input":"I get 'module not found: can't resolve lodash' when I run npm start. I just updated some packages.","expected_output":"debugging_diagnosis","rubric":["follows Stop-the-Line rule","localizes the failing dependency","checks package.json and lockfile","proposes specific fix command","adds guard against recurrence"]}

@@ -5,8 +5,11 @@ description: >
   Default: Tauri v2 (Rust + Webview). Adaptable: Electron, Flutter Desktop.
   Triggers on: "desktop app", "Tauri", "Electron", "native desktop",
   "cross-platform desktop", "Windows app", "macOS app", "Linux app".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: tauri-rust-webview

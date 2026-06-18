@@ -1,0 +1,1 @@
+{"case_id":"golden_output_001","input":"Generate a full React component with styles, types, and tests","expected_output":"complete_component","rubric":["no TODO or placeholder comments","all sections are filled","types defined and exported","tests are functional not stubs"]}

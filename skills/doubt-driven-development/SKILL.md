@@ -1,6 +1,14 @@
 ---
 name: doubt-driven-development
 description: Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.
+version: 1.0.0
+license: MIT
+compatibility: opencode
+allowed-tools: Read Bash Write
+tier: action-allowed
+metadata:
+  audience: all-engineers
+  workflow: review
 ---
 
 # Doubt-Driven Development
@@ -119,44 +127,28 @@ A single-model reviewer shares blind spots with the original author — a colder
 
 After the single-model review in Step 3 above, but before RECONCILE, pause and ask:
 
-> *"Single-model review complete. Want a cross-model second opinion? Options: Gemini CLI, Codex CLI, manual external review (you paste it elsewhere), or skip."*
+> *"Single-model review complete. Want a cross-model second opinion? Options: use a different CLI tool (e.g., codex, gemini, another agent), paste it into another tool manually, or skip."*
 
-This question is mandatory in every interactive doubt cycle — even on artifacts that feel low-stakes. The user — not the agent — decides whether the cost is worth it. The agent's job is to surface the choice.
+This question is mandatory in every interactive doubt cycle. The user decides whether the cost is worth it.
 
 **Step 2: If the user picks a CLI — verify, then invoke**
 
-1. Check the tool is in PATH (`which gemini`, `which codex`).
-2. Test it works (`gemini --version` or equivalent) before passing the full prompt — a stale or broken binary may pass `which` but fail on real input.
-3. Confirm the exact invocation with the user, including required flags, auth, and env vars (e.g., API keys). Implementations vary; never assume.
-4. Pass ARTIFACT + CONTRACT + the adversarial prompt **only**. No session context, no CLAIM.
-5. Mind shell escaping. If the artifact contains quotes, `$(...)`, or backticks, prefer stdin (`echo … | gemini`) or a heredoc over inline `-p "…"`. When in doubt, ask the user to confirm the invocation before running it.
+1. Confirm which tool they want to use.
+2. Check it's available on PATH and test it works.
+3. Confirm the exact invocation with the user — flags, auth, env vars vary by tool.
+4. Pass ARTIFACT + CONTRACT + the adversarial prompt only. No session context, no CLAIM.
+5. Use stdin or a temp file to pass the prompt (avoid shell escaping issues with backticks, quotes, `$()`).
 6. Take the output into Step 4 (RECONCILE).
 
-**Never interpolate the artifact into a shell-quoted argument.** Code, markdown, and review prompts routinely contain backticks, `$(...)`, and quote characters that will either truncate the prompt or execute embedded shell. Write the full prompt to a file and pipe it through stdin.
-
-Example shapes (verify flags against your installed tool — syntax differs across implementations and versions):
-
-```bash
-# Write the adversarial prompt + ARTIFACT + CONTRACT to a temp file first.
-# Then pipe via stdin so shell metacharacters in the artifact stay inert.
-
-# Codex (read-only sandbox keeps the CLI from writing to your workspace):
-codex exec --sandbox read-only -C <repo-path> - < /tmp/doubt-prompt.md
-
-# Gemini ('--approval-mode plan' is read-only; '-p ""' triggers non-interactive
-# mode and the prompt is read from stdin):
-gemini --approval-mode plan -p "" < /tmp/doubt-prompt.md
-```
-
-A read-only sandbox is the load-bearing detail: a doubt artifact may itself contain instructions (intentional or accidental prompt injection) that the cross-model CLI would otherwise execute against your workspace.
+**Never interpolate the artifact into a shell-quoted argument.** Write the prompt to a file and pipe via stdin.
 
 **Step 3: If the CLI is unavailable or fails**
 
-Surface the failure explicitly. Offer: run it manually, try a different tool, or skip. Do not silently fall back to single-model — the user should know cross-model didn't happen.
+Surface the failure explicitly. Offer: run it manually, try a different tool, or skip. Do not silently fall back to single-model.
 
 **Step 4: If the user skips**
 
-Acknowledge the skip in the output (*"Proceeding with single-model findings only"*) and continue to RECONCILE. Skipping is fine; silent skipping is not.
+Acknowledge the skip in the output and continue to RECONCILE. Skipping is fine; silent skipping is not.
 
 **Non-interactive contexts** (CI, `/loop`, autonomous-loop, scheduled runs):
 
@@ -231,14 +223,12 @@ If 3 cycles is "obviously insufficient" because the artifact is large: the artif
 ## Verification
 
 After applying doubt-driven development:
-
-- [ ] Every non-trivial decision (per the definition above) was named explicitly as a CLAIM before standing
-- [ ] At least one fresh-context review per non-trivial artifact (a failing test produced by TDD's RED step satisfies this for behavioral claims, per Interaction with Other Skills)
-- [ ] The reviewer received ARTIFACT + CONTRACT — NOT the CLAIM, NOT your reasoning
-- [ ] The reviewer's prompt was adversarial ("find issues"), not validating ("is it good")
-- [ ] Findings were classified against the artifact text (not rubber-stamped) using the precedence: contract misread / actionable / trade-off / noise
-- [ ] A stop condition was met (trivial findings, 3 cycles, or user override)
-- [ ] In interactive mode, cross-model was **explicitly offered** to the user (regardless of artifact stakes) and the response was acknowledged in the output
-- [ ] In non-interactive mode, cross-model was skipped and the skip was announced
-- [ ] Any external CLI invocation was preceded by a PATH check, a working-binary test, syntax confirmation with the user, and explicit authorization to run
-- [ ] No rule conflicts detected — checked that the decision doesn't contradict existing rules (Rule 0h, Rule 0i, Rule 12, etc.)
+- [ ] Every non-trivial decision was named explicitly as a CLAIM before standing
+- [ ] At least one fresh-context review per non-trivial artifact
+- [ ] The reviewer received ARTIFACT + CONTRACT — NOT the CLAIM or your reasoning
+- [ ] Reviewer prompt was adversarial ("find issues"), not validating
+- [ ] Findings classified against artifact text using precedence: contract misread / actionable / trade-off / noise
+- [ ] Stop condition met (trivial findings, 3 cycles, or user override)
+- [ ] Interactive: cross-model offered. Non-interactive: skip announced
+- [ ] CLI: PATH check + binary test + syntax confirmed + user authorized
+- [ ] No rule conflicts — checked (Rule 0h, 0i, 12)

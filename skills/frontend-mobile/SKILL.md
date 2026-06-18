@@ -4,8 +4,11 @@ description: >
   Build production-grade mobile apps with native design tokens and platform compliance.
   Built on engineering-fundamentals. Triggers on: "mobile app", "React Native",
   "Flutter", "iOS", "Android", "expo", "native app".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: mobile-developers
   stack: react-native-expo-flutter

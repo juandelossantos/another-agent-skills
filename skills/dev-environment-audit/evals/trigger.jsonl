@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_env_001","type":"trigger_positive","input":"Audit the development environment before we start coding","expected_skill":"dev-environment-audit"}
+{"case_id":"trigger_pos_tools_001","type":"trigger_positive","input":"Check what tools and MCPs are available in this setup","expected_skill":"dev-environment-audit"}
+{"case_id":"trigger_neg_feature_001","type":"trigger_negative","input":"Build a new feature","expected_skill":"dev-environment-audit"}

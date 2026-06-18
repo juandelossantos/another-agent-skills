@@ -1,0 +1,2 @@
+{"case_id":"rephrase_adr_001","type":"rephrasing","input":"Record the decision about using tRPC for our API layer","description":"Same documentation intent, different wording"}
+{"case_id":"boundary_cicd_001","type":"negative_boundary","input":"Set up the CI/CD pipeline","description":"DevOps setup — not documentation work"}

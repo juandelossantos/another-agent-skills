@@ -1,0 +1,1 @@
+{"case_id":"golden_interaction_001","input":"When users click the CTA button, nothing happens for 2 seconds and then the page changes abruptly","expected_output":"micro_interaction_fix","rubric":["adds loading state to button","transitions page change smoothly (<400ms)","respects prefers-reduced-motion","provides visual feedback on click"]}

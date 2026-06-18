@@ -18,7 +18,7 @@ echo "=== Validating skill table: $PROGRESS_FILE vs $SKILLS_DIR/ ==="
 
 # Find the skill inventory table: lines starting with "| `" between the
 # "### 41 Custom Skills" header and the next "###" header
-TABLE_START=$(grep -n "^### 41 Custom Skills" "$PROGRESS_FILE" | cut -d: -f1)
+TABLE_START=$(grep -n "^### [0-9]* Custom Skills" "$PROGRESS_FILE" | cut -d: -f1)
 TABLE_END=$(sed -n "$((TABLE_START + 1)),\$p" "$PROGRESS_FILE" | grep -n "^###" | head -1 | cut -d: -f1)
 if [ -z "$TABLE_END" ]; then
   TABLE_END=$(sed -n "$((TABLE_START + 1)),\$p" "$PROGRESS_FILE" | grep -n "^---" | head -1 | cut -d: -f1)
@@ -76,11 +76,12 @@ while IFS= read -r line; do
   fi
 done < "$TMP_FILE"
 
+TOTAL_SKILLS=$(wc -l < "$TABLE_SKILLS")
 rm -f "$TMP_FILE" "$DISK_SKILLS" "$TABLE_SKILLS"
 
 echo "---"
 if [ "$ERRORS" -eq 0 ]; then
-  echo "PASS: All 41 skills match disk state"
+  echo "PASS: All $TOTAL_SKILLS skills match disk state"
   exit 0
 else
   echo "FAIL: $ERRORS error(s) found. Update $PROGRESS_FILE to match $SKILLS_DIR/"

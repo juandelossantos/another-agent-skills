@@ -1,0 +1,1 @@
+{"case_id":"golden_cli_001","input":"Build a CLI tool that processes CSV files and outputs JSON","expected_output":"cli_tool","rubric":["argument parsing with flags","help text","colored output","proper exit codes"]}

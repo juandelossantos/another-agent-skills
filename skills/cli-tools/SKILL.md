@@ -6,8 +6,11 @@ description: >
   Use when building any terminal-based tool or script. Triggers on:
   "CLI", "terminal", "command line", "cli tool", "shell script",
   "build a CLI", "terminal app".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write Edit
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: design-implement-document

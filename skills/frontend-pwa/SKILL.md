@@ -4,8 +4,11 @@ description: >
   Build installable, offline-first web apps for all devices with migration path to
   native via Capacitor. Built on engineering-fundamentals. Triggers on: "PWA",
   "offline", "installable", "Capacitor", "Ionic", "hybrid", "cross-platform".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: nextjs-react-tailwind-capacitor
