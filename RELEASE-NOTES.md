@@ -2,7 +2,7 @@
 
 ## 2.0.0 (2026-06-18)
 
-v2.0.0: Standardized Frontmatter + Eval Foundation — From 41 to 55 skills.
+v2.0.0: Standardized Frontmatter + Eval System — 55 skills, 336 evaluations, pre-commit v9.
 
 ### Standardized Frontmatter (agentskills.io)
 - All 55 skills now include `version`, `allowed-tools`, `tier`, `license`, and `metadata` fields in YAML frontmatter.
@@ -24,10 +24,16 @@ v2.0.0: Standardized Frontmatter + Eval Foundation — From 41 to 55 skills.
 - Removed hardcoded browser/MCP/CLI dependencies from 8 skills.
 - Skills describe the *what* (capabilities), not the *how* (specific tools).
 
-### Eval Framework (Phase 1)
+### Eval Framework (Phases 1-3)
 - `scripts/eval/schema.json` — JSON Schema for standardized skill evaluation.
-- `scripts/eval/run-evals.sh` — Eval runner with --all, --skill, --list modes.
+- `scripts/eval/run-evals.sh` — Trigger runner (166 cases, --all/--skill/--list modes).
+- `scripts/eval/run-golden.sh` — Golden dataset runner (58 cases with rubric).
+- `scripts/eval/run-adversarial.sh` — Red-team runner (114 cases: rephrasing + boundaries + edges).
+- `scripts/eval/check-coverage.sh` — Coverage reporter (55/55 full coverage).
+- **Pre-commit v9** — New eval gate runs trigger + golden evals on changed skills.
+- **CI pipeline** — 3 eval steps in GitHub Actions.
 - `validate-skill-table.sh` now dynamic (handles any skill count).
+- **55/55 skills** with trigger + golden + adversarial eval coverage (336 total cases, 0 failures).
 
 ## 1.15.0 (2026-06-17)
 

@@ -114,7 +114,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 - **Standardized Frontmatter** — All 55 skills now include `version`, `allowed-tools`, `tier`, `license`, and `metadata` fields. Aligned with the [agentskills.io](https://agentskills.io) open standard.
 - **Skill Smells Detection** — `skill-lint.sh` now detects 7 quality issues: weak descriptions, ALWAYS/NEVER caps, token limit warnings, missing frontmatter fields, and progressive disclosure gaps.
 - **Tool-Agnostic Design** — Removed hardcoded browser/MCP/CLI dependencies from 8 skills. Skills describe the *what* (capabilities), not the *how* (specific tools). See `dev-environment-audit` for setup guidance.
-- **Eval Framework (in progress)** — New `scripts/eval/schema.json` for standardized skill evaluation. Phases 1-3 in development (eval runners, coverage, gates).
+- **Eval Framework** — 3 eval runners (trigger, golden, adversarial) with 336 test cases across 55/55 skills. Pre-commit v9 eval gate blocks commits on failed evaluations. Coverage report via `scripts/eval/check-coverage.sh`. Based on the [*Agent Skills* whitepaper](https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view) by Singhal et al. (Google, 2026).
 
 ---
 
