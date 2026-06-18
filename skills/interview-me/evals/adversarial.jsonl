@@ -1,0 +1,6 @@
+{"case_id":"rephrase_001","type":"rephrasing","input":"I need a site but I don't know where to start","description":"Same intent as vague request — should trigger interview-me"}
+{"case_id":"rephrase_002","type":"rephrasing","input":"Help me figure out what to build","description":"Same vague intent — should trigger"}
+{"case_id":"boundary_001","type":"negative_boundary","input":"What's the weather like?","description":"Unrelated question — should NOT trigger interview-me"}
+{"case_id":"boundary_002","type":"negative_boundary","input":"Run the tests and report back","description":"Clear task — should NOT trigger"}
+{"case_id":"edge_001","type":"edge_case","input":"","description":"Empty input — should handle gracefully"}
+{"case_id":"edge_002","type":"edge_case","input":"a","description":"Single character — should handle gracefully"}

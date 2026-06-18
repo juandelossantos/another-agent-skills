@@ -3,7 +3,7 @@
 > **Last updated:** 2026-06-18  
 > **Current version:** 2.0.0 (Standardized Frontmatter — Eval Framework)  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Evaluation framework (evals/ per skill, trigger testing, skill tiers, meta-skills), Phase 1-10 per IMPROVEMENT-PLAN.md
+> **Current plan:** Phase 2 (eval cases for 55 skills), Phase 3 (pre-commit eval gates), Phase 6.5 (lint warning cleanup)
 
 ---
 

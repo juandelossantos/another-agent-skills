@@ -48,6 +48,10 @@ run_evals_for_skill() {
 
   for eval_file in "$eval_dir"/*.jsonl; do
     [ ! -f "$eval_file" ] && continue
+    local fname
+    fname=$(basename "$eval_file")
+    [ "$fname" = "golden.jsonl" ] && continue
+    [ "$fname" = "adversarial.jsonl" ] && continue
     while IFS= read -r line || [ -n "$line" ]; do
       [ -z "$line" ] && continue
       skill_total=$((skill_total + 1))

@@ -1,0 +1,2 @@
+{"input":"I want to build something but I'm not sure what","expected_output":"clarified_requirements","rubric":["asks about user's goals", "identifies target audience", "surfaces constraints"]}
+{"input":"Make me a website","expected_output":"spec_outline","rubric":["asks about purpose", "asks about timeline", "asks about budget"]}

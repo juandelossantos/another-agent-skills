@@ -236,7 +236,7 @@ If it fails, ask the user before taking any action.
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
 | [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.0.0) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
+| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (55 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
