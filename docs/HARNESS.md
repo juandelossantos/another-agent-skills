@@ -60,7 +60,7 @@ The harness routes failures back to the agent for self-correction:
 
 The harness ensures safe behavior in production:
 
-- **commit-msg hook v5** checks time-window (<5 min) — agent writes approval after "yes commit" in chat
+- **commit-msg hook v6** checks three gates (TEST_LOG + MANIFEST + APPROVED) — agent writes approval after "yes commit" in chat
 - **commit-approval.sh** writes `.git/COMMIT_APPROVED` with timestamp after user says "yes commit" in chat (time-window based, no friction)
 - **HEALTH-CHECK.md** is re-audited every 7 days (Rule 0b)
 - **PROGRESS_STATUS.md** tracks project state against actual disk

@@ -1,5 +1,26 @@
 # Release Notes
 
+## 1.15.0 (2026-06-17)
+
+v1.15.0: Three-Gate Approval — TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED.
+
+### Three Mandatory Gates
+
+Every commit now requires all three gates to pass:
+
+1. **TEST_LOG** — Agent runs tests and logs results via `bash scripts/log-test-results.sh <pass> <fail> <cmd>`. The hook checks that the file exists, status=PASS, and is less than 1 hour old.
+2. **COMMIT_MANIFEST** — Agent presents a written manifest via `commit-approval.sh`. The hook checks that the file exists and has content >20 bytes.
+3. **COMMIT_APPROVED** — Fresh timestamped approval (<5 min) with matching commit message.
+
+### New Files
+
+- **`scripts/log-test-results.sh`** — Logs test pass/fail to `.git/TEST_LOG`. Rejects if fail >0.
+- **`commit-msg` hook v6** — Verifies all 3 gates. Logs every attempt to `.git/APPROVAL_LOG` with timestamp and result (APPROVED/BLOCKED).
+
+### Updated Files
+
+- **`scripts/commit-approval.sh`** — v3: now writes COMMIT_MANIFEST, reads TEST_LOG, logs to APPROVAL_LOG.
+
 ## 1.14.0 (2026-06-17)
 
 v1.14.0: Time-Window Approval — Replace SHA256 token system with frictionless timestamp-based approval.

@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-06-16
-**Version:** 1.14.0 (Time-Window Approval)
+**Version:** 1.15.0 (Three-Gate Approval)
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 
@@ -42,7 +42,7 @@
 | Check | Status | Notes |
 |---|---|---|
 | Pre-commit hook | ✅ v8 (9 gates) | Executable (755) |
-| commit-msg hook | ✅ v5 | Time-window check (<5 min) |
+| commit-msg hook | ✅ v6 | Three-gate check (TEST_LOG + MANIFEST + APPROVED) |
 | commit-approval.sh | ✅ | Executable |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
@@ -95,6 +95,7 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-06-17 | v1.15.0 Three-Gate Approval | TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED v6 hook, log-test-results.sh, audit trail. |
 | 2026-06-17 | v1.14.0 Time-Window Approval | Replace SHA256 token system with timestamp-based commit-approval.sh, commit-msg v5 time-window check. |
 | 2026-06-16 | v1.13.0 Spec-Driven Refinements | Clarification + Convergence in spec-driven-development, research.md artifact, [S]/[P]/[Pm] markers. |
 | 2026-06-16 | v1.12.0 Design Principles Edition | DESIGN-CORE.md principles (Hero as Thesis, Typography Pairings, etc.), Phase 3c frontend-web, Phase 0 critique-skill, Writing Philosophy clarify-skill |

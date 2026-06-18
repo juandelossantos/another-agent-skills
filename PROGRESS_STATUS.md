@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-06-16  
-> **Current version:** 1.14.0 (Time-Window Approval)  
+> **Current version:** 1.15.0 (Three-Gate Approval)  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
 > **Current plan:** Troubleshooting guide, new skill tracks (CLI, IoT, GameDev), self-host fonts, OG image
 
@@ -151,6 +151,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|
+| **1.15.0** | 2026-06-17 | Three-Gate Approval: TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED v6 hook, log-test-results.sh, audit trail in APPROVAL_LOG. |
 | **1.14.0** | 2026-06-17 | Time-Window Approval: replace SHA256 token system with timestamp-based commit-approval.sh, commit-msg v5 with <5 min freshness check, updated Rule 12. |
 | **1.13.0** | 2026-06-16 | Spec-Driven Refinements: P2 Structured Clarification + P10 Convergence in spec-driven-development, Research Artifact persistence in architecture-analysis, [S]/[P]/[Pm] task markers in planning-and-task-breakdown. |
 | **1.12.0** | 2026-06-16 | Design Principles Edition: 4 new principles in DESIGN-CORE.md (Ground in Subject, Hero as Thesis, Typography Carries Personality, Structure is Information), Phase 3c Design Plan Review in frontend-web, Phase 0 pre-build critique in critique-skill, Writing Philosophy in clarify-skill. |
