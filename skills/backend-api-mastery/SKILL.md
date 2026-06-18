@@ -9,7 +9,7 @@ description: >
   "GraphQL", "Prisma", "Drizzle", "tRPC", "server", "create API", "design API".
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write Edit
 tier: action-allowed
 metadata:

@@ -7,7 +7,7 @@ description: >
   Do NOT use when behavior must change, or for pure formatting/linting.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write Edit
 tier: action-allowed
 metadata:

@@ -7,7 +7,7 @@ description: >
   (bundle, animations, reflows); this covers system/infrastructure performance.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash
 tier: read-only
 metadata:

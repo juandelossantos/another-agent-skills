@@ -1,3 +1,4 @@
+: "${AGENT_SKILLS_DIR:=$HOME/.config/opencode}"
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -17,8 +18,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-GLOBAL_SKILLS_DIR="${HOME}/.config/opencode/skills"
-REMOTE_DIR="${HOME}/.config/opencode/.agent-skills-remote"
+GLOBAL_SKILLS_DIR="${AGENT_SKILLS_DIR}/skills"
+REMOTE_DIR="${AGENT_SKILLS_DIR}/.agent-skills-remote"
 ZSHRC="${HOME}/.zshrc"
 BASHRC="${HOME}/.bashrc"
 FISH_CONFIG="${HOME}/.config/fish/config.fish"
@@ -107,7 +108,7 @@ summary() {
     echo "========================================"
     echo ""
     echo "Remaining files (manual cleanup if desired):"
-    echo "  ${HOME}/.config/opencode/        (user profile, config)"
+    echo "  ${AGENT_SKILLS_DIR}/        (user profile, config)"
     echo "  ${SCRIPT_DIR}                    (repo clone)"
     echo ""
     echo "To also remove your user profile:"

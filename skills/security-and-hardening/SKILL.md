@@ -7,7 +7,7 @@ description: >
   Complements hard-skill: hard-skill is mechanical (a11y, states), this is preventive (security).
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write Edit
 tier: action-allowed
 metadata:

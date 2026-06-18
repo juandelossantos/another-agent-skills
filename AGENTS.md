@@ -17,7 +17,7 @@
 1. Read AGENTS.md Rules 0 through 12
 2. Check Git state: `git status && git fetch --dry-run && git branch --show-current`
 3. **Skill Discovery (MANDATORY):**
-   - Load `using-agent-skills` skill
+   - Load `using-agent-skills` skill (OpenCode: `skill()` tool) or read `skills/using-agent-skills/SKILL.md` directly (other agents)
    - Identify which skill applies to the current task
    - Load the applicable skill
    - Run `bash scripts/skill-gate.sh mark <skill-name>` to register consultation
@@ -103,8 +103,8 @@ See AGENTS-EXTENDED.md for full table (25+ common rationalizations and why they'
 ## Skill Discovery
 
 Skills loaded from:
-- Project: `.opencode/skills/<name>/SKILL.md`
-- Global: `~/.config/opencode/skills/<name>/SKILL.md`
+- Project: `.opencode/skills/<name>/SKILL.md` (OpenCode) or `skills/<name>/SKILL.md` (universal)
+- Global: `~/.config/opencode/skills/<name>/SKILL.md` (or `$AGENT_SKILLS_DIR/skills/<name>/SKILL.md`)
 - Claude-compatible: `.claude/skills/<name>/SKILL.md`
 
 **For full rules, anti-rationalization table, skill hierarchy, and guide list → See AGENTS-EXTENDED.md**

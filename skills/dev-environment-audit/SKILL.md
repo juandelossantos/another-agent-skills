@@ -6,7 +6,7 @@ description: >
   user asks "what do I need", "setup environment", or before build.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write
 tier: action-allowed
 metadata:

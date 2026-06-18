@@ -7,7 +7,7 @@ description: >
   UI principles, use frontend-ui-engineering. For web-specific implementation, use frontend-web.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write
 tier: draft
 metadata:

@@ -1,7 +1,7 @@
 # .cursorrules — Another Agent Skills (Cursor Adapter)
 
 This project uses Another Agent Skills — a production-grade skill framework.
-Skills are installed at ~/.config/opencode/skills/. Load the matching skill before coding.
+Skills are installed at ~/.config/opencode/skills/ (or $AGENT_SKILLS_DIR/skills/). Load the matching skill before coding.
 
 ## Skill Reference
 

@@ -7,7 +7,7 @@ description: >
   Do NOT use for platform-specific work (use frontend-web, frontend-mobile, etc.).
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write
 tier: draft
 metadata:

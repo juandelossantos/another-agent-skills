@@ -7,7 +7,7 @@ description: >
   need to know if it reads as intentional or as AI slop.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash
 tier: read-only
 metadata:

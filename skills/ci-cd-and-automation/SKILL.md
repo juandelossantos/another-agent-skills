@@ -7,7 +7,7 @@ description: >
   and rollback, use fullstack-shipping instead.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write Edit
 tier: action-allowed
 metadata:
