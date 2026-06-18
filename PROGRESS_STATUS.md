@@ -165,7 +165,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|
-| **2.0.0** | 2026-06-18 | Standardized Frontmatter: version, allowed-tools, tier fields across all 55 skills. agentskills.io alignment. 14 new skills created (frontend-ui-engineering, code-simplification, security-and-hardening, source-driven-development, interview-me, idea-refine, performance-optimization, observability-and-instrumentation, deprecation-and-migration, api-and-interface-design, browser-testing-with-devtools, ci-cd-and-automation, customize-opencode, visual-frontend-mastery). validate-skill-table.sh now dynamic (handles any skill count). |
+| **2.0.0** | 2026-06-18 | Standardized Frontmatter: version, allowed-tools, tier fields across all 55 skills. agentskills.io alignment. 14 new skills created. Skill smells detection (7 checks) in skill-lint.sh. validate-skill-table.sh now dynamic. |
 | **1.15.0** | 2026-06-17 | Three-Gate Approval: TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED v6 hook, log-test-results.sh, audit trail in APPROVAL_LOG. |
 | **1.14.0** | 2026-06-17 | Time-Window Approval: replace SHA256 token system with timestamp-based commit-approval.sh, commit-msg v5 with <5 min freshness check, updated Rule 12. |
 | **1.13.0** | 2026-06-16 | Spec-Driven Refinements: P2 Structured Clarification + P10 Convergence in spec-driven-development, Research Artifact persistence in architecture-analysis, [S]/[P]/[Pm] task markers in planning-and-task-breakdown. |
