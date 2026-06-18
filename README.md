@@ -1,11 +1,11 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.15.0](https://img.shields.io/badge/version-1.15.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v2.0.0](https://img.shields.io/badge/version-2.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
-**41 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
+**55 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process. Harness. Repeat.**
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
@@ -34,7 +34,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 41 custom skills + 47 guides + 6 harness components.
+**That's it.** Your AI agent now has 55 custom skills + 47 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:

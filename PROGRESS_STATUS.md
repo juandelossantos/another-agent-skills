@@ -9,22 +9,28 @@
 
 ## What Exists Now
 
-### 41 Custom Skills
+### 55 Custom Skills
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
 | `adapt-skill` | 132 | 1 | Responsive layout fixes |
+| `api-and-interface-design` | 43 | 0 | Stable API and interface design |
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with trade-offs |
 | `audit-skill` | 151 | 0 | Five-dimension technical quality audit |
 | `backend-api-mastery` | 235 | 4 | Production APIs: protocol, DB, auth, testing, docs |
+| `browser-testing-with-devtools` | 34 | 0 | Browser testing via Chrome DevTools MCP |
+| `ci-cd-and-automation` | 39 | 0 | CI/CD pipeline automation |
 | `clarify-skill` | 181 | 0 | Rewrite confusing UX copy |
 | `cli-tools` | 113 | 2 | Terminal-based tools with standard UX |
-| `code-review-and-quality` | 138 | 0 | Multi-axis code review with quality gates, AI-generated code review checklist |
+| `code-review-and-quality` | 138 | 0 | Multi-axis code review with quality gates |
+| `code-simplification` | 40 | 0 | Simplify code for clarity |
 | `context-engineering` | 150 | 0 | Optimize agent context setup |
+| `customize-opencode` | 34 | 0 | Configure OpenCode itself |
 | `critique-skill` | 169 | 1 | Two-pass design review with scoring |
 | `debugging-and-error-recovery` | 92 | 0 | Systematic root-cause debugging |
 | `debugging-three-strikes` | 23 | 1 | Stop speculative debugging at 3 failures |
 | `delight-skill` | 149 | 0 | Micro-interactions and transitions |
+| `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration |
 | `dev-environment-audit` | 155 | 4 | MCPs, CLI tools, runtime verification |
 | `documentation-and-adrs` | 70 | 0 | Record decisions and documentation |
 | `doubt-driven-development` | 250 | 0 | Adversarial fresh-context review |
@@ -32,30 +38,38 @@
 | `frontend-desktop` | 240 | 2 | Production desktop apps (Tauri/Electron) |
 | `frontend-mobile` | 243 | 2 | Production mobile apps (RN/Flutter) |
 | `frontend-pwa` | 199 | 3 | Offline-first web apps with native migration |
+| `frontend-ui-engineering` | 48 | 0 | Universal UI principles across platforms |
 | `frontend-web` | 235 | 5 | Production web interfaces with anti-slop rules |
 | `fullstack-shipping` | 228 | 3 | CI/CD, deployment, monitoring, rollback |
 | `git-init-and-versioning` | 249 | 4 | Git setup, branching, hooks, commit gates |
 | `git-workflow-and-versioning` | 183 | 0 | Atomic commits, branching, conflict resolution |
 | `hard-skill` | 150 | 0 | Deterministic P0/P1 mechanical fixes |
+| `idea-refine` | 43 | 0 | Refine ideas through structured thinking |
 | `incremental-implementation` | 250 | 0 | Thin vertical slices, test each |
 | `industrial-brutalist-ui` | 78 | 0 | Raw industrial mechanical UI |
+| `interview-me` | 40 | 0 | Extract intent through questioning |
 | `minimalist-ui` | 71 | 0 | Editorial product UI (Notion/Linear) |
 | `multi-agent-orchestration` | 83 | 1 | Orchestrate >2 agents in parallel/pipeline |
+| `observability-and-instrumentation` | 34 | 0 | Logs, metrics, traces, alerting |
 | `optimize-skill` | 139 | 0 | Fix performance bottlenecks |
 | `output-skill` | 51 | 0 | Complete output enforcement |
+| `performance-optimization` | 34 | 0 | System and infrastructure performance |
 | `planning-and-task-breakdown` | 247 | 0 | Decompose into verifiable chunks |
 | `polish-skill` | 139 | 1 | Fix design detail: spacing, alignment, tokens |
 | `project-health-check` | 213 | 2 | Audit existing codebases with decision gate |
 | `project-metrics` | 154 | 2 | Background quality logging |
 | `redesign-skill` | 67 | 0 | Systematic UI improvement |
+| `security-and-hardening` | 35 | 0 | Vulnerability prevention and hardening |
 | `shipping-and-launch` | 160 | 0 | Production launch prep and rollback |
 | `soft-premium-ui` | 72 | 0 | Polished, calm premium UI |
+| `source-driven-development` | 35 | 0 | Doc-verified implementation |
 | `spec-driven-development` | 205 | 2 | Research-backed specs with implement gate |
 | `test-driven-development` | 141 | 0 | TDD cycle with anti-pattern checks |
 | `typeset-skill` | 139 | 1 | Fix typography and reading rhythm |
 | `user-onboarding` | 191 | 2 | Persistent user preferences across projects |
+| `visual-frontend-mastery` | 46 | 0 | Visual design + high-performance animations |
 
-**Total: 41 custom skills, 47 guides, 3 evals, 3 memory. All SKILL.md ≤ 250 lines.**
+**Total: 55 custom skills, 47 guides, 3 evals, 3 memory. All SKILL.md ≤ 250 lines.**
 
 ### Architecture Decisions Implemented
 
@@ -151,7 +165,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|
-| **2.0.0** | 2026-06-18 | Standardized Frontmatter: version, allowed-tools, tier fields across all 36 skills. agentskills.io alignment. Skill lint smells detection. |
+| **2.0.0** | 2026-06-18 | Standardized Frontmatter: version, allowed-tools, tier fields across all 55 skills. agentskills.io alignment. 14 new skills created (frontend-ui-engineering, code-simplification, security-and-hardening, source-driven-development, interview-me, idea-refine, performance-optimization, observability-and-instrumentation, deprecation-and-migration, api-and-interface-design, browser-testing-with-devtools, ci-cd-and-automation, customize-opencode, visual-frontend-mastery). validate-skill-table.sh now dynamic (handles any skill count). |
 | **1.15.0** | 2026-06-17 | Three-Gate Approval: TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED v6 hook, log-test-results.sh, audit trail in APPROVAL_LOG. |
 | **1.14.0** | 2026-06-17 | Time-Window Approval: replace SHA256 token system with timestamp-based commit-approval.sh, commit-msg v5 with <5 min freshness check, updated Rule 12. |
 | **1.13.0** | 2026-06-16 | Spec-Driven Refinements: P2 Structured Clarification + P10 Convergence in spec-driven-development, Research Artifact persistence in architecture-analysis, [S]/[P]/[Pm] task markers in planning-and-task-breakdown. |
