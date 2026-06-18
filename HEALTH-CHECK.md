@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-06-16
-**Version:** 1.13.0 (Spec-Driven Refinements)
+**Version:** 1.14.0 (Time-Window Approval)
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
 
@@ -42,8 +42,8 @@
 | Check | Status | Notes |
 |---|---|---|
 | Pre-commit hook | ✅ v8 (9 gates) | Executable (755) |
-| commit-msg hook | ✅ v4 | Executable (755) |
-| approve-commit.sh | ✅ | Executable |
+| commit-msg hook | ✅ v5 | Time-window check (<5 min) |
+| commit-approval.sh | ✅ | Executable |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
 | Skill lint | ✅ 0 errors, 0 warnings | |
@@ -69,7 +69,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v1.12.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v1.14.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 47 guides | Landing, docs, i18n EN/ES |
 | Gate count | ✅ 9 pre-commit gates | Landing, docs, i18n EN/ES |
 
@@ -95,6 +95,8 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 
 | Date | Decision | Rationale |
 |---|---|---|
+| 2026-06-17 | v1.14.0 Time-Window Approval | Replace SHA256 token system with timestamp-based commit-approval.sh, commit-msg v5 time-window check. |
+| 2026-06-16 | v1.13.0 Spec-Driven Refinements | Clarification + Convergence in spec-driven-development, research.md artifact, [S]/[P]/[Pm] markers. |
 | 2026-06-16 | v1.12.0 Design Principles Edition | DESIGN-CORE.md principles (Hero as Thesis, Typography Pairings, etc.), Phase 3c frontend-web, Phase 0 critique-skill, Writing Philosophy clarify-skill |
 | 2026-06-16 | v1.11.0 Harness Edition | HARNESS.md, SOUL.md principles 9-10, AI review checklist, Memory.md x3, landing i18n rework, docs harness section |
 | 2026-06-16 | v1.10.0 released | Progress validation gate: pre-commit v8, STEERING-GUIDE update, validate-skill-table.sh |

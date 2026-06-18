@@ -1,57 +1,88 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Hash Verification (v4)
-# SINGLE SOURCE OF TRUTH for commit approval validation.
-# pre-commit hook (v7) no longer validates tokens — this hook does.
+# commit-msg — Another Agent Skills Time-Window Approval Check (v5)
+# Replaces v4 hash-based token validation with simple time-window check.
 #
-# Verifies commit message hash against .git/COMMIT_APPROVED token.
-# Algorithm: sha256(message + "\t" + timestamp) must match stored hash.
-# Token format: hash\ttimestamp (tab-separated)
+# Verifies .git/COMMIT_APPROVED exists, is <5 minutes old, and message matches.
+# No SHA256 tokens. No friction for the user.
+# After successful validation, DELETES the file so it cannot be reused.
 #
-# After successful validation, DELETES the token so it cannot be reused.
-# No token after commit = next commit must go through approval flow.
+# Format of COMMIT_APPROVED:
+#   timestamp=2026-06-16T18:30:00Z
+#   message=feat: add clarification phase
+#   files=file1.ts file2.ts (optional)
 
 set -euo pipefail
 
-APPROVAL_FILE=".git/COMMIT_APPROVED"
-COMMIT_MSG_FILE="${1:-.git/COMMIT_EDITMSG}"
+REPO_ROOT=$(git rev-parse --show-toplevel)
+APPROVAL_FILE="${REPO_ROOT}/.git/COMMIT_APPROVED"
+COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
+OVERRIDE_LOG="${REPO_ROOT}/.git/OVERRIDE_LOG"
+ESCAPE_THRESHOLD=3
 
 if [ ! -f "$APPROVAL_FILE" ]; then
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  BLOCKED: No commit approval token found.               ║"
+    echo "║  BLOCKED: No commit approval found.                     ║"
     echo "║                                                          ║"
-    echo "║  The agent must present a Commit Manifest and get        ║"
-    echo "║  your explicit approval before committing.               ║"
+    echo "║  The agent must:                                         ║"
+    echo "║  1. Present DECISION POINT with manifest + test results  ║"
+    echo "║  2. Get 'yes commit' from user in chat                   ║"
+    echo "║  3. Run: bash scripts/commit-approval.sh \"message\"      ║"
+    echo "║                                                          ║"
+    echo "║  To override: OVERRIDE: reason in commit message body    ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
     exit 1
 fi
 
-TOKEN_CONTENT=$(cat "$APPROVAL_FILE" 2>/dev/null || echo "")
-TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f1)
-TOKEN_TS=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f2)
+# Parse approval file
+TIMESTAMP=$(grep "^timestamp=" "$APPROVAL_FILE" | cut -d= -f2-)
+STORED_MSG=$(grep "^message=" "$APPROVAL_FILE" | cut -d= -f2-)
 
-COMMIT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
+# Check 1: timestamp validity
+if [ -z "$TIMESTAMP" ]; then
+    echo "ERROR: Invalid COMMIT_APPROVED — missing timestamp."
+    rm -f "$APPROVAL_FILE"
+    exit 1
+fi
 
-ACTUAL_HASH=$(printf '%s\t%s' "$COMMIT_MSG" "$TOKEN_TS" | sha256sum | cut -d' ' -f1)
+# Check 2: freshness (< 5 minutes)
+if command -v date >/dev/null 2>&1; then
+    TS_EPOCH=$(date -d "$TIMESTAMP" +%s 2>/dev/null || echo 0)
+    NOW_EPOCH=$(date +%s)
+    AGE=$((NOW_EPOCH - TS_EPOCH))
+    if [ $AGE -gt 300 ] || [ $AGE -lt 0 ]; then
+        echo ""
+        echo "╔════════════════════════════════════════════════════════════╗"
+        echo "║  BLOCKED: Commit approval expired.                      ║"
+        echo "║                                                          ║"
+        echo "║  Approval was created ${AGE}s ago (>5 min limit).          ║"
+        echo "║  Get fresh approval: user says 'yes commit', then        ║"
+        echo "║  run: bash scripts/commit-approval.sh \"message\"          ║"
+        echo "╚════════════════════════════════════════════════════════════╝"
+        echo ""
+        rm -f "$APPROVAL_FILE"
+        exit 1
+    fi
+fi
 
-if [ "$TOKEN_HASH" != "$ACTUAL_HASH" ]; then
+# Check 3: message match
+CURRENT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
+if [ "$STORED_MSG" != "$CURRENT_MSG" ]; then
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  BLOCKED: Token hash mismatch.                          ║"
+    echo "║  BLOCKED: Commit message changed after approval.         ║"
     echo "║                                                          ║"
-    echo "║  The COMMIT_APPROVED token does not match the           ║"
-    echo "║  commit message. Possible causes:                       ║"
-    echo "║  - Commit message was modified after token creation     ║"
-    echo "║  - Token was created for a different commit             ║"
+    echo "║  Stored: $STORED_MSG"
+    echo "║  Current: $CURRENT_MSG"
     echo "║                                                          ║"
-    echo "║  To proceed:                                            ║"
-    echo "║  1. Restore original commit message, OR                  ║"
-    echo "║  2. Run Commit Manifest Protocol again to get new token  ║"
+    echo "║  Run commit-approval.sh again with the correct message.   ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
+    rm -f "$APPROVAL_FILE"
     exit 1
 fi
 
+# All checks passed. Delete approval and allow commit.
 rm -f "$APPROVAL_FILE"
 exit 0
