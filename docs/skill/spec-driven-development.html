@@ -55,7 +55,7 @@
     <p style="color: var(--text-secondary); font-size: 1.1rem;">Native pipeline from user request to verified code. Creates comprehensive</p>
 
     <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
-      <span class="skill-card__badge">163 lines</span>
+      <span class="skill-card__badge">205 lines</span>
       <span class="skill-card__badge">guide: DISCOVERY-GUIDE</span>
       <span class="skill-card__badge">guide: SPEC-TEMPLATE-GUIDE</span>
 
@@ -82,10 +82,30 @@ RESEARCH FINDINGS:
 → Does this match your understanding?
 <code>`</code>
 <br>
-<h3>P2 — Deep Discovery (MANDATORY)</h3>
+<h3>P2 — Structured Clarification (MANDATORY before plan)</h3>
+<br>
+After research and before deep discovery, systematically identify underspecified areas:
+<br>
+1. **Coverage scan** — Read the spec draft and flag every noun, verb, and number that is vague: "multiple users" (how many?), "fast" (what metric?), "modern" (which stack?), "secure" (what threat model?).
+2. **Sequential questioning** — Ask one question per gap. Record each answer in <code>SPEC.md</code> under a "Clarifications" section. Do NOT batch questions (overwhelms user).
+3. **Skip option** — If user explicitly says "spike/exploratory, skip clarification" — note it in SPEC.md and proceed. Silence is not consent.
+<br>
+Output:
+<code>`</code>
+CLARIFICATION LOG:
+  Q1: "Multiple users — how many concurrent?"
+  A1: "Up to 50 concurrent, no auth needed for MVP"
+  Q2: "Fast — what's the target load time?"
+  A2: "Under 2s on 4G"
+  → 4 gaps closed, 0 remaining.
+<code>`</code>
+<br>
+Only after all gaps are closed (or explicitly waived) proceed to P3.
+<br>
+<h3>P3 — Deep Discovery (MANDATORY)</h3>
 Read <code>DISCOVERY-GUIDE.md</code>. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
 <br>
-<h3>P3 — Architecture Decision Gate</h3>
+<h3>P4 — Architecture Decision Gate</h3>
 Non-trivial → invoke <code>architecture-analysis</code>. Simple → note "Standard stack per platform skill."
 <br>
 <strong>Architecture gate template:</strong>
@@ -94,13 +114,13 @@ Before writing the spec, we need to lock architecture.
 The spec depends on: frontend framework, backend approach, data layer, auth strategy, deployment target.
 <code>`</code>
 <br>
-<h3>P4 — Write SPEC.md</h3>
+<h3>P5 — Write SPEC.md</h3>
 Read <code>SPEC-TEMPLATE-GUIDE.md</code>. 10 sections: Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries. Success criteria MUST be testable.
 <br>
-<h3>P5 — Plan</h3>
+<h3>P6 — Plan</h3>
 Components, dependencies, order, risks, verification checkpoints. User must review.
 <br>
-<h3>P6 — Tasks</h3>
+<h3>P7 — Tasks</h3>
 Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5 files per task.
 <br>
 <strong>Task template:</strong>
@@ -112,10 +132,10 @@ Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5
   - Files: [Which files will be touched]
 <code>`</code>
 <br>
-<h3>P7 — Environment Audit</h3>
+<h3>P8 — Environment Audit</h3>
 Check <code>docs/DEV-ENVIRONMENT.md`. Missing → invoke `dev-environment-audit</code>. Verify Node.js, package manager, Git, test tools.
 <br>
-<h3>P8 — Implement Gate (MANDATORY)</h3>
+<h3>P9 — Implement Gate (MANDATORY)</h3>
 Full stop. Confirm: SPEC ✅ | PLAN ✅ | TASKS ✅ | ARCH ✅ | ENV ✅.
 Require explicit "yes" / "sí" / "proceed" / "let's go". Invalid: "ok" / "sure".
 Only then invoke <code>incremental-implementation` + `test-driven-development</code>.
@@ -135,7 +155,7 @@ LOG METRIC: discovery
 <ul>
 <li>project: [detect]</li>
 <ul>
-<li>duration_minutes: [P1 to P8]</li>
+<li>duration_minutes: [P1 to P9]</li>
 <ul>
 <li>questions_asked: [count]</li>
 <ul>
@@ -144,16 +164,34 @@ LOG METRIC: discovery
 <br>
 <strong>Quick reference:</strong> <code>SPEC-FLOW.md</code> for one-page pipeline visualization + memory aid.
 <br>
+<h3>P10 — Convergence (post-implementation)</h3>
+<br>
+After implementation, verify the codebase matches the spec:
+<br>
+1. **Check each acceptance criterion** — For every item in SPEC.md Acceptance Criteria, confirm it is true in the running code. PASS or FAIL.
+2. **Check for unplanned features** — If code exists that was never in the spec, flag it. Either add to spec or justify removal.
+3. **Generate convergence report:**
+   <code>`</code>
+   CONVERGENCE REPORT:
+     Acceptance criteria: 8/10 PASS, 2/10 FAIL
+       FAIL: "LCP < 2.5s on 4G" — measured 3.8s. Needs optimization pass.
+       FAIL: "Offline fallback" — not implemented. Spec says P1, built as P2.
+     Unplanned features: 1 — "Dark mode toggle" (not in spec, acceptable scope creep)
+     → Spec is accurate? Spec needs update? New tasks needed?
+   <code>`</code>
+4. If gaps found: create new tasks, feed back through P7 (Tasks) and P2 (Clarification if needed).
+5. If clean: Deliver final report. Spec is done until next iteration.
+<br>
 ---
 <br>
 <h2 id="multi-agent integration">multi-agent integration</h2>
 <br>
 Delegate phases via <code>multi-agent-orchestration</code>:
 <code>`</code>
-P0-P3: Orchestrator (single agent)
-P4:    Subagent writes SPEC.md
-P5-P6: Subagent plans + breaks tasks
-P8:    Parallel subagents per module
+P0-P4: Orchestrator (single agent)
+P5:    Subagent writes SPEC.md
+P6-P7: Subagent plans + breaks tasks
+P9:    Parallel subagents per module
 <code>`</code>
 Each subagent receives only relevant skill. See <code>multi-agent-orchestration/GUIDE.md</code>.
 <br>
@@ -170,11 +208,11 @@ Update spec first, then code. Commit alongside code. Reference in PRs. Revisit i
 | Phase | Skill to Inline |
 |---|---|
 | P0 (existing code) | <code>project-health-check</code> |
-| P3 (non-trivial) | <code>architecture-analysis</code> |
-| P5-P6 | <code>planning-and-task-breakdown</code> |
-| P7 | <code>dev-environment-audit</code> |
-| P8 (parallel) | <code>multi-agent-orchestration</code> |
-| After P8 | <code>incremental-implementation`, `test-driven-development</code> |
+| P4 (non-trivial) | <code>architecture-analysis</code> |
+| P6-P7 | <code>planning-and-task-breakdown</code> |
+| P8 | <code>dev-environment-audit</code> |
+| P9 (parallel) | <code>multi-agent-orchestration</code> |
+| After P9 | <code>incremental-implementation`, `test-driven-development</code> |
 <br>
 ---
 <br>
@@ -193,7 +231,7 @@ Update spec first, then code. Commit alongside code. Reference in PRs. Revisit i
 <br>
 <h2 id="red flags">red flags</h2>
 <br>
-Code before SPEC.md. Research skipped for non-trivial. Phase 8 bypassed with vague "ok." Features added that weren't in spec. Agent asks "start building?" before defining "done." <code>[year]</code> without "current" prefix.
+Code before SPEC.md. Research skipped for non-trivial. Phase 9 bypassed with vague "ok." Clarification skipped without explicit waiver. Features added that weren't in spec. Agent asks "start building?" before defining "done." <code>[year]</code> without "current" prefix.
 <br>
 ---
 <br>
@@ -212,7 +250,9 @@ Code before SPEC.md. Research skipped for non-trivial. Phase 8 bypassed with vag
 <ul>
 <li>[ ] Spec committed alongside code</li>
 <ul>
-<li>[ ] Metrics logged after Phase 8</li>
+<li>[ ] Metrics logged after Phase 9</li>
+<ul>
+<li>[ ] Convergence check done after implementation (P10)</li>
 <ul>
 <li>[ ] <code>[current year]</code> used in research (not hardcoded year)</li>
     </div>

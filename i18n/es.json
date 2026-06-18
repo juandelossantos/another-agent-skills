@@ -108,6 +108,7 @@
     "catProcess": "Proceso",
     "catQuality": "Calidad",
     "catDesignReview": "Design Review",
+    "catTesting": "Testing",
     "catMetrics": "Métricas",
     "catGit": "Git",
     "catDebug": "Debug",
