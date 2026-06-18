@@ -7,8 +7,11 @@ description: >
   building or modifying any API layer, backend service, or data persistence layer.
   Triggers on: "API", "backend", "database", "auth", "endpoint", "REST",
   "GraphQL", "Prisma", "Drizzle", "tRPC", "server", "create API", "design API".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write Edit
+tier: action-allowed
 metadata:
   audience: backend-engineers
   workflow: research-design-document

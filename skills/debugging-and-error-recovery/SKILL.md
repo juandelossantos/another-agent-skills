@@ -3,8 +3,11 @@ name: debugging-and-error-recovery
 description: >
   Guides systematic root-cause debugging. Use when tests fail, builds break,
   behavior doesn't match expectations, or you encounter any unexpected error.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: debug-diagnose-fix

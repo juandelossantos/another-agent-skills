@@ -4,8 +4,11 @@ description: >
   Fix typography and reading rhythm issues. Covers typeface, weight, size,
   line-height, letter-spacing, paragraph spacing, and type ramp compliance.
   Use when text feels cramped, inconsistent, or off-scale.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-designers
   stack: any

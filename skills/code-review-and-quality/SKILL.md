@@ -3,6 +3,14 @@ name: code-review-and-quality
 description: >
   Conducts multi-axis code review. Use before merging any change. Use when reviewing
   code written by yourself, another agent, or a human.
+version: 1.0.0
+license: MIT
+compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
+metadata:
+  audience: all-engineers
+  workflow: review
 ---
 
 # Code Review and Quality

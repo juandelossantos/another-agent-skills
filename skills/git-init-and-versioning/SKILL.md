@@ -7,8 +7,11 @@ description: >
   Use once per project before BUILD phase. Triggers on: "git init",
   "setup repo", "create repository", "version control", "git setup",
   "mono repo", "multi repo", "env variables", "secrets management".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write Edit
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: init-configure-guard
@@ -243,8 +246,4 @@ Code before Git init. Missing .gitignore. .env committed. First commit has node_
 
 Before BUILD: .git/ exists | .gitignore covers stack | .env ignored + .env.example | Repo structure decided | Branching documented | Pre-commit checklist exists | First commit = contracts+config, NOT generated code | Setup docs exist | Remote configured (if URL provided).
 
----
-
-## Integration with Build Phase
-
-See `BUILD-INTEGRATION-GUIDE.md` for pre-commit gate. **Goal:** Precision, not speed. 45 min upfront = 5-15h saved.
+See `BUILD-INTEGRATION-GUIDE.md` for pre-commit gate. **Goal:** Precision over speed. ~45 min upfront saves 5-15h.

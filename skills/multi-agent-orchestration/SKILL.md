@@ -3,8 +3,11 @@ name: multi-agent-orchestration
 description: >
   Patterns for orchestrating multiple OpenCode agents in parallel, pipeline, or swarm modes.
   Use when tasks require >2 agents, complex multi-file refactors, or parallel research+build.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: orchestrate-parallel

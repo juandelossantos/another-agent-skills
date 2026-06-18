@@ -3,8 +3,11 @@ name: frontend-web
 description: >
   Build production-grade web interfaces. Built on engineering-fundamentals.
   Triggers on: "website", "landing page", "web app", "Next.js", "React", "Vue".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: nextjs-react-tailwind-shadcn

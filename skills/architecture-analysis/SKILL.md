@@ -6,8 +6,11 @@ description: >
   decisions into specs. Use when choosing stack, pattern, or structural approach.
   Triggers on: "what stack", "architecture", "MVC or", "which framework",
   "how to structure", "backend choice", "microservices", "monolith".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: engineers
   workflow: evaluate-challenge-lock

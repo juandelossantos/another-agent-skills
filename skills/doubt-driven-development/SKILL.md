@@ -1,6 +1,14 @@
 ---
 name: doubt-driven-development
 description: Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.
+version: 1.0.0
+license: MIT
+compatibility: opencode
+allowed-tools: Read Bash Write
+tier: action-allowed
+metadata:
+  audience: all-engineers
+  workflow: review
 ---
 
 # Doubt-Driven Development
@@ -231,14 +239,12 @@ If 3 cycles is "obviously insufficient" because the artifact is large: the artif
 ## Verification
 
 After applying doubt-driven development:
-
-- [ ] Every non-trivial decision (per the definition above) was named explicitly as a CLAIM before standing
-- [ ] At least one fresh-context review per non-trivial artifact (a failing test produced by TDD's RED step satisfies this for behavioral claims, per Interaction with Other Skills)
-- [ ] The reviewer received ARTIFACT + CONTRACT — NOT the CLAIM, NOT your reasoning
-- [ ] The reviewer's prompt was adversarial ("find issues"), not validating ("is it good")
-- [ ] Findings were classified against the artifact text (not rubber-stamped) using the precedence: contract misread / actionable / trade-off / noise
-- [ ] A stop condition was met (trivial findings, 3 cycles, or user override)
-- [ ] In interactive mode, cross-model was **explicitly offered** to the user (regardless of artifact stakes) and the response was acknowledged in the output
-- [ ] In non-interactive mode, cross-model was skipped and the skip was announced
-- [ ] Any external CLI invocation was preceded by a PATH check, a working-binary test, syntax confirmation with the user, and explicit authorization to run
-- [ ] No rule conflicts detected — checked that the decision doesn't contradict existing rules (Rule 0h, Rule 0i, Rule 12, etc.)
+- [ ] Every non-trivial decision was named explicitly as a CLAIM before standing
+- [ ] At least one fresh-context review per non-trivial artifact
+- [ ] The reviewer received ARTIFACT + CONTRACT — NOT the CLAIM or your reasoning
+- [ ] Reviewer prompt was adversarial ("find issues"), not validating
+- [ ] Findings classified against artifact text using precedence: contract misread / actionable / trade-off / noise
+- [ ] Stop condition met (trivial findings, 3 cycles, or user override)
+- [ ] Interactive: cross-model offered. Non-interactive: skip announced
+- [ ] CLI: PATH check + binary test + syntax confirmed + user authorized
+- [ ] No rule conflicts — checked (Rule 0h, 0i, 12)

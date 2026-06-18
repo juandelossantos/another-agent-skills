@@ -4,8 +4,11 @@ description: >
   Polished, calm, expensive UI with softer contrast, generous whitespace,
   premium fonts, and spring motion. Double-bezel nested architecture,
   fluid island nav, button-in-button trailing icons.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: nextjs-react-tailwind-shadcn

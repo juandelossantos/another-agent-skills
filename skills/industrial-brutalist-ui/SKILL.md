@@ -4,8 +4,11 @@ description: >
   Raw mechanical interfaces fusing Swiss typographic print with military
   terminal aesthetics. Rigid grids, extreme type scale contrast, utilitarian
   color, analog degradation effects.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: frontend-developers
   stack: nextjs-react-tailwind-shadcn

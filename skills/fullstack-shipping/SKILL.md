@@ -7,8 +7,11 @@ description: >
   shipping any non-trivial project. Triggers on: "deploy", "ship", "launch",
   "CI/CD", "build pipeline", "testing strategy", "production", "release",
   "go live", "monitoring", "rollback", "staging".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write Edit
+tier: action-allowed
 metadata:
   audience: engineers
   workflow: build-test-deploy-monitor

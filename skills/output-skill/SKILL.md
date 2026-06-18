@@ -4,8 +4,11 @@ description: >
   Keeps agent outputs complete. Prevents placeholders, truncated code,
   skipped sections, and half-finished work. Use when the agent keeps
   shipping incomplete output.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: all-engineers
   stack: any

@@ -4,8 +4,11 @@ description: >
   Add micro-interactions, transitions, hover states, and feedback
   animations. Turns static UIs into responsive, tactile interfaces.
   Use when a UX feels stiff, lifeless, or lacks feedback.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-designers
   stack: any

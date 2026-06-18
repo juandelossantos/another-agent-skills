@@ -4,8 +4,11 @@ description: >
   Fix performance issues: bundle size, expensive animations, reflows, lazy
   loading, image optimization, and render blocking. Use after profiling
   reveals bottlenecks or when performance budgets are exceeded.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-engineers
   stack: any

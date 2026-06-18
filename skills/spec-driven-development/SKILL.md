@@ -5,8 +5,11 @@ description: >
   specifications through research, critical analysis, and user alignment.
   Triggers on: "new project", "feature", "spec", "plan", "what are we building",
   "let's plan this", "document this".
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash Write
+tier: draft
 metadata:
   audience: engineers
   workflow: prompt-spec-arch-tasks-code

@@ -5,8 +5,11 @@ description: >
   Scans code for accessibility, performance, theming, responsive, and
   anti-pattern issues. Documents findings for routing to fix skills.
   Use before shipping or during quality sprints.
+version: 1.0.0
 license: MIT
 compatibility: opencode
+allowed-tools: Read Bash
+tier: read-only
 metadata:
   audience: all-engineers
   stack: any
