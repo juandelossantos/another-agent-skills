@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# commit-approval.sh — Records user approval for commit (v2 — time-window based)
+# commit-approval.sh — Records user approval for commit (v3)
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
-# Philosophy:
-# 1. Agent presents DECISION POINT with manifest, diff, test results
-# 2. User says "yes commit" in chat → agent runs this script
-# 3. This writes .git/COMMIT_APPROVED with timestamp + message
-# 4. commit-msg hook checks: file exists? < 5 min old? message matches?
-# 5. No SHA256 tokens. No friction for the user.
+# Flow:
+# 1. Agent runs tests → bash scripts/log-test-results.sh
+# 2. Agent presents DECISION POINT (diff + test results + manifest)
+# 3. User says "yes commit" in chat
+# 4. Agent runs this script
+# 5. Script writes COMMIT_MANIFEST + COMMIT_APPROVED
+# 6. Agent commits
+# 7. commit-msg hook v6 verifies: TEST_LOG? MANIFEST? APPROVED? → allows
 #
 # Usage: bash scripts/commit-approval.sh "commit message" [file1 file2...]
-#   Must be run from repo root.
-#   Files parameter is optional — used for audit trail only.
 
 set -euo pipefail
 
@@ -24,42 +24,89 @@ COMMIT_MSG="${1:-}"
 REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo '.')}"
 APPROVAL_FILE="${REPO_ROOT}/.git/COMMIT_APPROVED"
 MANIFEST_FILE="${REPO_ROOT}/.git/COMMIT_MANIFEST"
+TEST_LOG="${REPO_ROOT}/.git/TEST_LOG"
+APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
 
 if [[ -z "$COMMIT_MSG" ]]; then
   echo -e "${RED}Error: No commit message provided.${NC}"
-  echo "Usage: bash scripts/commit-approval.sh \"feat: message\" [file1 file2...]"
-  echo ""
-  echo "  Agent runs this AFTER user says 'yes commit' in chat."
-  echo "  Writes .git/COMMIT_APPROVED with timestamp + message."
-  echo "  The commit-msg hook checks freshness (<5 min) and message match."
   exit 1
 fi
 
-# Check for manifest — optional but recommended
-if [[ -f "$MANIFEST_FILE" ]]; then
-  echo ""
-  echo "╔════════════════════════════════════════════════════════════╗"
-  echo "║  COMMIT MANIFEST — reviewed by user                      ║"
-  echo "╚════════════════════════════════════════════════════════════╝"
-  echo ""
-  cat "$MANIFEST_FILE"
-  echo ""
-  rm -f "$MANIFEST_FILE"
+# Check: TEST_LOG exists and shows PASS
+TEST_PASSED=0
+if [[ -f "$TEST_LOG" ]]; then
+  STATUS=$(grep "^status=" "$TEST_LOG" | cut -d= -f2-)
+  PASSED=$(grep "^passed=" "$TEST_LOG" | cut -d= -f2-)
+  if [[ "$STATUS" == "PASS" ]]; then
+    TEST_PASSED=1
+  fi
 fi
+
+if [[ $TEST_PASSED -eq 0 ]]; then
+  echo -e "${YELLOW}⚠ No test results found. Run tests first:${NC}"
+  echo "  bash scripts/log-test-results.sh <pass> <fail> <command>"
+  echo ""
+fi
+
+# Write commit manifest
+FILES="${*:2}"
+{
+  echo "## Commit Manifest"
+  echo ""
+  echo "**Message:** ${COMMIT_MSG}"
+  echo ""
+  echo "### Files"
+  if [[ -n "$FILES" ]]; then
+    echo "- $FILES" | sed 's/ /\n- /g'
+  else
+    echo "- (auto-detected by git)"
+  fi
+  echo ""
+  if [[ $TEST_PASSED -eq 1 ]]; then
+    echo "### Tests: ${PASSED} passed ✅"
+  else
+    echo "### Tests: not run ⚠️"
+  fi
+  echo ""
+  echo "### User Approval"
+  echo "- User said 'yes commit' in chat"
+} > "$MANIFEST_FILE"
+
+# Display manifest
+echo ""
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║  COMMIT MANIFEST — reviewed by user                      ║"
+echo "╚════════════════════════════════════════════════════════════╝"
+echo ""
+cat "$MANIFEST_FILE"
+echo ""
 
 # Write approval file
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 {
   echo "timestamp=${TIMESTAMP}"
   echo "message=${COMMIT_MSG}"
-  if [[ $# -gt 1 ]]; then
-    shift
-    echo "files=$*"
+  if [[ -n "$FILES" ]]; then
+    echo "files=${FILES}"
+  fi
+  if [[ $TEST_PASSED -eq 1 ]]; then
+    echo "tested=true"
+    echo "tests_passed=${PASSED}"
   fi
 } > "$APPROVAL_FILE"
+
+# Log to audit trail
+{
+  echo "[${TIMESTAMP}] APPROVED: ${COMMIT_MSG}"
+  if [[ $TEST_PASSED -eq 1 ]]; then
+    echo "[${TIMESTAMP}] TESTS: ${PASSED} passed"
+  fi
+} >> "$APPROVAL_LOG"
 
 echo -e "${GREEN}✓${NC} Commit approved."
 echo "  Message: ${GREEN}${COMMIT_MSG}${NC}"
 echo "  Timestamp: ${TIMESTAMP}"
 echo "  ${YELLOW}Approval valid for 5 minutes.${NC}"
-echo "  ${YELLOW}Agent: User said 'yes commit' in chat before this script ran.${NC}"
+if [[ $TEST_PASSED -eq 1 ]]; then
+  echo "  ${GREEN}Tests: ${PASSED} passed${NC}"
+fi
