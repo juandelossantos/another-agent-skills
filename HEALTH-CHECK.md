@@ -1,6 +1,6 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-06-16
+**Date:** 2026-06-17
 **Version:** 1.15.0 (Three-Gate Approval)
 **Auditor:** OpenCode Agent
 **Status:** ✅ HEALTHY
@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Warnings | **1** |
-| Passes | **23/23** (100%) |
+| Passes | **24/24** (100%) |
 | Overall | **✅ HEALTHY** |
 
 ---
@@ -26,7 +26,7 @@
 | Guide files | ✅ 47 (`*GUIDE.md` + `GUIDE.md`) | Across all skills |
 | Evals.md files | ✅ 3 | code-review, spec-driven, test-driven |
 | Memory.md files | ✅ 3 | debugging-and-error-recovery, engineering-fundamentals, backend-api-mastery |
-| Scripts (`.sh`) | ✅ 14 + 1 `project-pre-commit` | All pass `bash -n` |
+| Scripts (`.sh`) | ✅ 15 + 1 `project-pre-commit` | All pass `bash -n` |
 | Rules files | ✅ 5 | behavioral, context, enforcement, project, skills |
 | ADRs | ✅ 5 | Complete |
 | AGENTS.md | ✅ 120 lines | Stable |
@@ -37,13 +37,14 @@
 
 ---
 
-## Mechanical Enforcement: PASS (6/6)
+## Mechanical Enforcement: PASS (7/7)
 
 | Check | Status | Notes |
 |---|---|---|
 | Pre-commit hook | ✅ v8 (9 gates) | Executable (755) |
 | commit-msg hook | ✅ v6 | Three-gate check (TEST_LOG + MANIFEST + APPROVED) |
-| commit-approval.sh | ✅ | Executable |
+| commit-approval.sh | ✅ | Writes COMMIT_MANIFEST + COMMIT_APPROVED |
+| log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
 | Skill lint | ✅ 0 errors, 0 warnings | |
@@ -69,7 +70,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v1.14.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v1.15.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 47 guides | Landing, docs, i18n EN/ES |
 | Gate count | ✅ 9 pre-commit gates | Landing, docs, i18n EN/ES |
 

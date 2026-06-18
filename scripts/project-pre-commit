@@ -64,7 +64,7 @@ echo "╚═══════════════════════�
 if is_hook_enabled "tests" && [[ -n "$TEST_CMD" ]]; then
   echo ""
   echo "  Running tests: ${GREEN}${TEST_CMD}${NC}"
-  if timeout "$TEST_TIMEOUT" eval "$TEST_CMD" 2>&1; then
+  if timeout "$TEST_TIMEOUT" sh -c "$TEST_CMD" 2>&1; then
     echo "  ${GREEN}✓${NC} Tests pass"
   else
     echo ""

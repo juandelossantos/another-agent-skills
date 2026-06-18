@@ -122,8 +122,8 @@
 - Troubleshooting guide — common issues
 - New skill tracks: CLI, IoT, GameDev, Container
 - Self-host Google Fonts (Newsreader + JetBrains Mono)
-- Generate 1200×630 PNG OG image from SVG
 - Copy button micro-interaction (scale + check icon)
+- Promotion campaign (see development/PROMOTION-PLAN.md)
 
 ---
 
