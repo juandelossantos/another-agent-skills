@@ -10,7 +10,7 @@
 | Action | Command |
 |---|---|
 | Test | `bash scripts/skill-lint.sh` |
-| Lint | `bash -n scripts/*.sh && bash -n scripts/git-hooks/*` |
+| Lint | `bash -n scripts/*.sh && bash -n scripts/git-hooks/pre-commit scripts/git-hooks/commit-msg` |
 | Type check | `echo "N/A — shell + markdown project"` |
 | Build | `echo "N/A — no build step"` |
 | Dev | `echo "N/A — static files"` |
