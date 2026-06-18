@@ -188,6 +188,7 @@
     "filterDevops": "DevOps",
     "filterDebug": "Debug",
     "filterGit": "Git",
+    "filterMeta": "Meta",
     "prevPage": "Ciclo de vida",
     "nextPage": "El Harness",
     "engineering_fundamentals": "Filosofía de ingeniería universal. Descubrimiento, contratos, anti-slop, quality gates.",
