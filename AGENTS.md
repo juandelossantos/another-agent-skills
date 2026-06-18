@@ -42,7 +42,7 @@ Protocol: Read AGENTS.md, skills loaded, no mutations without approval
 
 | Rule | File | Summary |
 |---|---|---|
-| 0, 0b, 0c, 0g | `rules/common/behavioral.md` | User profile, context persistence, behavioral principles, mayéutic challenge |
+| 0, 0b, 0c, 0g, 0k | `rules/common/behavioral.md` | User profile, context persistence, behavioral principles, mayéutic challenge, universal first |
 | 0d, 12, 12b | `rules/common/enforcement.md` | Pre-action checklist, mutation approval, PR review gate |
 | 0e, 0f, 6, 8 | `rules/common/context.md` | Context compression, plugin architecture, lazy loading, context budget |
 | 1, 2, 3 | `rules/common/skills.md` | Skills first, intent mapping, lifecycle |
