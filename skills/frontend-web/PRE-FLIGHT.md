@@ -145,4 +145,4 @@ Run `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` first for universal che
 - [ ] One design system used (not mixed)
 - [ ] Dependencies verified in `package.json` before importing
 - [ ] Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1
-- [ ] Lighthouse run before declaring done
+- [ ] Performance audit (Lighthouse or similar) done before declaring done

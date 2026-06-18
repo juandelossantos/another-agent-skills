@@ -28,7 +28,7 @@ STOP. 3rd strike on this bug.
 **Agent must:**
 1. **Stop all commits.** No fix code until diagnosis is complete.
 2. **Inspect the real state:**
-   - Browser DevTools: computed styles, specificity, selector matching
+   - Computed styles, specificity, selector matching
    - Network: are resources loading?
    - Console: any errors?
    - DOM: is the expected element rendered?

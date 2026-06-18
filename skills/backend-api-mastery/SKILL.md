@@ -154,7 +154,7 @@ Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy ma
 
 **Errors:** Use structured `{ error: { code, message, details, requestId } }`. Correct HTTP codes (200/201/204/400/401/403/404/409/422/429/500).
 
-**Testing:** See `TESTING-GUIDE.md`. Unit (Vitest) for services. Integration (Vitest + test DB) for endpoints. Contract (Zod/OpenAPI) for shapes. E2E (Playwright) for flows. Always separate test DB.
+**Testing:** See `TESTING-GUIDE.md`. Unit (Vitest) for services. Integration (Vitest + test DB) for endpoints. Contract (Zod/OpenAPI) for shapes. E2E (browser testing tools) for flows. Always separate test DB.
 
 ---
 

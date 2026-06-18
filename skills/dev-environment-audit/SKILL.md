@@ -113,7 +113,7 @@ Create/update doc with tools, MCPs, installed-by-audit log, workarounds, next au
 **Agent:**
 1. Phase 0: No `DEV-ENVIRONMENT.md`.
 2. Phase 1: Not needed — type clear from SPEC.md.
-3. Phase 2: MCPs: Playwright ✅, Figma ❌, GitHub ✅. CLI: Node ✅, pnpm ✅, Git ✅, Docker ❌, Vercel ❌.
+3. Phase 2: MCPs: browser-testing ✅, design-integration ❌, repo-management ✅. CLI: Node ✅, pnpm ✅, Git ✅, Docker ❌, Vercel ❌.
 4. Phase 3: BLOCKING: Docker (local PostgreSQL). HIGH: Vercel CLI, Figma MCP.
 5. Phase 4: Present. User approves Docker + Vercel. Declines Figma.
 6. Phase 5: Create `docs/DEV-ENVIRONMENT.md` with tools, workarounds, next audit.

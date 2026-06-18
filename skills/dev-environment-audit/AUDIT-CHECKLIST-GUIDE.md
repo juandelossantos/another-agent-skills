@@ -6,12 +6,12 @@ Phase 2 tool audit for `dev-environment-audit`.
 
 Read `~/.config/opencode/opencode.json`.
 
-**Check for:**
-- `playwright` — Browser testing, E2E
-- `context7` — Documentation context
-- `figma` / `penpot` — Design system integration
-- `github` / `gitlab` — Repository/CI management
-- `gitbook` / `notion` — Documentation access
+**Check for** (examples — exact names depend on agent config):
+- Browser testing (playwright, browserbase, or similar)
+- Documentation context (context7, or similar)
+- Design system integration (figma, penpot, or similar)
+- Repository/CI management (github, gitlab, or similar)
+- Documentation access (gitbook, notion, or similar)
 
 Record: present, missing, enabled/disabled.
 

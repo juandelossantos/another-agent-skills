@@ -18,7 +18,7 @@
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with trade-offs |
 | `audit-skill` | 151 | 0 | Five-dimension technical quality audit |
 | `backend-api-mastery` | 235 | 4 | Production APIs: protocol, DB, auth, testing, docs |
-| `browser-testing-with-devtools` | 34 | 0 | Browser testing via Chrome DevTools MCP |
+| `browser-testing-with-devtools` | 80 | 0 | Browser testing — tool-agnostic, references dev-env-audit for setup |
 | `ci-cd-and-automation` | 39 | 0 | CI/CD pipeline automation |
 | `clarify-skill` | 181 | 0 | Rewrite confusing UX copy |
 | `cli-tools` | 113 | 2 | Terminal-based tools with standard UX |
@@ -33,7 +33,7 @@
 | `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration |
 | `dev-environment-audit` | 155 | 4 | MCPs, CLI tools, runtime verification |
 | `documentation-and-adrs` | 70 | 0 | Record decisions and documentation |
-| `doubt-driven-development` | 250 | 0 | Adversarial fresh-context review |
+| `doubt-driven-development` | 234 | 0 | Adversarial fresh-context review |
 | `engineering-fundamentals` | 242 | 0 | Universal philosophy: discovery, contracts, anti-slop |
 | `frontend-desktop` | 240 | 2 | Production desktop apps (Tauri/Electron) |
 | `frontend-mobile` | 243 | 2 | Production mobile apps (RN/Flutter) |
