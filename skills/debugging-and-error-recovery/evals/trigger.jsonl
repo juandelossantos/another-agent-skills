@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_build_001","type":"trigger_positive","input":"The build is failing with an error, can you help?","expected_skill":"debugging-and-error-recovery","description":"Build failure — should trigger debugging"}
+{"case_id":"trigger_pos_test_001","type":"trigger_positive","input":"My tests are not passing after my last change","expected_skill":"debugging-and-error-recovery","description":"Test regression — should trigger debugging"}
+{"case_id":"trigger_neg_feature_001","type":"trigger_negative","input":"Write a new user authentication feature","expected_skill":"debugging-and-error-recovery","description":"New feature work — not debugging"}

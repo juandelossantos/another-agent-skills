@@ -1,0 +1,2 @@
+{"case_id":"rephrase_copy_001","type":"rephrasing","input":"Users don't understand this form field, can you rewrite the help text?","description":"Same UX copy intent, different wording"}
+{"case_id":"boundary_visual_001","type":"negative_boundary","input":"Add a gradient background to the header","description":"Visual design change — not a copy issue"}

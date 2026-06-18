@@ -1,0 +1,1 @@
+{"case_id":"golden_mobile_001","input":"Build a cross-platform social app with camera access and push notifications","expected_output":"mobile_app_plan","rubric":["recommends React Native or Flutter with rationale","covers platform-specific design tokens","includes push notification strategy","addresses offline support"]}

@@ -1,0 +1,2 @@
+{"case_id":"rephrase_qc_001","type":"rephrasing","input":"Do a quality check on our landing page","description":"Same audit intent, different wording"}
+{"case_id":"boundary_design_001","type":"negative_boundary","input":"Design a new checkout flow","description":"New design — not an audit of existing code"}

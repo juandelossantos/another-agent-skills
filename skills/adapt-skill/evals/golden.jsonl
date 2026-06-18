@@ -1,0 +1,1 @@
+{"case_id":"golden_breakpoint_001","input":"On tablet (768px), the 3-column grid collapses badly — cards are half-width with huge gaps","expected_output":"responsive_fix","rubric":["identifies the specific breakpoint","proposes correct grid configuration","ensures touch targets >= 44px","verifies no horizontal scroll"]}

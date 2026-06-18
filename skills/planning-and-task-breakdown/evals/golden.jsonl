@@ -1,0 +1,1 @@
+{"case_id":"golden_login_001","input":"I need to build a login system with email/password and Google OAuth. Users should be able to reset passwords.","expected_output":"task_breakdown","rubric":["identifies dependency graph","slices vertically","each task has acceptance criteria","includes verification steps","marks parallel vs sequential tasks"]}

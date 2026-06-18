@@ -1,0 +1,2 @@
+{"case_id":"rephrase_web_001","type":"rephrasing","input":"Create a website for my business","description":"Same web dev intent, different wording"}
+{"case_id":"boundary_python_001","type":"negative_boundary","input":"Install Python 3.12 on my machine","description":"Environment setup — not web development"}

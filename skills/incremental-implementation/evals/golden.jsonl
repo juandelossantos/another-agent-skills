@@ -1,0 +1,1 @@
+{"case_id":"golden_increment_001","input":"I need to build a login system with email + password reset + OAuth","expected_output":"incremental_plan","rubric":["slices feature vertically","each slice delivers working functionality","each slice has verification steps","earliest slices are lowest risk"]}

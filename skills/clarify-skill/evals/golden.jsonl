@@ -1,0 +1,1 @@
+{"case_id":"golden_copy_001","input":"When a user types an invalid email, we show 'Error: invalid input'. Users keep making the same mistake.","expected_output":"copy_rewrite","rubric":["explains what went wrong in plain language","tells user how to fix it","uses active voice","fits in available UI space"]}

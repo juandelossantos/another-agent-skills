@@ -1,0 +1,2 @@
+{"case_id":"rephrase_fund_001","type":"rephrasing","input":"What should I consider before starting this project?","description":"Same philosophical guidance intent, different wording"}
+{"case_id":"boundary_sql_001","type":"negative_boundary","input":"Write a SQL query to get all users","description":"Concrete implementation — not philosophical guidance"}

@@ -1,0 +1,2 @@
+{"case_id":"rephrase_backend_001","type":"rephrasing","input":"Create a RESTful API service","description":"Same API design intent"}
+{"case_id":"boundary_frontend_001","type":"negative_boundary","input":"Style the login page with Tailwind","description":"Frontend work — not backend API design"}

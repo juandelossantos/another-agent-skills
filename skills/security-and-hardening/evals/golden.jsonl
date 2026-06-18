@@ -1,0 +1,1 @@
+{"case_id":"golden_security_001","input":"Audit the login endpoint for security vulnerabilities","expected_output":"security_audit","rubric":["checks input validation","reviews auth implementation","flags SQL injection risks","recommends specific fixes"]}

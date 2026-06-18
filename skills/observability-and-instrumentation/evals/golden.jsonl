@@ -1,0 +1,1 @@
+{"case_id":"golden_observability_001","input":"Our production API is a black box — add observability","expected_output":"observability_plan","rubric":["structured logging specification","RED metrics (Rate/Errors/Duration)","alert thresholds","dashboard layout"]}

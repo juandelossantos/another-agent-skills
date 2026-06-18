@@ -1,0 +1,2 @@
+{"case_id":"rephrase_simplify_001","type":"rephrasing","input":"This code is over-engineered, can you clean it up?","description":"Same simplification intent, different wording"}
+{"case_id":"boundary_ts_001","type":"negative_boundary","input":"Rewrite this JavaScript file in TypeScript","description":"TypeScript migration — not code simplification"}

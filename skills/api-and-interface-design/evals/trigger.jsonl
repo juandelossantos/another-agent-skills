@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_contract_001","type":"trigger_positive","input":"Design the API contract between frontend and backend","expected_skill":"api-and-interface-design"}
+{"case_id":"trigger_pos_boundary_001","type":"trigger_positive","input":"Define the module boundaries for this application","expected_skill":"api-and-interface-design"}
+{"case_id":"trigger_neg_database_001","type":"trigger_negative","input":"Design the database schema","expected_skill":"api-and-interface-design"}

@@ -1,0 +1,2 @@
+{"case_id":"rephrase_cli_001","type":"rephrasing","input":"Build a command-line tool","description":"Same CLI intent"}
+{"case_id":"boundary_gui_001","type":"negative_boundary","input":"Build a graphical user interface","description":"GUI — not a CLI tool"}

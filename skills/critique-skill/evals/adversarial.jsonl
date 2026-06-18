@@ -1,0 +1,2 @@
+{"case_id":"rephrase_ui_look_001","type":"rephrasing","input":"Can you take a look at this UI and tell me what's wrong?","description":"Same design review intent as trigger_pos_review_001, different wording"}
+{"case_id":"boundary_color_001","type":"negative_boundary","input":"I don't like the color blue","description":"Personal opinion about a color, not a design review request"}

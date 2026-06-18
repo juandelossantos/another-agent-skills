@@ -1,0 +1,1 @@
+{"case_id":"golden_cwv_001","input":"LCP is 4.2s on mobile, CLS is 0.35. Fix the Core Web Vitals.","expected_output":"perf_optimization","rubric":["identifies LCP bottlenecks","prioritizes fixes by impact","addresses CLS causes","target values specified"]}

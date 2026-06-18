@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_pr_001","type":"trigger_positive","input":"Review this PR before I merge it","expected_skill":"code-review-and-quality"}
+{"case_id":"trigger_pos_quality_001","type":"trigger_positive","input":"Check my code for quality issues before commit","expected_skill":"code-review-and-quality"}
+{"case_id":"trigger_neg_test_001","type":"trigger_negative","input":"Write a unit test for this function","expected_skill":"code-review-and-quality"}

@@ -1,0 +1,2 @@
+{"case_id":"rephrase_monitor_001","type":"rephrasing","input":"Set up monitoring so we know when things break","description":"Same observability intent"}
+{"case_id":"boundary_fix_001","type":"negative_boundary","input":"Fix the bug in production","description":"Bug fixing — not observability"}

@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_brutalist_001","type":"trigger_positive","input":"Design a brutalist landing page with raw typography","expected_skill":"industrial-brutalist-ui"}
+{"case_id":"trigger_pos_mech_001","type":"trigger_positive","input":"I want a raw, mechanical aesthetic like a terminal","expected_skill":"industrial-brutalist-ui"}
+{"case_id":"trigger_neg_calm_001","type":"trigger_negative","input":"Design a calm, minimalist interface with lots of whitespace","expected_skill":"industrial-brutalist-ui"}

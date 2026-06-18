@@ -1,0 +1,2 @@
+{"case_id":"rephrase_source_001","type":"rephrasing","input":"Look up the official docs for this API","description":"Same source-driven intent"}
+{"case_id":"boundary_guess_001","type":"negative_boundary","input":"Write the code based on what you know","description":"Implementation from memory — not doc-verified"}

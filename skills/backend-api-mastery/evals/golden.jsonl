@@ -1,0 +1,1 @@
+{"case_id":"golden_api_001","input":"Design the API for a blog platform with posts, comments, and user auth","expected_output":"api_design","rubric":["protocol decision (REST/GraphQL)","endpoint list with methods","auth strategy","error handling approach"]}

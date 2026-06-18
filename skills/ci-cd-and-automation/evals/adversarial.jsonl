@@ -1,0 +1,2 @@
+{"case_id":"rephrase_ci_001","type":"rephrasing","input":"Automate the build and test process","description":"Same CI intent"}
+{"case_id":"boundary_manual_001","type":"negative_boundary","input":"Run the tests manually","description":"Manual task — not CI automation"}

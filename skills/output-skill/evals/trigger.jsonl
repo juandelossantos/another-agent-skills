@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_complete_001","type":"trigger_positive","input":"Make sure the output is complete with no skipped sections","expected_skill":"output-skill"}
+{"case_id":"trigger_pos_placeholder_001","type":"trigger_positive","input":"Don't leave placeholders or TODO comments in the code","expected_skill":"output-skill"}
+{"case_id":"trigger_neg_feature_001","type":"trigger_negative","input":"Write the code for this feature","expected_skill":"output-skill"}

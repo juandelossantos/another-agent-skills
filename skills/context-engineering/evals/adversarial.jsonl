@@ -1,0 +1,2 @@
+{"case_id":"rephrase_ctx_001","type":"rephrasing","input":"Configure the agent's context properly so it doesn't forget things","description":"Same context intent, different wording"}
+{"case_id":"boundary_tests_001","type":"negative_boundary","input":"Write tests for the auth module","description":"Testing task — not a context engineering problem"}

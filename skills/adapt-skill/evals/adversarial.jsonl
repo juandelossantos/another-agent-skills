@@ -1,0 +1,2 @@
+{"case_id":"rephrase_mobile_001","type":"rephrasing","input":"Mobile view is broken, everything is squished","description":"Same responsive issue, different wording"}
+{"case_id":"boundary_api_001","type":"negative_boundary","input":"The API endpoint returns 500 errors","description":"Backend error — not a responsive layout issue"}

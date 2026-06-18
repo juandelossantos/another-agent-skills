@@ -1,0 +1,2 @@
+{"case_id":"rephrase_arch_001","type":"rephrasing","input":"Help me choose between AWS and Vercel for deployment","description":"Same architecture decision intent, different wording"}
+{"case_id":"boundary_deploy_001","type":"negative_boundary","input":"Deploy the app to production","description":"Deployment action — not an architecture decision"}

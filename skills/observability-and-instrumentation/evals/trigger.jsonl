@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_observability_001","type":"trigger_positive","input":"Add logging and monitoring to our production service","expected_skill":"observability-and-instrumentation"}
+{"case_id":"trigger_pos_alert_001","type":"trigger_positive","input":"Set up alerts for when the API goes down","expected_skill":"observability-and-instrumentation"}
+{"case_id":"trigger_neg_deploy_001","type":"trigger_negative","input":"Deploy the app to production","expected_skill":"observability-and-instrumentation"}

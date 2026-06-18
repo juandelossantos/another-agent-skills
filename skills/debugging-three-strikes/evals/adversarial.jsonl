@@ -1,0 +1,2 @@
+{"case_id":"rephrase_strikes_001","type":"rephrasing","input":"This is the third time this bug came back, what's going on?","description":"Same 3-strikes intent"}
+{"case_id":"boundary_first_001","type":"negative_boundary","input":"Fix this bug","description":"First fix attempt — not 3-strikes protocol"}

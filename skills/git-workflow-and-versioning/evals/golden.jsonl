@@ -1,0 +1,1 @@
+{"case_id":"golden_rebase_001","input":"I have changes on my feature branch and main has new commits from other people. I want to update my branch.","expected_output":"rebase_workflow","rubric":["recommends rebase over merge","includes step-by-step commands","mentions conflict resolution approach","suggests verification after rebase"]}

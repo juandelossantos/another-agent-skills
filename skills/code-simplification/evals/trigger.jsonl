@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_complex_001","type":"trigger_positive","input":"This function is 100 lines, simplify it","expected_skill":"code-simplification"}
+{"case_id":"trigger_pos_props_001","type":"trigger_positive","input":"This component has 15 props, it's too complex","expected_skill":"code-simplification"}
+{"case_id":"trigger_neg_feature_001","type":"trigger_negative","input":"Add error handling to this function","expected_skill":"code-simplification"}

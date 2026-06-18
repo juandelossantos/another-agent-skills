@@ -1,0 +1,2 @@
+{"case_id":"rephrase_debug_001","type":"rephrasing","input":"Something is broken, can you help me figure out why?","description":"Same debugging intent, different wording"}
+{"case_id":"boundary_perf_001","type":"negative_boundary","input":"I need to optimize my database queries","description":"Performance optimization — not debugging an error"}

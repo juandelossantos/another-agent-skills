@@ -1,0 +1,1 @@
+{"case_id":"golden_env_001","input":"Audit our dev environment — what tools are we missing?","expected_output":"env_audit","rubric":["checks runtimes (node/python/go)","reviews MCP servers","identifies missing tools","installation recommendations"]}

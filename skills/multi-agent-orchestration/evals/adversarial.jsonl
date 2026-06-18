@@ -1,0 +1,2 @@
+{"case_id":"rephrase_orch_001","type":"rephrasing","input":"Coordinate multiple agents on this project","description":"Same orchestration intent"}
+{"case_id":"boundary_single_001","type":"negative_boundary","input":"Do this task with one agent","description":"Single agent — not orchestration"}

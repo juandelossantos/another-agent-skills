@@ -1,0 +1,1 @@
+{"case_id":"golden_a11y_001","input":"The submit button has no visible focus indicator when tabbed to, and the error message isn't announced by screen readers","expected_output":"a11y_fix","rubric":["adds :focus-visible styles","adds aria-describedby to error","ensures error is announced","verifies tab order is logical"]}

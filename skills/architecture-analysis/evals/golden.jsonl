@@ -1,0 +1,1 @@
+{"case_id":"golden_db_001","input":"I'm building a multi-tenant SaaS and need to choose between PostgreSQL, MongoDB, and PlanetScale","expected_output":"architecture_recommendation","rubric":["generates 2-3 options with trade-offs","each option has honest pros and cons","recommendation ties back to user context","documents decision in SPEC.md"]}

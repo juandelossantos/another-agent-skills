@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_deploy_001","type":"trigger_positive","input":"Set up CI/CD and deploy to production","expected_skill":"fullstack-shipping"}
+{"case_id":"trigger_pos_release_001","type":"trigger_positive","input":"I need a release plan with monitoring and rollback","expected_skill":"fullstack-shipping"}
+{"case_id":"trigger_neg_code_001","type":"trigger_negative","input":"Write the API endpoints","expected_skill":"fullstack-shipping"}

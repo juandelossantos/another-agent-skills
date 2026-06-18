@@ -1,0 +1,2 @@
+{"case_id":"rephrase_plan_001","type":"rephrasing","input":"I need to figure out what to build and document it","description":"Same vague planning intent, different wording"}
+{"case_id":"boundary_install_001","type":"negative_boundary","input":"npm install react","description":"Package installation command — not a spec task"}

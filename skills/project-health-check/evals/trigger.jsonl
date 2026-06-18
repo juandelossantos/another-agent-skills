@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_audit_001","type":"trigger_positive","input":"Check the health of this project before we add new features","expected_skill":"project-health-check"}
+{"case_id":"trigger_pos_debt_001","type":"trigger_positive","input":"Audit this codebase for technical debt","expected_skill":"project-health-check"}
+{"case_id":"trigger_neg_deps_001","type":"trigger_negative","input":"Install the project dependencies","expected_skill":"project-health-check"}

@@ -1,0 +1,1 @@
+{"case_id":"golden_gitinit_001","input":"Start a new project with git, .gitignore, and branching strategy","expected_output":"git_setup","rubric":["creates .gitignore for stack","initializes git repo","configures branching strategy","sets up pre-commit hooks"]}

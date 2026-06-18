@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_arch_001","type":"trigger_positive","input":"Should I use microservices or a monolith for my startup?","expected_skill":"architecture-analysis"}
+{"case_id":"trigger_pos_compare_001","type":"trigger_positive","input":"Compare Next.js vs Remix for my e-commerce project","expected_skill":"architecture-analysis"}
+{"case_id":"trigger_neg_install_001","type":"trigger_negative","input":"Install Tailwind CSS in the project","expected_skill":"architecture-analysis"}

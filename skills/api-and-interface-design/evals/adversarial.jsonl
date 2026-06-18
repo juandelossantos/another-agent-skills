@@ -1,0 +1,2 @@
+{"case_id":"rephrase_contract_001","type":"rephrasing","input":"Define the interfaces between the frontend and backend","description":"Same interface design intent"}
+{"case_id":"boundary_impl_001","type":"negative_boundary","input":"Implement the API endpoints","description":"Implementation — not interface design"}

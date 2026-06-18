@@ -1,0 +1,2 @@
+{"case_id":"rephrase_gitinit_001","type":"rephrasing","input":"Initialize the project with version control","description":"Same git init intent"}
+{"case_id":"boundary_commit_001","type":"negative_boundary","input":"Commit my changes","description":"Daily commit — not project init"}

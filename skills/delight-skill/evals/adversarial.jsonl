@@ -1,0 +1,2 @@
+{"case_id":"rephrase_delight_001","type":"rephrasing","input":"Make the UI feel more responsive to user interaction","description":"Same micro-interaction intent, different wording"}
+{"case_id":"boundary_backend_001","type":"negative_boundary","input":"Rewrite the backend API to use GraphQL","description":"Backend architecture change — not UI animation work"}

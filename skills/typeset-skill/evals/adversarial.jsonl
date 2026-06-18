@@ -1,0 +1,2 @@
+{"case_id":"rephrase_type_001","type":"rephrasing","input":"Typography looks inconsistent across the page, sizes don't match","description":"Same typeset intent, different wording"}
+{"case_id":"boundary_db_001","type":"negative_boundary","input":"Add a new database table for user preferences","description":"Database work — not a typography task"}

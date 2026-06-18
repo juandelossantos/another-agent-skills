@@ -1,0 +1,1 @@
+{"case_id":"golden_spacing_001","input":"Section titles have 24px margin-bottom but description text has 16px — should match the 8px design grid","expected_output":"spacing_tokens_fix","rubric":["identifies spacing token violations","maps to 8px base grid","fix is consistent across all sections","mentions the design token by name"]}

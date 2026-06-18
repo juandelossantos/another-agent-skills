@@ -1,0 +1,1 @@
+{"case_id":"golden_metrics_001","input":"Log the build pass rate and lint results for this iteration","expected_output":"metrics_log","rubric":["records build pass/fail","captures lint warnings/errors","includes timestamp and project","format compatible with tracking"]}

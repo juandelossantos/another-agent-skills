@@ -1,0 +1,2 @@
+{"case_id":"rephrase_launch_001","type":"rephrasing","input":"Get this feature ready to go live","description":"Same launch intent"}
+{"case_id":"boundary_code_001","type":"negative_boundary","input":"Write the code","description":"Implementation task — not launch prep"}

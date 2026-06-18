@@ -1,0 +1,3 @@
+{"case_id":"trigger_pos_slice_001","type":"trigger_positive","input":"Let's implement this feature step by step, one slice at a time","expected_skill":"incremental-implementation"}
+{"case_id":"trigger_pos_build_001","type":"trigger_positive","input":"Build this in small vertical slices and test each one","expected_skill":"incremental-implementation"}
+{"case_id":"trigger_neg_review_001","type":"trigger_negative","input":"Review this PR for quality issues","expected_skill":"incremental-implementation"}

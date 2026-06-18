@@ -1,0 +1,2 @@
+{"case_id":"rephrase_secure_001","type":"rephrasing","input":"Make this endpoint more secure","description":"Same security intent"}
+{"case_id":"boundary_feature_001","type":"negative_boundary","input":"Add a new feature","description":"New feature — not security hardening"}

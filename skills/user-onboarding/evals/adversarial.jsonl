@@ -1,0 +1,2 @@
+{"case_id":"rephrase_onboard_001","type":"rephrasing","input":"Set up my preferences for this coding project","description":"Same user onboarding intent"}
+{"case_id":"boundary_task_001","type":"negative_boundary","input":"Start working on the task","description":"Task execution — not user onboarding"}

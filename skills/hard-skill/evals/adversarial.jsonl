@@ -1,0 +1,2 @@
+{"case_id":"rephrase_a11y_001","type":"rephrasing","input":"Keyboard navigation doesn't work on the dropdown menu","description":"Same a11y intent, different wording"}
+{"case_id":"boundary_dramatic_001","type":"negative_boundary","input":"Make the hero section more dramatic with animations","description":"Visual enhancement — not an a11y or input fix"}

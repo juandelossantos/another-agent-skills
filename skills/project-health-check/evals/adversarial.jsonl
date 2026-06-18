@@ -1,0 +1,2 @@
+{"case_id":"rephrase_health_001","type":"rephrasing","input":"How healthy is this project? Run a full check.","description":"Same health check intent, different wording"}
+{"case_id":"boundary_build_001","type":"negative_boundary","input":"Write a new feature for the dashboard","description":"New feature — not a health check"}

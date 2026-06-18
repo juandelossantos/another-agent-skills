@@ -1,0 +1,1 @@
+{"case_id":"golden_contract_001","input":"Design the API contract between the React frontend and the Express backend","expected_output":"interface_contract","rubric":["defines request/response shapes","specifies error format","covers auth flow","documents rate limiting"]}

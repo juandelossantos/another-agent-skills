@@ -1,0 +1,2 @@
+{"case_id":"rephrase_browser_001","type":"rephrasing","input":"Open the browser and check the console","description":"Same browser testing intent"}
+{"case_id":"boundary_unit_001","type":"negative_boundary","input":"Run jest tests","description":"Unit tests — not browser testing"}
