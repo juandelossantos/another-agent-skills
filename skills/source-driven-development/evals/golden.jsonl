@@ -1,0 +1,1 @@
+{"case_id":"golden_source_001","input":"I need to use the new Next.js 16 App Router — check the docs","expected_output":"doc_verified_code","rubric":["fetches official documentation","extracts correct API signatures","cites sources in comments","code compiles without deprecation warnings"]}

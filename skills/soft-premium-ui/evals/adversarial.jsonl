@@ -1,0 +1,2 @@
+{"case_id":"rephrase_soft_001","type":"rephrasing","input":"Create a polished, expensive-looking interface","description":"Same premium intent"}
+{"case_id":"boundary_raw_001","type":"negative_boundary","input":"Create a raw industrial interface","description":"Brutalist — not premium"}

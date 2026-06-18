@@ -1,0 +1,1 @@
+{"case_id":"golden_pwa_001","input":"Make my React app installable and work offline","expected_output":"pwa_plan","rubric":["service worker registration","offline fallback strategy","manifest.json configuration","install prompt handling"]}

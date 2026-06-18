@@ -1,0 +1,1 @@
+{"case_id":"golden_redesign_001","input":"This SaaS dashboard looks like it's from 2015 — flat colors, heavy borders, no whitespace","expected_output":"redesign_plan","rubric":["diagnoses current UI issues","proposes modern alternatives","prioritizes changes by impact","follows existing brand constraints"]}

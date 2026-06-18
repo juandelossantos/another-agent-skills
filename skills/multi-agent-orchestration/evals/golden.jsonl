@@ -1,0 +1,1 @@
+{"case_id":"golden_orch_001","input":"I need to build three microservices in parallel — frontend, orders API, and payment webhook","expected_output":"orchestration_plan","rubric":["decomposes into non-overlapping tasks","identifies parallel vs sequential work","assigns clear file boundaries","designates merge points"]}

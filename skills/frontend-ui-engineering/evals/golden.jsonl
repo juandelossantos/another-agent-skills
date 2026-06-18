@@ -1,0 +1,1 @@
+{"case_id":"golden_uieng_001","input":"Design a button component that works consistently across web and mobile","expected_output":"ui_component_spec","rubric":["defines states (default/hover/active/disabled)","covers touch and click interaction","responsive sizing strategy","accessibility requirements"]}

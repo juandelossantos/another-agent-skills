@@ -1,2 +1,2 @@
-{"case_id":"rephrase_doubt_001","type":"rephrasing","input":"I need a second opinion on this decision","description":"Same doubt-driven intent"}
-{"case_id":"boundary_trivial_001","type":"negative_boundary","input":"Rename this variable","description":"Trivial change — not worth adversarial review"}
+{"case_id":"rephrase_doubt_001","type":"rephrasing","input":"Challenge my assumption that this approach is correct","description":"Same adversarial review intent"}
+{"case_id":"boundary_code_001","type":"negative_boundary","input":"Write the code for this feature","description":"Implementation — not adversarial review"}

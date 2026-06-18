@@ -1,0 +1,1 @@
+{"case_id":"golden_strikes_001","input":"We've fixed this CSS bug three times — it keeps coming back after deploy","expected_output":"diagnosis_protocol","rubric":["counts the strikes","stops all fixes","inspects real state systematically","documents root cause before proposing fix"]}

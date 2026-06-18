@@ -1,0 +1,2 @@
+{"case_id":"rephrase_brut_001","type":"rephrasing","input":"Create a raw, mechanical UI aesthetic","description":"Same brutalist intent"}
+{"case_id":"boundary_calm_001","type":"negative_boundary","input":"Design a clean, minimalist interface","description":"Minimalist — not brutalist"}

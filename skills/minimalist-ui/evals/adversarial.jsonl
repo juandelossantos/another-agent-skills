@@ -1,0 +1,2 @@
+{"case_id":"rephrase_min_001","type":"rephrasing","input":"Create a clean, editorial interface","description":"Same minimalist intent"}
+{"case_id":"boundary_raw_001","type":"negative_boundary","input":"Design a raw, industrial interface","description":"Brutalist — not minimalist"}

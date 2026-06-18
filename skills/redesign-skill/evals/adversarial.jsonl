@@ -1,0 +1,2 @@
+{"case_id":"rephrase_redesign_001","type":"rephrasing","input":"Modernize this old interface","description":"Same redesign intent"}
+{"case_id":"boundary_new_001","type":"negative_boundary","input":"Build a new landing page from scratch","description":"New build — not redesign"}

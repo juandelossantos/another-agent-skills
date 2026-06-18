@@ -1,0 +1,1 @@
+{"case_id":"golden_browser_001","input":"The page renders incorrectly in Safari but fine in Chrome — debug it","expected_output":"browser_test_report","rubric":["opens browser and inspects DOM","captures console errors","compares network requests","identifies browser-specific issue"]}
