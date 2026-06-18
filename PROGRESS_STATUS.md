@@ -3,7 +3,7 @@
 > **Last updated:** 2026-06-18  
 > **Current version:** 2.0.0 (Standardized Frontmatter — Eval Framework)  
 > **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Phase 3 (pre-commit eval gates + CI eval steps), Phase 6.5 (lint warning cleanup)
+> **Current plan:** Phase 5 (context budget), Phase 6.5 (lint warning cleanup — 32 warnings), Phase 9 (LLM-as-Judge)
 
 ---
 
