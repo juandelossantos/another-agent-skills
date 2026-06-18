@@ -61,7 +61,7 @@ Run `init-agents` in every new project — it:
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 41 skills in `skills/`, 47 guides, MCP servers |
+| **2. Tools** | Task-specific capabilities loaded on demand | 55 skills in `skills/`, 47 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh |
@@ -79,7 +79,7 @@ After installation, these commands are available in your terminal:
 |---|---|
 | `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 41 skills, shell config, global scripts. |
+| `bash install.sh` | Full installer: 55 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
@@ -108,11 +108,13 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.15.0
+## What's New in v2.0.0
 
-- **Three-Gate Approval** — Every commit now requires 3 gates: `TEST_LOG` (tests passed), `COMMIT_MANIFEST` (changes presented), `COMMIT_APPROVED` (fresh approval <5 min via `commit-approval.sh`). Hook v6 verifies all three.
-- **Test Logging** — New `scripts/log-test-results.sh` records test results to `.git/TEST_LOG`. The hook checks this file before allowing commit.
-- **Audit Trail** — Every approval attempt is logged to `.git/APPROVAL_LOG` with timestamp and result.
+- **55 Skills (from 41)** — 14 new skills covering the full development lifecycle: discovery pipeline (interview-me → idea-refine), UI foundation layer (frontend-ui-engineering, visual-frontend-mastery), security, performance, observability, deprecation, code simplification, and more. See [`development/14-NEW-SKILLS-GUIDE.md`](development/14-NEW-SKILLS-GUIDE.md).
+- **Standardized Frontmatter** — All 55 skills now include `version`, `allowed-tools`, `tier`, `license`, and `metadata` fields. Aligned with the [agentskills.io](https://agentskills.io) open standard.
+- **Skill Smells Detection** — `skill-lint.sh` now detects 7 quality issues: weak descriptions, ALWAYS/NEVER caps, token limit warnings, missing frontmatter fields, and progressive disclosure gaps.
+- **Tool-Agnostic Design** — Removed hardcoded browser/MCP/CLI dependencies from 8 skills. Skills describe the *what* (capabilities), not the *how* (specific tools). See `dev-environment-audit` for setup guidance.
+- **Eval Framework (in progress)** — New `scripts/eval/schema.json` for standardized skill evaluation. Phases 1-3 in development (eval runners, coverage, gates).
 
 ---
 
@@ -162,7 +164,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (41 skills) →** [`docs/skills.html`](./docs/skills.html)
+**Full catalog (55 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
 
 ---
 
@@ -233,7 +235,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.15.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.0.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
@@ -290,7 +292,8 @@ Ideas borrowed from the ecosystem, adapted to fit our philosophy. We don't copy.
 
 | Source | What We Took | How We Adapted |
 |---|---|---|---|
-| [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 41 skills with lazy loading, guides, and enforcement |
+| [Singhal et al. — *Agent Skills* (Google, 2026)](https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view) | EDD (Evaluation-Driven Development), 4 failure modes, Read/Draft/Act tiers, eval toolkit (5 patterns), meta-skills, skill smells | Created v2.0.0 eval framework (`scripts/eval/`), skill tier system in frontmatter, smells detection in skill-lint.sh, 14 new skills completing the lifecycle pipeline |
+| [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 55 skills with lazy loading, guides, enforcement, and evaluation system |
 | [Osmani, Saboo & Kartakis — *The New SDLC With Vibe Coding*](https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view) (2026) | Harness engineering, factory model, agentic engineering spectrum | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added AI review checklist, expanded Memory system |
 | [github/spec-kit](https://github.com/github/spec-kit) (2026) | Structured clarification before planning, convergence checks, research artifacts, parallel task markers | Added P2 Clarification + P10 Convergence to `spec-driven-development`, `architecture/research.md` artifact, `[S]/[P]/[Pm]` markers to `planning-and-task-breakdown` |
 | [Affaan Mustafa / ECC](https://github.com/affaan-m/ECC) | Cross-platform enforcement, SOUL.md pattern, shared memory gap analysis | Created SOUL.md, mechanical enforcement, incident-driven evolution |
