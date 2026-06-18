@@ -113,14 +113,14 @@ init-agents</code></pre>
     <pre><code>cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
 cp scripts/git-hooks/commit-msg .git/hooks/commit-msg
 chmod +x .git/hooks/pre-commit .git/hooks/commit-msg
-cp scripts/approve-commit.sh scripts/</code></pre>
+cp scripts/commit-approval.sh scripts/</code></pre>
     <h2 id="troubleshooting" data-i18n="gettingStarted.troubleshooting">Troubleshooting</h2>
     <table>
       <tr><th>Issue</th><th>Solution</th></tr>
       <tr><td>"init-agents: command not found"</td><td>Source your shell config: <code>source ~/.zshrc</code></td></tr>
       <tr><td>"STACK_CONFIG.md not found"</td><td>Run <code>init-agents</code> in your project</td></tr>
       <tr><td>Pre-commit hook not firing</td><td>Run <code>bash scripts/init-agents.sh</code> to reinstall</td></tr>
-      <tr><td>Token hash mismatch</td><td>Stale token. Run <code>bash scripts/approve-commit.sh "message" --auto</code> again</td></tr>
+      <tr><td>"No commit approval found"</td><td>Agent must present DECISION POINT, get "yes commit", then run <code>bash scripts/commit-approval.sh "message"</code></td></tr>
     </table>
         <div class="docs__nav">
       <a href="index.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="gettingStarted.prevPage">Overview</span></a>

@@ -21,7 +21,7 @@ This project is a complete open-source Harness.
 | **2. Tools** | Task-specific capabilities loaded on demand | 41 skills in `skills/`, 47 guides, MCP servers, shell scripts |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI environment, Docker |
 | **4. Orchestration** | When each tool fires, how agents coordinate | `skill-gate.sh`, `init-agents.sh`, `multi-agent-orchestration` skill, `.sessionrc` |
-| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v8 (9 gates), `commit-msg` hook v4, `edit-guard.sh`, `approve-commit.sh`, `task-manifest.sh` |
+| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v8 (9 gates), `commit-msg` hook v5, `edit-guard.sh`, `commit-approval.sh`, `task-manifest.sh` |
 | **6. Observability** | Evidence that it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md`, `development/INCIDENT_*` |
 
 ---
@@ -60,8 +60,8 @@ The harness routes failures back to the agent for self-correction:
 
 The harness ensures safe behavior in production:
 
-- **commit-msg hook v4** validates SHA256 tokens — agent cannot forge what it cannot bypass
-- **approve-commit.sh** requires a written manifest before generating tokens
+- **commit-msg hook v5** checks time-window (<5 min) — agent writes approval after "yes commit" in chat
+- **commit-approval.sh** writes `.git/COMMIT_APPROVED` with timestamp after user says "yes commit" in chat (time-window based, no friction)
 - **HEALTH-CHECK.md** is re-audited every 7 days (Rule 0b)
 - **PROGRESS_STATUS.md** tracks project state against actual disk
 
@@ -72,7 +72,7 @@ The harness ensures safe behavior in production:
 | Dimension | Vibe Coding | This Project (Agentic Engineering) |
 |---|---|---|
 | Intent specification | Casual prompts | Formal specs, AGENTS.md, STEERING-GUIDE.md |
-| Verification | "Does it seem to work?" | Automated gates, SHA256 tokens, validate-skill-table.sh |
+| Verification | "Does it seem to work?" | Automated gates, time-window approval, validate-skill-table.sh |
 | Codebase understanding | Minimal | 41 skills with lazy-loaded guides |
 | Error handling | Copy-paste errors back to AI | Pre-commit blocks, edit-guard integrity checks |
 | Appropriate scope | Prototypes, scripts | Production systems, team-scale |

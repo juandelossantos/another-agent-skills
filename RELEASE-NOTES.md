@@ -1,5 +1,43 @@
 # Release Notes
 
+## 1.14.0 (2026-06-17)
+
+v1.14.0: Time-Window Approval — Replace SHA256 token system with frictionless timestamp-based approval.
+
+### What Changed
+
+The old `approve-commit.sh` used SHA256 hashes to bind commit messages to approval tokens. This created:
+- **False security:** The `--auto` flag bypassed real verification (agent asserted "user said yes")
+- **Complexity for no benefit:** The user never saw or touched the token
+- **Maintenance burden:** Hash mismatches blocked legitimate commits
+
+The new system uses a **time-window check** instead:
+
+1. Agent presents DECISION POINT (manifest + diff + test results)
+2. User says "yes commit" in chat
+3. Agent runs `bash scripts/commit-approval.sh "message"`  
+4. This writes `.git/COMMIT_APPROVED` with timestamp + message (plain text, no hash)
+5. Agent commits
+6. `commit-msg` hook v5 checks: file exists? <5 min old? message matches? → allows
+7. File deleted after successful commit (no reuse)
+
+### Files
+
+- **NEW** `scripts/commit-approval.sh` — Timestamp-based approval writer
+- **REMOVED** `scripts/approve-commit.sh` — Replaced by commit-approval.sh
+- **UPDATED** `scripts/git-hooks/commit-msg` — v5: time-window check replaces hash verification
+- **UPDATED** `scripts/git-hooks/pre-commit` — Removed stale COMMIT_APPROVED reference
+- **UPDATED** `rules/common/enforcement.md` — Rule 12 reflects new time-window mechanism
+- **UPDATED** `AGENTS-EXTENDED.md` — Commit Manifest Protocol updated
+- **UPDATED** `install.sh`, `init-agents.sh` — Reference commit-approval.sh instead
+
+### Impact
+
+- Zero friction for the developer (no tokens, no scripts to run)
+- 10 automated tests pass (sin args, format, freshness, expired, valid, reuse)
+- All SKILL.md files unchanged
+- commit-msg hook version: v4 → v5
+
 ## 1.13.0 (2026-06-16)
 
 v1.13.0: Spec-Driven Refinements — Clarification, Convergence, Research Artifact, Parallel Markers.

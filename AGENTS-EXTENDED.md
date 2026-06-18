@@ -251,14 +251,14 @@ User can disable this gate by saying:
 
 **Keywords:**
 - `yes` alone = plan approval only (no git operations)
-- `yes commit` = commit approval (agent runs approve-commit.sh --auto and commits)
+- `yes commit` = commit approval (agent runs commit-approval.sh and commits)
 - `yes push` = push approval (agent pushes to origin)
 
 **Correct flow:**
 1. Agent presents plan → user says "yes"
 2. Agent executes plan
 3. Agent presents Commit Manifest → user says "yes commit"
-4. Agent runs `bash scripts/approve-commit.sh "msg" --auto` (no prompt — approval is in chat)
+4. Agent runs `bash scripts/commit-approval.sh "msg"` (no prompt — approval is in chat)
 5. Agent commits
 
 **NEVER:** Agent commits without "yes commit" in chat. Chat history is the audit trail.
@@ -381,24 +381,26 @@ This is a **process violation** regardless of content quality.
 
 Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? → NOT exempt. Iteration? → NOT exempt. Already approved? → Does not transfer. <3 lines? → NOT exempt. Trust? → Does not waive gate. **No commit is exempt.**
 
-### Hash-Bound Token Generation
+### Time-Window Approval
 
-**The agent generates tokens AFTER user approval in chat.** The flow:
+**The agent writes approval AFTER user says "yes commit" in chat.** The flow:
 
-1. Agent presents Commit Manifest
+1. Agent presents Commit Manifest + test results + diff
 2. User says "yes commit" in chat
-3. Agent runs `bash scripts/approve-commit.sh "msg" --auto`
-4. Script generates token (no interactive prompt — approval is in chat history)
+3. Agent runs `bash scripts/commit-approval.sh "msg" "file1.ts" "file2.ts"`
+4. Script writes `.git/COMMIT_APPROVED` with timestamp
 5. Agent commits
+6. `commit-msg` hook verifies: file exists? <5 min old? message matches? → allows
+7. File deleted after commit (no reuse)
 
 **Why this works:**
 | Without "yes commit" | With "yes commit" |
 |---|---|
-| Agent cannot run --auto (no approval) | Agent runs --auto (approval in chat) |
-| Commit is blocked | Commit proceeds |
+| Agent writes nothing (Rule 12 violation) | Agent writes COMMIT_APPROVED |
+| Commit is blocked by hook | Commit proceeds |
 | Chat history shows no approval | Chat history shows "yes commit" |
 
-**Audit trail:** The conversation history is the audit trail. If the agent commits without "yes commit" in chat, it's a visible Rule 12 violation.
+**Audit trail:** The conversation history is the primary audit trail. The time-window (5 min) prevents the agent from reusing old approvals. The escape hatch (`OVERRIDE: reason`) logs bypasses.
 
 ### Post-Commit Verification
 

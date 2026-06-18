@@ -9,12 +9,10 @@
 # 6) Debug 3-strikes: track fix/debug commits, escalate at 3
 # 7) SPEC enforcement: warn when new scripts lack spec
 #
-# Token validation moved to commit-msg hook (v7).
+# Approval check moved to commit-msg hook (v5).
 # pre-commit runs BEFORE commit message is written, so it cannot
-# validate a token that depends on the message hash.
-# commit-msg runs AFTER message is written and handles validation + cleanup.
-#
-# v7: Remove token validation from pre-commit (design bug fix)
+# validate commit message matching.
+# commit-msg runs AFTER message is written and handles approval + cleanup.
 
 set -euo pipefail
 
@@ -25,7 +23,6 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-COMMIT_APPROVED="${REPO_ROOT}/.git/COMMIT_APPROVED"
 OVERRIDE_LOG="${REPO_ROOT}/.git/OVERRIDE_LOG"
 ESCALATION_THRESHOLD=3
 
@@ -123,8 +120,8 @@ fi
 
 # 5. Mutation approval — handled by commit-msg hook (runs after message is written)
 # Token validation moved to commit-msg hook v7 because pre-commit runs BEFORE
-# COMMIT_EDITMSG is written, making hash validation impossible here.
-# If no token exists when commit-msg runs, it will BLOCK and require approval.
+# COMMIT_EDITMSG is written, making message validation impossible here.
+# If no COMMIT_APPROVED exists when commit-msg runs, it will BLOCK.
 
 OVERRIDE_COUNT=$(count_overrides)
 if [ "$OVERRIDE_COUNT" -ge "$ESCALATION_THRESHOLD" ]; then

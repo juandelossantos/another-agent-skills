@@ -455,7 +455,7 @@ show_next_steps() {
         [[ -L "./AGENTS-EXTENDED.md" ]] && echo "    ✓ AGENTS-EXTENDED.md — anti-rationalization table"
         [[ -L "./VERSION" ]] && echo "    ✓ VERSION — framework version"
         local linked_scripts=0
-        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh approve-commit.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
             [[ -L "./scripts/${s}" ]] && linked_scripts=$((linked_scripts + 1))
         done
         [[ ${linked_scripts} -gt 0 ]] && echo "    ✓ scripts/ — ${linked_scripts} enforcement scripts"
@@ -589,7 +589,7 @@ install_framework_symlinks() {
 
     # Individual enforcement scripts (not the whole scripts/ dir — projects may have their own)
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-                  approve-commit.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
         link_or_skip "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
     done
 

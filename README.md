@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v1.13.0](https://img.shields.io/badge/version-1.13.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v1.14.0](https://img.shields.io/badge/version-1.14.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
@@ -64,7 +64,7 @@ Run `init-agents` in every new project — it:
 | **2. Tools** | Task-specific capabilities loaded on demand | 41 skills in `skills/`, 47 guides, MCP servers |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v4, approve-commit.sh |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v5, commit-approval.sh |
 | **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
 
 [**Full Harness architecture →**](./docs/HARNESS.md)
@@ -93,7 +93,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 **Six Layers Beyond Prompts:**
 
 1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v8 with 9 gates. Token validation via commit-msg v4. No other framework does this.
+2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v8 with 9 gates. Time-window approval via commit-msg v5. No other framework does this.
 3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
 4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
 5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
@@ -108,12 +108,11 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v1.13.0
+## What's New in v1.14.0
 
-- **Structured Clarification** — New P2 in `spec-driven-development`: gap analysis with coverage-based questioning before planning
-- **Convergence Check** — New P10 in `spec-driven-development`: post-implementation spec vs code verification
-- **Research Artifact** — `architecture-analysis` now persists findings to `architecture/research.md`
-- **Parallel Task Markers** — `[S]`/`[P]`/`[Pm]` markers in `planning-and-task-breakdown` for multi-agent orchestration
+- **Time-Window Approval** — Replaced SHA256 token system with simple timestamp-based `commit-approval.sh`. No friction. No token generation. The `commit-msg` hook v5 verifies: file exists? <5 min old? message matches?
+- **commit-msg v5** — Time-window freshness check replaces v4 hash verification. After successful validation, the approval file is deleted (no reuse).
+- **Rule 12 updated** — Reflects new time-window mechanism. Primary enforcement is behavioral; the hook is a safety net.
 
 ---
 
@@ -174,7 +173,7 @@ Another Agent Skills works with multiple AI coding agents. **Git hooks work ever
 | Feature | OpenCode | Claude Code | Cursor | Kiro | Any Git Agent |
 |---|---|---|---|---|---|
 | Git hooks (pre-commit, commit-msg) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
-| Manifest gate (approve-commit.sh) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
+| Manifest gate (commit-approval.sh) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | SOUL.md + AGENTS.md rules | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
 | Skill concepts (TOOL_GAP, severity) | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
 | i18n (EN/ES) | ✅ auto | ❌ N/A | ❌ N/A | ❌ N/A | ❌ N/A |
@@ -234,14 +233,14 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.13.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v1.14.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (41 skills, 0 lint warnings) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
 | [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v8 (9 gates) |
 | [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v4 (token validation) |
-| [`scripts/approve-commit.sh`](./scripts/approve-commit.sh) | Commit approval with mandatory manifest gate |
+| [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
 
@@ -290,9 +289,10 @@ Does not remove your user profile (`~/.config/opencode/user-profile.json`) or th
 Ideas borrowed from the ecosystem, adapted to fit our philosophy. We don't copy. We synthesize.
 
 | Source | What We Took | How We Adapted |
-|---|---|---|
+|---|---|---|---|
 | [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 41 skills with lazy loading, guides, and enforcement |
 | [Osmani, Saboo & Kartakis — *The New SDLC With Vibe Coding*](https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view) (2026) | Harness engineering, factory model, agentic engineering spectrum | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added AI review checklist, expanded Memory system |
+| [github/spec-kit](https://github.com/github/spec-kit) (2026) | Structured clarification before planning, convergence checks, research artifacts, parallel task markers | Added P2 Clarification + P10 Convergence to `spec-driven-development`, `architecture/research.md` artifact, `[S]/[P]/[Pm]` markers to `planning-and-task-breakdown` |
 | [Affaan Mustafa / ECC](https://github.com/affaan-m/ECC) | Cross-platform enforcement, SOUL.md pattern, shared memory gap analysis | Created SOUL.md, mechanical enforcement, incident-driven evolution |
 | [Sub-Zero Skill](https://github.com/henchmarketing-rgb/sub-zero-skill) | TOOL_GAP verdict, fresh-context verification, drift detection | Added to SOUL.md principle 8, Rule 0h, code-review-and-quality, project-health-check, shipping-and-launch |
 | [awesome-skills/code-review-skill](https://github.com/awesome-skills/code-review-skill) | 6-level severity labels | Added to code-review-and-quality skill |

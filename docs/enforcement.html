@@ -54,11 +54,11 @@
     <h2 data-i18n="enforcement.level2">Level 2: Visible Manifest (Guardian Pattern)</h2>
     <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
 
-    <h2 data-i18n="enforcement.level3">Level 3: SHA256 Hash-Bound Token</h2>
-    <p data-i18n="enforcement.level3Desc">The commit-msg hook verifies that a SHA256 token matches the commit message. The agent cannot bypass what it cannot forge. Token is deleted after each commit.</p>
+    <h2 data-i18n="enforcement.level3">Level 3: Time-Window Approval</h2>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook v5 verifies that a <code>.git/COMMIT_APPROVED</code> file exists, is less than 5 minutes old, and matches the commit message. No SHA256 tokens, no hash math. The agent writes this file only after user says "yes commit" in chat.</p>
 
     <h2 data-i18n="enforcement.level4">Level 4: Manifest Gate</h2>
-    <p data-i18n="enforcement.level4Desc">Before a token can be generated, a manifest file must exist at <code>.git/COMMIT_MANIFEST</code>. The agent MUST write this file before running <code>approve-commit.sh</code>. This prevents generating tokens without presenting changes.</p>
+    <p data-i18n="enforcement.level4Desc">Before a commit approval can be written, a manifest file must exist at <code>.git/COMMIT_MANIFEST</code>. The agent MUST write this file before running <code>commit-approval.sh</code>. This prevents committing without presenting changes.</p>
 
     <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v8)</h2>
     <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 9 checks before every commit:</p>
@@ -81,7 +81,7 @@
       <li data-i18n="enforcement.harnessComp2">2. Tools — 41 skills loaded on demand via skill gate.</li>
       <li data-i18n="enforcement.harnessComp3">3. Sandboxes & Execution — Terminal, git workspace, CI.</li>
       <li data-i18n="enforcement.harnessComp4">4. Orchestration — skill-gate.sh, init-agents.sh, multi-agent patterns.</li>
-      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v8 (9 gates), commit-msg v4, approve-commit.sh.</li>
+      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v8 (9 gates), commit-msg v5, commit-approval.sh.</li>
       <li data-i18n="enforcement.harnessComp6">6. Observability — project-metrics, HEALTH-CHECK.md, PROGRESS_STATUS.md.</li>
     </ul>
 
@@ -89,7 +89,7 @@
     <p data-i18n="enforcement.incidentDesc">Three Rule 12 violations in 48 hours produced three levels of enforcement:</p>
     <ul>
       <li data-i18n="enforcement.incident1">INCIDENT_001: Agent committed without approval → Added visible manifest requirement</li>
-      <li data-i18n="enforcement.incident2">INCIDENT_002: Agent bypassed manifest → Added SHA256 hash-bound tokens</li>
+      <li data-i18n="enforcement.incident2">INCIDENT_002: Agent bypassed manifest → Added time-window approval (replaced SHA256 tokens)</li>
       <li data-i18n="enforcement.incident3">INCIDENT_003: Agent generated tokens without real approval → Added mandatory manifest gate</li>
     </ul>
 
@@ -100,7 +100,7 @@
     <p data-i18n="enforcement.scriptsDesc">Key scripts that enforce the workflow:</p>
     <table>
       <tr><th data-i18n="enforcement.script1Name">Script</th><th data-i18n="enforcement.script1Desc">Purpose</th></tr>
-      <tr><td><code>approve-commit.sh</code></td><td data-i18n="enforcement.script1Desc">Generate approval token (requires manifest)</td></tr>
+      <tr><td><code>commit-approval.sh</code></td><td data-i18n="enforcement.script1Desc">Write commit approval (requires manifest, time-window checked)</td></tr>
       <tr><td><code>edit-guard.sh</code></td><td data-i18n="enforcement.script2Desc">Verify file structural integrity</td></tr>
       <tr><td><code>pre-flight.sh</code></td><td data-i18n="enforcement.script3Desc">Check git state before editing</td></tr>
       <tr><td><code>skill-gate.sh</code></td><td data-i18n="enforcement.script4Desc">Verify skills were consulted</td></tr>
