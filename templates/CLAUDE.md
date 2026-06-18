@@ -4,7 +4,7 @@ This project uses [Another Agent Skills](https://github.com/juandelossantos/anot
 
 ## Global Skills Reference
 
-Skills are installed at `~/.config/opencode/skills/`. When assigned a task, load the matching skill before writing code:
+Skills are installed at `~/.config/opencode/skills/` (or `$AGENT_SKILLS_DIR/skills/`). When assigned a task, load the matching skill before writing code:
 
 | Task | Skill |
 |---|---|

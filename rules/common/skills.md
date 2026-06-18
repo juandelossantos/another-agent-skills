@@ -10,7 +10,7 @@ For EVERY request:
 1. Determine if any skill applies (even 1% chance)
 2. If yes → Invoke it using the `skill` tool
 3. NEVER implement directly if a skill applies
-4. ALWAYS follow the skill exactly
+4. ALWAYS follow the skill exactly (or read skills/<name>/SKILL.md directly if skill() tool unavailable)
 
 **Skill Hierarchy:** Foundation → Frontend → Backend → DevOps → Process → Quality → Metrics. See AGENTS-EXTENDED.md for full table.
 

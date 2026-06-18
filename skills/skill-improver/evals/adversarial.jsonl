@@ -1,0 +1,2 @@
+{"case_id":"rephrase_improve_001","type":"rephrasing","input":"My skill isn't passing its evaluations, can you help?","description":"Same improvement intent, different wording"}
+{"case_id":"boundary_create_001","type":"negative_boundary","input":"Generate a new skill for this workflow I have","description":"Creating a new skill — should use skill-creator, not skill-improver"}

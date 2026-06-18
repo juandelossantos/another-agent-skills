@@ -20,8 +20,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 REMOTE_REPO="https://github.com/addyosmani/agent-skills.git"
-REMOTE_DIR="${HOME}/.config/opencode/.agent-skills-remote"
-GLOBAL_SKILLS_DIR="${HOME}/.config/opencode/skills"
+: "${AGENT_SKILLS_DIR:=$HOME/.config/opencode}"
+REMOTE_DIR="${AGENT_SKILLS_DIR}/.agent-skills-remote"
+GLOBAL_SKILLS_DIR="${AGENT_SKILLS_DIR}/skills"
 ZSHRC="${HOME}/.zshrc"
 BASHRC="${HOME}/.bashrc"
 FISH_CONFIG="${HOME}/.config/fish/config.fish"
@@ -50,7 +51,7 @@ check_prerequisites() {
         error "bash is required but not installed. Aborting."
         exit 1
     fi
-    mkdir -p "${HOME}/.config/opencode"
+    mkdir -p "${AGENT_SKILLS_DIR}"
     ok "Prerequisites met."
 }
 
@@ -132,14 +133,14 @@ install_custom_skills() {
 install_opencode_plugin() {
     info "Installing OpenCode agent-discipline plugin..."
     local plugin_src="${SCRIPT_DIR}/.opencode/plugins/agent-discipline"
-    local plugin_dst="${HOME}/.config/opencode/plugins/agent-discipline"
+    local plugin_dst="${AGENT_SKILLS_DIR}/plugins/agent-discipline"
 
     if [[ ! -d "${plugin_src}" ]]; then
         warn "Plugin source not found at ${plugin_src}. Skipping."
         return 0
     fi
 
-    mkdir -p "${HOME}/.config/opencode/plugins"
+    mkdir -p "${AGENT_SKILLS_DIR}/plugins"
 
     if [[ -d "${plugin_dst}" ]]; then
         if [[ -L "${plugin_dst}" ]]; then
@@ -163,7 +164,7 @@ install_opencode_plugin() {
 # ---------------------------------------------------------------------------
 install_global_framework() {
     info "Installing framework files to global directory..."
-    local global_dir="${HOME}/.config/opencode"
+    local global_dir="${AGENT_SKILLS_DIR}"
 
     # rules/common/
     mkdir -p "${global_dir}/rules/common"
@@ -335,7 +336,7 @@ fi
 if [[ -z "${SKILLS_REPO}" ]]; then
     for candidate in \
         "${HOME}/another-agent-skills" \
-        "${HOME}/.config/opencode/another-agent-skills" \
+        "${AGENT_SKILLS_DIR}/another-agent-skills" \
         "${HOME}/.local/share/another-agent-skills" \
         "${HOME}/workspace/another-agent-skills" \
         "${HOME}/projects/another-agent-skills"; do
@@ -367,7 +368,7 @@ EXEC_SCRIPT
 
 set -euo pipefail
 
-_REMOTE="${HOME}/.config/opencode/.agent-skills-remote"
+_REMOTE="${AGENT_SKILLS_DIR}/.agent-skills-remote"
 
 if [[ -d "${_REMOTE}" ]]; then
     echo "Pulling latest changes from addyosmani/agent-skills..."
@@ -420,7 +421,7 @@ verify_installation() {
     fi
 
     # Verify global framework files
-    local global_dir="${HOME}/.config/opencode"
+    local global_dir="${AGENT_SKILLS_DIR}"
     echo ""
     info "Framework files:"
     for file in SOUL.md AGENTS-EXTENDED.md VERSION; do

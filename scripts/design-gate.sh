@@ -15,7 +15,7 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 
 DESIGN_MD="$REPO_ROOT/DESIGN.md"
 DESIGN_LOCK="$REPO_ROOT/design/DESIGN-LOCK.md"
-SKILL_MARKER="$REPO_ROOT/.opencode/.design-skill-loaded"
+SKILL_MARKER="$REPO_ROOT/.git/AGENT_WORK/.design-skill-loaded"
 SPEC_MD="$REPO_ROOT/SPEC.md"
 
 echo ""

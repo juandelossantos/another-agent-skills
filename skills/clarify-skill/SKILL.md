@@ -7,7 +7,7 @@ description: >
   user, or button copy is ambiguous.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash
 tier: read-only
 metadata:

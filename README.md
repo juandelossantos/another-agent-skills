@@ -5,8 +5,9 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 
-**55 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
+**57 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process. Harness. Repeat.**
+**+3 meta-skills to create, improve, and harvest your own.**
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
 
@@ -34,7 +35,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 55 custom skills + 47 guides + 6 harness components.
+**That's it.** Your AI agent now has 57 custom skills + 47 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -61,7 +62,7 @@ Run `init-agents` in every new project — it:
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 55 skills in `skills/`, 47 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 47 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh |
@@ -79,7 +80,7 @@ After installation, these commands are available in your terminal:
 |---|---|
 | `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 55 skills, shell config, global scripts. |
+| `bash install.sh` | Full installer: 57 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
@@ -107,6 +108,14 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 47 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v2.1.0
+
+- **Meta-Skills** — Three new skills for creating, improving, and harvesting your own skills:
+  - [`skill-creator`](skills/skill-creator/SKILL.md) — Generate complete skills from descriptions
+  - [`skill-improver`](skills/skill-improver/SKILL.md) — Diagnose eval failures and propose fixes
+  - [`trace-harvesting`](skills/skill-creator/references/trace-harvesting.md) — Convert successful agent traces into skills
+  - Full guide: [`docs/META-SKILLS-GUIDE.md`](docs/META-SKILLS-GUIDE.md)
 
 ## What's New in v2.0.0
 
@@ -164,7 +173,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (55 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
+**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
 
 ---
 

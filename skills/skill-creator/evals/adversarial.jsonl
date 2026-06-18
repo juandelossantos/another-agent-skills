@@ -1,0 +1,2 @@
+{"case_id":"rephrase_create_001","type":"rephrasing","input":"I need a new skill, can you build one from this description?","description":"Same creation intent, different wording"}
+{"case_id":"boundary_fix_001","type":"negative_boundary","input":"Fix the description of my existing skill","description":"Modifying an existing skill — not creating a new one"}

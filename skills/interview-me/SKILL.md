@@ -7,7 +7,7 @@ description: >
   Do NOT use when requirements are already clear and documented.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read
 tier: read-only
 metadata:

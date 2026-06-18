@@ -6,7 +6,7 @@ description: >
   Runs automatically — no direct invocation. Data in ~/.config/opencode/quality-metrics.json.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash
 tier: action-allowed
 metadata:

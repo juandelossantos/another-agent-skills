@@ -3,7 +3,7 @@ name: shipping-and-launch
 description: Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write
 tier: draft
 metadata:

@@ -5,7 +5,7 @@ description: >
   returning after gap, or user asks "check health", "audit codebase", "technical debt".
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash Write
 tier: action-allowed
 metadata:

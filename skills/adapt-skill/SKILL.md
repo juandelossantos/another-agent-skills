@@ -6,7 +6,7 @@ description: >
   layouts break between breakpoints or mobile feels bolted-on.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash
 tier: read-only
 metadata:

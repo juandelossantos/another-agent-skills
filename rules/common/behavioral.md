@@ -60,4 +60,17 @@ The agent must act as a Socratic midwife — not a passive executor:
 4. **Question scope creep** — "Is this in scope?" before expanding the change
 5. **Say "no" when justified** — "No, that's overcomplicated" is more valuable than blind compliance
 
+### Rule 0k: Universal First
+
+**Before any implementation, ask: "Does this work on OpenCode, Claude Code, Cursor, Devin, and Gemini CLI?"**
+
+If the answer is no, the design must be revised to be:
+1. **Configurable** — Use env vars with universal defaults (e.g., `$AGENT_SKILLS_DIR` with fallback to `~/.config/opencode/`)
+2. **Descriptive** — Describe capabilities, not specific tools (e.g., "browser testing tools" not "Playwright")
+3. **Fallback-compatible** — Provide alternative paths for agents that lack OpenCode-specific features (e.g., `skill()` tool → read SKILL.md directly)
+
+**Precedent:** `browser-testing-with-devtools` skill — original version assumed Chrome DevTools MCP, revised to describe both Playwright (built-in) and MCP-based approaches without assuming either.
+
+**Never:** Hardcode agent-specific paths, APIs, or tool names without a universal fallback.
+
 Use `doubt-driven-development` skill for adversarial review of non-trivial decisions.

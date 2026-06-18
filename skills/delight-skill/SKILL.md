@@ -6,7 +6,7 @@ description: >
   Use when a UX feels stiff, lifeless, or lacks feedback.
 version: 1.0.0
 license: MIT
-compatibility: opencode
+compatibility: all
 allowed-tools: Read Bash
 tier: read-only
 metadata:
