@@ -83,6 +83,9 @@ if [ "$STORED_MSG" != "$CURRENT_MSG" ]; then
     exit 1
 fi
 
-# All checks passed. Delete approval and allow commit.
+# All checks passed. Show evidence and allow commit.
+AGE=$((NOW_EPOCH - TS_EPOCH))
+echo ""
+echo -e "\033[0;32m✓\033[0m Commit approved (time-window: ${AGE}s old, <5 min limit)."
 rm -f "$APPROVAL_FILE"
 exit 0
