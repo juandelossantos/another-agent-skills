@@ -47,7 +47,7 @@ Three incidents taught us this. Rule 12 violations happened not because the agen
 Evolution of enforcement:
 - v1: Process rules (agent remembers)
 - v2: Visible manifest (agent presents)
-- v3: SHA256 hash-bound token (hook verifies)
+- v3: Time-window approval (commit-msg v5 checks freshness)
 
 Each level removed a failure mode. The agent cannot bypass what it cannot forge.
 

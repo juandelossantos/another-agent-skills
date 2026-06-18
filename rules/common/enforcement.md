@@ -42,7 +42,7 @@ Run `bash scripts/edit-guard.sh` before and after every file edit. See AGENTS-EX
 
 ### Step 4 — Edit-to-Commit Barrier (BLOCKING)
 
-After completing edits, the agent MUST STOP before any git add/commit. No commit without a Commit Manifest. See AGENTS-EXTENDED.md for full Commit Manifest Protocol, hash-bound token generation, and batch-mode prevention rules.
+After completing edits, the agent MUST STOP before any git add/commit. No commit without a Commit Manifest. See AGENTS-EXTENDED.md for full Commit Manifest Protocol, time-window approval, and batch-mode prevention rules.
 
 ---
 
@@ -56,23 +56,29 @@ Before ANY mutation, present the DECISION POINT block (see AGENTS-EXTENDED.md fo
 
 ### Rules:
 - **NEVER batch approval.** Previous approval does not transfer. Every mutation is a separate decision.
-- **Commit and push are SEPARATE decisions.** Commit manifest approves commit only. After commit, ask about push.
+- **Commit and push are SEPARATE decisions.** Plan approval ≠ commit approval ≠ push approval.
 - **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
-- **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit manifest → get approval → commit. Never bundle "I'll fix X and commit" as one decision. Each commit is unique — even if multiple changes were approved together.
-- **"yes commit" = commit approval.** When user types "yes commit" in chat, agent runs approve-commit.sh and commits. Plain "yes" = plan approval only.
-- **"yes push" = push approval.** When user types "yes push" in chat, agent pushes to origin. Plain "yes" = plan approval only.
+- **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit manifest + test results → get approval → commit.
+- **"yes commit" = commit approval.** When user types "yes commit" in chat, agent runs `commit-approval.sh` and commits.
+- **"yes push" = push approval.** When user types "yes push" in chat, agent pushes.
 
-### MECHANICAL ENFORCEMENT:
+### MECHANICAL ENFORCEMENT (time-window based):
 
-A pre-commit git hook blocks `git commit` unless a `.git/COMMIT_APPROVED` token exists with the SHA256 hash of the exact commit message. **The agent CANNOT generate this token.** Only the user can approve commits by running:
+A `commit-msg` git hook blocks `git commit` unless a `.git/COMMIT_APPROVED` file exists with a timestamp less than 5 minutes old and a matching commit message. The agent writes this file ONLY after getting explicit "yes commit" from the user in chat.
 
-```bash
-bash scripts/approve-commit.sh "commit message here"
+```
+Flow:
+1. Agent: presents DECISION POINT (manifest + diff + test results)
+2. User: "yes commit" in chat
+3. Agent: bash scripts/commit-approval.sh "feat: message" → writes .git/COMMIT_APPROVED
+4. Agent: git commit -m "feat: message"
+5. Hook: checks file exists, <5 min old, message matches → allows
+6. File is deleted after successful commit (no reuse)
 ```
 
-This creates a mechanical gate: the agent presents the plan, the user approves via the script, then the agent commits. The agent has no way to bypass this — the token generation is user-initiated only.
+The hook is a safety net, not the primary enforcement. The primary enforcement is the agent's behavioral compliance with Rule 12. The escape hatch (`OVERRIDE: reason` in commit message body) allows bypassing for emergencies, logged to `.git/OVERRIDE_LOG`.
 
-See AGENTS-EXTENDED.md for full Commit Manifest Protocol, session-level lock, and user override details.
+See AGENTS-EXTENDED.md for full Commit Manifest Protocol and time-window details.
 
 ---
 
