@@ -1,0 +1,4 @@
+{"case_id":"trigger_pos_001","type":"trigger_positive","input":"I have an idea for an app but I'm not sure what I really need","expected_skill":"interview-me","description":"User has vague requirements — interview-me should trigger"}
+{"case_id":"trigger_pos_002","type":"trigger_positive","input":"build me something","expected_skill":"interview-me","description":"Underspecified request — interview-me should trigger"}
+{"case_id":"trigger_neg_001","type":"trigger_negative","input":"run npm test","expected_skill":"interview-me","description":"Clear command — interview-me should NOT trigger"}
+{"case_id":"exec_001","type":"execution","input":"I want to build a task manager","expected_skill":"interview-me","description":"Execution placeholder — will use LLM-as-Judge later"}
