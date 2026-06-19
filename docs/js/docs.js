@@ -37,7 +37,7 @@
      ========================================================= */
 
   const LANG_KEY = 'aas-lang';
-  let currentLang = localStorage.getItem(LANG_KEY) || 'en';
+  let currentLang = localStorage.getItem(LANG_KEY) || localStorage.getItem('lang') || 'en';
   let translations = {};
 
   function loadTranslations(lang) {
@@ -62,6 +62,7 @@
   function setLang(lang) {
     currentLang = lang;
     localStorage.setItem(LANG_KEY, lang);
+    localStorage.setItem('lang', lang);
     loadTranslations(lang).then(function(data) {
       translations = data;
       applyTranslations();
