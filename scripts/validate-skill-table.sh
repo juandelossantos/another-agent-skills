@@ -76,6 +76,26 @@ while IFS= read -r line; do
   fi
 done < "$TMP_FILE"
 
+# Verify guide counts
+while IFS= read -r line; do
+  [ -z "$line" ] && continue
+  skill=$(echo "$line" | sed 's/^| `\([^`]*\)`.*/\1/')
+  claimed_guides=$(echo "$line" | sed 's/^| `[^`]*` | [0-9]* | \([0-9]*\) .*/\1/')
+  if [ -d "$SKILLS_DIR/$skill" ]; then
+    actual_guides=0
+    root_guides=$(find "$SKILLS_DIR/$skill" -maxdepth 1 -type f \( -iname '*guide*' -o -iname '*checklist*' -o -iname '*examples*' -o -iname '*memory*' \) 2>/dev/null | wc -l)
+    actual_guides=$((actual_guides + root_guides))
+    if [ -d "$SKILLS_DIR/$skill/guides" ]; then
+      sub_guides=$(find "$SKILLS_DIR/$skill/guides" -name "*.md" 2>/dev/null | wc -l)
+      actual_guides=$((actual_guides + sub_guides))
+    fi
+    if [ "$claimed_guides" != "$actual_guides" ] 2>/dev/null; then
+      echo "FAIL: '$skill' claims $claimed_guides guides but actual count is $actual_guides"
+      ERRORS=$((ERRORS + 1))
+    fi
+  fi
+done < "$TMP_FILE"
+
 TOTAL_SKILLS=$(wc -l < "$TABLE_SKILLS")
 rm -f "$TMP_FILE" "$DISK_SKILLS" "$TABLE_SKILLS"
 
