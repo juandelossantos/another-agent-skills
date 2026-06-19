@@ -22,6 +22,9 @@ metadata:
 
 Harden does NOT redesign. It fixes what audit finds: accessibility, input robustness, state handling. If something needs a design decision, escalate to `polish` or `redesign`.
 
+→ See `guides/ACCESSIBILITY-FIXES-GUIDE.md` for WCAG-grounded fix catalog.
+→ See `guides/INPUT-ROBUSTNESS-GUIDE.md` for validation and keyboard handling.
+
 ## When to Use
 
 - After `audit` finds P0/P1 items

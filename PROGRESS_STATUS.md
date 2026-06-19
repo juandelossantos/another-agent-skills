@@ -24,12 +24,12 @@
 | `cli-tools` | 113 | 2 | Terminal-based tools with standard UX |
 | `code-review-and-quality` | 138 | 3 | Multi-axis code review with quality gates |
 | `code-simplification` | 40 | 0 | Simplify code for clarity |
-| `context-engineering` | 150 | 0 | Optimize agent context setup |
+| `context-engineering` | 126 | 2 | Optimize agent context setup |
 | `customize-opencode` | 34 | 0 | Configure OpenCode itself |
 | `critique-skill` | 169 | 3 | Two-pass design review with scoring |
 | `debugging-and-error-recovery` | 92 | 5 | Systematic root-cause debugging |
 | `debugging-three-strikes` | 23 | 1 | Stop speculative debugging at 3 failures |
-| `delight-skill` | 149 | 0 | Micro-interactions and transitions |
+| `delight-skill` | 152 | 2 | Micro-interactions and transitions |
 | `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration |
 | `dev-environment-audit` | 155 | 4 | MCPs, CLI tools, runtime verification |
 | `documentation-and-adrs` | 70 | 3 | Record decisions and documentation |
@@ -43,7 +43,7 @@
 | `fullstack-shipping` | 184 | 3 | CI/CD, deployment, monitoring, rollback |
 | `git-init-and-versioning` | 249 | 5 | Git setup, branching, hooks, commit gates |
 | `git-workflow-and-versioning` | 183 | 3 | Atomic commits, branching, conflict resolution |
-| `hard-skill` | 150 | 0 | Deterministic P0/P1 mechanical fixes |
+| `hard-skill` | 153 | 2 | Deterministic P0/P1 mechanical fixes |
 | `idea-refine` | 43 | 0 | Refine ideas through structured thinking |
 | `incremental-implementation` | 89 | 2 | Thin vertical slices, test each |
 | `industrial-brutalist-ui` | 78 | 0 | Raw industrial mechanical UI |

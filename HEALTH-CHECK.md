@@ -12,8 +12,8 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Errors (Check 14) | **6** (guide violations — Phase 6.5.4) |
-| Warnings | **19** |
+| Errors (Check 14) | **3** (guide violations — Phase 6.5.4) |
+| Warnings | **17** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -48,7 +48,7 @@
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
-| Skill lint | 🟡 8 errors, 19 warnings | |
+| Skill lint | 🟡 3 errors, 17 warnings | |
 
 ---
 
