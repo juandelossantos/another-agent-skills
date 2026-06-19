@@ -153,7 +153,7 @@ for skill_dir in "$SKILLS_DIR"/*/; do
     desc=$(sed -n '/^description: >/,/^[a-z]/p' "$skill_file" | tail -n +2 | head -2 | sed 's/^ *//' | tr '\n' ' ' | sed 's/ *$//' 2>/dev/null || echo "")
   fi
   desc_chars=$(printf "%s" "$desc" | wc -c | tr -d ' ')
-  desc_starts_verb=$(printf "%s" "$desc" | grep -ciE '^(Build|Design|Create|Fix|Evaluate|Audit|Rewrite|Add|Generate|Guide|Manage|Optimize|Polish|Refine|Simplify|Test|Extract|Develop|Define|Automate|Initialize|Instrument|Capture|Edit|Structure|Review|Stop|Document|Orchestrate|Prevent|Decompose)')
+  desc_starts_verb=$(printf "%s" "$desc" | grep -ciE '^(Build|Design|Create|Fix|Evaluate|Audit|Rewrite|Add|Generate|Guide|Manage|Optimize|Polish|Refine|Simplify|Test|Extract|Develop|Define|Automate|Initialize|Instrument|Capture|Edit|Structure|Review|Stop|Document|Orchestrate|Prevent|Decompose|Log)')
   desc_has_anti=$(printf "%s" "$desc" | grep -ciE '(Do NOT|Use ONLY|When NOT)')
   
   if [ "${desc_chars:-0}" -gt 200 ] 2>/dev/null; then
