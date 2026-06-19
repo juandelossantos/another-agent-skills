@@ -1,9 +1,6 @@
 ---
 name: delight-skill
-description: >
-  Add micro-interactions, transitions, hover states, and feedback
-  animations. Turns static UIs into responsive, tactile interfaces.
-  Use when a UX feels stiff, lifeless, or lacks feedback.
+description: Add micro-interactions, transitions, hover states, and feedback animations. Use when UX feels stiff or lifeless. Do NOT use for functional or utility UIs.
 version: 1.0.0
 license: MIT
 compatibility: all
