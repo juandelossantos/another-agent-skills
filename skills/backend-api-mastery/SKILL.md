@@ -68,7 +68,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 ---
 
 ### Phase 1 — Domain Discovery
-→ See `engineering-fundamentals` Phase 1. Then `DISCOVERY-GUIDE.md` for backend-specific checklist (10 questions: data/consumers/volume/auth/protocol/DB/ORM/integrations → 15 for non-trivial).
+→ See `engineering-fundamentals` Phase 1. Then `guides/DISCOVERY-GUIDE.md` for backend-specific checklist (10 questions: data/consumers/volume/auth/protocol/DB/ORM/integrations → 15 for non-trivial).
 
 ---
 
@@ -80,7 +80,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 
 ### Phase 3 — Protocol Decision
 
-Read `PROTOCOL-GUIDE.md` in this skill directory for the **complete protocol decision matrix**.
+Read `guides/PROTOCOL-GUIDE.md` in this skill directory for the **complete protocol decision matrix**.
 
 **Summary:** Generate 2-3 options (REST, GraphQL, tRPC, WebSocket). Never default to REST without justification. Include honest pros AND cons for each. Present to user for selection.
 
@@ -116,7 +116,7 @@ Document in `API-DESIGN.md` → Section "Data Model"
 
 ### Phase 5 — Auth & Security
 
-Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy matrix**.
+Read `guides/AUTH-GUIDE.md` in this skill directory for the **complete auth strategy matrix**.
 
 **Summary:** Choose auth strategy (Session/Cookie, JWT, OAuth, API Keys). Implement validation with Zod. Apply security checklist (HTTPS, CORS, input validation, SQL injection prevention, XSS prevention, rate limiting, secrets management, security headers).
 
@@ -133,7 +133,7 @@ Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy ma
 
 **Errors:** Use structured `{ error: { code, message, details, requestId } }`. Correct HTTP codes (200/201/204/400/401/403/404/409/422/429/500).
 
-**Testing:** See `TESTING-GUIDE.md`. Unit (Vitest) for services. Integration (Vitest + test DB) for endpoints. Contract (Zod/OpenAPI) for shapes. E2E (browser testing tools) for flows. Always separate test DB.
+**Testing:** See `guides/TESTING-GUIDE.md`. Unit (Vitest) for services. Integration (Vitest + test DB) for endpoints. Contract (Zod/OpenAPI) for shapes. E2E (browser testing tools) for flows. Always separate test DB.
 
 ---
 
@@ -159,7 +159,7 @@ Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy ma
 
 ## Examples
 
-See guides for full walkthroughs: `DISCOVERY-GUIDE.md` (simple CRUD blog API), `PROTOCOL-GUIDE.md` (e-commerce with GraphQL + Stripe).
+See guides for full walkthroughs: `guides/DISCOVERY-GUIDE.md` (simple CRUD blog API), `guides/PROTOCOL-GUIDE.md` (e-commerce with GraphQL + Stripe).
 
 ---
 
@@ -190,12 +190,12 @@ See guides for full walkthroughs: `DISCOVERY-GUIDE.md` (simple CRUD blog API), `
 ## Verification
 
 Before proceeding to implementation, confirm:
-- [ ] Phase 1: Discovery complete with 10+ questions answered. **(Verify in `DISCOVERY-GUIDE.md`)**
+- [ ] Phase 1: Discovery complete with 10+ questions answered. **(Verify in `guides/DISCOVERY-GUIDE.md`)**
 - [ ] Phase 2: Research completed with current year sources.
-- [ ] Phase 3: Protocol chosen with 2-3 options evaluated. **(Verify in `PROTOCOL-GUIDE.md`)**
+- [ ] Phase 3: Protocol chosen with 2-3 options evaluated. **(Verify in `guides/PROTOCOL-GUIDE.md`)**
 - [ ] Phase 4: Database type, ORM, and schema designed.
-- [ ] Phase 5: Auth strategy justified and security checklist complete. **(Verify in `AUTH-GUIDE.md`)**
-- [ ] Phase 6: Error format defined and testing strategy documented. **(Verify in `TESTING-GUIDE.md`)**
+- [ ] Phase 5: Auth strategy justified and security checklist complete. **(Verify in `guides/AUTH-GUIDE.md`)**
+- [ ] Phase 6: Error format defined and testing strategy documented. **(Verify in `guides/TESTING-GUIDE.md`)**
 - [ ] Phase 7: Documentation strategy (OpenAPI/GraphQL/tRPC types) chosen.
 - [ ] Phase 8: `API-DESIGN.md` created with all sections.
 - [ ] `SPEC.md` updated with API Design Decisions.

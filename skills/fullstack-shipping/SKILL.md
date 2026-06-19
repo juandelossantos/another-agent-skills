@@ -90,7 +90,7 @@ pipeline — not just the code — before any commit reaches production.
 
 **Generate 2-3 pipeline strategy options. Never default to GitHub Actions without justification.**
 
-→ **See `CICD-GUIDE.md` for the full 3 options and critical challenges.**
+→ **See `guides/CICD-GUIDE.md` for the full 3 options and critical challenges.**
 
 ---
 
@@ -109,7 +109,7 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 ### Phase 5 — Deployment Orchestration
 
-→ **Ver `DEPLOY-GUIDE.md` para estrategias de entorno, migraciones, secrets y rollback.**
+→ **Ver `guides/DEPLOY-GUIDE.md` para estrategias de entorno, migraciones, secrets y rollback.**
 
 ---
 
@@ -117,7 +117,7 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 **"Production" means "we don't know if it's working unless we watch it."**
 
-→ **Ver `DEPLOY-GUIDE.md` para categorías de monitoreo y reglas de alertas.**
+→ **Ver `guides/DEPLOY-GUIDE.md` para categorías de monitoreo y reglas de alertas.**
 
 ---
 
@@ -125,7 +125,7 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 **NO LAUNCH WITHOUT THIS CHECKLIST COMPLETE.**
 
-→ **Ver `LAUNCH-CHECKLIST-GUIDE.md` para el checklist completo de Pre-Launch, Launch Day y Post-Launch.**
+→ **Ver `guides/LAUNCH-CHECKLIST-GUIDE.md` para el checklist completo de Pre-Launch, Launch Day y Post-Launch.**
 
 ---
 

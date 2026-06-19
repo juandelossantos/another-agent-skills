@@ -62,7 +62,7 @@ This skill runs once per project, immediately after contracts (SPEC.md, DESIGN.m
 
 **NO FILES ARE CREATED UNTIL THIS DECISION IS MADE.**
 
-→ **Ver `REPO-STRUCTURE-GUIDE.md` para el cuestionario completo y casos de uso.**
+→ **Ver `guides/REPO-STRUCTURE-GUIDE.md` para el cuestionario completo y casos de uso.**
 
 **Lock the decision** and document it in `SETUP.md` or `README.md`.
 
@@ -99,7 +99,7 @@ This skill runs once per project, immediately after contracts (SPEC.md, DESIGN.m
 
 **Generate a `.gitignore` tailored to the tech stack from `SPEC.md`.**
 
-Read `GITIGNORE-TEMPLATES.md` in this skill directory for complete templates by stack (Node.js, Python, Rust, Go).
+Read `guides/GITIGNORE-TEMPLATES.md` in this skill directory for complete templates by stack (Node.js, Python, Rust, Go).
 
 **Summary of rules:**
 - `.env` and `.env.*` are gitignored to prevent secret leakage. The `.gitignore` template includes these patterns.
@@ -153,7 +153,7 @@ I've created .env.example with the environment variables this project needs.
 
 **Decide and document the branching model.**
 
-→ **See `BRANCHING-GUIDE.md` for the 3 options and documentation format.**
+→ **See `guides/BRANCHING-GUIDE.md` for the 3 options and documentation format.**
 
 ---
 
@@ -163,10 +163,10 @@ I've created .env.example with the environment variables this project needs.
 
 During BUILD phase, before every `git commit`, the agent MUST run a self-review. This gate prevents "commit now, fix later."
 
-**Create `.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md`)** from the template in `PRE_COMMIT_CHECKLIST.md` in this skill directory.
+**Create `.github/guides/PRE_COMMIT_CHECKLIST.md` (or `docs/guides/PRE_COMMIT_CHECKLIST.md`)** from the template in `guides/PRE_COMMIT_CHECKLIST.md` in this skill directory.
 
 **In SKILL.md, instruct the agent:**
-> "During BUILD phase, read `.github/PRE_COMMIT_CHECKLIST.md` (or `docs/PRE_COMMIT_CHECKLIST.md`) before every commit. Run through the checklist. Only commit if all checks pass."
+> "During BUILD phase, read `.github/guides/PRE_COMMIT_CHECKLIST.md` (or `docs/guides/PRE_COMMIT_CHECKLIST.md`) before every commit. Run through the checklist. Only commit if all checks pass."
 
 **After pre-commit review, log metrics:**
 ```
@@ -214,13 +214,13 @@ Create `SETUP.md` with: quick start, git workflow, env vars, useful commands.
 
 **If the user asks for versioning, releases, or changelogs.**
 
-→ See `RELEASE-GUIDE.md` for setup: VERSION file, RELEASE-NOTES.md, release.sh script.
+→ See `guides/RELEASE-GUIDE.md` for setup: VERSION file, RELEASE-NOTES.md, release.sh script.
 
 ---
 
 ## Examples
 
-See `REPO-STRUCTURE-GUIDE.md` for walkthroughs or `RELEASE-GUIDE.md` for release automation.
+See `guides/REPO-STRUCTURE-GUIDE.md` for walkthroughs or `guides/RELEASE-GUIDE.md` for release automation.
 
 ---
 
@@ -246,4 +246,4 @@ Code before Git init. Missing .gitignore. .env committed. First commit has node_
 
 Before BUILD: .git/ exists | .gitignore covers stack | .env ignored + .env.example | Repo structure decided | Branching documented | Pre-commit checklist exists | First commit = contracts+config, NOT generated code | Setup docs exist | Remote configured (if URL provided).
 
-See `BUILD-INTEGRATION-GUIDE.md` for pre-commit gate. **Goal:** Precision over speed. ~45 min upfront saves 5-15h.
+See `guides/BUILD-INTEGRATION-GUIDE.md` for pre-commit gate. **Goal:** Precision over speed. ~45 min upfront saves 5-15h.

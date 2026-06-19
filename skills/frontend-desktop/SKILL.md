@@ -72,7 +72,7 @@ Check for `STACK_CONFIG.md`:
 4. **Distribution**: App store, direct download, auto-updater required?
 5. **Offline**: Fully offline or occasional sync?
 
-Read `DISCOVERY-GUIDE.md` for complete desktop checklist.
+Read `guides/DISCOVERY-GUIDE.md` for complete desktop checklist.
 
 ---
 
@@ -149,7 +149,7 @@ Read `DISCOVERY-GUIDE.md` for complete desktop checklist.
 
 ### Phase 6 — Native OS Integration
 
-Read `PLATFORM-GUIDE.md`.
+Read `guides/PLATFORM-GUIDE.md`.
 
 **Summary:**
 - **Menus:** Native menu bar (macOS), system menu (Windows/Linux).
@@ -220,7 +220,7 @@ LOG METRIC: gate
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md`:
+Read `guides/EXAMPLES.md`:
 - Desktop app walkthrough (Tauri v2)
 - Native menu setup
 - System tray configuration
@@ -237,4 +237,4 @@ Web app in desktop window, no OS theme, no native file dialogs, no keyboard shor
 
 ## Verification
 
-Config file (tauri/electron) set. Native menus. PLATFORM-GUIDE.md read. Code signing configured. Build passes for target OSes. No browser-only APIs. Window state persistence.
+Config file (tauri/electron) set. Native menus. guides/PLATFORM-GUIDE.md read. Code signing configured. Build passes for target OSes. No browser-only APIs. Window state persistence.

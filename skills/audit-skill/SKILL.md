@@ -125,8 +125,8 @@ Score based on:
 | Overflow | Content spills horizontally on small viewports |
 | Hover-only | Actions unavailable on touch devices |
 
-→ See `SCORING-GUIDE.md` for severity scoring criteria.
-→ See `AUDIT-CHECKLIST.md` for the full 5-dimension checklist.
+→ See `guides/SCORING-GUIDE.md` for severity scoring criteria.
+→ See `guides/AUDIT-CHECKLIST.md` for the full 5-dimension checklist.
 
 ## Pitfalls
 

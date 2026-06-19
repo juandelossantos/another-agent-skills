@@ -17,7 +17,7 @@
 | `adapt-skill` | 132 | 2 | Fix responsive layout issues, missing mobile behavior, touch targets, |
 | `api-and-interface-design` | 43 | 0 | Design stable APIs and module boundaries with clear contracts. Use when designin |
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with critical thinking before any build decision. |
-| `audit-skill` | 154 | 2 | Five-dimension technical quality audit with P0-P3 severity scoring. |
+| `audit-skill` | 154 | 4 | Five-dimension technical quality audit with P0-P3 severity scoring. |
 | `backend-api-mastery` | 201 | 5 | Design production-grade APIs with intentional architecture decisions before any |
 | `browser-testing-with-devtools` | 80 | 0 | Test interfaces in real browsers. Available tools vary by agent platform: |
 | `ci-cd-and-automation` | 39 | 0 | Automate CI/CD pipeline setup, quality gates, and deployment automation. |
@@ -40,9 +40,9 @@
 | `frontend-mobile` | 243 | 3 | Build production-grade mobile apps with native design tokens and platform compli |
 | `frontend-pwa` | 199 | 4 | Build installable, offline-first web apps for all devices with migration path to |
 | `frontend-ui-engineering` | 48 | 0 | Build production-quality UIs with intentional component architecture, state mana |
-| `frontend-web` | 235 | 6 | Build production-grade web interfaces. Built on engineering-fundamentals. |
+| `frontend-web` | 235 | 8 | Build production-grade web interfaces. Built on engineering-fundamentals. |
 | `fullstack-shipping` | 184 | 3 | End-to-end build, test, and deploy workflows with production-grade discipline. |
-| `git-init-and-versioning` | 249 | 5 | Initialize and configure Git repositories before any code is written. |
+| `git-init-and-versioning` | 249 | 6 | Initialize and configure Git repositories before any code is written. |
 | `git-workflow-and-versioning` | 183 | 3 | Structures git workflow practices. Use when making any code change. Use when com |
 | `hard-skill` | 153 | 2 | Apply deterministic mechanical fixes for P0/P1 accessibility, input |
 | `idea-refine` | 43 | 0 | Refine raw ideas into sharp, actionable concepts through structured divergent |
@@ -66,7 +66,7 @@
 | `skill-improver` | 159 | 2 | Analyze failing eval cases and propose improvements to existing skills. |
 | `soft-premium-ui` | 72 | 0 | Polished, calm, expensive UI with softer contrast, generous whitespace, |
 | `source-driven-development` | 35 | 0 | Ground every implementation decision in official documentation before writing co |
-| `spec-driven-development` | 205 | 2 | Native pipeline from user request to verified code. Creates comprehensive |
+| `spec-driven-development` | 205 | 3 | Native pipeline from user request to verified code. Creates comprehensive |
 | `test-driven-development` | 141 | 6 | Drives development with tests. Use when implementing any logic, fixing any bug, |
 | `typeset-skill` | 139 | 2 | Fix typography and reading rhythm issues. Covers typeface, weight, size, |
 | `user-onboarding` | 191 | 2 | Capture user preferences once, persist across all projects. |

@@ -68,7 +68,7 @@ CLARIFICATION LOG:
 Only after all gaps are closed (or explicitly waived) proceed to P3.
 
 ### P3 — Deep Discovery (MANDATORY)
-Read `DISCOVERY-GUIDE.md`. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
+Read `guides/DISCOVERY-GUIDE.md`. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
 
 ### P4 — Architecture Decision Gate
 Non-trivial → invoke `architecture-analysis`. Simple → note "Standard stack per platform skill."
@@ -80,7 +80,7 @@ The spec depends on: frontend framework, backend approach, data layer, auth stra
 ```
 
 ### P5 — Write SPEC.md
-Read `SPEC-TEMPLATE-GUIDE.md`. 10 sections: Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries. Success criteria MUST be testable.
+Read `guides/SPEC-TEMPLATE-GUIDE.md`. 10 sections: Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries. Success criteria MUST be testable.
 
 ### P6 — Plan
 Components, dependencies, order, risks, verification checkpoints. User must review.
@@ -119,7 +119,7 @@ LOG METRIC: discovery
 - user_confirms: [count]
 ```
 
-**Quick reference:** `SPEC-FLOW.md` for one-page pipeline visualization + memory aid.
+**Quick reference:** `guides/SPEC-FLOW.md` for one-page pipeline visualization + memory aid.
 
 ### P10 — Convergence (post-implementation)
 

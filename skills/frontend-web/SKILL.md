@@ -73,7 +73,7 @@ Write this as a one-line Design Read (`"Reading this as: <page kind> for <audien
 
 See `engineering-fundamentals/guides/DESIGN-CORE.md` for the full Brief Inference protocol and Design Principles.
 
-Then see `DESIGN-GUIDE.md` for web-specific vibe → dial mapping.
+Then see `guides/DESIGN-GUIDE.md` for web-specific vibe → dial mapping.
 
 ---
 
@@ -85,7 +85,7 @@ Then see `DESIGN-GUIDE.md` for web-specific vibe → dial mapping.
 2. **SEO**: Public-facing and indexable?
 3. **Animations**: Scroll effects, entrance animations, micro-interactions?
 
-Read `DISCOVERY-GUIDE.md` for complete web checklist.
+Read `guides/DISCOVERY-GUIDE.md` for complete web checklist.
 
 ---
 
@@ -101,7 +101,7 @@ Read `DISCOVERY-GUIDE.md` for complete web checklist.
 
 → See `engineering-fundamentals/guides/DESIGN-CORE.md` for the universal Three Dials System (VARIANCE, MOTION, DENSITY), vibe→dial inference, use case presets, color principles, and dark mode protocol.
 
-Then see `DESIGN-GUIDE.md` for web-specific font selection, token application, and banned lists.
+Then see `guides/DESIGN-GUIDE.md` for web-specific font selection, token application, and banned lists.
 
 ---
 
@@ -159,7 +159,7 @@ Forbidden: GSAP by default, `tailwind.config.ts`, `middleware.ts`, Spline.
 
 → See `engineering-fundamentals/guides/ANTI-SLOP-CORE.md` for universal AI tells, content density rules, copy protocol, and UI state requirements.
 
-Then see `ANTI-SLOP-GUIDE.md` for web-specific layout tells (three feature cards, hero patterns, bento grids), font bans, and interactive patterns.
+Then see `guides/ANTI-SLOP-GUIDE.md` for web-specific layout tells (three feature cards, hero patterns, bento grids), font bans, and interactive patterns.
 
 **Web-specific additions:**
 
@@ -174,7 +174,7 @@ Then see `ANTI-SLOP-GUIDE.md` for web-specific layout tells (three feature cards
 - **Hero:** Fits viewport, ≤2 headline lines, ≤20 subtext words, top padding max `pt-24`.
 
 **Images & Assets**
-- See `IMAGE-STRATEGY.md` for image generation pipeline, social proof rules, and photography guidelines.
+- See `guides/IMAGE-STRATEGY.md` for image generation pipeline, social proof rules, and photography guidelines.
 - **No div-based fake screenshots** — BANNED.
 - Use `next/image` with `priority` on above-the-fold images.
 
@@ -182,7 +182,7 @@ Then see `ANTI-SLOP-GUIDE.md` for web-specific layout tells (three feature cards
 
 ### Phase 6 — Animation System
 
-Read `ANIMATION-GUIDE.md`.
+Read `guides/ANIMATION-GUIDE.md`.
 
 **Summary:**
 - **Primary:** Framer Motion `Reveal` component.
@@ -213,9 +213,9 @@ Read `ANIMATION-GUIDE.md`.
 
 ### Phase 8 — QA Gates
 
-→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` for universal checks first.
+→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/guides/PRE-FLIGHT-CORE.md` for universal checks first.
 
-**Then run `PRE-FLIGHT.md` before declaring done.** Every box must pass — this is a mechanical gate, not optional.
+**Then run `guides/PRE-FLIGHT.md` before declaring done.** Every box must pass — this is a mechanical gate, not optional.
 
 **Log metrics:**
 ```
@@ -227,7 +227,7 @@ LOG METRIC: build - project: [detect] - result: pass/fail - warnings: [count]
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md`:
+Read `guides/EXAMPLES.md`:
 - Landing page walkthrough (15 steps)
 - Adding animation to existing component
 - Troubleshooting (Next.js 16 params, fonts, FOUC, hydration, build)

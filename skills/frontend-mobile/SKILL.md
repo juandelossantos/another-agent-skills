@@ -73,7 +73,7 @@ Check for `STACK_CONFIG.md`:
 5. **Native features**: Camera, GPS, biometric auth, contacts?
 6. **App Store**: Public store, enterprise, or internal distribution?
 
-Read `DISCOVERY-GUIDE.md` for complete mobile checklist.
+Read `guides/DISCOVERY-GUIDE.md` for complete mobile checklist.
 
 ---
 
@@ -144,7 +144,7 @@ Forbidden: `Animated` API (use Reanimated), inline styles, `any` type.
 
 ### Phase 6 — Animation System
 
-Read `ANIMATION-GUIDE.md`.
+Read `guides/ANIMATION-GUIDE.md`.
 
 **Summary:**
 - **Primary:** Reanimated `useAnimatedStyle` + `withSpring`.
@@ -212,7 +212,7 @@ LOG METRIC: gate
 
 ## Examples & Troubleshooting
 
-Read `EXAMPLES.md`:
+Read `guides/EXAMPLES.md`:
 - New mobile app walkthrough (15 steps)
 - Adding animation to existing component
 - Troubleshooting (Expo prebuild, fonts, SafeArea, gesture conflicts)

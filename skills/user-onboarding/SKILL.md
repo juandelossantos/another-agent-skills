@@ -57,7 +57,7 @@ Agent: "Primera vez. Preguntas rápidas para personalizar ayuda."
 
 ### Phase 1 — Discovery Interview (Full Onboarding)
 
-→ **See `ONBOARDING-QUESTIONS-GUIDE.md` for complete 30-question interview (7 sections: Identity, Technical, Design, Workflow, Commit, Constraints, Session Purpose).**
+→ **See `guides/ONBOARDING-QUESTIONS-GUIDE.md` for complete 30-question interview (7 sections: Identity, Technical, Design, Workflow, Commit, Constraints, Session Purpose).**
 
 Summary: 27 questions covering identity, technical preferences (platform, framework, stack), design taste, workflow style, constraints.
 
@@ -153,7 +153,7 @@ Default purpose: Development
 
 ## How Other Skills Use This Profile
 
-→ **See `USAGE-EXAMPLES-GUIDE.md` for 5 skill-specific examples and preference update workflow.**
+→ **See `guides/USAGE-EXAMPLES-GUIDE.md` for 5 skill-specific examples and preference update workflow.**
 
 **Without profile:** "React or Vue? What stack?"
 
