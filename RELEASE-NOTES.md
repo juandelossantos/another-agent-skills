@@ -1,5 +1,21 @@
 # Release Notes
 
+## 2.2.0 (2026-06-18)
+
+Phase 6: Description Optimization — 57 skills, 6 quality criteria enforced, Check 15 in linter.
+
+### Description Optimization
+- **Check 15** in `skill-lint.sh`: validates every skill description against 6 criteria (verb-led, trigger keywords front-loaded, anti-trigger clause, ≤200 chars, 3+ distinct triggers, no internal jargon)
+- All 57 skill descriptions rewritten to meet 6/6 criteria
+- 34 skills gained anti-trigger clauses
+- Removed internal jargon from all descriptions
+- `skill-creator` workflow updated to generate 6/6 compliant descriptions
+- Added 28 new verbs to the linter's valid verb list (Capture, Debug, Instrument, Automate, Simplify, etc.)
+
+### Mechanical Enforcement
+- New verb additions are now tracked via the linter's verb list
+- `validate-release-notes.sh` blocks commits with insufficient release notes
+
 ## 2.1.0 (2026-06-18)
 
 Phase 6.5: Rule 6 Compliance — 0 guide violations, checks enforced, task planning protocol.
@@ -11,6 +27,13 @@ Phase 6.5: Rule 6 Compliance — 0 guide violations, checks enforced, task plann
 - 3 dense skills trimmed under 1250 words (backend-api-mastery, fullstack-shipping, engineering-fundamentals)
 - 8 skills received new guides (audit, optimize, context-engineering, delight, hard, shipping, skill-creator, skill-improver)
 - 4 skills had existing files renamed to -GUIDE convention (adapt, critique, polish, typeset)
+
+### Description Optimization (Phase 6)
+- **Check 15** added to `skill-lint.sh`: validates description quality (verb-led, anti-trigger, ≤200 chars)
+- All 57 skill descriptions now meet 6 quality criteria
+- 34 skills gained anti-trigger clauses
+- Removed internal jargon from descriptions (cross-skill references, hardcoded paths)
+- `skill-creator` workflow updated to generate descriptions that meet 6 criteria by default
 
 ### Mechanical Enforcement
 - `commit-approval.sh` now requires `--plan-approved` and `--manifest-presented` flags

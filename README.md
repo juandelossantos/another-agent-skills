@@ -109,8 +109,9 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v2.1.0
+## What's New in v2.2.0
 
+- **Phase 6: Description Optimization** — All 57 skill descriptions now meet 6 quality criteria (verb-led, triggers front-loaded, anti-trigger clause, ≤200 chars, 3+ distinct triggers, no internal jargon). Enforced by Check 15 in `skill-lint.sh`.
 - **Phase 6.5: Rule 6 Compliance** — All 57 skills now have ≥2 guides (68 total). Errors: 16→0. Warnings: 32→0.
 - **Mechanical Gates Added** — `commit-approval.sh` requires `--plan-approved` + `--manifest-presented`. `skill-gate.sh` requires specific skills loaded.
 - **Auto-Generated Health Tracking** — `generate-health-check.sh` and `sync-progress-table.sh` keep HEALTH-CHECK.md and PROGRESS_STATUS.md in sync with the linter. Never stale again.
