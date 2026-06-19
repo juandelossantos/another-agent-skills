@@ -1,9 +1,6 @@
 ---
 name: redesign-skill
-description: >
-  Systematic approach to improving existing codebases. Scan the UI, diagnose
-  issues across 8 categories, then fix in priority order. Works with existing
-  stack, never breaks functionality.
+description: Improve existing codebases systematically: scan the UI, diagnose issues across 8 categories, fix in priority order. Never breaks existing functionality. Do NOT use for greenfield projects.
 version: 1.0.0
 license: MIT
 compatibility: all
