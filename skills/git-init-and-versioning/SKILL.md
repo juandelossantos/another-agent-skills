@@ -102,9 +102,9 @@ This skill runs once per project, immediately after contracts (SPEC.md, DESIGN.m
 Read `GITIGNORE-TEMPLATES.md` in this skill directory for complete templates by stack (Node.js, Python, Rust, Go).
 
 **Summary of rules:**
-- `.env` and `.env.*` are ALWAYS ignored. No exceptions.
-- Build outputs are ALWAYS ignored.
-- IDE-specific files are ALWAYS ignored (except shared `.vscode/extensions.json`).
+- `.env` and `.env.*` are gitignored to prevent secret leakage. The `.gitignore` template includes these patterns.
+- Build outputs are gitignored — they are reproducible from source and bloat the repository.
+- IDE-specific files are gitignored (except shared `.vscode/extensions.json`) to avoid per-developer config in the repo.
 - Package manager lockfiles (`package-lock.json`, `yarn.lock`, `Cargo.lock`) are COMMITTED unless user explicitly requests otherwise.
 
 **If no SPEC.md exists, ask the user for their stack before proceeding.**
@@ -113,7 +113,7 @@ Read `GITIGNORE-TEMPLATES.md` in this skill directory for complete templates by 
 
 ### Phase 4 — Create `.env.example`
 
-**Document every environment variable the project needs. NEVER include real values or secrets.**
+**Document every environment variable the project needs.** The `.env.example` file documents the shape of each variable with placeholder values. Real secrets stay in `.env` (gitignored) — only the structure goes in `.env.example`.
 
 ```bash
 # Database

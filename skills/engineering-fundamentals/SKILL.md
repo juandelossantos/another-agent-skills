@@ -106,7 +106,7 @@ Must include: Objective, Scope, Tech stack (locked versions), Project structure,
 
 **What goes in:** Colors, Typography, Spacing, Border radius, Elevation/shadows, Motion tokens, Component visual tokens, Do's and Don'ts.
 
-**What NEVER goes in:** Tech versions, folder structure, API routes, state management, auth, DB schema, business logic.
+**What stays out of DESIGN.md:** Tech versions, folder structure, API routes, state management, auth, DB schema, business logic. These belong in SPEC.md, ADRs, or source code — DESIGN.md captures visual intent only.
 
 **Paths:**
 - **Path A** — DESIGN.md exists: Read it, extract tokens, build within them.
