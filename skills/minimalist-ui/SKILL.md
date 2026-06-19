@@ -1,9 +1,6 @@
 ---
 name: minimalist-ui
-description: >
-  Editorial product UI inspired by Notion and Linear. Warm monochrome palette,
-  typographic contrast, flat bento grids, muted pastel accents. No gradients,
-  no heavy shadows, no pill shapes for containers.
+description: Design editorial product UI inspired by Notion and Linear: warm monochrome palette, typographic contrast, flat bento grids, muted pastel accents. Do NOT use for industrial or brutalist UIs.
 version: 1.0.0
 license: MIT
 compatibility: all
