@@ -1,9 +1,6 @@
 ---
 name: frontend-mobile
-description: >
-  Build production-grade mobile apps with native design tokens and platform compliance.
-  Built on engineering-fundamentals. Triggers on: "mobile app", "React Native",
-  "Flutter", "iOS", "Android", "expo", "native app".
+description: Build production-grade mobile apps with native design tokens and platform compliance. Triggers: mobile app, React Native, Flutter, iOS, Android. Do NOT use for web-only projects.
 version: 1.0.0
 license: MIT
 compatibility: all
