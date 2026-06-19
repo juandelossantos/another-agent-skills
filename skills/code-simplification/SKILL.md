@@ -1,10 +1,6 @@
 ---
 name: code-simplification
-description: >
-  Simplify code for clarity without changing behavior. Use when refactoring code
-  that works but is harder to read, maintain, or extend than it should be.
-  Complements code-review-and-quality: review finds issues, simplification resolves them.
-  Do NOT use when behavior must change, or for pure formatting/linting.
+description: Simplify code for clarity without changing behavior. Use when refactoring code that is harder to read or maintain. Do NOT use when behavior must change.
 version: 1.0.0
 license: MIT
 compatibility: all
