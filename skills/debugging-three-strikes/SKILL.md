@@ -1,9 +1,6 @@
 ---
 name: debugging-three-strikes
-description: >
-  Stop speculative debugging when the same bug comes back 3 times.
-  After 3 strikes, diagnose systematically before writing any fix code.
-  Use when repetitive fixes fail. Pairs with debugging-and-error-recovery.
+description: Stop speculative debugging after 3 same-bug strikes. Diagnose systematically before writing code. Use when repetitive fixes fail. Do NOT use for first-time bugs.
 version: 1.0.0
 license: MIT
 compatibility: all
