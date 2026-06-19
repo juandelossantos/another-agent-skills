@@ -1,8 +1,6 @@
 ---
 name: code-review-and-quality
-description: >
-  Conducts multi-axis code review. Use before merging any change. Use when reviewing
-  code written by yourself, another agent, or a human.
+description: Review code across 5 axes (correctness, readability, architecture, security, performance) before merging. Use for code from any author. Do NOT use for work-in-progress.
 version: 1.0.0
 license: MIT
 compatibility: all
