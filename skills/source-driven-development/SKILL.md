@@ -1,9 +1,6 @@
 ---
 name: source-driven-development
-description: >
-  Ground every implementation decision in official documentation before writing code.
-  Use when building with any framework or library where correctness matters.
-  Prevents outdated patterns by requiring source-verified knowledge.
+description: Ground every implementation decision in official documentation before writing code. Use when building with any framework where correctness matters. Do NOT use for experimental or throwaway code.
   Do NOT use for general programming logic or pure algorithm work.
 version: 1.0.0
 license: MIT
