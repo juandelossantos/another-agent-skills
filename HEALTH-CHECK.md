@@ -12,8 +12,8 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Errors (Check 14) | **14** (guide violations) |
-| Warnings | **46** |
+| Errors (Check 14) | **13** (guide violations) |
+| Warnings | **45** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -23,10 +23,10 @@
 | Check | Status | Notes |
 |---|---|---|
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
-| Guide distribution | 🔴 14 errors | Skills >100 lines with <2 guides |
+| Guide distribution | 🔴 13 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
 | VERSION | ✅ 2.1.0 | Consistent |
-| Skill lint | 🟡 14 errors, 46 warnings | |
+| Skill lint | 🟡 13 errors, 45 warnings | |
 | validate-skill-table | 🔴 FAIL | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
