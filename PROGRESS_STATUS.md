@@ -17,7 +17,7 @@
 | `api-and-interface-design` | 43 | 0 | Stable API and interface design |
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with trade-offs |
 | `audit-skill` | 151 | 0 | Five-dimension technical quality audit |
-| `backend-api-mastery` | 235 | 5 | Production APIs: protocol, DB, auth, testing, docs |
+| `backend-api-mastery` | 201 | 5 | Production APIs: protocol, DB, auth, testing, docs |
 | `browser-testing-with-devtools` | 80 | 0 | Browser testing — tool-agnostic, references dev-env-audit for setup |
 | `ci-cd-and-automation` | 39 | 0 | CI/CD pipeline automation |
 | `clarify-skill` | 95 | 2 | Rewrite confusing UX copy |
@@ -34,13 +34,13 @@
 | `dev-environment-audit` | 155 | 4 | MCPs, CLI tools, runtime verification |
 | `documentation-and-adrs` | 70 | 3 | Record decisions and documentation |
 | `doubt-driven-development` | 90 | 2 | Adversarial fresh-context review |
-| `engineering-fundamentals` | 242 | 4 | Universal philosophy: discovery, contracts, anti-slop |
+| `engineering-fundamentals` | 217 | 4 | Universal philosophy: discovery, contracts, anti-slop |
 | `frontend-desktop` | 240 | 3 | Production desktop apps (Tauri/Electron) |
 | `frontend-mobile` | 243 | 3 | Production mobile apps (RN/Flutter) |
 | `frontend-pwa` | 199 | 4 | Offline-first web apps with native migration |
 | `frontend-ui-engineering` | 48 | 0 | Universal UI principles across platforms |
 | `frontend-web` | 235 | 6 | Production web interfaces with anti-slop rules |
-| `fullstack-shipping` | 228 | 3 | CI/CD, deployment, monitoring, rollback |
+| `fullstack-shipping` | 184 | 3 | CI/CD, deployment, monitoring, rollback |
 | `git-init-and-versioning` | 249 | 5 | Git setup, branching, hooks, commit gates |
 | `git-workflow-and-versioning` | 183 | 3 | Atomic commits, branching, conflict resolution |
 | `hard-skill` | 150 | 0 | Deterministic P0/P1 mechanical fixes |

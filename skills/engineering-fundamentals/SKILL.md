@@ -55,12 +55,12 @@ Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
 ```
 
 | State | Ask |
-|---|---|
-| Clean + correct branch + up to date | "Seguir en [branch] o crear rama feature?" |
-| Dirty working tree | "Commit, stash, o descartar cambios?" |
-| Behind remote | "Hacer pull --rebase ahora?" |
-| Wrong branch | "Cambiar a [target] o crear rama nueva?" |
-| Detached HEAD | "Crear rama desde aquí o checkout a main?" |
+|---|---|---|
+| Clean + correct branch | ¿Seguir en [branch] o crear rama? |
+| Dirty tree | ¿Commit, stash, o descartar? |
+| Behind remote | ¿Pull --rebase ahora? |
+| Wrong branch | ¿Cambiar a [target] o crear nueva? |
+| Detached HEAD | ¿Crear rama o checkout a main? |
 
 ### Step 3 — Verify
 
@@ -70,7 +70,7 @@ Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
 
 ### Enforcement
 
-The pre-commit hook (v3+) runs this check mechanically at commit time — even if the agent skips Steps 1-2 before editing, the commit will be blocked. See `install.sh` → `init-agents.sh` → `scripts/git-hooks/pre-commit`.
+The pre-commit hook enforces this mechanically — even if the agent skips Steps 1-2, the commit blocks. See `scripts/git-hooks/pre-commit`.
 
 ---
 
@@ -96,46 +96,23 @@ Detect immediately. Spanish keywords → Spanish. English keywords → English. 
 
 #### 2A: SPEC.md
 
-If no SPEC.md exists and this is new work (not a one-off tweak), invoke `spec-driven-development`.
-
-Must include: Objective, Scope, Tech stack (locked versions), Project structure, Acceptance criteria, Boundaries.
+If no SPEC.md exists and this is new work (not a one-off tweak), invoke `spec-driven-development`. Must include: Objective, Scope, Tech stack, Project structure, Acceptance criteria, Boundaries.
 
 #### 2B: DESIGN.md (VISUAL ONLY)
 
-**CRITICAL:** DESIGN.md is for **visual identity and tokens ONLY**.
+DESIGN.md is for **visual identity and tokens ONLY**. Colors, Typography, Spacing, Border radius, Elevation, Motion. NOT tech versions, folder structure, API routes, auth, DB — those go in SPEC.md or ADRs.
 
-**What goes in:** Colors, Typography, Spacing, Border radius, Elevation/shadows, Motion tokens, Component visual tokens, Do's and Don'ts.
+| State | Action |
+|---|---|
+| DESIGN.md exists | Read it, extract tokens, build within |
+| No DESIGN.md, wants visual system | Generate with tokens only, confirm |
+| No DESIGN.md, one-off task | Do task, mention DESIGN.md once |
 
-**What stays out of DESIGN.md:** Tech versions, folder structure, API routes, state management, auth, DB schema, business logic. These belong in SPEC.md, ADRs, or source code — DESIGN.md captures visual intent only.
-
-**Paths:**
-- **Path A** — DESIGN.md exists: Read it, extract tokens, build within them.
-- **Path B** — No DESIGN.md, user wants visual system: Generate with visual tokens only. Present for confirmation.
-- **Path C** — No DESIGN.md, one-off task: Do the task. Mention once that DESIGN.md improves consistency.
-
-**AFTER DESIGN.md CONFIRMED — MANDATORY STOP:**
-
-Do NOT write code yet. DEFINE is complete, not BUILD.
-
-1. Check if SPEC.md exists. If not, invoke `spec-driven-development`.
-2. Invoke `planning-and-task-breakdown` for implementation plan.
-3. Only after plan exists and is confirmed, proceed to BUILD.
+**Do NOT write code yet.** Verify SPEC.md exists, invoke `planning-and-task-breakdown`. Only after plan is confirmed, proceed to BUILD.
 
 #### 2C: Design Asset Lock (MANDATORY after visual approval)
 
-Create `design/` directory:
-
-```
-design/
-├── DESIGN-LOCK.md          # Snapshot of approved visual decisions
-└── approved/               # Screenshots, previews, moodboards
-```
-
-`DESIGN-LOCK.md` must contain: Direction, Final Palette, Final Typography, Key Decisions, References.
-
-**Rules:**
-- DESIGN-LOCK.md is a SNAPSHOT. Never changes after approval unless explicitly requested.
-- During BUILD, MUST read `design/DESIGN-LOCK.md` before writing any code. Do not rely on memory.
+Create `design/DESIGN-LOCK.md` (Direction, Palette, Typography, Decisions, References) + `design/approved/`. DESIGN-LOCK.md is a **snapshot** — never changes after approval. During BUILD, MUST re-read it before coding.
 
 #### 2D: Lifecycle Awareness
 
@@ -198,28 +175,26 @@ Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main path
 
 **Every tool call, gate, loop, and session needs a failure path:**
 
-| Component | Failure Mode | Required Path |
-|---|---|---|
-| Tool call | Command fails, tool missing, network down | Return error as observation, never panic |
-| Gate (pre-commit) | Hook blocks, token invalid | Explicit bypass with human approval |
-| Loop (debug) | Same bug 3 times | 3-Strikes Protocol → escalate to user |
-| Session | Context loss, truncation | Continuation over recap (Rule 0i) |
-| Verification | Can't reach real world | TOOL_GAP → "ship status unknown" (Rule 0h) |
+| Component | Failure → Response |
+|---|---|
+| Tool call | Fail → return as observation, never panic |
+| Pre-commit gate | Block → bypass only with human approval |
+| Debug loop | 3 strikes → escalate to user |
+| Session | Context loss → continue, don't recap (Rule 0i) |
+| Verification | Can't reach world → "ship status unknown" (Rule 0h) |
 
-**Anti-patterns:**
-- "It'll probably work" → No failure path = not a workflow, it's a hope.
-- "Just retry" → Retry without diagnosis is noise. Include: what failed, why, what's different.
+**Anti-patterns:** "It'll probably work" (no failure path = hope, not workflow), "Just retry" (no diagnosis = noise).
 
 ---
 
 ### Phase 6 — Common Rationalizations
 
-| Excuse | Why It's Wrong |
-|---|---|
-| "Default for now." | #1 sign of AI output. |
-| "Too small for DESIGN.md." | 3 lines of tokens help even one-offs. |
-| "Quality later." | Quality is a gate, not afterthought. |
-| "user didn't ask for [practice]." | Senior engineers apply best practices by default. |
+| Excuse | Reality |
+|---|---|---|
+| "Default for now." | #1 sign of AI slop. |
+| "Too small for DESIGN.md." | Even 3 tokens help one-offs. |
+| "Quality later." | Quality is a gate, not an afterthought. |
+| "User didn't ask." | Senior engineers apply best practices by default. |
 | "I remember design." | Context drifts. DESIGN-LOCK.md is ground truth. |
 | "I know what they want." | 1% confidence. Discovery forces 95%. |
 
@@ -227,7 +202,7 @@ Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main path
 
 ### Phase 7 — Red Flags
 
-Code before reqs. "Start building?" before "done" defined. Assumptions unsurfaced. Contracts skipped. Hardcoded values. Accessibility optional. DESIGN-LOCK.md not read. Features not in spec.
+Code before requirements, assumptions unsurfaced, contracts skipped, hardcoded values, accessibility optional, DESIGN-LOCK.md not read, features not in spec.
 
 ---
 

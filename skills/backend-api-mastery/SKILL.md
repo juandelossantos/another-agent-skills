@@ -56,12 +56,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 
 **If no `STACK_CONFIG.md` exists:**
 - Default to Node.js + TypeScript + Express/Fastify + Prisma + PostgreSQL.
-- Ask the user: "Node.js/Express/Prisma (default) or Python/FastAPI, Go, Rust, etc.?"
-
-**Adaptation examples:**
-- Node/Express → Python/FastAPI: Decorators instead of middleware. Pydantic instead of Zod.
-- Node/Express → Go: Structs instead of classes. No ORM, raw SQL or GORM.
-- Node/Express → Rust: Actix or Axum. Diesel or SQLx for ORM.
+- Ask the user for their preferred stack and adapt patterns accordingly (middleware→decorators, Zod→Pydantic, etc.).
 
 ---
 
@@ -79,21 +74,7 @@ Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in
 
 ### Phase 2 — Research (MANDATORY for non-trivial)
 
-**Do not propose protocols, ORMs, or auth strategies without current research.**
-
-1. **Search for current best practices:**
-   - "REST API best practices [current year]"
-   - "GraphQL vs REST vs tRPC [current year]"
-   - "Prisma vs Drizzle [current year] performance"
-   - "JWT vs session authentication [current year] security"
-   
-   **Always use the current year.** Never hardcode a specific year.
-
-2. **Check official documentation:** Latest stable versions, known limitations, migration paths.
-
-3. **Find benchmarks:** ORM performance, auth library security audits, database query patterns.
-
-4. **Present findings concisely** to user before proceeding.
+**Do not propose protocols, ORMs, or auth strategies without current research.** Search for best practices with `[current year]`, check official documentation for latest versions and known limitations, and find benchmarks. Present findings concisely before proceeding.
 
 ---
 
@@ -129,9 +110,7 @@ Read `PROTOCOL-GUIDE.md` in this skill directory for the **complete protocol dec
 
 Document in `API-DESIGN.md` → Section "Data Model"
 
-**Critical Challenge:**
-- User wants MongoDB for relational data → "MongoDB is document-oriented. If your data has relationships, you'll end up implementing joins in application code. PostgreSQL handles this natively."
-- User wants raw SQL "for performance" → "Prisma is ~10% slower than raw SQL for most queries. Unless you're building high-frequency trading, that 10% is worth the type safety and DX. You can always drop to raw SQL for specific hot paths."
+**Critical Challenge:** MongoDB for relational data → explain document vs relational tradeoffs. Raw SQL "for performance" → ORM adds ~10% overhead for significant type safety and DX; drop to raw SQL for hot paths only.
 
 ---
 
@@ -172,22 +151,9 @@ Read `AUTH-GUIDE.md` in this skill directory for the **complete auth strategy ma
 
 ### Phase 8 — Lock & Document
 
-**After documenting, log metrics:**
-```
-LOG METRIC: discovery
-- project: [detect from git remote or directory name]
-- skill_used: backend-api-mastery
-- duration_minutes: [time from Phase 1 start to now]
-- questions_asked: [count]
-- user_confirms: [count]
-- research_queries: [count from Phase 2]
-```
+**Log metrics:** `LOG METRIC: discovery — project, skill_used, duration_minutes, questions_asked, user_confirms, research_queries`
 
-**All decisions must be durable. Another engineer should be able to build the API from these documents.**
-
-1. **Create/Update `API-DESIGN.md`** with all sections (Overview, Protocol Decision, Data Model, Authentication, Endpoints/Schema, Error Handling, Testing Strategy, Security Checklist, Versioning).
-
-2. **Update `SPEC.md`** with API Design Decisions section referencing `API-DESIGN.md`.
+**All decisions must be durable.** Create/Update `API-DESIGN.md` (Overview, Protocol Decision, Data Model, Authentication, Endpoints, Error Handling, Testing, Security, Versioning). Update `SPEC.md` referencing `API-DESIGN.md`.
 
 ---
 
