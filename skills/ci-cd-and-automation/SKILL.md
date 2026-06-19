@@ -1,10 +1,6 @@
 ---
 name: ci-cd-and-automation
-description: >
-  Automate CI/CD pipeline setup, quality gates, and deployment automation.
-  Use when configuring test runners in CI, setting up build pipelines, or
-  automating deployment. For end-to-end shipping lifecycle including monitoring
-  and rollback, use fullstack-shipping instead.
+description: Automate CI/CD pipeline setup, quality gates, and deployment. Use when configuring test runners or build pipelines. Do NOT use for one-time manual deployments.
 version: 1.0.0
 license: MIT
 compatibility: all
