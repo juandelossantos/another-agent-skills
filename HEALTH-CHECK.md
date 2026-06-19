@@ -1,9 +1,9 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-06-17
-**Version:** 1.15.0 (Three-Gate Approval)
+**Date:** 2026-06-18
+**Version:** 2.0.0 (Standardized Frontmatter)
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY
+**Status:** 🟡 DEGRADED — 16 guide violations (Phase 6.5 in progress)
 
 ---
 
@@ -22,8 +22,9 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| SKILL.md files | ✅ 41 on disk in `skills/` | All ≤ 250 lines |
-| Guide files | ✅ 47 (`*GUIDE.md` + `GUIDE.md`) | Across all skills |
+| SKILL.md files | ✅ 57 on disk in `skills/` | All ≤ 250 lines |
+| Guide files | ✅ Per-skill validated | `skill-lint.sh` Check 14: 0 errors (skills >100 lines with <2 guides) |
+| Guide distribution | 🔴 16 errors | Skills with <2 guides must be fixed (see Phase 6.5.4) |
 | Evals.md files | ✅ 3 | code-review, spec-driven, test-driven |
 | Memory.md files | ✅ 3 | debugging-and-error-recovery, engineering-fundamentals, backend-api-mastery |
 | Scripts (`.sh`) | ✅ 15 + 1 `project-pre-commit` | All pass `bash -n` |

@@ -129,6 +129,22 @@ for skill_dir in "$SKILLS_DIR"/*/; do
     echo "  ${YELLOW}⚠${NC} $skill_name — Missing 'tier' in YAML frontmatter"
     WARNINGS=$((WARNINGS + 1))
   fi
+
+  # Check 14: Skills >100 lines must have ≥2 guides (Rule 6)
+  if [ "$lines" -ge 100 ]; then
+    guide_count=0
+    root_guides=$(find "$skill_dir" -maxdepth 1 -type f \( -iname '*guide*' -o -iname '*checklist*' -o -iname '*examples*' -o -iname '*memory*' \) 2>/dev/null | wc -l)
+    guide_count=$((guide_count + root_guides))
+    if [ -d "${skill_dir}guides" ]; then
+      sub_guides=$(find "${skill_dir}guides" -name "*.md" 2>/dev/null | wc -l)
+      guide_count=$((guide_count + sub_guides))
+    fi
+    if [ "$guide_count" -lt 2 ]; then
+      echo "  ${RED}✗${NC} $skill_name — $guide_count guides (minimum 2 for skills >100 lines, Rule 6)"
+      echo "       Every skill must reference ≥ 2 guides. Create or reference existing guides."
+      ERRORS=$((ERRORS + 1))
+    fi
+  fi
 done
 
 echo ""
