@@ -54,7 +54,7 @@
 | `optimize-skill` | 139 | 0 | Fix performance bottlenecks |
 | `output-skill` | 51 | 0 | Complete output enforcement |
 | `performance-optimization` | 34 | 0 | System and infrastructure performance |
-| `planning-and-task-breakdown` | 247 | 0 | Decompose into verifiable chunks |
+| `planning-and-task-breakdown` | 83 | 2 | Decompose into verifiable chunks |
 | `polish-skill` | 139 | 1 | Fix design detail: spacing, alignment, tokens |
 | `project-health-check` | 213 | 2 | Audit existing codebases with decision gate |
 | `project-metrics` | 154 | 2 | Background quality logging |
