@@ -1,9 +1,6 @@
 ---
 name: output-skill
-description: >
-  Keeps agent outputs complete. Prevents placeholders, truncated code,
-  skipped sections, and half-finished work. Use when the agent keeps
-  shipping incomplete output.
+description: Prevent placeholders, truncated code, and half-finished agent outputs. Use when the agent ships incomplete work. Do NOT use for one-off drafts.
 version: 1.0.0
 license: MIT
 compatibility: all
