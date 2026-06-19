@@ -35,7 +35,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 57 custom skills + 47 guides + 6 harness components.
+**That's it.** Your AI agent now has 57 custom skills + 54 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -62,7 +62,7 @@ Run `init-agents` in every new project — it:
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 47 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 54 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh |
@@ -105,7 +105,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | System | Always-loaded | Lazy loading | Guides | Context control |
 |---|---|---|---|---|
 | Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
-| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 47 guides | Auto-evict at 70% |
+| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 54 guides | Auto-evict at 70% |
 
 ---
 
