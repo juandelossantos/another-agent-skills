@@ -11,9 +11,10 @@
 # 6. Agent commits
 # 7. commit-msg hook v6 verifies: TEST_LOG? MANIFEST? APPROVED? → allows
 #
-# Usage: bash scripts/commit-approval.sh "commit message" --manifest-presented [file1 file2...]
-# NOTE: --manifest-presented is REQUIRED. Agent must present the Commit Manifest
-# to the user and get verbal approval BEFORE running this script.
+# Usage: bash scripts/commit-approval.sh "commit message" --plan-approved --manifest-presented [file1 file2...]
+# NOTE: --plan-approved and --manifest-presented are REQUIRED.
+# --plan-approved: Agent presented plan+tests to user and got approval before implementing
+# --manifest-presented: Agent presented Commit Manifest and got approval before committing
 
 set -euo pipefail
 
@@ -31,6 +32,36 @@ APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
 
 if [[ -z "$COMMIT_MSG" ]]; then
   echo -e "${RED}Error: No commit message provided.${NC}"
+  exit 1
+fi
+
+# Check: --plan-approved flag must be present
+# This enforces that the agent presented a plan with tests to the user
+# and received approval BEFORE implementing. Mechanical speed bump.
+PLAN_APPROVED=false
+for arg in "$@"; do
+  if [[ "$arg" == "--plan-approved" ]]; then
+    PLAN_APPROVED=true
+    break
+  fi
+done
+if [[ "$PLAN_APPROVED" == "false" ]]; then
+  echo -e "${RED}╔════════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${RED}║  APPROVAL BLOCKED                                        ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Missing --plan-approved flag.                            ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Agent must present the plan with tests and acceptance    ║${NC}"
+  echo -e "${RED}║  criteria to the user and receive approval BEFORE         ║${NC}"
+  echo -e "${RED}║  implementing.                                            ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Correct flow:                                           ║${NC}"
+  echo -e "${RED}║  1. Present plan + tests + acceptance criteria in chat   ║${NC}"
+  echo -e "${RED}║  2. Wait for user: 'yes' / 'sí' / 'proceed'              ║${NC}"
+  echo -e "${RED}║  3. Implement                                               ║${NC}"
+  echo -e "${RED}║  4. Present Commit Manifest                              ║${NC}"
+  echo -e "${RED}║  5. Commit with --plan-approved --manifest-presented     ║${NC}"
+  echo -e "${RED}╚════════════════════════════════════════════════════════════╝${NC}"
   exit 1
 fi
 
