@@ -12,7 +12,7 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Errors (Check 14) | **8** (guide violations — Phase 6.5.4) |
+| Errors (Check 14) | **6** (guide violations — Phase 6.5.4) |
 | Warnings | **19** |
 | Overall | **🟡 DEGRADED** |
 

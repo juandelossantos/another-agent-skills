@@ -16,7 +16,7 @@
 | `adapt-skill` | 132 | 2 | Responsive layout fixes |
 | `api-and-interface-design` | 43 | 0 | Stable API and interface design |
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with trade-offs |
-| `audit-skill` | 151 | 0 | Five-dimension technical quality audit |
+| `audit-skill` | 154 | 2 | Five-dimension technical quality audit |
 | `backend-api-mastery` | 201 | 5 | Production APIs: protocol, DB, auth, testing, docs |
 | `browser-testing-with-devtools` | 80 | 0 | Browser testing — tool-agnostic, references dev-env-audit for setup |
 | `ci-cd-and-automation` | 39 | 0 | CI/CD pipeline automation |
@@ -51,7 +51,7 @@
 | `minimalist-ui` | 71 | 0 | Editorial product UI (Notion/Linear) |
 | `multi-agent-orchestration` | 83 | 1 | Orchestrate >2 agents in parallel/pipeline |
 | `observability-and-instrumentation` | 34 | 0 | Logs, metrics, traces, alerting |
-| `optimize-skill` | 139 | 0 | Fix performance bottlenecks |
+| `optimize-skill` | 142 | 2 | Fix performance bottlenecks |
 | `output-skill` | 51 | 0 | Complete output enforcement |
 | `performance-optimization` | 34 | 0 | System and infrastructure performance |
 | `planning-and-task-breakdown` | 83 | 2 | Decompose into verifiable chunks |
