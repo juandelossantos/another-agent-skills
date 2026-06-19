@@ -1,8 +1,6 @@
 ---
 name: project-health-check
-description: >
-  Audit existing projects before new work. Use when entering projects with code,
-  returning after gap, or user asks "check health", "audit codebase", "technical debt".
+description: Audit existing projects before new work. Use when entering a codebase for the first time or after a gap. Do NOT use for new projects with no existing code.
 version: 1.0.0
 license: MIT
 compatibility: all
