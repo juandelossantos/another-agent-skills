@@ -11,67 +11,69 @@
 
 
 
+
+
 ### 57 Custom Skills
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
-| `adapt-skill` | 132 | 2 | Fix responsive layout issues, missing mobile behavior, touch targets, |
-| `api-and-interface-design` | 43 | 0 | Design stable APIs and module boundaries with clear contracts. Use when designin |
-| `architecture-analysis` | 225 | 3 | Evaluate architecture options with critical thinking before any build decision. |
-| `audit-skill` | 150 | 4 | Audit code across 5 dimensions with P0-P3 severity scoring. Use before shipping. Do NOT use for design critique. |
-| `backend-api-mastery` | 201 | 5 | Design production-grade APIs with intentional architecture decisions before any |
-| `browser-testing-with-devtools` | 80 | 0 | Test interfaces in real browsers. Available tools vary by agent platform: |
-| `ci-cd-and-automation` | 39 | 0 | Automate CI/CD pipeline setup, quality gates, and deployment automation. |
-| `clarify-skill` | 95 | 2 | Rewrite confusing UX copy so interfaces explain themselves. Covers labels, |
-| `cli-tools` | 113 | 2 | Build production-grade CLI tools with standard argument parsing, exit |
-| `code-review-and-quality` | 138 | 3 | Conducts multi-axis code review. Use before merging any change. Use when reviewi |
-| `code-simplification` | 40 | 0 | Simplify code for clarity without changing behavior. Use when refactoring code |
+| `adapt-skill` | 129 | 2 |  |
+| `api-and-interface-design` | 39 | 0 |  |
+| `architecture-analysis` | 220 | 3 |  |
+| `audit-skill` | 150 | 4 |  |
+| `backend-api-mastery` | 196 | 5 |  |
+| `browser-testing-with-devtools` | 74 | 0 |  |
+| `ci-cd-and-automation` | 35 | 0 |  |
+| `clarify-skill` | 91 | 2 |  |
+| `cli-tools` | 109 | 2 |  |
+| `code-review-and-quality` | 136 | 3 |  |
+| `code-simplification` | 36 | 0 |  |
 | `context-engineering` | 126 | 2 |  |
-| `critique-skill` | 169 | 3 | Two-pass design review with scoring, persona tests, and AI slop detection. |
+| `critique-skill` | 165 | 3 |  |
 | `customize-opencode` | 34 | 0 | Edit or create OpenCode's own configuration files: opencode.json, files under |
-| `debugging-and-error-recovery` | 92 | 5 | Guides systematic root-cause debugging. Use when tests fail, builds break, |
-| `debugging-three-strikes` | 23 | 1 | Stop speculative debugging when the same bug comes back 3 times. |
-| `delight-skill` | 152 | 2 | Add micro-interactions, transitions, hover states, and feedback |
-| `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration of old systems, APIs, and features. |
-| `dev-environment-audit` | 155 | 4 | Audit development environment (MCPs, CLI tools, runtimes) before code. |
-| `documentation-and-adrs` | 70 | 3 | Records decisions and documentation. Use when making architectural decisions, |
+| `debugging-and-error-recovery` | 90 | 5 |  |
+| `debugging-three-strikes` | 20 | 1 |  |
+| `delight-skill` | 149 | 2 |  |
+| `deprecation-and-migration` | 30 | 0 |  |
+| `dev-environment-audit` | 152 | 4 |  |
+| `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
-| `engineering-fundamentals` | 217 | 4 | Universal engineering philosophy for all platform skills. Defines discovery, |
-| `frontend-desktop` | 240 | 3 | Build production-grade desktop applications with native OS integration. |
-| `frontend-mobile` | 243 | 3 | Build production-grade mobile apps with native design tokens and platform compli |
-| `frontend-pwa` | 199 | 4 | Build installable, offline-first web apps for all devices with migration path to |
-| `frontend-ui-engineering` | 48 | 0 | Build production-quality UIs with intentional component architecture, state mana |
-| `frontend-web` | 235 | 8 | Build production-grade web interfaces. Built on engineering-fundamentals. |
-| `fullstack-shipping` | 184 | 3 | End-to-end build, test, and deploy workflows with production-grade discipline. |
-| `git-init-and-versioning` | 249 | 6 | Initialize and configure Git repositories before any code is written. |
-| `git-workflow-and-versioning` | 183 | 3 | Structures git workflow practices. Use when making any code change. Use when com |
-| `hard-skill` | 153 | 2 | Apply deterministic mechanical fixes for P0/P1 accessibility, input |
-| `idea-refine` | 43 | 0 | Refine raw ideas into sharp, actionable concepts through structured divergent |
+| `engineering-fundamentals` | 213 | 4 |  |
+| `frontend-desktop` | 238 | 3 |  |
+| `frontend-mobile` | 240 | 3 |  |
+| `frontend-pwa` | 196 | 4 |  |
+| `frontend-ui-engineering` | 44 | 0 |  |
+| `frontend-web` | 233 | 8 |  |
+| `fullstack-shipping` | 178 | 3 |  |
+| `git-init-and-versioning` | 245 | 6 |  |
+| `git-workflow-and-versioning` | 181 | 3 |  |
+| `hard-skill` | 149 | 2 |  |
+| `idea-refine` | 39 | 0 |  |
 | `incremental-implementation` | 89 | 2 |  |
-| `industrial-brutalist-ui` | 78 | 0 | Raw mechanical interfaces fusing Swiss typographic print with military |
-| `interview-me` | 40 | 0 | Extract what the user actually wants through one-question-at-a-time interviewing |
-| `minimalist-ui` | 71 | 0 | Editorial product UI inspired by Notion and Linear. Warm monochrome palette, |
-| `multi-agent-orchestration` | 83 | 1 | Patterns for orchestrating multiple OpenCode agents in parallel, pipeline, or sw |
-| `observability-and-instrumentation` | 34 | 0 | Instrument code so production behavior is visible and diagnosable. Covers struct |
-| `optimize-skill` | 142 | 2 | Fix performance issues: bundle size, expensive animations, reflows, lazy |
-| `output-skill` | 51 | 0 | Keeps agent outputs complete. Prevents placeholders, truncated code, |
-| `performance-optimization` | 34 | 0 | Optimize application performance beyond the frontend. Covers Core Web Vitals, |
+| `industrial-brutalist-ui` | 75 | 0 |  |
+| `interview-me` | 36 | 0 |  |
+| `minimalist-ui` | 68 | 0 |  |
+| `multi-agent-orchestration` | 81 | 1 |  |
+| `observability-and-instrumentation` | 30 | 0 |  |
+| `optimize-skill` | 139 | 2 |  |
+| `output-skill` | 48 | 0 |  |
+| `performance-optimization` | 30 | 0 |  |
 | `planning-and-task-breakdown` | 83 | 2 |  |
-| `polish-skill` | 139 | 2 | Fix design detail issues: spacing, alignment, consistency, token |
-| `project-health-check` | 213 | 2 | Audit existing projects before new work. Use when entering projects with code, |
-| `project-metrics` | 154 | 2 | Track empirical quality metrics across projects and sessions. Logs build pass |
-| `redesign-skill` | 67 | 0 | Systematic approach to improving existing codebases. Scan the UI, diagnose |
-| `security-and-hardening` | 35 | 0 | Hardens code against vulnerabilities. Covers OWASP prevention, input validation, |
+| `polish-skill` | 136 | 2 |  |
+| `project-health-check` | 211 | 2 |  |
+| `project-metrics` | 151 | 2 |  |
+| `redesign-skill` | 64 | 0 |  |
+| `security-and-hardening` | 31 | 0 |  |
 | `shipping-and-launch` | 163 | 2 |  |
-| `skill-creator` | 159 | 2 | Generate new agent skills from a workflow description. Creates the complete |
-| `skill-improver` | 159 | 2 | Analyze failing eval cases and propose improvements to existing skills. |
-| `soft-premium-ui` | 72 | 0 | Polished, calm, expensive UI with softer contrast, generous whitespace, |
-| `source-driven-development` | 35 | 0 | Ground every implementation decision in official documentation before writing co |
-| `spec-driven-development` | 205 | 3 | Native pipeline from user request to verified code. Creates comprehensive |
-| `test-driven-development` | 141 | 6 | Drives development with tests. Use when implementing any logic, fixing any bug, |
-| `typeset-skill` | 139 | 2 | Fix typography and reading rhythm issues. Covers typeface, weight, size, |
-| `user-onboarding` | 191 | 2 | Capture user preferences once, persist across all projects. |
-| `visual-frontend-mastery` | 46 | 0 | Build distinctive, production-grade frontend interfaces with intentional visual  |
+| `skill-creator` | 166 | 2 |  |
+| `skill-improver` | 153 | 2 |  |
+| `soft-premium-ui` | 69 | 0 |  |
+| `source-driven-development` | 32 | 0 |  |
+| `spec-driven-development` | 201 | 3 |  |
+| `test-driven-development` | 138 | 6 |  |
+| `typeset-skill` | 136 | 2 |  |
+| `user-onboarding` | 187 | 2 |  |
+| `visual-frontend-mastery` | 42 | 0 |  |
 
 ### Architecture Decisions Implemented
 

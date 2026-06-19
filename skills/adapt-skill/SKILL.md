@@ -1,9 +1,6 @@
 ---
 name: adapt-skill
-description: >
-  Fix responsive layout issues, missing mobile behavior, touch targets,
-  and viewport handling. Applies proper breakpoint logic. Use when
-  layouts break between breakpoints or mobile feels bolted-on.
+description: Fix responsive layout issues, missing mobile behavior, touch targets, and viewport handling. Use when layouts break between breakpoints. Do NOT use for static layouts with no responsive requirements.
 version: 1.0.0
 license: MIT
 compatibility: all
