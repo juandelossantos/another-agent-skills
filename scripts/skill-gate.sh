@@ -92,11 +92,44 @@ case "$ACTION" in
     echo "  ${GREEN}✓${NC} Skill marker reset"
     ;;
 
+  require)
+    # Check that a SPECIFIC skill was loaded this session
+    REQUIRED_SKILL="${2:-}"
+    if [[ -z "$REQUIRED_SKILL" ]]; then
+      echo "  ${RED}✗${NC} Usage: $0 require <skill-name>"
+      exit 1
+    fi
+    if [[ -f "$SESSION_FILE" ]] && grep -q "^${REQUIRED_SKILL}:" "$SESSION_FILE"; then
+      echo "  ${GREEN}✓${NC} Required skill '${REQUIRED_SKILL}' was loaded"
+      exit 0
+    else
+      echo ""
+      echo "  ${RED}╔════════════════════════════════════════════════════════════╗${NC}"
+      echo "  ${RED}║  SKILL GATE BLOCKED                                      ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  Required skill '${REQUIRED_SKILL}' was NOT loaded.         ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  Load it with: skill('${REQUIRED_SKILL}')                  ║${NC}"
+      echo "  ${RED}║  Then mark: bash scripts/skill-gate.sh mark ${REQUIRED_SKILL}   ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  To bypass: bash scripts/skill-gate.sh bypass            ║${NC}"
+      echo "  ${RED}╚════════════════════════════════════════════════════════════╝${NC}"
+      exit 1
+    fi
+    ;;
+
+  bypass)
+    echo "override: manual bypass" > "$SKILL_MARKER"
+    echo "  ${YELLOW}⚠${NC} Skill gate bypassed. This is logged."
+    ;;
+
   *)
-    echo "Usage: $0 {check|mark|reset}"
-    echo "  check  — Verify skills were consulted (exit 1 if not)"
-    echo "  mark   — Mark that skills were consulted"
-    echo "  reset  — Reset skill consultation marker"
+    echo "Usage: $0 {check|mark|reset|require|bypass}"
+    echo "  check    — Verify skills were consulted (exit 1 if not)"
+    echo "  mark     — Mark that skills were consulted"
+    echo "  reset    — Reset marker"
+    echo "  require  — Verify a SPECIFIC skill was loaded"
+    echo "  bypass   — Bypass skill gate (logged)"
     exit 1
     ;;
 esac
