@@ -1,8 +1,6 @@
 ---
 name: debugging-and-error-recovery
-description: >
-  Guides systematic root-cause debugging. Use when tests fail, builds break,
-  behavior doesn't match expectations, or you encounter any unexpected error.
+description: Debug systematically using root-cause analysis. Use when tests fail, builds break, or behavior doesn't match. Do NOT use for code review.
 version: 1.0.0
 license: MIT
 compatibility: all
