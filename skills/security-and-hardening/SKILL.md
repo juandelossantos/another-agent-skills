@@ -1,10 +1,6 @@
 ---
 name: security-and-hardening
-description: >
-  Hardens code against vulnerabilities. Covers OWASP prevention, input validation,
-  authentication, data storage security, and third-party integration safety.
-  Use when handling user input, auth, data storage, or external integrations.
-  Complements hard-skill: hard-skill is mechanical (a11y, states), this is preventive (security).
+description: Harden code against vulnerabilities: OWASP prevention, input validation, authentication, data storage, and third-party safety. Do NOT use for mechanical a11y fixes.
 version: 1.0.0
 license: MIT
 compatibility: all
