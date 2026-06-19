@@ -1,10 +1,6 @@
 ---
 name: performance-optimization
-description: >
-  Optimize application performance beyond the frontend. Covers Core Web Vitals,
-  load times, server response, database queries, caching, and profiling.
-  Complements optimize-skill: optimize-skill handles frontend design performance
-  (bundle, animations, reflows); this covers system/infrastructure performance.
+description: Optimize application performance beyond the frontend: Core Web Vitals, load times, server response, database queries, caching, profiling. Do NOT use for frontend-only bundle optimization.
 version: 1.0.0
 license: MIT
 compatibility: all
