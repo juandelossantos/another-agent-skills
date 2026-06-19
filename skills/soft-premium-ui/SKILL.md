@@ -1,9 +1,6 @@
 ---
 name: soft-premium-ui
-description: >
-  Polished, calm, expensive UI with softer contrast, generous whitespace,
-  premium fonts, and spring motion. Double-bezel nested architecture,
-  fluid island nav, button-in-button trailing icons.
+description: Design polished, calm, premium UIs with soft contrast, generous whitespace, premium fonts, and spring motion. Do NOT use for industrial or brutalist aesthetics.
 version: 1.0.0
 license: MIT
 compatibility: all

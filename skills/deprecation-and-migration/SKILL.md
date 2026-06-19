@@ -1,10 +1,6 @@
 ---
 name: deprecation-and-migration
-description: >
-  Manage deprecation and migration of old systems, APIs, and features.
-  Covers sunset strategies, backward compatibility, migration timelines,
-  and user communication. Use when removing old functionality or migrating
-  users between implementations.
+description: Manage deprecation and migration of old systems, APIs, and features. Covers sunset strategies, backward compatibility, timelines. Do NOT use for new feature development.
 version: 1.0.0
 license: MIT
 compatibility: all

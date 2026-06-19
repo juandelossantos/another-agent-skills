@@ -1,6 +1,6 @@
 ---
 name: context-engineering
-description: Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.
+description: Optimize agent context setup. Use when starting a session, output degrades, or switching tasks. Do NOT use for one-off queries with no context needs.
 version: 1.0.0
 license: MIT
 compatibility: all

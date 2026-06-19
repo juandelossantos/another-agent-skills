@@ -1,8 +1,6 @@
 ---
 name: frontend-web
-description: >
-  Build production-grade web interfaces. Built on engineering-fundamentals.
-  Triggers on: "website", "landing page", "web app", "Next.js", "React", "Vue".
+description: Build production-grade web interfaces. Triggers: website, landing page, web app, Next.js, React, Vue. Do NOT use for mobile native apps.
 version: 1.0.0
 license: MIT
 compatibility: all

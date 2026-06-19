@@ -1,10 +1,6 @@
 ---
 name: observability-and-instrumentation
-description: >
-  Instrument code so production behavior is visible and diagnosable. Covers structured
-  logging, RED metrics, distributed tracing, and symptom-based alerting.
-  Use when shipping features that run in production and need evidence they work.
-  Complements shipping-and-launch: shipping deploys, observability monitors.
+description: Instrument code so production behavior is visible: structured logging, metrics, tracing, alerting. Use when shipping features that need evidence. Do NOT use for local development.
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,9 +1,6 @@
 ---
 name: optimize-skill
-description: >
-  Fix performance issues: bundle size, expensive animations, reflows, lazy
-  loading, image optimization, and render blocking. Use after profiling
-  reveals bottlenecks or when performance budgets are exceeded.
+description: Fix performance issues: bundle size, animations, reflows, lazy loading, image optimization, render blocking. Use after profiling reveals bottlenecks. Do NOT use for cosmetic changes.
 version: 1.0.0
 license: MIT
 compatibility: all

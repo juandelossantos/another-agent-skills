@@ -1,10 +1,6 @@
 ---
 name: user-onboarding
-description: >
-  Capture user preferences once, persist across all projects.
-  Creates ~/.config/opencode/user-profile.json used by all skills to personalize
-  discovery, recommendations, and defaults. Triggers on: first session,
-  "setup preferences", "remember my stack", "my defaults", "user profile".
+description: Capture user preferences once, persist across projects. Creates a user profile for personalization across skills. Triggers: first session, setup preferences. Do NOT use for project-specific config.
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,6 +1,6 @@
 ---
 name: incremental-implementation
-description: Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step.
+description: Build features incrementally in thin vertical slices. Use when touching multiple files or when a task feels too large for one step. Do NOT use for single-file changes.
 version: 1.0.0
 license: MIT
 compatibility: all

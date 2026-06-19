@@ -1,8 +1,6 @@
 ---
 name: multi-agent-orchestration
-description: >
-  Patterns for orchestrating multiple OpenCode agents in parallel, pipeline, or swarm modes.
-  Use when tasks require >2 agents, complex multi-file refactors, or parallel research+build.
+description: Orchestrate multiple AI coding agents in parallel, pipeline, or swarm modes. Use with >2 agents or multi-file refactors. Do NOT use for single-agent tasks.
 version: 1.0.0
 license: MIT
 compatibility: all

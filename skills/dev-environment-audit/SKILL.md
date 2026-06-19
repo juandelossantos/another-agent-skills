@@ -1,9 +1,6 @@
 ---
 name: dev-environment-audit
-description: >
-  Audit development environment (MCPs, CLI tools, runtimes) before code.
-  Proposes installations with justification. Use when starting project,
-  user asks "what do I need", "setup environment", or before build.
+description: Audit development environment (CLI tools, runtimes) before code. Proposes installations with justification. Use when starting a project. Do NOT use for running existing environments.
 version: 1.0.0
 license: MIT
 compatibility: all

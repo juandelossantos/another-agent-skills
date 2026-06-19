@@ -2,7 +2,7 @@
 # skill-lint.sh — Validates skill structure and Rule 6 compliance
 # Run before committing any SKILL.md changes
 
-set -euo pipefail
+set -uo pipefail
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -144,6 +144,32 @@ for skill_dir in "$SKILLS_DIR"/*/; do
       echo "       Every skill must reference ≥ 2 guides. Create or reference existing guides."
       ERRORS=$((ERRORS + 1))
     fi
+  fi
+
+  # Check 15: Description quality — extract and validate
+  desc=$(head -10 "$skill_file" | grep "^description:" | sed 's/^description: *//; s/^"//; s/"$//; s/^> //' 2>/dev/null || echo "")
+  # If folded format, grab the next indented lines
+  if echo "$desc" | grep -q ">$"; then
+    desc=$(sed -n '/^description: >/,/^[a-z]/p' "$skill_file" | tail -n +2 | head -2 | sed 's/^ *//' | tr '\n' ' ' | sed 's/ *$//' 2>/dev/null || echo "")
+  fi
+  desc_chars=$(printf "%s" "$desc" | wc -c | tr -d ' ')
+  desc_starts_verb=$(printf "%s" "$desc" | grep -ciE '^(Build|Design|Create|Fix|Evaluate|Audit|Rewrite|Add|Generate|Guide|Manage|Optimize|Polish|Refine|Test|Extract|Develop|Define|Initialize|Edit|Structure|Review|Stop|Document|Orchestrate|Prevent|Decompose|Log|Improve|Harden|Prepare|Analyze|Ground|Write|Automate|Simplify|Debug|Instrument|Capture)')
+  desc_has_anti=$(printf "%s" "$desc" | grep -ciE '(Do NOT|Use ONLY|When NOT)')
+  
+  if [ "${desc_chars:-0}" -gt 200 ] 2>/dev/null; then
+    echo "  ${RED}✗${NC} $skill_name — Description is $desc_chars chars (>200 limit)"
+    echo "       Shorten to ≤200 chars for efficient routing."
+    ERRORS=$((ERRORS + 1))
+  fi
+  if [ "$desc_starts_verb" -eq 0 ]; then
+    echo "  ${RED}✗${NC} $skill_name — Description does not start with a strong verb"
+    echo "       Rewrite to start with: Build, Design, Audit, Fix, Evaluate, etc."
+    ERRORS=$((ERRORS + 1))
+  fi
+  if [ "$desc_has_anti" -eq 0 ]; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — Description lacks anti-trigger clause"
+    echo "       Add \"Do NOT use for...\" to prevent misuse."
+    WARNINGS=$((WARNINGS + 1))
   fi
 done
 

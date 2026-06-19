@@ -18,7 +18,7 @@
 | `adapt-skill` | 132 | 2 | Fix responsive layout issues, missing mobile behavior, touch targets, |
 | `api-and-interface-design` | 43 | 0 | Design stable APIs and module boundaries with clear contracts. Use when designin |
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with critical thinking before any build decision. |
-| `audit-skill` | 154 | 4 | Five-dimension technical quality audit with P0-P3 severity scoring. |
+| `audit-skill` | 150 | 4 | Audit code across 5 dimensions with P0-P3 severity scoring. Use before shipping. Do NOT use for design critique. |
 | `backend-api-mastery` | 201 | 5 | Design production-grade APIs with intentional architecture decisions before any |
 | `browser-testing-with-devtools` | 80 | 0 | Test interfaces in real browsers. Available tools vary by agent platform: |
 | `ci-cd-and-automation` | 39 | 0 | Automate CI/CD pipeline setup, quality gates, and deployment automation. |

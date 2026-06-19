@@ -1,9 +1,6 @@
 ---
 name: frontend-pwa
-description: >
-  Build installable, offline-first web apps for all devices with migration path to
-  native via Capacitor. Built on engineering-fundamentals. Triggers on: "PWA",
-  "offline", "installable", "Capacitor", "Ionic", "hybrid", "cross-platform".
+description: Build installable, offline-first web apps for all devices with native migration via Capacitor. Triggers: PWA, offline, installable, hybrid. Do NOT use for server-rendered websites.
 version: 1.0.0
 license: MIT
 compatibility: all

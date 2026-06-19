@@ -1,11 +1,6 @@
 ---
 name: backend-api-mastery
-description: >
-  Design production-grade APIs with intentional architecture decisions before any
-  endpoint is written. Covers protocol choice (REST/GraphQL/tRPC), database design,
-  auth strategy, error handling, validation, testing, and documentation. Use when
-  building or modifying any API layer, backend service, or data persistence layer.
-  Triggers on: "API", "backend", "database", "auth", "endpoint", "REST",
+description: Design production-grade APIs: protocol, database, auth, error handling, validation, testing, docs. Triggers: API, backend, endpoint. Do NOT use for frontend-only projects.
   "GraphQL", "Prisma", "Drizzle", "tRPC", "server", "create API", "design API".
 version: 1.0.0
 license: MIT

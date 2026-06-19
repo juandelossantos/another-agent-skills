@@ -1,12 +1,6 @@
 ---
 name: skill-improver
-description: >
-  Analyze failing eval cases and propose improvements to existing skills.
-  Reads SKILL.md + eval results, identifies failure patterns (trigger,
-  execution, token budget), and outputs a diff of proposed changes.
-  Use when run-evals.sh shows failures for a skill. Do NOT auto-apply
-  changes — always produce a diff for human review. Do NOT use for
-  creating new skills (use skill-creator).
+description: Analyze failing eval cases and propose improvements. Reads eval results, identifies failure patterns, outputs a diff. Do NOT auto-apply. Do NOT use for creating new skills.
 version: 1.0.0
 license: MIT
 compatibility: all

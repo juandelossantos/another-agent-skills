@@ -1,10 +1,6 @@
 ---
 name: interview-me
-description: >
-  Extract what the user actually wants through one-question-at-a-time interviewing.
-  Use when a request is underspecified, ambiguous, or when you catch yourself
-  silently filling in requirements. Use BEFORE spec-driven-development.
-  Do NOT use when requirements are already clear and documented.
+description: Extract what the user actually wants through one-question-at-a-time interviewing. Use when a request is underspecified or ambiguous. Do NOT use when requirements are already clear.
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,10 +1,6 @@
 ---
 name: visual-frontend-mastery
-description: >
-  Build distinctive, production-grade frontend interfaces with intentional visual design,
-  high-performance animations, and modern stack discipline. Use when creating or modifying
-  web UIs, landing pages, dashboards, or React/Next.js components. For platform-agnostic
-  UI principles, use frontend-ui-engineering. For web-specific implementation, use frontend-web.
+description: Build distinctive frontend interfaces with intentional visual design and animations. Use when creating web UIs, landing pages, or dashboards. Do NOT use for platform-agnostic UI principles.
 version: 1.0.0
 license: MIT
 compatibility: all

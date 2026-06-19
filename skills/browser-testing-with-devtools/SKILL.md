@@ -1,12 +1,6 @@
 ---
 name: browser-testing-with-devtools
-description: >
-  Test interfaces in real browsers. Available tools vary by agent platform:
-  some have built-in browser tools (navigate, inspect, click, screenshot),
-  others need MCP servers for browser access. Use when you need to inspect
-  the DOM, capture console errors, analyze network requests, or verify
-  visual output. Complements test-driven-development for browser verification.
-  See dev-environment-audit for help setting up browser testing capabilities.
+description: Test interfaces in real browsers: inspect DOM, capture console errors, analyze network requests, verify visual output. Available tools vary by platform. Do NOT use for server-side testing.
 version: 1.0.0
 license: MIT
 compatibility: all

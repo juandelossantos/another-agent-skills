@@ -1,10 +1,6 @@
 ---
 name: critique-skill
-description: >
-  Two-pass design review with scoring, persona tests, and AI slop detection.
-  Evaluates interfaces against Nielsen heuristics, cognitive load benchmarks,
-  and 25 concrete anti-patterns. Use when a page is functionally done and you
-  need to know if it reads as intentional or as AI slop.
+description: Evaluate interfaces with two-pass design review: scoring, persona tests, AI slop detection, Nielsen heuristics, and 25 anti-patterns. Do NOT use for implementation bugs.
 version: 1.0.0
 license: MIT
 compatibility: all

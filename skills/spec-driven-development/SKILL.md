@@ -1,10 +1,6 @@
 ---
 name: spec-driven-development
-description: >
-  Native pipeline from user request to verified code. Creates comprehensive
-  specifications through research, critical analysis, and user alignment.
-  Triggers on: "new project", "feature", "spec", "plan", "what are we building",
-  "let's plan this", "document this".
+description: Create comprehensive specifications from user requests through research, critical analysis, and user alignment. Triggers on: new project, feature, spec, plan. Do NOT use for bug fixes.
 version: 1.0.0
 license: MIT
 compatibility: all

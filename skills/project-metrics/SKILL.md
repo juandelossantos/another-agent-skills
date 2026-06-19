@@ -1,9 +1,6 @@
 ---
 name: project-metrics
-description: >
-  Track empirical quality metrics across projects and sessions. Logs build pass
-  rate, rework, coverage, discovery time, gate pass rate, user overrides.
-  Runs automatically — no direct invocation. Data in ~/.config/opencode/quality-metrics.json.
+description: Log empirical quality metrics across projects: build pass rate, rework, coverage, discovery time, gate pass rate. Runs automatically in the background. Do NOT use for manual data collection.
 version: 1.0.0
 license: MIT
 compatibility: all
