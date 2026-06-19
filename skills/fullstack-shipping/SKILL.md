@@ -1,12 +1,6 @@
 ---
 name: fullstack-shipping
-description: >
-  End-to-end build, test, and deploy workflows with production-grade discipline.
-  Covers CI/CD pipelines, testing strategy, deployment orchestration, monitoring,
-  and launch checklists. Use when preparing to deploy, setting up CI/CD, or
-  shipping any non-trivial project. Triggers on: "deploy", "ship", "launch",
-  "CI/CD", "build pipeline", "testing strategy", "production", "release",
-  "go live", "monitoring", "rollback", "staging".
+description: Build, test, and deploy with production-grade CI/CD, testing, orchestration, and monitoring. Triggers on: deploy, ship, launch, pipeline, production. Do NOT use for local prototyping.
 version: 1.0.0
 license: MIT
 compatibility: all
