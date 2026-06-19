@@ -1,10 +1,6 @@
 ---
 name: frontend-ui-engineering
-description: >
-  Build production-quality UIs with intentional component architecture, state management,
-  and layout discipline. Use when creating or modifying any user-facing interface across
-  web, mobile, desktop, or PWA. Foundation skill for all frontend platform skills.
-  Do NOT use for platform-specific work (use frontend-web, frontend-mobile, etc.).
+description: Build production-quality UIs with component architecture, state management, and layout discipline. Use across web, mobile, desktop, or PWA. Do NOT use for platform-specific implementation.
 version: 1.0.0
 license: MIT
 compatibility: all
