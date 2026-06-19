@@ -1,10 +1,6 @@
 ---
 name: audit-skill
-description: >
-  Five-dimension technical quality audit with P0-P3 severity scoring.
-  Scans code for accessibility, performance, theming, responsive, and
-  anti-pattern issues. Documents findings for routing to fix skills.
-  Use before shipping or during quality sprints.
+description: Audit code across 5 dimensions (accessibility, performance, theming, responsive, anti-patterns) with P0-P3 severity scoring. Use before shipping. Do NOT use for design critique.
 version: 1.0.0
 license: MIT
 compatibility: all

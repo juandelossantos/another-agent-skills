@@ -23,7 +23,7 @@ LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+error)' | head -1 || echo
 LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+warning)' | head -1 || echo "0")
 
 # Parse HEALTH-CHECK.md summary values
-HC_ERRORS=$(grep -oP '\*\*\d+\*\*' "$HEALTH_FILE" | head -1 | grep -oP '\d+' || echo "0")
+HC_ERRORS=$(grep -oP '(?<=Errors).*\*\*\d+\*\*' "$HEALTH_FILE" | grep -oP '\*\*\d+\*\*' | grep -oP '\d+' | head -1 || echo "0")
 HC_WARNINGS=$(grep -oP 'Warnings\s*\|\s*\*\*\d+\*\*' "$HEALTH_FILE" | grep -oP '\d+' || echo "unknown")
 HC_OVERALL=$(grep 'Overall' "$HEALTH_FILE" | grep -oP '(HEALTHY|DEGRADED|CRITICAL)' || echo "unknown")
 
