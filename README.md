@@ -111,6 +111,10 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ## What's New in v2.1.0
 
+- **Phase 6.5: Rule 6 Compliance** — All 57 skills now have ≥2 guides (68 total). Errors: 16→0. Warnings: 32→0.
+- **Mechanical Gates Added** — `commit-approval.sh` requires `--plan-approved` + `--manifest-presented`. `skill-gate.sh` requires specific skills loaded.
+- **Auto-Generated Health Tracking** — `generate-health-check.sh` and `sync-progress-table.sh` keep HEALTH-CHECK.md and PROGRESS_STATUS.md in sync with the linter. Never stale again.
+- **Task Protocol Standardized** — `docs/TASK-TEMPLATE.md` defines the reusable task format (need evidence, pre-flight tests, post-flight tests, acceptance criteria).
 - **Meta-Skills** — Three new skills for creating, improving, and harvesting your own skills:
   - [`skill-creator`](skills/skill-creator/SKILL.md) — Generate complete skills from descriptions
   - [`skill-improver`](skills/skill-improver/SKILL.md) — Diagnose eval failures and propose fixes
@@ -244,8 +248,8 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.0.0) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (55 skills, 0 lint warnings) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.1.0) |
+| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
