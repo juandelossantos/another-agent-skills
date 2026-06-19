@@ -1,8 +1,6 @@
 ---
 name: documentation-and-adrs
-description: >
-  Records decisions and documentation. Use when making architectural decisions,
-  changing public APIs, shipping features, or documenting context.
+description: Document architectural decisions, API changes, and features. Use when something needs a written record. Do NOT use for code comments.
 version: 1.0.0
 license: MIT
 compatibility: all
