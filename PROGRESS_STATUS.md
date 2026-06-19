@@ -9,69 +9,68 @@
 
 ## What Exists Now
 
+
 ### 57 Custom Skills
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
-| `adapt-skill` | 132 | 2 | Responsive layout fixes |
-| `api-and-interface-design` | 43 | 0 | Stable API and interface design |
-| `architecture-analysis` | 225 | 3 | Evaluate architecture options with trade-offs |
-| `audit-skill` | 154 | 2 | Five-dimension technical quality audit |
-| `backend-api-mastery` | 201 | 5 | Production APIs: protocol, DB, auth, testing, docs |
-| `browser-testing-with-devtools` | 80 | 0 | Browser testing — tool-agnostic, references dev-env-audit for setup |
-| `ci-cd-and-automation` | 39 | 0 | CI/CD pipeline automation |
-| `clarify-skill` | 95 | 2 | Rewrite confusing UX copy |
-| `cli-tools` | 113 | 2 | Terminal-based tools with standard UX |
-| `code-review-and-quality` | 138 | 3 | Multi-axis code review with quality gates |
-| `code-simplification` | 40 | 0 | Simplify code for clarity |
-| `context-engineering` | 126 | 2 | Optimize agent context setup |
-| `customize-opencode` | 34 | 0 | Configure OpenCode itself |
-| `critique-skill` | 169 | 3 | Two-pass design review with scoring |
-| `debugging-and-error-recovery` | 92 | 5 | Systematic root-cause debugging |
-| `debugging-three-strikes` | 23 | 1 | Stop speculative debugging at 3 failures |
-| `delight-skill` | 152 | 2 | Micro-interactions and transitions |
-| `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration |
-| `dev-environment-audit` | 155 | 4 | MCPs, CLI tools, runtime verification |
-| `documentation-and-adrs` | 70 | 3 | Record decisions and documentation |
-| `doubt-driven-development` | 90 | 2 | Adversarial fresh-context review |
-| `engineering-fundamentals` | 217 | 4 | Universal philosophy: discovery, contracts, anti-slop |
-| `frontend-desktop` | 240 | 3 | Production desktop apps (Tauri/Electron) |
-| `frontend-mobile` | 243 | 3 | Production mobile apps (RN/Flutter) |
-| `frontend-pwa` | 199 | 4 | Offline-first web apps with native migration |
-| `frontend-ui-engineering` | 48 | 0 | Universal UI principles across platforms |
-| `frontend-web` | 235 | 6 | Production web interfaces with anti-slop rules |
-| `fullstack-shipping` | 184 | 3 | CI/CD, deployment, monitoring, rollback |
-| `git-init-and-versioning` | 249 | 5 | Git setup, branching, hooks, commit gates |
-| `git-workflow-and-versioning` | 183 | 3 | Atomic commits, branching, conflict resolution |
-| `hard-skill` | 153 | 2 | Deterministic P0/P1 mechanical fixes |
-| `idea-refine` | 43 | 0 | Refine ideas through structured thinking |
-| `incremental-implementation` | 89 | 2 | Thin vertical slices, test each |
-| `industrial-brutalist-ui` | 78 | 0 | Raw industrial mechanical UI |
-| `interview-me` | 40 | 0 | Extract intent through questioning |
-| `minimalist-ui` | 71 | 0 | Editorial product UI (Notion/Linear) |
-| `multi-agent-orchestration` | 83 | 1 | Orchestrate >2 agents in parallel/pipeline |
-| `observability-and-instrumentation` | 34 | 0 | Logs, metrics, traces, alerting |
-| `optimize-skill` | 142 | 2 | Fix performance bottlenecks |
-| `output-skill` | 51 | 0 | Complete output enforcement |
-| `performance-optimization` | 34 | 0 | System and infrastructure performance |
-| `planning-and-task-breakdown` | 83 | 2 | Decompose into verifiable chunks |
-| `polish-skill` | 139 | 2 | Fix design detail: spacing, alignment, tokens |
-| `project-health-check` | 213 | 2 | Audit existing codebases with decision gate |
-| `project-metrics` | 154 | 2 | Background quality logging |
-| `redesign-skill` | 67 | 0 | Systematic UI improvement |
-| `security-and-hardening` | 35 | 0 | Vulnerability prevention and hardening |
-| `shipping-and-launch` | 163 | 2 | Production launch prep and rollback |
-| `skill-creator` | 159 | 2 | Generate skills from descriptions |
-| `skill-improver` | 159 | 2 | Diagnose eval failures and propose fixes |
-| `soft-premium-ui` | 72 | 0 | Polished, calm premium UI |
-| `source-driven-development` | 35 | 0 | Doc-verified implementation |
-| `spec-driven-development` | 205 | 2 | Research-backed specs with implement gate |
-| `test-driven-development` | 141 | 6 | TDD cycle with anti-pattern checks |
-| `typeset-skill` | 139 | 2 | Fix typography and reading rhythm |
-| `user-onboarding` | 191 | 2 | Persistent user preferences across projects |
-| `visual-frontend-mastery` | 46 | 0 | Visual design + high-performance animations |
-
-**Total: 57 custom skills, 54 guides, 3 evals, 3 memory. All SKILL.md ≤ 250 lines.**
+| `adapt-skill` | 132 | 2 | Fix responsive layout issues, missing mobile behavior, touch targets, |
+| `api-and-interface-design` | 43 | 0 | Design stable APIs and module boundaries with clear contracts. Use when designin |
+| `architecture-analysis` | 225 | 3 | Evaluate architecture options with critical thinking before any build decision. |
+| `audit-skill` | 154 | 2 | Five-dimension technical quality audit with P0-P3 severity scoring. |
+| `backend-api-mastery` | 201 | 5 | Design production-grade APIs with intentional architecture decisions before any |
+| `browser-testing-with-devtools` | 80 | 0 | Test interfaces in real browsers. Available tools vary by agent platform: |
+| `ci-cd-and-automation` | 39 | 0 | Automate CI/CD pipeline setup, quality gates, and deployment automation. |
+| `clarify-skill` | 95 | 2 | Rewrite confusing UX copy so interfaces explain themselves. Covers labels, |
+| `cli-tools` | 113 | 2 | Build production-grade CLI tools with standard argument parsing, exit |
+| `code-review-and-quality` | 138 | 3 | Conducts multi-axis code review. Use before merging any change. Use when reviewi |
+| `code-simplification` | 40 | 0 | Simplify code for clarity without changing behavior. Use when refactoring code |
+| `context-engineering` | 126 | 2 |  |
+| `critique-skill` | 169 | 3 | Two-pass design review with scoring, persona tests, and AI slop detection. |
+| `customize-opencode` | 34 | 0 | Edit or create OpenCode's own configuration files: opencode.json, files under |
+| `debugging-and-error-recovery` | 92 | 5 | Guides systematic root-cause debugging. Use when tests fail, builds break, |
+| `debugging-three-strikes` | 23 | 1 | Stop speculative debugging when the same bug comes back 3 times. |
+| `delight-skill` | 152 | 2 | Add micro-interactions, transitions, hover states, and feedback |
+| `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration of old systems, APIs, and features. |
+| `dev-environment-audit` | 155 | 4 | Audit development environment (MCPs, CLI tools, runtimes) before code. |
+| `documentation-and-adrs` | 70 | 3 | Records decisions and documentation. Use when making architectural decisions, |
+| `doubt-driven-development` | 90 | 2 |  |
+| `engineering-fundamentals` | 217 | 4 | Universal engineering philosophy for all platform skills. Defines discovery, |
+| `frontend-desktop` | 240 | 3 | Build production-grade desktop applications with native OS integration. |
+| `frontend-mobile` | 243 | 3 | Build production-grade mobile apps with native design tokens and platform compli |
+| `frontend-pwa` | 199 | 4 | Build installable, offline-first web apps for all devices with migration path to |
+| `frontend-ui-engineering` | 48 | 0 | Build production-quality UIs with intentional component architecture, state mana |
+| `frontend-web` | 235 | 6 | Build production-grade web interfaces. Built on engineering-fundamentals. |
+| `fullstack-shipping` | 184 | 3 | End-to-end build, test, and deploy workflows with production-grade discipline. |
+| `git-init-and-versioning` | 249 | 5 | Initialize and configure Git repositories before any code is written. |
+| `git-workflow-and-versioning` | 183 | 3 | Structures git workflow practices. Use when making any code change. Use when com |
+| `hard-skill` | 153 | 2 | Apply deterministic mechanical fixes for P0/P1 accessibility, input |
+| `idea-refine` | 43 | 0 | Refine raw ideas into sharp, actionable concepts through structured divergent |
+| `incremental-implementation` | 89 | 2 |  |
+| `industrial-brutalist-ui` | 78 | 0 | Raw mechanical interfaces fusing Swiss typographic print with military |
+| `interview-me` | 40 | 0 | Extract what the user actually wants through one-question-at-a-time interviewing |
+| `minimalist-ui` | 71 | 0 | Editorial product UI inspired by Notion and Linear. Warm monochrome palette, |
+| `multi-agent-orchestration` | 83 | 1 | Patterns for orchestrating multiple OpenCode agents in parallel, pipeline, or sw |
+| `observability-and-instrumentation` | 34 | 0 | Instrument code so production behavior is visible and diagnosable. Covers struct |
+| `optimize-skill` | 142 | 2 | Fix performance issues: bundle size, expensive animations, reflows, lazy |
+| `output-skill` | 51 | 0 | Keeps agent outputs complete. Prevents placeholders, truncated code, |
+| `performance-optimization` | 34 | 0 | Optimize application performance beyond the frontend. Covers Core Web Vitals, |
+| `planning-and-task-breakdown` | 83 | 2 |  |
+| `polish-skill` | 139 | 2 | Fix design detail issues: spacing, alignment, consistency, token |
+| `project-health-check` | 213 | 2 | Audit existing projects before new work. Use when entering projects with code, |
+| `project-metrics` | 154 | 2 | Track empirical quality metrics across projects and sessions. Logs build pass |
+| `redesign-skill` | 67 | 0 | Systematic approach to improving existing codebases. Scan the UI, diagnose |
+| `security-and-hardening` | 35 | 0 | Hardens code against vulnerabilities. Covers OWASP prevention, input validation, |
+| `shipping-and-launch` | 163 | 2 |  |
+| `skill-creator` | 159 | 2 | Generate new agent skills from a workflow description. Creates the complete |
+| `skill-improver` | 159 | 2 | Analyze failing eval cases and propose improvements to existing skills. |
+| `soft-premium-ui` | 72 | 0 | Polished, calm, expensive UI with softer contrast, generous whitespace, |
+| `source-driven-development` | 35 | 0 | Ground every implementation decision in official documentation before writing co |
+| `spec-driven-development` | 205 | 2 | Native pipeline from user request to verified code. Creates comprehensive |
+| `test-driven-development` | 141 | 6 | Drives development with tests. Use when implementing any logic, fixing any bug, |
+| `typeset-skill` | 139 | 2 | Fix typography and reading rhythm issues. Covers typeface, weight, size, |
+| `user-onboarding` | 191 | 2 | Capture user preferences once, persist across all projects. |
+| `visual-frontend-mastery` | 46 | 0 | Build distinctive, production-grade frontend interfaces with intentional visual  |
 
 ### Architecture Decisions Implemented
 
