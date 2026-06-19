@@ -24,7 +24,7 @@ fi
 
 LINE_NUM=$(echo "$FIRST_HEADER" | cut -d: -f1)
 VERSION_TAG=$(echo "$FIRST_HEADER" | grep -oP 'v?\d+\.\d+\.\d+' || echo "")
-TITLE=$(echo "$FIRST_HEADER" | sed 's/^## //')
+TITLE=$(echo "$FIRST_HEADER" | sed 's/^[0-9]*:## //')
 
 if [ -z "$VERSION_TAG" ]; then
   echo "FAIL: Could not extract version from: $FIRST_HEADER"
