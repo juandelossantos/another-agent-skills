@@ -1,10 +1,6 @@
 ---
 name: api-and-interface-design
-description: >
-  Design stable APIs and module boundaries with clear contracts. Use when designing
-  REST/GraphQL endpoints, defining type contracts between modules, or establishing
-  boundaries between frontend and backend. For deep backend API work, use
-  backend-api-mastery instead.
+description: Design stable APIs and module boundaries with clear contracts. Use when designing REST/GraphQL endpoints or defining type contracts between modules. Do NOT use for full backend API implementation.
 version: 1.0.0
 license: MIT
 compatibility: all
