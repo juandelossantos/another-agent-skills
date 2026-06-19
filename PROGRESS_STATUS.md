@@ -13,7 +13,7 @@
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
-| `adapt-skill` | 132 | 1 | Responsive layout fixes |
+| `adapt-skill` | 132 | 2 | Responsive layout fixes |
 | `api-and-interface-design` | 43 | 0 | Stable API and interface design |
 | `architecture-analysis` | 225 | 3 | Evaluate architecture options with trade-offs |
 | `audit-skill` | 151 | 0 | Five-dimension technical quality audit |
@@ -26,7 +26,7 @@
 | `code-simplification` | 40 | 0 | Simplify code for clarity |
 | `context-engineering` | 150 | 0 | Optimize agent context setup |
 | `customize-opencode` | 34 | 0 | Configure OpenCode itself |
-| `critique-skill` | 169 | 1 | Two-pass design review with scoring |
+| `critique-skill` | 169 | 3 | Two-pass design review with scoring |
 | `debugging-and-error-recovery` | 92 | 5 | Systematic root-cause debugging |
 | `debugging-three-strikes` | 23 | 1 | Stop speculative debugging at 3 failures |
 | `delight-skill` | 149 | 0 | Micro-interactions and transitions |
@@ -55,7 +55,7 @@
 | `output-skill` | 51 | 0 | Complete output enforcement |
 | `performance-optimization` | 34 | 0 | System and infrastructure performance |
 | `planning-and-task-breakdown` | 83 | 2 | Decompose into verifiable chunks |
-| `polish-skill` | 139 | 1 | Fix design detail: spacing, alignment, tokens |
+| `polish-skill` | 139 | 2 | Fix design detail: spacing, alignment, tokens |
 | `project-health-check` | 213 | 2 | Audit existing codebases with decision gate |
 | `project-metrics` | 154 | 2 | Background quality logging |
 | `redesign-skill` | 67 | 0 | Systematic UI improvement |
@@ -67,7 +67,7 @@
 | `source-driven-development` | 35 | 0 | Doc-verified implementation |
 | `spec-driven-development` | 205 | 2 | Research-backed specs with implement gate |
 | `test-driven-development` | 141 | 6 | TDD cycle with anti-pattern checks |
-| `typeset-skill` | 139 | 1 | Fix typography and reading rhythm |
+| `typeset-skill` | 139 | 2 | Fix typography and reading rhythm |
 | `user-onboarding` | 191 | 2 | Persistent user preferences across projects |
 | `visual-frontend-mastery` | 46 | 0 | Visual design + high-performance animations |
 
