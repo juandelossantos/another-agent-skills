@@ -19,11 +19,11 @@ echo "=== Validating $HEALTH_FILE against live linter state ==="
 LINT_OUTPUT=$(bash scripts/skill-lint.sh 2>&1) || true
 
 # Parse linter error/warning counts
-LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?= error\()' | head -1 || echo "0")
-LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?= warning\()' | head -1 || echo "0")
+LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+error)' | head -1 || echo "0")
+LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+warning)' | head -1 || echo "0")
 
 # Parse HEALTH-CHECK.md summary values
-HC_ERRORS=$(grep -oP '\*\*\d+\*\* \(guide violations' "$HEALTH_FILE" | grep -oP '\d+' || echo "unknown")
+HC_ERRORS=$(grep -oP '\*\*\d+\*\*' "$HEALTH_FILE" | head -1 | grep -oP '\d+' || echo "0")
 HC_WARNINGS=$(grep -oP 'Warnings\s*\|\s*\*\*\d+\*\*' "$HEALTH_FILE" | grep -oP '\d+' || echo "unknown")
 HC_OVERALL=$(grep 'Overall' "$HEALTH_FILE" | grep -oP '(HEALTHY|DEGRADED|CRITICAL)' || echo "unknown")
 

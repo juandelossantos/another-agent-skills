@@ -20,6 +20,9 @@ metadata:
 
 **Generate production-ready skills from descriptions.**
 
+→ See `guides/WORKFLOW-GUIDE.md` for the complete input-to-output workflow.
+→ See `guides/EVAL-CASES-GUIDE.md` for eval case format and quality criteria.
+
 Creates a complete skill directory with SKILL.md, eval cases, and progressive
 disclosure structure. The generated skill is always tier **draft** — human
 review required before promotion to action-allowed.

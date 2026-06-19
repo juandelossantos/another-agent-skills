@@ -3,7 +3,7 @@
 **Date:** 2026-06-18
 **Version:** 2.0.0 (Standardized Frontmatter)
 **Auditor:** OpenCode Agent
-**Status:** 🟡 DEGRADED — 16 Rule 6 guide violations, Phase 6.5 in progress (2/8 tasks done)
+**Status:** 🟡 DEGRADED — 15 warnings remaining, Phase 6.5 in progress (5/8 tasks done)
 
 ---
 
@@ -12,8 +12,8 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Errors (Check 14) | **3** (guide violations — Phase 6.5.4) |
-| Warnings | **17** |
+| Errors (Check 14) | **0** (guide violations) |
+| Warnings | **15** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -23,7 +23,7 @@
 | Check | Status | Notes |
 |---|---|---|
 | SKILL.md files | ✅ 57 on disk in `skills/` | All ≤ 250 lines |
-| Guide distribution | 🔴 16 errors | Skills >100 lines with <2 guides (Phase 6.5.2-6.5.4) |
+| Guide distribution | ✅ 0 errors | All 57 skills have ≥2 guides |
 | ALWAYS/NEVER in caps | ✅ 0 | Fixed in Phase 6.5.1 |
 | Evals.md files | ✅ 3 | code-review, spec-driven, test-driven |
 | Memory.md files | ✅ 3 | debugging-and-error-recovery, engineering-fundamentals, backend-api-mastery |
@@ -48,7 +48,7 @@
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
-| Skill lint | 🟡 3 errors, 17 warnings | |
+| Skill lint | ✅ 0 errors, 15 warnings | |
 
 ---
 

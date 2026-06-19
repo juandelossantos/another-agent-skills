@@ -60,9 +60,9 @@
 | `project-metrics` | 154 | 2 | Background quality logging |
 | `redesign-skill` | 67 | 0 | Systematic UI improvement |
 | `security-and-hardening` | 35 | 0 | Vulnerability prevention and hardening |
-| `shipping-and-launch` | 160 | 0 | Production launch prep and rollback |
-| `skill-creator` | 156 | 0 | Generate skills from descriptions |
-| `skill-improver` | 156 | 0 | Diagnose eval failures and propose fixes |
+| `shipping-and-launch` | 163 | 2 | Production launch prep and rollback |
+| `skill-creator` | 159 | 2 | Generate skills from descriptions |
+| `skill-improver` | 159 | 2 | Diagnose eval failures and propose fixes |
 | `soft-premium-ui` | 72 | 0 | Polished, calm premium UI |
 | `source-driven-development` | 35 | 0 | Doc-verified implementation |
 | `spec-driven-development` | 205 | 2 | Research-backed specs with implement gate |
