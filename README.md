@@ -121,14 +121,6 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
   - [`trace-harvesting`](skills/skill-creator/references/trace-harvesting.md) — Convert successful agent traces into skills
   - Full guide: [`docs/META-SKILLS-GUIDE.md`](docs/META-SKILLS-GUIDE.md)
 
-## What's New in v2.0.0
-
-- **55 Skills (from 41)** — 14 new skills covering the full development lifecycle: discovery pipeline (interview-me → idea-refine), UI foundation layer (frontend-ui-engineering, visual-frontend-mastery), security, performance, observability, deprecation, code simplification, and more. See [`development/14-NEW-SKILLS-GUIDE.md`](development/14-NEW-SKILLS-GUIDE.md).
-- **Standardized Frontmatter** — All 55 skills now include `version`, `allowed-tools`, `tier`, `license`, and `metadata` fields. Aligned with the [agentskills.io](https://agentskills.io) open standard.
-- **Skill Smells Detection** — `skill-lint.sh` now detects 7 quality issues: weak descriptions, ALWAYS/NEVER caps, token limit warnings, missing frontmatter fields, and progressive disclosure gaps.
-- **Tool-Agnostic Design** — Removed hardcoded browser/MCP/CLI dependencies from 8 skills. Skills describe the *what* (capabilities), not the *how* (specific tools). See `dev-environment-audit` for setup guidance.
-- **Eval Framework** — 3 eval runners (trigger, golden, adversarial) with 336 test cases across 55/55 skills. Pre-commit v9 eval gate blocks commits on failed evaluations. Coverage report via `scripts/eval/check-coverage.sh`. Based on the [*Agent Skills* whitepaper](https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view) by Singhal et al. (Google, 2026).
-
 ---
 
 ## Development Lifecycle
