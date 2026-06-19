@@ -1,13 +1,14 @@
 # Project Progress Status
 
 > **Last updated:** 2026-06-18  
-> **Current version:** 2.0.0 (Standardized Frontmatter — Eval Framework)  
-> **Status:** Production-ready — Linux/macOS/Windows, Zsh/Bash/Fish/PowerShell, OpenCode/Claude/Cursor  
-> **Current plan:** Phase 6.5 (Rule 6 compliance: 16 guide violations, 0 errors target), Phase 6 (description optimization), Phase 9 (LLM-as-Judge)
+> **Current version:** 2.1.0 (auto-generated)
+> **Status:** Production-ready — 0 errors, 0 warnings, 68 guides across 57 skills  
+> **Current plan:** Phase 6 (description optimization), Phase 9 (LLM-as-Judge), Phase 8 (documentation compliance)
 
 ---
 
 ## What Exists Now
+
 
 
 ### 57 Custom Skills

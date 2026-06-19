@@ -74,6 +74,15 @@ if [ "$MODE" == "--check" ]; then
   exit 0
 
 elif [ "$MODE" == "--apply" ]; then
+  VERSION=$(cat VERSION 2>/dev/null || echo "unknown")
+  TODAY=$(date +%Y-%m-%d)
+
+  # Update header: date and version
+  sed -i "s/^\*Last updated:\*.*/$TODAY/" "$PROGRESS_FILE" 2>/dev/null || true
+  sed -i "s/^\*Last updated:\* .*/> **Last updated:** $TODAY  /" "$PROGRESS_FILE" 2>/dev/null || true
+  sed -i "s/> \*\*Current version:\*\* .*/> **Current version:** $VERSION (auto-generated)/" "$PROGRESS_FILE" 2>/dev/null || true
+
+  # Update skill table
   TABLE_START=$(grep -n "^### [0-9]* Custom Skills" "$PROGRESS_FILE" | cut -d: -f1)
   TABLE_END=$(sed -n "$((TABLE_START + 1)),\$p" "$PROGRESS_FILE" | grep -n "^###" | head -1 | cut -d: -f1)
   [ -z "$TABLE_END" ] && TABLE_END=$(sed -n "$((TABLE_START + 1)),\$p" "$PROGRESS_FILE" | grep -n "^---" | head -1 | cut -d: -f1)
@@ -87,7 +96,7 @@ elif [ "$MODE" == "--apply" ]; then
     tail -n +"$((TABLE_END + 1))" "$PROGRESS_FILE"
   } > "${PROGRESS_FILE}.tmp"
   mv "${PROGRESS_FILE}.tmp" "$PROGRESS_FILE"
-  echo "PROGRESS_STATUS.md skill table updated."
+  echo "PROGRESS_STATUS.md updated (table + header date/version)."
   exit 0
 
 else
