@@ -1,10 +1,6 @@
 ---
 name: git-init-and-versioning
-description: >
-  Initialize and configure Git repositories before any code is written.
-  Decides mono-repo vs multi-repo, creates .gitignore and .env.example,
-  sets branching strategy, and configures pre-commit auto-review gates.
-  Use once per project before BUILD phase. Triggers on: "git init",
+description: Initialize and configure Git repositories before any code: mono vs multi-repo, .gitignore, .env.example, branching strategy. Use before BUILD. Do NOT use for day-to-day version control.
   "setup repo", "create repository", "version control", "git setup",
   "mono repo", "multi repo", "env variables", "secrets management".
 version: 1.0.0
