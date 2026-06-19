@@ -20,7 +20,7 @@
 | `backend-api-mastery` | 235 | 5 | Production APIs: protocol, DB, auth, testing, docs |
 | `browser-testing-with-devtools` | 80 | 0 | Browser testing — tool-agnostic, references dev-env-audit for setup |
 | `ci-cd-and-automation` | 39 | 0 | CI/CD pipeline automation |
-| `clarify-skill` | 181 | 0 | Rewrite confusing UX copy |
+| `clarify-skill` | 95 | 2 | Rewrite confusing UX copy |
 | `cli-tools` | 113 | 2 | Terminal-based tools with standard UX |
 | `code-review-and-quality` | 138 | 3 | Multi-axis code review with quality gates |
 | `code-simplification` | 40 | 0 | Simplify code for clarity |
