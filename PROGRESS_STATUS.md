@@ -33,7 +33,7 @@
 | `deprecation-and-migration` | 34 | 0 | Manage deprecation and migration |
 | `dev-environment-audit` | 155 | 4 | MCPs, CLI tools, runtime verification |
 | `documentation-and-adrs` | 70 | 3 | Record decisions and documentation |
-| `doubt-driven-development` | 234 | 0 | Adversarial fresh-context review |
+| `doubt-driven-development` | 90 | 2 | Adversarial fresh-context review |
 | `engineering-fundamentals` | 242 | 4 | Universal philosophy: discovery, contracts, anti-slop |
 | `frontend-desktop` | 240 | 3 | Production desktop apps (Tauri/Electron) |
 | `frontend-mobile` | 243 | 3 | Production mobile apps (RN/Flutter) |
