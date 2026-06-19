@@ -1,10 +1,6 @@
 ---
 name: idea-refine
-description: >
-  Refine raw ideas into sharp, actionable concepts through structured divergent
-  and convergent thinking. Use when an idea is still vague, when you need to
-  stress-test assumptions before committing, or expand options before converging.
-  Use AFTER interview-me, BEFORE spec-driven-development.
+description: Refine raw ideas into sharp, actionable concepts through divergent and convergent thinking. Use when an idea is vague or needs stress-testing. Do NOT use when requirements are already clear.
 version: 1.0.0
 license: MIT
 compatibility: all
