@@ -50,7 +50,7 @@ Diagnose before operating. Audit against engineering standards. Surface misalign
 
 **NO CODE WRITTEN.**
 
-→ **See `AUDIT-CHECKLIST-GUIDE.md` for complete 6-category checklist (stack, structure, code quality, config, dependencies, workflow compliance).**
+→ **See `guides/AUDIT-CHECKLIST-GUIDE.md` for complete 6-category checklist (stack, structure, code quality, config, dependencies, workflow compliance).**
 
 For each check: record `PASS`, `WARN`, `FAIL`.
 
@@ -77,7 +77,7 @@ Drift is a WARNING, not a BLOCKER. Document it, let user decide.
 
 ### Phase 2 — Generate Report
 
-→ **See `REPORT-TEMPLATE-GUIDE.md` for `HEALTH-CHECK.md` template.**
+→ **See `guides/REPORT-TEMPLATE-GUIDE.md` for `HEALTH-CHECK.md` template.**
 
 Write report in project root. Include: summary, stack versions, structure, code quality, recommendations (prioritized), decision log.
 

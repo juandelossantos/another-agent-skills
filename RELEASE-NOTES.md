@@ -1,5 +1,29 @@
 # Release Notes
 
+## 2.1.0 (2026-06-18)
+
+Phase 6.5: Rule 6 Compliance — 0 guide violations, checks enforced, task planning protocol.
+
+### Rule 6 Compliance
+- Check 14 added to `skill-lint.sh`: skills >100 lines with <2 guides → ERROR
+- All 57 skills now have ≥2 guides (54 total guides)
+- 4 monoliths transformed to index+guides pattern (clarify, doubt-driven, incremental, planning)
+- 3 dense skills trimmed under 1250 words (backend-api-mastery, fullstack-shipping, engineering-fundamentals)
+- 8 skills received new guides (audit, optimize, context-engineering, delight, hard, shipping, skill-creator, skill-improver)
+- 4 skills had existing files renamed to -GUIDE convention (adapt, critique, polish, typeset)
+
+### Mechanical Enforcement
+- `commit-approval.sh` now requires `--plan-approved` and `--manifest-presented` flags
+- `skill-gate.sh` now has `require <skill>` to verify specific skills were loaded
+- `validate-skill-table.sh` validates guide counts (not just line counts)
+- `validate-health-check.sh` (new) verifies HEALTH-CHECK.md matches live linter state
+- Pre-commit test command chains: skill-lint → validate-table → validate-health
+
+### Health Tracking
+- HEALTH-CHECK.md status auto-verified against linter
+- PROGRESS_STATUS.md guide counts validated by tooling
+- Task template standardized (see `docs/TASK-TEMPLATE.md`)
+
 ## 2.0.0 (2026-06-18)
 
 v2.0.0: Standardized Frontmatter + Eval System — 55 skills, 336 evaluations, pre-commit v9.

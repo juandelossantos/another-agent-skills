@@ -21,6 +21,9 @@ metadata:
 
 **Diagnose eval failures and propose targeted improvements.**
 
+→ See `guides/DIAGNOSIS-GUIDE.md` for failure pattern diagnosis.
+→ See `guides/OUTPUT-GUIDE.md` for diff format and review rules.
+
 Complementary to `skill-creator`. Where skill-creator generates new skills,
 skill-improver diagnoses and fixes existing ones. The human always reviews
 before applying — this skill never auto-commits changes.

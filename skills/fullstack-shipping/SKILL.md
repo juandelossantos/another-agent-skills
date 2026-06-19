@@ -82,27 +82,7 @@ pipeline — not just the code — before any commit reaches production.
 
 ### Phase 2 — Research (MANDATORY for greenfield)
 
-**Research current best practices for [current year]. Never use outdated knowledge.**
-
-1. **CI/CD platforms:**
-   - "GitHub Actions vs GitLab CI vs CircleCI [current year]"
-   - "Vercel CI vs Netlify CI [current year]"
-   - "Self-hosted CI [current year] security"
-
-2. **Testing in CI:**
-   - "Vitest in GitHub Actions [current year]"
-   - "Playwright E2E CI setup [current year]"
-   - "Contract testing in CI [current year]"
-
-3. **Deployment patterns:**
-   - "Blue-green deployment [current year]"
-   - "Canary releases [current year]"
-   - "Database migrations zero-downtime [current year]"
-
-4. **Monitoring:**
-   - "OpenTelemetry vs vendor monitoring [current year]"
-   - "Sentry vs Rollbar vs LogRocket [current year]"
-   - "Uptime monitoring [current year] free tiers"
+**Research current best practices for [current year].** Never use outdated knowledge. Search for CI/CD platform comparisons, testing in CI setups, deployment patterns (blue-green, canary, zero-downtime migrations), and monitoring solutions.
 
 ---
 
@@ -110,7 +90,7 @@ pipeline — not just the code — before any commit reaches production.
 
 **Generate 2-3 pipeline strategy options. Never default to GitHub Actions without justification.**
 
-→ **See `CICD-GUIDE.md` for the full 3 options and critical challenges.**
+→ **See `guides/CICD-GUIDE.md` for the full 3 options and critical challenges.**
 
 ---
 
@@ -129,7 +109,7 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 ### Phase 5 — Deployment Orchestration
 
-→ **Ver `DEPLOY-GUIDE.md` para estrategias de entorno, migraciones, secrets y rollback.**
+→ **Ver `guides/DEPLOY-GUIDE.md` para estrategias de entorno, migraciones, secrets y rollback.**
 
 ---
 
@@ -137,7 +117,7 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 **"Production" means "we don't know if it's working unless we watch it."**
 
-→ **Ver `DEPLOY-GUIDE.md` para categorías de monitoreo y reglas de alertas.**
+→ **Ver `guides/DEPLOY-GUIDE.md` para categorías de monitoreo y reglas de alertas.**
 
 ---
 
@@ -145,7 +125,7 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 **NO LAUNCH WITHOUT THIS CHECKLIST COMPLETE.**
 
-→ **Ver `LAUNCH-CHECKLIST-GUIDE.md` para el checklist completo de Pre-Launch, Launch Day y Post-Launch.**
+→ **Ver `guides/LAUNCH-CHECKLIST-GUIDE.md` para el checklist completo de Pre-Launch, Launch Day y Post-Launch.**
 
 ---
 
@@ -157,33 +137,9 @@ Tests: Unit (Vitest), Integration (API+DB+auth), E2E (Playwright critical flows)
 
 ## Examples
 
-### Example 1: Solo Dev Landing Page
+**Solo landing page:** Vercel, no staging, production deploy from Git. Lint + build on PR. UptimeRobot free monitoring. Minimal `DEPLOYMENT.md`.
 
-User: "Ship my landing page to production."
-
-Agent:
-1. Phase 1: Discover — Vercel, no staging needed (low risk), solo dev, no DB.
-2. Phase 2: Research — Vercel deploy from Git is simplest.
-3. Phase 3: Option A (Platform-native) — Connect GitHub repo to Vercel, auto-deploy `main`.
-4. Phase 4: Tests in CI — Lint + build check on PR. Optional: Lighthouse CI.
-5. Phase 5: Production only (no staging, low risk).
-6. Phase 6: UptimeRobot free tier for monitoring.
-7. Phase 7: Run launch checklist.
-8. Phase 8: Create minimal `DEPLOYMENT.md`.
-
-### Example 2: E-Commerce Platform
-
-User: "We're launching our e-commerce platform next week."
-
-Agent:
-1. Phase 1: Discover — AWS, needs staging + production, team of 4, Stripe integration, PostgreSQL, rollback critical.
-2. Phase 2: Research — "AWS ECS blue-green deployment [current year]", "Stripe webhook testing in CI [current year]".
-3. Phase 3: Option C (Full control) — GitHub Actions → Docker → ECR → ECS with blue-green.
-4. Phase 4: Full test matrix — unit, integration, Stripe webhook simulation, E2E purchase flow.
-5. Phase 5: Staging mirrors production (same DB version, same secrets structure). Migrations tested on staging.
-6. Phase 6: Sentry for errors, Datadog for metrics, PagerDuty for alerts.
-7. Phase 7: Full launch checklist, 48-hour monitoring plan.
-8. Phase 8: Create comprehensive `DEPLOYMENT.md` with runbooks.
+**E-commerce platform:** AWS staging+production, team of 4, GitHub Actions → ECS with blue-green. Full test matrix (unit, integration, Stripe simulation, E2E purchase). Sentry + Datadog + PagerDuty. Comprehensive `DEPLOYMENT.md` with runbooks.
 
 ---
 

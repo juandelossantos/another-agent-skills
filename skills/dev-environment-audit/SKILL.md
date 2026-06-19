@@ -69,7 +69,7 @@ Only after confirmation, proceed to Phase 2.
 
 ### Phase 2 — Audit Installed Tools
 
-→ **See `AUDIT-CHECKLIST-GUIDE.md` for complete 3-category checklist (MCPs, CLI tools, project-specific).**
+→ **See `guides/AUDIT-CHECKLIST-GUIDE.md` for complete 3-category checklist (MCPs, CLI tools, project-specific).**
 
 Summary: Check MCP servers, CLI tools (`--version`), project files (`package.json`, `Dockerfile`, etc.).
 
@@ -77,7 +77,7 @@ Summary: Check MCP servers, CLI tools (`--version`), project files (`package.jso
 
 ### Phase 3 — Gap Analysis
 
-→ **See `IDEAL-SETS-GUIDE.md` for tool sets by project type and priority levels.**
+→ **See `guides/IDEAL-SETS-GUIDE.md` for tool sets by project type and priority levels.**
 
 Compare installed vs "Ideal Set" for this project type. Determine priority per missing tool: BLOCKING, HIGH, MEDIUM, LOW.
 
@@ -85,7 +85,7 @@ Compare installed vs "Ideal Set" for this project type. Determine priority per m
 
 ### Phase 4 — Recommend & Install (BLOCKING)
 
-→ **See `INSTALL-GUIDE.md` for presentation format and installation rules.**
+→ **See `guides/INSTALL-GUIDE.md` for presentation format and installation rules.**
 
 **Present findings. Don't install without explicit confirmation.**
 
@@ -98,7 +98,7 @@ Compare installed vs "Ideal Set" for this project type. Determine priority per m
 
 ### Phase 5 — Document
 
-→ **See `ENV-TEMPLATE-GUIDE.md` for `docs/DEV-ENVIRONMENT.md` template.**
+→ **See `guides/ENV-TEMPLATE-GUIDE.md` for `docs/DEV-ENVIRONMENT.md` template.**
 
 Create/update doc with tools, MCPs, installed-by-audit log, workarounds, next audit date.
 

@@ -71,7 +71,7 @@ Check for `STACK_CONFIG.md`:
 6. **Push notifications**: Needed?
 7. **Background sync**: Sync when connection returns?
 
-Read `DISCOVERY-GUIDE.md` for complete PWA checklist.
+Read `guides/DISCOVERY-GUIDE.md` for complete PWA checklist.
 
 ---
 
@@ -122,13 +122,13 @@ Optional: `next-pwa`, `@capacitor/core` + plugins.
 
 ### Phase 6 — Universal Responsive
 
-→ **See `DEVICE-MATRIX-GUIDE.md` for device matrix, container queries, touch vs mouse patterns.**
+→ **See `guides/DEVICE-MATRIX-GUIDE.md` for device matrix, container queries, touch vs mouse patterns.**
 
 ---
 
 ### Phase 7 — PWA Architecture
 
-→ **See `PWA-ARCHITECTURE-GUIDE.md` for service worker, manifest, offline pages, native migration path.**
+→ **See `guides/PWA-ARCHITECTURE-GUIDE.md` for service worker, manifest, offline pages, native migration path.**
 
 ---
 
@@ -171,7 +171,7 @@ LOG METRIC: gate
 
 ## Examples & Troubleshooting
 
-→ Read `EXAMPLES.md`.
+→ Read `guides/EXAMPLES.md`.
 
 ---
 

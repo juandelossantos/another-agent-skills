@@ -19,6 +19,9 @@ metadata:
 
 **Add micro-interactions so interfaces respond like physical things.**
 
+→ See `guides/ANIMATIONS-GUIDE.md` for animation principles and types.
+→ See `guides/IMPLEMENTATION-GUIDE.md` for code examples and patterns.
+
 Micro-interactions are the difference between a UI that feels alive and one that feels like a PDF. Every interaction should leave a trace.
 
 ## When to Use

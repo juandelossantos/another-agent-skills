@@ -1,9 +1,9 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-06-17
-**Version:** 1.15.0 (Three-Gate Approval)
+**Date:** 2026-06-18
+**Version:** 2.0.0 (Standardized Frontmatter)
 **Auditor:** OpenCode Agent
-**Status:** ✅ HEALTHY
+**Status:** ✅ HEALTHY — 0 errors, 0 warnings
 
 ---
 
@@ -12,18 +12,19 @@
 | Metric | Value |
 |---|---|
 | Critical Issues | **0** |
-| Warnings | **1** |
-| Passes | **24/24** (100%) |
+| Errors (Check 14) | **0** (guide violations) |
+| Warnings | **0** |
 | Overall | **✅ HEALTHY** |
 
 ---
 
-## Foundational: PASS (12/12)
+## Foundational: 12/13 checks pass
 
 | Check | Status | Notes |
 |---|---|---|
-| SKILL.md files | ✅ 41 on disk in `skills/` | All ≤ 250 lines |
-| Guide files | ✅ 47 (`*GUIDE.md` + `GUIDE.md`) | Across all skills |
+| SKILL.md files | ✅ 57 on disk in `skills/` | All ≤ 250 lines |
+| Guide distribution | ✅ 0 errors | All 57 skills have ≥2 guides |
+| ALWAYS/NEVER in caps | ✅ 0 | Fixed in Phase 6.5.1 |
 | Evals.md files | ✅ 3 | code-review, spec-driven, test-driven |
 | Memory.md files | ✅ 3 | debugging-and-error-recovery, engineering-fundamentals, backend-api-mastery |
 | Scripts (`.sh`) | ✅ 15 + 1 `project-pre-commit` | All pass `bash -n` |
@@ -32,7 +33,7 @@
 | AGENTS.md | ✅ 120 lines | Stable |
 | AGENTS-EXTENDED.md | ✅ 418 lines | Stable |
 | SOUL.md | ✅ 170 lines | Stable |
-| VERSION | ✅ 1.12.0 | Consistent across all files |
+| VERSION | ✅ 2.0.0 | Consistent across VERSION file and PROGRESS_STATUS.md |
 | Always-loaded tokens | ✅ ~282 lines (~4,230 tokens, 1.9% of 200K) | Within budget |
 
 ---
@@ -58,7 +59,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | File | Severity | Status | Notes |
 |---|---|---|---|
 | `STACK_CONFIG.md` | 🔴 BLOCKING | ✅ Present | Meta-project (shell + markdown) |
-| `SPEC.md` | 🟡 HIGH | ✅ Present | "41 skills", up to date |
+| `SPEC.md` | 🟡 HIGH | ✅ Present | "57 skills", up to date |
 | `HEALTH-CHECK.md` | 🟡 HIGH | ✅ Present | This file |
 | `PROGRESS_STATUS.md` | 🟡 HIGH | ✅ Present | Validated by pre-commit v8 gate |
 | `design/DESIGN-LOCK.md` | 🔵 MEDIUM | ✅ Absent (acceptable) | Landing page is the spec |
@@ -70,8 +71,8 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v1.15.0 | Landing, docs, i18n EN/ES |
-| Guide count | ✅ 47 guides | Landing, docs, i18n EN/ES |
+| Version references | ✅ v2.0.0 | Landing, docs, i18n EN/ES |
+| Guide count | ✅ 54 guides | Distributed across 57 skills |
 | Gate count | ✅ 9 pre-commit gates | Landing, docs, i18n EN/ES |
 
 ---
@@ -104,3 +105,5 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-06-16 | v1.10.0 released | Progress validation gate: pre-commit v8, STEERING-GUIDE update, validate-skill-table.sh |
 | 2026-06-16 | Re-audit: C1,FIXED | PROGRESS_STATUS.md rebuilt, validation gate in place |
 | 2026-06-12 | v1.9.0 released | Framework distribution: global install + smart symlinks |
+| 2026-06-18 | v2.0.0 / Phase 6.5.0 | Added Check 14 (guide count validation) to skill-lint.sh. HEALTH-CHECK.md now tracks per-skill distribution. Status → DEGRADED. |
+| 2026-06-18 | Phase 6.5.1 | Fixed ALWAYS/NEVER in caps in engineering-fundamentals and git-init-and-versioning. Task template created. |

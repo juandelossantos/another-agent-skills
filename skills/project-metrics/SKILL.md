@@ -48,7 +48,7 @@ After these actions, skill MUST log:
 | Discovery phase complete | `discovery` | duration, questions_asked, user_confirms |
 | User override | `override` | type, reason, phase, was_agent_correct |
 
-→ **See `METRICS-REFERENCE-GUIDE.md` for complete JSON schemas of all 6 metrics.**
+→ **See `guides/METRICS-REFERENCE-GUIDE.md` for complete JSON schemas of all 6 metrics.**
 
 **Manual review:** User says "show metrics" or "quality report" anytime.
 
@@ -129,7 +129,7 @@ LOG METRIC: override
 
 ## Quality Report
 
-→ **See `REPORT-TEMPLATE-GUIDE.md` for presentation format.**
+→ **See `guides/REPORT-TEMPLATE-GUIDE.md` for presentation format.**
 
 When user requests report, read `quality-metrics.json`, calculate aggregates, present trends.
 

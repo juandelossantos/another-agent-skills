@@ -22,6 +22,9 @@ Ship with confidence. Deploy safely: monitoring in place, rollback plan ready, c
 - Migrating data or infrastructure
 - Any deployment that carries risk (all of them)
 
+→ See `guides/CHECKLIST-GUIDE.md` for the complete launch checklist.
+→ See `guides/ROLLBACK-GUIDE.md` for rollback procedures and decision matrix.
+
 ## Pre-Launch Checklist
 
 ### Code Quality

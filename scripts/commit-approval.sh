@@ -11,7 +11,10 @@
 # 6. Agent commits
 # 7. commit-msg hook v6 verifies: TEST_LOG? MANIFEST? APPROVED? → allows
 #
-# Usage: bash scripts/commit-approval.sh "commit message" [file1 file2...]
+# Usage: bash scripts/commit-approval.sh "commit message" --plan-approved --manifest-presented [file1 file2...]
+# NOTE: --plan-approved and --manifest-presented are REQUIRED.
+# --plan-approved: Agent presented plan+tests to user and got approval before implementing
+# --manifest-presented: Agent presented Commit Manifest and got approval before committing
 
 set -euo pipefail
 
@@ -30,6 +33,82 @@ APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
 if [[ -z "$COMMIT_MSG" ]]; then
   echo -e "${RED}Error: No commit message provided.${NC}"
   exit 1
+fi
+
+# Check: --plan-approved flag must be present
+# This enforces that the agent presented a plan with tests to the user
+# and received approval BEFORE implementing. Mechanical speed bump.
+PLAN_APPROVED=false
+for arg in "$@"; do
+  if [[ "$arg" == "--plan-approved" ]]; then
+    PLAN_APPROVED=true
+    break
+  fi
+done
+if [[ "$PLAN_APPROVED" == "false" ]]; then
+  echo -e "${RED}╔════════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${RED}║  APPROVAL BLOCKED                                        ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Missing --plan-approved flag.                            ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Agent must present the plan with tests and acceptance    ║${NC}"
+  echo -e "${RED}║  criteria to the user and receive approval BEFORE         ║${NC}"
+  echo -e "${RED}║  implementing.                                            ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Correct flow:                                           ║${NC}"
+  echo -e "${RED}║  1. Present plan + tests + acceptance criteria in chat   ║${NC}"
+  echo -e "${RED}║  2. Wait for user: 'yes' / 'sí' / 'proceed'              ║${NC}"
+  echo -e "${RED}║  3. Implement                                               ║${NC}"
+  echo -e "${RED}║  4. Present Commit Manifest                              ║${NC}"
+  echo -e "${RED}║  5. Commit with --plan-approved --manifest-presented     ║${NC}"
+  echo -e "${RED}╚════════════════════════════════════════════════════════════╝${NC}"
+  exit 1
+fi
+
+# Check: --manifest-presented flag must be present
+# This enforces that the agent presented the manifest to the user before
+# attempting to record approval. Mechanical speed bump for Rule 12.
+MANIFEST_PRESENTED=false
+for arg in "$@"; do
+  if [[ "$arg" == "--manifest-presented" ]]; then
+    MANIFEST_PRESENTED=true
+    break
+  fi
+done
+if [[ "$MANIFEST_PRESENTED" == "false" ]]; then
+  echo -e "${RED}╔════════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${RED}║  APPROVAL BLOCKED                                        ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Missing --manifest-presented flag.                      ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Agent must present the Commit Manifest to the user      ║${NC}"
+  echo -e "${RED}║  and receive explicit approval BEFORE calling this       ║${NC}"
+  echo -e "${RED}║  script.                                                 ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Correct flow:                                           ║${NC}"
+  echo -e "${RED}║  1. Present Commit Manifest block in chat                ║${NC}"
+  echo -e "${RED}║  2. Wait for user: 'yes' / 'sí' / 'commit' / 'proceed'  ║${NC}"
+  echo -e "${RED}║  3. Run with --manifest-presented flag                   ║${NC}"
+  echo -e "${RED}╚════════════════════════════════════════════════════════════╝${NC}"
+  exit 1
+fi
+
+# Check: planning-and-task-breakdown skill was loaded (unless --skip-skill-gate)
+SKIP_SKILL_GATE=false
+for arg in "$@"; do
+  if [[ "$arg" == "--skip-skill-gate" ]]; then
+    SKIP_SKILL_GATE=true
+    break
+  fi
+done
+if [[ "$SKIP_SKILL_GATE" == "false" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+  if ! bash "$SCRIPT_DIR/skill-gate.sh" require "planning-and-task-breakdown" 2>&1; then
+    echo ""
+    echo -e "${YELLOW}Tip: Load planning-and-task-breakdown first, then retry.${NC}"
+    echo -e "${YELLOW}Or use --skip-skill-gate if planning is not needed (docs only).${NC}"
+    exit 1
+  fi
 fi
 
 # Check: TEST_LOG exists and shows PASS

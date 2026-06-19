@@ -120,6 +120,9 @@ Fix 4: Animation jank on hover card
 | Image CDN or format not available | Infra decision |
 | Third-party script blocking | Negotiate alternative with team |
 
+→ See `guides/BOTTLENECK-GUIDE.md` for common bottlenecks and fixes.
+→ See `guides/METRICS-GUIDE.md` for performance budgets and measurement.
+
 ## Pitfalls
 
 - **Optimizing before profiling** — Measuring is not optional. The bottleneck is never where you guess.

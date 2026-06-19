@@ -54,7 +54,7 @@ Prevents framework hype, cargo-culting, resume-driven development.
 
 ### Phase 1 — Discovery
 
-→ **See `DISCOVERY-GUIDE.md` for complete interview (6 questions + assumptions + complexity assessment).**
+→ **See `guides/DISCOVERY-GUIDE.md` for complete interview (6 questions + assumptions + complexity assessment).**
 
 Summary:
 - Surface 4+ technical assumptions. Confirm before proceeding.
@@ -126,7 +126,7 @@ Each option includes:
 
 ### Phase 4 — Critical Challenge
 
-→ **See `CHALLENGE-GUIDE.md` for challenge patterns and presentation format.**
+→ **See `guides/CHALLENGE-GUIDE.md` for challenge patterns and presentation format.**
 
 **Senior engineering happens here. Don't blindly accept user preference.**
 
@@ -165,7 +165,7 @@ Confidence: HIGH / MEDIUM / LOW
 
 ### Phase 6 — Document Decision
 
-→ **See `ARCHITECTURE-TEMPLATE-GUIDE.md` for SPEC.md section + ARCHITECTURE.md template.**
+→ **See `guides/ARCHITECTURE-TEMPLATE-GUIDE.md` for SPEC.md section + ARCHITECTURE.md template.**
 
 **Architecture without documentation is fiction.**
 
