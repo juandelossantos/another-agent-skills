@@ -1,11 +1,6 @@
 ---
 name: architecture-analysis
-description: >
-  Evaluate architecture options with critical thinking before any build decision.
-  Proposes 2-3 justified alternatives, challenges user assumptions, and locks
-  decisions into specs. Use when choosing stack, pattern, or structural approach.
-  Triggers on: "what stack", "architecture", "MVC or", "which framework",
-  "how to structure", "backend choice", "microservices", "monolith".
+description: Evaluate architecture options with 2-3 alternatives before building. Challenges assumptions, locks decisions into specs. Triggers: stack, architecture, pattern. Do NOT use for implementation details.
 version: 1.0.0
 license: MIT
 compatibility: all
