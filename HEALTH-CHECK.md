@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **5** |
+| Warnings | **4** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -26,7 +26,7 @@
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
 | VERSION | ✅ 2.1.0 | Consistent |
-| Skill lint | ✅ 0 errors, 5 warnings | |
+| Skill lint | ✅ 0 errors, 4 warnings | |
 | validate-skill-table | 🔴 FAIL | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)

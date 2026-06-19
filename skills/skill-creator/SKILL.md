@@ -1,10 +1,6 @@
 ---
 name: skill-creator
-description: >
-  Generate new agent skills from a workflow description. Creates the complete
-  skill directory structure: SKILL.md with frontmatter + workflow + examples,
-  and 7 eval cases (trigger, golden, adversarial). Use when you need to create
-  a new skill quickly from a textual description. Do NOT use for modifying
+description: Generate new agent skills from a workflow description: SKILL.md with frontmatter, workflow, examples, and eval cases. Use when creating from a description. Do NOT use for modifying existing skills.
   existing skills (use skill-improver) or for one-off tasks.
 version: 1.0.0
 license: MIT
@@ -45,12 +41,21 @@ review required before promotion to action-allowed.
 ### Step 1: Collect Description
 
 Ask the user for a description of the workflow. Collect:
-- **What the skill does** (one sentence, verb-led)
+- **What the skill does** (one sentence, verb-led, ≤200 chars)
+- **Trigger keywords** (must appear in first 60 chars of description)
+- **Non-triggers** (must produce a "Do NOT use for..." anti-trigger clause)
 - **Trigger scenarios** (2-3 concrete examples of when to use)
-- **Non-triggers** (1-2 scenarios where it should NOT activate)
 - **Workflow steps** (3-5 ordered steps)
 - **Audience** (all-engineers, frontend, backend, etc.)
 - **Allowed tools** (Read, Bash, Write, Edit)
+
+**The generated description MUST pass all 6 quality criteria (Check 15):**
+1. ✅ Verb-led opening (Build, Fix, Design, etc.)
+2. ✅ Trigger keywords in first 60 chars
+3. ✅ Anti-trigger clause (Do NOT use for...)
+4. ✅ ≤200 chars
+5. ✅ 3+ distinct trigger keywords
+6. ✅ No internal jargon (no references to other skills)
 
 ### Step 2: Generate Skill Name
 
@@ -69,8 +74,10 @@ Rules: kebab-case, gerund form preferred, no vendor prefixes, no generic names.
 Use the template in `templates/skill-template.md`. Fill in:
 1. Frontmatter YAML (name, description, version 1.0.0, license MIT,
    compatibility all, allowed-tools from input, tier draft)
-2. Body: When to Use, When NOT to Use, Workflow, Examples, Output Format
-3. Keep total ≤250 lines. If content exceeds, move detail to `references/`
+2. **Description must pass all 6 criteria:** verb-led, trigger keywords front-loaded,
+   anti-trigger clause, ≤200 chars, 3+ distinct triggers, no internal jargon
+3. Body: When to Use, When NOT to Use, Workflow, Examples, Output Format
+4. Keep total ≤250 lines. If content exceeds, move detail to `references/`
 
 ### Step 4: Generate Eval Cases
 
@@ -107,7 +114,7 @@ bash scripts/eval/run-golden.sh --skill <name>
 bash scripts/eval/run-adversarial.sh --skill <name>
 ```
 
-All must pass before presenting the result.
+All must pass before presenting the result. **`skill-lint.sh` includes Check 15 (description quality) — if the generated description fails any of the 6 criteria, fix it before proceeding.**
 
 ### Step 7: Present to User
 
