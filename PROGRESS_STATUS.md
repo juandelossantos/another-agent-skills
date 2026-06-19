@@ -45,7 +45,7 @@
 | `git-workflow-and-versioning` | 183 | 3 | Atomic commits, branching, conflict resolution |
 | `hard-skill` | 150 | 0 | Deterministic P0/P1 mechanical fixes |
 | `idea-refine` | 43 | 0 | Refine ideas through structured thinking |
-| `incremental-implementation` | 250 | 0 | Thin vertical slices, test each |
+| `incremental-implementation` | 89 | 2 | Thin vertical slices, test each |
 | `industrial-brutalist-ui` | 78 | 0 | Raw industrial mechanical UI |
 | `interview-me` | 40 | 0 | Extract intent through questioning |
 | `minimalist-ui` | 71 | 0 | Editorial product UI (Notion/Linear) |
