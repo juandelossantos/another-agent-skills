@@ -114,8 +114,10 @@ Create `trigger.jsonl` with at least 2 positive cases and 1 negative case:
 Create `golden.jsonl` with known-good inputs and rubrics:
 
 ```jsonl
-{"case_id":"golden_xxx_001","input":"...","expected_output":"...","rubric":["criterion 1","criterion 2"]}
+{"case_id":"golden_xxx_001","type":"execution","input":"...","expected_output":"...","rubric":["criterion 1","criterion 2"]}
 ```
+
+Note: Golden cases use `expected_output` (checked by `run-golden.sh`). The schema's `expected_output_format` field is optional metadata.
 
 ### Step 4: Write adversarial cases
 
