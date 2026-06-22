@@ -160,7 +160,8 @@ skills/docker-compose-security/
 
 ## References
 
-- `templates/skill-template.md` — base template for generated skills
+- `skills/skill-creator/templates/skill-template.md` — base template for generated skills
 - `scripts/eval/schema.json` — eval case schema for validation
 - `scripts/skill-lint.sh` — linter for generated skills
+- `docs/EVAL-GUIDE.md` — complete eval system documentation (format, tiers, coverage)
 - Existing skills in `skills/` — reference implementations

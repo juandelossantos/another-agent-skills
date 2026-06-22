@@ -21,7 +21,7 @@
     },
     "type": {
       "type": "string",
-      "enum": ["trigger_positive", "trigger_negative", "execution", "regression"],
+      "enum": ["trigger_positive", "trigger_negative", "execution", "regression", "rephrasing", "negative_boundary", "edge_case"],
       "description": "trigger_positive: should fire. trigger_negative: should NOT fire. execution: tests output quality. regression: tests no degradation when co-loaded"
     },
     "expected_skill": {

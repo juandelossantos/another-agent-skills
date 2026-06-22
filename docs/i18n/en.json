@@ -11,6 +11,7 @@
     "rules": "Rules",
     "agents": "Agents",
     "customization": "Customization",
+    "eval": "Evaluation Guide",
     "docs": "Docs"
   },
   "hero": {
@@ -33,6 +34,8 @@
     "philosophyDesc": "SOUL.md principles, honest limitations, and what this framework avoids.",
     "agents": "Agents",
     "agentsDesc": "Compatible agents: OpenCode, Claude Code, Cursor, Devin Desktop, and more.",
+    "eval": "Evaluation Guide",
+    "evalDesc": "Eval system: format spec, skill tiers, adding evals, running tests, and coverage checklist.",
     "quickLinks": "Quick Links",
     "version": "Current version",
     "skillsCount": "Skills",

@@ -22,17 +22,18 @@
 
 | Layer | Skills | Purpose |
 |---|---|---|---|
-| **Foundation** | `engineering-fundamentals` | Discovery, contracts, anti-slop, quality gates |
-| **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile`, `frontend-desktop` | Web, PWA, native mobile, desktop |
-| **Backend** | `backend-api-mastery` | API, DB, auth |
-| **DevOps** | `fullstack-shipping` | CI/CD, deploy |
-| **Process** | `spec-driven-development`, `architecture-analysis`, `planning-and-task-breakdown` | Planning, analysis |
-| **Quality** | `project-health-check`, `code-review-and-quality`, `dev-environment-audit` | Auditing, review |
-| **Design Review** | `critique-skill`, `audit-skill`, `clarify-skill`, `hard-skill`, `polish-skill`, `typeset-skill`, `adapt-skill`, `optimize-skill`, `delight-skill` | Heuristic review → audit → fix → delight |
+| **Foundation** | `engineering-fundamentals`, `context-engineering`, `user-onboarding` | Universal philosophy, context setup, preferences |
+| **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile`, `frontend-desktop`, `frontend-ui-engineering`, `visual-frontend-mastery` | Web, PWA, mobile, desktop, UI components, design |
+| **Backend** | `backend-api-mastery`, `api-and-interface-design`, `cli-tools` | API, DB, auth, interfaces, CLI |
+| **DevOps** | `fullstack-shipping`, `ci-cd-and-automation`, `shipping-and-launch` | CI/CD, deploy, launch checklists |
+| **Process** | `spec-driven-development`, `architecture-analysis`, `planning-and-task-breakdown`, `incremental-implementation`, `source-driven-development`, `doubt-driven-development`, `multi-agent-orchestration`, `deprecation-and-migration` | Planning, analysis, implementation, verification |
+| **Quality** | `project-health-check`, `code-review-and-quality`, `dev-environment-audit`, `security-and-hardening`, `performance-optimization`, `code-simplification`, `observability-and-instrumentation`, `documentation-and-adrs` | Auditing, review, security, performance |
+| **Design Review** | `critique-skill`, `audit-skill`, `clarify-skill`, `hard-skill`, `polish-skill`, `typeset-skill`, `adapt-skill`, `optimize-skill`, `delight-skill` | Heuristic review → audit → fix chain → delight |
+| **Testing** | `test-driven-development`, `browser-testing-with-devtools`, `debugging-and-error-recovery`, `debugging-three-strikes` | TDD, browser tests, debugging |
 | **Metrics** | `project-metrics` | Quality logging (background) |
 | **Git** | `git-init-and-versioning`, `git-workflow-and-versioning` | Setup, workflow |
-| **Debug** | `debugging-and-error-recovery` | Root cause analysis |
-| **Ideation** | `idea-refine`, `interview-me` | Brainstorming, requirements |
+| **Ideation** | `idea-refine`, `interview-me` | Brainstorming, requirements extraction |
+| **Meta** | `skill-creator`, `skill-improver`, `customize-opencode` | Skill creation, improvement, OpenCode config |
 | **Design Skins** | `industrial-brutalist-ui`, `minimalist-ui`, `soft-premium-ui`, `output-skill`, `redesign-skill` | Visual direction and output enforcement |
 
 ### Skill Gate Enforcement (MECHANICAL)

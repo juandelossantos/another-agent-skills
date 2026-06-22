@@ -1,4 +1,8 @@
-# Spec: Landing Page + Documentation
+# Spec: Landing Page + Documentation (Web Presence)
+
+> **Note:** This SPEC covers the project's web presence (landing page and documentation site). It is NOT the spec for the entire Another Agent Skills project — see `PROGRESS_STATUS.md` and `SOUL.md` for the project-level scope.
+>
+> Current skill count: **57** (updated 2026-06-22)
 
 ## Objective
 
@@ -79,12 +83,21 @@ another-agent-skills/
 ├── assets/
 │   └── og-image.png       # Open Graph share image
 ├── docs/
-│   ├── QUICKSTART.md      # 3 commands to start
-│   ├── PIPELINE.md        # Design review pipeline guide
-│   ├── SKILLS-CATALOG.md  # All 41 skills with descriptions
-│   ├── PROCESS.md         # AGENTS.md, pre-commit, gates explainer
-│   ├── CONTRIBUTING.md    # How to add/modify skills
-│   └── FAQ.md             # Frequently asked questions
+│   ├── index.html           # Documentation overview
+│   ├── EVAL-GUIDE.md        # Eval system documentation
+│   ├── philosophy.html      # SOUL.md principles
+│   ├── getting-started.html # Installation + first project
+│   ├── lifecycle.html       # 6-phase dev flow
+│   ├── skills.html          # Browse all 57 skills
+│   ├── enforcement.html     # The Harness architecture
+│   ├── design-review.html   # Design review pipeline
+│   ├── rules.html           # AGENTS.md rules reference
+│   ├── agents.html          # Agent compatibility
+│   ├── customization.html   # Customizing the framework
+│   ├── skill/               # 57 individual skill HTML pages
+│   ├── css/docs.css
+│   ├── js/docs.js
+│   └── i18n/                # EN/ES JSON translation files
 ├── SPEC.md                # (this file)
 └── development/           # Dev artifacts (ignored by git)
 ```

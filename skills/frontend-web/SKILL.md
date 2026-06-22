@@ -211,7 +211,7 @@ Read `guides/ANIMATION-GUIDE.md`.
 
 ### Phase 8 — QA Gates
 
-→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/guides/PRE-FLIGHT-CORE.md` for universal checks first.
+→ See `engineering-fundamentals` Phase 5 for universal gates. Read `engineering-fundamentals/guides/PRE-FLIGHT-CORE.md` for universal checks first.
 
 **Then run `guides/PRE-FLIGHT.md` before declaring done.** Every box must pass — this is a mechanical gate, not optional.
 

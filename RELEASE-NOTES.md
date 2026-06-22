@@ -1,5 +1,33 @@
 # Release Notes
 
+## 2.3.0 (2026-06-22) — Phase 8: Documentation & Standard Compliance
+
+Documentation system for skill evaluation, agentskills.io compliance badge, landing page and docs updated.
+
+### New
+- `docs/EVAL-GUIDE.md` — Complete eval system documentation covering format spec
+  (schema.json), 4 eval types (trigger_positive, trigger_negative, execution,
+  regression), skill tiers (read-only/draft/action-allowed), how to add evals,
+  how to run eval scripts (run-evals.sh, run-golden.sh, run-adversarial.sh,
+  check-coverage.sh), trigger accuracy targets (90%), CI/pre-commit integration,
+  coverage checklist, and examples
+- agentskills.io compliance badge added to README.md
+
+### Changed
+- Landing page: skills stats now link to EVAL-GUIDE.md, new FAQ entry "How does
+  the eval system work?" with full explanation
+- Documentation site: EVAL-GUIDE sidebar link across 68 pages, overview card
+  spanning full width
+- i18n EN/ES synced across landing page (`i18n/en.json`, `i18n/es.json`) and
+  docs site (`docs/i18n/en.json`, `docs/i18n/es.json`)
+
+### Skills
+- `engineering-fundamentals` — Added Phase 8: Eval System Integration. Foundation
+  skill now references docs/EVAL-GUIDE.md and describes the 4 eval failure modes
+  (trigger, execution, token budget, regression)
+- `skill-creator` — References section adds link to docs/EVAL-GUIDE.md
+- `skill-improver` — References section adds link to docs/EVAL-GUIDE.md
+
 ## 2.2.0 (2026-06-18)
 
 Phase 6: Description Optimization — 57 skills, 6 quality criteria enforced, Check 15 in linter.
