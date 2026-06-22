@@ -29,6 +29,8 @@ The eval system verifies that skills behave correctly across four failure modes 
 
 Each eval is a JSON line (`.jsonl`) stored alongside the skill in `skills/<name>/evals/`.
 
+Note: `token_budget` validation is automated (SKILL.md line/word count checks by `skill-lint.sh`) and does not use a `.jsonl` file.
+
 ---
 
 ## 2. Eval Format
