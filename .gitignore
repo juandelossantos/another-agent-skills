@@ -22,3 +22,7 @@ development/
 
 # Edit-guard temp data
 .opencode/.edit-guard/
+.judge-results/
+.trigger-stats.json
+.trigger-stats.json.prev
+.regression-results.json

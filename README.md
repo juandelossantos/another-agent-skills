@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v2.3.0](https://img.shields.io/badge/version-2.3.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v2.4.0](https://img.shields.io/badge/version-2.4.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 [![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
@@ -110,12 +110,12 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v2.3.0
+## What's New in v2.4.0
 
-- **Evaluation Guide** — [`docs/EVAL-GUIDE.md`](docs/EVAL-GUIDE.md) documents the complete eval system: format spec, 4 failure modes (trigger, execution, token budget, regression), skill tiers (read-only/draft/action-allowed), how to add evals, running tests, trigger accuracy (90%), and coverage checklist.
-- **agentskills.io Compliance Badge** — Badge in README.md certifying frontmatter alignment with the agentskills.io open standard.
-- **Eval System Integration** — `engineering-fundamentals` (foundation skill) now includes Phase 8: Eval System Integration. `skill-creator` and `skill-improver` reference `docs/EVAL-GUIDE.md` directly.
-- **Landing Page & Docs Updated** — Skills stats link to EVAL-GUIDE, FAQ entry "How does the eval system work?", docs sidebar EVAL-GUIDE link on 68 pages, overview card. i18n EN/ES synced.
+- **Trigger Accuracy Dashboard** — [`scripts/eval/trigger-dashboard.sh`](scripts/eval/trigger-dashboard.sh) measures per-skill trigger coverage, flags skills below 90%, and tracks historical trends.
+- **Regression Test Suite** — [`scripts/eval/run-regression.sh`](scripts/eval/run-regression.sh) runs all 350 eval cases across 57 skills, records baselines, and detects regressions.
+- **LLM-as-Judge Pattern** — [`scripts/eval/run-llm-judge.sh`](scripts/eval/run-llm-judge.sh) evaluates output quality against rubrics with position swapping to eliminate ordering bias.
+- **EVAL-GUIDE.md** — New "Advanced Evaluation" section documenting all three tools.
 
 ---
 
@@ -236,7 +236,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.3.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.4.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
