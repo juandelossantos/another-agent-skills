@@ -428,6 +428,23 @@
     "memoryTitle": "Learning from Past Sessions",
     "memoryDesc": "Skills can maintain memory.md files that log lessons from past debugging sessions. This creates a learning loop where the skill improves over time. Entries are categorized as error, learning, or observation."
   },
+  "eval": {
+    "title": "Evaluation Guide",
+    "subtitle": "How the skill evaluation system verifies skill quality and reliability.",
+    "whatIs": "What Is the Eval System?",
+    "whatIsDesc": "The evaluation system verifies that every skill behaves correctly across four failure modes defined by the Agent Skills whitepaper (Singhal et al., 2026): trigger (does the skill activate when it should?), execution (is the output correct?), token budget (is it within limits?), and regression (do co-loaded skills interfere?).",
+    "fourModes": "The Four Failure Modes",
+    "howToAdd": "Adding Evals to a Skill",
+    "howToAddDesc": "Each skill has an evals/ directory with up to three files: trigger.jsonl (positive and negative trigger tests), golden.jsonl (known-good inputs with rubrics), and adversarial.jsonl (rephrasing, boundary, and edge cases).",
+    "running": "Running Evals",
+    "runningDesc": "Use the eval scripts to validate skill behavior across all 57 skills.",
+    "tiers": "Skill Tiers",
+    "tiersDesc": "Every skill has a tier in its frontmatter: read-only (analyzes, never writes), draft (in development), action-allowed (full capability).",
+    "fullDoc": "Full Documentation",
+    "fullDocDesc": "For the complete reference including format specification, schema, trigger accuracy targets, coverage checklist, and examples, read EVAL-GUIDE.md.",
+    "prevPage": "Customization",
+    "nextPage": "Overview"
+  },
   "footer": {
     "docs": "Documentation"
   },

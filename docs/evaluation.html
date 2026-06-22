@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluation Guide — Another Agent Skills</title>
+<meta name="description" content="How the skill evaluation system works: format, tiers, adding evals, running tests, trigger accuracy, and coverage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">The Harness</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+      <li><a href="evaluation.html" class="sidebar__link sidebar__link--active" data-i18n="nav.eval">Evaluation Guide</a></li>
+    </ul></nav>
+  </aside>
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.eval">Evaluation Guide</span></div>
+    <h1 data-i18n="eval.title">Evaluation Guide</h1>
+    <p data-i18n="eval.subtitle">How the skill evaluation system verifies skill quality and reliability.</p>
+
+    <h2 data-i18n="eval.whatIs">What Is the Eval System?</h2>
+    <p data-i18n="eval.whatIsDesc">The evaluation system verifies that every skill behaves correctly across four failure modes defined by the Agent Skills whitepaper (Singhal et al., 2026): trigger (does the skill activate when it should?), execution (is the output correct?), token budget (is it within limits?), and regression (do co-loaded skills interfere?).</p>
+
+    <h2 data-i18n="eval.fourModes">The Four Failure Modes</h2>
+    <table>
+      <tr><th>Mode</th><th>What It Tests</th><th>Eval Type</th></tr>
+      <tr><td><strong>Trigger</strong></td><td>Does the skill fire when it should (and stay silent when it shouldn't)?</td><td><code>trigger_positive</code>, <code>trigger_negative</code></td></tr>
+      <tr><td><strong>Execution</strong></td><td>Does the skill produce correct output according to a rubric?</td><td><code>golden.jsonl</code> with rubric criteria</td></tr>
+      <tr><td><strong>Token Budget</strong></td><td>Does the SKILL.md stay within 5000 tokens?</td><td>Automated by <code>skill-lint.sh</code></td></tr>
+      <tr><td><strong>Regression</strong></td><td>Do co-loaded skills interfere with each other?</td><td><code>regression</code> cases</td></tr>
+    </table>
+
+    <h2 data-i18n="eval.howToAdd">Adding Evals to a Skill</h2>
+    <p data-i18n="eval.howToAddDesc">Each skill has an <code>evals/</code> directory with up to three files: <code>trigger.jsonl</code> (positive and negative trigger tests), <code>golden.jsonl</code> (known-good inputs with rubrics), and <code>adversarial.jsonl</code> (rephrasing, boundary, and edge cases). Use the <code>skill-creator</code> skill to generate eval cases automatically.</p>
+    <pre><code>skills/&lt;skill-name&gt;/
+├── SKILL.md
+└── evals/
+    ├── trigger.jsonl       # 2+ positive, 1+ negative
+    ├── golden.jsonl        # 1+ case with rubric
+    └── adversarial.jsonl   # rephrasing + boundary + edge</code></pre>
+
+    <h2 data-i18n="eval.running">Running Evals</h2>
+    <p data-i18n="eval.runningDesc">Use the eval scripts to validate skill behavior:</p>
+    <pre><code>bash scripts/eval/run-evals.sh --all           # 172 cases
+bash scripts/eval/run-golden.sh --all          # 60 cases
+bash scripts/eval/run-adversarial.sh --all     # 118 cases
+bash scripts/eval/check-coverage.sh            # Coverage report</code></pre>
+
+    <h2 data-i18n="eval.tiers">Skill Tiers</h2>
+    <p data-i18n="eval.tiersDesc">Every skill has a <code>tier</code> in its frontmatter that governs what it can do: <strong>read-only</strong> (analyzes, never writes), <strong>draft</strong> (in development, not trusted for production), <strong>action-allowed</strong> (full read/write/execute capability). Generated skills start at draft and require human review before promotion.</p>
+
+    <h2 data-i18n="eval.fullDoc">Full Documentation</h2>
+    <p data-i18n="eval.fullDocDesc">For the complete reference including format specification, schema, trigger accuracy targets, coverage checklist, and examples, read EVAL-GUIDE.md.</p>
+    <p><a href="EVAL-GUIDE.md" class="docs__nav-link">→ Open EVAL-GUIDE.md (full reference)</a></p>
+
+    <div class="docs__nav">
+      <a href="customization.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title">Customization</span></a>
+      <a href="index.html" class="docs__nav-link"><span class="docs__nav-title">Overview</span><span class="docs__nav-label"> →</span></a>
+    </div>
+  </div>
+  <aside class="docs__toc"><p class="toc__title">On this page</p><ul class="toc__list"></ul></aside>
+</main>
+<script src="js/docs.js?v=2"></script>
+</body>
+</html>

@@ -114,7 +114,7 @@
     "catDebug": "Debug",
     "catIdeation": "Ideation",
     "catDesignSkins": "Design Skins",
-    "stats": "57 skills · 54 guides · 6 harness components · <a href=\"docs/EVAL-GUIDE.md\">eval system</a>"
+    "stats": "57 skills · 54 guides · 6 harness components · <a href=\"docs/evaluation.html\">eval system</a>"
   },
   "quickstart": {
     "label": "07 / quick start",
@@ -146,7 +146,7 @@
     "q10": "What's the theoretical foundation?",
     "a10": "The concepts are based on 'The New SDLC With Vibe Coding' by Addy Osmani, Shubham Saboo, and Sokratis Kartakis (May 2026). The paper defines the spectrum from vibe coding to agentic engineering, the Harness (Agent = Model + Harness), and the Factory Model. This project is an open-source implementation of those principles.",
     "q11": "How does the eval system work?",
-    "a11": "Each skill has eval files (trigger.jsonl, golden.jsonl, adversarial.jsonl) that test 4 failure modes: trigger (does the skill fire when it should?), execution (is the output correct?), token budget (is it within 5K tokens?), and regression (do co-loaded skills interfere?). Run <code>bash scripts/eval/run-evals.sh --all</code> to validate. See <a href=\"docs/EVAL-GUIDE.md\">EVAL-GUIDE.md</a> for full documentation."
+    "a11": "Each skill has eval files (trigger.jsonl, golden.jsonl, adversarial.jsonl) that test 4 failure modes: trigger (does the skill fire when it should?), execution (is the output correct?), token budget (is it within 5K tokens?), and regression (do co-loaded skills interfere?). Run <code>bash scripts/eval/run-evals.sh --all</code> to validate. See <a href=\"docs/evaluation.html\">Evaluation Guide</a> for full documentation."
   },
   "references": {
     "label": "references",
