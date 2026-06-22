@@ -282,3 +282,42 @@ Every skill should aim for:
 ```jsonl
 {"case_id":"adv_perf_003","type":"edge_case","input":""}
 ```
+
+---
+
+## 10. Advanced Evaluation
+
+Three additional tools provide quantitative analysis of the eval system itself.
+
+### Trigger Accuracy Dashboard
+
+[`scripts/eval/trigger-dashboard.sh`](../scripts/eval/trigger-dashboard.sh) measures trigger coverage across all skills:
+
+```bash
+bash scripts/eval/trigger-dashboard.sh --all
+```
+
+Reports per-skill trigger counts (positive/negative), accuracy percentage, and flags skills below the 90% threshold. Tracks history in `.trigger-stats.json` for trend comparison. Exit code 1 if any skill is below threshold.
+
+### Regression Test Suite
+
+[`scripts/eval/run-regression.sh`](../scripts/eval/run-regression.sh) runs ALL eval cases for ALL skills and detects regressions:
+
+```bash
+bash scripts/eval/run-regression.sh          # Run and compare
+bash scripts/eval/run-regression.sh --reset  # Reset baseline
+```
+
+Records results in `.regression-results.json`. On subsequent runs, compares against the baseline. Exit code 1 if any skill regressed (went from PASS to FAIL).
+
+### LLM-as-Judge Pattern
+
+[`scripts/eval/run-llm-judge.sh`](../scripts/eval/run-llm-judge.sh) evaluates output quality against a rubric using a peer model:
+
+```bash
+bash scripts/eval/run-llm-judge.sh --skill <name> --case <case_id>
+```
+
+Generates two judge prompts with reversed rubric order (per whitepaper §4 position swapping to eliminate ordering bias). Pipe each prompt to your LLM, then average the scores.
+
+**Integration:** These tools are invoked by `skill-improver` during diagnosis and by `engineering-fundamentals` quality gates. They are also available for manual use by maintainers.

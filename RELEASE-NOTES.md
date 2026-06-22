@@ -1,5 +1,18 @@
 # Release Notes
 
+## 2.4.0 (2026-06-22) — Phase 9: Advanced Evaluation
+
+Quantitative eval tooling: trigger accuracy dashboard, regression test suite, and LLM-as-Judge pattern.
+
+### New Tools
+- `scripts/eval/trigger-dashboard.sh` — Per-skill trigger accuracy dashboard. Reports positive/negative case counts, calculates accuracy, flags skills below 90% threshold. Tracks history in `.trigger-stats.json` for trend comparison.
+- `scripts/eval/run-regression.sh` — Regression test suite. Runs ALL 350 eval cases across all 57 skills, records baseline in `.regression-results.json`, detects regressions on subsequent runs. Exit code 1 if regression found.
+- `scripts/eval/run-llm-judge.sh` — LLM-as-Judge evaluation pattern. Generates structured judge prompts with position swapping (A→B and B→A rubric order) to eliminate ordering bias per whitepaper §4.
+
+### Documentation
+- `docs/EVAL-GUIDE.md` — New "Advanced Evaluation" section covering all three tools
+- `skills/skill-improver` — References updated with links to dashboard, regression, and LLM-as-Judge
+
 ## 2.3.0 (2026-06-22) — Phase 8: Documentation & Standard Compliance
 
 Documentation system for skill evaluation, agentskills.io compliance badge, landing page and docs updated.

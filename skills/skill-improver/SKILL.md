@@ -148,7 +148,10 @@ Never auto-apply without explicit approval.
 - `scripts/eval/run-evals.sh` — trigger test runner
 - `scripts/eval/run-golden.sh` — golden dataset runner
 - `scripts/eval/run-adversarial.sh` — adversarial test runner
+- `scripts/eval/trigger-dashboard.sh` — trigger accuracy dashboard (flags skills <90%)
+- `scripts/eval/run-regression.sh` — regression test suite (detects regressions)
+- `scripts/eval/run-llm-judge.sh` — LLM-as-Judge output quality evaluation
 - `scripts/skill-lint.sh` — structural validation
-- `docs/EVAL-GUIDE.md` — complete eval system documentation (format, tiers, coverage)
+- `docs/EVAL-GUIDE.md` — complete eval system documentation (format, tiers, coverage, advanced)
 - `skills/skill-creator/` — for creating skills from scratch
 - `development/IMPROVEMENT-PLAN.md` Phase 6.5 — lint warning cleanup tasks
