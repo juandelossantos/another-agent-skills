@@ -1,39 +1,13 @@
 /**
  * Another Agent Skills — Documentation JS
- * Sidebar nav, search, theme/lang toggle, copy buttons
+ * Sidebar nav, search, theme/lang toggle, copy buttons, i18n
  */
 
 (function() {
   'use strict';
 
   /* =========================================================
-     1. THEME TOGGLE
-     ========================================================= */
-
-  const THEME_KEY = 'aas-theme';
-
-  function getTheme() {
-    return localStorage.getItem(THEME_KEY) || 'dark';
-  }
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
-    const btn = document.querySelector('[data-action="theme"]');
-    if (btn) btn.textContent = theme === 'dark' ? '☾' : '☀';
-  }
-
-  document.addEventListener('click', function(e) {
-    const btn = e.target.closest('[data-action="theme"]');
-    if (btn) {
-      setTheme(getTheme() === 'dark' ? 'light' : 'dark');
-    }
-  });
-
-  setTheme(getTheme());
-
-  /* =========================================================
-     2. LANGUAGE TOGGLE
+     0. I18N — Language Translations
      ========================================================= */
 
   const LANG_KEY = 'aas-lang';
@@ -53,9 +27,14 @@
       for (let i = 0; i < keys.length; i++) {
         val = val && val[keys[i]];
       }
-      if (val) el.textContent = val;
+      if (val) {
+        if (el.hasAttribute('data-i18n-html')) {
+          el.innerHTML = val;
+        } else {
+          el.textContent = val;
+        }
+      }
     });
-    // Rebuild TOC after translations so links show translated text
     setTimeout(rebuildTOC, 50);
   }
 
@@ -79,6 +58,32 @@
   });
 
   setLang(currentLang);
+
+  /* =========================================================
+     2. THEME TOGGLE
+     ========================================================= */
+
+  const THEME_KEY = 'aas-theme';
+
+  function getTheme() {
+    return localStorage.getItem(THEME_KEY) || 'dark';
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+    const btn = document.querySelector('[data-action="theme"]');
+    if (btn) btn.textContent = theme === 'dark' ? '☾' : '☀';
+  }
+
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('[data-action="theme"]');
+    if (btn) {
+      setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    }
+  });
+
+  setTheme(getTheme());
 
   /* =========================================================
      3. SIDEBAR MOBILE TOGGLE
