@@ -149,5 +149,6 @@ Never auto-apply without explicit approval.
 - `scripts/eval/run-golden.sh` — golden dataset runner
 - `scripts/eval/run-adversarial.sh` — adversarial test runner
 - `scripts/skill-lint.sh` — structural validation
+- `docs/EVAL-GUIDE.md` — complete eval system documentation (format, tiers, coverage)
 - `skills/skill-creator/` — for creating skills from scratch
 - `development/IMPROVEMENT-PLAN.md` Phase 6.5 — lint warning cleanup tasks

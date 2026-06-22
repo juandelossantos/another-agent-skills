@@ -1,13 +1,14 @@
 # Project Progress Status
 
-> **Last updated:** 2026-06-18  
-> **Current version:** 2.2.0 (auto-generated)
-> **Status:** Production-ready — 0 errors, 0 warnings, 68 guides across 57 skills  
-> **Current plan:** Phase 8 (documentation compliance) → Phase 9 (LLM-as-Judge) → Phase 10 (integration & hardening)
+> **Last updated:** 2026-06-22  
+> **Current version:** 2.3.0 (auto-generated)
+> **Status:** Production-ready — 0 errors, 1 warning, 68 guides across 57 skills  
+> **Current plan:** Phase 9 (LLM-as-Judge) → Phase 10 (integration & hardening) — Phase 8 ✅
 
 ---
 
 ## What Exists Now
+
 
 
 
@@ -40,7 +41,7 @@
 | `dev-environment-audit` | 152 | 4 |  |
 | `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
-| `engineering-fundamentals` | 213 | 4 |  |
+| `engineering-fundamentals` | 226 | 4 |  |
 | `frontend-desktop` | 238 | 3 |  |
 | `frontend-mobile` | 240 | 3 |  |
 | `frontend-pwa` | 196 | 4 |  |
@@ -67,8 +68,8 @@
 | `redesign-skill` | 64 | 0 |  |
 | `security-and-hardening` | 31 | 0 |  |
 | `shipping-and-launch` | 163 | 2 |  |
-| `skill-creator` | 166 | 2 |  |
-| `skill-improver` | 153 | 2 |  |
+| `skill-creator` | 167 | 2 |  |
+| `skill-improver` | 154 | 2 |  |
 | `soft-premium-ui` | 69 | 0 |  |
 | `source-driven-development` | 32 | 0 |  |
 | `spec-driven-development` | 201 | 3 |  |
@@ -171,6 +172,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|
+| **2.3.0** | 2026-06-22 | Phase 8: Documentation & Standard Compliance. docs/EVAL-GUIDE.md (280 lines, 9 sections). agentskills.io compliance badge. Landing page + docs + i18n updated. Eval system linked from 3 skills. |
 | **2.0.0** | 2026-06-18 | Standardized Frontmatter: version, allowed-tools, tier fields across all 55 skills. agentskills.io alignment. 14 new skills created. Skill smells detection (7 checks) in skill-lint.sh. validate-skill-table.sh now dynamic. |
 | **1.15.0** | 2026-06-17 | Three-Gate Approval: TEST_LOG + COMMIT_MANIFEST + COMMIT_APPROVED v6 hook, log-test-results.sh, audit trail in APPROVAL_LOG. |
 | **1.14.0** | 2026-06-17 | Time-Window Approval: replace SHA256 token system with timestamp-based commit-approval.sh, commit-msg v5 with <5 min freshness check, updated Rule 12. |

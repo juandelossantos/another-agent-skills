@@ -208,6 +208,19 @@ Every platform skill follows `PLATFORM-SKILL-TEMPLATE.md` — read it before cre
 
 ---
 
+---
+
+### Phase 8 — Eval System Integration
+
+All platform skills include eval files (trigger, golden, adversarial) to verify correct activation and output quality. The eval system follows Evaluation-Driven Development (EDD):
+
+- **Trigger tests** — Does the skill fire when it should (and stay silent when it shouldn't)?
+- **Golden tests** — Does the skill produce correct output against a rubric?
+- **Adversarial tests** — Is the skill robust against rephrasing and edge cases?
+
+→ See `docs/EVAL-GUIDE.md` for the complete eval system documentation.
+→ Every generated skill must include eval cases (see `skill-creator`).
+
 ## Verification
 
-SPEC.md with Objective/Scope/Stack/Acceptance/Boundaries. DESIGN.md with visual tokens. DESIGN-LOCK.md read before coding. Discovery done before code. User confirmed each gate. No hardcoded tokens. Accessibility (4.5:1 contrast, focus, reduced motion). Build passes.
+SPEC.md with Objective/Scope/Stack/Acceptance/Boundaries. DESIGN.md with visual tokens. DESIGN-LOCK.md read before coding. Discovery done before code. User confirmed each gate. No hardcoded tokens. Accessibility (4.5:1 contrast, focus, reduced motion). Build passes. Eval cases present and passing.

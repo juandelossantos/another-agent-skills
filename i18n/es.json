@@ -114,7 +114,7 @@
     "catDebug": "Debug",
     "catIdeation": "Ideación",
     "catDesignSkins": "Design Skins",
-    "stats": "57 skills · 47 guías · 6 componentes del harness · eval ready"
+    "stats": "57 skills · 54 guías · 6 componentes del harness · <a href=\"docs/EVAL-GUIDE.md\">sistema de eval</a>"
   },
   "quickstart": {
     "label": "07 / inicio rápido",
@@ -144,7 +144,9 @@
     "q9": "¿Qué es el Factory Model?",
     "a9": "El Factory Model significa que el output principal del desarrollador no es código — es el sistema que produce código. Diseñás el harness: especificaciones, agentes, tests, quality gates, feedback loops. Los agentes manejan la implementación. Vos manejás la arquitectura, verificación y juicio. Tu output es la fábrica, no los widgets.",
     "q10": "¿Cuál es el fundamento teórico?",
-    "a10": "Los conceptos están basados en 'The New SDLC With Vibe Coding' de Addy Osmani, Shubham Saboo y Sokratis Kartakis (Mayo 2026) y 'Agent Skills' de Singhal et al. (Google, Mayo 2026). Este proyecto es una implementación open-source de esos principios."
+    "a10": "Los conceptos están basados en 'The New SDLC With Vibe Coding' de Addy Osmani, Shubham Saboo y Sokratis Kartakis (Mayo 2026) y 'Agent Skills' de Singhal et al. (Google, Mayo 2026). Este proyecto es una implementación open-source de esos principios.",
+    "q11": "¿Cómo funciona el sistema de eval?",
+    "a11": "Cada skill tiene archivos de eval (trigger.jsonl, golden.jsonl, adversarial.jsonl) que prueban 4 modos de falla: trigger (¿se activa cuando debe?), execution (¿el output es correcto?), token budget (¿está dentro de 5K tokens?), y regression (¿skills co-cargadas interfieren?). Ejecutá <code>bash scripts/eval/run-evals.sh --all</code> para validar. Ver <a href=\"docs/EVAL-GUIDE.md\">EVAL-GUIDE.md</a> para documentación completa."
   },
   "references": {
     "label": "referencias",

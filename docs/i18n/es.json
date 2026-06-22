@@ -11,6 +11,7 @@
     "rules": "Reglas",
     "agents": "Agentes",
     "customization": "Personalización",
+    "eval": "Guía de Evaluación",
     "docs": "Docs"
   },
   "hero": {
@@ -33,6 +34,8 @@
     "philosophyDesc": "Principios de SOUL.md, limitaciones honestas y lo que nunca hacemos.",
     "agents": "Agentes",
     "agentsDesc": "Agentes compatibles: OpenCode, Claude Code, Cursor, Devin Desktop y más.",
+    "eval": "Guía de Evaluación",
+    "evalDesc": "Sistema de eval: formato, tiers, cómo agregar evals, ejecutar tests y checklist de cobertura.",
     "quickLinks": "Enlaces rápidos",
     "version": "Versión actual",
     "skillsCount": "Skills",

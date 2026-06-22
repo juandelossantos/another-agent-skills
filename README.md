@@ -1,9 +1,10 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v2.1.0](https://img.shields.io/badge/version-2.1.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v2.3.0](https://img.shields.io/badge/version-2.3.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
+[![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
 
 **57 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process. Harness. Repeat.**
@@ -109,18 +110,12 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v2.2.0
+## What's New in v2.3.0
 
-- **Phase 6: Description Optimization** — All 57 skill descriptions now meet 6 quality criteria (verb-led, triggers front-loaded, anti-trigger clause, ≤200 chars, 3+ distinct triggers, no internal jargon). Enforced by Check 15 in `skill-lint.sh`.
-- **Phase 6.5: Rule 6 Compliance** — All 57 skills now have ≥2 guides (68 total). Errors: 16→0. Warnings: 32→0.
-- **Mechanical Gates Added** — `commit-approval.sh` requires `--plan-approved` + `--manifest-presented`. `skill-gate.sh` requires specific skills loaded.
-- **Auto-Generated Health Tracking** — `generate-health-check.sh` and `sync-progress-table.sh` keep HEALTH-CHECK.md and PROGRESS_STATUS.md in sync with the linter. Never stale again.
-- **Task Protocol Standardized** — `docs/TASK-TEMPLATE.md` defines the reusable task format (need evidence, pre-flight tests, post-flight tests, acceptance criteria).
-- **Meta-Skills** — Three new skills for creating, improving, and harvesting your own skills:
-  - [`skill-creator`](skills/skill-creator/SKILL.md) — Generate complete skills from descriptions
-  - [`skill-improver`](skills/skill-improver/SKILL.md) — Diagnose eval failures and propose fixes
-  - [`trace-harvesting`](skills/skill-creator/references/trace-harvesting.md) — Convert successful agent traces into skills
-  - Full guide: [`docs/META-SKILLS-GUIDE.md`](docs/META-SKILLS-GUIDE.md)
+- **Evaluation Guide** — [`docs/EVAL-GUIDE.md`](docs/EVAL-GUIDE.md) documents the complete eval system: format spec, 4 failure modes (trigger, execution, token budget, regression), skill tiers (read-only/draft/action-allowed), how to add evals, running tests, trigger accuracy (90%), and coverage checklist.
+- **agentskills.io Compliance Badge** — Badge in README.md certifying frontmatter alignment with the agentskills.io open standard.
+- **Eval System Integration** — `engineering-fundamentals` (foundation skill) now includes Phase 8: Eval System Integration. `skill-creator` and `skill-improver` reference `docs/EVAL-GUIDE.md` directly.
+- **Landing Page & Docs Updated** — Skills stats link to EVAL-GUIDE, FAQ entry "How does the eval system work?", docs sidebar EVAL-GUIDE link on 68 pages, overview card. i18n EN/ES synced.
 
 ---
 
