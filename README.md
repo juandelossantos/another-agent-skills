@@ -117,6 +117,12 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 - **LLM-as-Judge Pattern** — [`scripts/eval/run-llm-judge.sh`](scripts/eval/run-llm-judge.sh) evaluates output quality against rubrics with position swapping to eliminate ordering bias.
 - **EVAL-GUIDE.md** — New "Advanced Evaluation" section documenting all three tools.
 
+## What's New in v2.5.0
+
+- **E2E Integration Test** — [`scripts/eval/test-e2e.sh`](scripts/eval/test-e2e.sh) validates the entire eval pipeline end-to-end: creates temp skill, runs lint → evals → dashboard → regression, cleans up.
+- **Single-Skill Regression** — [`scripts/eval/run-regression.sh`](scripts/eval/run-regression.sh) now supports `--skill <name>` for targeted regression checks.
+- **Pre-Commit Eval Gates** — Gate 12 now runs trigger accuracy + regression on changed skills.
+
 ---
 
 ## Development Lifecycle

@@ -321,3 +321,20 @@ bash scripts/eval/run-llm-judge.sh --skill <name> --case <case_id>
 Generates two judge prompts with reversed rubric order (per whitepaper §4 position swapping to eliminate ordering bias). Pipe each prompt to your LLM, then average the scores.
 
 **Integration:** These tools are invoked by `skill-improver` during diagnosis and by `engineering-fundamentals` quality gates. They are also available for manual use by maintainers.
+
+### E2E Integration Test
+
+[`scripts/eval/test-e2e.sh`](../scripts/eval/test-e2e.sh) validates the entire eval system end-to-end:
+
+```bash
+bash scripts/eval/test-e2e.sh
+```
+
+Creates a temporary test skill with known eval cases, then runs the full pipeline:
+
+1. **skill-lint** → verifies the temp skill passes structural checks
+2. **run-evals** → verifies trigger evals pass
+3. **trigger-dashboard** → verifies all existing skills remain ≥90% accuracy
+4. **run-regression** → verifies no regressions across all skills
+
+Cleans up the temp skill on both success and failure. Exit code 0 indicates all pipeline steps pass. Use this as a smoke test before releasing or after making changes to the eval infrastructure.
