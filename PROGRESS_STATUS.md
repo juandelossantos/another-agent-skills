@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-06-22  
-> **Current version:** 2.4.0 (auto-generated)
+> **Last updated:** 2026-06-23  
+> **Current version:** 2.5.0 (auto-generated)
 > **Status:** Production-ready — 0 errors, 1 warning, 68 guides across 57 skills  
-> **Current plan:** Phase 10 (integration & hardening) — Phase 8 ✅ Phase 9 ✅
+> **Current plan:** Phase 10 ✅ (integration & hardening) — Phase 8 ✅ Phase 9 ✅ Phase 10 ✅
 
 ---
 
@@ -172,7 +172,8 @@
 ## Version History
 
 | Version | Date | Key Changes |
-|---|---|---|---|
+|---|---|---|---|---|
+| **2.5.0** | 2026-06-23 | Phase 10: Integration & Hardening. test-e2e.sh E2E integration test. run-regression.sh --skill flag. Pre-commit Gate 12 enhanced with dashboard + regression checks. |
 | **2.4.0** | 2026-06-22 | Phase 9: Advanced Evaluation. Trigger accuracy dashboard, regression test suite, LLM-as-Judge pattern. 3 new scripts in scripts/eval/. EVAL-GUIDE.md updated. |
 | **2.3.0** | 2026-06-22 | Phase 8: Documentation & Standard Compliance. docs/EVAL-GUIDE.md (280 lines, 9 sections). agentskills.io compliance badge. Landing page + docs + i18n updated. Eval system linked from 3 skills. |
 | **2.0.0** | 2026-06-18 | Standardized Frontmatter: version, allowed-tools, tier fields across all 55 skills. agentskills.io alignment. 14 new skills created. Skill smells detection (7 checks) in skill-lint.sh. validate-skill-table.sh now dynamic. |

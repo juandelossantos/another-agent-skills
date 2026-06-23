@@ -1,5 +1,16 @@
 # Release Notes
 
+## 2.5.0 (2026-06-23) — Phase 10: Integration & Hardening
+
+E2E integration test, pre-commit eval gate enhancements, and single-skill regression testing.
+
+### New Tools
+- `scripts/eval/test-e2e.sh` — End-to-end integration test for the eval system. Creates a temp skill with known evals, runs full pipeline (lint → evals → dashboard → regression), cleans up on success AND failure.
+
+### Changed
+- `scripts/eval/run-regression.sh` — New `--skill <name>` flag for single-skill regression testing
+- `scripts/git-hooks/pre-commit` — Gate 12 now runs trigger-dashboard and regression checks on changed skills, not just evals
+
 ## 2.4.0 (2026-06-22) — Phase 9: Advanced Evaluation
 
 Quantitative eval tooling: trigger accuracy dashboard, regression test suite, and LLM-as-Judge pattern.

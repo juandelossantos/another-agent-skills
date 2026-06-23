@@ -1,61 +1,38 @@
-# Session State — 2026-06-18
+# Session State — 2026-06-23 (END OF SESSION)
 
 ## Where We Are
 
-**Branch:** main
-**Version:** 2.2.0
-**Status:** 0 errors, 0 warnings — all 57 skills compliant with 6/6 description criteria
+**Branch:** integration-hardening
+**Version:** 2.5.0
+**Status:** 0 errors, 1 warning — Phase 10 ✅
 
-## Completed This Session
+## Completed
 
 | Phase | Description | Status |
 |---|---|---|
-| 6.5 | Rule 6 Compliance (8 tasks) | ✅ |
-| 6 | Description Optimization (2 tasks) | ✅ |
+| 10 | Integration & Hardening (E2E test, pre-commit eval gates) | ✅ |
 
-### Key Deliverables
-- **Check 15** in `skill-lint.sh`: description quality validation (verb-led, anti-trigger, ≤200 chars)
-- All 57 skills meet 6/6 description quality criteria
-- `create-release.sh`: mechanical gate for release notes quality
-- `validate-release-notes.sh`: blocks commits with insufficient release notes
-- Docs i18n synced: EN/ES toggle, localStorage fix, v2.2.0
-- `docs/TASK-TEMPLATE.md`: reusable task protocol
+### Deliverables v2.5.0
+- `scripts/eval/test-e2e.sh` — E2E integration test, temp skill, full pipeline, cleanup
+- `scripts/eval/run-regression.sh` — New `--skill <name>` flag
+- `scripts/git-hooks/pre-commit` — Gate 12 enhanced: dashboard + regression per changed skill
 
 ## What's Next
 
-| Phase | Priority | Description |
-|---|---|---|
-| **Phase 8** | 🔜 Next | **Documentation & Standard Compliance**: EVAL-GUIDE.md, agentskills.io compliance badge, update landing page |
-| **Phase 9** | ⏳ | **Advanced Evaluation**: trigger dashboard, regression suite, LLM-as-Judge |
-| **Phase 10** | ⏳ | **Integration**: E2E test, pre-commit v9 (eval gates) |
+Future phases (from IMPROVEMENT-PLAN.md):
+- Phase 4: Meta-Skills (skill-creator, skill-improver, trace-harvesting)
+- Phase 5: Context & Token Budget
+- Phase 0: Foundation tasks (if any remaining)
 
-### Phase 8 — Quick Reference
-From `development/IMPROVEMENT-PLAN.md`:
-- **Task 8.1**: Create `docs/EVAL-GUIDE.md` — central eval system documentation
-- **Task 8.2**: Add agentskills.io compliance badge to README.md
-- **Task 8.3**: Update landing page and docs site with eval system info
-
-## Init Protocol for Next Session
-
-```
-1. git pull origin main
-2. Read this file: development/SESSION_STATE.md
-3. Load skills:
-   - planning-and-task-breakdown
-   - context-engineering
-   - incremental-implementation
-   - documentation-and-adrs
-4. bash scripts/skill-gate.sh mark planning-and-task-breakdown
-5. Start Phase 8
-```
-
-## Verification
+## Verification (end of session)
 
 ```bash
-bash scripts/skill-lint.sh           # 0 errors, 0 warnings
+bash scripts/skill-lint.sh           # 0 errors, 1 warning
 bash scripts/validate-skill-table.sh # PASS
 bash scripts/validate-health-check.sh # PASS
-bash scripts/generate-health-check.sh --check  # PASS
-bash scripts/sync-progress-table.sh --check     # PASS
-bash scripts/validate-release-notes.sh          # PASS
+bash scripts/validate-release-notes.sh # PASS
+bash scripts/eval/test-e2e.sh        # 4/4 steps passed
+bash scripts/eval/run-evals.sh --all  # all passed
+bash scripts/eval/trigger-dashboard.sh --all  # all ≥90%
+bash scripts/eval/run-regression.sh  # no regressions
 ```
