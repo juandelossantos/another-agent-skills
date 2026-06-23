@@ -110,13 +110,6 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v2.4.0
-
-- **Trigger Accuracy Dashboard** — [`scripts/eval/trigger-dashboard.sh`](scripts/eval/trigger-dashboard.sh) measures per-skill trigger coverage, flags skills below 90%, and tracks historical trends.
-- **Regression Test Suite** — [`scripts/eval/run-regression.sh`](scripts/eval/run-regression.sh) runs all 350 eval cases across 57 skills, records baselines, and detects regressions.
-- **LLM-as-Judge Pattern** — [`scripts/eval/run-llm-judge.sh`](scripts/eval/run-llm-judge.sh) evaluates output quality against rubrics with position swapping to eliminate ordering bias.
-- **EVAL-GUIDE.md** — New "Advanced Evaluation" section documenting all three tools.
-
 ## What's New in v2.5.0
 
 - **E2E Integration Test** — [`scripts/eval/test-e2e.sh`](scripts/eval/test-e2e.sh) validates the entire eval pipeline end-to-end: creates temp skill, runs lint → evals → dashboard → regression, cleans up.
