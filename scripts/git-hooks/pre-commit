@@ -441,6 +441,39 @@ if [ -n "$STAGED_SKILL_DIRS" ] && [ -f "$EVAL_RUNNER" ]; then
   else
     echo "  ${GREEN}✓${NC} All skill evals passed"
   fi
+  # Also run trigger-dashboard and regression for changed skills
+  DASH_RUNNER="${REPO_ROOT}/scripts/eval/trigger-dashboard.sh"
+  REG_RUNNER="${REPO_ROOT}/scripts/eval/run-regression.sh"
+  for skill in $STAGED_SKILL_DIRS; do
+    if [ -d "${REPO_ROOT}/skills/$skill/evals" ]; then
+      if [ -f "$DASH_RUNNER" ]; then
+        echo "  ${CYAN}▶${NC} Recording trigger accuracy for $skill..."
+        bash "$DASH_RUNNER" --skill "$skill" 2>&1 | tail -1 || true
+      fi
+      if [ -f "$REG_RUNNER" ]; then
+        echo "  ${CYAN}▶${NC} Checking regression for $skill..."
+        if ! bash "$REG_RUNNER" --skill "$skill" 2>&1 | tail -1 | grep -q "No regressions"; then
+          echo "  ${RED}✗${NC} $skill regression detected"
+          EVAL_FAIL=1
+        fi
+      fi
+    fi
+  done
+  if [ "$EVAL_FAIL" -eq 1 ]; then
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  EVAL GATE FAILED                                       ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Skill evaluations failed. Fix the failing evals or     ║${NC}"
+    echo "  ${RED}║  update the eval cases before committing.               ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Run: bash scripts/eval/run-evals.sh --skill <name>     ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  else
+    echo "  ${GREEN}✓${NC} All skill evals passed"
+  fi
 else
   echo "  ${YELLOW}−${NC} No skill changes — skipped"
 fi

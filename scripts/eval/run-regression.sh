@@ -15,6 +15,17 @@ SKILLS_DIR="${SKILLS_DIR:-skills}"
 RESULTS_FILE="${RESULTS_FILE:-.regression-results.json}"
 PASS=0; FAIL=0; TOTAL=0; REGRESSIONS=0
 
+usage() { echo "Usage: $0 [--skill <name> | --reset]"; exit 1; }
+
+MODE="all"; TARGET=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --skill) MODE="skill"; TARGET="$2"; shift 2 ;;
+    --reset) MODE="reset"; shift ;;
+    *) usage ;;
+  esac
+done
+
 echo ""
 echo "╔════════════════════════════════════════════════════════╗"
 echo "║  REGRESSION TEST SUITE                                ║"
@@ -22,7 +33,7 @@ echo "╚═══════════════════════�
 echo ""
 
 # Handle --reset
-if [ "${1:-}" = "--reset" ]; then
+if [ "$MODE" = "reset" ]; then
   rm -f "$RESULTS_FILE" "${RESULTS_FILE}.prev"
   echo "  ${YELLOW}History reset. Next run will be the new baseline.${NC}"
   exit 0
@@ -36,8 +47,23 @@ if [ -f "$RESULTS_FILE" ]; then
   done < <(jq -r '.skills | to_entries[] | "\(.key)=\(.value.status)"' "$RESULTS_FILE" 2>/dev/null || true)
 fi
 
-# Run all eval suites for each skill
-for skill_dir in "$SKILLS_DIR"/*/; do
+# Determine target skills
+SKILL_TARGETS=()
+if [ "$MODE" = "skill" ]; then
+  if [ ! -d "$SKILLS_DIR/$TARGET" ]; then
+    echo "  ${RED}✗${NC} Skill '$TARGET' not found"
+    exit 1
+  fi
+  SKILL_TARGETS+=("$SKILLS_DIR/$TARGET")
+  echo "  ${CYAN}▶${NC} Running regression for: $TARGET"
+else
+  for skill_dir in "$SKILLS_DIR"/*/; do
+    SKILL_TARGETS+=("$skill_dir")
+  done
+fi
+
+# Run all eval suites for each target
+for skill_dir in "${SKILL_TARGETS[@]}"; do
   skill=$(basename "$skill_dir")
   skill_pass=0 skill_fail=0 skill_total=0
 
@@ -104,7 +130,8 @@ for skill_dir in "$SKILLS_DIR"/*/; do
   printf "  %-35s %3s/%3s %4s%% %s%s\n" "$skill" "$skill_pass" "$skill_total" "$pass_pct" "$status" "$regression_flag"
 done
 
-# Save results
+# Save results (only for full runs, not single-skill)
+if [ "$MODE" != "skill" ]; then
 {
   echo "{"
   echo "  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\","
@@ -113,7 +140,7 @@ done
   echo "  \"failed\": $FAIL,"
   echo "  \"skills\": {"
   first=true
-  for skill_dir in "$SKILLS_DIR"/*/; do
+  for skill_dir in "${SKILL_TARGETS[@]}"; do
     skill=$(basename "$skill_dir")
     $first || echo ","
     first=false
@@ -138,6 +165,7 @@ done
   echo "  }"
   echo "}"
 } > "$RESULTS_FILE"
+fi
 
 echo ""
 echo "───"
