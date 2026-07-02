@@ -9,7 +9,7 @@
 
 | Action | Command |
 |---|---|
-| Test | `bash scripts/skill-lint.sh && bash scripts/validate-skill-table.sh && bash scripts/validate-health-check.sh && bash scripts/validate-release-notes.sh` |
+| Test | `bash scripts/skill-lint.sh && bash scripts/validate-skill-table.sh && bash scripts/validate-health-check.sh && bash scripts/validate-release-notes.sh && bash scripts/audit-markdown.sh` |
 | Lint | `bash -n scripts/*.sh && bash -n scripts/git-hooks/pre-commit scripts/git-hooks/commit-msg` |
 | Type check | `echo "N/A — shell + markdown project"` |
 | Build | `echo "N/A — no build step"` |
