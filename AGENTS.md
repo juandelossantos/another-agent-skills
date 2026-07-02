@@ -158,6 +158,7 @@ Skills loaded from:
 
 ---
 
+```markdown
 # >>> another-agent-skills-rules
 # The following rules are from Another Agent Skills (github.com/juandelossantos/another-agent-skills)
 # These rules ADD TO your existing workflow, they do not replace it.
@@ -165,3 +166,4 @@ Skills loaded from:
 # - Your project-specific rules take priority for project details
 # - Our skill-driven rules take priority for workflow and quality
 # <<< another-agent-skills-rules
+```

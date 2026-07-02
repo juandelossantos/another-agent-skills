@@ -73,9 +73,9 @@ Mark tasks: `[S]` sequential, `[P]` parallelizable, `[Pm]` merge point.
 
 ## References
 
-- [PATTERNS.md](../PATTERNS.md) — Workflow pattern selection guide. Consult before choosing a pattern (Guardian, Lazy Loading, Skill Gate, etc.).
-- [ANTI-PATTERNS.md](../ANTI-PATTERNS.md) — Common workflow anti-patterns to avoid.
-- [GLOSSARY.md](../GLOSSARY.md) — Terminology reference for framework terms.
+- [PATTERNS.md](../../PATTERNS.md) — Workflow pattern selection guide. Consult before choosing a pattern (Guardian, Lazy Loading, Skill Gate, etc.).
+- [ANTI-PATTERNS.md](../../ANTI-PATTERNS.md) — Common workflow anti-patterns to avoid.
+- [GLOSSARY.md](../../GLOSSARY.md) — Terminology reference for framework terms.
 
 ## Verification
 

@@ -21,7 +21,7 @@
 ## Rule 1: Skill Hierarchy (Full Table)
 
 | Layer | Skills | Purpose |
-|---|---|---|---|
+|---|---|---|
 | **Foundation** | `engineering-fundamentals`, `context-engineering`, `user-onboarding` | Universal philosophy, context setup, preferences |
 | **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile`, `frontend-desktop`, `frontend-ui-engineering`, `visual-frontend-mastery` | Web, PWA, mobile, desktop, UI components, design |
 | **Backend** | `backend-api-mastery`, `api-and-interface-design`, `cli-tools` | API, DB, auth, interfaces, CLI |
