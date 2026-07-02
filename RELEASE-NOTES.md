@@ -1,15 +1,21 @@
 # Release Notes
 
-## 2.6.0 (2026-07-XX) — Knowledge Infrastructure & UI Enhancement
+## 2.6.1 (2026-07-XX) — Workflow Patterns
 
-*In progress — Phase F1 + F2 completed.*
+### New Documentation
+- `PATTERNS.md` — Catalog of 8 workflow patterns (Guardian, Lazy Loading, Skill Gate, Edit Barrier, Commit Manifest, Design Gate, Three-Gate Approval, Context Budget) with Mermaid diagrams and trade-off analysis
+- `AGENTS.md` — Skill hierarchy Mermaid mindmap and lifecycle Mermaid flowchart added
 
-### New Documentation (F1)
+### Skills Updated
+- `planning-and-task-breakdown` — References section with PATTERNS.md, ANTI-PATTERNS.md, GLOSSARY.md links; PATTERNS.md consult item added to verification checklist
+
+---
+
+## 2.6.0 (2026-07-XX) — Knowledge Infrastructure
+
+### New Documentation
 - `ANTI-PATTERNS.md` — Catalog of 11 agent workflow anti-patterns across 4 categories, with code examples (bad + good), rule/skill cross-references, and mechanical fix for each
 - `GLOSSARY.md` — A-Z glossary of 40+ framework terms validated against external sources (Anthropic docs, ai-system-design-guide) with source file cross-references
-
-### New Documentation (F2)
-- `PATTERNS.md` — Catalog of 8 workflow patterns (Guardian, Lazy Loading, Skill Gate, Edit Barrier, Commit Manifest, Design Gate, Three-Gate Approval, Context Budget) with Mermaid diagrams and trade-off analysis
 
 ### New Documentation (F1)
 - `ANTI-PATTERNS.md` — Catalog of 11 agent workflow anti-patterns across 4 categories, with code examples (bad + good), rule/skill cross-references, and mechanical fix for each

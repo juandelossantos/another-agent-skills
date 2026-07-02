@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-07-01
-**Version:** 2.6.0
+**Version:** 2.6.1
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -26,7 +26,7 @@
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
 | Reference files | ✅ 2 new | ANTI-PATTERNS.md + GLOSSARY.md created |
-| VERSION | ✅ 2.6.0 | Consistent |
+| VERSION | ✅ 2.6.1 | Consistent |
 | Skill lint | ✅ 0 errors, 1 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 

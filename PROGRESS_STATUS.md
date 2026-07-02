@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-01  
-> **Current version:** 2.6.0 (auto-generated)
+> **Current version:** 2.6.1 (auto-generated)
 > **Status:** Production-ready — 0 errors, 1 warning, 68 guides across 57 skills, 2 new reference files  
 > **Current plan:** F1 ✅ F2 ✅ (workflow patterns) — Phase 8 ✅ Phase 9 ✅ Phase 10 ✅ — Next: F3 (case studies & ADRs)
 
