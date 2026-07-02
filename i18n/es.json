@@ -53,7 +53,7 @@
     "title": "Las reglas que dependen de la memoria fallan.",
     "titleAccent": "Las reglas que dependen del harness funcionan.",
     "level1Title": "01: Instrucciones y Reglas",
-    "level1Desc": "Quién es el agente, qué le importa, qué no debe hacer jamás. AGENTS.md, SOUL.md, STEERING-GUIDE.md.",
+    "level1Desc": "Quién es el agente, qué le importa, qué no debe hacer jamás. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.",
     "level2Title": "02: Herramientas y Sandboxes",
     "level2Desc": "Capacidades específicas cargadas bajo demanda. 57 skills, 47 guías, sistema de eval, terminal, CI.",
     "level3Title": "03: Orquestación y Guardrails",
