@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-06-22
-**Version:** 2.4.0
+**Date:** 2026-07-01
+**Version:** 2.6.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -25,7 +25,8 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 2.4.0 | Consistent |
+| Reference files | ✅ 2 new | ANTI-PATTERNS.md + GLOSSARY.md created |
+| VERSION | ✅ 2.6.0 | Consistent |
 | Skill lint | ✅ 0 errors, 1 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -98,3 +99,4 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-06-12 | v1.9.0 released | Framework distribution: global install + smart symlinks |
 | 2026-06-18 | v2.0.0 / Phase 6.5.0 | Added Check 14 (guide count validation) to skill-lint.sh. HEALTH-CHECK.md now tracks per-skill distribution. Status → DEGRADED. |
 | 2026-06-18 | Phase 6.5.1 | Fixed ALWAYS/NEVER in caps in engineering-fundamentals and git-init-and-versioning. Task template created. |
+| 2026-07-01 | v2.6.0 F1: Knowledge Infrastructure | ANTI-PATTERNS.md (11 anti-patterns), GLOSSARY.md (40 terms), i18n EN/ES, docs, Rule 12b self-merge policy. |
