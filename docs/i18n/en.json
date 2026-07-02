@@ -42,12 +42,10 @@
     "guidesCount": "Guides",
     "license": "License",
     "whatsNew": "What's New in v2.6.0",
-    "whatsNewItem1": "E2E Integration Test",
-    "whatsNewDesc1": "test-e2e.sh validates the full eval pipeline end-to-end: lint, evals, dashboard, regression.",
-    "whatsNewItem2": "Single-Skill Regression",
-    "whatsNewDesc2": "run-regression.sh now supports --skill <name> for targeted regression checks.",
-    "whatsNewItem3": "Pre-Commit Eval Gates",
-    "whatsNewDesc3": "Gate 12 now runs trigger accuracy and regression on changed skills."
+    "whatsNewItem1": "Anti-Patterns Catalog",
+    "whatsNewDesc1": "ANTI-PATTERNS.md: 11 agent workflow anti-patterns with code examples and mechanical fixes.",
+    "whatsNewItem2": "Glossary",
+    "whatsNewDesc2": "GLOSSARY.md: 40+ framework terms A-Z with source file cross-references."
   },
   "gettingStarted": {
     "title": "Getting Started",
