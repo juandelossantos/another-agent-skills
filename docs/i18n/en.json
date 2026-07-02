@@ -269,7 +269,7 @@
     "gate12": "Eval gate — run evals, dashboard, and regression on changed skills",
     "harnessTitle": "The Harness Architecture",
     "harnessDesc": "A harness is the mechanical infrastructure that enforces agent behavior. This project implements 6 harness components that turn \"please follow the rules\" into \"you literally cannot break them\":",
-    "harnessComp1": "1. Instructions & Rules — AGENTS.md, SOUL.md, STEERING-GUIDE.md. Who the agent is and what it must never do.",
+    "harnessComp1": "1. Instructions & Rules — AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md. Who the agent is and what it must never do.",
     "harnessComp2": "2. Tools — 57 skills loaded on demand via skill gate. Task-specific capabilities, not generic prompts.",
     "harnessComp3": "3. Sandboxes & Execution — Terminal, git workspace, CI. Where the agent acts.",
     "harnessComp4": "4. Orchestration — skill-gate.sh, init-agents.sh, multi-agent patterns. When tools fire and how agents coordinate.",

@@ -1,5 +1,18 @@
 # Release Notes
 
+## 2.6.0 (2026-07-XX) — Knowledge Infrastructure & UI Enhancement
+
+*In progress — Phase F1 completed.*
+
+### New Documentation (F1)
+- `ANTI-PATTERNS.md` — Catalog of 11 agent workflow anti-patterns across 4 categories, with code examples (bad + good), rule/skill cross-references, and mechanical fix for each
+- `GLOSSARY.md` — A-Z glossary of 40+ framework terms validated against external sources (Anthropic docs, ai-system-design-guide) with source file cross-references
+
+### Docs Updated
+- `README.md` — Documentation Map updated with links to ANTI-PATTERNS.md and GLOSSARY.md
+
+---
+
 ## 2.5.0 (2026-06-23) — Phase 10: Integration & Hardening
 
 E2E integration test, pre-commit eval gate enhancements, and single-skill regression testing.

@@ -231,6 +231,8 @@ If it fails, ask the user before taking any action.
 | [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Full anti-rationalization table, Commit Manifest Protocol, project-type matrix |
 | [`SOUL.md`](./SOUL.md) | Project identity: principles, values, what we never do |
 | [`STEERING-GUIDE.md`](./STEERING-GUIDE.md) | Canonical files and severity — what the agent must always know |
+| [`ANTI-PATTERNS.md`](./ANTI-PATTERNS.md) | Catalog of 11 agent workflow anti-patterns with code examples and mechanical fixes |
+| [`GLOSSARY.md`](./GLOSSARY.md) | A-Z glossary of 40+ framework terms with source file cross-references |
 | [`docs/HARNESS.md`](./docs/HARNESS.md) | Harness architecture: 6 components, Agent = Model + Harness |
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |

@@ -53,7 +53,7 @@
     "title": "Rules that depend on memory fail.",
     "titleAccent": "Rules that depend on the harness succeed.",
     "level1Title": "01: Instructions & Rules",
-    "level1Desc": "Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md.",
+    "level1Desc": "Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.",
     "level2Title": "02: Tools & Sandboxes",
     "level2Desc": "Task-specific capabilities loaded on demand. 57 skills, 54 guides, eval system, terminal, CI.",
     "level3Title": "03: Orchestration & Guardrails",
