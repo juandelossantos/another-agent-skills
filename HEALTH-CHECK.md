@@ -100,3 +100,4 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-06-18 | v2.0.0 / Phase 6.5.0 | Added Check 14 (guide count validation) to skill-lint.sh. HEALTH-CHECK.md now tracks per-skill distribution. Status → DEGRADED. |
 | 2026-06-18 | Phase 6.5.1 | Fixed ALWAYS/NEVER in caps in engineering-fundamentals and git-init-and-versioning. Task template created. |
 | 2026-07-01 | v2.6.0 F1: Knowledge Infrastructure | ANTI-PATTERNS.md (11 anti-patterns), GLOSSARY.md (40 terms), i18n EN/ES, docs, Rule 12b self-merge policy. |
+| 2026-07-01 | v2.6.2 F3: Case Studies & ADRs | Case studies (Guardian Pattern, Skill Gate), ADR-006/007/008 (Three-Gate, Time-Window, Skill Gate). |
