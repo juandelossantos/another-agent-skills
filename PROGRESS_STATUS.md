@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-06-23  
-> **Current version:** 2.5.0 (auto-generated)
+> **Current version:** 2.6.0 (auto-generated)
 > **Status:** Production-ready — 0 errors, 1 warning, 68 guides across 57 skills  
 > **Current plan:** Phase 10 ✅ (integration & hardening) — Phase 8 ✅ Phase 9 ✅ Phase 10 ✅
 
