@@ -84,4 +84,16 @@ See AGENTS-EXTENDED.md for full Commit Manifest Protocol and time-window details
 
 ## Rule 12b: PR Review Gate (MECHANICAL)
 
-Before any PR merge: run `bash scripts/pr-review-checklist.sh <PR_NUMBER>`. FAIL → fix. WARN → review manually. PASS → proceed. See AGENTS-EXTENDED.md for full checklist contents.
+Before any PR merge: run `bash scripts/pr-review-checklist.sh <PR_NUMBER>`.
+
+| Exit | Action |
+|---|---|
+| **PASS (0)** | PR is clean. Proceed to merge. No human review required unless the changes are security-sensitive or architectural. |
+| **WARN (2)** | Non-blocking issues (e.g., no GitHub reviews, size warnings). Review manually. If no functional issues, proceed to merge. |
+| **FAIL (1)** | Blocking issues found. Fix before merge. Run checklist again after fix. |
+
+**Self-review rule:** The agent that created the PR CAN run the checklist and merge if PASS. The checklist IS the review. The agent does NOT need a separate human approval on GitHub to merge — the PR review gate IS the approval gate. The only exception is if the PR changes a rule file (`rules/`), a script with enforcement logic (`scripts/git-hooks/`), or SKILL.md files — these require a human GitHub review before merge.
+
+**Post-merge:** Delete branch. Update RELEASE-NOTES.md if not already updated. Update HEALTH-CHECK.md if version changed.
+
+See AGENTS-EXTENDED.md for full checklist contents.
