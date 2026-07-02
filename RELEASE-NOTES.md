@@ -2,7 +2,14 @@
 
 ## 2.6.0 (2026-07-XX) — Knowledge Infrastructure & UI Enhancement
 
-*In progress — Phase F1 completed.*
+*In progress — Phase F1 + F2 completed.*
+
+### New Documentation (F1)
+- `ANTI-PATTERNS.md` — Catalog of 11 agent workflow anti-patterns across 4 categories, with code examples (bad + good), rule/skill cross-references, and mechanical fix for each
+- `GLOSSARY.md` — A-Z glossary of 40+ framework terms validated against external sources (Anthropic docs, ai-system-design-guide) with source file cross-references
+
+### New Documentation (F2)
+- `PATTERNS.md` — Catalog of 8 workflow patterns (Guardian, Lazy Loading, Skill Gate, Edit Barrier, Commit Manifest, Design Gate, Three-Gate Approval, Context Budget) with Mermaid diagrams and trade-off analysis
 
 ### New Documentation (F1)
 - `ANTI-PATTERNS.md` — Catalog of 11 agent workflow anti-patterns across 4 categories, with code examples (bad + good), rule/skill cross-references, and mechanical fix for each
