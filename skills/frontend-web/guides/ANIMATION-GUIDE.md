@@ -197,23 +197,7 @@ export function HorizontalPan({ children }: { children: React.ReactNode }) {
 
 ---
 
-## 4. Scroll-Driven Animations (CSS)
-
-For scroll-linked effects without JS overhead (lighter alternative to GSAP):
-
-```css
-@supports (animation-timeline: scroll()) {
-  .scroll-reveal {
-    animation: fade-up 1ms linear;
-    animation-timeline: view();
-    animation-range: entry 10% cover 40%;
-  }
-}
-```
-
----
-
-## 5. Web Animations API (WAAPI)
+## 4. Web Animations API (WAAPI)
 
 For synchronized, precise JS-controlled animations that don't need a library:
 
@@ -228,7 +212,7 @@ el.animate(
 
 ---
 
-## 6. Forbidden Animation Patterns
+## 5. Forbidden Animation Patterns
 
 - **`window.addEventListener("scroll", ...)`** — BANNED. Use Motion `useScroll()`, GSAP ScrollTrigger, IntersectionObserver, or CSS `scroll-driven animations`.
 - **Custom scroll progress with `window.scrollY` in React state** — BANNED. Re-renders on every frame. Use motion values instead.
@@ -239,7 +223,7 @@ el.animate(
 
 ---
 
-## 7. Reduced Motion (WCAG 2.3.3)
+## 6. Reduced Motion (WCAG 2.3.3)
 
 Every animation MUST respect `prefers-reduced-motion`:
 
@@ -257,10 +241,9 @@ In React: wrap with `useReducedMotion()` and degrade to static (as shown in skel
 
 ---
 
-## 8. Motion Rules
+## 7. Motion Rules
 
 - Animate ONLY `transform` and `opacity` for 60fps
 - Use `will-change: transform` sparingly — only on actively animating elements
 - Spring physics: `type: "spring", stiffness: 100, damping: 20` — no `linear` easing
 - GSAP is for full-page scrolltelling only. Not for UI micro-interactions (use Motion)
-- Marquee max one per page

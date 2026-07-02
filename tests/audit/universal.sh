@@ -47,6 +47,18 @@ t_json_parseable() {
   ok "json-parseable: full document parses with jq"
 }
 
+# --- JSON consistency: summary counts must match array lengths ---
+t_json_consistency() {
+  skip_if_no_engine "json-consistency" || return
+  local out sf lf sw lw
+  out=$(cd "$REPO_ROOT" && bash "$ENGINE" --json 2>/dev/null) || { ko "json-consistency: exited $?"; return; }
+  sf=$(echo "$out" | jq -r '.summary.fail');  lf=$(echo "$out" | jq '.failures | length')
+  sw=$(echo "$out" | jq -r '.summary.warn');  lw=$(echo "$out" | jq '.warnings | length')
+  [ "$sf" = "$lf" ] || { ko "json-consistency: summary.fail=$sf but failures[].length=$lf"; return; }
+  [ "$sw" = "$lw" ] || { ko "json-consistency: summary.warn=$sw but warnings[].length=$lw"; return; }
+  ok "json-consistency: summary.fail=$sf==failures($lf), summary.warn=$sw==warnings($lw)"
+}
+
 # --- broken link in core file -> exit 1 (subshell bug FIXED) ---
 t_broken_link_blocks() {
   skip_if_no_engine "broken-link-blocks" || return
@@ -126,18 +138,70 @@ t_repo_golden_json() {
   ok "repo-golden-json: 0 failures on this repo (regression guard)"
 }
 
+# --- placeholder precision: TODO inside code block is NOT flagged (it's an example) ---
+t_placeholder_codeblock_exempt() {
+  skip_if_no_engine "placeholder-codeblock" || return
+  local tmp out
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf '# Doc\n\nExample of bad code:\n\n```\n// TODO: fix this later\nint x = 42;\n```\n\nEnd.\n' > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  rm -rf "$tmp"
+  local n; n=$(echo "$out" | jq '.warnings | length')
+  [ "$n" = "0" ] || { ko "placeholder-codeblock: TODO inside code block should be exempt, got $n warnings"; return; }
+  ok "placeholder-codeblock: TODO inside fenced code block is NOT flagged (precision fix)"
+}
+
+# --- placeholder precision: TODO outside code block IS flagged (real task marker) ---
+t_placeholder_real_flagged() {
+  skip_if_no_engine "placeholder-real" || return
+  local tmp out
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf '# Doc\n\nTODO: fix this later\n\n```\nint x = 42;\n```\n' > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  rm -rf "$tmp"
+  local n; n=$(echo "$out" | jq '.warnings | length')
+  [ "$n" = "1" ] || { ko "placeholder-real: TODO outside code block should be flagged, got $n warnings"; return; }
+  ok "placeholder-real: TODO outside fenced code block IS flagged (real task marker)"
+}
+
+# --- placeholder precision: bare word "placeholder" in prose is NOT flagged ---
+t_placeholder_prose_exempt() {
+  skip_if_no_engine "placeholder-prose" || return
+  local tmp out
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf '# Doc\n\nThe practice of preventing placeholders in shipped code.\nGeneric placeholder names like "John Doe" should be avoided.\n' > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  rm -rf "$tmp"
+  local n; n=$(echo "$out" | jq '.warnings | length')
+  [ "$n" = "0" ] || { ko "placeholder-prose: bare word 'placeholder' in prose should be exempt, got $n warnings"; return; }
+  ok "placeholder-prose: bare word 'placeholder' in prose is NOT flagged (precision fix)"
+}
+
 echo "╔════════════════════════════════════════════════╗"
 echo "║  UNIVERSAL-AUDIT FEATURE TESTS (test-first)    ║"
 echo "╚════════════════════════════════════════════════╝"
 echo ""
 t_json_shape
 t_json_parseable
+t_json_consistency
 t_broken_link_blocks
 t_init_creates_config
 t_config_gating_links
 t_config_project_name
 t_portable_foreign_project
 t_repo_golden_json
+t_placeholder_codeblock_exempt
+t_placeholder_real_flagged
+t_placeholder_prose_exempt
 echo ""
 echo -e "  ${GREEN}PASS: $PASS${NC}  ${RED}FAIL: $FAIL${NC}"
 if [ "$FAIL" -eq 0 ]; then

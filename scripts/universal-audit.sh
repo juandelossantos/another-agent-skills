@@ -155,17 +155,21 @@ $MD_FILES
 EOF
 }
 
-# --- CHECK 3: placeholder detection ---
+# --- CHECK 3: placeholder detection (skips fenced code blocks) ---
 check_placeholders() {
   bool_true "$EN_PLACE" || return 0
-  local pats="TODO|FIXME|XXX|coming soon|under construction|placeholder|lorem ipsum"
+  local pats="TODO:|FIXME:|XXX|coming soon|under construction|lorem ipsum"
   while IFS= read -r f; do
     [ -f "$f" ] || continue
-    while IFS= read -r match; do
-      [ -z "$match" ] && continue
-      local ln txt; ln=$(echo "$match" | cut -d: -f1); txt=$(echo "$match" | cut -d: -f2- | tr -d '[:space:]' | head -c 60)
+    # awk tracks fenced code blocks; only flags matches OUTSIDE ``` blocks
+    awk -v pats="$pats" '
+      /^```/ { in_block = !in_block; next }
+      !in_block && $0 ~ pats { printf "%d\t%s\n", NR, $0 }
+    ' "$f" 2>/dev/null | while IFS=$'\t' read -r ln line; do
+      [ -z "$ln" ] && continue
+      local txt; txt=$(echo "$line" | tr -d '[:space:]' | head -c 60)
       add_result "WARN" "placeholder" "$f" "$f:$ln: placeholder found: $txt"
-    done < <(grep -nE "$pats" "$f" 2>/dev/null || true)
+    done
   done <<EOF
 $MD_FILES
 EOF
@@ -235,11 +239,18 @@ done < "$RESULTS_TMP"
 
 # --- JSON output ---
 emit_json() {
+  local ft wt
+  ft=$(mktemp); wt=$(mktemp)
+  while IFS=$'\t' read -r status type file msg; do
+    case "$status" in
+      FAIL) if is_core "$file"; then printf '%s\t%s\t%s\n' "$type" "$file" "$msg" >> "$ft"; else printf '%s\t%s\t%s\n' "$type" "$file" "$msg" >> "$wt"; fi ;;
+      WARN) printf '%s\t%s\t%s\n' "$type" "$file" "$msg" >> "$wt" ;;
+    esac
+  done < "$RESULTS_TMP"
   local fails warns
-  fails=$(awk -F'\t' '$1=="FAIL"{print $2"\t"$3"\t"$4}' "$RESULTS_TMP" \
-          | jq -R 'split("\t") | {"type":.[0],"file":.[1],"message":.[2]}' | jq -s '.')
-  warns=$(awk -F'\t' '$1=="WARN"{print $2"\t"$3"\t"$4}' "$RESULTS_TMP" \
-          | jq -R 'split("\t") | {"type":.[0],"file":.[1],"message":.[2]}' | jq -s '.')
+  fails=$(jq -R 'split("\t") | {"type":.[0],"file":.[1],"message":.[2]}' "$ft" 2>/dev/null | jq -s '.')
+  warns=$(jq -R 'split("\t") | {"type":.[0],"file":.[1],"message":.[2]}' "$wt" 2>/dev/null | jq -s '.')
+  rm -f "$ft" "$wt"
   jq -n --argjson f "$fails" --argjson w "$warns" \
     --argjson p "$PASS" --argjson wn "$WARN" --argjson fl "$FAIL" \
     '{summary:{pass:$p,warn:$wn,fail:$fl},failures:$f,warnings:$w}'
@@ -249,6 +260,13 @@ if [ "$JSON_MODE" -eq 1 ]; then emit_json; else
   echo "╔══════════════════════════════════════════════════════════════╗"
   printf "║  MARKDOWN AUDIT — %-43s║\n" "$PROJECT_NAME"
   echo "╚══════════════════════════════════════════════════════════════╝"
+  echo ""
+  while IFS=$'\t' read -r status type file msg; do
+    case "$status" in
+      FAIL) if is_core "$file"; then echo -e "  ${RED}✗${NC} $msg"; else echo -e "  ${YELLOW}⚠${NC} $msg"; fi ;;
+      WARN) echo -e "  ${YELLOW}⚠${NC} $msg" ;;
+    esac
+  done < "$RESULTS_TMP"
   echo ""
   echo -e "  ${GREEN}PASS:${NC} $PASS  ${YELLOW}WARN:${NC} $WARN  ${RED}FAIL:${NC} $FAIL"
   if [ "$FAIL" -gt 0 ]; then
