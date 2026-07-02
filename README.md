@@ -110,7 +110,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v2.6.1
+## What's New in v2.7.0
 
 - **Anti-Patterns Catalog** — [`ANTI-PATTERNS.md`](ANTI-PATTERNS.md): 11 agent workflow anti-patterns with code examples and mechanical fixes.
 - **Glossary** — [`GLOSSARY.md`](GLOSSARY.md): 40+ framework terms A-Z with source file cross-references.
