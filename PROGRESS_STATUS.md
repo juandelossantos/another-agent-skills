@@ -62,7 +62,7 @@
 | `optimize-skill` | 139 | 2 |  |
 | `output-skill` | 48 | 0 |  |
 | `performance-optimization` | 30 | 0 |  |
-| `planning-and-task-breakdown` | 83 | 2 |  |
+| `planning-and-task-breakdown` | 90 | 2 |  |
 | `polish-skill` | 136 | 2 |  |
 | `project-health-check` | 211 | 2 |  |
 | `project-metrics` | 151 | 2 |  |

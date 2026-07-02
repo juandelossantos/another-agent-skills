@@ -71,10 +71,17 @@ If a task takes >2 hours, has >3 acceptance criteria, touches independent subsys
 
 Mark tasks: `[S]` sequential, `[P]` parallelizable, `[Pm]` merge point.
 
+## References
+
+- [PATTERNS.md](../PATTERNS.md) — Workflow pattern selection guide. Consult before choosing a pattern (Guardian, Lazy Loading, Skill Gate, etc.).
+- [ANTI-PATTERNS.md](../ANTI-PATTERNS.md) — Common workflow anti-patterns to avoid.
+- [GLOSSARY.md](../GLOSSARY.md) — Terminology reference for framework terms.
+
 ## Verification
 
 Before starting implementation, confirm:
 
+- [ ] PATTERNS.md consulted for workflow pattern selection
 - [ ] Every task has acceptance criteria
 - [ ] Every task has a verification step
 - [ ] Task dependencies are identified and ordered correctly
