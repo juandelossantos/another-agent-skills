@@ -29,42 +29,42 @@
 
 Do this **before** posting anything:
 
-- [ ] **Profile photo** — Real photo, clear, neutral background. No illustration or AI avatar.
-- [ ] **Header/banner** — Use landing page screenshot or `assets/og-image.png` (1200×630px).
-- [ ] **Bio** (160 chars max):
+- [x] **Profile photo** — Real photo, clear, neutral background. No illustration or AI avatar.
+- [x] **Header/banner** — Use landing page screenshot or `assets/og-image.png` (1200×630px).
+- [x] **Bio** (160 chars max):
   ```
   57 skills · 12 gates · 0 shortcuts
   Building reliable AI coding agents
   another-agent-skills ⚡
   Frontend 15+ yrs · Chía, Colombia 🇨🇴
   ```
-- [ ] **URL:** `https://juandelossantos.github.io/another-agent-skills`
-- [ ] **Location:** Chía, Colombia
-- [ ] **Follow 20+ accounts** before publishing (so X shows your profile to relevant audiences):
+- [x] **URL:** `https://juandelossantos.github.io/another-agent-skills`
+- [x] **Location:** Chía, Colombia
+- [x] **Follow 20+ accounts** before publishing (so X shows your profile to relevant audiences):
   - @karpathy, @simonw, @theo, @swyx, @leerob, @amasad
   - @midudev, @MoureDev, @DotCSV, @carlosazaustre, @goncy
   - @opencodeai, @anthropics, @github, @Vercel, @Netlify
 
 ### 1.2 LinkedIn
 
-- [ ] **Headline:** `Senior Frontend & Full-Stack Developer · AI Agent Engineering · another-agent-skills OSS`
-- [ ] **Featured section:** Add link to landing page with title "another-agent-skills — Open Source Framework for Reliable AI Agents"
-- [ ] **About:** Last 2 paragraphs mention: *"I created another-agent-skills, an open-source framework that adds mechanical enforcement to AI coding agents — 57 skills, 12 pre-commit gates, zero shortcuts."*
-- [ ] **Skills section:** AI Agent Engineering, Model Context Protocol (MCP), Agent Skills Design, Context Engineering, Open Source Development
+- [x] **Headline:** `Senior Frontend & Full-Stack Developer · AI Agent Engineering · another-agent-skills OSS`
+- [x] **Featured section:** Add link to landing page with title "another-agent-skills — Open Source Framework for Reliable AI Agents"
+- [x] **About:** Last 2 paragraphs mention: *"I created another-agent-skills, an open-source framework that adds mechanical enforcement to AI coding agents — 57 skills, 12 pre-commit gates, zero shortcuts."*
+- [x] **Skills section:** AI Agent Engineering, Model Context Protocol (MCP), Agent Skills Design, Context Engineering, Open Source Development
 
 ### 1.3 daily.dev
 
-- [ ] **Create account** at daily.dev with GitHub login
-- [ ] **Set interests:** Open Source, AI/ML, Software Development, DevOps
-- [ ] **Claim your repo:** daily.dev lets you claim repositories. Claim `juandelossantos/another-agent-skills` so it appears under your profile as a creator.
-- [ ] **Join squads:** Create a "Build with AI" squad or join existing tech squads to share your posts.
+- [x] **Create account** at daily.dev with GitHub login
+- [x] **Set interests:** Open Source, AI/ML, Software Development, DevOps
+- [x] **Claim your repo:** daily.dev lets you claim repositories. Claim `juandelossantos/another-agent-skills` so it appears under your profile as a creator.
+- [x] **Join squads:** Create a "Build with AI" squad or join existing tech squads to share your posts.
 
 ### 1.4 dev.to
 
-- [ ] **Create account** at dev.to with GitHub login
-- [ ] **Set up bio:** Link to landing page and GitHub repo
-- [ ] **Set tags you write about:** opensource, ai, agents, tooling, devops, productivity
-- [ ] **Follow relevant tags:** ai, agents, opensource, testing, git
+- [x] **Create account** at dev.to with GitHub login
+- [x] **Set up bio:** Link to landing page and GitHub repo
+- [x] **Set tags you write about:** opensource, ai, agents, tooling, devops, productivity
+- [x] **Follow relevant tags:** ai, agents, opensource, testing, git
 
 ---
 
@@ -72,13 +72,13 @@ Do this **before** posting anything:
 
 **Do 1 day before:**
 
-- [ ] Verify OG image renders correctly: paste landing page URL into Twitter/LinkedIn composer → must show image + title + description
-- [ ] Have all launch posts ready in a notes app
-- [ ] Verify GitHub repo is clean (README up to date, no stale issues)
-- [ ] Check landing page loads in 3 devices (mobile + desktop + tablet)
-- [ ] Check both languages (EN/ES toggle) work on landing page
-- [ ] Review validation gates pass: `bash scripts/eval/test-e2e.sh`
-- [ ] Charge devices 🔋
+- [x] Verify OG image renders correctly: paste landing page URL into Twitter/LinkedIn composer → must show image + title + description
+- [x] Have all launch posts ready in a notes app
+- [x] Verify GitHub repo is clean (README up to date, no stale issues)
+- [x] Check landing page loads in 3 devices (mobile + desktop + tablet)
+- [x] Check both languages (EN/ES toggle) work on landing page
+- [x] Review validation gates pass: `bash scripts/eval/test-e2e.sh`
+- [x] Charge devices 🔋
 
 ---
 
