@@ -167,7 +167,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
+**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
 
 ---
 
