@@ -12,7 +12,7 @@
     "tag": "/// sistema",
     "title1": "Convierte agentes de IA en",
     "title2": "ingenieros senior disciplinados.",
-    "subtitle1": "57 skills. 9 gates. Un harness.",
+    "subtitle1": "58 skills. 9 gates. Un harness.",
     "subtitle2": "El modelo de fábrica para desarrollo asistido por IA.",
     "quickstart": "Pruébalo ahora —",
     "social": "Open source · Licencia MIT · Funciona offline"
@@ -55,7 +55,7 @@
     "level1Title": "01: Instrucciones y Reglas",
     "level1Desc": "Quién es el agente, qué le importa, qué no debe hacer jamás. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.",
     "level2Title": "02: Herramientas y Sandboxes",
-    "level2Desc": "Capacidades específicas cargadas bajo demanda. 57 skills, 47 guías, sistema de eval, terminal, CI.",
+    "level2Desc": "Capacidades específicas cargadas bajo demanda. 58 skills, 47 guías, sistema de eval, terminal, CI.",
     "level3Title": "03: Orquestación y Guardrails",
     "level3Desc": "Cuándo se activa cada herramienta, cómo se coordinan, y hooks deterministas. Pre-commit v8 (9 gates), commit-msg v5, commit-approval.sh.",
     "incidentRef": "Rompió sus propias reglas tres veces en dos días. Después construyó un harness que las hizo imposibles de romper.",
@@ -114,13 +114,13 @@
     "catDebug": "Debug",
     "catIdeation": "Ideación",
     "catDesignSkins": "Design Skins",
-    "stats": "57 skills · 54 guías · 6 componentes del harness · <a href=\"docs/evaluation.html\">sistema de eval</a>"
+    "stats": "58 skills · 54 guías · 6 componentes del harness · <a href=\"docs/evaluation.html\">sistema de eval</a>"
   },
   "quickstart": {
     "label": "07 / inicio rápido",
     "title": "Empieza en segundos.",
     "then": "Después en cualquier proyecto:",
-    "conclusion": "Tu agente ahora tiene 57 skills + 47 guías + 6 componentes del harness. Cada proyecto. Cada vez."
+    "conclusion": "Tu agente ahora tiene 58 skills + 47 guías + 6 componentes del harness. Cada proyecto. Cada vez."
   },
   "faq": {
     "label": "08 / faq",

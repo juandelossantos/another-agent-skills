@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 54 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 54 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh |
@@ -81,7 +81,7 @@ After installation, these commands are available in your terminal:
 |---|---|
 | `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 57 skills, shell config, global scripts. |
+| `bash install.sh` | Full installer: 58 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
@@ -167,7 +167,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
+**Full catalog (58 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
 
 ---
 
@@ -242,7 +242,7 @@ If it fails, ask the user before taking any action.
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
 | [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.7.0) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
+| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |

@@ -12,7 +12,7 @@
     "tag": "/// system",
     "title1": "Turn AI agents into",
     "title2": "disciplined senior engineers.",
-    "subtitle1": "57 skills. 9 gates. One harness.",
+    "subtitle1": "58 skills. 9 gates. One harness.",
     "subtitle2": "The factory model for AI-assisted development.",
     "quickstart": "Use it now —",
     "social": "Open source · MIT License · Works offline"
@@ -55,7 +55,7 @@
     "level1Title": "01: Instructions & Rules",
     "level1Desc": "Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.",
     "level2Title": "02: Tools & Sandboxes",
-    "level2Desc": "Task-specific capabilities loaded on demand. 57 skills, 54 guides, eval system, terminal, CI.",
+    "level2Desc": "Task-specific capabilities loaded on demand. 58 skills, 54 guides, eval system, terminal, CI.",
     "level3Title": "03: Orchestration & Guardrails",
     "level3Desc": "When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v8 (9 gates), commit-msg v5, commit-approval.sh.",
     "incidentRef": "It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.",
@@ -114,13 +114,13 @@
     "catDebug": "Debug",
     "catIdeation": "Ideation",
     "catDesignSkins": "Design Skins",
-    "stats": "57 skills · 54 guides · 6 harness components · <a href=\"docs/evaluation.html\">eval system</a>"
+    "stats": "58 skills · 54 guides · 6 harness components · <a href=\"docs/evaluation.html\">eval system</a>"
   },
   "quickstart": {
     "label": "07 / quick start",
     "title": "Start in seconds.",
     "then": "Then in any project:",
-    "conclusion": "Your agent now has 57 skills + 54 guides + 6 harness components. Every project. Every time."
+    "conclusion": "Your agent now has 58 skills + 54 guides + 6 harness components. Every project. Every time."
   },
   "faq": {
     "label": "08 / faq",
