@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-07-01
-**Version:** 2.6.1
+**Version:** 2.7.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **1** |
+| Warnings | **2** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -22,12 +22,11 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
+| SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| Reference files | ✅ 2 new | ANTI-PATTERNS.md + GLOSSARY.md created |
-| VERSION | ✅ 2.6.1 | Consistent |
-| Skill lint | ✅ 0 errors, 1 warnings | |
+| VERSION | ✅ 2.7.0 | Consistent |
+| Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
@@ -101,3 +100,4 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-06-18 | Phase 6.5.1 | Fixed ALWAYS/NEVER in caps in engineering-fundamentals and git-init-and-versioning. Task template created. |
 | 2026-07-01 | v2.6.0 F1: Knowledge Infrastructure | ANTI-PATTERNS.md (11 anti-patterns), GLOSSARY.md (40 terms), i18n EN/ES, docs, Rule 12b self-merge policy. |
 | 2026-07-01 | v2.6.2 F3: Case Studies & ADRs | Case studies (Guardian Pattern, Skill Gate), ADR-006/007/008 (Three-Gate, Time-Window, Skill Gate). |
+| 2026-07-01 | v2.7.0 F3-SELF: Self-Improvement Loop | self-improvement skill, generate-adr.sh, landing page section, i18n EN/ES. |

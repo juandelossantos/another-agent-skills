@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v2.6.1](https://img.shields.io/badge/version-2.6.1-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v2.7.0](https://img.shields.io/badge/version-2.7.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 [![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 54 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 54 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh |
@@ -81,7 +81,7 @@ After installation, these commands are available in your terminal:
 |---|---|
 | `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 57 skills, shell config, global scripts. |
+| `bash install.sh` | Full installer: 58 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
@@ -116,6 +116,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 - **Glossary** — [`GLOSSARY.md`](GLOSSARY.md): 40+ framework terms A-Z with source file cross-references.
 - **Workflow Patterns** — [`PATTERNS.md`](PATTERNS.md): 8 workflow patterns with Mermaid diagrams and trade-off analysis.
 - **Mermaid Diagrams** — `AGENTS.md`: skill hierarchy mindmap and lifecycle flowchart.
+- **Self-Improvement Loop** — `skills/self-improvement/`: closed-loop audit → diagnose → propose → fix. The agent improves itself.
 - **PR Self-Merge Policy** — Rule 12b updated: PR review gate (PASS) → merge.
 
 ---
@@ -166,7 +167,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](./development/55-SKILLS-REFERENCE.md)
+**Full catalog (58 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
 
 ---
 
@@ -240,8 +241,8 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.6.1) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.7.0) |
+| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |

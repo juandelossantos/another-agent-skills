@@ -2,8 +2,14 @@
 # audit-markdown.sh — Comprehensive .md file audit
 # Checks: table formatting, broken links, Mermaid syntax, placeholders, line counts
 # Usage: bash scripts/audit-markdown.sh
+#        bash scripts/audit-markdown.sh --json   # machine-readable output
 # Exit code: 0 = PASS, 1 = FAIL (blocking)
 set -euo pipefail
+
+JSON_MODE=0
+if [ "${1:-}" = "--json" ]; then
+    JSON_MODE=1
+fi
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,8 +19,12 @@ PASS=0
 FAIL=0
 WARN=0
 
-# Core files that MUST be error-free
-CORE_FILES="^\./(AGENTS|AGENTS-EXTENDED|SOUL|README|ANTI-PATTERNS|GLOSSARY|PATTERNS|VERSION|STEERING-GUIDE)\.md$"
+# JSON accumulator
+JSON_FAILURES='[]'
+JSON_WARNINGS='[]'
+
+# Core files that MUST be error-free (everything else is WARN only)
+CORE_FILES="^\.\/(AGENTS|AGENTS-EXTENDED|SOUL|README|ANTI-PATTERNS|GLOSSARY|PATTERNS|VERSION|STEERING-GUIDE)\.md"
 
 check() {
     local status="$1" msg="$2"
@@ -47,32 +57,39 @@ echo "║           MARKDOWN AUDIT — another-agent-skills             ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 echo ""
 
+if [ "$JSON_MODE" -eq 1 ]; then
+    # JSON mode: suppress human output, collect structured data
+    exec 3>&1  # Save stdout
+    exec >/dev/null  # Redirect stdout to null
+fi
+
 # Find all .md files (exclude node_modules, .git, .opencode, development/)
 MD_FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./development/*" -not -path "./.opencode/*" | sort)
 
 echo "=== CHECK 1: Table Column Consistency ==="
 echo ""
 while IFS= read -r f; do
-    # Check for tables with mismatched column counts
-    # Find lines that start with | and aren't separator lines
-    headers=$(grep -c '^|' "$f" 2>/dev/null || true)
-    if [ "$headers" -gt 0 ]; then
-        # Find separator lines (---|---) and check against header columns
-        while IFS= read -r sep_line; do
-            sep_cols=$(echo "$sep_line" | grep -o '|' | wc -l)
-            sep_cols=$((sep_cols - 1))
-            # Find the header row before this separator
-            header_line=$(grep -B1 "^|.*---.*|" "$f" 2>/dev/null | grep -v "^|.*---" | grep "^|" | head -1)
-            if [ -n "$header_line" ]; then
-                header_cols=$(echo "$header_line" | grep -o '|' | wc -l)
-                header_cols=$((header_cols - 1))
-                if [ "$sep_cols" -ne "$header_cols" ]; then
-                    check "FAIL" "$f: table column mismatch (header=$header_cols, separator=$sep_cols)"
-                fi
-            fi
-        done < <(grep "^|---" "$f" 2>/dev/null || true)
-    fi
-done < <(echo "$MD_FILES")
+    # Use awk to find each separator line and check line before it
+    awk '
+    /^\|----/ {
+        sep = $0
+        sep_cols = gsub(/\|/, "|", sep)
+        # Check the line before this separator
+        if (prev_line ~ /^\|/ && prev_line !~ /^\|----/) {
+            header = prev_line
+            header_cols = gsub(/\|/, "|", header)
+            if (sep_cols != header_cols) {
+                print FILENAME ": table column mismatch (header=" header_cols ", separator=" sep_cols ")"
+            }
+        }
+    }
+    { prev_line = $0 }
+    ' "$f" 2>/dev/null || true
+done < <(echo "$MD_FILES") | sort -u | while IFS= read -r issue; do
+    filepath=$(echo "$issue" | cut -d: -f1)
+    # Reconstruct the check message
+    check "FAIL" "$issue"
+done
 echo ""
 
 echo "=== CHECK 2: Broken Internal Links ==="
