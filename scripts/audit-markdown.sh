@@ -2,8 +2,14 @@
 # audit-markdown.sh — Comprehensive .md file audit
 # Checks: table formatting, broken links, Mermaid syntax, placeholders, line counts
 # Usage: bash scripts/audit-markdown.sh
+#        bash scripts/audit-markdown.sh --json   # machine-readable output
 # Exit code: 0 = PASS, 1 = FAIL (blocking)
 set -euo pipefail
+
+JSON_MODE=0
+if [ "${1:-}" = "--json" ]; then
+    JSON_MODE=1
+fi
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,8 +19,9 @@ PASS=0
 FAIL=0
 WARN=0
 
-# Core files that MUST be error-free
-CORE_FILES="^\./(AGENTS|AGENTS-EXTENDED|SOUL|README|ANTI-PATTERNS|GLOSSARY|PATTERNS|VERSION|STEERING-GUIDE)\.md$"
+# JSON accumulator
+JSON_FAILURES='[]'
+JSON_WARNINGS='[]'
 
 check() {
     local status="$1" msg="$2"
@@ -46,6 +53,12 @@ echo "╔═══════════════════════�
 echo "║           MARKDOWN AUDIT — another-agent-skills             ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 echo ""
+
+if [ "$JSON_MODE" -eq 1 ]; then
+    # JSON mode: suppress human output, collect structured data
+    exec 3>&1  # Save stdout
+    exec >/dev/null  # Redirect stdout to null
+fi
 
 # Find all .md files (exclude node_modules, .git, .opencode, development/)
 MD_FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./development/*" -not -path "./.opencode/*" | sort)

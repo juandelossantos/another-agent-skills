@@ -148,6 +148,15 @@
     "q11": "How does the eval system work?",
     "a11": "Each skill has eval files (trigger.jsonl, golden.jsonl, adversarial.jsonl) that test 4 failure modes: trigger (does the skill fire when it should?), execution (is the output correct?), token budget (is it within 5K tokens?), and regression (do co-loaded skills interfere?). Run <code>bash scripts/eval/run-evals.sh --all</code> to validate. See <a href=\"docs/evaluation.html\">Evaluation Guide</a> for full documentation."
   },
+  "selfimproving": {
+    "label": "08 / self-improving",
+    "title": "The agent that audits itself.",
+    "subtitle": "Closed-loop quality. Every session makes the project better.",
+    "step1": "Detect — audit-markdown.sh scans for issues in core files.",
+    "step2": "Diagnose — self-improvement skill classifies root cause.",
+    "step3": "Propose — presents fix plan + generates ADR draft.",
+    "step4": "Execute — with human approval per mutation. Max 3 iterations."
+  },
   "references": {
     "label": "references",
     "title": "Sources",

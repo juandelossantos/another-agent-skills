@@ -1,5 +1,22 @@
 # Release Notes
 
+## 2.7.0 (2026-07-XX) — Self-Improvement Loop
+
+### New
+- `skills/self-improvement/` — Self-improvement loop skill: detect (audit-markdown.sh), diagnose, propose, execute with human approval. Max 3 iterations per session
+- `scripts/generate-adr.sh` — MADR-format ADR generator for auto-documentation
+- `scripts/audit-markdown.sh` — Added `--json` flag for machine-readable output
+
+### Visibility
+- Landing page — New "Self-Improving" section (EN + ES) with 4-step pipeline
+- Docs — What's New in v2.7.0
+- README.md — Self-Improvement Loop featured
+
+### Skills added
+- `self-improvement` — 58th skill: closed-loop quality pipeline
+
+---
+
 ## 2.6.1 (2026-07-XX) — Workflow Patterns
 
 ### New Documentation

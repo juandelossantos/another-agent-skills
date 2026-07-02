@@ -148,6 +148,15 @@
     "q11": "¿Cómo funciona el sistema de eval?",
     "a11": "Cada skill tiene archivos de eval (trigger.jsonl, golden.jsonl, adversarial.jsonl) que prueban 4 modos de falla: trigger (¿se activa cuando debe?), execution (¿el output es correcto?), token budget (¿está dentro de 5K tokens?), y regression (¿skills co-cargadas interfieren?). Ejecutá <code>bash scripts/eval/run-evals.sh --all</code> para validar. Ver <a href=\"docs/evaluation.html\">Guía de Evaluación</a> para documentación completa."
   },
+  "selfimproving": {
+    "label": "08 / auto-mejora",
+    "title": "El agente que se audita a sí mismo.",
+    "subtitle": "Calidad en bucle cerrado. Cada sesión mejora el proyecto.",
+    "step1": "Detectar — audit-markdown.sh escanea issues en archivos core.",
+    "step2": "Diagnosticar — el skill self-improvement clasifica la causa raíz.",
+    "step3": "Proponer — presenta plan de fix + genera borrador de ADR.",
+    "step4": "Ejecutar — con aprobación humana por mutación. Máx 3 iteraciones."
+  },
   "references": {
     "label": "referencias",
     "title": "Fuentes",

@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v2.6.1](https://img.shields.io/badge/version-2.6.1-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v2.7.0](https://img.shields.io/badge/version-2.7.0-blue.svg)](./RELEASE-NOTES.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 [![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
@@ -116,6 +116,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 - **Glossary** — [`GLOSSARY.md`](GLOSSARY.md): 40+ framework terms A-Z with source file cross-references.
 - **Workflow Patterns** — [`PATTERNS.md`](PATTERNS.md): 8 workflow patterns with Mermaid diagrams and trade-off analysis.
 - **Mermaid Diagrams** — `AGENTS.md`: skill hierarchy mindmap and lifecycle flowchart.
+- **Self-Improvement Loop** — `skills/self-improvement/`: closed-loop audit → diagnose → propose → fix. The agent improves itself.
 - **PR Self-Merge Policy** — Rule 12b updated: PR review gate (PASS) → merge.
 
 ---
@@ -240,7 +241,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.6.1) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.7.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
