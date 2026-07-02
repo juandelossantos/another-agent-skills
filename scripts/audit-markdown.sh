@@ -69,26 +69,27 @@ MD_FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/
 echo "=== CHECK 1: Table Column Consistency ==="
 echo ""
 while IFS= read -r f; do
-    # Check for tables with mismatched column counts
-    # Find lines that start with | and aren't separator lines
-    headers=$(grep -c '^|' "$f" 2>/dev/null || true)
-    if [ "$headers" -gt 0 ]; then
-        # Find separator lines (---|---) and check against header columns
-        while IFS= read -r sep_line; do
-            sep_cols=$(echo "$sep_line" | grep -o '|' | wc -l)
-            sep_cols=$((sep_cols - 1))
-            # Find the header row before this separator
-            header_line=$(grep -B1 "^|.*---.*|" "$f" 2>/dev/null | grep -v "^|.*---" | grep "^|" | head -1)
-            if [ -n "$header_line" ]; then
-                header_cols=$(echo "$header_line" | grep -o '|' | wc -l)
-                header_cols=$((header_cols - 1))
-                if [ "$sep_cols" -ne "$header_cols" ]; then
-                    check "FAIL" "$f: table column mismatch (header=$header_cols, separator=$sep_cols)"
-                fi
-            fi
-        done < <(grep "^|---" "$f" 2>/dev/null || true)
-    fi
-done < <(echo "$MD_FILES")
+    # Use awk to find each separator line and check line before it
+    awk '
+    /^\|----/ {
+        sep = $0
+        sep_cols = gsub(/\|/, "|", sep)
+        # Check the line before this separator
+        if (prev_line ~ /^\|/ && prev_line !~ /^\|----/) {
+            header = prev_line
+            header_cols = gsub(/\|/, "|", header)
+            if (sep_cols != header_cols) {
+                print FILENAME ": table column mismatch (header=" header_cols ", separator=" sep_cols ")"
+            }
+        }
+    }
+    { prev_line = $0 }
+    ' "$f" 2>/dev/null || true
+done < <(echo "$MD_FILES") | sort -u | while IFS= read -r issue; do
+    filepath=$(echo "$issue" | cut -d: -f1)
+    # Reconstruct the check message
+    check "FAIL" "$issue"
+done
 echo ""
 
 echo "=== CHECK 2: Broken Internal Links ==="
@@ -166,9 +167,9 @@ echo "║  SUMMARY                                                    ║"
 echo "╠══════════════════════════════════════════════════════════════╣"
 echo -e "║  ${GREEN}PASS: $PASS${NC}  ${YELLOW}WARN: $WARN${NC}  ${RED}FAIL: $FAIL${NC}                                           ║"
 if [ "$FAIL" -gt 0 ]; then
-    echo "║  ⚠️  $FAIL failure(s) found — review before merging.           ║"
+    echo "║  ❌ Fix failures before proceeding.                            ║"
     echo "╚══════════════════════════════════════════════════════════════╝"
-    exit 0
+    exit 1
 else
     echo "║  ✅ All checks passed.                                          ║"
     echo "╚══════════════════════════════════════════════════════════════╝"
