@@ -1,9 +1,8 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v3.0.0](https://img.shields.io/badge/version-3.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v2.7.0](https://img.shields.io/badge/version-2.7.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
-[![Next: Universal Loop](https://img.shields.io/badge/next-universal--loop⭐-orange)](development/UNIVERSAL-SELF-IMPROVEMENT-PLAN.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 [![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
@@ -259,7 +258,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.0.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.7.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
