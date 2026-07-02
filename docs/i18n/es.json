@@ -45,7 +45,9 @@
     "whatsNewItem1": "Catálogo de Anti-Patrones",
     "whatsNewDesc1": "ANTI-PATTERNS.md: 11 anti-patrones de workflow de agentes con ejemplos de código y soluciones mecánicas.",
     "whatsNewItem2": "Glosario",
-    "whatsNewDesc2": "GLOSSARY.md: 40+ términos del framework A-Z con referencias cruzadas a archivos fuente."
+    "whatsNewDesc2": "GLOSSARY.md: 40+ términos del framework A-Z con referencias cruzadas a archivos fuente.",
+    "whatsNewItem3": "Patrones de Workflow",
+    "whatsNewDesc3": "PATTERNS.md: 8 patrones de workflow con diagramas Mermaid y análisis de trade-offs."
   },
   "gettingStarted": {
     "title": "Primeros pasos",

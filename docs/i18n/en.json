@@ -45,7 +45,9 @@
     "whatsNewItem1": "Anti-Patterns Catalog",
     "whatsNewDesc1": "ANTI-PATTERNS.md: 11 agent workflow anti-patterns with code examples and mechanical fixes.",
     "whatsNewItem2": "Glossary",
-    "whatsNewDesc2": "GLOSSARY.md: 40+ framework terms A-Z with source file cross-references."
+    "whatsNewDesc2": "GLOSSARY.md: 40+ framework terms A-Z with source file cross-references.",
+    "whatsNewItem3": "Workflow Patterns",
+    "whatsNewDesc3": "PATTERNS.md: 8 workflow patterns with Mermaid diagrams and trade-off analysis."
   },
   "gettingStarted": {
     "title": "Getting Started",

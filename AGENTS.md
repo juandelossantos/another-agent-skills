@@ -75,9 +75,56 @@ Protocol: Read AGENTS.md, skills loaded, no mutations without approval
 - **Rule 8:** 60/25/15 context budget, compaction at >20 messages
 
 ### Skills (→ `rules/common/skills.md`)
-- **Rule 1:** Always check skills first. Skill hierarchy: Foundation → Frontend → Backend → DevOps → Process → Quality
+- **Rule 1:** Always check skills first. Skill hierarchy:
+
+```mermaid
+mindmap
+  root((Skills))
+    Foundation
+      engineering-fundamentals
+      context-engineering
+      user-onboarding
+    Frontend
+      frontend-web
+      frontend-mobile
+      frontend-desktop
+      frontend-ui-engineering
+      visual-frontend-mastery
+    Backend
+      backend-api-mastery
+      api-and-interface-design
+      cli-tools
+    DevOps
+      ci-cd-and-automation
+      shipping-and-launch
+      fullstack-shipping
+    Process
+      spec-driven-development
+      planning-and-task-breakdown
+      incremental-implementation
+      doubt-driven-development
+    Quality
+      code-review-and-quality
+      security-and-hardening
+      performance-optimization
+      observability-and-instrumentation
+```
 - **Rule 2:** Intent mapping — detect platform before acting
 - **Rule 3:** Lifecycle — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP
+
+```mermaid
+flowchart LR
+    DEF["DEFINE"] --> PLAN["PLAN"]
+    PLAN --> BUILD["BUILD"]
+    BUILD --> VER["VERIFY"]
+    VER --> REV["REVIEW"]
+    REV --> SHIP["SHIP"]
+    
+    DEF -.->|"spec-driven-development"| PLAN
+    PLAN -.->|"planning-and-task-breakdown"| BUILD
+    VER -.->|"test-driven-development"| REV
+    REV -.->|"code-review-and-quality"| SHIP
+```
 
 ### Project (→ `rules/common/project.md`)
 - **Rule 4:** Turbo Mode — reduces scope, never discipline
