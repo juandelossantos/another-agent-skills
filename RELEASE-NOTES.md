@@ -1,5 +1,20 @@
 # Release Notes
 
+## 3.0.0 (2026-07-XX) — Universal Self-Improvement Loop ⭐
+
+*Next major version — planning phase.*
+
+Self-improvement loop becomes UNIVERSAL: works in ANY project, not just this repo. Configurable audit engine, project-agnostic skill, init-agents integration.
+
+### Planned
+- `scripts/universal-audit.sh` — Configurable audit engine via `.audit-config.json`
+- `.audit-config.json` — Per-project configuration template
+- `init-agents --with-self-improvement` — One-command setup
+- `skills/self-improvement/` — Project-agnostic, works with any stack
+- `docs/SELF-IMPROVEMENT.md` — Full documentation for end users
+
+---
+
 ## 2.7.0 (2026-07-XX) — Self-Improvement Loop
 
 ### New
