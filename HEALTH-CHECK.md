@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **2** |
+| Warnings | **1** |
 | Overall | **🟡 DEGRADED** |
 
 ---

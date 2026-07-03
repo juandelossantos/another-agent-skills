@@ -33,8 +33,11 @@ t_golden() {
   echo "$clean" | grep -q "FAIL: 0" || { ko "golden: expected FAIL: 0"; return; }
   echo "$clean" | grep -q "All checks passed" || { ko "golden: missing 'All checks passed'"; return; }
   warn=$(echo "$clean" | grep -oE 'WARN: [0-9]+' | grep -oE '[0-9]+' | head -1)
-  [ "$warn" = "3" ] || { ko "golden: WARN drifted (expected 3 after self-improvement iteration 1 — 3 known inline-code false positives; got ${warn:-none})"; return; }
-  ok "golden: wrapper reproduces exit 0, FAIL 0, WARN 3 (post-iteration-1 baseline)"
+  # Golden after P2.1: universal skill paths (./PATTERNS.md etc.) are broken in THIS repo
+  # (files are at repo root, not skills/self-improvement/) — 4 expected broken-link warnings
+  # + 7 known placeholder false positives (inline code/prose) = 11. Update when content changes.
+  [ "$warn" = "11" ] || { ko "golden: WARN drifted (expected 11 post-P2.1 — 4 universal-path broken links + 7 placeholder residuals; got ${warn:-none})"; return; }
+  ok "golden: wrapper reproduces exit 0, FAIL 0, WARN 11 (post-P2.1 baseline)"
 }
 
 t_json_valid() {
