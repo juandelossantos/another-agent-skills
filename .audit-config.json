@@ -1,0 +1,28 @@
+{
+  "project_name": "another-agent-skills",
+  "include_patterns": ["**/*.md"],
+  "exclude_patterns": ["node_modules/**", ".git/**", "development/**", ".opencode/**", "**/node_modules/**"],
+  "core_files": [
+    "^AGENTS\\.md$",
+    "^AGENTS-EXTENDED\\.md$",
+    "^SOUL\\.md$",
+    "^README\\.md$",
+    "^ANTI-PATTERNS\\.md$",
+    "^GLOSSARY\\.md$",
+    "^PATTERNS\\.md$",
+    "^STEERING-GUIDE\\.md$"
+  ],
+  "max_file_length": 250,
+  "length_check_paths": ["skills/"],
+  "checks": {
+    "tables": true,
+    "links": true,
+    "placeholders": true,
+    "file_length": true,
+    "mermaid": true,
+    "terminology": true
+  },
+  "terminology_rules": {
+    "guardian": "Guardian"
+  }
+}

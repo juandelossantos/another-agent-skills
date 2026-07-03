@@ -1,11 +1,11 @@
 ---
 name: self-improvement
-description: Audit and fix project issues via self-improvement loop: detect, diagnose, propose, execute with human approval. Max 3 iterations per session. Not for one-off edits or active dev.
+description: Audit and fix project issues via self-improvement loop: detect, diagnose, propose, execute with human approval. Max 3 iterations per session. Do NOT use for one-off edits or active development.
 version: 1.0.0
 license: MIT
 compatibility: all
 allowed-tools: Read Bash Write
-tier: draft
+tier: stable
 metadata:
   audience: all-engineers
   workflow: review
@@ -19,24 +19,24 @@ Closed-loop quality pipeline. The agent audits itself, diagnoses issues, propose
 
 ## References
 
-- [PATTERNS.md](../../PATTERNS.md) — Pattern selection guide
-- [ANTI-PATTERNS.md](../../ANTI-PATTERNS.md) — Anti-pattern classification
-- [audit-markdown.sh](../../scripts/audit-markdown.sh) — Issue detector
-- [generate-adr.sh](../../scripts/generate-adr.sh) — ADR generator
+- [PATTERNS.md](./PATTERNS.md) — Pattern selection guide (created by `init-agents --with-self-improvement`)
+- [ANTI-PATTERNS.md](./ANTI-PATTERNS.md) — Anti-pattern classification (created by `init-agents`)
+- [audit-project.sh](./scripts/audit-project.sh) — Issue detector (universal-audit.sh wrapper, created by `init-agents`)
+- [generate-adr.sh](./scripts/generate-adr.sh) — ADR generator (created by `init-agents`)
 
 ## Loop Steps
 
 ### Step 1: Detect
-Run `bash scripts/audit-markdown.sh`. Collect FAIL results (core files only — skills/ issues are non-blocking warnings).
+Run `bash scripts/audit-project.sh --json`. Collect FAIL results from `.failures` array (core files only — non-core issues are non-blocking warnings in `.warnings`).
 
 ### Step 2: Diagnose
-For each FAIL, classify by type:
+For each FAIL, classify by type (check types are defined in `.audit-config.json` `checks.*`):
 - `table` — Column mismatch in markdown table
 - `link` — Broken internal link
-- `length` — File exceeds 250 lines
-- `placeholder` — TODO/FIXME/lorem ipsum in content
+- `length` — File exceeds configured `max_file_length`
+- `placeholder` — TODO:/FIXME:/lorem ipsum in content (outside code blocks)
 
-Consult [PATTERNS.md](../../PATTERNS.md) to determine which workflow pattern applies. Consult [ANTI-PATTERNS.md](../../ANTI-PATTERNS.md) to identify the anti-pattern being fixed.
+Consult [PATTERNS.md](./PATTERNS.md) to determine which workflow pattern applies. Consult [ANTI-PATTERNS.md](./ANTI-PATTERNS.md) to identify the anti-pattern being fixed.
 
 ### Step 3: Propose
 Present a DECISION POINT to the user:
@@ -54,8 +54,8 @@ Run `bash scripts/generate-adr.sh "Title" "Context" "Decision" "Consequences" "C
 ### Step 5: Execute
 With user approval per mutation:
 1. Apply the fix
-2. Run `bash scripts/audit-markdown.sh` to verify fix
-3. Run `bash scripts/skill-lint.sh` to verify integrity
+2. Run `bash scripts/audit-project.sh` to verify fix (exit 0 = clean)
+3. Run project's test command (from `STACK_CONFIG.md` `test_cmd` — e.g., `npm test`, `pytest`, `cargo test`). If no `STACK_CONFIG.md`, ask user for test command.
 4. Present Commit Manifest
 5. Wait for "yes commit"
 6. Commit
@@ -69,14 +69,20 @@ With user approval per mutation:
 
 - **After a session** when several commits have been made
 - **When user says** "run self-improvement loop" or "audit the project"
-- **At session start** if `audit-markdown.sh` has not been run in 7+ days
+- **At session start** if `audit-project.sh` has not been run in 7+ days
 
-**When NOT to use:** For single file edits, during active development, or when the user is in flow state.
+**Prerequisites:** `init-agents` installs the self-improvement loop by default (use `--skip-self-improvement` to skip). Creates `scripts/audit-project.sh`, `.audit-config.json`, `PATTERNS.md`, `ANTI-PATTERNS.md`, and `ADRs/` in your project.
 
 ## Verification
 
-- [ ] audit-markdown.sh exits 0 before and after each fix
-- [ ] skill-lint.sh: 0 errors
-- [ ] validate-skill-table.sh: PASS
-- [ ] validate-health-check.sh: PASS
+- [ ] `audit-project.sh` exits 0 before and after each fix
+- [ ] Project test command passes (from `STACK_CONFIG.md` `test_cmd`)
 - [ ] ADR generated if new rule was created
+- [ ] No new warnings introduced (warn count ≤ previous iteration)
+
+## Guides
+
+- → See `guides/UNIVERSAL-USAGE.md` — How to run the loop in any project
+- → See `guides/CONFIG-REFERENCE.md` — All `.audit-config.json` keys documented
+- → See `guides/EXAMPLE-NODE.md` — End-to-end walkthrough in a Node.js project
+- → See `guides/EXAMPLE-PYTHON.md` — End-to-end walkthrough in a Python project

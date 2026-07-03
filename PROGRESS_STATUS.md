@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-01  
-> **Current version:** 2.7.0 (auto-generated)
-> **Status:** Production-ready — 0 errors, 2 warnings, 68 guides across 58 skills, 4 new reference files  
-> **Current plan:** F1 ✅ F2 ✅ F3 ✅ F3-SELF ✅ (self-improvement loop) — Phase 8 ✅ Phase 9 ✅ Phase 10 ✅ — Next: F4A (UI style database)
+> **Last updated:** 2026-07-03  
+> **Current version:** 3.0.0 (auto-generated)
+> **Status:** Released — 0 errors, 1 warning, 72 guides across 58 skills, 4 new reference files  
+> **Current plan:** **v3.0.0 RELEASED** — Universal self-improvement loop
 
 ---
 
@@ -68,7 +68,7 @@
 | `project-metrics` | 151 | 2 |  |
 | `redesign-skill` | 64 | 0 |  |
 | `security-and-hardening` | 31 | 0 |  |
-| `self-improvement` | 82 | 0 |  |
+| `self-improvement` | 88 | 4 |  |
 | `shipping-and-launch` | 163 | 2 |  |
 | `skill-creator` | 167 | 2 |  |
 | `skill-improver` | 157 | 2 |  |

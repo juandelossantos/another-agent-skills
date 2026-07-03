@@ -1,5 +1,34 @@
 # Release Notes
 
+## 3.0.0 (2026-07-XX) — Universal Self-Improvement Loop
+
+### New
+- `scripts/universal-audit.sh` — Config-driven audit engine: `--json` (valid JSON), `--init` (config scaffold), subshell-bug-free, 6 config-gated checks, portable (works in any project, any stack)
+- `scripts/audit-markdown.sh` — Thin wrapper over `universal-audit.sh` (backward compat)
+- `.audit-config.json` — Stack-aware audit configuration (auto-detects Node, Python, Rust, Go)
+- `init-agents` now includes the self-improvement loop **by default** (no flag required)
+- `tests/audit/` — 17 engine tests + 3 wrapper-contract tests = 20 total
+- `tests/init/` — 7 init-agents scaffolding tests
+
+### Fixed
+- **Placeholder precision** — Skips fenced code blocks; requires `TODO:`/`FIXME:` colons (88% false-positive reduction)
+- **Subshell counter bug** — Broken links and table mismatches now block (were silently ignored)
+- **Nested fence bug** — Awk `RLENGTH` fix for 4-backtick outer fences (CommonMark-compliant)
+- **`--json` stub** — Now emits valid, schema-consistent JSON (was a no-op)
+
+### Universal
+- `skills/self-improvement/SKILL.md` — Now stack-agnostic: uses project-root paths, user's test command from `STACK_CONFIG.md`, `tier: stable` (was draft)
+- 4 guides: `UNIVERSAL-USAGE.md`, `CONFIG-REFERENCE.md`, `EXAMPLE-NODE.md`, `EXAMPLE-PYTHON.md`
+- Test contract improved: behavioral golden (not count-based), 5 domain-edge tests
+
+### Cross-Platform
+- `init-agents` `link_or_copy()` — Tries symlink, falls back to copy (Windows Git Bash support)
+- Agent-agnostic: detects OpenCode, Claude Code, Cursor, Devin, Gemini CLI
+
+### Docs
+- `docs/universal-loop.html` — New architecture documentation for the universal loop
+- Landing page, README, i18n EN/ES updated
+
 ## 2.7.0 (2026-07-XX) — Self-Improvement Loop
 
 ### New

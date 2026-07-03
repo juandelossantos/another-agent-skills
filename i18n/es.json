@@ -26,6 +26,8 @@
     "card2Desc": "Sobreescriben el trabajo de otros sin darse cuenta.",
     "card3Title": "Deuda de vibe coding",
     "card3Desc": "Generan código rápido pero producen OpEx oculto: dependencias alucinadas, manejo de errores superficial, y gaps sutiles de correctness.",
+    "card4Title": "Sin autocorrección",
+    "card4Desc": "Calidad de bucle cerrado. El agente se audita a sí mismo, diagnostica issues, propone fixes y ejecuta — todo con aprobación humana. Funciona en cualquier proyecto, cualquier stack.",
     "metr": "Cuando los desarrolladores usaron IA, tardaron 19% más. Los desarrolladores estimaron que la IA les ahorró 20% del tiempo. Los expertos predijeron 38% más rápido.",
     "metrSource": "— Becker et al., METR, julio 2025",
     "conclusion": "La diferencia entre \"capaz\" y \"confiable\" no es inteligencia. Es el harness."
@@ -126,7 +128,7 @@
     "label": "08 / faq",
     "title": "Preguntas.",
     "q1": "¿Qué es Another Agent Skills?",
-    "a1": "Un framework de 57 skills compuestos que transforma agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Los skills siguen un flujo de 6 fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.",
+    "a1": "Un framework de 58 skills compuestos que transforma agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Los skills siguen un flujo de 6 fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.",
     "q2": "¿Cómo es diferente de otros frameworks de skills?",
     "a2": "Tres cosas: (1) Enforcement mecánico con approval por ventana de tiempo y 12 pre-commit gates. (2) Guardian Pattern: DECISION POINT antes de cada mutación. (3) Context engineering: 258 líneas siempre cargadas (1.9% de 200K de contexto). Otros frameworks dan prompts. Aquí se da proceso.",
     "q3": "¿Qué agentes soporta?",
@@ -152,8 +154,8 @@
     "label": "08 / auto-mejora",
     "title": "El agente que se audita a sí mismo.",
     "subtitle": "Calidad en bucle cerrado. Cada sesión mejora el proyecto.",
-    "step1": "Detectar — audit-markdown.sh escanea issues en archivos core.",
-    "step2": "Diagnosticar — el skill self-improvement clasifica la causa raíz.",
+    "step1": "Detectar — universal-audit.sh escanea issues en archivos core.",
+    "step2": "Diagnosticar — el skill self-improvement clasifica la causa raíz (config-driven).",
     "step3": "Proponer — presenta plan de fix + genera borrador de ADR.",
     "step4": "Ejecutar — con aprobación humana por mutación. Máx 3 iteraciones."
   },

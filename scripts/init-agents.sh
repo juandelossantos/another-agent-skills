@@ -23,6 +23,27 @@ log() { echo -e "${BLUE}[init-agents]${NC} $*"; }
 ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 
+WITH_SELF_IMPROVEMENT=true
+
+usage() {
+  echo "Usage: bash init-agents.sh [--skip-self-improvement]"
+  echo ""
+  echo "Options:"
+  echo "  --skip-self-improvement    Skip scaffolding the self-improvement loop"
+  echo "                             (By default, init-agents installs: .audit-config.json,"
+  echo "                             scripts/audit-project.sh, skills/self-improvement/,"
+  echo "                             PATTERNS.md, ANTI-PATTERNS.md, ADRs/, generate-adr.sh)"
+  exit 0
+}
+
+for arg in "$@"; do
+  case "$arg" in
+    --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
+    --help|-h) usage ;;
+    *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
+  esac
+done
+
 # Detect existing agent config files
 detect_target() {
     local candidates=(
@@ -373,6 +394,129 @@ install_ci_template() {
     fi
 }
 
+# Install self-improvement loop artifacts (--with-self-improvement flag)
+install_self_improvement() {
+    local stack_type="generic"
+    # Simple stack detection (subset of detect_stack_and_create_config logic)
+    if [[ -f "package-lock.json" ]] || [[ -f "yarn.lock" ]] || [[ -f "pnpm-lock.yaml" ]] || [[ -f "bun.lockb" ]] || [[ -f "package.json" ]]; then
+        stack_type="node"
+    elif [[ -f "Cargo.lock" ]] || [[ -f "Cargo.toml" ]]; then
+        stack_type="rust"
+    elif [[ -f "poetry.lock" ]] || [[ -f "Pipfile.lock" ]] || [[ -f "pyproject.toml" ]] || [[ -f "setup.py" ]] || [[ -f "requirements.txt" ]]; then
+        stack_type="python"
+    elif [[ -f "go.sum" ]] || [[ -f "go.mod" ]]; then
+        stack_type="go"
+    fi
+
+    log "Stack detected: ${stack_type}"
+
+    # Generate .audit-config.json with stack-aware defaults
+    if [[ ! -f ".audit-config.json" ]]; then
+        local excludes='"node_modules/**", ".git/**"'
+        local core='"^README\\.md$", "^CONTRIBUTING\\.md$"'
+        case "$stack_type" in
+            node)   excludes='"node_modules/**", ".git/**", "dist/**", "build/**", "coverage/**"' ;;
+            python) excludes='"__pycache__/**", ".venv/**", "*.egg-info/**", ".git/**", ".mypy_cache/**"' ;;
+            rust)   excludes='"target/**", ".git/**"' ;;
+            go)     excludes='"vendor/**", ".git/**"' ;;
+            *)      excludes='"node_modules/**", ".git/**"' ;;
+        esac
+        cat > ".audit-config.json" <<CONFIG
+{
+  "project_name": "$(basename "$(pwd)")",
+  "include_patterns": ["**/*.md"],
+  "exclude_patterns": [${excludes}],
+  "core_files": [${core}],
+  "max_file_length": 250,
+  "length_check_paths": ["docs/"],
+  "checks": {
+    "tables": true,
+    "links": true,
+    "placeholders": true,
+    "file_length": true,
+    "mermaid": true,
+    "terminology": false
+  },
+  "terminology_rules": {}
+}
+CONFIG
+        ok "Created .audit-config.json (${stack_type})"
+    else
+        log ".audit-config.json already exists. Skipping."
+    fi
+
+    # Create scripts/audit-project.sh (symlink or copy of universal-audit.sh)
+    local aud_src="${SCRIPT_DIR}/universal-audit.sh"
+    if [[ -f "$aud_src" ]]; then
+        mkdir -p "scripts"
+        if ln -s "$aud_src" "scripts/audit-project.sh" 2>/dev/null; then
+            ok "Linked scripts/audit-project.sh → universal-audit.sh"
+        else
+            cp "$aud_src" "scripts/audit-project.sh" && chmod +x "scripts/audit-project.sh"
+            ok "Copied scripts/audit-project.sh (symlink unavailable)"
+        fi
+    else
+        warn "universal-audit.sh not found at ${aud_src}. Skipping."
+    fi
+
+    # Generate ADR script
+    local adr_src="${SCRIPT_DIR}/generate-adr.sh"
+    if [[ -f "$adr_src" ]]; then
+        mkdir -p "scripts"
+        if ln -s "$adr_src" "scripts/generate-adr.sh" 2>/dev/null; then
+            ok "Linked scripts/generate-adr.sh"
+        else
+            cp "$adr_src" "scripts/generate-adr.sh" && chmod +x "scripts/generate-adr.sh"
+            ok "Copied scripts/generate-adr.sh (symlink unavailable)"
+        fi
+    fi
+
+    # Determine skill install path based on agent config
+    local skill_dest_dir="skills"
+    local agent_config
+    agent_config=$(detect_target)
+    if echo "$agent_config" | grep -q '.claude/'; then
+        skill_dest_dir=".claude/skills"
+    elif echo "$agent_config" | grep -q '.opencode/'; then
+        skill_dest_dir=".opencode/skills"
+    fi
+
+    # Copy self-improvement skill (SKILL.md + guides)
+    local skill_src="${SCRIPT_DIR}/../skills/self-improvement"
+    if [[ -d "$skill_src" ]]; then
+        mkdir -p "$skill_dest_dir"
+        cp -r "$skill_src" "$skill_dest_dir/self-improvement"
+        ok "Installed self-improvement skill → ${skill_dest_dir}/self-improvement/"
+    else
+        warn "Self-improvement skill not found at ${skill_src}. Skipping."
+    fi
+
+    # Symlink/copy PATTERNS.md and ANTI-PATTERNS.md
+    local patterns_src="${SCRIPT_DIR}/../PATTERNS.md"
+    local anti_src="${SCRIPT_DIR}/../ANTI-PATTERNS.md"
+    for pair in "${patterns_src}:PATTERNS.md" "${anti_src}:ANTI-PATTERNS.md"; do
+        local src="${pair%%:*}"
+        local dst="${pair##*:}"
+        if [[ -f "$src" ]] && [[ ! -f "$dst" ]]; then
+            if ln -s "$src" "$dst" 2>/dev/null; then
+                ok "Linked ${dst}"
+            else
+                cp "$src" "$dst" && ok "Copied ${dst} (symlink unavailable)"
+            fi
+        fi
+    done
+
+    # Create ADRs/ directory
+    mkdir -p "ADRs"
+    ok "Created ADRs/ directory"
+
+    # Warn if jq is not available
+    if ! command -v jq &>/dev/null; then
+        warn "jq not found. Required for --json audit output."
+        warn "  Install: apt install jq / brew install jq / choco install jq"
+    fi
+}
+
 # Main logic
 main() {
     # Check for updates before doing anything else
@@ -400,6 +544,11 @@ main() {
     # Detect stack and create STACK_CONFIG.md (used by all skills)
     detect_stack_and_create_config
 
+    # Scaffold self-improvement loop if requested
+    if [[ "$WITH_SELF_IMPROVEMENT" == true ]]; then
+        install_self_improvement
+    fi
+
     # Install CI template if GitHub Actions is not set up
     install_ci_template
 
@@ -411,12 +560,17 @@ main() {
     fi
 
     # Show next steps
-    show_next_steps "$is_new_project" "$existing_target"
+    if [[ "$WITH_SELF_IMPROVEMENT" == true ]]; then
+        show_next_steps "$is_new_project" "$existing_target" "true"
+    else
+        show_next_steps "$is_new_project" "$existing_target" "false"
+    fi
 }
 
 show_next_steps() {
     local is_new="$1"
     local target_file="$2"
+    local with_si="${3:-false}"
     local stack="unknown"
     [[ -f "./STACK_CONFIG.md" ]] && stack=$(grep -oP '(?<=Detected: ).*' ./STACK_CONFIG.md 2>/dev/null | head -1 || echo "unknown")
     [[ "$stack" == "unknown" ]] && stack="your stack"
@@ -459,6 +613,24 @@ show_next_steps() {
             [[ -L "./scripts/${s}" ]] && linked_scripts=$((linked_scripts + 1))
         done
         [[ ${linked_scripts} -gt 0 ]] && echo "    ✓ scripts/ — ${linked_scripts} enforcement scripts"
+        echo ""
+    fi
+
+    # --- SELF-IMPROVEMENT LOOP (--with-self-improvement flag) ---
+    if [[ "$with_si" == "true" ]]; then
+        echo "  SELF-IMPROVEMENT LOOP:"
+        [[ -f "./.audit-config.json" ]] && echo "    ✓ .audit-config.json — stack-aware audit config"
+        [[ -f "./scripts/audit-project.sh" ]] && echo "    ✓ scripts/audit-project.sh — audit wrapper"
+        [[ -d "./skills/self-improvement" ]] || [[ -d "./.claude/skills/self-improvement" ]] || [[ -d "./.opencode/skills/self-improvement" ]] && echo "    ✓ self-improvement skill — loop orchestrator + guides"
+        [[ -f "./PATTERNS.md" ]] && echo "    ✓ PATTERNS.md — workflow patterns"
+        [[ -f "./ANTI-PATTERNS.md" ]] && echo "    ✓ ANTI-PATTERNS.md — anti-patterns"
+        [[ -d "./ADRs" ]] && echo "    ✓ ADRs/ — architecture decision records"
+        [[ -f "./scripts/generate-adr.sh" ]] && echo "    ✓ scripts/generate-adr.sh — ADR generator"
+        echo ""
+        echo "  Try these prompts:"
+        echo "    • \"run self-improvement loop\" — full audit → fix → ADR cycle"
+        echo "    • \"audit the project\" — quick quality check"
+        echo "    • \"bash scripts/audit-project.sh --json\" — raw audit output"
         echo ""
     fi
 
@@ -549,6 +721,7 @@ install_framework_symlinks() {
     local linked=0
     local skipped=0
     local missing=0
+    local copied=0
 
     if [[ ! -d "${global_dir}" ]]; then
         warn "Global directory not found at ${global_dir}."
@@ -557,7 +730,7 @@ install_framework_symlinks() {
         return 0
     fi
 
-    link_or_skip() {
+    link_or_copy() {
         local src="$1" dst="$2" label="$3"
         if [[ -e "${dst}" ]] || [[ -L "${dst}" ]]; then
             if [[ -L "${dst}" ]]; then
@@ -574,32 +747,39 @@ install_framework_symlinks() {
             return 0
         fi
         if [[ ! -e "${src}" ]]; then
-            warn "${label} — not found in global directory"
+            warn "${label} — not found in source"
             missing=$((missing + 1))
             return 0
         fi
         mkdir -p "$(dirname "${dst}")"
-        ln -s "${src}" "${dst}"
-        ok "${label} — linked"
-        linked=$((linked + 1))
+        # Cross-platform: try symlink, fall back to copy (Windows Git Bash, restricted envs)
+        if ln -s "${src}" "${dst}" 2>/dev/null; then
+            ok "${label} — linked"
+            linked=$((linked + 1))
+        else
+            cp -r "${src}" "${dst}" 2>/dev/null && ok "${label} — copied (symlink unavailable)" && copied=$((copied + 1)) || {
+                warn "${label} — could not link or copy"
+                missing=$((missing + 1))
+            }
+        fi
     }
 
     # rules/common/
-    link_or_skip "${global_dir}/rules/common" "./rules/common" "rules/common/"
+    link_or_copy "${global_dir}/rules/common" "./rules/common" "rules/common/"
 
     # Individual enforcement scripts (not the whole scripts/ dir — projects may have their own)
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
                   commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
-        link_or_skip "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
+        link_or_copy "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
     done
 
     # SOUL.md, AGENTS-EXTENDED.md, VERSION
-    link_or_skip "${global_dir}/SOUL.md" "./SOUL.md" "SOUL.md"
-    link_or_skip "${global_dir}/AGENTS-EXTENDED.md" "./AGENTS-EXTENDED.md" "AGENTS-EXTENDED.md"
-    link_or_skip "${global_dir}/VERSION" "./VERSION" "VERSION"
+    link_or_copy "${global_dir}/SOUL.md" "./SOUL.md" "SOUL.md"
+    link_or_copy "${global_dir}/AGENTS-EXTENDED.md" "./AGENTS-EXTENDED.md" "AGENTS-EXTENDED.md"
+    link_or_copy "${global_dir}/VERSION" "./VERSION" "VERSION"
 
     echo ""
-    log "Framework links: ${linked} linked, ${skipped} preserved, ${missing} missing"
+    log "Framework: ${linked} linked, ${copied} copied, ${skipped} preserved, ${missing} missing"
 }
 
 main "$@"

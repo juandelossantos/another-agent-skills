@@ -26,6 +26,8 @@
     "card2Desc": "They overwrite each other's work without noticing.",
     "card3Title": "Vibe coding debt",
     "card3Desc": "They generate code fast but produce hidden OpEx: hallucinated dependencies, superficial error handling, and subtle correctness gaps.",
+    "card4Title": "No self-correction",
+    "card4Desc": "Closed-loop quality. The agent audits itself, diagnoses issues, proposes fixes, and executes — all with human approval. Works in any project, any stack.",
     "metr": "When developers used AI, they took 19% longer. Developers estimated AI saved them 20% of the time. Experts predicted 38% faster.",
     "metrSource": "— Becker et al., METR, July 2025",
     "conclusion": "The gap between \"capable\" and \"reliable\" is not intelligence. It's the harness."
@@ -126,7 +128,7 @@
     "label": "08 / faq",
     "title": "Questions.",
     "q1": "What is Another Agent Skills?",
-    "a1": "A framework of 57 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a 6-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.",
+    "a1": "A framework of 58 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a 6-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.",
     "q2": "How is it different from other skill frameworks?",
     "a2": "Three things: (1) Mechanical enforcement via time-window approval and 12 pre-commit gates. (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 258 lines always-loaded (1.9% of 200K context). Other frameworks give you prompts. This gives you process.",
     "q3": "Which agents does it support?",
@@ -152,8 +154,8 @@
     "label": "08 / self-improving",
     "title": "The agent that audits itself.",
     "subtitle": "Closed-loop quality. Every session makes the project better.",
-    "step1": "Detect — audit-markdown.sh scans for issues in core files.",
-    "step2": "Diagnose — self-improvement skill classifies root cause.",
+    "step1": "Detect — universal-audit.sh scans for issues in core files.",
+    "step2": "Diagnose — self-improvement skill classifies root cause (config-driven).",
     "step3": "Propose — presents fix plan + generates ADR draft.",
     "step4": "Execute — with human approval per mutation. Max 3 iterations."
   },

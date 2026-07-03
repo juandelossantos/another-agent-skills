@@ -96,3 +96,9 @@ jobs:
 
       - name: Run adversarial evals
         run: bash scripts/eval/run-adversarial.sh --all
+
+      - name: Run audit characterization tests
+        run: bash tests/audit/run.sh
+
+      - name: Run universal-audit feature tests
+        run: bash tests/audit/universal.sh
