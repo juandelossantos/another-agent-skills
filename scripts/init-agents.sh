@@ -23,6 +23,16 @@ log() { echo -e "${BLUE}[init-agents]${NC} $*"; }
 ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 
+# Portable: check if two paths resolve to the same filesystem entry
+# Uses cd+pwd -P instead of readlink -f for macOS compatibility
+_same_path() {
+    local src="$1" dst="$2"
+    local src_abs dst_abs
+    src_abs="$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)/$(basename "$src")" || return 1
+    dst_abs="$(cd "$(dirname "$dst")" 2>/dev/null && pwd -P)/$(basename "$dst")" || return 1
+    [[ "$src_abs" = "$dst_abs" ]]
+}
+
 WITH_SELF_IMPROVEMENT=true
 
 usage() {
@@ -447,13 +457,19 @@ CONFIG
 
     # Create scripts/audit-project.sh (symlink or copy of universal-audit.sh)
     local aud_src="${SCRIPT_DIR}/universal-audit.sh"
+    local aud_dst="scripts/audit-project.sh"
     if [[ -f "$aud_src" ]]; then
-        mkdir -p "scripts"
-        if ln -s "$aud_src" "scripts/audit-project.sh" 2>/dev/null; then
-            ok "Linked scripts/audit-project.sh → universal-audit.sh"
+        if [[ -e "$aud_dst" ]] || [[ -L "$aud_dst" ]]; then
+            warn "${aud_dst} — exists locally, preserved"
+        elif _same_path "$aud_src" "$aud_dst"; then
+            warn "${aud_dst} — source and destination are the same. Skipping."
         else
-            cp "$aud_src" "scripts/audit-project.sh" && chmod +x "scripts/audit-project.sh"
-            ok "Copied scripts/audit-project.sh (symlink unavailable)"
+            mkdir -p "scripts"
+            if ln -s "$aud_src" "$aud_dst" 2>/dev/null; then
+                ok "Linked ${aud_dst} → universal-audit.sh"
+            else
+                cp "$aud_src" "$aud_dst" && chmod +x "$aud_dst" && ok "Copied ${aud_dst} (symlink unavailable)" || warn "${aud_dst} — could not copy"
+            fi
         fi
     else
         warn "universal-audit.sh not found at ${aud_src}. Skipping."
@@ -461,13 +477,19 @@ CONFIG
 
     # Generate ADR script
     local adr_src="${SCRIPT_DIR}/generate-adr.sh"
+    local adr_dst="scripts/generate-adr.sh"
     if [[ -f "$adr_src" ]]; then
-        mkdir -p "scripts"
-        if ln -s "$adr_src" "scripts/generate-adr.sh" 2>/dev/null; then
-            ok "Linked scripts/generate-adr.sh"
+        if [[ -e "$adr_dst" ]] || [[ -L "$adr_dst" ]]; then
+            warn "${adr_dst} — exists locally, preserved"
+        elif _same_path "$adr_src" "$adr_dst"; then
+            warn "${adr_dst} — source and destination are the same. Skipping."
         else
-            cp "$adr_src" "scripts/generate-adr.sh" && chmod +x "scripts/generate-adr.sh"
-            ok "Copied scripts/generate-adr.sh (symlink unavailable)"
+            mkdir -p "scripts"
+            if ln -s "$adr_src" "$adr_dst" 2>/dev/null; then
+                ok "Linked ${adr_dst}"
+            else
+                cp "$adr_src" "$adr_dst" && chmod +x "$adr_dst" && ok "Copied ${adr_dst} (symlink unavailable)" || warn "${adr_dst} — could not copy"
+            fi
         fi
     fi
 
@@ -483,10 +505,16 @@ CONFIG
 
     # Copy self-improvement skill (SKILL.md + guides)
     local skill_src="${SCRIPT_DIR}/../skills/self-improvement"
+    local skill_dst="${skill_dest_dir}/self-improvement"
     if [[ -d "$skill_src" ]]; then
-        mkdir -p "$skill_dest_dir"
-        cp -r "$skill_src" "$skill_dest_dir/self-improvement"
-        ok "Installed self-improvement skill → ${skill_dest_dir}/self-improvement/"
+        if [[ -e "$skill_dst" ]] || [[ -L "$skill_dst" ]]; then
+            warn "Self-improvement skill — exists locally, preserved"
+        elif _same_path "$skill_src" "$skill_dst"; then
+            warn "Self-improvement skill — source and destination are the same. Skipping."
+        else
+            mkdir -p "$skill_dest_dir"
+            cp -r "$skill_src" "$skill_dst" && ok "Installed self-improvement skill → ${skill_dst}/" || warn "Self-improvement skill — could not copy"
+        fi
     else
         warn "Self-improvement skill not found at ${skill_src}. Skipping."
     fi
