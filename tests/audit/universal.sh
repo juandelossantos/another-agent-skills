@@ -186,6 +186,99 @@ JSON
   ok "placeholder-prose: bare word 'placeholder' in prose is NOT flagged (precision fix)"
 }
 
+# ============================================================================
+# DOMAIN-EDGE TESTS (Boyko Lie 2 fix: real domain edges, not obvious ones)
+# Each test opens with a one-sentence contract: "This test proves that [X]"
+# ============================================================================
+
+# Contract: This test proves that nested fenced code blocks (4-backtick outer,
+# 3-backtick inner) don't confuse the code-block tracker — TODO: inside the
+# inner block is exempt, TODO: outside is flagged.
+t_nested_codeblocks() {
+  skip_if_no_engine "nested-codeblocks" || return
+  local tmp out n
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf '# Doc\n\n````\n```\n// TODO: inside nested block\n```\n````\n\nTODO: outside blocks\n' > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  n=$(echo "$out" | jq '.warnings | length')
+  rm -rf "$tmp"
+  [ "$n" = "1" ] || { ko "nested-codeblocks: expected 1 warning (outside TODO:), got $n"; return; }
+  ok "nested-codeblocks: 4-backtick fence with inner 3-backtick — inside exempt, outside flagged"
+}
+
+# Contract: This test proves that TODO: in YAML frontmatter (between --- delimiters)
+# is flagged — frontmatter is NOT a code block, it's metadata that ships in the file.
+t_frontmatter_todo_flagged() {
+  skip_if_no_engine "frontmatter-todo" || return
+  local tmp out n
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf -- '---\ntitle: My Doc\nTODO: fix title\n---\n\n# Content\n\nNo issues here.\n' > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  n=$(echo "$out" | jq '.warnings | length')
+  rm -rf "$tmp"
+  [ "$n" -ge "1" ] || { ko "frontmatter-todo: TODO: in frontmatter should be flagged, got $n warnings"; return; }
+  ok "frontmatter-todo: TODO: in YAML frontmatter IS flagged (frontmatter is not a code block)"
+}
+
+# Contract: This test proves that links with fragment anchors
+# ([text](file.md#section)) resolve to the file, not the fragment.
+t_fragment_link_resolves() {
+  skip_if_no_engine "fragment-link" || return
+  local tmp out n
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf '# Doc\n\nSee [section](other.md#section).\n' > "$tmp/README.md"
+  printf '# Other\n\nContent.\n' > "$tmp/other.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  n=$(echo "$out" | jq '.warnings | length')
+  rm -rf "$tmp"
+  [ "$n" = "0" ] || { ko "fragment-link: link to existing file with #fragment should not warn, got $n"; return; }
+  ok "fragment-link: [text](file.md#section) resolves to file, not fragment (no false positive)"
+}
+
+# Contract: This test proves that an empty file (0 lines) doesn't crash the engine
+# and produces 0 warnings — it's vacuously clean.
+t_empty_file() {
+  skip_if_no_engine "empty-file" || return
+  local tmp out rc n
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  : > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null); rc=$?
+  n=$(echo "$out" | jq '.warnings | length' 2>/dev/null || echo -1)
+  rm -rf "$tmp"
+  [ "$rc" -eq 0 ] || { ko "empty-file: engine crashed on empty file, exit $rc"; return; }
+  [ "$n" = "0" ] || { ko "empty-file: empty file should have 0 warnings, got $n"; return; }
+  ok "empty-file: 0-line file doesn't crash engine, produces 0 warnings"
+}
+
+# Contract: This test proves that a file with no trailing newline still gets its
+# last line scanned (the last line isn't silently dropped).
+t_no_trailing_newline() {
+  skip_if_no_engine "no-trailing-newline" || return
+  local tmp out n
+  tmp=$(mktemp -d)
+  cat > "$tmp/.audit-config.json" <<'JSON'
+{"project_name":"t","include_patterns":["**/*.md"],"exclude_patterns":[],"core_files":[],"max_file_length":250,"length_check_paths":[],"checks":{"tables":true,"links":true,"placeholders":true,"file_length":true,"mermaid":false,"terminology":false},"terminology_rules":{}}
+JSON
+  printf '# Doc\n\nTODO: fix this' > "$tmp/README.md"
+  out=$(cd "$tmp" && bash "$ENGINE" --json 2>/dev/null)
+  n=$(echo "$out" | jq '.warnings | length')
+  rm -rf "$tmp"
+  [ "$n" -ge "1" ] || { ko "no-trailing-newline: last line TODO: should be flagged even without newline, got $n"; return; }
+  ok "no-trailing-newline: last line without trailing newline IS scanned (not silently dropped)"
+}
+
 echo "╔════════════════════════════════════════════════╗"
 echo "║  UNIVERSAL-AUDIT FEATURE TESTS (test-first)    ║"
 echo "╚════════════════════════════════════════════════╝"
@@ -202,6 +295,11 @@ t_repo_golden_json
 t_placeholder_codeblock_exempt
 t_placeholder_real_flagged
 t_placeholder_prose_exempt
+t_nested_codeblocks
+t_frontmatter_todo_flagged
+t_fragment_link_resolves
+t_empty_file
+t_no_trailing_newline
 echo ""
 echo -e "  ${GREEN}PASS: $PASS${NC}  ${RED}FAIL: $FAIL${NC}"
 if [ "$FAIL" -eq 0 ]; then

@@ -26,18 +26,25 @@ ko() { echo -e "  ${RED}✗${NC} $1"; FAIL=$((FAIL + 1)); }
 strip_ansi() { sed 's/\x1b\[[0-9;]*m//g'; }
 
 t_golden() {
-  local out clean rc warn
+  # BEHAVIORAL invariants (not count — Boyko Lie 1 fix):
+  # (a) exit 0 = no core file has a blocking failure
+  # (b) JSON is valid + consistent (output contract holds)
+  # (c) warning types are a subset of {placeholder, link, length} (no unexpected check type)
+  # A new real issue in a non-core file → test still passes (correct: not a regression).
+  # A new FAIL in a core file → test fails (correct: regression).
+  local out rc json fails warn_types
   out=$(cd "$REPO_ROOT" && bash "$WRAPPER" 2>/dev/null); rc=$?
-  clean=$(echo "$out" | strip_ansi)
-  [ "$rc" -eq 0 ] || { ko "golden: expected exit 0, got $rc"; return; }
-  echo "$clean" | grep -q "FAIL: 0" || { ko "golden: expected FAIL: 0"; return; }
-  echo "$clean" | grep -q "All checks passed" || { ko "golden: missing 'All checks passed'"; return; }
-  warn=$(echo "$clean" | grep -oE 'WARN: [0-9]+' | grep -oE '[0-9]+' | head -1)
-  # Golden after P2.1: universal skill paths (./PATTERNS.md etc.) are broken in THIS repo
-  # (files are at repo root, not skills/self-improvement/) — 4 expected broken-link warnings
-  # + 7 known placeholder false positives (inline code/prose) = 11. Update when content changes.
-  [ "$warn" = "11" ] || { ko "golden: WARN drifted (expected 11 post-P2.1 — 4 universal-path broken links + 7 placeholder residuals; got ${warn:-none})"; return; }
-  ok "golden: wrapper reproduces exit 0, FAIL 0, WARN 11 (post-P2.1 baseline)"
+  [ "$rc" -eq 0 ] || { ko "golden: expected exit 0 (no core FAIL), got $rc"; return; }
+  echo "$out" | strip_ansi | grep -q "All checks passed" || { ko "golden: missing 'All checks passed'"; return; }
+  # Verify via JSON: no failures, valid structure, known warning types only
+  json=$(cd "$REPO_ROOT" && bash "$WRAPPER" --json 2>/dev/null) || { ko "golden: --json failed"; return; }
+  fails=$(echo "$json" | jq -r '.summary.fail')
+  [ "$fails" = "0" ] || { ko "golden: core file has FAIL (regression — $fails blocking failures)"; return; }
+  echo "$json" | jq -e '.summary and .failures and .warnings' >/dev/null 2>&1 || { ko "golden: JSON structure invalid"; return; }
+  warn_types=$(echo "$json" | jq -r '.warnings[].type' | sort -u | tr '\n' ',')
+  echo "$warn_types" | grep -qvE '^(link|length|placeholder),' 2>/dev/null && \
+    { ko "golden: unexpected warning type in output ($warn_types — expected only link/length/placeholder)"; return; }
+  ok "golden: behavioral invariants hold (exit 0, 0 core FAIL, valid JSON, known warning types only)"
 }
 
 t_json_valid() {

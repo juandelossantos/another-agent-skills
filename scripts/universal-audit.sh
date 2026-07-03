@@ -161,9 +161,16 @@ check_placeholders() {
   local pats="TODO:|FIXME:|XXX|coming soon|under construction|lorem ipsum"
   while IFS= read -r f; do
     [ -f "$f" ] || continue
-    # awk tracks fenced code blocks; only flags matches OUTSIDE ``` blocks
+    # awk tracks fenced code blocks with fence-length awareness (CommonMark:
+    # closing fence must be >= opening fence length; inner shorter fences are literal)
     awk -v pats="$pats" '
-      /^```/ { in_block = !in_block; next }
+      /^```/ {
+        match($0, /^`+/)
+        fence_len = RLENGTH
+        if (!in_block) { in_block = 1; open_len = fence_len }
+        else if (fence_len >= open_len) { in_block = 0; open_len = 0 }
+        next
+      }
       !in_block && $0 ~ pats { printf "%d\t%s\n", NR, $0 }
     ' "$f" 2>/dev/null | while IFS=$'\t' read -r ln line; do
       [ -z "$ln" ] && continue
