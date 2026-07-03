@@ -79,3 +79,10 @@ With user approval per mutation:
 - [ ] Project test command passes (from `STACK_CONFIG.md` `test_cmd`)
 - [ ] ADR generated if new rule was created
 - [ ] No new warnings introduced (warn count ≤ previous iteration)
+
+## Guides
+
+- → See `guides/UNIVERSAL-USAGE.md` — How to run the loop in any project
+- → See `guides/CONFIG-REFERENCE.md` — All `.audit-config.json` keys documented
+- → See `guides/EXAMPLE-NODE.md` — End-to-end walkthrough in a Node.js project
+- → See `guides/EXAMPLE-PYTHON.md` — End-to-end walkthrough in a Python project

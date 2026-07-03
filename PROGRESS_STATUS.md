@@ -68,7 +68,7 @@
 | `project-metrics` | 151 | 2 |  |
 | `redesign-skill` | 64 | 0 |  |
 | `security-and-hardening` | 31 | 0 |  |
-| `self-improvement` | 81 | 0 |  |
+| `self-improvement` | 88 | 4 |  |
 | `shipping-and-launch` | 163 | 2 |  |
 | `skill-creator` | 167 | 2 |  |
 | `skill-improver` | 157 | 2 |  |
