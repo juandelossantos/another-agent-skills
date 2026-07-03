@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-01
-**Version:** 2.7.0
+**Date:** 2026-07-03
+**Version:** 3.0.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v2.0.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v3.0.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 54 guides | Distributed across 57 skills |
 | Gate count | ✅ 9 pre-commit gates | Landing, docs, i18n EN/ES |
 
@@ -103,3 +103,4 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-07-01 | v2.7.0 F3-SELF: Self-Improvement Loop | self-improvement skill, generate-adr.sh, landing page section, i18n EN/ES. |
 | 2026-07-02 | v3.0.0 P1.1-1.3 (dev) | Universal audit engine: `universal-audit.sh` (config-driven, fixes json-stub + subshell + grep-spam bugs), `audit-markdown.sh` → wrapper, `.audit-config.json`, test-first (15 tests). On `feat/universal-audit-engine` branch, uncommitted. |
 | 2026-07-02 | Self-improvement iter 1 | Placeholder precision fix (skip code blocks, require `TODO:`/`FIXME:` colons) — WARN 34→3 (88% false-positive reduction). ANIMATION-GUIDE trimmed 266→249. ADR-009 generated. Golden updated 34→3. |
+| 2026-07-03 | **v3.0.0 RELEASED** | Universal self-improvement loop: config-driven audit engine, stack-agnostic skill, 4 guides, cross-platform init-agents, behavioral golden, domain-edge tests. All P1-P3 complete. See RELEASE-NOTES.md. |

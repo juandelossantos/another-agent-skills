@@ -1,13 +1,13 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v2.7.0](https://img.shields.io/badge/version-2.7.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v3.0.0](https://img.shields.io/badge/version-3.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 [![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
 
-**57 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
+**58 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process. Harness. Repeat.**
 **+3 meta-skills to create, improve, and harvest your own.**
 
@@ -37,7 +37,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 57 custom skills + 54 guides + 6 harness components.
+**That's it.** Your AI agent now has 58 custom skills + 54 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -61,7 +61,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 New in v2.7.0: Self-Improvement Loop** — The agent audits itself. `audit-markdown.sh` detects issues, `self-improvement` skill diagnoses and proposes fixes, generates ADRs, and executes with human approval. [Learn more →](#self-improvement-loop)
+> **🧠 New in v3.0.0: Universal Self-Improvement Loop** — The agent audits itself. `universal-audit.sh` detects issues in any project/stack, `self-improvement` skill diagnoses and proposes fixes, generates ADRs, and executes with human approval. [Learn more →](#whats-new-in-v300--universal-self-improvement-loop)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -113,28 +113,29 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v2.7.0 — Self-Improvement Loop
+## What's New in v3.0.0 — Universal Self-Improvement Loop
 
-### ⭐ The Agent That Audits Itself
+### ⭐ The Agent That Improves Any Project
 
-The biggest feature in v2.7.0: **self-improvement loop**. The agent detects issues, diagnoses root cause, proposes fixes, generates ADRs, and executes — all with human approval.
+v3.0.0 takes self-improvement to every project, every stack. The loop is now fully config-driven and stack-agnostic — no markdown-specific assumptions, no Node/Python lock-in, no per-project setup.
 
 ```mermaid
 flowchart LR
-    A["1. Detect"] --> B["2. Diagnose"]
-    B --> C["3. Propose + ADR"]
-    C --> D["4. Execute (human OK)"]
-    D --> A
+    A["1. Config"] --> B["2. Scan"]
+    B --> C["3. Diagnose"]
+    C --> D["4. Propose + ADR"]
+    D --> E["5. Execute (human OK)"]
+    E --> A
 ```
 
-- **`self-improvement` skill** — Closed-loop quality: `audit-markdown.sh --json` → classify → propose fix → generate ADR → human approves → commit
-- **`generate-adr.sh`** — MADR-format ADR generator for auto-documentation
-- **`audit-markdown.sh`** — New `--json` mode, fixed table parsing, CORE_FILES separation
-- **Landing page section** — "08 / self-improving" with 4-step pipeline (EN + ES)
-- **58 skills** — Now includes `self-improvement` (Meta-Skill category)
+- **`universal-audit.sh`** — Config-driven detection engine. Reads `.audit-config.yaml` or `STACK_CONFIG.md` to discover project structure, select relevant checks, and skip irrelevant ones. Works with Node, Python, Rust, Go, Ruby, Dart, or any stack.
+- **`self-improvement` skill (v3)** — Stack-agnostic. Detects CI health, doc drift, gate drift, coverage gaps, and anti-patterns regardless of language or framework.
+- **4 comprehensive guides**: [`UNIVERSAL-USAGE.md`](skills/self-improvement/guides/UNIVERSAL-USAGE.md), [`CONFIG-REFERENCE.md`](skills/self-improvement/guides/CONFIG-REFERENCE.md), [`EXAMPLE-NODE.md`](skills/self-improvement/guides/EXAMPLE-NODE.md), [`EXAMPLE-PYTHON.md`](skills/self-improvement/guides/EXAMPLE-PYTHON.md)
+- **`init-agents` includes loop by default** — Every new project starts with self-improvement wired in from day one
+- **Behavioral golden test + domain-edge tests** — Validates loop behavior across language ecosystems, not just happy path
 
-### Previous (v2.6.x)
-- Anti-Patterns Catalog, Glossary, Workflow Patterns, Mermaid Diagrams, Case Studies, ADRs
+### Previous (v2.7.x)
+- Self-Improvement Loop: markdown-focused audit and fix cycle
 
 ---
 
@@ -258,7 +259,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v2.7.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.0.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

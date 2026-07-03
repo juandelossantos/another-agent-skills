@@ -71,7 +71,7 @@ With user approval per mutation:
 - **When user says** "run self-improvement loop" or "audit the project"
 - **At session start** if `audit-project.sh` has not been run in 7+ days
 
-**Prerequisites:** `init-agents --with-self-improvement` must have been run to create `audit-project.sh`, `.audit-config.json`, `PATTERNS.md`, `ANTI-PATTERNS.md`, and `ADRs/` in the project.
+**Prerequisites:** `init-agents` installs the self-improvement loop by default (use `--skip-self-improvement` to skip). Creates `scripts/audit-project.sh`, `.audit-config.json`, `PATTERNS.md`, `ANTI-PATTERNS.md`, and `ADRs/` in your project.
 
 ## Verification
 

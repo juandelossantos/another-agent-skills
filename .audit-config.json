@@ -1,7 +1,7 @@
 {
   "project_name": "another-agent-skills",
   "include_patterns": ["**/*.md"],
-  "exclude_patterns": ["node_modules/**", ".git/**", "development/**", ".opencode/**"],
+  "exclude_patterns": ["node_modules/**", ".git/**", "development/**", ".opencode/**", "**/node_modules/**"],
   "core_files": [
     "^AGENTS\\.md$",
     "^AGENTS-EXTENDED\\.md$",

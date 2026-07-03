@@ -19,23 +19,11 @@ NC='\033[0m'
 ok() { echo -e "  ${GREEN}✓${NC} $1"; PASS=$((PASS + 1)); }
 ko() { echo -e "  ${RED}✗${NC} $1"; FAIL=$((FAIL + 1)); }
 
-skip_if_no_flag() {
-  # Check if --with-self-improvement produces --help output (flag not parsed yet)
-  if ! echo | bash "$INIT_SCRIPT" --with-self-improvement 2>&1 | grep -qi 'with-self-improvement'; then
-    # Check if flag is implemented at all
-    local rc
-    (cd /tmp && bash "$INIT_SCRIPT" --with-self-improvement 2>/dev/null); rc=$?
-    [ "$rc" -eq 0 ] && return 0
-  fi
-  [ -f "$INIT_SCRIPT" ] && return 0
-  return 1
-}
-
-# --- Contract: --with-self-improvement creates all 7 artifacts ---
-t_flag_creates_all_7_artifacts() {
+# --- Contract: init-agents (default) creates all 7 artifacts ---
+t_default_creates_all_7() {
   local tmp rc
   tmp=$(mktemp -d)
-  (cd "$tmp" && bash "$INIT_SCRIPT" --with-self-improvement >/dev/null 2>&1); rc=$?
+  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1); rc=$?
   local missing=0
   [ -f "$tmp/.audit-config.json" ] || { echo "  missing .audit-config.json"; missing=1; }
   [ -f "$tmp/scripts/audit-project.sh" ] || { echo "  missing scripts/audit-project.sh"; missing=1; }
@@ -46,15 +34,15 @@ t_flag_creates_all_7_artifacts() {
   [ -d "$tmp/ADRs" ] || { echo "  missing ADRs/"; missing=1; }
   [ -f "$tmp/scripts/generate-adr.sh" ] || { echo "  missing scripts/generate-adr.sh"; missing=1; }
   rm -rf "$tmp"
-  [ "$missing" = "0" ] || { ko "flag-creates-7: $missing artifact(s) missing"; return; }
-  ok "flag-creates-7: --with-self-improvement creates all 7 artifacts ($rc)"
+  [ "$missing" = "0" ] || { ko "default-creates-7: $missing artifact(s) missing (expected all 7 by default)"; return; }
+  ok "default-creates-7: init-agents creates all 7 artifacts by default"
 }
 
-# --- Contract: without flag, zero self-improvement artifacts exist ---
-t_no_flag_no_artifacts() {
+# --- Contract: with --skip-self-improvement flag, zero artifacts exist ---
+t_skip_no_artifacts() {
   local tmp
   tmp=$(mktemp -d)
-  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
+  (cd "$tmp" && bash "$INIT_SCRIPT" --skip-self-improvement >/dev/null 2>&1)
   local found=0
   [ -f "$tmp/.audit-config.json" ] && found=$((found + 1))
   [ -f "$tmp/scripts/audit-project.sh" ] && found=$((found + 1))
@@ -64,8 +52,8 @@ t_no_flag_no_artifacts() {
   [ -d "$tmp/ADRs" ] && found=$((found + 1))
   [ -f "$tmp/scripts/generate-adr.sh" ] && found=$((found + 1))
   rm -rf "$tmp"
-  [ "$found" -eq 0 ] || { ko "no-flag: found $found artifact(s) without flag (should be 0)"; return; }
-  ok "no-flag: zero self-improvement artifacts without flag"
+  [ "$found" -eq 0 ] || { ko "skip-flag: found $found artifact(s) with --skip-self-improvement (should be 0)"; return; }
+  ok "skip-flag: --skip-self-improvement produces zero self-improvement artifacts"
 }
 
 # --- Contract: Node project gets node_modules/ in excludes ---
@@ -73,7 +61,7 @@ t_config_stack_aware_node() {
   local tmp
   tmp=$(mktemp -d)
   echo '{"name":"test"}' > "$tmp/package.json"
-  (cd "$tmp" && bash "$INIT_SCRIPT" --with-self-improvement >/dev/null 2>&1)
+  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
   local excludes
   excludes=$(jq -r '.exclude_patterns[]' "$tmp/.audit-config.json" 2>/dev/null)
   local has_node=false
@@ -88,7 +76,7 @@ t_config_stack_aware_python() {
   local tmp
   tmp=$(mktemp -d)
   echo '[tool.pytest.ini_options]' > "$tmp/pyproject.toml"
-  (cd "$tmp" && bash "$INIT_SCRIPT" --with-self-improvement >/dev/null 2>&1)
+  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
   local excludes
   excludes=$(jq -r '.exclude_patterns[]' "$tmp/.audit-config.json" 2>/dev/null)
   local has_pycache=false
@@ -104,7 +92,7 @@ t_skill_install_path_claude() {
   tmp=$(mktemp -d)
   mkdir -p "$tmp/.claude"
   echo "# test" > "$tmp/.claude/CLAUDE.md"
-  (cd "$tmp" && bash "$INIT_SCRIPT" --with-self-improvement >/dev/null 2>&1)
+  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
   local in_claude=false
   [ -d "$tmp/.claude/skills/self-improvement" ] && in_claude=true
   rm -rf "$tmp"
@@ -117,7 +105,7 @@ t_link_fallback_copy() {
   # Even on Linux where symlinks work, link_or_copy should succeed (symlink path)
   local tmp
   tmp=$(mktemp -d)
-  (cd "$tmp" && bash "$INIT_SCRIPT" --with-self-improvement >/dev/null 2>&1)
+  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
   local rc=$?
   rm -rf "$tmp"
   [ "$rc" -eq 0 ] || { ko "link-fallback: init-agents crashed (exit $rc)"; return; }
@@ -128,7 +116,7 @@ t_link_fallback_copy() {
 t_audit_project_runs() {
   local tmp out
   tmp=$(mktemp -d)
-  (cd "$tmp" && bash "$INIT_SCRIPT" --with-self-improvement >/dev/null 2>&1)
+  (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
   out=$(cd "$tmp" && bash scripts/audit-project.sh --json 2>/dev/null | jq -r '.summary.fail // -1')
   rm -rf "$tmp"
   [ "$out" = "0" ] || { ko "audit-runs: audit-project.sh --json failed (fail=$out)"; return; }
@@ -139,8 +127,8 @@ echo "╔═══════════════════════�
 echo "║  INIT-AGENTS FEATURE TESTS (test-first)       ║"
 echo "╚═══════════════════════════════════════════════╝"
 echo ""
-t_flag_creates_all_7_artifacts
-t_no_flag_no_artifacts
+t_default_creates_all_7
+t_skip_no_artifacts
 t_config_stack_aware_node
 t_config_stack_aware_python
 t_skill_install_path_claude

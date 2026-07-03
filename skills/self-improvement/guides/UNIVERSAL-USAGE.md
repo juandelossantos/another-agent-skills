@@ -1,12 +1,12 @@
 # Universal Usage Guide
 
-> **This guide proves that any project can run the self-improvement loop after `init-agents --with-self-improvement`.**
+> **This guide proves that any project can run the self-improvement loop after `init-agents`.**
 
 ## Prerequisites
 
 Before running the loop, your project must have:
 
-1. **`init-agents --with-self-improvement`** run once — creates:
+1. **`init-agents`** run once — creates:
    - `scripts/audit-project.sh` (wrapper over `universal-audit.sh`)
    - `.audit-config.json` (stack-aware defaults)
    - `PATTERNS.md` + `ANTI-PATTERNS.md` (at project root)
@@ -15,7 +15,7 @@ Before running the loop, your project must have:
 2. **`STACK_CONFIG.md`** — auto-created by `init-agents`, contains your test command (`npm test`, `pytest`, etc.)
 3. **`jq` installed** — the audit engine uses it for `--json` output
 
-If any prerequisite is missing, run `bash init-agents.sh --with-self-improvement` first.
+If any prerequisite is missing, run `bash init-agents.sh` first (the loop is included by default).
 
 ---
 

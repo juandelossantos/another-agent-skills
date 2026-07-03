@@ -23,22 +23,22 @@ log() { echo -e "${BLUE}[init-agents]${NC} $*"; }
 ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 
-WITH_SELF_IMPROVEMENT=false
+WITH_SELF_IMPROVEMENT=true
 
 usage() {
-  echo "Usage: bash init-agents.sh [--with-self-improvement]"
+  echo "Usage: bash init-agents.sh [--skip-self-improvement]"
   echo ""
   echo "Options:"
-  echo "  --with-self-improvement    Also scaffold the self-improvement loop"
-  echo "                             (scripts/audit-project.sh, .audit-config.json,"
-  echo "                             skills/self-improvement/, PATTERNS.md,"
-  echo "                             ANTI-PATTERNS.md, ADRs/, generate-adr.sh)"
+  echo "  --skip-self-improvement    Skip scaffolding the self-improvement loop"
+  echo "                             (By default, init-agents installs: .audit-config.json,"
+  echo "                             scripts/audit-project.sh, skills/self-improvement/,"
+  echo "                             PATTERNS.md, ANTI-PATTERNS.md, ADRs/, generate-adr.sh)"
   exit 0
 }
 
 for arg in "$@"; do
   case "$arg" in
-    --with-self-improvement) WITH_SELF_IMPROVEMENT=true ;;
+    --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
     --help|-h) usage ;;
     *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
   esac

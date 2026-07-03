@@ -17,8 +17,8 @@ cat > pyproject.toml << 'EOF'
 testpaths = ["tests"]
 EOF
 
-# Install the self-improvement loop
-bash path/to/another-agent-skills/scripts/init-agents.sh --with-self-improvement
+# Install the self-improvement loop (included by default with init-agents)
+bash path/to/another-agent-skills/scripts/init-agents.sh
 
 # Creates:
 #   .audit-config.json      (excludes __pycache__/, .venv/, *.egg-info/)

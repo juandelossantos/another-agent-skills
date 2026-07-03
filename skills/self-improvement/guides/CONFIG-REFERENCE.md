@@ -97,13 +97,13 @@ bash scripts/audit-project.sh --init
 
 Creates `.audit-config.json` with all keys and sensible defaults. Edit `project_name` and `core_files` for your project.
 
-### Via `init-agents --with-self-improvement` (stack-aware):
+### Via `init-agents` (default — stack-aware, includes self-improvement):
 
 ```bash
-bash init-agents.sh --with-self-improvement
+bash init-agents.sh
 ```
 
-Auto-detects your stack (Node, Python, Go, Rust, etc.) and creates a config with appropriate `exclude_patterns` (e.g., Node → excludes `node_modules/`, Python → excludes `__pycache__/`).
+Auto-detects your stack (Node, Python, Go, Rust, etc.) and creates a config with appropriate `exclude_patterns` (e.g., Node → excludes `node_modules/`, Python → excludes `__pycache__/`). The self-improvement loop is installed by default.
 
 ---
 
