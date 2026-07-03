@@ -134,7 +134,7 @@ flowchart LR
 - **`init-agents` includes loop by default** — Every new project starts with self-improvement wired in from day one
 - **Behavioral golden test + domain-edge tests** — Validates loop behavior across language ecosystems, not just happy path
 
-### Previous (v2.7.x)
+### Previous releases
 - Self-Improvement Loop: markdown-focused audit and fix cycle
 
 ---
