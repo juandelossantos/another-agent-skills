@@ -21,7 +21,7 @@ This project is a complete open-source Harness.
 | **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 54 guides, MCP servers, shell scripts |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI environment, Docker |
 | **4. Orchestration** | When each tool fires, how agents coordinate | `skill-gate.sh`, `init-agents.sh`, `multi-agent-orchestration` skill, `.sessionrc` |
-| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v8 (9 gates), `commit-msg` hook v5, `edit-guard.sh`, `commit-approval.sh`, `task-manifest.sh` |
+| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v10 (13 gates), `commit-msg` hook v7 (4 gates, TDD enforcement), `edit-guard.sh`, `commit-approval.sh`, `task-manifest.sh` |
 | **6. Observability** | Evidence that it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md`, `development/INCIDENT_*` |
 
 ---
@@ -51,7 +51,7 @@ During active coding, the harness keeps the agent focused:
 
 The harness routes failures back to the agent for self-correction:
 
-- **Pre-commit hook v8** runs 9 gates before every commit
+- **Pre-commit hook v10** runs 13 gates before every commit
 - **validate-skill-table.sh** ensures PROGRESS_STATUS.md matches disk
 - **skill-lint.sh** ensures all skills stay ≤ 250 lines
 - **bash -n** verifies shell script syntax
@@ -60,7 +60,7 @@ The harness routes failures back to the agent for self-correction:
 
 The harness ensures safe behavior in production:
 
-- **commit-msg hook v6** checks three gates (TEST_LOG + MANIFEST + APPROVED) — agent writes approval after "yes commit" in chat
+- **commit-msg hook v7** checks four gates (TEST_LOG + MANIFEST + APPROVED + TDD gate) — agent writes approval after "yes commit" in chat
 - **commit-approval.sh** writes `.git/COMMIT_APPROVED` with timestamp after user says "yes commit" in chat (time-window based, no friction)
 - **HEALTH-CHECK.md** is re-audited every 7 days (Rule 0b)
 - **PROGRESS_STATUS.md** tracks project state against actual disk

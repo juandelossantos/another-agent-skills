@@ -33,8 +33,8 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| Pre-commit hook | ✅ v8 (9 gates) | Executable (755) |
-| commit-msg hook | ✅ v6 | Three-gate check (TEST_LOG + MANIFEST + APPROVED) |
+| Pre-commit hook | ✅ v10 (13 gates) | Executable (755) |
+| commit-msg hook | ✅ v7 | Four-gate check (TEST_LOG + MANIFEST + APPROVED + TDD gate) |
 | commit-approval.sh | ✅ | Writes COMMIT_MANIFEST + COMMIT_APPROVED |
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
@@ -52,7 +52,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | `STACK_CONFIG.md` | 🔴 BLOCKING | ✅ Present | Meta-project (shell + markdown) |
 | `SPEC.md` | 🟡 HIGH | ✅ Present | "57 skills", up to date |
 | `HEALTH-CHECK.md` | 🟡 HIGH | ✅ Present | This file |
-| `PROGRESS_STATUS.md` | 🟡 HIGH | ✅ Present | Validated by pre-commit v8 gate |
+| `PROGRESS_STATUS.md` | 🟡 HIGH | ✅ Present | Validated by pre-commit v10 gate |
 | `design/DESIGN-LOCK.md` | 🔵 MEDIUM | ✅ Absent (acceptable) | Landing page is the spec |
 | `.sessionrc` | ⚪ INFO | ✅ Present (local) | Not git-tracked |
 
@@ -64,7 +64,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 |---|---|---|
 | Version references | ✅ v3.0.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 54 guides | Distributed across 57 skills |
-| Gate count | ✅ 9 pre-commit gates | Landing, docs, i18n EN/ES |
+| Gate count | ✅ 13 pre-commit gates, 4 commit-msg gates | Landing, docs, i18n EN/ES |
 
 ---
 

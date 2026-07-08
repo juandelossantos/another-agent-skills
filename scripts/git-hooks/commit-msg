@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Three-Gate Approval Check (v6)
-# Verifies THREE conditions before allowing a commit:
+# commit-msg — Another Agent Skills Four-Gate Approval Check (v7)
+# Verifies FOUR conditions before allowing a commit:
 # 1. COMMIT_APPROVED — timestamp <5 min, message matches
 # 2. COMMIT_MANIFEST — exists, has content
 # 3. TEST_LOG — exists, status=PASS, recent
+# 4. TDD_GATE — code files must have test files staged
 #
 # Logs every approval attempt to .git/APPROVAL_LOG for audit.
 
@@ -43,8 +44,9 @@ fail() {
 }
 
 GATES_PASSED=0
-GATES_TOTAL=3
+GATES_TOTAL=4
 MISSING=""
+TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 
 # ─────────────────────────────────────────
 # Gate 1: TEST_LOG exists, status=PASS, recent
@@ -57,15 +59,15 @@ if [[ -f "$TEST_LOG" ]]; then
     AGE=$((NOW_EPOCH - TS_EPOCH))
     if [ $AGE -le 3600 ]; then
       GATES_PASSED=$((GATES_PASSED + 1))
-      echo -e "  ${GREEN}✓${NC} Gate 1/3: Tests passed (${AGE}s ago)"
+      echo -e "  ${GREEN}✓${NC} Gate 1/4: Tests passed (${AGE}s ago)"
     else
-      MISSING="${MISSING}  - Gate 1/3: TEST_LOG expired (>1 hour old)\n"
+      MISSING="${MISSING}  - Gate 1/4: TEST_LOG expired (>1 hour old)\n"
     fi
   else
-    MISSING="${MISSING}  - Gate 1/3: TEST_LOG shows FAIL status\n"
+    MISSING="${MISSING}  - Gate 1/4: TEST_LOG shows FAIL status\n"
   fi
 else
-  MISSING="${MISSING}  - Gate 1/3: TEST_LOG missing (run tests first: bash scripts/log-test-results.sh)\n"
+  MISSING="${MISSING}  - Gate 1/4: TEST_LOG missing (run tests first: bash scripts/log-test-results.sh)\n"
 fi
 
 # ─────────────────────────────────────────
@@ -75,12 +77,12 @@ if [[ -f "$MANIFEST_FILE" ]]; then
   SIZE=$(wc -c < "$MANIFEST_FILE")
   if [ "$SIZE" -gt 20 ]; then
     GATES_PASSED=$((GATES_PASSED + 1))
-    echo -e "  ${GREEN}✓${NC} Gate 2/3: Commit manifest present"
+    echo -e "  ${GREEN}✓${NC} Gate 2/4: Commit manifest present"
   else
-    MISSING="${MISSING}  - Gate 2/3: COMMIT_MANIFEST is empty\n"
+    MISSING="${MISSING}  - Gate 2/4: COMMIT_MANIFEST is empty\n"
   fi
 else
-  MISSING="${MISSING}  - Gate 2/3: COMMIT_MANIFEST missing\n"
+  MISSING="${MISSING}  - Gate 2/4: COMMIT_MANIFEST missing\n"
 fi
 
 # ─────────────────────────────────────────
@@ -91,22 +93,40 @@ if [[ -f "$APPROVAL_FILE" ]]; then
   STORED_MSG=$(grep "^message=" "$APPROVAL_FILE" | cut -d= -f2-)
 
   if [ -z "$TIMESTAMP" ]; then
-    MISSING="${MISSING}  - Gate 3/3: COMMIT_APPROVED invalid (missing timestamp)\n"
+    MISSING="${MISSING}  - Gate 3/4: COMMIT_APPROVED invalid (missing timestamp)\n"
   else
     TS_EPOCH=$(date -d "$TIMESTAMP" +%s 2>/dev/null || echo 0)
     AGE=$((NOW_EPOCH - TS_EPOCH))
 
     if [ $AGE -gt 300 ] || [ $AGE -lt 0 ]; then
-      MISSING="${MISSING}  - Gate 3/3: Approval expired (${AGE}s ago, max 300s)\n"
+      MISSING="${MISSING}  - Gate 3/4: Approval expired (${AGE}s ago, max 300s)\n"
     elif [ "$STORED_MSG" != "$CURRENT_MSG" ]; then
-      MISSING="${MISSING}  - Gate 3/3: Commit message changed after approval\n"
+      MISSING="${MISSING}  - Gate 3/4: Commit message changed after approval\n"
     else
       GATES_PASSED=$((GATES_PASSED + 1))
-      echo -e "  ${GREEN}✓${NC} Gate 3/3: Approval fresh (${AGE}s, <5 min)"
+      echo -e "  ${GREEN}✓${NC} Gate 3/4: Approval fresh (${AGE}s, <5 min)"
     fi
   fi
 else
-  MISSING="${MISSING}  - Gate 3/3: COMMIT_APPROVED missing (run bash scripts/commit-approval.sh)\n"
+  MISSING="${MISSING}  - Gate 3/4: COMMIT_APPROVED missing (run bash scripts/commit-approval.sh)\n"
+fi
+
+# ─────────────────────────────────────────
+# Gate 4: TDD gate — code files need test files
+# ─────────────────────────────────────────
+if [[ -f "$TDD_GATE" ]]; then
+  # Run TDD gate in a subshell to capture exit code
+  TDD_EXIT=0
+  TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1) || TDD_EXIT=$?
+  if [ $TDD_EXIT -eq 0 ]; then
+    GATES_PASSED=$((GATES_PASSED + 1))
+    echo -e "  ${GREEN}✓${NC} Gate 4/4: TDD gate passed"
+  else
+    MISSING="${MISSING}  - Gate 4/4: TDD gate blocked (code without tests)\n"
+    echo "$TDD_OUTPUT"
+  fi
+else
+  MISSING="${MISSING}  - Gate 4/4: TDD gate script missing (scripts/tdd-gate.sh)\n"
 fi
 
 # ─────────────────────────────────────────
@@ -114,7 +134,7 @@ fi
 # ─────────────────────────────────────────
 if [ $GATES_PASSED -eq $GATES_TOTAL ]; then
   echo ""
-  echo -e "${GREEN}✓ All 3 gates passed. Commit allowed.${NC}"
+  echo -e "${GREEN}✓ All 4 gates passed. Commit allowed.${NC}"
   # Log success
   echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] APPROVED: ${CURRENT_MSG}" >> "$APPROVAL_LOG"
   # Cleanup

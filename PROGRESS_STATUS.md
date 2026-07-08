@@ -3,7 +3,7 @@
 > **Last updated:** 2026-07-03  
 > **Current version:** 3.0.0 (auto-generated)
 > **Status:** Released — 0 errors, 1 warning, 72 guides across 58 skills, 4 new reference files  
-> **Current plan:** **v3.0.0 RELEASED** — Universal self-improvement loop
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 6 phases: TDD enforcement → foundation repair → complete stubs → output contracts → docs honesty → release
 
 ---
 
