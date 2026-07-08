@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-07  
+> **Last updated:** 2026-07-08  
 > **Current version:** 3.1.0 (auto-generated)
 > **Status:** Released — 0 errors, 2 warnings, 72 guides across 58 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure → foundation repair → complete stubs → output contracts → docs honesty → release
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
 
 ---
 
@@ -138,7 +138,11 @@
 
 ### In Progress
 
-- **Phase 0.5: Test Infrastructure** — CI update (init tests, skill-lint), test runner (`tests/run-all.sh`), pre-commit Gate 14, Playwright package tracking, documentation.
+- **Phase 1: Foundation Repair** — Broken frontmatter, flat guide consolidation, skill directory restructuring.
+
+### Completed
+
+- **Phase 0.5: Test Infrastructure** — CI updated (init tests, TDD gate tests, skill-lint), `tests/run-all.sh` unified test runner (9 suites), pre-commit Gate 14 (v11), TDD gate enhanced (name-pairing + new-test), Playwright package files tracked, all docs updated.
 
 ### Planned
 
@@ -155,7 +159,7 @@
 | Limitation | Impact | Workaround |
 |---|---|---|---|
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
-| No automated test runner in CI | Tests pass silently or not at all | Phase 0.5 will add test runner + CI integration |
+| Eval e2e trigger-dashboard reporting bug | Test exits 0 but prints failure | Fix in Phase 1 or dedicated debug session |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---

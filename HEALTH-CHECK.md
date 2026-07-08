@@ -68,22 +68,18 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 ---
 
-## ⚠️ Warnings (2)
+## ⚠️ Warnings (1)
 
 ### W3. `.env.example` missing
 
 Convention gap. Low impact (no runtime env vars), but violates standards.
 
-### W4. Test infrastructure incomplete
-
-Phase 0 (TDD gate) is live but Phase 0.5 (test runner, CI integration, pre-commit Gate 14) is not started. No automated test suite runs in pre-commit or CI yet.
-
 ---
 
 ## Recommendations
 
-1. **Execute Phase 0.5** — Test infrastructure: CI update, test runner, pre-commit Gate 14, Playwright package tracking.
-2. **Execute Phase 1** — Foundation repair: broken frontmatter, flat guide file consolidation.
+1. **Execute Phase 1** — Foundation repair: broken frontmatter, flat guide file consolidation.
+2. **Fix eval e2e trigger-dashboard bug** — exits 0 but prints failure.
 3. **Add `.env.example`** for convention compliance.
 
 ---
