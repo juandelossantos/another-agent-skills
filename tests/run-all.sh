@@ -57,6 +57,7 @@ run_suite "CI/CD"               "bash tests/test-ci-cd-skill.sh"
 run_suite "Skill merge"         "bash tests/test-skill-merge.sh"
 run_suite "Frontend UI"         "bash tests/test-frontend-ui-skill.sh"
 run_suite "Deprecation"         "bash tests/test-deprecation-skill.sh"
+run_suite "Source-driven"       "bash tests/test-source-driven-skill.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then
