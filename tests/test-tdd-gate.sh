@@ -140,6 +140,42 @@ git -C "$REPO" add config.json
 ACTUAL=$?
 assert_exit "Config-only → PASS" 0 "$ACTUAL"
 
+# ─── Test 9: Extensionless shell script (shebang) without test → BLOCK ───
+echo ""
+echo "Test 9: Extensionless script with shebang, no test (expect BLOCK)"
+REPO=$(setup_repo 9)
+mkdir -p "$REPO/scripts/git-hooks"
+printf '#!/usr/bin/env bash\necho hello\n' > "$REPO/scripts/git-hooks/pre-commit"
+chmod +x "$REPO/scripts/git-hooks/pre-commit"
+git -C "$REPO" add scripts/git-hooks/pre-commit
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Extensionless shebang script → BLOCK" 1 "$ACTUAL"
+
+# ─── Test 10: Extensionless shell script with test → PASS ───
+echo ""
+echo "Test 10: Extensionless script with shebang, with test (expect PASS)"
+REPO=$(setup_repo 10)
+mkdir -p "$REPO/scripts/git-hooks" "$REPO/tests"
+printf '#!/usr/bin/env bash\necho hello\n' > "$REPO/scripts/git-hooks/pre-commit"
+chmod +x "$REPO/scripts/git-hooks/pre-commit"
+touch "$REPO/tests/test_pre-commit.sh"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Extensionless shebang script + test → PASS" 0 "$ACTUAL"
+
+# ─── Test 11: Binary shebang (#!/bin/sh) without test → BLOCK ───
+echo ""
+echo "Test 11: #!/bin/sh script without test (expect BLOCK)"
+REPO=$(setup_repo 11)
+printf '#!/bin/sh\necho hello\n' > "$REPO/my-tool"
+chmod +x "$REPO/my-tool"
+git -C "$REPO" add my-tool
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "#!/bin/sh script → BLOCK" 1 "$ACTUAL"
+
 # ─── Summary ───
 echo ""
 echo "──────────────────────────────────"

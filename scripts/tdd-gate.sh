@@ -38,6 +38,9 @@ TEST_PATTERNS=(
 
 is_code_file() {
   local file="$1"
+  local filepath="${REPO_DIR}/${file}"
+
+  # Check extension-based patterns first
   for pattern in "${CODE_PATTERNS[@]}"; do
     # Convert glob to regex: * -> .* , anchor with ^ and $
     local regex="^${pattern//\*/.*}$"
@@ -45,6 +48,21 @@ is_code_file() {
       return 0
     fi
   done
+
+  # Check if file is in scripts/git-hooks/ directory (extensionless shell scripts)
+  if [[ "$file" =~ ^scripts/git-hooks/ ]]; then
+    return 0
+  fi
+
+  # Check if file has a shebang (#!/usr/bin/env bash, #!/bin/bash, #!/bin/sh, etc.)
+  if [[ -f "$filepath" ]]; then
+    local first_line
+    first_line=$(head -1 "$filepath" 2>/dev/null || true)
+    if [[ "$first_line" =~ ^\#\!/(usr/bin/env\ )?(bin/|usr/bin/)?(bash|sh|zsh|dash|ksh|fish|python|python3|ruby|node|perl|php)(\ |$) ]]; then
+      return 0
+    fi
+  fi
+
   return 1
 }
 
