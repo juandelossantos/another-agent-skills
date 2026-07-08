@@ -187,7 +187,7 @@ flowchart TD
 
 **Implementation:**
 - `scripts/design-gate.sh` — checks DESIGN.md + skill-loaded marker
-- Skills: `soft-premium-ui`, `minimalist-ui`, `industrial-brutalist-ui`, `visual-frontend-mastery`
+- Skills: `soft-premium-ui`, `minimalist-ui`, `industrial-brutalist-ui`, `frontend-ui-engineering`
 
 **See also:** Rule 0d (Design Gate), `SOUL.md` Principle 1
 

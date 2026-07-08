@@ -207,8 +207,8 @@ User: "yes commit" → Agent commits Change C
 ```markdown
 # ANTI-PATTERN: Lazy loading bypass
 # Agent reads 20 skill files into context at session start
-skills = ["frontend-ui-engineering", "visual-frontend-mastery", 
-          "soft-premium-ui", "audit-skill", "critique-skill"...]
+skills = ["frontend-ui-engineering", "soft-premium-ui", 
+          "audit-skill", "critique-skill"...]
 for skill in skills:
     load_full_skill(skill)  # 5000+ tokens consumed
 ```

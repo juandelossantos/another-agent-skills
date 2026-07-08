@@ -23,7 +23,7 @@
 | Layer | Skills | Purpose |
 |---|---|---|
 | **Foundation** | `engineering-fundamentals`, `context-engineering`, `user-onboarding` | Universal philosophy, context setup, preferences |
-| **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile`, `frontend-desktop`, `frontend-ui-engineering`, `visual-frontend-mastery` | Web, PWA, mobile, desktop, UI components, design |
+| **Frontend** | `frontend-web`, `frontend-pwa`, `frontend-mobile`, `frontend-desktop`, `frontend-ui-engineering` | Web, PWA, mobile, desktop, UI components, design |
 | **Backend** | `backend-api-mastery`, `api-and-interface-design`, `cli-tools` | API, DB, auth, interfaces, CLI |
 | **DevOps** | `fullstack-shipping`, `ci-cd-and-automation`, `shipping-and-launch` | CI/CD, deploy, launch checklists |
 | **Process** | `spec-driven-development`, `architecture-analysis`, `planning-and-task-breakdown`, `incremental-implementation`, `source-driven-development`, `doubt-driven-development`, `multi-agent-orchestration`, `deprecation-and-migration` | Planning, analysis, implementation, verification |
