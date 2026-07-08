@@ -46,7 +46,7 @@
 | `frontend-desktop` | 236 | 3 |  |
 | `frontend-mobile` | 240 | 3 |  |
 | `frontend-pwa` | 196 | 4 |  |
-| `frontend-ui-engineering` | 44 | 0 |  |
+| `frontend-ui-engineering` | 119 | 2 |  |
 | `frontend-web` | 233 | 8 |  |
 | `fullstack-shipping` | 178 | 3 |  |
 | `git-init-and-versioning` | 243 | 6 |  |

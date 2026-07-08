@@ -55,6 +55,7 @@ run_suite "Observability"       "bash tests/test-observability-skill.sh"
 run_suite "API design"          "bash tests/test-api-design-skill.sh"
 run_suite "CI/CD"               "bash tests/test-ci-cd-skill.sh"
 run_suite "Skill merge"         "bash tests/test-skill-merge.sh"
+run_suite "Frontend UI"         "bash tests/test-frontend-ui-skill.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then
