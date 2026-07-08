@@ -51,6 +51,7 @@ run_suite "Pre-flight"          "bash tests/test-pre-flight.sh"
 run_suite "Flat files"          "bash tests/test-flat-files.sh"
 run_suite "Guide refs"          "bash tests/test-guide-refs.sh"
 run_suite "Skill content"       "bash tests/test-performance-skill.sh"
+run_suite "Observability"       "bash tests/test-observability-skill.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then
