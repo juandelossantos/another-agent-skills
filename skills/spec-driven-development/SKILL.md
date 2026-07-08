@@ -146,7 +146,7 @@ P5:    Subagent writes SPEC.md
 P6-P7: Subagent plans + breaks tasks
 P9:    Parallel subagents per module
 ```
-Each subagent receives only relevant skill. See `multi-agent-orchestration/GUIDE.md`.
+Each subagent receives only relevant skill. See `multi-agent-orchestration/guides/GUIDE.md`.
 
 ---
 

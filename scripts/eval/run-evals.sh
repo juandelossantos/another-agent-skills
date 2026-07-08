@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
+RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; YELLOW=$'\033[1;33m'; CYAN=$'\033[0;36m'; NC=$'\033[0m'
 SKILLS_DIR="${SKILLS_DIR:-skills}"
 SCHEMA_FILE="${SCHEMA_FILE:-scripts/eval/schema.json}"
 TOTAL=0; PASSED=0; FAILED=0; SKIPPED=0

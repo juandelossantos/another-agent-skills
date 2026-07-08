@@ -90,11 +90,11 @@ This skill covers the patterns that separate professional CLI tools from ad-hoc 
 
 ## Language-Specific Patterns
 
-→ See `LANGUAGE-GUIDE.md` for code examples in Node.js (commander/clack), Python (click), Rust (clap), and Go (cobra).
+→ See `guides/LANGUAGE-GUIDE.md` for code examples in Node.js (commander/clack), Python (click), Rust (clap), and Go (cobra).
 
 ## Anti-Patterns
 
-→ See `ANTI-SLOP-GUIDE.md` for CLI-specific anti-patterns and best practices.
+→ See `guides/ANTI-SLOP-GUIDE.md` for CLI-specific anti-patterns and best practices.
 
 ## Verification
 

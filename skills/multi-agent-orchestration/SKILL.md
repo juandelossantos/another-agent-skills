@@ -47,7 +47,7 @@ metadata:
 ## Load Order
 
 1. This SKILL.md (index)
-2. `GUIDE.md` — Full patterns, real examples, error recovery
+2. `guides/GUIDE.md` — Full patterns, real examples, error recovery
 3. If parallelizing: reference target skill per subagent (`frontend-web`, `backend-api-mastery`, etc.)
 
 ---

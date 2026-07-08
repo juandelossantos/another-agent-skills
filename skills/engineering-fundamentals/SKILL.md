@@ -204,7 +204,7 @@ Code before requirements, assumptions unsurfaced, contracts skipped, hardcoded v
 
 ## Platform Skill Template
 
-Every platform skill follows `PLATFORM-SKILL-TEMPLATE.md` — read it before creating. Core structure: Stack Detection → Discovery → Contracts → Direction → Anti-Slop → Build → QA → Verification. Each phase references `engineering-fundamentals` + adds platform-specific rules.
+Every platform skill follows `guides/PLATFORM-SKILL-TEMPLATE.md` — read it before creating.
 
 ---
 
