@@ -115,10 +115,5 @@ jobs:
       - name: Run sync hooks tests
         run: bash tests/test-sync-hooks.sh
 
-      - name: Run project test runner (if exists)
-        run: |
-          if [ -f tests/run-all.sh ]; then
-            bash tests/run-all.sh
-          else
-            echo "tests/run-all.sh not yet created — skipping"
-          fi
+      - name: Run Gate 14 behavioral tests
+        run: bash tests/test-pre-commit-gate-14.sh
