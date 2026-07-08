@@ -3,7 +3,7 @@
 > **Last updated:** 2026-07-08  
 > **Current version:** 3.1.1 (auto-generated)
 > **Status:** Released — 0 errors, 2 warnings, 124 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs (5/15 done) 🔜 → output contracts → docs honesty → release
 
 ---
 
@@ -137,11 +137,12 @@
 
 ### In Progress
 
-- **Phase 1: Foundation Repair** — Broken frontmatter, flat guide consolidation, skill directory restructuring.
+- **Phase 2: Complete Critical Stubs (5/15 done)** — Expanding 15 stub skills with actionable content. Completed: performance-optimization, observability, api-design, ci-cd, frontend-ui-engineering. Merged: visual-frontend-mastery (57 total skills).
 
 ### Completed
 
-- **Phase 0.5: Test Infrastructure** — CI updated (init tests, TDD gate tests, skill-lint), `tests/run-all.sh` unified test runner (9 suites), pre-commit Gate 14 (v11), TDD gate enhanced (name-pairing + new-test), Playwright package files tracked, all docs updated.
+- **Phase 1: Foundation Repair** — 29 descriptions quoted (YAML-safe), 4 stray lines cleaned, 23 flat guides moved to `guides/`. Pre-flight blocks on `main`. ANSI colors fixed in all scripts. 13/13 test suites.
+- **Phase 0.5: Test Infrastructure** — CI updated, `tests/run-all.sh` unified test runner (9 suites), pre-commit Gate 14, TDD gate enhanced (name-pairing + new-test), Playwright package files tracked, all docs updated.
 
 ### Planned
 
@@ -158,7 +159,6 @@
 | Limitation | Impact | Workaround |
 |---|---|---|---|
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
-| Eval e2e trigger-dashboard reporting bug | Test exits 0 but prints failure | Fix in Phase 1 or dedicated debug session |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---

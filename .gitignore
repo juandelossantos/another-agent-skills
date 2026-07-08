@@ -13,6 +13,7 @@ development/
 /.cursorrules
 .agents/
 .claude/
+.opencode/skills/
 
 # Generated artifacts (not project source)
 .last-update-check
