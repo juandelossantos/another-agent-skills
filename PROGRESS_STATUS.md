@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-07-08  
 > **Current version:** 3.1.1 (auto-generated)
-> **Status:** Released — 0 errors, 2 warnings, 72 guides across 58 skills  
+> **Status:** Released — 0 errors, 2 warnings, 124 guides across 58 skills  
 > **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
 
 ---
@@ -28,7 +28,7 @@
 | `backend-api-mastery` | 195 | 5 |  |
 | `browser-testing-with-devtools` | 74 | 0 |  |
 | `ci-cd-and-automation` | 35 | 0 |  |
-| `clarify-skill` | 91 | 2 |  |
+| `clarify-skill` | 91 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
 | `code-simplification` | 36 | 0 |  |
@@ -37,12 +37,12 @@
 | `customize-opencode` | 34 | 0 | Edit or create OpenCode's own configuration files: opencode.json, files under |
 | `debugging-and-error-recovery` | 90 | 5 |  |
 | `debugging-three-strikes` | 20 | 1 |  |
-| `delight-skill` | 149 | 2 |  |
+| `delight-skill` | 149 | 4 |  |
 | `deprecation-and-migration` | 30 | 0 |  |
 | `dev-environment-audit` | 152 | 4 |  |
 | `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
-| `engineering-fundamentals` | 226 | 4 |  |
+| `engineering-fundamentals` | 226 | 6 |  |
 | `frontend-desktop` | 236 | 3 |  |
 | `frontend-mobile` | 240 | 3 |  |
 | `frontend-pwa` | 196 | 4 |  |
@@ -51,7 +51,7 @@
 | `fullstack-shipping` | 178 | 3 |  |
 | `git-init-and-versioning` | 243 | 6 |  |
 | `git-workflow-and-versioning` | 181 | 3 |  |
-| `hard-skill` | 149 | 2 |  |
+| `hard-skill` | 149 | 4 |  |
 | `idea-refine` | 39 | 0 |  |
 | `incremental-implementation` | 89 | 2 |  |
 | `industrial-brutalist-ui` | 75 | 0 |  |
@@ -59,7 +59,7 @@
 | `minimalist-ui` | 68 | 0 |  |
 | `multi-agent-orchestration` | 81 | 1 |  |
 | `observability-and-instrumentation` | 30 | 0 |  |
-| `optimize-skill` | 139 | 2 |  |
+| `optimize-skill` | 139 | 4 |  |
 | `output-skill` | 48 | 0 |  |
 | `performance-optimization` | 30 | 0 |  |
 | `planning-and-task-breakdown` | 90 | 2 |  |
