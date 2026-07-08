@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v3.0.0](https://img.shields.io/badge/version-3.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v3.1.0](https://img.shields.io/badge/version-3.1.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -61,7 +61,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 New in v3.0.0: Universal Self-Improvement Loop** — The agent audits itself. `universal-audit.sh` detects issues in any project/stack, `self-improvement` skill diagnoses and proposes fixes, generates ADRs, and executes with human approval. [Learn more →](#whats-new-in-v300--universal-self-improvement-loop)
+> **🧠 New in v3.1.0: TDD Enforcement Gate** — Test-Driven Development is now mechanically enforced at commit time. The commit-msg hook rejects changes to shell scripts, JavaScript, and Python files unless corresponding test files exist. [Learn more →](#whats-new-in-v310--tdd-enforcement-gate)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -113,26 +113,28 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v3.0.0 — Universal Self-Improvement Loop
+## What's New in v3.1.0 — TDD Enforcement Gate
 
-### ⭐ The Agent That Improves Any Project
+### ⚙️ Test-Driven Development, Mechanically Enforced
 
-v3.0.0 takes self-improvement to every project, every stack. The loop is now fully config-driven and stack-agnostic — no markdown-specific assumptions, no Node/Python lock-in, no per-project setup.
+v3.1.0 adds a **TDD enforcement gate** to the commit pipeline. The commit-msg hook now rejects changes to shell scripts, JavaScript, and Python files unless corresponding test files exist. No more skipped tests. No more "I'll add them later."
 
 ```mermaid
 flowchart LR
-    A["1. Config"] --> B["2. Scan"]
-    B --> C["3. Diagnose"]
-    C --> D["4. Propose + ADR"]
-    D --> E["5. Execute (human OK)"]
-    E --> A
+    A["1. Detect changed files"] --> B{"2. Code file?"}
+    B -->|No| C["✅ Allow"]
+    B -->|Yes| D{"3. Test file exists?"}
+    D -->|Yes| E["✅ Allow"]
+    D -->|No| F["❌ BLOCKED"]
+    F --> G["Add test or use OVERRIDE"]
 ```
 
-- **`universal-audit.sh`** — Config-driven detection engine. Reads `.audit-config.yaml` or `STACK_CONFIG.md` to discover project structure, select relevant checks, and skip irrelevant ones. Works with Node, Python, Rust, Go, Ruby, Dart, or any stack.
-- **`self-improvement` skill (v3)** — Stack-agnostic. Detects CI health, doc drift, gate drift, coverage gaps, and anti-patterns regardless of language or framework.
-- **4 comprehensive guides**: [`UNIVERSAL-USAGE.md`](skills/self-improvement/guides/UNIVERSAL-USAGE.md), [`CONFIG-REFERENCE.md`](skills/self-improvement/guides/CONFIG-REFERENCE.md), [`EXAMPLE-NODE.md`](skills/self-improvement/guides/EXAMPLE-NODE.md), [`EXAMPLE-PYTHON.md`](skills/self-improvement/guides/EXAMPLE-PYTHON.md)
-- **`init-agents` includes loop by default** — Every new project starts with self-improvement wired in from day one
-- **Behavioral golden test + domain-edge tests** — Validates loop behavior across language ecosystems, not just happy path
+- **`scripts/tdd-gate.sh`** — Standalone TDD enforcement gate. Detects `.sh`, `.js`, `.py` extensions and shebang-based shell scripts (`#!/usr/bin/env bash`, `#!/bin/sh`). Also covers files in `scripts/git-hooks/`.
+- **`scripts/git-hooks/commit-msg` v7** — Four-gate approval: TEST_LOG → COMMIT_MANIFEST → COMMIT_APPROVED (<5 min) → **TDD gate**.
+- **`scripts/git-hooks/pre-commit` v10** — 13 sequential gates, renumbered with no gaps (fixed duplicate-6/missing-10 bug).
+- **`scripts/init-agents.sh`** — New `sync-hooks` subcommand: copies hooks from `scripts/git-hooks/` to `.git/hooks/`, backs up existing, makes executable.
+- **25 new tests** across 3 suites: `test-tdd-gate.sh` (11), `test-pre-commit-gates.sh` (7), `test-sync-hooks.sh` (7). Total project coverage: 37 tests, all passing.
+- **`development/SPEC-TDD-GATE.md`** — Full specification: decision tree, file patterns, edge cases, override mechanism, block message format, exit codes, logging spec.
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
 
@@ -258,7 +260,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.0.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.1.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

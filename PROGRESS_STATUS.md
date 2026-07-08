@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-03  
-> **Current version:** 3.0.0 (auto-generated)
+> **Current version:** 3.1.0 (auto-generated)
 > **Status:** Released — 0 errors, 1 warning, 72 guides across 58 skills, 4 new reference files  
 > **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 6 phases: TDD enforcement → foundation repair → complete stubs → output contracts → docs honesty → release
 
@@ -173,7 +173,8 @@
 ## Version History
 
 | Version | Date | Key Changes |
-|---|---|---|---|---|
+|---|---|---|---|---|---|
+| **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v7 (4 gates), pre-commit v10 (13 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
 | **2.5.0** | 2026-06-23 | Phase 10: Integration & Hardening. test-e2e.sh E2E integration test. run-regression.sh --skill flag. Pre-commit Gate 12 enhanced with dashboard + regression checks. |
 | **2.4.0** | 2026-06-22 | Phase 9: Advanced Evaluation. Trigger accuracy dashboard, regression test suite, LLM-as-Judge pattern. 3 new scripts in scripts/eval/. EVAL-GUIDE.md updated. |
 | **2.3.0** | 2026-06-22 | Phase 8: Documentation & Standard Compliance. docs/EVAL-GUIDE.md (280 lines, 9 sections). agentskills.io compliance badge. Landing page + docs + i18n updated. Eval system linked from 3 skills. |

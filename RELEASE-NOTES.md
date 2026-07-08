@@ -1,5 +1,24 @@
 # Release Notes
 
+## 3.1.0 (2026-07-07) — TDD Enforcement Gate
+
+### New
+- `scripts/tdd-gate.sh` — Standalone TDD enforcement gate. Detects `.sh`, `.js`, `.py` extensions plus shebang-based shell scripts (`#!/usr/bin/env bash`, `#!/bin/sh`) and `scripts/git-hooks/` directory. Blocks commits that modify code files without corresponding test files.
+- `scripts/git-hooks/commit-msg` v7 — Four-gate approval pipeline: TEST_LOG → COMMIT_MANIFEST → COMMIT_APPROVED (<5 min) → **TDD gate** (Gate 4). TDD override via commit message body (`OVERRIDE: reason`).
+- `scripts/git-hooks/pre-commit` v10 — 13 sequential gates (1-13, no gaps). Fixed duplicate gate 6 / missing gate 10 bug from v9.
+- `scripts/init-agents.sh sync-hooks` — New subcommand: copies hooks from `scripts/git-hooks/` to `.git/hooks/`, backs up existing hooks, makes executable.
+- `development/SPEC-TDD-GATE.md` — Full specification: decision tree, file patterns, edge cases, override mechanism, block message format, 5 exit codes, logging spec.
+- 3 test suites (25 tests): `test-tdd-gate.sh` (11), `test-pre-commit-gates.sh` (7), `test-sync-hooks.sh` (7). All passing.
+
+### Changed
+- `scripts/pr-review-checklist.sh` — Removed stale `sha256` check (commit-msg uses time-window approval, not SHA tokens).
+- All documentation surfaces updated: README, AGENTS.md, HEALTH-CHECK.md, index.html, docs/enforcement.html, docs/HARNESS.md, i18n EN/ES (13 files).
+- `scripts/git-hooks/pre-commit` gates renumbered: v9 → v10, 12 gates → 13 sequential gates (1-13), Test Runner gate added for Phase 0.5.
+
+### Fixed
+- **Extensionless shell scripts** — TDD gate now detects shebang lines (`#!/usr/bin/env bash`, `#!/bin/sh`) and `scripts/git-hooks/` directory entries. 3 new regression tests.
+- **Pre-commit gate numbering** — Duplicate gate 6 and missing gate 10 fixed. All 13 gates sequential.
+
 ## 3.0.0 (2026-07-XX) — Universal Self-Improvement Loop
 
 ### New

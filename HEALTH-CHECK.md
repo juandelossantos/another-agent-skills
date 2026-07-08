@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-07-03
-**Version:** 3.0.0
+**Version:** 3.1.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v3.0.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v3.1.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 54 guides | Distributed across 57 skills |
 | Gate count | ✅ 13 pre-commit gates, 4 commit-msg gates | Landing, docs, i18n EN/ES |
 
