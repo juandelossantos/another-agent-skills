@@ -69,7 +69,7 @@ Run `init-agents` in every new project — it:
 | **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 54 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v4 (TDD gate), commit-approval.sh |
 | **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
 
 [**Full Harness architecture →**](./docs/HARNESS.md)
@@ -98,7 +98,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 **Six Layers Beyond Prompts:**
 
 1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 14 gates (including Test Runner). Four-gate approval via commit-msg v7 (including TDD enforcement). No other framework does this.
+2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 14 gates (including Test Runner). Single-gate TDD enforcement via commit-msg v4. No other framework does this.
 3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
 4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
 5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
@@ -312,7 +312,7 @@ If it fails, ask the user before taking any action.
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
 | [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v11 (14 gates) |
-| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v7 (four-gate approval: TEST_LOG + MANIFEST + APPROVED + TDD gate) |
+| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v4 (single TDD gate — user runs git commit directly) |
 | [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |

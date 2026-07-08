@@ -218,6 +218,38 @@ git -C "$REPO" add .
 ACTUAL=$?
 assert_exit "New matching test + pre-existing → PASS" 0 "$ACTUAL"
 
+# ─── Test 15: Code created BEFORE test → BLOCK (wrong TDD order) ───
+echo ""
+echo "Test 15: Code before test (expect BLOCK)"
+REPO=$(setup_repo 15)
+touch -t 202607011000 "$REPO/foo.py"
+touch -t 202607011001 "$REPO/test_foo.py"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Code before test → BLOCK (code mtime older)" 1 "$ACTUAL"
+
+# ─── Test 16: Test created BEFORE code → PASS (correct TDD order) ───
+echo ""
+echo "Test 16: Test before code (expect PASS)"
+REPO=$(setup_repo 16)
+touch -t 202607011000 "$REPO/test_bar.py"
+touch -t 202607011001 "$REPO/bar.py"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Test before code → PASS (correct TDD)" 0 "$ACTUAL"
+
+# ─── Test 17: Same timestamp → PASS (can't determine order) ───
+echo ""
+echo "Test 17: Same timestamp (expect PASS)"
+REPO=$(setup_repo 17)
+touch -t 202607011000 "$REPO/baz.js" "$REPO/test_baz.js"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Same timestamp → PASS" 0 "$ACTUAL"
+
 # ─── Summary ───
 echo ""
 echo "──────────────────────────────────"

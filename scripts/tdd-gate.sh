@@ -299,6 +299,48 @@ if ! $HAS_NEW_TEST; then
   exit 1
 fi
 
+# ─── Staging-Order Check ───
+# Verify that for new code files, the test was created BEFORE the code
+# (TDD: test first, then code). Uses file mtime comparison.
+ORDER_FAIL=false
+for cfile in "${CODE_FILES[@]}"; do
+  # Only check new code files (not in HEAD)
+  if ! is_new_file "$cfile"; then
+    continue
+  fi
+  CODE_MTIME=$(stat -c '%Y' "$cfile" 2>/dev/null || echo 0)
+  [ "$CODE_MTIME" -eq 0 ] && continue
+  for tfile in "${TEST_FILES[@]}"; do
+    if name_matches_code "$cfile" "$tfile"; then
+      TEST_MTIME=$(stat -c '%Y' "$tfile" 2>/dev/null || echo 0)
+      [ "$TEST_MTIME" -eq 0 ] && continue
+      if [ "$TEST_MTIME" -gt "$CODE_MTIME" ]; then
+        echo "  - $tfile (mtime=$TEST_MTIME) is newer than $cfile (mtime=$CODE_MTIME)"
+        echo "    Test was created/modified after code. TDD requires test first."
+        ORDER_FAIL=true
+      fi
+      break
+    fi
+  done
+done
+
+if $ORDER_FAIL; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════╗"
+  echo "║  TDD GATE: Staging-order violation              ║"
+  echo "╚══════════════════════════════════════════════════╝"
+  echo ""
+  echo "New code files were created before their matching tests."
+  echo "TDD requires: write test first, see it fail, then write code."
+  echo ""
+  echo "Options:"
+  echo "  1. Remove the code file, write the test first, then re-create code"
+  echo "  2. Override: add OVERRIDE: reason to commit body"
+  echo ""
+  log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "staging-order"
+  exit 1
+fi
+
 # Code + matching new test staged → PASS
 log_gate "PASS" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "no"
 exit 0

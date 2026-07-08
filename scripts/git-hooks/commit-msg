@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Four-Gate Approval Check (v7)
-# Verifies FOUR conditions before allowing a commit:
-# 1. COMMIT_APPROVED — timestamp <5 min, message matches
-# 2. COMMIT_MANIFEST — exists, has content
-# 3. TEST_LOG — exists, status=PASS, recent
-# 4. TDD_GATE — code files must have test files staged
+# commit-msg — Another Agent Skills Single-Gate TDD Check (v4)
+# Single gate: TDD enforcement only.
+# All other approval checks removed — user runs git commit directly.
+# Pre-commit hook (v11) runs before this for branch/TDD/test gates.
 #
-# Logs every approval attempt to .git/APPROVAL_LOG for audit.
+# Flow:
+# 1. Agent stages files and presents manifest in chat
+# 2. User runs: git commit -m "message"
+# 3. commit-msg hook validates TDD gate
+#
+# No COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG required.
+# The user running git commit IS the approval.
 
 set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
-APPROVAL_FILE="${REPO_ROOT}/.git/COMMIT_APPROVED"
-MANIFEST_FILE="${REPO_ROOT}/.git/COMMIT_MANIFEST"
-TEST_LOG="${REPO_ROOT}/.git/TEST_LOG"
 APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
+TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
 
 RED='\033[0;31m'
@@ -23,127 +25,33 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 CURRENT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
-NOW_EPOCH=$(date +%s)
-
-fail() {
-  local reason="$1"
-  echo ""
-  echo "╔════════════════════════════════════════════════════════════╗"
-  echo "║  ❌ COMMIT BLOCKED                                       ║"
-  echo "╠════════════════════════════════════════════════════════════╣"
-  echo "║  $reason"
-  echo "╠════════════════════════════════════════════════════════════╣"
-  echo "║  Missing gates are listed above. Complete each before     ║"
-  echo "║  attempting to commit again.                             ║"
-  echo "╚════════════════════════════════════════════════════════════╝"
-  echo "  Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  echo "  Message: ${CURRENT_MSG}"
-  echo ""
-  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] BLOCKED: ${CURRENT_MSG} — ${reason}" >> "$APPROVAL_LOG"
-  exit 1
-}
-
-GATES_PASSED=0
-GATES_TOTAL=4
-MISSING=""
-TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 
 # ─────────────────────────────────────────
-# Gate 1: TEST_LOG exists, status=PASS, recent
-# ─────────────────────────────────────────
-if [[ -f "$TEST_LOG" ]]; then
-  STATUS=$(grep "^status=" "$TEST_LOG" | cut -d= -f2-)
-  if [[ "$STATUS" == "PASS" ]]; then
-    TS=$(grep "^timestamp=" "$TEST_LOG" | cut -d= -f2-)
-    TS_EPOCH=$(date -d "$TS" +%s 2>/dev/null || echo 0)
-    AGE=$((NOW_EPOCH - TS_EPOCH))
-    if [ $AGE -le 3600 ]; then
-      GATES_PASSED=$((GATES_PASSED + 1))
-      echo -e "  ${GREEN}✓${NC} Gate 1/4: Tests passed (${AGE}s ago)"
-    else
-      MISSING="${MISSING}  - Gate 1/4: TEST_LOG expired (>1 hour old)\n"
-    fi
-  else
-    MISSING="${MISSING}  - Gate 1/4: TEST_LOG shows FAIL status\n"
-  fi
-else
-  MISSING="${MISSING}  - Gate 1/4: TEST_LOG missing (run tests first: bash scripts/log-test-results.sh)\n"
-fi
-
-# ─────────────────────────────────────────
-# Gate 2: COMMIT_MANIFEST exists, has content
-# ─────────────────────────────────────────
-if [[ -f "$MANIFEST_FILE" ]]; then
-  SIZE=$(wc -c < "$MANIFEST_FILE")
-  if [ "$SIZE" -gt 20 ]; then
-    GATES_PASSED=$((GATES_PASSED + 1))
-    echo -e "  ${GREEN}✓${NC} Gate 2/4: Commit manifest present"
-  else
-    MISSING="${MISSING}  - Gate 2/4: COMMIT_MANIFEST is empty\n"
-  fi
-else
-  MISSING="${MISSING}  - Gate 2/4: COMMIT_MANIFEST missing\n"
-fi
-
-# ─────────────────────────────────────────
-# Gate 3: COMMIT_APPROVED exists, <5 min, message matches
-# ─────────────────────────────────────────
-if [[ -f "$APPROVAL_FILE" ]]; then
-  TIMESTAMP=$(grep "^timestamp=" "$APPROVAL_FILE" | cut -d= -f2-)
-  STORED_MSG=$(grep "^message=" "$APPROVAL_FILE" | cut -d= -f2-)
-
-  if [ -z "$TIMESTAMP" ]; then
-    MISSING="${MISSING}  - Gate 3/4: COMMIT_APPROVED invalid (missing timestamp)\n"
-  else
-    TS_EPOCH=$(date -d "$TIMESTAMP" +%s 2>/dev/null || echo 0)
-    AGE=$((NOW_EPOCH - TS_EPOCH))
-
-    if [ $AGE -gt 300 ] || [ $AGE -lt 0 ]; then
-      MISSING="${MISSING}  - Gate 3/4: Approval expired (${AGE}s ago, max 300s)\n"
-    elif [ "$STORED_MSG" != "$CURRENT_MSG" ]; then
-      MISSING="${MISSING}  - Gate 3/4: Commit message changed after approval\n"
-    else
-      GATES_PASSED=$((GATES_PASSED + 1))
-      echo -e "  ${GREEN}✓${NC} Gate 3/4: Approval fresh (${AGE}s, <5 min)"
-    fi
-  fi
-else
-  MISSING="${MISSING}  - Gate 3/4: COMMIT_APPROVED missing (run bash scripts/commit-approval.sh)\n"
-fi
-
-# ─────────────────────────────────────────
-# Gate 4: TDD gate — code files need test files
+# Gate 1: TDD gate — code files need test files
 # ─────────────────────────────────────────
 if [[ -f "$TDD_GATE" ]]; then
-  # Run TDD gate in a subshell to capture exit code
   TDD_EXIT=0
   TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1) || TDD_EXIT=$?
   if [ $TDD_EXIT -eq 0 ]; then
-    GATES_PASSED=$((GATES_PASSED + 1))
-    echo -e "  ${GREEN}✓${NC} Gate 4/4: TDD gate passed"
+    echo -e "  ${GREEN}✓${NC} TDD gate passed"
   else
-    MISSING="${MISSING}  - Gate 4/4: TDD gate blocked (code without tests)\n"
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  ❌ COMMIT BLOCKED — TDD gate failed                     ║"
+    echo "╠════════════════════════════════════════════════════════════╣"
+    echo "║  Code files need matching test files.                     ║"
+    echo "║  See output above for details.                            ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
     echo "$TDD_OUTPUT"
+    echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] TDD_BLOCKED: ${CURRENT_MSG}" >> "$APPROVAL_LOG"
+    exit 1
   fi
 else
-  MISSING="${MISSING}  - Gate 4/4: TDD gate script missing (scripts/tdd-gate.sh)\n"
+  echo "  ${YELLOW}−${NC} TDD gate script not found — skipped"
 fi
 
-# ─────────────────────────────────────────
-# Result
-# ─────────────────────────────────────────
-if [ $GATES_PASSED -eq $GATES_TOTAL ]; then
-  echo ""
-  echo -e "${GREEN}✓ All 4 gates passed. Commit allowed.${NC}"
-  # Log success
-  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] APPROVED: ${CURRENT_MSG}" >> "$APPROVAL_LOG"
-  # Cleanup
-  rm -f "$APPROVAL_FILE" "$MANIFEST_FILE"
-  exit 0
-else
-  echo ""
-  echo -e "${RED}✗ Gates passed: ${GATES_PASSED}/${GATES_TOTAL}${NC}"
-  echo ""
-  echo -e "${MISSING}" | head -10
-  fail "Commit blocked: not all gates passed."
-fi
+echo ""
+echo -e "${GREEN}✓ Commit allowed.${NC}"
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] ALLOWED: ${CURRENT_MSG}" >> "$APPROVAL_LOG"
+exit 0
