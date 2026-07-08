@@ -3,7 +3,7 @@
 > **Last updated:** 2026-07-08  
 > **Current version:** 3.1.1 (auto-generated)
 > **Status:** Released — 0 errors, 2 warnings, 124 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs (5/15 done) 🔜 → output contracts → docs honesty → release
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs (6/15 done) 🔜 → output contracts → docs honesty → release
 
 ---
 
@@ -38,7 +38,7 @@
 | `debugging-and-error-recovery` | 90 | 5 |  |
 | `debugging-three-strikes` | 20 | 1 |  |
 | `delight-skill` | 149 | 4 |  |
-| `deprecation-and-migration` | 30 | 0 |  |
+| `deprecation-and-migration` | 94 | 2 |  |
 | `dev-environment-audit` | 152 | 4 |  |
 | `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
@@ -137,7 +137,7 @@
 
 ### In Progress
 
-- **Phase 2: Complete Critical Stubs (5/15 done)** — Expanding 15 stub skills with actionable content. Completed: performance-optimization, observability, api-design, ci-cd, frontend-ui-engineering. Merged: visual-frontend-mastery (57 total skills).
+- **Phase 2: Complete Critical Stubs (6/15 done)** — Expanding 15 stub skills with actionable content. Completed: performance-optimization, observability, api-design, ci-cd, frontend-ui, deprecation. Merged: visual-frontend-mastery.
 
 ### Completed
 
