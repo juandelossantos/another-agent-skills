@@ -1,0 +1,437 @@
+- generic [active] [ref=f6e1]:
+  - link "Skip to content" [ref=f6e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f6e3]:
+    - navigation [ref=f6e4]:
+      - link "Another Agent Skills home" [ref=f6e5] [cursor=pointer]:
+        - /url: "#"
+        - text: Another Agent Skills
+      - list [ref=f6e6]:
+        - listitem [ref=f6e7]:
+          - link "How It Works" [ref=f6e8] [cursor=pointer]:
+            - /url: "#howitworks"
+        - listitem [ref=f6e9]:
+          - link "The Harness" [ref=f6e10] [cursor=pointer]:
+            - /url: "#enforcement"
+        - listitem [ref=f6e11]:
+          - link "Skills" [ref=f6e12] [cursor=pointer]:
+            - /url: "#skills"
+        - listitem [ref=f6e13]:
+          - link "Quick Start" [ref=f6e14] [cursor=pointer]:
+            - /url: "#quickstart"
+        - listitem [ref=f6e15]:
+          - link "FAQ" [ref=f6e16] [cursor=pointer]:
+            - /url: "#faq"
+        - listitem [ref=f6e17]:
+          - link "Docs" [ref=f6e18] [cursor=pointer]:
+            - /url: docs/
+        - listitem [ref=f6e19]:
+          - link "GitHub repository" [ref=f6e20] [cursor=pointer]:
+            - /url: https://github.com/juandelossantos/another-agent-skills
+            - img [ref=f6e21]
+      - generic [ref=f6e23]:
+        - button "Toggle language" [ref=f6e24] [cursor=pointer]: ES
+        - button "Toggle theme" [ref=f6e25] [cursor=pointer]: ☾
+  - main [ref=f6e26]:
+    - region "Hero" [ref=f6e27]:
+      - generic [ref=f6e28]:
+        - paragraph [ref=f6e29]: /// system
+        - heading "Turn AI agents into disciplined senior engineers." [level=1] [ref=f6e30]:
+          - text: Turn AI agents into
+          - text: disciplined senior engineers.
+        - paragraph [ref=f6e31]: 58 skills. 9 gates. One harness. The factory model for AI-assisted development.
+        - generic [ref=f6e32]:
+          - generic [ref=f6e37]: install.sh — zsh
+          - generic [ref=f6e38]:
+            - generic [ref=f6e404]:
+              - generic [ref=f6e405]:
+                - generic [ref=f6e406]: ~ $
+                - generic [ref=f6e407]: git clone https://github.com/juandelossantos/another-agent-skills.git
+              - generic [ref=f6e408]:
+                - generic [ref=f6e409]: ~ $
+                - generic [ref=f6e410]: cd another-agent-skills
+              - generic [ref=f6e411]:
+                - generic [ref=f6e412]: ~ $
+                - generic [ref=f6e413]: bash install.sh
+            - generic [ref=f6e414]:
+              - generic [ref=f6e415]: ✓ Installing 58 skills...
+              - generic [ref=f6e416]: ✓ Wiring 6-stage lifecycle...
+              - generic [ref=f6e417]: ✓ DONE. Run init-agents in any project.
+        - generic [ref=f6e40]:
+          - generic [ref=f6e41]: DEFINE
+          - img [ref=f6e42]
+          - generic [ref=f6e44]: PLAN
+          - img [ref=f6e45]
+          - generic [ref=f6e47]: BUILD
+          - img [ref=f6e48]
+          - generic [ref=f6e50]: VERIFY
+          - img [ref=f6e51]
+          - generic [ref=f6e53]: REVIEW
+          - img [ref=f6e54]
+          - generic [ref=f6e56]: SHIP
+        - paragraph [ref=f6e57]: Use it now —
+        - generic [ref=f6e59]:
+          - generic [ref=f6e60]: git clone https://github.com/juandelossantos/another-agent-skills.git && cd another-agent-skills && bash install.sh
+          - button "Copy to clipboard" [ref=f6e61] [cursor=pointer]: ⎘
+        - paragraph [ref=f6e62]: Open source · MIT License · Works offline
+    - region "The problem" [ref=f6e63]:
+      - generic [ref=f6e64]:
+        - paragraph [ref=f6e65]: 01 / the problem
+        - heading "AI agents are capable but undisciplined." [level=2] [ref=f6e66]
+        - generic [ref=f6e67]:
+          - generic [ref=f6e68]:
+            - heading "No tests before commit" [level=3] [ref=f6e69]
+            - paragraph [ref=f6e70]: They ship code that looks correct but breaks in production.
+          - generic [ref=f6e71]:
+            - heading "No review before push" [level=3] [ref=f6e72]
+            - paragraph [ref=f6e73]: They overwrite each other's work without noticing.
+          - generic [ref=f6e74]:
+            - heading "Vibe coding debt" [level=3] [ref=f6e75]
+            - paragraph [ref=f6e76]: "They generate code fast but produce hidden OpEx: hallucinated dependencies, superficial error handling, and subtle correctness gaps."
+        - blockquote [ref=f6e77]:
+          - paragraph [ref=f6e78]: When developers used AI, they took 19% longer. Developers estimated AI saved them 20% of the time. Experts predicted 38% faster.
+          - generic [ref=f6e79]: — Becker et al., METR, July 2025
+        - paragraph [ref=f6e80]: The gap between "capable" and "reliable" is not intelligence. It's the harness.
+        - link "Why process matters → →" [ref=f6e81] [cursor=pointer]:
+          - /url: docs/philosophy.html
+    - region "How it works" [ref=f6e82]:
+      - generic [ref=f6e83]:
+        - paragraph [ref=f6e84]: 02 / how it works
+        - heading "Six phases. Every time." [level=2] [ref=f6e85]
+        - paragraph [ref=f6e86]: Every project follows the same disciplined flow. No shortcuts. No skipped steps.
+        - generic [ref=f6e87]:
+          - generic [ref=f6e88]:
+            - generic [ref=f6e89]: DEFINE
+            - paragraph [ref=f6e90]: Write the spec before any code. Interview requirements. Lock scope.
+            - paragraph [ref=f6e91]:
+              - code [ref=f6e92]: spec-driven-development
+              - code [ref=f6e93]: interview-me
+              - code [ref=f6e94]: idea-refine
+          - generic [ref=f6e95]:
+            - generic [ref=f6e96]: PLAN
+            - paragraph [ref=f6e97]: Break work into atomic tasks. Estimate effort. Identify dependencies.
+            - paragraph [ref=f6e98]:
+              - code [ref=f6e99]: planning-and-task-breakdown
+              - code [ref=f6e100]: architecture-analysis
+          - generic [ref=f6e101]:
+            - generic [ref=f6e102]: BUILD
+            - paragraph [ref=f6e103]: Implement one slice at a time. Test each before expanding.
+            - paragraph [ref=f6e104]:
+              - code [ref=f6e105]: incremental-implementation
+              - code [ref=f6e106]: test-driven-development
+              - code [ref=f6e107]: source-driven-development
+          - generic [ref=f6e108]:
+            - generic [ref=f6e109]: VERIFY
+            - paragraph [ref=f6e110]: Run tests. Check builds. Verify behavior matches spec.
+            - paragraph [ref=f6e111]:
+              - code [ref=f6e112]: test-driven-development
+              - code [ref=f6e113]: debugging-and-error-recovery
+              - code [ref=f6e114]: browser-testing-with-devtools
+          - generic [ref=f6e115]:
+            - generic [ref=f6e116]: REVIEW
+            - paragraph [ref=f6e117]: Code review. Security audit. Performance check. Quality gates.
+            - paragraph [ref=f6e118]:
+              - code [ref=f6e119]: code-review-and-quality
+              - code [ref=f6e120]: security-and-hardening
+              - code [ref=f6e121]: performance-optimization
+          - generic [ref=f6e122]:
+            - generic [ref=f6e123]: SHIP
+            - paragraph [ref=f6e124]: Clean commits. CI/CD. Deployment. Documentation.
+            - paragraph [ref=f6e125]:
+              - code [ref=f6e126]: git-workflow-and-versioning
+              - code [ref=f6e127]: ci-cd-and-automation
+              - code [ref=f6e128]: shipping-and-launch
+        - paragraph [ref=f6e129]: No phase is optional. Every step has a skill. Every skill has a gate.
+    - region "The Harness" [ref=f6e130]:
+      - generic [ref=f6e131]:
+        - paragraph [ref=f6e132]: 03 / the harness
+        - heading "Rules that depend on memory fail." [level=2] [ref=f6e133]
+        - paragraph [ref=f6e134]: Rules that depend on the harness succeed.
+        - generic [ref=f6e135]:
+          - generic [ref=f6e136]:
+            - generic [ref=f6e137]: "01"
+            - generic [ref=f6e138]:
+              - 'heading "01: Instructions & Rules" [level=3] [ref=f6e139]'
+              - paragraph [ref=f6e140]: Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.
+          - generic [ref=f6e141]: ↓
+          - generic [ref=f6e142]:
+            - generic [ref=f6e143]: "02"
+            - generic [ref=f6e144]:
+              - 'heading "02: Tools & Sandboxes" [level=3] [ref=f6e145]'
+              - paragraph [ref=f6e146]: Task-specific capabilities loaded on demand. 58 skills, 54 guides, eval system, terminal, CI.
+          - generic [ref=f6e147]: ↓
+          - generic [ref=f6e148]:
+            - generic [ref=f6e149]: "03"
+            - generic [ref=f6e150]:
+              - 'heading "03: Orchestration & Guardrails" [level=3] [ref=f6e151]'
+              - paragraph [ref=f6e152]: When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v8 (9 gates), commit-msg v5, commit-approval.sh.
+            - generic [ref=f6e153]: ✓
+          - generic [ref=f6e154]: ↓
+          - generic [ref=f6e155]:
+            - generic [ref=f6e156]: "04"
+            - generic [ref=f6e157]:
+              - 'heading "04: Observability & Verification" [level=3] [ref=f6e158]'
+              - paragraph [ref=f6e159]: Evidence it's working or quietly drifting. project-metrics, HEALTH-CHECK.md, validate-skill-table.sh, PROGRESS_STATUS.md.
+            - generic [ref=f6e160]: ✓
+        - paragraph [ref=f6e161]: It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.
+        - paragraph [ref=f6e162]: It learns from its own failures. Faster than competitors ship features.
+        - generic [ref=f6e163]:
+          - generic [ref=f6e164]: 12 pre-commit gates · 6 harness components · 0 shortcuts
+          - generic [ref=f6e165]: Harness components
+        - link "How the Harness works → →" [ref=f6e166] [cursor=pointer]:
+          - /url: docs/enforcement.html
+    - region "Philosophy" [ref=f6e167]:
+      - generic [ref=f6e168]:
+        - paragraph [ref=f6e169]: 04 / philosophy
+        - heading "Doesn't make agents faster." [level=2] [ref=f6e170]
+        - heading "Makes them reliable." [level=2] [ref=f6e171]
+        - list [ref=f6e172]:
+          - listitem [ref=f6e173]:
+            - generic [ref=f6e174]: "01"
+            - paragraph [ref=f6e175]: Quality emerges from explicit contracts, not implicit trust.
+          - listitem [ref=f6e176]:
+            - generic [ref=f6e177]: "02"
+            - paragraph [ref=f6e178]: Rules that depend on memory fail. Rules that depend on visible blocks succeed.
+          - listitem [ref=f6e179]:
+            - generic [ref=f6e180]: "03"
+            - paragraph [ref=f6e181]: A hook that accepts any token is a suggestion. A hook that verifies integrity is a gate.
+          - listitem [ref=f6e182]:
+            - generic [ref=f6e183]: "04"
+            - paragraph [ref=f6e184]: Speed is a side effect of precision, never the primary goal.
+          - listitem [ref=f6e185]:
+            - generic [ref=f6e186]: "05"
+            - paragraph [ref=f6e187]: Context is finite. Evict before you drown.
+          - listitem [ref=f6e188]:
+            - generic [ref=f6e189]: "06"
+            - paragraph [ref=f6e190]: "\"No, that's overcomplicated\" is more valuable than blind compliance."
+          - listitem [ref=f6e191]:
+            - generic [ref=f6e192]: "07"
+            - paragraph [ref=f6e193]: Learns from its own failures faster than competitors ship features.
+        - blockquote [ref=f6e194]:
+          - paragraph [ref=f6e195]: Turns AI coding agents from obedient servants into disciplined senior engineers.
+        - link "Read SOUL.md → →" [ref=f6e196] [cursor=pointer]:
+          - /url: docs/philosophy.html
+    - region "Compatible agents" [ref=f6e197]:
+      - generic [ref=f6e198]:
+        - paragraph [ref=f6e199]: 05 / compatible agents
+        - heading "Designed for OpenCode." [level=2] [ref=f6e200]
+        - paragraph [ref=f6e201]: Portable to everything else.
+        - paragraph [ref=f6e202]: One install. Any agent. Any stack.
+        - list [ref=f6e203]:
+          - listitem [ref=f6e204]: OpenCode
+          - listitem [ref=f6e205]: Claude Code
+          - listitem [ref=f6e206]: Cursor
+          - listitem [ref=f6e207]: GitHub Copilot
+          - listitem [ref=f6e208]: Kiro
+          - listitem [ref=f6e209]: Gemini CLI
+          - listitem [ref=f6e210]: Devin Desktop
+          - listitem [ref=f6e211]: Any agent
+        - generic [ref=f6e212]:
+          - heading "Stack-agnostic." [level=3] [ref=f6e213]
+          - paragraph [ref=f6e214]: Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
+          - paragraph [ref=f6e215]: init-agents detects your stack automatically. Creates STACK_CONFIG.md.
+    - region "Skills catalog" [ref=f6e216]:
+      - generic [ref=f6e217]:
+        - paragraph [ref=f6e218]: 06 / skills
+        - heading "Everything you need." [level=2] [ref=f6e219]
+        - paragraph [ref=f6e220]: Nothing you don't.
+        - generic [ref=f6e221]:
+          - generic [ref=f6e222]:
+            - heading "Foundation" [level=3] [ref=f6e223]
+            - paragraph [ref=f6e224]:
+              - code [ref=f6e225]: engineering-fundamentals
+              - code [ref=f6e226]: frontend-ui-engineering
+              - code [ref=f6e227]: context-engineering
+              - code [ref=f6e228]: user-onboarding
+          - generic [ref=f6e229]:
+            - heading "Frontend" [level=3] [ref=f6e230]
+            - paragraph [ref=f6e231]:
+              - code [ref=f6e232]: frontend-web
+              - code [ref=f6e233]: frontend-mobile
+              - code [ref=f6e234]: frontend-desktop
+              - code [ref=f6e235]: frontend-pwa
+              - code [ref=f6e236]: visual-frontend-mastery
+              - code [ref=f6e237]: browser-testing-with-devtools
+          - generic [ref=f6e238]:
+            - heading "Backend" [level=3] [ref=f6e239]
+            - paragraph [ref=f6e240]:
+              - code [ref=f6e241]: backend-api-mastery
+              - code [ref=f6e242]: api-and-interface-design
+          - generic [ref=f6e243]:
+            - heading "DevOps" [level=3] [ref=f6e244]
+            - paragraph [ref=f6e245]:
+              - code [ref=f6e246]: fullstack-shipping
+              - code [ref=f6e247]: shipping-and-launch
+              - code [ref=f6e248]: ci-cd-and-automation
+              - code [ref=f6e249]: performance-optimization
+              - code [ref=f6e250]: observability-and-instrumentation
+              - code [ref=f6e251]: security-and-hardening
+          - generic [ref=f6e252]:
+            - heading "Process" [level=3] [ref=f6e253]
+            - paragraph [ref=f6e254]:
+              - code [ref=f6e255]: spec-driven-development
+              - code [ref=f6e256]: architecture-analysis
+              - code [ref=f6e257]: planning-and-task-breakdown
+              - code [ref=f6e258]: incremental-implementation
+              - code [ref=f6e259]: documentation-and-adrs
+              - code [ref=f6e260]: source-driven-development
+              - code [ref=f6e261]: deprecation-and-migration
+              - code [ref=f6e262]: doubt-driven-development
+              - code [ref=f6e263]: multi-agent-orchestration
+              - code [ref=f6e264]: customize-opencode
+          - generic [ref=f6e265]:
+            - heading "Quality" [level=3] [ref=f6e266]
+            - paragraph [ref=f6e267]:
+              - code [ref=f6e268]: code-review-and-quality
+              - code [ref=f6e269]: code-simplification
+              - code [ref=f6e270]: project-health-check
+              - code [ref=f6e271]: dev-environment-audit
+              - code [ref=f6e272]: project-metrics
+          - generic [ref=f6e273]:
+            - heading "Design Review" [level=3] [ref=f6e274]
+            - paragraph [ref=f6e275]:
+              - code [ref=f6e276]: critique-skill
+              - code [ref=f6e277]: audit-skill
+              - code [ref=f6e278]: clarify-skill
+              - code [ref=f6e279]: hard-skill
+              - code [ref=f6e280]: polish-skill
+              - code [ref=f6e281]: typeset-skill
+              - code [ref=f6e282]: adapt-skill
+              - code [ref=f6e283]: optimize-skill
+              - code [ref=f6e284]: delight-skill
+          - generic [ref=f6e285]:
+            - heading "Testing" [level=3] [ref=f6e286]
+            - paragraph [ref=f6e287]:
+              - code [ref=f6e288]: test-driven-development
+          - generic [ref=f6e289]:
+            - heading "Meta-Skills" [level=3] [ref=f6e290]
+            - paragraph [ref=f6e291]:
+              - code [ref=f6e292]: skill-creator
+              - code [ref=f6e293]: skill-improver
+              - code [ref=f6e294]: self-improvement
+          - generic [ref=f6e295]:
+            - heading "Git" [level=3] [ref=f6e296]
+            - paragraph [ref=f6e297]:
+              - code [ref=f6e298]: git-init-and-versioning
+              - code [ref=f6e299]: git-workflow-and-versioning
+          - generic [ref=f6e300]:
+            - heading "Debug" [level=3] [ref=f6e301]
+            - paragraph [ref=f6e302]:
+              - code [ref=f6e303]: debugging-and-error-recovery
+              - code [ref=f6e304]: debugging-three-strikes
+          - generic [ref=f6e305]:
+            - heading "Ideation" [level=3] [ref=f6e306]
+            - paragraph [ref=f6e307]:
+              - code [ref=f6e308]: interview-me
+              - code [ref=f6e309]: idea-refine
+          - generic [ref=f6e310]:
+            - heading "Design Skins" [level=3] [ref=f6e311]
+            - paragraph [ref=f6e312]:
+              - code [ref=f6e313]: industrial-brutalist-ui
+              - code [ref=f6e314]: minimalist-ui
+              - code [ref=f6e315]: soft-premium-ui
+              - code [ref=f6e316]: output-skill
+              - code [ref=f6e317]: redesign-skill
+        - paragraph [ref=f6e318]: 58 skills · 54 guides · 6 harness components · <a href="docs/evaluation.html">eval system</a>
+        - link "Browse all skills → →" [ref=f6e319] [cursor=pointer]:
+          - /url: docs/skills.html
+    - region "Quick start" [ref=f6e320]:
+      - generic [ref=f6e321]:
+        - paragraph [ref=f6e322]: 07 / quick start
+        - heading "Start in seconds." [level=2] [ref=f6e323]
+        - code [ref=f6e326]: $ git clone https://github.com/juandelossantos/another-agent-skills.git $ cd another-agent-skills $ bash install.sh
+        - paragraph [ref=f6e327]: "Then in any project:"
+        - code [ref=f6e330]: $ init-agents
+        - paragraph [ref=f6e331]: Your agent now has 58 skills + 54 guides + 6 harness components. Every project. Every time.
+    - region "Self-improving" [ref=f6e332]:
+      - generic [ref=f6e333]:
+        - paragraph [ref=f6e334]: 08 / self-improving
+        - heading "The agent that audits itself." [level=2] [ref=f6e335]
+        - paragraph [ref=f6e336]: Closed-loop quality. Every session makes the project better.
+        - generic [ref=f6e337]:
+          - generic [ref=f6e338]:
+            - generic [ref=f6e339]: "01"
+            - paragraph [ref=f6e340]: Detect — universal-audit.sh scans for issues in core files.
+          - generic [ref=f6e341]:
+            - generic [ref=f6e342]: "02"
+            - paragraph [ref=f6e343]: Diagnose — self-improvement skill classifies root cause (config-driven).
+          - generic [ref=f6e344]:
+            - generic [ref=f6e345]: "03"
+            - paragraph [ref=f6e346]: Propose — presents fix plan + generates ADR draft.
+          - generic [ref=f6e347]:
+            - generic [ref=f6e348]: "04"
+            - paragraph [ref=f6e349]: Execute — with human approval per mutation. Max 3 iterations.
+    - region "Frequently asked questions" [ref=f6e350]:
+      - generic [ref=f6e351]:
+        - paragraph [ref=f6e352]: 08 / faq
+        - heading "Questions." [level=2] [ref=f6e353]
+        - generic [ref=f6e354]:
+          - group [ref=f6e355]:
+            - generic "What is Another Agent Skills? +" [ref=f6e356] [cursor=pointer]
+          - group [ref=f6e357]:
+            - generic "How is it different from other skill frameworks? +" [ref=f6e358] [cursor=pointer]
+          - group [ref=f6e359]:
+            - generic "Which agents does it support? +" [ref=f6e360] [cursor=pointer]
+          - group [ref=f6e361]:
+            - generic "Is it free? +" [ref=f6e362] [cursor=pointer]
+          - group [ref=f6e363]:
+            - generic "How does mechanical enforcement work? +" [ref=f6e364] [cursor=pointer]
+          - group [ref=f6e365]:
+            - generic "Can I customize the skills? +" [ref=f6e366] [cursor=pointer]
+          - group [ref=f6e367]:
+            - generic "Can an agent still break the rules despite enforcement? +" [ref=f6e368] [cursor=pointer]
+          - group [ref=f6e369]:
+            - generic "What is the Harness? +" [ref=f6e370] [cursor=pointer]
+          - group [ref=f6e371]:
+            - generic "What is the Factory Model? +" [ref=f6e372] [cursor=pointer]
+          - group [ref=f6e373]:
+            - generic "What's the theoretical foundation? +" [ref=f6e374] [cursor=pointer]
+          - group [ref=f6e375]:
+            - generic "How does the eval system work? +" [ref=f6e376] [cursor=pointer]
+    - region "References" [ref=f6e377]:
+      - generic [ref=f6e378]:
+        - paragraph [ref=f6e379]: references
+        - heading "Sources" [level=2] [ref=f6e380]
+        - list [ref=f6e381]:
+          - listitem [ref=f6e382]:
+            - text: Becker, J., Rush, N., Barnes, E., & Rein, D. (2025).
+            - emphasis [ref=f6e383]: Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.
+            - text: METR.
+            - link "arXiv:2507.09089" [ref=f6e384] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2507.09089
+          - listitem [ref=f6e385]:
+            - text: Osmani, A., Saboo, S., & Kartakis, S. (2026).
+            - emphasis [ref=f6e386]: "The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic Engineering."
+            - text: Google.
+            - link "Google Drive" [ref=f6e387] [cursor=pointer]:
+              - /url: https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view
+          - listitem [ref=f6e388]:
+            - text: Singhal, T., Hernandez Larios, G., Dus, D., Nigam, L., & Kolan, S. (2026).
+            - emphasis [ref=f6e389]: "Agent Skills: From Prototype to Production."
+            - text: Google.
+            - link "Google Drive" [ref=f6e390] [cursor=pointer]:
+              - /url: https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view
+  - contentinfo [ref=f6e391]:
+    - generic [ref=f6e392]:
+      - generic [ref=f6e393]:
+        - link "How It Works" [ref=f6e394] [cursor=pointer]:
+          - /url: "#howitworks"
+        - link "The Harness" [ref=f6e395] [cursor=pointer]:
+          - /url: "#enforcement"
+        - link "Skills" [ref=f6e396] [cursor=pointer]:
+          - /url: "#skills"
+        - link "Quick Start" [ref=f6e397] [cursor=pointer]:
+          - /url: "#quickstart"
+        - link "FAQ" [ref=f6e398] [cursor=pointer]:
+          - /url: "#faq"
+        - link "Documentation" [ref=f6e399] [cursor=pointer]:
+          - /url: docs/
+        - link "GitHub" [ref=f6e400] [cursor=pointer]:
+          - /url: https://github.com/juandelossantos/another-agent-skills
+      - paragraph [ref=f6e401]:
+        - text: Made by
+        - link "@juandelossantos" [ref=f6e402] [cursor=pointer]:
+          - /url: https://github.com/juandelossantos
+        - text: · Powered by
+        - link "Another Agent Skills" [ref=f6e403] [cursor=pointer]:
+          - /url: https://github.com/juandelossantos/another-agent-skills

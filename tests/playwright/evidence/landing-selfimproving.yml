@@ -1,0 +1,18 @@
+- region "Self-improving" [ref=f6e332]:
+  - generic [ref=f6e333]:
+    - paragraph [ref=f6e334]: 08 / self-improving
+    - heading "The agent that audits itself." [level=2] [ref=f6e335]
+    - paragraph [ref=f6e336]: Closed-loop quality. Every session makes the project better.
+    - generic [ref=f6e337]:
+      - generic [ref=f6e338]:
+        - generic [ref=f6e339]: "01"
+        - paragraph [ref=f6e340]: Detect — universal-audit.sh scans for issues in core files.
+      - generic [ref=f6e341]:
+        - generic [ref=f6e342]: "02"
+        - paragraph [ref=f6e343]: Diagnose — self-improvement skill classifies root cause (config-driven).
+      - generic [ref=f6e344]:
+        - generic [ref=f6e345]: "03"
+        - paragraph [ref=f6e346]: Propose — presents fix plan + generates ADR draft.
+      - generic [ref=f6e347]:
+        - generic [ref=f6e348]: "04"
+        - paragraph [ref=f6e349]: Execute — with human approval per mutation. Max 3 iterations.

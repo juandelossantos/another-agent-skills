@@ -6,7 +6,7 @@
 # Exit: 0 if all pass, 1 if any fail
 
 set -uo pipefail
-RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
+RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
 
 SCRIPT="$(cd "$(dirname "$0")/.." && pwd)/scripts/pre-flight.sh"
 PASSED=0; FAILED=0; TOTAL=0

@@ -17,10 +17,10 @@ ENGINE="$REPO_ROOT/scripts/universal-audit.sh"
 
 PASS=0
 FAIL=0
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+GREEN=$'\033[0;32m'
+RED=$'\033[0;31m'
+YELLOW=$'\033[1;33m'
+NC=$'\033[0m'
 
 ok() { echo -e "  ${GREEN}✓${NC} $1"; PASS=$((PASS + 1)); }
 ko() { echo -e "  ${RED}✗${NC} $1"; FAIL=$((FAIL + 1)); }

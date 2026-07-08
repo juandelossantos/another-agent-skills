@@ -15,11 +15,11 @@ set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+CYAN=$'\033[0;36m'
+NC=$'\033[0m'
 
 OVERRIDE_LOG="${REPO_ROOT}/.git/OVERRIDE_LOG"
 ESCALATION_THRESHOLD=3
@@ -250,6 +250,7 @@ if [ -n "$STAGED_ALL" ]; then
       *.png|*.jpg|*.jpeg|*.gif|*.svg|*.ico) continue ;;
       *.lock|*.sum) continue ;;
       scripts/git-hooks/*|.git/hooks/*) continue ;;
+      tests/audit/*) continue ;;
     esac
     for pattern in "${SLOP_PATTERNS[@]}"; do
       if grep -qF "$pattern" "$f" 2>/dev/null; then

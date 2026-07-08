@@ -20,10 +20,10 @@ REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 SKILL_MARKER="${REPO_ROOT}/.git/SKILLS_CONSULTED"
 SESSION_FILE="${REPO_ROOT}/.git/SESSION_SKILLS"
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+NC=$'\033[0m'
 
 ACTION="${1:-check}"
 
