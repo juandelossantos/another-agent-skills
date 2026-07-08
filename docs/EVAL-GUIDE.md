@@ -220,16 +220,25 @@ A future `trigger-dashboard.sh` (Phase 9) will track accuracy over time and flag
 
 ## 7. CI / Pre-Commit Integration
 
-The eval system is designed for pre-commit integration (planned for Pre-Commit v9):
+The eval system is integrated into the pre-commit hook and CI:
 
 | Gate | What It Checks |
 |---|---|
-| **Eval Gate** | All changed skills have passing evals |
+| **Eval Gate** (Gate 13) | All changed skills have passing evals |
+| **Test Runner** (Gate 14) | Runs `bash tests/run-all.sh` before every commit |
 | **Trigger Accuracy** | Trigger accuracy ≥90% for all skills |
 | **Coverage Gate** | All skills have minimum eval coverage |
 | **Regression Gate** | No eval regression from previous run |
 
-Currently, eval runs are manual. Pre-commit v9 will enforce these gates automatically.
+The CI workflow (`.github/workflows/ci.yml`) runs all test suites:
+- Audit tests (wrapper + universal)
+- Init-agents features
+- TDD gate tests
+- Pre-commit gate tests + Gate 14 behavioral
+- Skill lint
+- Eval e2e (skill-lint + evals + dashboard + regression)
+
+No runtime-specific setup (Node.js, Python, etc.) — the project is universal. Stack-specific commands live in `STACK_CONFIG.md`.
 
 ---
 

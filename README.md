@@ -69,7 +69,7 @@ Run `init-agents` in every new project — it:
 | **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 54 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v10 (13 gates), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh |
 | **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
 
 [**Full Harness architecture →**](./docs/HARNESS.md)
@@ -98,7 +98,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 **Six Layers Beyond Prompts:**
 
 1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v10 with 13 gates. Four-gate approval via commit-msg v7 (including TDD enforcement). No other framework does this.
+2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 14 gates (including Test Runner). Four-gate approval via commit-msg v7 (including TDD enforcement). No other framework does this.
 3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
 4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
 5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
@@ -131,12 +131,59 @@ flowchart LR
 
 - **`scripts/tdd-gate.sh`** — Standalone TDD enforcement gate. Detects `.sh`, `.js`, `.py` extensions and shebang-based shell scripts (`#!/usr/bin/env bash`, `#!/bin/sh`). Also covers files in `scripts/git-hooks/`.
 - **`scripts/git-hooks/commit-msg` v7** — Four-gate approval: TEST_LOG → COMMIT_MANIFEST → COMMIT_APPROVED (<5 min) → **TDD gate**.
-- **`scripts/git-hooks/pre-commit` v10** — 13 sequential gates, renumbered with no gaps (fixed duplicate-6/missing-10 bug).
+- **`scripts/git-hooks/pre-commit` v11** — 14 sequential gates: Branch, Staged, Remote, HTML integrity, Override escalation, Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes, SPEC Enforcement, Progress Status, Skill Lint, Eval, Test Runner.
 - **`scripts/init-agents.sh`** — New `sync-hooks` subcommand: copies hooks from `scripts/git-hooks/` to `.git/hooks/`, backs up existing, makes executable.
 - **25 new tests** across 3 suites: `test-tdd-gate.sh` (11), `test-pre-commit-gates.sh` (7), `test-sync-hooks.sh` (7). Total project coverage: 37 tests, all passing.
 - **`development/SPEC-TDD-GATE.md`** — Full specification: decision tree, file patterns, edge cases, override mechanism, block message format, exit codes, logging spec.
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
+
+---
+
+## Testing
+
+Run all test suites with a single command:
+
+```bash
+bash tests/run-all.sh
+```
+
+The test runner executes 9 suites and reports pass/fail per suite:
+
+| Suite | Command | What It Tests |
+|---|---|---|
+| Audit wrapper-contract | `bash tests/audit/run.sh` | Audit engine behavioral invariants |
+| Audit universal engine | `bash tests/audit/universal.sh` | Config-driven audit engine (17 feature tests) |
+| Init-agents features | `bash tests/init/run.sh` | init-agents scaffolding (7 tests) |
+| TDD gate | `bash tests/test-tdd-gate.sh` | TDD enforcement: name-pairing + new-test (14 tests) |
+| Pre-commit gates | `bash tests/test-pre-commit-gates.sh` | Gate numbering sequential 1-14 (7 tests) |
+| Gate 14 behavioral | `bash tests/test-pre-commit-gate-14.sh` | Test Runner blocks on failure, passes on success (7 tests) |
+| Sync hooks | `bash tests/test-sync-hooks.sh` | Hook installation and sync (7 tests) |
+| Skill lint | `bash scripts/skill-lint.sh skills/` | Rule 6: SKILL.md ≤250 lines, guides present |
+| Eval e2e | `bash scripts/eval/test-e2e.sh` | End-to-end: skill-lint + evals + dashboard + regression |
+
+The test runner also runs automatically as **Pre-commit Gate 14** before every commit.
+
+### TDD Gate Rules
+
+Every commit with code changes must include a matching test file:
+
+- **Name-pairing**: test file name must match code file name (e.g., `scripts/tdd-gate.sh` → `tests/test-tdd-gate.sh`)
+- **New-test**: at least one staged test file must be new (not previously committed)
+- **Override**: add `OVERRIDE: reason` to commit message body to bypass
+
+### Playwright Tests (Browser)
+
+Browser tests live in `tests/playwright/`:
+
+```bash
+cd tests/playwright
+npm install
+npx playwright install chromium
+# Run tests: npx playwright test
+```
+
+Requires the Chrome DevTools MCP server configured in your agent's `.mcp.json`.
 
 ---
 
@@ -265,7 +312,7 @@ If it fails, ask the user before taking any action.
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v10 (13 gates) |
+| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v11 (14 gates) |
 | [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v7 (four-gate approval: TEST_LOG + MANIFEST + APPROVED + TDD gate) |
 | [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |

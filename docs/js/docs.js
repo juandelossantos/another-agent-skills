@@ -15,7 +15,7 @@
   let translations = {};
 
   function loadTranslations(lang) {
-    const path = 'i18n/' + lang + '.json';
+    const path = 'i18n/' + lang + '.json?v=' + Date.now();
     return fetch(path).then(function(r) { return r.json(); });
   }
 
