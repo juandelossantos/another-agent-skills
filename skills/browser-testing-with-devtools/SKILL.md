@@ -1,6 +1,6 @@
 ---
 name: browser-testing-with-devtools
-description: Test interfaces in real browsers: inspect DOM, capture console errors, analyze network requests, verify visual output. Available tools vary by platform. Do NOT use for server-side testing.
+description: "Test interfaces in real browsers: inspect DOM, capture console errors, analyze network requests, verify visual output. Available tools vary by platform. Do NOT use for server-side testing."
 version: 1.0.0
 license: MIT
 compatibility: all

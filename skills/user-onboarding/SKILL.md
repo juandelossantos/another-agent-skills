@@ -1,6 +1,6 @@
 ---
 name: user-onboarding
-description: Capture user preferences once, persist across projects. Creates a user profile for personalization across skills. Triggers: first session, setup preferences. Do NOT use for project-specific config.
+description: "Capture user preferences once, persist across projects. Creates a user profile for personalization across skills. Triggers: first session, setup preferences. Do NOT use for project-specific config."
 version: 1.0.0
 license: MIT
 compatibility: all

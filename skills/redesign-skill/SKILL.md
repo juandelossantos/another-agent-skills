@@ -1,6 +1,6 @@
 ---
 name: redesign-skill
-description: Improve existing codebases systematically: scan the UI, diagnose issues across 8 categories, fix in priority order. Never breaks existing functionality. Do NOT use for greenfield projects.
+description: "Improve existing codebases systematically: scan the UI, diagnose issues across 8 categories, fix in priority order. Never breaks existing functionality. Do NOT use for greenfield projects."
 version: 1.0.0
 license: MIT
 compatibility: all

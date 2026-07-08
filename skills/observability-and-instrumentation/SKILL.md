@@ -1,6 +1,6 @@
 ---
 name: observability-and-instrumentation
-description: Instrument code so production behavior is visible: structured logging, metrics, tracing, alerting. Use when shipping features that need evidence. Do NOT use for local development.
+description: "Instrument code so production behavior is visible: structured logging, metrics, tracing, alerting. Use when shipping features that need evidence. Do NOT use for local development."
 version: 1.0.0
 license: MIT
 compatibility: all

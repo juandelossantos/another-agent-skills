@@ -1,6 +1,6 @@
 ---
 name: project-metrics
-description: Log empirical quality metrics across projects: build pass rate, rework, coverage, discovery time, gate pass rate. Runs automatically in the background. Do NOT use for manual data collection.
+description: "Log empirical quality metrics across projects: build pass rate, rework, coverage, discovery time, gate pass rate. Runs automatically in the background. Do NOT use for manual data collection."
 version: 1.0.0
 license: MIT
 compatibility: all

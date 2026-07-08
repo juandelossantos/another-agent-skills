@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: Create comprehensive specifications from user requests through research, critical analysis, and user alignment. Triggers on: new project, feature, spec, plan. Do NOT use for bug fixes.
+description: "Create comprehensive specifications from user requests through research, critical analysis, and user alignment. Triggers on: new project, feature, spec, plan. Do NOT use for bug fixes."
 version: 1.0.0
 license: MIT
 compatibility: all

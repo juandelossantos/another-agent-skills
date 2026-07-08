@@ -46,6 +46,8 @@ run_suite "Gate 14 behavioral"  "bash tests/test-pre-commit-gate-14.sh"
 run_suite "Sync hooks"           "bash tests/test-sync-hooks.sh"
 run_suite "Commit-msg hook"     "bash tests/test-commit-msg.sh"
 run_suite "Commit-approval"     "bash tests/test-commit-approval.sh"
+run_suite "Frontmatter"         "bash tests/test-frontmatter.sh"
+run_suite "Pre-flight"          "bash tests/test-pre-flight.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then

@@ -1,6 +1,6 @@
 ---
 name: architecture-analysis
-description: Evaluate architecture options with 2-3 alternatives before building. Challenges assumptions, locks decisions into specs. Triggers: stack, architecture, pattern. Do NOT use for implementation details.
+description: "Evaluate architecture options with 2-3 alternatives before building. Challenges assumptions, locks decisions into specs. Triggers: stack, architecture, pattern. Do NOT use for implementation details."
 version: 1.0.0
 license: MIT
 compatibility: all

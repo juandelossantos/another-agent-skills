@@ -1,6 +1,6 @@
 ---
 name: hard-skill
-description: Fix critical and high-severity accessibility, input, and state issues deterministically. Cross-platform: web, mobile, desktop, PWA. Do NOT use for design or copy.
+description: "Fix critical and high-severity accessibility, input, and state issues deterministically. Cross-platform: web, mobile, desktop, PWA. Do NOT use for design or copy."
 version: 1.0.0
 license: MIT
 compatibility: all

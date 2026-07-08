@@ -47,10 +47,12 @@ cd "$REPO_ROOT"
 # 1. Git repository exists
 check "Git repository" "ok" ""
 
-# 2. Current branch (main/master or task branch expected)
+# 2. Current branch — must not be main (unless MAIN_ALLOWED=true)
 BRANCH=$(git branch --show-current)
 if [ -z "$BRANCH" ]; then
   check "Detached HEAD" "fail" "Checkout a branch before making changes"
+elif [ "$BRANCH" = "main" ] && [ "${MAIN_ALLOWED:-false}" != "true" ]; then
+  check "Branch: $BRANCH" "fail" "Direct work on main is blocked. Create a feature branch: git checkout -b fix/your-task-name"
 else
   check "Branch: $BRANCH" "ok" ""
 fi
@@ -71,12 +73,14 @@ else
   check "Remote up to date" "fail" "Unpulled remote changes. Run 'git pull --rebase' first."
 fi
 
-# 5. Upstream tracking configured
-UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null || echo "")
-if [ -z "$UPSTREAM" ]; then
-  check "Upstream configured" "fail" "No upstream tracking branch. Set with: git branch -u origin/<branch>"
-else
-  check "Upstream: $UPSTREAM" "ok" ""
+# 5. Upstream tracking configured (skippable with SKIP_UPSTREAM_CHECK=true)
+if [ "${SKIP_UPSTREAM_CHECK:-false}" != "true" ]; then
+  UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null || echo "")
+  if [ -z "$UPSTREAM" ]; then
+    check "Upstream configured" "fail" "No upstream tracking branch. Set with: git branch -u origin/<branch>"
+  else
+    check "Upstream: $UPSTREAM" "ok" ""
+  fi
 fi
 
 echo ""

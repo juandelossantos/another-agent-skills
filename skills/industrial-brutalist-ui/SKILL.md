@@ -1,6 +1,6 @@
 ---
 name: industrial-brutalist-ui
-description: Design raw mechanical interfaces with Swiss typographic print and military terminal aesthetics: rigid grids, extreme type scale, utilitarian color. Do NOT use for soft UIs.
+description: "Design raw mechanical interfaces with Swiss typographic print and military terminal aesthetics: rigid grids, extreme type scale, utilitarian color. Do NOT use for soft UIs."
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,6 +1,6 @@
 ---
 name: polish-skill
-description: Fix design detail issues: spacing, alignment, consistency, token compliance. Use after audit or when visual inconsistencies are spotted. Do NOT use for structural redesign.
+description: "Fix design detail issues: spacing, alignment, consistency, token compliance. Use after audit or when visual inconsistencies are spotted. Do NOT use for structural redesign."
 version: 1.0.0
 license: MIT
 compatibility: all
