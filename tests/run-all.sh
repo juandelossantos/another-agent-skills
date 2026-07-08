@@ -42,6 +42,7 @@ run_suite "Audit universal engine" "bash tests/audit/universal.sh"
 run_suite "Init-agents features"  "bash tests/init/run.sh"
 run_suite "TDD gate"              "bash tests/test-tdd-gate.sh"
 run_suite "Pre-commit gates"     "bash tests/test-pre-commit-gates.sh"
+run_suite "Gate 14 behavioral"  "bash tests/test-pre-commit-gate-14.sh"
 run_suite "Sync hooks"           "bash tests/test-sync-hooks.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 

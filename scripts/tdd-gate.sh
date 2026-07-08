@@ -77,6 +77,72 @@ is_test_file() {
   return 1
 }
 
+# Extract code file stem (basename without extension) for name-pairing
+get_code_stem() {
+  local file="$1"
+  local basename
+  basename=$(basename "$file")
+  # Strip extension
+  local stem="${basename%.*}"
+  # Remove trailing numbers or version suffixes often used in scripts
+  echo "$stem"
+}
+
+# Extract test file stem by stripping test prefixes/suffixes
+get_test_stem() {
+  local file="$1"
+  local basename
+  basename=$(basename "$file")
+  local stem="${basename%.*}"
+  # Strip common test markers
+  stem="${stem#test-}"
+  stem="${stem#test_}"
+  stem="${stem%-test}"
+  stem="${stem%_test}"
+  stem="${stem#Test}"
+  stem="${stem#spec-}"
+  stem="${stem#spec_}"
+  stem="${stem%-spec}"
+  stem="${stem%_spec}"
+  stem="${stem#.test}"
+  stem="${stem#.spec}"
+  echo "$stem"
+}
+
+# Check if a test file name-matches a code file (pairing check)
+name_matches_code() {
+  local code_file="$1"
+  local test_file="$2"
+  local code_stem
+  local test_stem
+  local code_basename
+  local test_basename
+
+  code_stem=$(get_code_stem "$code_file")
+  test_stem=$(get_test_stem "$test_file")
+  code_basename=$(basename "$code_file")
+  test_basename=$(basename "$test_file")
+
+  # Exact stem match
+  [[ "$test_stem" == "$code_stem" ]] && return 0
+
+  # Test file basename contains code file basename (handles multi-word like "pre-commit")
+  [[ "$test_basename" == *"$code_basename"* ]] && return 0
+
+  # Test stem contains code stem (handles "test_pre_commit_gates" for "pre_commit")
+  [[ "$test_stem" == *"$code_stem"* ]] && return 0
+
+  return 1
+}
+
+# Check if a staged file is new (doesn't exist in HEAD)
+is_new_file() {
+  local file="$1"
+  local repo_dir="${REPO_DIR:-.}"
+  git -C "$repo_dir" ls-tree HEAD -- "$file" 2>/dev/null | grep -q . && return 1
+  return 0
+}
+
 has_override() {
   local msg="${COMMIT_MSG:-}"
   if [[ -z "$msg" ]]; then
@@ -159,6 +225,80 @@ if [[ ${#TEST_FILES[@]} -eq 0 ]]; then
   exit 1
 fi
 
-# Code + test staged → PASS
+# ─── Name-Pairing Check ───
+# For each code file, at least one test file must name-match
+MISMATCHED=()
+for cfile in "${CODE_FILES[@]}"; do
+  FOUND_MATCH=false
+  for tfile in "${TEST_FILES[@]}"; do
+    if name_matches_code "$cfile" "$tfile"; then
+      FOUND_MATCH=true
+      break
+    fi
+  done
+  if ! $FOUND_MATCH; then
+    MISMATCHED+=("$cfile")
+  fi
+done
+
+if [[ ${#MISMATCHED[@]} -gt 0 ]]; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════╗"
+  echo "║  TDD GATE: Name-pairing failed                  ║"
+  echo "╚══════════════════════════════════════════════════╝"
+  echo ""
+  echo "Code files without a name-matching test:"
+  for f in "${MISMATCHED[@]}"; do
+    echo "  - $f"
+  done
+  echo ""
+  echo "Staged test file(s):"
+  for f in "${TEST_FILES[@]}"; do
+    echo "  - $f"
+  done
+  echo ""
+  echo "Expected: test file name containing '$(get_code_stem "${MISMATCHED[0]}")'"
+  echo ""
+  echo "Options:"
+  echo "  1. Stage a correctly-named test: git add tests/test_<code_name>.sh"
+  echo "  2. Override: add OVERRIDE: reason to commit body"
+  echo ""
+  log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "name-mismatch"
+  exit 1
+fi
+
+# ─── New-Test Check ───
+# At least one staged test file must be new (not in HEAD)
+HAS_NEW_TEST=false
+for tfile in "${TEST_FILES[@]}"; do
+  if is_new_file "$tfile"; then
+    HAS_NEW_TEST=true
+    break
+  fi
+done
+
+if ! $HAS_NEW_TEST; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════╗"
+  echo "║  TDD GATE: New test file required               ║"
+  echo "╚══════════════════════════════════════════════════╝"
+  echo ""
+  echo "All staged test files already exist in HEAD."
+  echo "Each change must include at least one new test file."
+  echo ""
+  echo "Staged tests (all pre-existing):"
+  for f in "${TEST_FILES[@]}"; do
+    echo "  - $f"
+  done
+  echo ""
+  echo "Options:"
+  echo "  1. Create and stage a new test file"
+  echo "  2. Override: add OVERRIDE: reason to commit body"
+  echo ""
+  log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "no-new-test"
+  exit 1
+fi
+
+# Code + matching new test staged → PASS
 log_gate "PASS" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "no"
 exit 0

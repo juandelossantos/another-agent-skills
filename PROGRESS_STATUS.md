@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-03  
+> **Last updated:** 2026-07-07  
 > **Current version:** 3.1.0 (auto-generated)
-> **Status:** Released — 0 errors, 1 warning, 72 guides across 58 skills, 4 new reference files  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 6 phases: TDD enforcement → foundation repair → complete stubs → output contracts → docs honesty → release
+> **Status:** Released — 0 errors, 2 warnings, 72 guides across 58 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure → foundation repair → complete stubs → output contracts → docs honesty → release
 
 ---
 
@@ -138,7 +138,7 @@
 
 ### In Progress
 
-- (none)
+- **Phase 0.5: Test Infrastructure** — CI update (init tests, skill-lint), test runner (`tests/run-all.sh`), pre-commit Gate 14, Playwright package tracking, documentation.
 
 ### Planned
 
@@ -153,9 +153,9 @@
 ## Known Limitations
 
 | Limitation | Impact | Workaround |
-|---|---|---|
+|---|---|---|---|
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
-| No automated testing | Breaks not caught until user report | Manual testing after every change |
+| No automated test runner in CI | Tests pass silently or not at all | Phase 0.5 will add test runner + CI integration |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---

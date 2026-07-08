@@ -1,6 +1,6 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-03
+**Date:** 2026-07-07
 **Version:** 3.1.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
@@ -25,7 +25,7 @@
 | SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 2.7.0 | Consistent |
+| VERSION | ✅ 3.1.0 | Consistent |
 | Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -68,19 +68,23 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 ---
 
-## ⚠️ Warnings (1)
+## ⚠️ Warnings (2)
 
 ### W3. `.env.example` missing
 
 Convention gap. Low impact (no runtime env vars), but violates standards.
 
+### W4. Test infrastructure incomplete
+
+Phase 0 (TDD gate) is live but Phase 0.5 (test runner, CI integration, pre-commit Gate 14) is not started. No automated test suite runs in pre-commit or CI yet.
+
 ---
 
 ## Recommendations
 
-1. **Add `.env.example`** for convention compliance.
-2. **CI/CD testing** — GitHub Actions matrix on Ubuntu/macOS/Windows.
-3. **Skill validation tests** — frontmatter, guide references, line count enforcement.
+1. **Execute Phase 0.5** — Test infrastructure: CI update, test runner, pre-commit Gate 14, Playwright package tracking.
+2. **Execute Phase 1** — Foundation repair: broken frontmatter, flat guide file consolidation.
+3. **Add `.env.example`** for convention compliance.
 
 ---
 
@@ -104,3 +108,4 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-07-02 | v3.0.0 P1.1-1.3 (dev) | Universal audit engine: `universal-audit.sh` (config-driven, fixes json-stub + subshell + grep-spam bugs), `audit-markdown.sh` → wrapper, `.audit-config.json`, test-first (15 tests). On `feat/universal-audit-engine` branch, uncommitted. |
 | 2026-07-02 | Self-improvement iter 1 | Placeholder precision fix (skip code blocks, require `TODO:`/`FIXME:` colons) — WARN 34→3 (88% false-positive reduction). ANIMATION-GUIDE trimmed 266→249. ADR-009 generated. Golden updated 34→3. |
 | 2026-07-03 | **v3.0.0 RELEASED** | Universal self-improvement loop: config-driven audit engine, stack-agnostic skill, 4 guides, cross-platform init-agents, behavioral golden, domain-edge tests. All P1-P3 complete. See RELEASE-NOTES.md. |
+| 2026-07-07 | **v3.1.0 RELEASED** | TDD Enforcement Gate: commit-msg v7 (4 gates), pre-commit v10 (13 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. Hook renumbering bug fixes. |
