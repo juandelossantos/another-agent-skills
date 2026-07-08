@@ -56,7 +56,7 @@ SUBCOMMAND=""
 for arg in "$@"; do
   case "$arg" in
     sync-hooks) SUBCOMMAND="sync-hooks" ;;
-    --skip-self-improvement) WITH_SELF_IMPROVEMENT=true ;;
+    --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
     --help|-h) usage ;;
     *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
   esac
