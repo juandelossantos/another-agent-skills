@@ -34,10 +34,23 @@ echo "╔═══════════════════════�
 echo "║  PRE-FLIGHT CHECK                          ║"
 echo "╚════════════════════════════════════════════╝"
 
-# Gate 1: Branch check — verify not on detached HEAD
+# Gate 1: Branch check — verify not on detached HEAD, protect main
 BRANCH=$(git branch --show-current)
 if [ -z "$BRANCH" ]; then
   echo "  ${RED}✗${NC} Detached HEAD. Checkout a branch before committing."
+  exit 1
+fi
+if [ "$BRANCH" = "main" ] && [ "${MAIN_ALLOWED:-false}" != "true" ]; then
+  echo ""
+  echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+  echo "  ${RED}║  MAIN BRANCH PROTECTED                                  ║${NC}"
+  echo "  ${RED}║                                                         ║${NC}"
+  echo "  ${RED}║  Direct commits to main are blocked. Use a feature       ║${NC}"
+  echo "  ${RED}║  branch and PR instead.                                  ║${NC}"
+  echo "  ${RED}║                                                         ║${NC}"
+  echo "  ${RED}║  To override (emergency only): MAIN_ALLOWED=true         ║${NC}"
+  echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+  echo ""
   exit 1
 fi
 echo "  ${GREEN}✓${NC} Branch: $BRANCH"
@@ -482,8 +495,13 @@ echo "║  TEST RUNNER                               ║"
 echo "╚════════════════════════════════════════════╝"
 
 TEST_RUNNER="${REPO_ROOT}/tests/run-all.sh"
-if [ "${SKIP_TEST_RUNNER:-false}" = "true" ]; then
-  echo "  ${YELLOW}⚠${NC} SKIP_TEST_RUNNER=true — Gate 14 bypassed"
+SKIP_FILE="${REPO_ROOT}/.git/SKIP_TEST_GATE"
+BYPASS_LOG="${REPO_ROOT}/.git/BYPASS_LOG"
+if [ -f "$SKIP_FILE" ]; then
+  REASON=$(head -1 "$SKIP_FILE" 2>/dev/null || echo "no reason given")
+  echo "  ${YELLOW}⚠${NC} Test gate bypassed: $REASON"
+  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] SKIP_TEST_GATE: $REASON on branch $(git branch --show-current)" >> "$BYPASS_LOG"
+  rm -f "$SKIP_FILE"
 elif [ -f "$TEST_RUNNER" ]; then
   echo "  Running test suite..."
   echo ""

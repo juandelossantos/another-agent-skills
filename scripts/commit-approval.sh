@@ -111,6 +111,30 @@ if [[ "$SKIP_SKILL_GATE" == "false" ]]; then
   fi
 fi
 
+# Check: branch is not main (unless --allow-main)
+ALLOW_MAIN=false
+for arg in "$@"; do
+  if [[ "$arg" == "--allow-main" ]]; then
+    ALLOW_MAIN=true
+    break
+  fi
+done
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+if [[ "$CURRENT_BRANCH" == "main" && "$ALLOW_MAIN" == "false" ]]; then
+  echo -e "${RED}╔════════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${RED}║  APPROVAL BLOCKED                                        ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Commits to main require --allow-main flag.               ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Use a feature branch and PR instead.                     ║${NC}"
+  echo -e "${RED}║                                                         ║${NC}"
+  echo -e "${RED}║  Emergency override: bash scripts/commit-approval.sh      ║${NC}"
+  echo -e "${RED}║    \"message\" --plan-approved --manifest-presented         ║${NC}"
+  echo -e "${RED}║    --allow-main                                          ║${NC}"
+  echo -e "${RED}╚════════════════════════════════════════════════════════════╝${NC}"
+  exit 1
+fi
+
 # Check: TEST_LOG exists and shows PASS
 TEST_PASSED=0
 if [[ -f "$TEST_LOG" ]]; then
