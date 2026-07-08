@@ -1,3 +1,0 @@
-{"case_id":"trigger_pos_stunning_001","type":"trigger_positive","input":"Make this landing page look visually stunning and distinctive","expected_skill":"visual-frontend-mastery"}
-{"case_id":"trigger_pos_anim_001","type":"trigger_positive","input":"Add high-performance animations to the dashboard","expected_skill":"visual-frontend-mastery"}
-{"case_id":"trigger_neg_responsive_001","type":"trigger_negative","input":"Fix the responsive layout on tablet","expected_skill":"visual-frontend-mastery"}

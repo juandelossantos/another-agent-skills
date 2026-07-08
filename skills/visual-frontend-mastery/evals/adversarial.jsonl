@@ -1,2 +1,0 @@
-{"case_id":"rephrase_visual_001","type":"rephrasing","input":"Make this interface stand out visually","description":"Same visual design intent"}
-{"case_id":"boundary_platform_001","type":"negative_boundary","input":"Implement the layout with Tailwind CSS","description":"Platform implementation — not visual direction"}

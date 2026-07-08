@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-07-08  
 > **Current version:** 3.1.1 (auto-generated)
-> **Status:** Released — 0 errors, 2 warnings, 124 guides across 58 skills  
+> **Status:** Released — 0 errors, 2 warnings, 124 guides across 57 skills  
 > **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
 
 ---
@@ -78,7 +78,6 @@
 | `test-driven-development` | 138 | 6 |  |
 | `typeset-skill` | 136 | 2 |  |
 | `user-onboarding` | 187 | 2 |  |
-| `visual-frontend-mastery` | 42 | 0 |  |
 
 ### Architecture Decisions Implemented
 

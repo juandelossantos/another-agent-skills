@@ -89,7 +89,7 @@ mindmap
       frontend-mobile
       frontend-desktop
       frontend-ui-engineering
-      visual-frontend-mastery
+      frontend-ui-engineering
     Backend
       backend-api-mastery
       api-and-interface-design
