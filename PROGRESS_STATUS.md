@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-08  
-> **Current version:** 3.1.0 (auto-generated)
+> **Current version:** 3.1.1 (auto-generated)
 > **Status:** Released — 0 errors, 2 warnings, 72 guides across 58 skills  
 > **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
 

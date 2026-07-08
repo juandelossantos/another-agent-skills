@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v3.1.0](https://img.shields.io/badge/version-3.1.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v3.1.1](https://img.shields.io/badge/version-3.1.1-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -61,7 +61,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 New in v3.1.0: TDD Enforcement Gate** — Test-Driven Development is now mechanically enforced at commit time. The commit-msg hook rejects changes to shell scripts, JavaScript, and Python files unless corresponding test files exist. [Learn more →](#whats-new-in-v310--tdd-enforcement-gate)
+> **🧠 New in v3.1.1: Test Infrastructure & TDD Enhancement** — Unified test runner, pre-commit Gate 14, name-pairing + new-test enforcement. [Learn more →](#whats-new-in-v311--test-infrastructure--tdd-enhancement)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -113,28 +113,27 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v3.1.0 — TDD Enforcement Gate
+## What's New in v3.1.1 — Test Infrastructure & TDD Enhancement
 
-### ⚙️ Test-Driven Development, Mechanically Enforced
+### ⚙️ Test Runner, Name-Pairing, New-Test Enforcement
 
-v3.1.0 adds a **TDD enforcement gate** to the commit pipeline. The commit-msg hook now rejects changes to shell scripts, JavaScript, and Python files unless corresponding test files exist. No more skipped tests. No more "I'll add them later."
+v3.1.1 completes the test infrastructure for mechanical verification. A unified test runner runs 9 suites, pre-commit Gate 14 blocks on failures, and the TDD gate now enforces name-pairing (test name must match code) and requires at least one new test per change.
 
 ```mermaid
 flowchart LR
-    A["1. Detect changed files"] --> B{"2. Code file?"}
-    B -->|No| C["✅ Allow"]
-    B -->|Yes| D{"3. Test file exists?"}
-    D -->|Yes| E["✅ Allow"]
-    D -->|No| F["❌ BLOCKED"]
-    F --> G["Add test or use OVERRIDE"]
+    A["bash tests/run-all.sh"] --> B{"9 suites"}
+    B --> C["✅ 8 pass"]
+    B --> D["❌ 1 fail"]
+    C --> E["✅ Commit allowed"]
+    D --> F["❌ Pre-commit Gate 14 blocks"]
 ```
 
-- **`scripts/tdd-gate.sh`** — Standalone TDD enforcement gate. Detects `.sh`, `.js`, `.py` extensions and shebang-based shell scripts (`#!/usr/bin/env bash`, `#!/bin/sh`). Also covers files in `scripts/git-hooks/`.
-- **`scripts/git-hooks/commit-msg` v7** — Four-gate approval: TEST_LOG → COMMIT_MANIFEST → COMMIT_APPROVED (<5 min) → **TDD gate**.
-- **`scripts/git-hooks/pre-commit` v11** — 14 sequential gates: Branch, Staged, Remote, HTML integrity, Override escalation, Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes, SPEC Enforcement, Progress Status, Skill Lint, Eval, Test Runner.
-- **`scripts/init-agents.sh`** — New `sync-hooks` subcommand: copies hooks from `scripts/git-hooks/` to `.git/hooks/`, backs up existing, makes executable.
-- **25 new tests** across 3 suites: `test-tdd-gate.sh` (11), `test-pre-commit-gates.sh` (7), `test-sync-hooks.sh` (7). Total project coverage: 37 tests, all passing.
-- **`development/SPEC-TDD-GATE.md`** — Full specification: decision tree, file patterns, edge cases, override mechanism, block message format, exit codes, logging spec.
+- **`tests/run-all.sh`** — Unified test runner: runs audit, init, TDD gate, pre-commit gates, Gate 14 behavioral, sync hooks, skill lint, eval e2e. Continues on failure. Color output.
+- **`scripts/git-hooks/pre-commit` v11** — 14 sequential gates. Gate 14 (Test Runner) runs `bash tests/run-all.sh` before every commit. Bypass with `SKIP_TEST_RUNNER=true`.
+- **`scripts/tdd-gate.sh`** — Enhanced with name-pairing check (test file name must match code file) and new-test enforcement (at least one staged test must be new). Both bypassable via `OVERRIDE:`.
+- **`tests/test-pre-commit-gate-14.sh`** — Behavioral test: asserts Gate 14 blocks on failure, passes on success, skips when missing.
+- **`development/SPEC-TDD-GATE.md` v1.1.0** — Updated decision tree with name-pairing + new-test flow.
+- **46 total project tests** across 6 suites: TDD gate (14), pre-commit gates (7), Gate 14 behavioral (7), sync hooks (7), init features (7), audit wrapper (3), audit engine (1).
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
 
@@ -307,7 +306,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.1.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.1.1) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
