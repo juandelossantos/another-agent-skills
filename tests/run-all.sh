@@ -59,6 +59,7 @@ run_suite "Frontend UI"         "bash tests/test-frontend-ui-skill.sh"
 run_suite "Deprecation"         "bash tests/test-deprecation-skill.sh"
 run_suite "Source-driven"       "bash tests/test-source-driven-skill.sh"
 run_suite "Code simplif"        "bash tests/test-code-simplification-skill.sh"
+run_suite "Idea refine"         "bash tests/test-idea-refine-skill.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then
