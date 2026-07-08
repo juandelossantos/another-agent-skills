@@ -12,7 +12,7 @@
     "tag": "/// system",
     "title1": "Turn AI agents into",
     "title2": "disciplined senior engineers.",
-    "subtitle1": "58 skills. 14 gates. One harness.",
+    "subtitle1": "57 skills. 14 gates. One harness.",
     "subtitle2": "The factory model for AI-assisted development.",
     "quickstart": "Use it now —",
     "social": "Open source · MIT License · Works offline"
@@ -57,7 +57,7 @@
     "level1Title": "01: Instructions & Rules",
     "level1Desc": "Who the agent is, what it cares about, what it must never do. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.",
     "level2Title": "02: Tools & Sandboxes",
-    "level2Desc": "Task-specific capabilities loaded on demand. 58 skills, 54 guides, eval system, terminal, CI.",
+    "level2Desc": "Task-specific capabilities loaded on demand. 57 skills, 54 guides, eval system, terminal, CI.",
     "level3Title": "03: Orchestration & Guardrails",
     "level3Desc": "When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v11 (14 gates, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.",
     "incidentRef": "It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.",
@@ -116,19 +116,19 @@
     "catDebug": "Debug",
     "catIdeation": "Ideation",
     "catDesignSkins": "Design Skins",
-    "stats": "58 skills · 54 guides · 6 harness components · <a href=\"docs/evaluation.html\">eval system</a>"
+    "stats": "57 skills · 54 guides · 6 harness components · <a href=\"docs/evaluation.html\">eval system</a>"
   },
   "quickstart": {
     "label": "07 / quick start",
     "title": "Start in seconds.",
     "then": "Then in any project:",
-    "conclusion": "Your agent now has 58 skills + 54 guides + 6 harness components. Every project. Every time."
+    "conclusion": "Your agent now has 57 skills + 54 guides + 6 harness components. Every project. Every time."
   },
   "faq": {
     "label": "08 / faq",
     "title": "Questions.",
     "q1": "What is Another Agent Skills?",
-    "a1": "A framework of 58 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a 6-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.",
+    "a1": "A framework of 57 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a 6-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.",
     "q2": "How is it different from other skill frameworks?",
     "a2": "Three things: (1) Mechanical enforcement via time-window approval, 14 pre-commit gates, and 4 commit-msg gates (including TDD enforcement). (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 258 lines always-loaded (1.9% of 200K context). Other frameworks give you prompts. This gives you process.",
     "q3": "Which agents does it support?",

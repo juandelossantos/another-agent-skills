@@ -12,7 +12,7 @@
     "tag": "/// sistema",
     "title1": "Convierte agentes de IA en",
     "title2": "ingenieros senior disciplinados.",
-    "subtitle1": "58 skills. 14 puertas. Un harness.",
+    "subtitle1": "57 skills. 14 puertas. Un harness.",
     "subtitle2": "El modelo de fábrica para desarrollo asistido por IA.",
     "quickstart": "Pruébalo ahora —",
     "social": "Open source · Licencia MIT · Funciona offline"
@@ -57,7 +57,7 @@
     "level1Title": "01: Instrucciones y Reglas",
     "level1Desc": "Quién es el agente, qué le importa, qué no debe hacer jamás. AGENTS.md, SOUL.md, STEERING-GUIDE.md, ANTI-PATTERNS.md, GLOSSARY.md.",
     "level2Title": "02: Herramientas y Sandboxes",
-    "level2Desc": "Capacidades específicas cargadas bajo demanda. 58 skills, 47 guías, sistema de eval, terminal, CI.",
+    "level2Desc": "Capacidades específicas cargadas bajo demanda. 57 skills, 47 guías, sistema de eval, terminal, CI.",
     "level3Title": "03: Orquestación y Guardrails",
     "level3Desc": "Cuándo se activa cada herramienta, cómo se coordinan, y hooks deterministas. Pre-commit v11 (14 puertas, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.",
     "incidentRef": "Rompió sus propias reglas tres veces en dos días. Después construyó un harness que las hizo imposibles de romper.",
@@ -116,19 +116,19 @@
     "catDebug": "Debug",
     "catIdeation": "Ideación",
     "catDesignSkins": "Design Skins",
-    "stats": "58 skills · 54 guías · 6 componentes del harness · <a href=\"docs/evaluation.html\">sistema de eval</a>"
+    "stats": "57 skills · 54 guías · 6 componentes del harness · <a href=\"docs/evaluation.html\">sistema de eval</a>"
   },
   "quickstart": {
     "label": "07 / inicio rápido",
     "title": "Empieza en segundos.",
     "then": "Después en cualquier proyecto:",
-    "conclusion": "Tu agente ahora tiene 58 skills + 47 guías + 6 componentes del harness. Cada proyecto. Cada vez."
+    "conclusion": "Tu agente ahora tiene 57 skills + 47 guías + 6 componentes del harness. Cada proyecto. Cada vez."
   },
   "faq": {
     "label": "08 / faq",
     "title": "Preguntas.",
     "q1": "¿Qué es Another Agent Skills?",
-    "a1": "Un framework de 58 skills compuestos que transforma agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Los skills siguen un flujo de 6 fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.",
+    "a1": "Un framework de 57 skills compuestos que transforma agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Los skills siguen un flujo de 6 fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.",
     "q2": "¿Cómo es diferente de otros frameworks de skills?",
     "a2": "Tres cosas: (1) Enforcement mecánico con approval por ventana de tiempo, 14 pre-commit gates, y 4 commit-msg gates (incluyendo TDD enforcement). (2) Guardian Pattern: DECISION POINT antes de cada mutación. (3) Context engineering: 258 líneas siempre cargadas (1.9% de 200K de contexto). Otros frameworks dan prompts. Aquí se da proceso.",
     "q3": "¿Qué agentes soporta?",
