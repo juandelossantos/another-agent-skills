@@ -49,7 +49,7 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.enforcement">The Harness</span></div>
     <h1 data-i18n="enforcement.title">The Harness</h1>
-    <p data-i18n="enforcement.subtitle">6 components. 9 gates. Zero shortcuts. Agent = Model + Harness.</p>
+    <p data-i18n="enforcement.subtitle">6 components. 13 gates. Zero shortcuts. Agent = Model + Harness.</p>
 
     <h2 data-i18n="enforcement.level1">Level 1: Process Rules</h2>
     <p data-i18n="enforcement.level1Desc">Agent remembers rules from AGENTS.md. Load-bearing for simple tasks, but fails when attention drifts.</p>
@@ -58,33 +58,46 @@
     <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
 
     <h2 data-i18n="enforcement.level3">Level 3: Time-Window Approval</h2>
-    <p data-i18n="enforcement.level3Desc">The commit-msg hook v5 verifies that a <code>.git/COMMIT_APPROVED</code> file exists, is less than 5 minutes old, and matches the commit message. No SHA256 tokens, no hash math. The agent writes this file only after user says "yes commit" in chat.</p>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook v7 verifies that a <code>.git/COMMIT_APPROVED</code> file exists, is less than 5 minutes old, and matches the commit message. Gate 4 enforces TDD: code files must have test files staged. No SHA256 tokens, no hash math. The agent writes this file only after user says "yes commit" in chat.</p>
 
     <h2 data-i18n="enforcement.level4">Level 4: Manifest Gate</h2>
     <p data-i18n="enforcement.level4Desc">Before a commit approval can be written, a manifest file must exist at <code>.git/COMMIT_MANIFEST</code>. The agent MUST write this file before running <code>commit-approval.sh</code>. This prevents committing without presenting changes.</p>
 
-    <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v8)</h2>
-    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 9 checks before every commit:</p>
+    <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v10)</h2>
+    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 13 checks before every commit:</p>
     <ul>
       <li data-i18n="enforcement.gate1">Branch check — not on detached HEAD</li>
       <li data-i18n="enforcement.gate2">Staged changes — something is staged</li>
       <li data-i18n="enforcement.gate3">Remote sync — no unpulled remote changes</li>
       <li data-i18n="enforcement.gate4">HTML integrity — staged HTML files have required structural markers</li>
-      <li data-i18n="enforcement.gate5">Skill gate — skills were consulted before implementation</li>
-      <li data-i18n="enforcement.gate6">Build verification — shell scripts have valid syntax</li>
-      <li data-i18n="enforcement.gate7">Anti-slop — no generic AI-generated patterns detected</li>
-      <li data-i18n="enforcement.gate8">Debug tracking — fix/debug commits tracked, escalates at 3</li>
-      <li data-i18n="enforcement.gate9">PROGRESS_STATUS validation — skill table must match file system</li>
+      <li data-i18n="enforcement.gate5">Override escalation — 3 overrides on a branch triggers review</li>
+      <li data-i18n="enforcement.gate6">Skill gate — skills were consulted before implementation</li>
+      <li data-i18n="enforcement.gate7">Build verification — shell scripts have valid syntax</li>
+      <li data-i18n="enforcement.gate8">Anti-slop — no generic AI-generated patterns detected</li>
+      <li data-i18n="enforcement.gate9">Debug tracking — fix/debug commits tracked, escalates at 3</li>
+      <li data-i18n="enforcement.gate10">SPEC enforcement — warn on new scripts without spec update</li>
+      <li data-i18n="enforcement.gate11">Progress status validation — skill table must match file system</li>
+      <li data-i18n="enforcement.gate12">Skill lint — validate skill structure on SKILL.md changes</li>
+      <li data-i18n="enforcement.gate13">Eval gate — run evals, dashboard, and regression on changed skills</li>
+    </ul>
+
+    <h3 data-i18n="enforcement.commitMsgTitle">Commit-Msg Gates (v7)</h3>
+    <p data-i18n="enforcement.commitMsgDesc">The commit-msg hook runs 4 gates after the commit message is written:</p>
+    <ul>
+      <li data-i18n="enforcement.cmsgGate1">TEST_LOG — tests were run and status is PASS</li>
+      <li data-i18n="enforcement.cmsgGate2">COMMIT_MANIFEST — manifest exists with files affected</li>
+      <li data-i18n="enforcement.cmsgGate3">COMMIT_APPROVED — approval is fresh (<5 min) and message matches</li>
+      <li data-i18n="enforcement.cmsgGate4">TDD gate — code files must have test files staged</li>
     </ul>
 
     <h2 data-i18n="enforcement.harnessTitle">The Harness Architecture</h2>
     <p data-i18n="enforcement.harnessDesc">A harness is the mechanical infrastructure that enforces agent behavior. This project implements 6 harness components that turn "please follow the rules" into "you literally cannot break them":</p>
     <ul>
       <li data-i18n="enforcement.harnessComp1">1. Instructions & Rules — AGENTS.md, SOUL.md, STEERING-GUIDE.md.</li>
-      <li data-i18n="enforcement.harnessComp2">2. Tools — 55 skills loaded on demand via skill gate.</li>
+      <li data-i18n="enforcement.harnessComp2">2. Tools — 58 skills loaded on demand via skill gate.</li>
       <li data-i18n="enforcement.harnessComp3">3. Sandboxes & Execution — Terminal, git workspace, CI.</li>
       <li data-i18n="enforcement.harnessComp4">4. Orchestration — skill-gate.sh, init-agents.sh, multi-agent patterns.</li>
-      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh.</li>
+      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v10 (13 gates), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.</li>
       <li data-i18n="enforcement.harnessComp6">6. Observability — project-metrics, HEALTH-CHECK.md, PROGRESS_STATUS.md.</li>
     </ul>
 

@@ -69,7 +69,7 @@ Run `init-agents` in every new project — it:
 | **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 54 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v8 (9 gates), commit-msg v6, commit-approval.sh |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v10 (13 gates), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh |
 | **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
 
 [**Full Harness architecture →**](./docs/HARNESS.md)
@@ -98,7 +98,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 **Six Layers Beyond Prompts:**
 
 1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v8 with 9 gates. Three-gate approval via commit-msg v6. No other framework does this.
+2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v10 with 13 gates. Four-gate approval via commit-msg v7 (including TDD enforcement). No other framework does this.
 3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
 4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
 5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
@@ -263,8 +263,8 @@ If it fails, ask the user before taking any action.
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v8 (9 gates) |
-| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v6 (three-gate approval: TEST_LOG + MANIFEST + APPROVED) |
+| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v10 (13 gates) |
+| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v7 (four-gate approval: TEST_LOG + MANIFEST + APPROVED + TDD gate) |
 | [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
