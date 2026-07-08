@@ -22,7 +22,7 @@
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
 | `adapt-skill` | 129 | 2 |  |
-| `api-and-interface-design` | 39 | 0 |  |
+| `api-and-interface-design` | 108 | 2 |  |
 | `architecture-analysis` | 220 | 3 |  |
 | `audit-skill` | 150 | 4 |  |
 | `backend-api-mastery` | 195 | 5 |  |
@@ -58,10 +58,10 @@
 | `interview-me` | 36 | 0 |  |
 | `minimalist-ui` | 68 | 0 |  |
 | `multi-agent-orchestration` | 81 | 1 |  |
-| `observability-and-instrumentation` | 30 | 0 |  |
+| `observability-and-instrumentation` | 104 | 2 |  |
 | `optimize-skill` | 139 | 4 |  |
 | `output-skill` | 48 | 0 |  |
-| `performance-optimization` | 30 | 0 |  |
+| `performance-optimization` | 99 | 2 |  |
 | `planning-and-task-breakdown` | 90 | 2 |  |
 | `polish-skill` | 136 | 2 |  |
 | `project-health-check` | 211 | 2 |  |
