@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# pre-commit — Another Agent Skills Pre-Flight + Quality Gates (v10)
+# pre-commit — Another Agent Skills Pre-Flight + Quality Gates (v11)
 # Installed by init-agents.sh.
-# 13 gates: Branch, Staged, Remote, HTML integrity, Override escalation,
+# 14 gates: Branch, Staged, Remote, HTML integrity, Override escalation,
 #   Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes,
-#   SPEC Enforcement, Progress Status, Skill Lint, Eval
+#   SPEC Enforcement, Progress Status, Skill Lint, Eval,
+#   Test Runner
 #
 # Approval check moved to commit-msg hook (v7, 4 gates).
 # pre-commit runs BEFORE commit message is written, so it cannot
@@ -472,6 +473,37 @@ if [ -n "$STAGED_SKILL_DIRS" ] && [ -f "$EVAL_RUNNER" ]; then
   fi
 else
   echo "  ${YELLOW}−${NC} No skill changes — skipped"
+fi
+
+# Gate 14: Test Runner — run the test suite
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  TEST RUNNER                               ║"
+echo "╚════════════════════════════════════════════╝"
+
+TEST_RUNNER="${REPO_ROOT}/tests/run-all.sh"
+if [ "${SKIP_TEST_RUNNER:-false}" = "true" ]; then
+  echo "  ${YELLOW}⚠${NC} SKIP_TEST_RUNNER=true — Gate 14 bypassed"
+elif [ -f "$TEST_RUNNER" ]; then
+  echo "  Running test suite..."
+  echo ""
+  if bash "$TEST_RUNNER"; then
+    echo "  ${GREEN}✓${NC} All tests passed"
+  else
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  TEST RUNNER FAILED                                     ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  One or more test suites failed. Review output above,    ║${NC}"
+    echo "  ${RED}║  fix the failing tests, then stage and commit again.     ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  Run: bash tests/run-all.sh                             ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+else
+  echo "  ${YELLOW}−${NC} tests/run-all.sh not found — skipped"
 fi
 
 echo ""

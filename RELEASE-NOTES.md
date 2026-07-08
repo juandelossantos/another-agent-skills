@@ -1,5 +1,28 @@
 # Release Notes
 
+## 3.1.1 (2026-07-08) — Test Infrastructure & TDD Enhancement
+
+### New
+- `tests/run-all.sh` — Unified test runner: runs 9 suites (audit, init, TDD gate, pre-commit gates, Gate 14 behavioral, sync hooks, skill lint, eval e2e). Continues on failure. Color output with summary.
+- `tests/test-pre-commit-gate-14.sh` — Behavioral test for Gate 14: asserts block on failure, pass on success, skip when missing. 7 assertions.
+- `scripts/git-hooks/pre-commit` v11 — Added Gate 14 (Test Runner): runs `bash tests/run-all.sh` before every commit. Bypass via `SKIP_TEST_RUNNER=true` env var.
+- TDD gate (`scripts/tdd-gate.sh`): name-pairing check (test file name must match code file stem) + new-test enforcement (at least one staged test file must be new, not in HEAD).
+- `.github/workflows/ci.yml` — Added 5 new steps: init tests, TDD gate tests, pre-commit gate tests, sync hooks tests, `tests/run-all.sh`.
+- `tests/playwright/package.json` + `package-lock.json` — Tracked in git for reproducible Playwright browser tests.
+- `development/SPEC-TDD-GATE.md` v1.1.0 — Updated decision tree, behavior docs, verification steps for name-pairing + new-test.
+
+### Changed
+- Pre-commit hook bumped v10 → v11 (14 gates). All doc surfaces updated: README, DEVELOPMENT.md, docs/enforcement.html, docs/EVAL-GUIDE.md, homepage, docs homepage, i18n EN/ES.
+- TDD gate is stricter: code without name-matched test blocks. Code with only pre-existing tests blocks. Override remains available.
+- `docs/js/docs.js` — Added i18n cache buster (`?v=Date.now()`) to prevent stale translations. All 12 doc pages bumped to `?v=3`.
+
+### Fixed
+- `scripts/init-agents.sh` — `--skip-self-improvement` flag boolean was reversed (line 59). Now correctly sets `WITH_SELF_IMPROVEMENT=false`.
+- Docs i18n cache: stale translations no longer persist after file edits.
+
+### Tests
+- 46 project tests across 6 suites (14 TDD gate + 7 pre-commit gates + 7 Gate 14 behavioral + 7 sync hooks + 7 init features + 3 audit wrapper + 1 audit engine golden).
+
 ## 3.1.0 (2026-07-07) — TDD Enforcement Gate
 
 ### New

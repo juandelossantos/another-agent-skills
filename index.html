@@ -264,7 +264,7 @@
           <span class="enforcement__level-num">03</span>
           <div class="enforcement__level-content">
             <h3 class="enforcement__level-title" data-i18n="enforcement.level3Title">03: Orchestration & Guardrails</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v10 (13 gates), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.</p>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v11 (14 gates, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.</p>
           </div>
           <span class="enforcement__check">✓</span>
         </div>
@@ -281,7 +281,7 @@
       <p class="enforcement__incident" data-i18n="enforcement.incidentRef">It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.</p>
       <p class="enforcement__conclusion" data-i18n="enforcement.conclusion">It learns from its own failures. Faster than competitors ship features.</p>
       <div class="enforcement__stats">
-        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">13 pre-commit gates · 4 commit-msg gates · 0 shortcuts</span>
+        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">14 pre-commit gates · 4 commit-msg gates · 0 shortcuts</span>
         <span class="enforcement__stats-label" data-i18n="enforcement.statsLabel">Harness components</span>
       </div>
       <a href="docs/enforcement.html" class="section__learn-more">How the Harness works →</a>
@@ -472,7 +472,7 @@ $ bash install.sh</code></pre>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q2">How is it different from other skill frameworks?</summary>
-          <p class="faq__answer" data-i18n="faq.a2">Three things: (1) Mechanical enforcement via time-window approval, 13 pre-commit gates, and 4 commit-msg gates (including TDD enforcement). (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 258 lines always-loaded (1.9% of 200K context). Other frameworks give you prompts. This gives you process.</p>
+          <p class="faq__answer" data-i18n="faq.a2">Three things: (1) Mechanical enforcement via time-window approval, 14 pre-commit gates, and 4 commit-msg gates (including TDD enforcement). (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 258 lines always-loaded (1.9% of 200K context). Other frameworks give you prompts. This gives you process.</p>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q3">Which agents does it support?</summary>
@@ -558,7 +558,7 @@ $ bash install.sh</code></pre>
   </div>
 </footer>
 
-<script src="js/main.js"></script>
-<script src="js/animations.js"></script>
+<script src="js/main.js?v=2"></script>
+<script src="js/animations.js?v=2"></script>
 </body>
 </html>

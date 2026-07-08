@@ -176,6 +176,48 @@ git -C "$REPO" add my-tool
 ACTUAL=$?
 assert_exit "#!/bin/sh script → BLOCK" 1 "$ACTUAL"
 
+# ─── Test 12: Name mismatch — test name doesn't match code name → BLOCK ───
+echo ""
+echo "Test 12: Name mismatch (expect BLOCK)"
+REPO=$(setup_repo 12)
+touch "$REPO/foo.js" "$REPO/bar.test.js"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Code 'foo.js' + test 'bar.test.js' → BLOCK" 1 "$ACTUAL"
+
+# ─── Test 13: Pre-existing test, no new test file → BLOCK ───
+echo ""
+echo "Test 13: Pre-existing test only, no new test file (expect BLOCK)"
+REPO=$(setup_repo 13)
+# Create and commit a test file that matches the code we'll add
+touch "$REPO/test_code.py"
+git -C "$REPO" add test_code.py
+git -C "$REPO" commit -q -m "add existing test"
+# Now add code file + modify existing test (no new test file)
+touch "$REPO/code.py"
+echo "# modified" >> "$REPO/test_code.py"
+git -C "$REPO" add code.py test_code.py
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Pre-existing test only → BLOCK" 1 "$ACTUAL"
+
+# ─── Test 14: New matching test + pre-existing test → PASS ───
+echo ""
+echo "Test 14: New matching test with pre-existing test (expect PASS)"
+REPO=$(setup_repo 14)
+# Create and commit a pre-existing test
+touch "$REPO/test_legacy.py"
+git -C "$REPO" add test_legacy.py
+git -C "$REPO" commit -q -m "add legacy test"
+# Now add code + new matching test + modify legacy test
+touch "$REPO/new_code.py" "$REPO/tests/test_new_code.py"
+echo "# modified" >> "$REPO/test_legacy.py"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "New matching test + pre-existing → PASS" 0 "$ACTUAL"
+
 # ─── Summary ───
 echo ""
 echo "──────────────────────────────────"

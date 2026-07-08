@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-03  
-> **Current version:** 3.1.0 (auto-generated)
-> **Status:** Released — 0 errors, 1 warning, 72 guides across 58 skills, 4 new reference files  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 6 phases: TDD enforcement → foundation repair → complete stubs → output contracts → docs honesty → release
+> **Last updated:** 2026-07-08  
+> **Current version:** 3.1.1 (auto-generated)
+> **Status:** Released — 0 errors, 2 warnings, 72 guides across 58 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
 
 ---
 
@@ -138,7 +138,11 @@
 
 ### In Progress
 
-- (none)
+- **Phase 1: Foundation Repair** — Broken frontmatter, flat guide consolidation, skill directory restructuring.
+
+### Completed
+
+- **Phase 0.5: Test Infrastructure** — CI updated (init tests, TDD gate tests, skill-lint), `tests/run-all.sh` unified test runner (9 suites), pre-commit Gate 14 (v11), TDD gate enhanced (name-pairing + new-test), Playwright package files tracked, all docs updated.
 
 ### Planned
 
@@ -153,9 +157,9 @@
 ## Known Limitations
 
 | Limitation | Impact | Workaround |
-|---|---|---|
+|---|---|---|---|
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
-| No automated testing | Breaks not caught until user report | Manual testing after every change |
+| Eval e2e trigger-dashboard reporting bug | Test exits 0 but prints failure | Fix in Phase 1 or dedicated debug session |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---

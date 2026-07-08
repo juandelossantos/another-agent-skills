@@ -49,7 +49,7 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.enforcement">The Harness</span></div>
     <h1 data-i18n="enforcement.title">The Harness</h1>
-    <p data-i18n="enforcement.subtitle">6 components. 13 gates. Zero shortcuts. Agent = Model + Harness.</p>
+    <p data-i18n="enforcement.subtitle">6 components. 14 gates. Zero shortcuts. Agent = Model + Harness.</p>
 
     <h2 data-i18n="enforcement.level1">Level 1: Process Rules</h2>
     <p data-i18n="enforcement.level1Desc">Agent remembers rules from AGENTS.md. Load-bearing for simple tasks, but fails when attention drifts.</p>
@@ -63,8 +63,8 @@
     <h2 data-i18n="enforcement.level4">Level 4: Manifest Gate</h2>
     <p data-i18n="enforcement.level4Desc">Before a commit approval can be written, a manifest file must exist at <code>.git/COMMIT_MANIFEST</code>. The agent MUST write this file before running <code>commit-approval.sh</code>. This prevents committing without presenting changes.</p>
 
-    <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v10)</h2>
-    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 13 checks before every commit:</p>
+    <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v11)</h2>
+    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 14 checks before every commit:</p>
     <ul>
       <li data-i18n="enforcement.gate1">Branch check — not on detached HEAD</li>
       <li data-i18n="enforcement.gate2">Staged changes — something is staged</li>
@@ -79,6 +79,7 @@
       <li data-i18n="enforcement.gate11">Progress status validation — skill table must match file system</li>
       <li data-i18n="enforcement.gate12">Skill lint — validate skill structure on SKILL.md changes</li>
       <li data-i18n="enforcement.gate13">Eval gate — run evals, dashboard, and regression on changed skills</li>
+      <li data-i18n="enforcement.gate14">Test Runner — runs tests/run-all.sh, blocks if any suite fails</li>
     </ul>
 
     <h3 data-i18n="enforcement.commitMsgTitle">Commit-Msg Gates (v7)</h3>
@@ -97,7 +98,7 @@
       <li data-i18n="enforcement.harnessComp2">2. Tools — 58 skills loaded on demand via skill gate.</li>
       <li data-i18n="enforcement.harnessComp3">3. Sandboxes & Execution — Terminal, git workspace, CI.</li>
       <li data-i18n="enforcement.harnessComp4">4. Orchestration — skill-gate.sh, init-agents.sh, multi-agent patterns.</li>
-      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v10 (13 gates), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.</li>
+      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v11 (14 gates, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.</li>
       <li data-i18n="enforcement.harnessComp6">6. Observability — project-metrics, HEALTH-CHECK.md, PROGRESS_STATUS.md.</li>
     </ul>
 
@@ -129,6 +130,6 @@
   </div>
   <aside class="docs__toc"><p class="toc__title" data-i18n="toc.title">On this page</p><ul class="toc__list"></ul></aside>
 </main>
-<script src="js/docs.js?v=2"></script>
+<script src="js/docs.js?v=3"></script>
 </body>
 </html>

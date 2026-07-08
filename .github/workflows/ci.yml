@@ -102,3 +102,18 @@ jobs:
 
       - name: Run universal-audit feature tests
         run: bash tests/audit/universal.sh
+
+      - name: Run init-agents feature tests
+        run: bash tests/init/run.sh
+
+      - name: Run TDD gate tests
+        run: bash tests/test-tdd-gate.sh
+
+      - name: Run pre-commit gate tests
+        run: bash tests/test-pre-commit-gates.sh
+
+      - name: Run sync hooks tests
+        run: bash tests/test-sync-hooks.sh
+
+      - name: Run Gate 14 behavioral tests
+        run: bash tests/test-pre-commit-gate-14.sh

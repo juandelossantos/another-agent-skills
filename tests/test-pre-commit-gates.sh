@@ -2,7 +2,7 @@
 # test-pre-commit-gates.sh — Test suite for pre-commit gate numbering (Phase 0, Task 0.6)
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
-# Verifies that pre-commit hook gates are numbered sequentially 1-13
+# Verifies that pre-commit hook gates are numbered sequentially 1-14
 # with consistent format and no duplicates or gaps.
 #
 # Usage: bash tests/test-pre-commit-gates.sh
@@ -49,23 +49,23 @@ echo "Test 2: Syntax valid"
 bash -n "$HOOK" 2>/dev/null
 assert "bash -n passes" "[ $? -eq 0 ]"
 
-# ─── Test 3: Version is v10 ───
+# ─── Test 3: Version is v11 ───
 echo ""
-echo "Test 3: Version is v10"
-assert "version v10 in header" "head -3 '$HOOK' | grep -q 'v10'"
+echo "Test 3: Version is v11"
+assert "version v11 in header" "head -3 '$HOOK' | grep -q 'v11'"
 
-# ─── Test 4: Exactly 13 gate comments ───
+# ─── Test 4: Exactly 14 gate comments ───
 echo ""
-echo "Test 4: Exactly 13 gate comments"
+echo "Test 4: Exactly 14 gate comments"
 GATE_COUNT=$(grep -c "^# Gate [0-9]" "$HOOK" 2>/dev/null || echo 0)
 GATE_COUNT=$(echo "$GATE_COUNT" | tr -d '[:space:]')
-assert "13 gate comments (got $GATE_COUNT)" "[ '$GATE_COUNT' -eq 13 ]"
+assert "14 gate comments (got $GATE_COUNT)" "[ '$GATE_COUNT' -eq 14 ]"
 
-# ─── Test 5: Sequential 1-13, no gaps ───
+# ─── Test 5: Sequential 1-14, no gaps ───
 echo ""
-echo "Test 5: Sequential 1-13, no gaps or duplicates"
+echo "Test 5: Sequential 1-14, no gaps or duplicates"
 grep "^# Gate" "$HOOK" | awk '{print $3}' | sed 's/://' | sort -n > /tmp/gates_actual.txt
-seq 1 13 > /tmp/gates_expected.txt
+seq 1 14 > /tmp/gates_expected.txt
 diff /tmp/gates_expected.txt /tmp/gates_actual.txt > /dev/null 2>&1
 assert "sequential 1-13" "[ $? -eq 0 ]"
 
