@@ -22,12 +22,12 @@
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
 | `adapt-skill` | 129 | 2 |  |
-| `api-and-interface-design` | 121 | 2 |  |
+| `api-and-interface-design` | 39 | 0 |  |
 | `architecture-analysis` | 220 | 3 |  |
 | `audit-skill` | 150 | 4 |  |
 | `backend-api-mastery` | 195 | 5 |  |
 | `browser-testing-with-devtools` | 74 | 0 |  |
-| `ci-cd-and-automation` | 154 | 2 |  |
+| `ci-cd-and-automation` | 35 | 0 |  |
 | `clarify-skill` | 91 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
@@ -58,10 +58,10 @@
 | `interview-me` | 36 | 0 |  |
 | `minimalist-ui` | 68 | 0 |  |
 | `multi-agent-orchestration` | 81 | 1 |  |
-| `observability-and-instrumentation` | 109 | 2 |  |
+| `observability-and-instrumentation` | 30 | 0 |  |
 | `optimize-skill` | 139 | 4 |  |
 | `output-skill` | 48 | 0 |  |
-| `performance-optimization` | 99 | 2 |  |
+| `performance-optimization` | 30 | 0 |  |
 | `planning-and-task-breakdown` | 90 | 2 |  |
 | `polish-skill` | 136 | 2 |  |
 | `project-health-check` | 211 | 2 |  |
@@ -79,7 +79,6 @@
 | `typeset-skill` | 136 | 2 |  |
 | `user-onboarding` | 187 | 2 |  |
 | `visual-frontend-mastery` | 42 | 0 |  |
-
 
 ### Architecture Decisions Implemented
 

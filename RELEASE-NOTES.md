@@ -223,7 +223,7 @@ v2.0.0: Standardized Frontmatter + Eval System — 55 skills, 336 evaluations, p
 
 ### 14 New Skills
 - **Discovery Pipeline:** `interview-me` → `idea-refine` (pre-spec refinement)
-- **UI Foundation:** `frontend-ui-engineering` (cross-platform UI principles)
+- **UI Foundation:** `frontend-ui-engineering` (cross-platform UI principles), `visual-frontend-mastery`
 - **Quality:** `code-simplification`, `security-and-hardening`, `deprecation-and-migration`
 - **Performance:** `performance-optimization` (system-level), `observability-and-instrumentation`
 - **API/Integration:** `api-and-interface-design`, `ci-cd-and-automation`
