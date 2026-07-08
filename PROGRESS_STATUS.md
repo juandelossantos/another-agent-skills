@@ -3,7 +3,7 @@
 > **Last updated:** 2026-07-08  
 > **Current version:** 3.1.1 (auto-generated)
 > **Status:** Released — 0 errors, 2 warnings, 124 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs (7/15 done) 🔜 → output contracts → docs honesty → release
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs (8/15 done) 🔜 → output contracts → docs honesty → release
 
 ---
 
@@ -31,7 +31,7 @@
 | `clarify-skill` | 91 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
-| `code-simplification` | 36 | 0 |  |
+| `code-simplification` | 90 | 2 |  |
 | `context-engineering` | 126 | 2 |  |
 | `critique-skill` | 165 | 3 |  |
 | `customize-opencode` | 34 | 0 | Edit or create OpenCode's own configuration files: opencode.json, files under |
@@ -137,7 +137,7 @@
 
 ### In Progress
 
-- **Phase 2: Complete Critical Stubs (7/15 done)** — Expanding 15 stub skills with actionable content. Completed: perf-opt, observability, api-design, ci-cd, frontend-ui, deprecation, source-driven. Merged: visual-frontend-mastery.
+- **Phase 2: Complete Critical Stubs (8/15 done)** — Expanding 15 stub skills with actionable content. Completed: perf-opt, observability, api-design, ci-cd, frontend-ui, deprecation, source-driven, code-simplif. Merged: visual-frontend-mastery.
 
 ### Completed
 
