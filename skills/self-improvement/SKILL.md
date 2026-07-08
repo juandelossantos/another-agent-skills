@@ -1,6 +1,6 @@
 ---
 name: self-improvement
-description: Audit and fix project issues via self-improvement loop: detect, diagnose, propose, execute with human approval. Max 3 iterations per session. Do NOT use for one-off edits or active development.
+description: "Audit and fix project issues via self-improvement loop: detect, diagnose, propose, execute with human approval. Max 3 iterations per session. Do NOT use for one-off edits or active development."
 version: 1.0.0
 license: MIT
 compatibility: all

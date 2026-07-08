@@ -1,6 +1,6 @@
 ---
 name: security-and-hardening
-description: Harden code against vulnerabilities: OWASP prevention, input validation, authentication, data storage, and third-party safety. Do NOT use for mechanical a11y fixes.
+description: "Harden code against vulnerabilities: OWASP prevention, input validation, authentication, data storage, and third-party safety. Do NOT use for mechanical a11y fixes."
 version: 1.0.0
 license: MIT
 compatibility: all

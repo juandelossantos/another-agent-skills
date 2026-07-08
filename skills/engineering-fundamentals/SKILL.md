@@ -1,6 +1,6 @@
 ---
 name: engineering-fundamentals
-description: Define the universal engineering philosophy for all platform skills: discovery, contracts, anti-slop, quality gates. Never invoke directly. Do NOT use for platform-specific implementation.
+description: "Define the universal engineering philosophy for all platform skills: discovery, contracts, anti-slop, quality gates. Never invoke directly. Do NOT use for platform-specific implementation."
 version: 1.0.0
 license: MIT
 compatibility: all

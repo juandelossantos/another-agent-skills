@@ -1,8 +1,6 @@
 ---
 name: frontend-desktop
-description: Build production-grade desktop apps with native OS integration. Default: Tauri v2. Adaptable: Electron, Flutter. Do NOT use for web or mobile projects.
-  Triggers on: "desktop app", "Tauri", "Electron", "native desktop",
-  "cross-platform desktop", "Windows app", "macOS app", "Linux app".
+description: "Build production-grade desktop applications with native OS integration. Default: Tauri v2 (Rust + Webview). Adaptable: Electron, Flutter Desktop."
 version: 1.0.0
 license: MIT
 compatibility: all

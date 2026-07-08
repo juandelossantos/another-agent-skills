@@ -35,7 +35,7 @@ echo "────────────────────────�
 # ─── Test 1: Passes with correct flags ───
 echo ""
 echo "Test 1: Passes with --plan-approved --manifest-presented"
-OUTPUT=$(bash "$SCRIPT" "test message" --plan-approved --manifest-presented 2>&1) || true
+OUTPUT=$(bash "$SCRIPT" "test message" --plan-approved --manifest-presented --allow-main 2>&1) || true
 assert "exit 0" "[ $? -eq 0 ]"
 assert "prints manifest" "echo '$OUTPUT' | grep -q 'COMMIT MANIFEST'"
 
@@ -55,7 +55,7 @@ assert "exit 1" "[ $? -eq 1 ]"
 echo ""
 echo "Test 4: Does not write COMMIT_APPROVED"
 TMP=$(mktemp -d)
-(cd "$TMP" && git init -q && git config user.email "t@t.com" && git config user.name "T")
+(cd "$TMP" && git init -q -b dev-test && git config user.email "t@t.com" && git config user.name "T")
 bash "$SCRIPT" "msg" --plan-approved --manifest-presented > /dev/null 2>&1
 assert "COMMIT_APPROVED not created" "[ ! -f '$TMP/.git/COMMIT_APPROVED' ]"
 rm -rf "$TMP"
@@ -64,7 +64,7 @@ rm -rf "$TMP"
 echo ""
 echo "Test 5: Does not write COMMIT_MANIFEST"
 TMP2=$(mktemp -d)
-(cd "$TMP2" && git init -q && git config user.email "t@t.com" && git config user.name "T")
+(cd "$TMP2" && git init -q -b dev-test && git config user.email "t@t.com" && git config user.name "T")
 bash "$SCRIPT" "msg" --plan-approved --manifest-presented > /dev/null 2>&1
 assert "COMMIT_MANIFEST not created" "[ ! -f '$TMP2/.git/COMMIT_MANIFEST' ]"
 rm -rf "$TMP2"

@@ -25,11 +25,11 @@
 | `api-and-interface-design` | 39 | 0 |  |
 | `architecture-analysis` | 220 | 3 |  |
 | `audit-skill` | 150 | 4 |  |
-| `backend-api-mastery` | 196 | 5 |  |
+| `backend-api-mastery` | 195 | 5 |  |
 | `browser-testing-with-devtools` | 74 | 0 |  |
 | `ci-cd-and-automation` | 35 | 0 |  |
 | `clarify-skill` | 91 | 2 |  |
-| `cli-tools` | 109 | 2 |  |
+| `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
 | `code-simplification` | 36 | 0 |  |
 | `context-engineering` | 126 | 2 |  |
@@ -43,13 +43,13 @@
 | `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
 | `engineering-fundamentals` | 226 | 4 |  |
-| `frontend-desktop` | 238 | 3 |  |
+| `frontend-desktop` | 236 | 3 |  |
 | `frontend-mobile` | 240 | 3 |  |
 | `frontend-pwa` | 196 | 4 |  |
 | `frontend-ui-engineering` | 44 | 0 |  |
 | `frontend-web` | 233 | 8 |  |
 | `fullstack-shipping` | 178 | 3 |  |
-| `git-init-and-versioning` | 245 | 6 |  |
+| `git-init-and-versioning` | 243 | 6 |  |
 | `git-workflow-and-versioning` | 181 | 3 |  |
 | `hard-skill` | 149 | 2 |  |
 | `idea-refine` | 39 | 0 |  |
@@ -70,10 +70,10 @@
 | `security-and-hardening` | 31 | 0 |  |
 | `self-improvement` | 88 | 4 |  |
 | `shipping-and-launch` | 163 | 2 |  |
-| `skill-creator` | 167 | 2 |  |
+| `skill-creator` | 166 | 2 |  |
 | `skill-improver` | 157 | 2 |  |
 | `soft-premium-ui` | 69 | 0 |  |
-| `source-driven-development` | 32 | 0 |  |
+| `source-driven-development` | 31 | 0 |  |
 | `spec-driven-development` | 201 | 3 |  |
 | `test-driven-development` | 138 | 6 |  |
 | `typeset-skill` | 136 | 2 |  |
@@ -125,10 +125,10 @@
 | `frontend-pwa` | 285 | 195 | **-32%** |
 | `spec-driven-development` | 329 | 163 | **-50%** |
 | `fullstack-shipping` | 307 | 225 | **-27%** |
-| `git-init-and-versioning` | 356 | 242 | **-32%** |
+| `git-init-and-versioning` | 356 | 243 | **-32%** |
 | `engineering-fundamentals` | 276 | 162 | **-41%** |
-| `frontend-desktop` | 251 | 238 | **-5%** |
-| `backend-api-mastery` | 316 | 232 | **-27%** |
+| `frontend-desktop` | 251 | 236 | **-6%** |
+| `backend-api-mastery` | 316 | 195 | **-38%** |
 
 **All 41 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
 

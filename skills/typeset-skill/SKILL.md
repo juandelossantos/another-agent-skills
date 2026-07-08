@@ -1,6 +1,6 @@
 ---
 name: typeset-skill
-description: Fix typography and reading rhythm issues: typeface, weight, size, line-height, spacing, type ramp. Use when text feels cramped or inconsistent. Do NOT use for layout issues.
+description: "Fix typography and reading rhythm issues: typeface, weight, size, line-height, spacing, type ramp. Use when text feels cramped or inconsistent. Do NOT use for layout issues."
 version: 1.0.0
 license: MIT
 compatibility: all

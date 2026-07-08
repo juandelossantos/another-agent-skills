@@ -1,6 +1,6 @@
 ---
 name: clarify-skill
-description: Rewrite confusing UX copy so interfaces explain themselves: labels, buttons, errors, empty states, tooltips. Use when users don't understand fields. Do NOT use for marketing copy.
+description: "Rewrite confusing UX copy so interfaces explain themselves: labels, buttons, errors, empty states, tooltips. Use when users don't understand fields. Do NOT use for marketing copy."
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,6 +1,6 @@
 ---
 name: critique-skill
-description: Evaluate interfaces with two-pass design review: scoring, persona tests, AI slop detection, Nielsen heuristics, and 25 anti-patterns. Do NOT use for implementation bugs.
+description: "Evaluate interfaces with two-pass design review: scoring, persona tests, AI slop detection, Nielsen heuristics, and 25 anti-patterns. Do NOT use for implementation bugs."
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,7 +1,6 @@
 ---
 name: skill-creator
-description: Generate new agent skills from a workflow description: SKILL.md with frontmatter, workflow, examples, and eval cases. Use when creating from a description. Do NOT use for modifying existing skills.
-  existing skills (use skill-improver) or for one-off tasks.
+description: "Generate new agent skills from a workflow description: SKILL.md with frontmatter, workflow, examples, and eval cases. Use when creating from a description. Do NOT use for modifying existing skills."
 version: 1.0.0
 license: MIT
 compatibility: all

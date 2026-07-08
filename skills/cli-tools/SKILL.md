@@ -1,7 +1,6 @@
 ---
 name: cli-tools
-description: Build production-grade CLI tools with argument parsing, exit codes, colored output, progress, and error handling. Triggers: CLI, terminal, shell script. Do NOT use for GUI applications.
-  "build a CLI", "terminal app".
+description: "Build production-grade CLI tools with argument parsing, exit codes, colored output, progress, and error handling. Triggers: CLI, terminal, shell script. Do NOT use for GUI applications."
 version: 1.0.0
 license: MIT
 compatibility: all

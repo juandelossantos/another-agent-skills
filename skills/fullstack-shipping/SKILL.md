@@ -1,6 +1,6 @@
 ---
 name: fullstack-shipping
-description: Build, test, and deploy with production-grade CI/CD, testing, orchestration, and monitoring. Triggers on: deploy, ship, launch, pipeline, production. Do NOT use for local prototyping.
+description: "Build, test, and deploy with production-grade CI/CD, testing, orchestration, and monitoring. Triggers on: deploy, ship, launch, pipeline, production. Do NOT use for local prototyping."
 version: 1.0.0
 license: MIT
 compatibility: all
