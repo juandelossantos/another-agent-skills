@@ -65,7 +65,7 @@ echo "Test 1: Code-only staged (expect BLOCK)"
 REPO=$(setup_repo 1)
 touch "$REPO/foo.js"
 git -C "$REPO" add foo.js
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "Code-only staged → BLOCK" 1 "$ACTUAL"
 
@@ -75,7 +75,7 @@ echo "Test 2: Code + test staged (expect PASS)"
 REPO=$(setup_repo 2)
 touch "$REPO/foo.js" "$REPO/foo.test.js"
 git -C "$REPO" add .
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "Code + test staged → PASS" 0 "$ACTUAL"
 
@@ -85,7 +85,7 @@ echo "Test 3: No code staged (expect SKIP/PASS)"
 REPO=$(setup_repo 3)
 touch "$REPO/docs.md"
 git -C "$REPO" add docs.md
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "No code staged → PASS" 0 "$ACTUAL"
 
@@ -95,7 +95,7 @@ echo "Test 4: OVERRIDE in message (expect PASS)"
 REPO=$(setup_repo 4)
 touch "$REPO/bar.ts"
 git -C "$REPO" add bar.ts
-COMMIT_MSG="fix: typo" bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && COMMIT_MSG=$'fix: typo\n\nOVERRIDE: typo-only change' bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "OVERRIDE in message → PASS" 0 "$ACTUAL"
 
@@ -106,7 +106,7 @@ REPO=$(setup_repo 5)
 touch "$REPO/app.py"
 touch "$REPO/tests/test_app.py"
 git -C "$REPO" add .
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "Test in tests/ dir → PASS" 0 "$ACTUAL"
 
@@ -116,7 +116,7 @@ echo "Test 6: test_ prefix (expect PASS)"
 REPO=$(setup_repo 6)
 touch "$REPO/main.go" "$REPO/test_main.go"
 git -C "$REPO" add .
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "test_ prefix → PASS" 0 "$ACTUAL"
 
@@ -126,7 +126,7 @@ echo "Test 7: _spec suffix (expect PASS)"
 REPO=$(setup_repo 7)
 touch "$REPO/handler.rb" "$REPO/handler_spec.rb"
 git -C "$REPO" add .
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "_spec suffix → PASS" 0 "$ACTUAL"
 
@@ -136,7 +136,7 @@ echo "Test 8: Config-only staged (expect SKIP/PASS)"
 REPO=$(setup_repo 8)
 touch "$REPO/config.json"
 git -C "$REPO" add config.json
-bash "$GATE_SCRIPT" > /dev/null 2>&1
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "Config-only → PASS" 0 "$ACTUAL"
 
