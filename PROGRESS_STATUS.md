@@ -27,7 +27,7 @@
 | `audit-skill` | 150 | 4 |  |
 | `backend-api-mastery` | 195 | 5 |  |
 | `browser-testing-with-devtools` | 74 | 0 |  |
-| `ci-cd-and-automation` | 35 | 0 |  |
+| `ci-cd-and-automation` | 123 | 2 |  |
 | `clarify-skill` | 91 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
