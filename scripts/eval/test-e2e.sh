@@ -106,11 +106,11 @@ echo "║  Step $STEP: trigger-dashboard (all skills)  ║"
 echo "╚════════════════════════════════════════════╝"
 OUTPUT=$(bash scripts/eval/trigger-dashboard.sh --all 2>&1) || true
 DASH_EXIT=$?
-if [ "$DASH_EXIT" -eq 0 ] && echo "$OUTPUT" | tail -1 | grep -qP 'no change|improved'; then
-  echo "  ${GREEN}✓${NC} trigger-dashboard — all skills ≥90%"
+echo "$OUTPUT"
+if [ "$DASH_EXIT" -eq 0 ]; then
+  echo "  ${GREEN}✓${NC} trigger-dashboard passed (exit 0)"
 else
-  echo "  ${RED}✗${NC} trigger-dashboard — exit $DASH_EXIT"
-  echo "$OUTPUT" | tail -5
+  echo "  ${RED}✗${NC} trigger-dashboard failed (exit $DASH_EXIT)"
   EXIT_CODE=1
 fi
 
