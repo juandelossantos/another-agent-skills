@@ -1,6 +1,6 @@
 ---
 name: frontend-desktop
-description: "Build production-grade desktop applications with native OS integration. Default: Tauri v2 (Rust + Webview). Adaptable: Electron, Flutter Desktop."
+description: "Build production-grade desktop apps with native OS integration. Default: Tauri v2. Adaptable: Electron, Flutter. Do NOT use for web-only or mobile-only projects."
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -19,7 +19,7 @@ Platform skills add implementation specifics to this philosophy.
 
 ## When to Use
 
-Implicitly loaded by all platform skills (frontend-web, frontend-mobile, backend-api, etc.). Never invoke directly — platform skills reference this as their foundation.
+Loaded by all platform skills. Never invoke directly.
 
 ## Core Philosophy
 
@@ -32,7 +32,7 @@ Implicitly loaded by all platform skills (frontend-web, frontend-mobile, backend
 
 ## Pre-Flight: Repo State Check (Before ANY phase)
 
-**MANDATORY.** Run before Phase 0 and before any edit, creation, or deletion of files.
+**MANDATORY.** Run before Phase 0 and before any file mutation.
 
 ### Step 1 — Diagnose
 
@@ -43,7 +43,7 @@ Then `git log --oneline -3` to understand recent context.
 
 ### Step 2 — Present & Ask (MANDATORY)
 
-Present the full state to the user and ask about branch intent BEFORE any action:
+Present full state and ask about branch intent before any action:
 
 ```
 Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
@@ -60,13 +60,13 @@ Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
 
 ### Step 3 — Verify
 
-- If not a git repo → `git init` first (see `git-init-and-versioning`)
-- If working tree is dirty → ask: commit, stash, or discard
-- If remote has unpulled changes → ask: do pull --rebase now?
+- Not a git repo → `git init` (see `git-init-and-versioning`)
+- Dirty tree → ask: commit, stash, or discard
+- Remote has unpulled changes → ask: pull --rebase?
 
 ### Enforcement
 
-The pre-commit hook enforces this mechanically — even if the agent skips Steps 1-2, the commit blocks. See `scripts/git-hooks/pre-commit`.
+Pre-commit hook enforces this mechanically. See `scripts/git-hooks/pre-commit`.
 
 ---
 
@@ -74,7 +74,7 @@ The pre-commit hook enforces this mechanically — even if the agent skips Steps
 
 ### Phase 0 — Language Detection
 
-Detect immediately. Spanish keywords → Spanish. English keywords → English. Other → that language, fallback to English. Never mix.
+Spanish keywords → Spanish. English → English. Other → that language. Never mix.
 
 ---
 
@@ -82,9 +82,9 @@ Detect immediately. Spanish keywords → Spanish. English keywords → English. 
 
 **NO CODE UNTIL COMPLETE.**
 
-**Surface:** Audience, Core problem, Scale (MVP/Standard/Complex), Platform-specific. **Discover (min 5):** Audience, Purpose, Scope, Context, Constraints. **Extended (non-trivial):** Data, Security, Integrations, Offline, Scalability.
+**Surface:** Audience, Core problem, Scale (MVP/Standard/Complex), Platform. **Discover (min 5):** Audience, Purpose, Scope, Context, Constraints. **Extended:** Data, Security, Integrations, Offline, Scalability.
 
-**Confirm:** Summarize. Ask "Is this correct? Shall we proceed?" Only after explicit yes, proceed.
+**Confirm:** Summarize. Ask "Is this correct? Shall we proceed?" Only after explicit yes.
 
 ---
 
@@ -173,13 +173,13 @@ Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main path
 
 | Component | Failure → Response |
 |---|---|
-| Tool call | Fail → return as observation, never panic |
-| Pre-commit gate | Block → bypass only with human approval |
+| Tool call | Fail → return as observation |
+| Pre-commit gate | Block → bypass with human approval |
 | Debug loop | 3 strikes → escalate to user |
-| Session | Context loss → continue, don't recap (Rule 0i) |
+| Session | Context loss → continue (Rule 0i) |
 | Verification | Can't reach world → "ship status unknown" (Rule 0h) |
 
-**Anti-patterns:** "It'll probably work" (no failure path = hope, not workflow), "Just retry" (no diagnosis = noise).
+**Anti-patterns:** "It'll probably work" (hope, not workflow), "Just retry" (noise, not diagnosis).
 
 ---
 
@@ -198,7 +198,7 @@ Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main path
 
 ### Phase 7 — Red Flags
 
-Code before requirements, assumptions unsurfaced, contracts skipped, hardcoded values, accessibility optional, DESIGN-LOCK.md not read, features not in spec.
+Code before requirements, assumptions unsurfaced, contracts skipped, hardcoded values, accessibility optional, DESIGN-LOCK.md stale, features not in spec.
 
 ---
 

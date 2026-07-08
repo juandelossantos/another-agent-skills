@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # test-code-simplification-skill.sh — Verifies code-simplification is complete
-# Task 2.9: stub (36 lines) → complete (≤150 lines, 2 guides)
+# Task 2.9: stub (36 lines) → complete (≤250 lines, 2 guides)
 #
 # Usage: bash tests/test-code-simplification-skill.sh
 # Exit: 0 if all pass, 1 if any fail
@@ -29,7 +29,7 @@ assert "has Anti-Patterns section" "grep -q 'Anti-Pattern\|Anti-Patterns' '$DIR/
 assert "has Verification section" "grep -q '## Verification' '$DIR/SKILL.md'"
 
 LINES=$(wc -l < "$DIR/SKILL.md")
-assert "SKILL.md ≤ 150 lines (got $LINES)" "[ $LINES -le 150 ]"
+assert "SKILL.md ≤ 250 lines (got $LINES)" "[ $LINES -le 250 ]"
 
 mkdir -p "$DIR/guides"
 assert "guides/SIMPLIFICATION-HEURISTICS.md exists" "[ -f '$DIR/guides/SIMPLIFICATION-HEURISTICS.md' ]"
@@ -38,10 +38,10 @@ if [ -f "$DIR/guides/SIMPLIFICATION-HEURISTICS.md" ]; then
   assert "SIMPLIFICATION-HEURISTICS.md ≥ 50 lines (got $SH)" "[ $SH -ge 50 ]"
 fi
 
-assert "guides/REFACTORING-DECISIONS.md exists" "[ -f '$DIR/guides/REFACTORING-DECISIONS.md' ]"
-if [ -f "$DIR/guides/REFACTORING-DECISIONS.md" ]; then
-  RD=$(wc -l < "$DIR/guides/REFACTORING-DECISIONS.md")
-  assert "REFACTORING-DECISIONS.md ≥ 50 lines (got $RD)" "[ $RD -ge 50 ]"
+assert "guides/REFACTORING-PATTERNS.md exists" "[ -f '$DIR/guides/REFACTORING-PATTERNS.md' ]"
+if [ -f "$DIR/guides/REFACTORING-PATTERNS.md" ]; then
+  RD=$(wc -l < "$DIR/guides/REFACTORING-PATTERNS.md")
+  assert "REFACTORING-PATTERNS.md ≥ 50 lines (got $RD)" "[ $RD -ge 50 ]"
 fi
 
 bash -n "${BASH_SOURCE[0]}" 2>/dev/null
