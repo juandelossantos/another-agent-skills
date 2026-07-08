@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-07
-**Version:** 3.1.0
+**Date:** 2026-07-08
+**Version:** 3.1.1
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **1** |
+| Warnings | **4** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -25,8 +25,8 @@
 | SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 3.1.0 | Consistent |
-| Skill lint | ✅ 0 errors, 2 warnings | |
+| VERSION | ✅ 3.1.1 | Consistent |
+| Skill lint | ✅ 0 errors, 4 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
