@@ -183,8 +183,8 @@ for file in $PR_FILES; do
             fi
             ;;
         scripts/git-hooks/commit-msg)
-            if ! grep -q "sha256" "$file" 2>/dev/null; then
-                echo -e "  ${RED}✗${NC} $file missing hash verification"
+            if ! grep -q "COMMIT_APPROVED\|TDD_GATE\|tdd-gate" "$file" 2>/dev/null; then
+                echo -e "  ${RED}✗${NC} $file missing approval/TDD verification"
                 HOOKS_OK=0
             fi
             ;;
