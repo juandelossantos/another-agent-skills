@@ -36,23 +36,58 @@ _same_path() {
 WITH_SELF_IMPROVEMENT=true
 
 usage() {
-  echo "Usage: bash init-agents.sh [--skip-self-improvement]"
+  echo "Usage: bash init-agents.sh [OPTIONS] [SUBCOMMAND]"
+  echo ""
+  echo "Subcommands:"
+  echo "  sync-hooks                 Copy hooks from scripts/git-hooks/ to .git/hooks/"
+  echo "                             (use after modifying hooks without full re-init)"
   echo ""
   echo "Options:"
   echo "  --skip-self-improvement    Skip scaffolding the self-improvement loop"
   echo "                             (By default, init-agents installs: .audit-config.json,"
   echo "                             scripts/audit-project.sh, skills/self-improvement/,"
   echo "                             PATTERNS.md, ANTI-PATTERNS.md, ADRs/, generate-adr.sh)"
+  echo "  --help|-h                  Show this help"
   exit 0
 }
 
+# ─── Subcommand handling ───
+SUBCOMMAND=""
 for arg in "$@"; do
   case "$arg" in
-    --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
+    sync-hooks) SUBCOMMAND="sync-hooks" ;;
+    --skip-self-improvement) WITH_SELF_IMPROVEMENT=true ;;
     --help|-h) usage ;;
     *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
   esac
 done
+
+# ─── sync-hooks subcommand ───
+if [ "$SUBCOMMAND" = "sync-hooks" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  if [ ! -d "./.git" ]; then
+    warn "No .git directory found. Run from a git repository."
+    exit 1
+  fi
+  mkdir -p "./.git/hooks"
+  for hook in pre-commit commit-msg; do
+    src="${SCRIPT_DIR}/git-hooks/${hook}"
+    dst="./.git/hooks/${hook}"
+    if [ -f "$src" ]; then
+      if [ -f "$dst" ]; then
+        cp "$dst" "${dst}.backup.$(date +%Y%m%d%H%M%S)"
+        warn "Backed up existing ${hook} hook"
+      fi
+      cp "$src" "$dst"
+      chmod +x "$dst"
+      ok "Synced ${hook} hook (${dst})"
+    else
+      warn "Source hook not found: ${src}"
+    fi
+  done
+  log "Hooks synced. Run 'bash scripts/init-agents.sh sync-hooks' after modifying hooks."
+  exit 0
+fi
 
 # Detect existing agent config files
 detect_target() {

@@ -48,3 +48,13 @@ touch my-analysis.md
 ```
 
 When working with an agent in this repo, **the agent reads Rule 10 in AGENTS.md** and knows to place refinement artifacts in `development/`.
+
+## Syncing Git Hooks
+
+After modifying hooks in `scripts/git-hooks/`, sync them to `.git/hooks/`:
+
+```bash
+bash scripts/init-agents.sh sync-hooks
+```
+
+This copies `pre-commit` and `commit-msg` from `scripts/git-hooks/` to `.git/hooks/`, backs up existing hooks, and makes them executable. Run this every time you modify hook source files.
