@@ -26,12 +26,24 @@ Single-line fixes, typo corrections, truly trivial changes (1 file, < 10 lines, 
 
 ## Pipeline (Prompt → Code)
 
-### P0 — Context Assessment
+### P0 — Discovery Gate (MANDATORY)
+
+**Check `INTENT.md` before anything else.**
+
+| State | Action |
+|---|---|
+| `INTENT.md` exists, all 5 dimensions ≥80% | Read it. Proceed to P1. |
+| `INTENT.md` exists, any dimension <80% | Note gaps. Ask user to fill or proceed with uncertainty. |
+| `INTENT.md` missing | BLOCK. Message: "Discovery gate: INTENT.md missing. Run `interview-me` first or add NOINTENT override." |
+
+Override: `NOINTENT: reason` in commit body for trivial changes.
+
+### P1 — Context Assessment
 Check `SPEC.md`. Exists → read, extend. Missing → new spec.
 If existing code: check `HEALTH-CHECK.md` age. >7 days → re-audit via `project-health-check`.
-Assess complexity: Simple (skip P1). Non-trivial (full). Complex (inline `architecture-analysis`).
+Assess complexity: Simple (skip P2 onwards). Non-trivial (full). Complex (inline `architecture-analysis`).
 
-### P1 — Domain Research (Non-Trivial)
+### P2 — Domain Research (Non-Trivial)
 Search best practices for [domain/technology] [current year]. **Always use current year. Never hardcode.** Common pitfalls, architecture patterns, latest versions. Present as context, not prescription.
 
 **Use template:**
@@ -43,7 +55,7 @@ RESEARCH FINDINGS:
 → Does this match your understanding?
 ```
 
-### P2 — Structured Clarification (MANDATORY before plan)
+### P3 — Structured Clarification (MANDATORY before plan)
 
 After research and before deep discovery, systematically identify underspecified areas:
 
@@ -61,12 +73,12 @@ CLARIFICATION LOG:
   → 4 gaps closed, 0 remaining.
 ```
 
-Only after all gaps are closed (or explicitly waived) proceed to P3.
+Only after all gaps are closed (or explicitly waived) proceed to P4.
 
-### P3 — Deep Discovery (MANDATORY)
+### P4 — Deep Discovery (MANDATORY)
 Read `guides/DISCOVERY-GUIDE.md`. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
 
-### P4 — Architecture Decision Gate
+### P5 — Architecture Decision Gate
 Non-trivial → invoke `architecture-analysis`. Simple → note "Standard stack per platform skill."
 
 **Architecture gate template:**
@@ -75,13 +87,13 @@ Before writing the spec, we need to lock architecture.
 The spec depends on: frontend framework, backend approach, data layer, auth strategy, deployment target.
 ```
 
-### P5 — Write SPEC.md
+### P6 — Write SPEC.md
 Read `guides/SPEC-TEMPLATE-GUIDE.md`. 10 sections: Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries. Success criteria MUST be testable.
 
-### P6 — Plan
+### P7 — Plan
 Components, dependencies, order, risks, verification checkpoints. User must review.
 
-### P7 — Tasks
+### P8 — Tasks
 Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5 files per task.
 
 **Task template:**
@@ -92,10 +104,10 @@ Discrete chunks. Each: acceptance criteria, verification step, file list. Max ~5
   - Files: [Which files will be touched]
 ```
 
-### P8 — Environment Audit
+### P9 — Environment Audit
 Check `docs/DEV-ENVIRONMENT.md`. Missing → invoke `dev-environment-audit`. Verify Node.js, package manager, Git, test tools.
 
-### P9 — Implement Gate (MANDATORY)
+### P10 — Implement Gate (MANDATORY)
 Full stop. Confirm: SPEC ✅ | PLAN ✅ | TASKS ✅ | ARCH ✅ | ENV ✅.
 Require explicit "yes" / "sí" / "proceed" / "let's go". Invalid: "ok" / "sure".
 Only then invoke `incremental-implementation` + `test-driven-development`.
@@ -110,14 +122,14 @@ LOG METRIC: gate
 ```
 LOG METRIC: discovery
 - project: [detect]
-- duration_minutes: [P1 to P9]
+- duration_minutes: [P0 to P10]
 - questions_asked: [count]
 - user_confirms: [count]
 ```
 
 **Quick reference:** `guides/SPEC-FLOW.md` for one-page pipeline visualization + memory aid.
 
-### P10 — Convergence (post-implementation)
+### P11 — Convergence (post-implementation)
 
 After implementation, verify the codebase matches the spec:
 
@@ -159,13 +171,14 @@ Update spec first, then code. Commit alongside code. Reference in PRs. Revisit i
 ## Integration Map
 
 | Phase | Skill to Inline |
-|---|---|
-| P0 (existing code) | `project-health-check` |
-| P4 (non-trivial) | `architecture-analysis` |
-| P6-P7 | `planning-and-task-breakdown` |
-| P8 | `dev-environment-audit` |
-| P9 (parallel) | `multi-agent-orchestration` |
-| After P9 | `incremental-implementation`, `test-driven-development` |
+|---|---|---|
+| P0 (discovery gate) | `interview-me` |
+| P1 (existing code) | `project-health-check` |
+| P5 (non-trivial) | `architecture-analysis` |
+| P7-P8 | `planning-and-task-breakdown` |
+| P9 | `dev-environment-audit` |
+| P10 (parallel) | `multi-agent-orchestration` |
+| After P10 | `incremental-implementation`, `test-driven-development` |
 
 ---
 
@@ -196,6 +209,7 @@ Code before SPEC.md. Research skipped for non-trivial. Phase 9 bypassed with vag
 - [ ] User said explicit "yes" before code
 - [ ] Success criteria are testable
 - [ ] Spec committed alongside code
-- [ ] Metrics logged after Phase 9
-- [ ] Convergence check done after implementation (P10)
+- [ ] Metrics logged after Phase 10
+- [ ] Convergence check done after implementation (P11)
+- [ ] - [ ] `INTENT.md` checked before spec (Discovery Gate P0)
 - [ ] `[current year]` used in research (not hardcoded year)
