@@ -1,7 +1,7 @@
 # SPEC-TDD-GATE: Test Companion Pre-Commit Gate
 
-> Version: 1.0.0
-> Status: DRAFT
+> Version: 1.1.0
+> Status: IMPLEMENTED
 > Author: opencode
 > Date: 2026-07-08
 > Plan: PLAN-v5-TDD-FIRST Phase 0
@@ -16,8 +16,12 @@ Enforce that every code change is accompanied by a test. Mechanical, language-ag
 Are there staged code files?
 ├── NO → SKIP (no gate)
 └── YES → Are there staged test files?
-    ├── YES → PASS
-    └── NO → BLOCK + message
+    ├── NO → BLOCK + message
+    └── YES → Name-matching test present for each code file?
+        ├── NO → BLOCK + message (name-pairing)
+        └── YES → At least one test file is NEW (not in HEAD)?
+            ├── NO → BLOCK + message (new-test)
+            └── YES → PASS
 ```
 
 ## File Patterns
@@ -51,7 +55,7 @@ Are there staged code files?
 
 ## Behavior
 
-### BLOCK (exit 1)
+### BLOCK — No test files (exit 1)
 
 When code files are staged but NO test files are staged:
 
@@ -61,9 +65,32 @@ Stage a test file or add OVERRIDE: <reason> to commit message body.
 Code: foo.js | Tests needed: foo.test.js, test_foo.py, or tests/foo.py
 ```
 
+### BLOCK — Name-pairing mismatch (exit 1)
+
+When test files are staged but none name-match a staged code file:
+
+```
+TDD GATE: Name-pairing failed
+Code files without a name-matching test:
+  - foo.js
+Staged test file(s):
+  - bar.test.js
+Expected: test file name containing 'foo'
+```
+
+### BLOCK — No new test file (exit 1)
+
+When all staged test files already exist in HEAD (none are new):
+
+```
+TDD GATE: New test file required
+All staged test files already exist in HEAD.
+Each change must include at least one new test file.
+```
+
 ### PASS (exit 0)
 
-When NO code files are staged, or when test files ARE staged alongside code files.
+When code files are staged AND each has a name-matching test file AND at least one test file is new.
 
 ### SKIP (exit 0)
 
@@ -128,4 +155,7 @@ After implementation, verify:
 2. `bash scripts/tdd-gate.sh` with code+test staged → exit 0
 3. `bash scripts/tdd-gate.sh` with no code staged → exit 0
 4. `bash scripts/tdd-gate.sh` with OVERRIDE in message → exit 0
-5. `bash tests/test-tdd-gate.sh` → all tests pass
+5. `bash scripts/tdd-gate.sh` with name-mismatched test → exit 1
+6. `bash scripts/tdd-gate.sh` with pre-existing test only → exit 1
+7. `bash tests/test-tdd-gate.sh` → all tests pass
+8. `bash tests/test-pre-commit-gate-14.sh` → all tests pass
