@@ -1,11 +1,11 @@
 import { chromium } from '@playwright/test';
 import { test, expect } from '@playwright/test';
 
-test('landing page loads with v3.0.0 content', async ({ page }) => {
+test('landing page loads with current version skill count', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('body')).toBeVisible();
   const body = await page.textContent('body');
-  expect(body).toContain('58');
+  expect(body).toContain('57');
 });
 
 test('self-improving section exists', async ({ page }) => {
@@ -29,8 +29,13 @@ test('landing page loads in Spanish', async ({ page }) => {
   });
   await page.reload();
   await expect(page.locator('body')).toBeVisible();
-  // Check that at least one element is in Spanish
   const body = await page.textContent('body');
-  const isSpanish = body.includes('Inicio') || body.includes('skills') || body.includes('58');
+  const isSpanish = body.includes('Inicio') || body.includes('skills') || body.includes('habilidades');
   expect(isSpanish).toBeTruthy();
+});
+
+test('harness section shows current gate counts', async ({ page }) => {
+  await page.goto('/');
+  const body = await page.textContent('body');
+  expect(body).toContain('14 pre-commit');
 });

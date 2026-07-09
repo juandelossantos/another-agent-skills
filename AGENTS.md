@@ -89,7 +89,6 @@ mindmap
       frontend-mobile
       frontend-desktop
       frontend-ui-engineering
-      visual-frontend-mastery
     Backend
       backend-api-mastery
       api-and-interface-design
@@ -110,7 +109,7 @@ mindmap
       observability-and-instrumentation
 ```
 - **Rule 2:** Intent mapping — detect platform before acting
-- **Rule 3:** Lifecycle — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP. TDD enforcement: commit-msg hook v7 Gate 4 blocks code commits without test files.
+- **Rule 3:** Lifecycle — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP. TDD enforcement: commit-msg hook v4 blocks code commits without test files.
 
 ```mermaid
 flowchart LR

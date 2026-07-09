@@ -5,6 +5,9 @@
 # Used by CI and pre-commit (Gate 14).
 #
 # Invocation: bash tests/run-all.sh
+#
+# Runs all project-level test suites and reports results.
+# Used by CI and pre-commit (Gate 14).
 set -uo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
@@ -50,6 +53,20 @@ run_suite "Frontmatter"         "bash tests/test-frontmatter.sh"
 run_suite "Pre-flight"          "bash tests/test-pre-flight.sh"
 run_suite "Flat files"          "bash tests/test-flat-files.sh"
 run_suite "Guide refs"          "bash tests/test-guide-refs.sh"
+run_suite "Skill content"       "bash tests/test-performance-skill.sh"
+run_suite "Observability"       "bash tests/test-observability-skill.sh"
+run_suite "API design"          "bash tests/test-api-design-skill.sh"
+run_suite "CI/CD"               "bash tests/test-ci-cd-skill.sh"
+run_suite "Skill merge"         "bash tests/test-skill-merge.sh"
+run_suite "Frontend UI"         "bash tests/test-frontend-ui-skill.sh"
+run_suite "Deprecation"         "bash tests/test-deprecation-skill.sh"
+run_suite "Source-driven"       "bash tests/test-source-driven-skill.sh"
+run_suite "Code simplif"        "bash tests/test-code-simplification-skill.sh"
+run_suite "Idea refine"         "bash tests/test-idea-refine-skill.sh"
+run_suite "Interview me"        "bash tests/test-interview-me-skill.sh"
+run_suite "Customize OpenCode"  "bash tests/test-customize-opencode-skill.sh"
+run_suite "Output skill"        "bash tests/test-output-skill.sh"
+run_suite "Three strikes"       "bash tests/test-three-strikes-skill.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then

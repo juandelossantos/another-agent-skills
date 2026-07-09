@@ -1,6 +1,6 @@
 ---
 name: git-init-and-versioning
-description: "Initialize and configure Git before any code is written. Decides mono-repo vs multi-repo, creates .gitignore and .env.example, sets branching strategy, and configures pre-commit gates."
+description: "Initialize and configure Git before writing code. Decides mono vs multi-repo, creates .gitignore/.env.example, sets branching strategy. Do NOT use for ongoing development workflow or commit guidance."
 version: 1.0.0
 license: MIT
 compatibility: all

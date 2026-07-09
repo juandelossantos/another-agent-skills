@@ -1,13 +1,13 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v3.1.1](https://img.shields.io/badge/version-3.1.1-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v4.0.0](https://img.shields.io/badge/version-4.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
 [![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
 
-**58 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
+**57 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
 **No bloat. No shortcuts. Just process. Harness. Repeat.**
 **+3 meta-skills to create, improve, and harvest your own.**
 
@@ -37,7 +37,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 58 custom skills + 54 guides + 6 harness components.
+**That's it.** Your AI agent now has 57 custom skills + 74 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 Run `init-agents` in every new project — it:
@@ -61,12 +61,12 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 New in v3.1.1: Test Infrastructure & TDD Enhancement** — Unified test runner, pre-commit Gate 14, name-pairing + new-test enforcement. [Learn more →](#whats-new-in-v311--test-infrastructure--tdd-enhancement)
+> **🧠 New in v4.0.0: Foundation Repair & Critical Stubs** — 15 stubs completed, 57 skills, frontmatter fixes, enforcement simplification. [Learn more →](#whats-new-in-v400--foundation-repair--critical-stubs)
 
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 54 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 74 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v4 (TDD gate), commit-approval.sh |
@@ -84,7 +84,7 @@ After installation, these commands are available in your terminal:
 |---|---|
 | `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
 | `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 58 skills, shell config, global scripts. |
+| `bash install.sh` | Full installer: 57 skills, shell config, global scripts. |
 | `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
@@ -109,33 +109,43 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | System | Always-loaded | Lazy loading | Guides | Context control |
 |---|---|---|---|---|
 | Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
-| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 54 guides | Auto-evict at 70% |
+| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
 
 ---
 
-## What's New in v3.1.1 — Test Infrastructure & TDD Enhancement
+## What's New in v4.0.0 — Foundation Repair & Critical Stubs
 
-### ⚙️ Test Runner, Name-Pairing, New-Test Enforcement
+### 🏗️ 15 Stubs Completed, Enforcement Simplified
 
-v3.1.1 completes the test infrastructure for mechanical verification. A unified test runner runs 9 suites, pre-commit Gate 14 blocks on failures, and the TDD gate now enforces name-pairing (test name must match code) and requires at least one new test per change.
+v4.0.0 completes 15 critical stub skills and repairs the project's foundation. 57 skills now have full content, workflows, and guides. The commit-msg hook was simplified from 4 gates to 1 (TDD only).
 
-```mermaid
-flowchart LR
-    A["bash tests/run-all.sh"] --> B{"9 suites"}
-    B --> C["✅ 8 pass"]
-    B --> D["❌ 1 fail"]
-    C --> E["✅ Commit allowed"]
-    D --> F["❌ Pre-commit Gate 14 blocks"]
-```
-
-- **`tests/run-all.sh`** — Unified test runner: runs audit, init, TDD gate, pre-commit gates, Gate 14 behavioral, sync hooks, skill lint, eval e2e. Continues on failure. Color output.
-- **`scripts/git-hooks/pre-commit` v11** — 14 sequential gates. Gate 14 (Test Runner) runs `bash tests/run-all.sh` before every commit. Bypass with `SKIP_TEST_RUNNER=true`.
-- **`scripts/tdd-gate.sh`** — Enhanced with name-pairing check (test file name must match code file) and new-test enforcement (at least one staged test must be new). Both bypassable via `OVERRIDE:`.
-- **`tests/test-pre-commit-gate-14.sh`** — Behavioral test: asserts Gate 14 blocks on failure, passes on success, skips when missing.
-- **`development/SPEC-TDD-GATE.md` v1.1.0** — Updated decision tree with name-pairing + new-test flow.
-- **46 total project tests** across 6 suites: TDD gate (14), pre-commit gates (7), Gate 14 behavioral (7), sync hooks (7), init features (7), audit wrapper (3), audit engine (1).
+- **15 stubs completed**: `performance-optimization`, `observability-and-instrumentation`, `api-and-interface-design`, `ci-cd-and-automation`, `frontend-ui-engineering`, `deprecation-and-migration`, `source-driven-development`, `code-simplification`, `idea-refine`, `interview-me`, `customize-opencode`, `output-skill`, `debugging-three-strikes`. `visual-frontend-mastery` merged into `frontend-ui-engineering`.
+- **Foundation repair**: 29 frontmatter descriptions fixed, 23 flat guides consolidated, YAML parsing passes on all skills.
+- **Enforcement simplification**: commit-msg v7→v4 (removed COMMIT_APPROVED/MANIFEST/TEST_LOG gates). User runs `git commit` directly.
+- **Documentation consistency**: 24 stale references fixed across 12 files (hook versions, gate counts, skill counts, guide counts).
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
+
+### Previous Releases
+
+<details>
+<summary>v3.1.1 — Test Infrastructure & TDD Enhancement</summary>
+
+- **`tests/run-all.sh`** — Unified test runner: runs 9 suites (audit, init, TDD gate, pre-commit gates, Gate 14 behavioral, sync hooks, skill lint, eval e2e).
+- **`scripts/git-hooks/pre-commit` v11** — 14 sequential gates. Gate 14 (Test Runner) runs `bash tests/run-all.sh` before every commit.
+- **`scripts/tdd-gate.sh`** — Enhanced with name-pairing check and new-test enforcement.
+- **46 total project tests** across 6 suites.
+
+</details>
+
+<details>
+<summary>v3.1.0 — TDD Enforcement Gate</summary>
+
+- **`scripts/tdd-gate.sh`** — Standalone TDD enforcement gate. Blocks commits without test files.
+- **`scripts/git-hooks/commit-msg` v4** — Single TDD gate with OVERRIDE mechanism.
+- **`scripts/init-agents.sh sync-hooks`** — New subcommand for upgrading hooks.
+
+</details>
 
 ---
 
@@ -232,7 +242,7 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 | `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
 | `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
 
-**Full catalog (58 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
+**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
 
 ---
 
@@ -306,8 +316,8 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v3.1.1) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (58 skills, auto-generated, validated against linter) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v4.0.0) |
+| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |

@@ -1,6 +1,6 @@
 ---
 name: backend-api-mastery
-description: "Design production-grade APIs with intentional architecture decisions before any endpoint is written. Covers protocol choice, database design, auth strategy, error handling, validation, and testing."
+description: "Design production-grade APIs with intentional architecture before writing endpoints. Covers protocol, database, auth, validation, testing. Do NOT use for frontend-only or config changes."
 version: 1.0.0
 license: MIT
 compatibility: all

@@ -1,9 +1,9 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-08  
-> **Current version:** 3.1.1 (auto-generated)
-> **Status:** Released — 0 errors, 2 warnings, 124 guides across 58 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair 🔜 → complete stubs → output contracts → docs honesty → release
+> **Current version:** 4.0.0 (auto-generated)
+> **Status:** Released — 0 errors, 2 warnings, 74 guides across 57 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs ✅ → output contracts → docs honesty → release
 
 ---
 
@@ -22,23 +22,23 @@
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
 | `adapt-skill` | 129 | 2 |  |
-| `api-and-interface-design` | 39 | 0 |  |
+| `api-and-interface-design` | 108 | 2 |  |
 | `architecture-analysis` | 220 | 3 |  |
 | `audit-skill` | 150 | 4 |  |
 | `backend-api-mastery` | 195 | 5 |  |
 | `browser-testing-with-devtools` | 74 | 0 |  |
-| `ci-cd-and-automation` | 35 | 0 |  |
+| `ci-cd-and-automation` | 123 | 2 |  |
 | `clarify-skill` | 91 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
-| `code-simplification` | 36 | 0 |  |
+| `code-simplification` | 239 | 2 |  |
 | `context-engineering` | 126 | 2 |  |
 | `critique-skill` | 165 | 3 |  |
-| `customize-opencode` | 34 | 0 | Edit or create OpenCode's own configuration files: opencode.json, files under |
+| `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files
 | `debugging-and-error-recovery` | 90 | 5 |  |
-| `debugging-three-strikes` | 20 | 1 |  |
+| `debugging-three-strikes` | 66 | 0 |  |
 | `delight-skill` | 149 | 4 |  |
-| `deprecation-and-migration` | 30 | 0 |  |
+| `deprecation-and-migration` | 94 | 2 |  |
 | `dev-environment-audit` | 152 | 4 |  |
 | `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
@@ -46,22 +46,22 @@
 | `frontend-desktop` | 236 | 3 |  |
 | `frontend-mobile` | 240 | 3 |  |
 | `frontend-pwa` | 196 | 4 |  |
-| `frontend-ui-engineering` | 44 | 0 |  |
+| `frontend-ui-engineering` | 119 | 2 |  |
 | `frontend-web` | 233 | 8 |  |
 | `fullstack-shipping` | 178 | 3 |  |
 | `git-init-and-versioning` | 243 | 6 |  |
 | `git-workflow-and-versioning` | 181 | 3 |  |
 | `hard-skill` | 149 | 4 |  |
-| `idea-refine` | 39 | 0 |  |
+| `idea-refine` | 109 | 2 |  |
 | `incremental-implementation` | 89 | 2 |  |
 | `industrial-brutalist-ui` | 75 | 0 |  |
-| `interview-me` | 36 | 0 |  |
+| `interview-me` | 108 | 2 |  |
 | `minimalist-ui` | 68 | 0 |  |
 | `multi-agent-orchestration` | 81 | 1 |  |
-| `observability-and-instrumentation` | 30 | 0 |  |
+| `observability-and-instrumentation` | 104 | 2 |  |
 | `optimize-skill` | 139 | 4 |  |
-| `output-skill` | 48 | 0 |  |
-| `performance-optimization` | 30 | 0 |  |
+| `output-skill` | 87 | 1 |  |
+| `performance-optimization` | 99 | 2 |  |
 | `planning-and-task-breakdown` | 90 | 2 |  |
 | `polish-skill` | 136 | 2 |  |
 | `project-health-check` | 211 | 2 |  |
@@ -73,12 +73,11 @@
 | `skill-creator` | 166 | 2 |  |
 | `skill-improver` | 157 | 2 |  |
 | `soft-premium-ui` | 69 | 0 |  |
-| `source-driven-development` | 31 | 0 |  |
-| `spec-driven-development` | 201 | 3 |  |
+| `source-driven-development` | 91 | 2 |  |
+| `spec-driven-development` | 215 | 3 |  |
 | `test-driven-development` | 138 | 6 |  |
 | `typeset-skill` | 136 | 2 |  |
 | `user-onboarding` | 187 | 2 |  |
-| `visual-frontend-mastery` | 42 | 0 |  |
 
 ### Architecture Decisions Implemented
 
@@ -130,7 +129,7 @@
 | `frontend-desktop` | 251 | 236 | **-6%** |
 | `backend-api-mastery` | 316 | 195 | **-38%** |
 
-**All 41 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
+**All 57 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
 
 ---
 
@@ -138,11 +137,12 @@
 
 ### In Progress
 
-- **Phase 1: Foundation Repair** — Broken frontmatter, flat guide consolidation, skill directory restructuring.
+- **Phase 3: Output Contracts** — Adding standardized Output Contract section to all skills.
 
 ### Completed
 
-- **Phase 0.5: Test Infrastructure** — CI updated (init tests, TDD gate tests, skill-lint), `tests/run-all.sh` unified test runner (9 suites), pre-commit Gate 14 (v11), TDD gate enhanced (name-pairing + new-test), Playwright package files tracked, all docs updated.
+- **Phase 2: Complete Critical Stubs** — 15 stub skills completed with full content, workflows, and guides. `visual-frontend-mastery` merged into `frontend-ui-engineering` (57 skills). 
+- **Phase 1: Foundation Repair** — 29 descriptions quoted (YAML-safe), 4 stray lines cleaned, 23 flat guides moved to `guides/`. Pre-flight blocks on `main`. ANSI colors fixed in all scripts. 13/13 test suites.
 
 ### Planned
 
@@ -159,7 +159,6 @@
 | Limitation | Impact | Workaround |
 |---|---|---|---|
 | OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
-| Eval e2e trigger-dashboard reporting bug | Test exits 0 but prints failure | Fix in Phase 1 or dedicated debug session |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---
@@ -178,7 +177,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|---|
-| **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v7 (4 gates), pre-commit v10 (13 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
+| **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
 | **2.5.0** | 2026-06-23 | Phase 10: Integration & Hardening. test-e2e.sh E2E integration test. run-regression.sh --skill flag. Pre-commit Gate 12 enhanced with dashboard + regression checks. |
 | **2.4.0** | 2026-06-22 | Phase 9: Advanced Evaluation. Trigger accuracy dashboard, regression test suite, LLM-as-Judge pattern. 3 new scripts in scripts/eval/. EVAL-GUIDE.md updated. |
 | **2.3.0** | 2026-06-22 | Phase 8: Documentation & Standard Compliance. docs/EVAL-GUIDE.md (280 lines, 9 sections). agentskills.io compliance badge. Landing page + docs + i18n updated. Eval system linked from 3 skills. |

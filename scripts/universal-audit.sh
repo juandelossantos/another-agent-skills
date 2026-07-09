@@ -12,7 +12,7 @@
 # Exit codes: 0 = PASS (no core failures), 1 = FAIL (core file had a blocking issue)
 set -uo pipefail
 
-RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
+RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; YELLOW=$'\033[1;33m'; NC=$'\033[0m'
 PASS=0; WARN=0; FAIL=0
 JSON_MODE=0; INIT_MODE=0
 CONFIG_FILE=""

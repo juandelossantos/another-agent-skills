@@ -1,6 +1,41 @@
 # Release Notes
 
-## 3.1.1 (2026-07-08) — Test Infrastructure & TDD Enhancement
+## 4.0.0 (2026-07-08) — Foundation Repair & Critical Stubs
+
+### New (Phase 2 — 15 Stubs Completed)
+- 15 critical stub skills completed with full content, workflows, and guides:
+  - `performance-optimization` — Profiling workflow, Core Web Vitals targets, caching strategies
+  - `observability-and-instrumentation` — Structured logging, RED metrics, distributed tracing
+  - `api-and-interface-design` — Contract-first development, versioning strategies
+  - `ci-cd-and-automation` — Pipeline design, quality gates, deployment strategies
+  - `frontend-ui-engineering` — Component architecture, state management, layout patterns
+  - `deprecation-and-migration` — Deprecation lifecycle, migration strategies, communication templates
+  - `source-driven-development` — Documentation verification workflow, freshness checks
+  - `code-simplification` — Cyclomatic + cognitive complexity metrics, before/after examples
+  - `idea-refine` — Double Diamond divergent/convergent process, facilitation prompts
+  - `interview-me` — 5-step protocol, INTENT.md output contract, Mom Test methodology
+  - `customize-opencode` — Universal config schema, MCP patterns, plugin system reference
+  - `output-skill` — Self-audit workflow, truncation protocol, detection pattern catalog
+  - `debugging-three-strikes` — Test-recurrence trigger, escalation matrix, strike log
+  - `visual-frontend-mastery` → merged into `frontend-ui-engineering` and deleted (**breaking:** 58→57 skills)
+
+### New (Phase 1 — Foundation Repair)
+- **29 skill frontmatter descriptions fixed** — unquoted colons properly quoted for YAML compliance
+- **4 skills with stray frontmatter lines** cleaned and content moved to body
+- **23 flat guide files consolidated** into `guides/` directories (flat files eliminated)
+- **YAML parsing** — `yaml.safe_load()` now passes on all 57 skills
+
+### Changed (Enforcement Simplification)
+- **commit-msg hook v7 → v4** — Removed COMMIT_APPROVED, COMMIT_MANIFEST, and TEST_LOG gates. User runs `git commit` directly. Single TDD gate remains (name-pairing + new-test enforcement).
+- **pre-commit hook v10 → v11** — 14 gates (added Gate 14: Test Runner). All doc surfaces updated.
+- **All documentation surfaces corrected** — commit-msg references, gate counts, hook versions, skill counts, guide counts synced across 12 files.
+
+### Fixed
+- **Documentation consistency fix** — 24 stale references across 11 files corrected (hook versions, gate counts, skill counts 58→57, guide counts 54→74, stale line counts in PROGRESS_STATUS.md).
+- **AGENTS.md** — Removed duplicate `frontend-ui-engineering` in skill hierarchy.
+
+### Tests
+- 29 test suites (46 project tests + 13 Playwright browser tests). All passing.
 
 ### New
 - `tests/run-all.sh` — Unified test runner: runs 9 suites (audit, init, TDD gate, pre-commit gates, Gate 14 behavioral, sync hooks, skill lint, eval e2e). Continues on failure. Color output with summary.
@@ -223,7 +258,7 @@ v2.0.0: Standardized Frontmatter + Eval System — 55 skills, 336 evaluations, p
 
 ### 14 New Skills
 - **Discovery Pipeline:** `interview-me` → `idea-refine` (pre-spec refinement)
-- **UI Foundation:** `frontend-ui-engineering` (cross-platform UI principles), `visual-frontend-mastery`
+- **UI Foundation:** `frontend-ui-engineering` (cross-platform UI principles)
 - **Quality:** `code-simplification`, `security-and-hardening`, `deprecation-and-migration`
 - **Performance:** `performance-optimization` (system-level), `observability-and-instrumentation`
 - **API/Integration:** `api-and-interface-design`, `ci-cd-and-automation`
