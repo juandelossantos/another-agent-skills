@@ -137,12 +137,12 @@
 
 ### In Progress
 
-- **Phase 2: Complete Critical Stubs (8/15 done)** — Expanding 15 stub skills with actionable content. Completed: perf-opt, observability, api-design, ci-cd, frontend-ui, deprecation, source-driven, code-simplif. Merged: visual-frontend-mastery.
+- **Phase 3: Output Contracts** — Adding standardized Output Contract section to all skills.
 
 ### Completed
 
+- **Phase 2: Complete Critical Stubs** — 15 stub skills completed with full content, workflows, and guides. `visual-frontend-mastery` merged into `frontend-ui-engineering` (57 skills). 
 - **Phase 1: Foundation Repair** — 29 descriptions quoted (YAML-safe), 4 stray lines cleaned, 23 flat guides moved to `guides/`. Pre-flight blocks on `main`. ANSI colors fixed in all scripts. 13/13 test suites.
-- **Phase 0.5: Test Infrastructure** — CI updated, `tests/run-all.sh` unified test runner (9 suites), pre-commit Gate 14, TDD gate enhanced (name-pairing + new-test), Playwright package files tracked, all docs updated.
 
 ### Planned
 
