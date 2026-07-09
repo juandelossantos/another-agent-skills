@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-07-08
-**Version:** 3.1.1
+**Version:** 4.0.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -22,10 +22,10 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
+| SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 3.1.1 | Consistent |
+| VERSION | ✅ 4.0.0 | Consistent |
 | Skill lint | ✅ 0 errors, 4 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -33,8 +33,8 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| Pre-commit hook | ✅ v10 (13 gates) | Executable (755) |
-| commit-msg hook | ✅ v7 | Four-gate check (TEST_LOG + MANIFEST + APPROVED + TDD gate) |
+| Pre-commit hook | ✅ v11 (14 gates) | Executable (755) |
+| commit-msg hook | ✅ v4 | Single-gate TDD enforcement (name-pairing + new-test) |
 | commit-approval.sh | ✅ | Writes COMMIT_MANIFEST + COMMIT_APPROVED |
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
@@ -52,7 +52,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | `STACK_CONFIG.md` | 🔴 BLOCKING | ✅ Present | Meta-project (shell + markdown) |
 | `SPEC.md` | 🟡 HIGH | ✅ Present | "57 skills", up to date |
 | `HEALTH-CHECK.md` | 🟡 HIGH | ✅ Present | This file |
-| `PROGRESS_STATUS.md` | 🟡 HIGH | ✅ Present | Validated by pre-commit v10 gate |
+| `PROGRESS_STATUS.md` | 🟡 HIGH | ✅ Present | Validated by pre-commit v11 gate |
 | `design/DESIGN-LOCK.md` | 🔵 MEDIUM | ✅ Absent (acceptable) | Landing page is the spec |
 | `.sessionrc` | ⚪ INFO | ✅ Present (local) | Not git-tracked |
 
@@ -62,9 +62,9 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v3.1.0 | Landing, docs, i18n EN/ES |
-| Guide count | ✅ 54 guides | Distributed across 57 skills |
-| Gate count | ✅ 13 pre-commit gates, 4 commit-msg gates | Landing, docs, i18n EN/ES |
+| Version references | ✅ v4.0.0 | Landing, docs, i18n EN/ES |
+| Guide count | ✅ 74 guides | Distributed across 57 skills |
+| Gate count | ✅ 14 pre-commit gates, 1 commit-msg gate | Landing, docs, i18n EN/ES |
 
 ---
 
@@ -104,4 +104,4 @@ Convention gap. Low impact (no runtime env vars), but violates standards.
 | 2026-07-02 | v3.0.0 P1.1-1.3 (dev) | Universal audit engine: `universal-audit.sh` (config-driven, fixes json-stub + subshell + grep-spam bugs), `audit-markdown.sh` → wrapper, `.audit-config.json`, test-first (15 tests). On `feat/universal-audit-engine` branch, uncommitted. |
 | 2026-07-02 | Self-improvement iter 1 | Placeholder precision fix (skip code blocks, require `TODO:`/`FIXME:` colons) — WARN 34→3 (88% false-positive reduction). ANIMATION-GUIDE trimmed 266→249. ADR-009 generated. Golden updated 34→3. |
 | 2026-07-03 | **v3.0.0 RELEASED** | Universal self-improvement loop: config-driven audit engine, stack-agnostic skill, 4 guides, cross-platform init-agents, behavioral golden, domain-edge tests. All P1-P3 complete. See RELEASE-NOTES.md. |
-| 2026-07-07 | **v3.1.0 RELEASED** | TDD Enforcement Gate: commit-msg v7 (4 gates), pre-commit v10 (13 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. Hook renumbering bug fixes. |
+| 2026-07-07 | **v3.1.0 RELEASED** | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. Hook renumbering bug fixes. |

@@ -1,9 +1,9 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-08  
-> **Current version:** 3.1.1 (auto-generated)
-> **Status:** Released — 0 errors, 2 warnings, 124 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs (8/15 done) 🔜 → output contracts → docs honesty → release
+> **Current version:** 4.0.0 (auto-generated)
+> **Status:** Released — 0 errors, 2 warnings, 74 guides across 57 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs ✅ → output contracts → docs honesty → release
 
 ---
 
@@ -31,12 +31,12 @@
 | `clarify-skill` | 91 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
-| `code-simplification` | 90 | 2 |  |
+| `code-simplification` | 239 | 2 |  |
 | `context-engineering` | 126 | 2 |  |
 | `critique-skill` | 165 | 3 |  |
-| `customize-opencode` | 34 | 0 | Edit or create OpenCode's own configuration files: opencode.json, files under |
+| `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files
 | `debugging-and-error-recovery` | 90 | 5 |  |
-| `debugging-three-strikes` | 20 | 1 |  |
+| `debugging-three-strikes` | 66 | 0 |  |
 | `delight-skill` | 149 | 4 |  |
 | `deprecation-and-migration` | 94 | 2 |  |
 | `dev-environment-audit` | 152 | 4 |  |
@@ -52,15 +52,15 @@
 | `git-init-and-versioning` | 243 | 6 |  |
 | `git-workflow-and-versioning` | 181 | 3 |  |
 | `hard-skill` | 149 | 4 |  |
-| `idea-refine` | 39 | 0 |  |
+| `idea-refine` | 109 | 2 |  |
 | `incremental-implementation` | 89 | 2 |  |
 | `industrial-brutalist-ui` | 75 | 0 |  |
-| `interview-me` | 36 | 0 |  |
+| `interview-me` | 108 | 2 |  |
 | `minimalist-ui` | 68 | 0 |  |
 | `multi-agent-orchestration` | 81 | 1 |  |
 | `observability-and-instrumentation` | 104 | 2 |  |
 | `optimize-skill` | 139 | 4 |  |
-| `output-skill` | 48 | 0 |  |
+| `output-skill` | 87 | 1 |  |
 | `performance-optimization` | 99 | 2 |  |
 | `planning-and-task-breakdown` | 90 | 2 |  |
 | `polish-skill` | 136 | 2 |  |
@@ -74,7 +74,7 @@
 | `skill-improver` | 157 | 2 |  |
 | `soft-premium-ui` | 69 | 0 |  |
 | `source-driven-development` | 91 | 2 |  |
-| `spec-driven-development` | 201 | 3 |  |
+| `spec-driven-development` | 215 | 3 |  |
 | `test-driven-development` | 138 | 6 |  |
 | `typeset-skill` | 136 | 2 |  |
 | `user-onboarding` | 187 | 2 |  |
@@ -129,7 +129,7 @@
 | `frontend-desktop` | 251 | 236 | **-6%** |
 | `backend-api-mastery` | 316 | 195 | **-38%** |
 
-**All 41 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
+**All 57 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
 
 ---
 
@@ -177,7 +177,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|---|
-| **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v7 (4 gates), pre-commit v10 (13 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
+| **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
 | **2.5.0** | 2026-06-23 | Phase 10: Integration & Hardening. test-e2e.sh E2E integration test. run-regression.sh --skill flag. Pre-commit Gate 12 enhanced with dashboard + regression checks. |
 | **2.4.0** | 2026-06-22 | Phase 9: Advanced Evaluation. Trigger accuracy dashboard, regression test suite, LLM-as-Judge pattern. 3 new scripts in scripts/eval/. EVAL-GUIDE.md updated. |
 | **2.3.0** | 2026-06-22 | Phase 8: Documentation & Standard Compliance. docs/EVAL-GUIDE.md (280 lines, 9 sections). agentskills.io compliance badge. Landing page + docs + i18n updated. Eval system linked from 3 skills. |

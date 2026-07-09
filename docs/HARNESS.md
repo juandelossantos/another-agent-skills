@@ -18,10 +18,10 @@ This project is a complete open-source Harness.
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `AGENTS-EXTENDED.md`, `SOUL.md`, `STEERING-GUIDE.md`, `STACK_CONFIG.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 54 guides, MCP servers, shell scripts |
+| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 74 guides, MCP servers, shell scripts |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI environment, Docker |
 | **4. Orchestration** | When each tool fires, how agents coordinate | `skill-gate.sh`, `init-agents.sh`, `multi-agent-orchestration` skill, `.sessionrc` |
-| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v10 (13 gates), `commit-msg` hook v7 (4 gates, TDD enforcement), `edit-guard.sh`, `commit-approval.sh`, `task-manifest.sh` |
+| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v11 (14 gates, Test Runner), `commit-msg` hook v4 (TDD gate), `edit-guard.sh`, `commit-approval.sh`, `task-manifest.sh` |
 | **6. Observability** | Evidence that it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md`, `development/INCIDENT_*` |
 
 ---
@@ -51,7 +51,7 @@ During active coding, the harness keeps the agent focused:
 
 The harness routes failures back to the agent for self-correction:
 
-- **Pre-commit hook v10** runs 13 gates before every commit
+- **Pre-commit hook v11** runs 14 gates before every commit
 - **validate-skill-table.sh** ensures PROGRESS_STATUS.md matches disk
 - **skill-lint.sh** ensures all skills stay ≤ 250 lines
 - **bash -n** verifies shell script syntax
@@ -60,7 +60,7 @@ The harness routes failures back to the agent for self-correction:
 
 The harness ensures safe behavior in production:
 
-- **commit-msg hook v7** checks four gates (TEST_LOG + MANIFEST + APPROVED + TDD gate) — agent writes approval after "yes commit" in chat
+- **commit-msg hook v4** runs a single TDD gate — staged code files must have matching test files. Name-pairing + new-test enforcement
 - **commit-approval.sh** writes `.git/COMMIT_APPROVED` with timestamp after user says "yes commit" in chat (time-window based, no friction)
 - **HEALTH-CHECK.md** is re-audited every 7 days (Rule 0b)
 - **PROGRESS_STATUS.md** tracks project state against actual disk

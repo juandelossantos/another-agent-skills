@@ -256,7 +256,7 @@
           <span class="enforcement__level-num">02</span>
           <div class="enforcement__level-content">
             <h3 class="enforcement__level-title" data-i18n="enforcement.level2Title">02: Tools & Sandboxes</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level2Desc">Task-specific capabilities loaded on demand. 57 skills, 54 guides, eval system, terminal, CI.</p>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level2Desc">Task-specific capabilities loaded on demand. 57 skills, 74 guides, eval system, terminal, CI.</p>
           </div>
         </div>
         <div class="enforcement__arrow" aria-hidden="true">↓</div>
@@ -264,7 +264,7 @@
           <span class="enforcement__level-num">03</span>
           <div class="enforcement__level-content">
             <h3 class="enforcement__level-title" data-i18n="enforcement.level3Title">03: Orchestration & Guardrails</h3>
-            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v11 (14 gates, Test Runner), commit-msg v7 (4 gates, TDD enforcement), commit-approval.sh.</p>
+            <p class="enforcement__level-desc" data-i18n="enforcement.level3Desc">When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v11 (14 gates, Test Runner), commit-msg v4 (TDD gate), commit-approval.sh.</p>
           </div>
           <span class="enforcement__check">✓</span>
         </div>
@@ -281,7 +281,7 @@
       <p class="enforcement__incident" data-i18n="enforcement.incidentRef">It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.</p>
       <p class="enforcement__conclusion" data-i18n="enforcement.conclusion">It learns from its own failures. Faster than competitors ship features.</p>
       <div class="enforcement__stats">
-        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">14 pre-commit gates · 4 commit-msg gates · 0 shortcuts</span>
+        <span class="enforcement__stats-value" data-i18n="enforcement.statsValue">14 pre-commit gates · 1 commit-msg gate · 0 shortcuts</span>
         <span class="enforcement__stats-label" data-i18n="enforcement.statsLabel">Harness components</span>
       </div>
       <a href="docs/enforcement.html" class="section__learn-more">How the Harness works →</a>
@@ -413,7 +413,7 @@
           <p class="skills__cat-list"><code>industrial-brutalist-ui</code> <code>minimalist-ui</code> <code>soft-premium-ui</code> <code>output-skill</code> <code>redesign-skill</code></p>
         </div>
       </div>
-      <p class="skills__stats" data-i18n="skills.stats">58 skills · 54 guides · 6 harness components · <a href="docs/evaluation.html">eval system</a></p>
+      <p class="skills__stats" data-i18n="skills.stats">57 skills · 74 guides · 6 harness components · <a href="docs/evaluation.html">eval system</a></p>
       <a href="docs/skills.html" class="section__learn-more">Browse all skills →</a>
     </div>
   </section>
@@ -431,7 +431,7 @@ $ bash install.sh</code></pre>
       <div class="quickstart__code">
         <pre><code>$ init-agents</code></pre>
       </div>
-      <p class="quickstart__conclusion" data-i18n="quickstart.conclusion">Your agent now has 57 skills + 54 guides. Every project. Every time.</p>
+      <p class="quickstart__conclusion" data-i18n="quickstart.conclusion">Your agent now has 57 skills + 74 guides. Every project. Every time.</p>
     </div>
   </section>
 
@@ -472,7 +472,7 @@ $ bash install.sh</code></pre>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q2">How is it different from other skill frameworks?</summary>
-          <p class="faq__answer" data-i18n="faq.a2">Three things: (1) Mechanical enforcement via time-window approval, 14 pre-commit gates, and 4 commit-msg gates (including TDD enforcement). (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 258 lines always-loaded (1.9% of 200K context). Other frameworks give you prompts. This gives you process.</p>
+          <p class="faq__answer" data-i18n="faq.a2">Three things: (1) Mechanical enforcement via 14 pre-commit gates and commit-msg v4 (TDD gate). (2) The Guardian Pattern: DECISION POINT before every mutation. (3) Context engineering: 258 lines always-loaded (1.9% of 200K context). Other frameworks give you prompts. This gives you process.</p>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q3">Which agents does it support?</summary>
@@ -484,11 +484,11 @@ $ bash install.sh</code></pre>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q5">How does mechanical enforcement work?</summary>
-          <p class="faq__answer" data-i18n="faq.a5">Four levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents DECISION POINT. (3) Time-window approval: commit-msg hook v7 verifies freshness (<5 min). (4) TDD enforcement: commit-msg Gate 4 blocks code without tests. No tokens, no hash, no friction.</p>
+          <p class="faq__answer" data-i18n="faq.a5">Four levels: (1) Process rules: agent remembers. (2) Visible manifest: agent presents DECISION POINT. (3) Pre-commit gates: 14 gates including Test Runner. (4) TDD enforcement: commit-msg v4 blocks code without tests. No tokens, no hash, no friction.</p>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q6">Can I customize the skills?</summary>
-          <p class="faq__answer" data-i18n="faq.a6">Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 55 or pick the ones that matter to your workflow.</p>
+          <p class="faq__answer" data-i18n="faq.a6">Yes. Skills are Markdown files in the `skills/` directory. Edit them, add new ones, remove ones you don't need. The framework is modular: use all 57 or pick the ones that matter to your workflow.</p>
         </details>
         <details class="faq__item">
           <summary class="faq__question" data-i18n="faq.q7">Can an agent still break the rules despite enforcement?</summary>
