@@ -26,6 +26,7 @@ CODE_PATTERNS=(
   '*.py' '*.rs' '*.go' '*.rb' '*.dart' '*.swift'
   '*.kt' '*.kts' '*.java' '*.c' '*.cpp' '*.h' '*.hpp'
   '*.sh' '*.bash'
+  '*.html' '*.htm'
 )
 
 TEST_PATTERNS=(

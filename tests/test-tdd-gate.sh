@@ -250,6 +250,27 @@ git -C "$REPO" add .
 ACTUAL=$?
 assert_exit "Same timestamp → PASS" 0 "$ACTUAL"
 
+# ─── Test 18: HTML file without test → BLOCK ───
+echo ""
+echo "Test 18: HTML file without test (expect BLOCK)"
+REPO=$(setup_repo 18)
+echo "<html><body>Hello</body></html>" > "$REPO/index.html"
+git -C "$REPO" add index.html
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "HTML file without test → BLOCK" 1 "$ACTUAL"
+
+# ─── Test 19: HTML file with test → PASS ───
+echo ""
+echo "Test 19: HTML file with test (expect PASS)"
+REPO=$(setup_repo 19)
+echo "<html><body>Hello</body></html>" > "$REPO/index.html"
+touch "$REPO/tests/test_index.html"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "HTML file with test → PASS" 0 "$ACTUAL"
+
 # ─── Summary ───
 echo ""
 echo "──────────────────────────────────"

@@ -13,7 +13,8 @@
     "customization": "Customization",
     "eval": "Evaluation Guide",
     "docs": "Docs",
-    "universalLoop": "Universal Loop"
+    "universalLoop": "Universal Loop",
+    "quickstart": "Quick Start Guide"
   },
   "universalLoop": {
     "title": "Universal Self-Improvement Loop",
@@ -88,6 +89,8 @@
     "agentsDesc": "Compatible agents: OpenCode, Claude Code, Cursor, Devin Desktop, and more.",
     "eval": "Evaluation Guide",
     "evalDesc": "Eval system: format spec, skill tiers, adding evals, running tests, and coverage checklist.",
+    "quickstart": "Quick Start Guide",
+    "quickstartDesc": "First session walkthrough, how skills activate, common scenarios, and tips.",
     "quickLinks": "Quick Links",
     "version": "Current version",
     "skillsCount": "Skills",
