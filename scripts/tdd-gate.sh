@@ -27,6 +27,9 @@ CODE_PATTERNS=(
   '*.kt' '*.kts' '*.java' '*.c' '*.cpp' '*.h' '*.hpp'
   '*.sh' '*.bash'
   '*.html' '*.htm'
+  '*.json' '*.md' '*.markdown' '*.yaml' '*.yml'
+  '*.css' '*.scss' '*.less'
+  '*.toml' '*.xml' '*.svg' '*.txt' '*.csv'
 )
 
 TEST_PATTERNS=(
@@ -35,13 +38,32 @@ TEST_PATTERNS=(
   'tests/*' 'test/*'
 )
 
+SKIP_PATTERNS=(
+  '*.lock' '*.sum' '*lock*'
+  '*.png' '*.jpg' '*.jpeg' '*.gif' '*.ico'
+  '*.woff' '*.woff2' '*.ttf' '*.eot'
+  '*.mp4' '*.webm' '*.ogg'
+  '*.zip' '*.tar' '*.gz' '*.bz2'
+  '*.pdf' '*.doc' '*.docx'
+  '*.o' '*.class' '*.pyc'
+  '.gitignore' '.env*'
+)
+
 # ─── Helpers ───
 
 is_code_file() {
   local file="$1"
   local filepath="${REPO_DIR}/${file}"
 
-  # Check extension-based patterns first
+  # Skip known non-code patterns (binaries, lock files, etc.)
+  for pattern in "${SKIP_PATTERNS[@]}"; do
+    local regex="^${pattern//\*/.*}$"
+    if [[ "$file" =~ $regex ]]; then
+      return 1
+    fi
+  done
+
+  # Check extension-based patterns
   for pattern in "${CODE_PATTERNS[@]}"; do
     # Convert glob to regex: * -> .* , anchor with ^ and $
     local regex="^${pattern//\*/.*}$"

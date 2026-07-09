@@ -81,13 +81,13 @@ assert_exit "Code + test staged → PASS" 0 "$ACTUAL"
 
 # ─── Test 3: No code staged → SKIP ───
 echo ""
-echo "Test 3: No code staged (expect SKIP/PASS)"
+echo "Test 3: Only binary staged (expect SKIP/PASS)"
 REPO=$(setup_repo 3)
-touch "$REPO/docs.md"
-git -C "$REPO" add docs.md
+printf '\x89PNG\r\n\x1a\n' > "$REPO/icon.png"
+git -C "$REPO" add icon.png
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
-assert_exit "No code staged → PASS" 0 "$ACTUAL"
+assert_exit "Binary only → PASS" 0 "$ACTUAL"
 
 # ─── Test 4: OVERRIDE in commit message → PASS ───
 echo ""
@@ -130,12 +130,12 @@ git -C "$REPO" add .
 ACTUAL=$?
 assert_exit "_spec suffix → PASS" 0 "$ACTUAL"
 
-# ─── Test 8: Config-only → SKIP ───
+# ─── Test 8: Lock file only → SKIP ───
 echo ""
-echo "Test 8: Config-only staged (expect SKIP/PASS)"
+echo "Test 8: Lock file staged (expect SKIP/PASS)"
 REPO=$(setup_repo 8)
-touch "$REPO/config.json"
-git -C "$REPO" add config.json
+touch "$REPO/package-lock.json"
+git -C "$REPO" add package-lock.json
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "Config-only → PASS" 0 "$ACTUAL"
@@ -270,6 +270,39 @@ git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
 assert_exit "HTML file with test → PASS" 0 "$ACTUAL"
+
+# ─── Test 20: JSON file without test → BLOCK ───
+echo ""
+echo "Test 20: JSON file without test (expect BLOCK)"
+REPO=$(setup_repo 20)
+echo '{"key": "value"}' > "$REPO/config.json"
+git -C "$REPO" add config.json
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "JSON file without test → BLOCK" 1 "$ACTUAL"
+
+# ─── Test 21: Markdown file without test → BLOCK ───
+echo ""
+echo "Test 21: Markdown file without test (expect BLOCK)"
+REPO=$(setup_repo 21)
+echo "# Title" > "$REPO/README.md"
+git -C "$REPO" add README.md
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Markdown file without test → BLOCK" 1 "$ACTUAL"
+
+# ─── Test 22: JSON + MD with test files → PASS ───
+echo ""
+echo "Test 22: JSON + MD with tests (expect PASS)"
+REPO=$(setup_repo 22)
+echo '{"key": "value"}' > "$REPO/config.json"
+echo "# Title" > "$REPO/README.md"
+mkdir -p "$REPO/tests"
+touch "$REPO/tests/test_config.json" "$REPO/tests/test_README.md"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "JSON + MD with tests → PASS" 0 "$ACTUAL"
 
 # ─── Summary ───
 echo ""
