@@ -380,6 +380,26 @@ else
   echo "  ${YELLOW}−${NC} No PROGRESS_STATUS.md changes — skipped"
 fi
 
+# Health Check Validation — verify HEALTH-CHECK.md matches linter
+HEALTH_VALIDATE="${REPO_ROOT}/scripts/validate-health-check.sh"
+if [ -f "$HEALTH_VALIDATE" ]; then
+  echo ""
+  echo "  Validating HEALTH-CHECK.md against linter state..."
+  if bash "$HEALTH_VALIDATE" "$REPO_ROOT" > /dev/null 2>&1; then
+    echo "  ${GREEN}✓${NC} HEALTH-CHECK.md matches linter state"
+  else
+    echo ""
+    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo "  ${RED}║  HEALTH-CHECK MISMATCH                                   ║${NC}"
+    echo "  ${RED}║                                                         ║${NC}"
+    echo "  ${RED}║  HEALTH-CHECK.md does not match the linter state.       ║${NC}"
+    echo "  ${RED}║  Run: bash scripts/generate-health-check.sh             ║${NC}"
+    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    exit 1
+  fi
+fi
+
 # Gate 12: Skill Lint — validate skill structure on SKILL.md changes
 echo ""
 echo "╔════════════════════════════════════════════╗"
