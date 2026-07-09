@@ -63,6 +63,7 @@ run_suite "Idea refine"         "bash tests/test-idea-refine-skill.sh"
 run_suite "Interview me"        "bash tests/test-interview-me-skill.sh"
 run_suite "Customize OpenCode"  "bash tests/test-customize-opencode-skill.sh"
 run_suite "Output skill"        "bash tests/test-output-skill.sh"
+run_suite "Three strikes"       "bash tests/test-three-strikes-skill.sh"
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then
