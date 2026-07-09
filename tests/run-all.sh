@@ -5,6 +5,9 @@
 # Used by CI and pre-commit (Gate 14).
 #
 # Invocation: bash tests/run-all.sh
+#
+# Runs all project-level test suites and reports results.
+# Used by CI and pre-commit (Gate 14).
 set -uo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
