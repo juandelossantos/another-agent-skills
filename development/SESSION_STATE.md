@@ -3,7 +3,7 @@
 **Date:** 2026-07-10  
 **Current version:** v4.1.0  
 **Branch:** `feat/output-contracts`  
-**Status:** Phase 3 — Output Contracts in progress (20/56 tasks done)
+**Status:** Phase 3 — Output Contracts in progress (21/56 tasks done)
 
 ---
 
@@ -33,8 +33,9 @@
 | 3.17 | `backend-api-mastery` | API implementation + design document — protocol-justified, auth, validation, tests, OpenAPI docs |
 | 3.18 | `api-and-interface-design` | API contract + module interfaces — OpenAPI/GraphQL/Protobuf, SemVer 2.0, AIP-121/180, contract-first |
 | 3.19 | `cli-tools` | CLI tool source code — standard parser, exit codes, composability, NO_COLOR, SIGINT, --json |
+| 3.20 | `security-and-hardening` | Hardened source code — OWASP Top 10, input validation, auth, secrets, CSP, rate limiting, deps scan |
  
-### Remaining (37 skills)
+### Remaining (36 skills)
 
 All other skills grouped by plan order.
 
@@ -48,7 +49,7 @@ git checkout feat/output-contracts
 git log --oneline -3
 ```
 
-Then continue with Task 3.20 (`security-and-hardening`) — next skill in the plan.
+Then continue with Task 3.21 (`performance-optimization`) — next skill in the plan.
 
 ---
 
@@ -73,10 +74,10 @@ Then continue with Task 3.20 (`security-and-hardening`) — next skill in the pl
 
 ## Key Stats
 
-- **Check 16 warnings:** 36 (down from 55)
+- **Check 16 warnings:** 35 (down from 55)
 - **HEALTH-CHECK.md:** DEGRADED (expected — 37 skills still need contracts)
 - **Tests:** 29/29 passing
-- **Lint:** 0 errors, 38 warnings (36 Check 16 + 2 other)
+- **Lint:** 0 errors, 37 warnings (35 Check 16 + 2 other)
 
 ---
 
