@@ -34,6 +34,12 @@ Do NOT use for:
 - Color/token issues (use `polish`)
 - Spacing/layout issues (use `polish`)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Typography CSS fixes | CSS (font-size, line-height, letter-spacing, margin) | Source files | Type ramp compliant, line-height per text type, intentional letter-spacing |
+
 ## Process
 
 ### 1. Scan the Type Ramp
