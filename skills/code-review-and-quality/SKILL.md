@@ -25,6 +25,18 @@ Multi-dimensional code review with quality gates. Every change gets reviewed bef
 - When refactoring existing code
 - After any bug fix (review both fix and regression test)
 
+## When NOT to Use
+
+- Work-in-progress code not ready for review
+- Design or visual feedback (use `critique-skill` or `polish`)
+- Performance or security investigation without code change (use dedicated skills)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Review report | Review comments with severity labels (blocking/important/nit/suggestion/learning/praise) | PR thread or Markdown file | All 5 axes reviewed (correctness, readability, architecture, security, performance), every finding labeled with severity, blocking items clearly identified, TOOL_GAP stated if verification tools unavailable, AI-generated code checklist applied if applicable, tests reviewed for quality (not just existence), implementation reviewed after tests |
+
 ## Five-Axis Review
 
 → See `guides/FIVE-AXIS.md`
