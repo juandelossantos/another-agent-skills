@@ -1,9 +1,9 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-08  
-> **Current version:** 4.0.0 (auto-generated)
-> **Status:** Released — 0 errors, 2 warnings, 74 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 7 phases: TDD enforcement ✅ → test infrastructure ✅ → foundation repair ✅ → complete stubs ✅ → output contracts → docs honesty → release
+> **Current version:** 4.1.0 (auto-generated)
+> **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts 🔜 → docs honesty → release
 
 ---
 
@@ -141,6 +141,7 @@
 
 ### Completed
 
+- **Phase QS: Quick Start Guide** — User-facing workflow guide, full Spanish i18n (60 keys), nav chain fixed across 13 docs pages, COMMIT_APPROVED gate restored, README prominent link.
 - **Phase 2: Complete Critical Stubs** — 15 stub skills completed with full content, workflows, and guides. `visual-frontend-mastery` merged into `frontend-ui-engineering` (57 skills). 
 - **Phase 1: Foundation Repair** — 29 descriptions quoted (YAML-safe), 4 stray lines cleaned, 23 flat guides moved to `guides/`. Pre-flight blocks on `main`. ANSI colors fixed in all scripts. 13/13 test suites.
 
@@ -177,6 +178,8 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|---|
+| **4.1.0** | 2026-07-08 | Quick Start Guide & Navigation Overhaul: user-facing walkthrough, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate covers all text formats. |
+| **4.0.0** | 2026-07-08 | Foundation Repair & Critical Stubs: 15 stubs completed, frontmatter fixes, flat guide consolidation, 57 skills, CI portable via STACK_CONFIG.md. |
 | **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
 | **2.5.0** | 2026-06-23 | Phase 10: Integration & Hardening. test-e2e.sh E2E integration test. run-regression.sh --skill flag. Pre-commit Gate 12 enhanced with dashboard + regression checks. |
 | **2.4.0** | 2026-06-22 | Phase 9: Advanced Evaluation. Trigger accuracy dashboard, regression test suite, LLM-as-Judge pattern. 3 new scripts in scripts/eval/. EVAL-GUIDE.md updated. |
