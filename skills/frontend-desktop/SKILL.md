@@ -27,6 +27,12 @@ Do NOT use for:
 - Mobile apps (use `frontend-mobile`)
 - CLI tools (use terminal workflow)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Desktop application | Source code + native config | Project source directory | Native OS integration, builds pass, signed distribution |
+
 ### Context Persistence Check
 
 Before starting work:
