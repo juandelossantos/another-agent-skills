@@ -33,6 +33,12 @@ Do NOT use for:
 - Typography scaling (use `typeset`)
 - Performance (use `optimize`)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Responsive CSS fixes | CSS | Source files | Works at 360px, 768px, 1024px, 1440px+ |
+
 ## Process
 
 ### 1. Scan at Breakpoints
