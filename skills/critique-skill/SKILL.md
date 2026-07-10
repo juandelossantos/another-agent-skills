@@ -26,11 +26,18 @@ Scored report with prioritized issues. Does not fix — use with `polish`, `dist
 - User flags AI tells, generic layout, or sloppy design
 - Before handing off for polish pass
 
-Do NOT use for:
-- Technical quality (use `audit-skill`)
-- Incomplete work (use `shape` or `craft` first)
+## When NOT to Use
+
+- Technical quality or implementation bugs (use `audit-skill`)
+- Incomplete or draft work (use `shape` or `craft` first)
 - Running Phase 0 on built code (use Phase 1-3)
 - Running Phase 1-3 on a plan with no code (use Phase 0)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Design critique report | Markdown report with scores + priority issues | Delivered to user (not file) | Both passes completed (LLM + automated), all 10 heuristics scored (0-4), all 4 personas scored (1-4), cognitive load failures counted, AI slop verdict rendered (PASS/FAIL), priority issues extracted (3-5 items with P0-P2 severity), questions to answer surfaced |
 
 ## Process
 
