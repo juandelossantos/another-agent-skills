@@ -35,6 +35,12 @@ Do NOT use for:
 - Structural changes (use `build` skills)
 - Replacing missing states (use `harden` first)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Micro-interaction CSS | CSS/animations | Component source files | 150-400ms, only transform/opacity, reduced-motion fallback |
+
 ## Process
 
 ### 1. Identify Touchpoints
