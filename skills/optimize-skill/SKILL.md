@@ -32,6 +32,12 @@ Do NOT use for:
 - Design changes that happen to improve performance
 - Pre-optimization during initial build (build clean first, optimize later)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Performance fixes | HTML/CSS/JS code changes | Source files | Profile-validated, Lighthouse ≥90, critical JS <500KB |
+
 ## Process
 
 ### 1. Profile
