@@ -17,6 +17,10 @@ metadata:
 
 Platform skills add implementation specifics to this philosophy.
 
+## Output Contract
+
+No artifact. Consumed implicitly by all platform skills as a foundation reference.
+
 ## When to Use
 
 Loaded by all platform skills. Never invoke directly.
