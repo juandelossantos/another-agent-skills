@@ -34,6 +34,10 @@ interview-me → idea-refine (this skill) → spec-driven-development
 - Requirements are already clear and documented
 - Trivial changes with obvious scope
 
+## Output Contract
+
+Refined concept + selected direction — documented alternatives (3+) from divergent phase, selection criteria from convergent phase, assumption audit with must-be-true statements, clear rationale for chosen direction, ready to feed into `spec-driven-development`.
+
 ## Core Process: Double Diamond
 
 Adapted from Design Council's framework. Two diamonds, each with diverge + converge:
