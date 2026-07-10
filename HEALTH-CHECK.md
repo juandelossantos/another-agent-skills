@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-07-08
-**Version:** 4.0.0
+**Version:** 4.1.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟢 HEALTHY
 
@@ -25,7 +25,7 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 4.0.0 | Consistent |
+| VERSION | ✅ 4.1.0 | Consistent |
 | Skill lint | ✅ 0 errors, 0 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -98,3 +98,4 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | 2026-07-03 | **v3.0.0 RELEASED** | Universal self-improvement loop: config-driven audit engine, stack-agnostic skill, 4 guides, cross-platform init-agents, behavioral golden, domain-edge tests. All P1-P3 complete. See RELEASE-NOTES.md. |
 | 2026-07-07 | **v3.1.0 RELEASED** | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. Hook renumbering bug fixes. |
 | 2026-07-08 | **v4.0.0 RELEASED** | Foundation Repair & Critical Stubs: 15 stubs completed, frontmatter fixes, flat guide consolidation, enforcement simplification (commit-msg v4, pre-commit v11). 57 skills, 0 lint errors, HEALTHY status restored. |
+| 2026-07-08 | **v4.1.0 RELEASED** | Quick Start Guide & Navigation Overhaul: user-facing workflow guide, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate expanded to all text formats. |

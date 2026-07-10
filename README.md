@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v4.0.0](https://img.shields.io/badge/version-4.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v4.1.0](https://img.shields.io/badge/version-4.1.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -51,6 +51,8 @@ Run `init-agents` in every new project — it:
 > **Safety:** Backs up before replacing. `init-agents` merges — never overwrites.
 > **Universal:** Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
 > **Agent adapters:** `bash install.sh --agent claude` or `.\install.ps1 -Agent claude`
+>
+> **📖 New to skills?** Read the [**Quick Start Guide →**](./docs/quickstart-guide.html) ([Markdown version](./QUICKSTART.md)) for a step-by-step walkthrough of your first session, how skills activate, and day-to-day tips.
 
 ---
 
@@ -113,16 +115,17 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
-## What's New in v4.0.0 — Foundation Repair & Critical Stubs
+## What's New in v4.1.0 — Quick Start Guide & Navigation Overhaul
 
-### 🏗️ 15 Stubs Completed, Enforcement Simplified
+### 📖 Quick Start Guide, Full Spanish i18n, Nav Chain Fixes
 
-v4.0.0 completes 15 critical stub skills and repairs the project's foundation. 57 skills now have full content, workflows, and guides. The commit-msg hook was simplified from 4 gates to 1 (TDD only).
+v4.1.0 adds a user-facing Quick Start Guide for daily workflow, full Spanish translation of all nav elements, and a comprehensive navigation chain fix across all 13 docs pages.
 
-- **15 stubs completed**: `performance-optimization`, `observability-and-instrumentation`, `api-and-interface-design`, `ci-cd-and-automation`, `frontend-ui-engineering`, `deprecation-and-migration`, `source-driven-development`, `code-simplification`, `idea-refine`, `interview-me`, `customize-opencode`, `output-skill`, `debugging-three-strikes`. `visual-frontend-mastery` merged into `frontend-ui-engineering`.
-- **Foundation repair**: 29 frontmatter descriptions fixed, 23 flat guides consolidated, YAML parsing passes on all skills.
-- **Enforcement simplification**: commit-msg v7→v4 (removed COMMIT_APPROVED/MANIFEST/TEST_LOG gates). User runs `git commit` directly.
-- **Documentation consistency**: 24 stale references fixed across 12 files (hook versions, gate counts, skill counts, guide counts).
+- **Quick Start Guide** ([`docs/quickstart-guide.html`](./docs/quickstart-guide.html), [`QUICKSTART.md`](./QUICKSTART.md)) — Step-by-step walkthrough of your first session, how skills activate, the 6 phases from your side, Guardian Pattern, common scenarios, and pro tips.
+- **Full Spanish i18n** — 60 keys translated for Quick Start Guide content. All 24 nav prev/next buttons translated in both EN/ES.
+- **Navigation chain** — All 13 docs pages fixed with correct prev/next buttons following sidebar order.
+- **COMMIT_APPROVED gate restored** — commit-msg v5: user must explicitly say "yes commit" before commits go through.
+- **TDD gate expanded** — HTML, JSON, Markdown, YAML, CSS, and more now require tests. SKIP_PATTERNS for binaries and lock files.
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
 
@@ -316,6 +319,7 @@ If it fails, ask the user before taking any action.
 | [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
 | [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
+| [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
 | [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v4.0.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
