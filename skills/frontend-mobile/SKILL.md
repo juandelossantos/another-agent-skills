@@ -27,6 +27,12 @@ Do NOT use for:
 - Installable web apps (use `frontend-pwa`)
 - Backend-only tasks
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Mobile interface | Source code | Project source directory | Platform-compliant, accessible, token-compliant, build passes |
+
 ### Context Persistence Check
 
 Before starting work:
