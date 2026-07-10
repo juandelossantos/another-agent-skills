@@ -22,6 +22,12 @@ Ship with confidence. Deploy safely: monitoring in place, rollback plan ready, c
 - Migrating data or infrastructure
 - Any deployment that carries risk (all of them)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Launch plan + monitoring + rollback | Markdown checklist + monitoring dashboard config + rollback procedure doc | Project docs + `monitoring/` or dashboard | Pre-launch checklist complete (code quality, security, performance, infrastructure), feature flags with owner and expiration, staged rollout with canary/gradual steps, rollout thresholds defined (error rate ≤2x baseline, P95 within 50% of baseline), monitoring covers Four Golden Signals (latency, traffic, errors, saturation), rollback plan with trigger/steps/timing, post-launch verification completed, TOOL_GAP reported if production unreachable |
+
 → See `guides/CHECKLIST-GUIDE.md` for the complete launch checklist.
 → See `guides/ROLLBACK-GUIDE.md` for rollback procedures and decision matrix.
 
@@ -92,10 +98,13 @@ Roll back immediately if: error rate >2x baseline, P95 latency >50% increase, us
 
 ## Monitoring
 
+Per Google SRE Four Golden Signals, monitor these dimensions:
+
 ```
-Application: error rate, response time (p50/p95/p99), request volume, active users
-Infrastructure: CPU/memory, DB connection pool, disk, network latency
-Client: Core Web Vitals (LCP, INP, CLS), JS errors, API error rates
+Latency:   response time (p50/p95/p99), health check endpoint
+Traffic:   request volume, active users, concurrent sessions
+Errors:    error rate (HTTP 5xx, client JS errors), failed requests
+Saturation: CPU/memory utilization, DB connection pool, disk, network
 ```
 
 ## Post-Launch Verification (First Hour)
