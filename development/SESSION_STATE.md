@@ -3,7 +3,7 @@
 **Date:** 2026-07-10  
 **Current version:** v4.1.0  
 **Branch:** `feat/output-contracts`  
-**Status:** Phase 3 — Output Contracts in progress (14/56 tasks done)
+**Status:** Phase 3 — Output Contracts in progress (15/56 tasks done)
 
 ---
 
@@ -28,8 +28,9 @@
 | 3.12 | `typeset-skill` | Typography CSS, type ramp compliant |
 | 3.13 | `clarify-skill` | UX copy rewrite, OWASP security guidelines |
 | 3.14 | `minimalist-ui` | Minimalist UI code — editorial HTML/CSS/TSX, responsive, token-compliant, WCAG AA |
+| 3.15 | `soft-premium-ui` | Premium-styled visual layer — HTML/CSS design tokens, spring motion, Double-Bezel architecture |
  
-### Remaining (42 skills)
+### Remaining (41 skills)
 
 All other skills grouped by plan order.
 
@@ -49,7 +50,7 @@ Then continue with Task 3.14 — next skill in the plan.
 
 ## Key Stats
 
-- **Check 16 warnings:** 42 (down from 55)
+- **Check 16 warnings:** 41 (down from 55)
 - **HEALTH-CHECK.md:** DEGRADED (expected — 43 skills still need contracts)
 - **Tests:** 29/29 passing
 - **Lint:** 0 errors, 43 warnings

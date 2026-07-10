@@ -28,6 +28,12 @@ Engineer $150k+ agency-level digital experiences. Haptic depth, cinematic spatia
 - Edge-to-edge sticky navbars, symmetrical 3-column Bootstrap grids
 - `linear` or `ease-in-out` transitions
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Premium-styled visual layer | HTML/CSS — design tokens + motion definitions | Source files | Responsive ≤768px, WCAG AA focus + contrast, `prefers-reduced-motion`, spring-physics motion curve, backdrop-blur on fixed/sticky only, Double-Bezel card architecture, ≥44px touch targets, lazy-loaded below-fold media |
+
 ## Creative Variance Engine
 
 Pick **one vibe** + **one layout** per project. Do not reuse the same combo on consecutive projects.
