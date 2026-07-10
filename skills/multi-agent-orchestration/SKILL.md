@@ -16,6 +16,10 @@ metadata:
 
 **Meta-skill for parallel and multi-phase workflows.** Not a platform skill — augments the Orchestrator (primary session agent). Does NOT replace `engineering-fundamentals` or any platform skill.
 
+## Output Contract
+
+Merged, tested source code from coordinated subagents. No single artifact — the orchestration process produces the final integrated result.
+
 **Note:** This meta-skill has 1 guide (GUIDE.md) by design — it documents orchestration patterns, not phased workflows. Platform skills need ≥ 2 guides; meta-skills don't follow that pattern.
 
 ## When to Use
