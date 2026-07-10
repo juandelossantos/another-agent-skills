@@ -39,6 +39,12 @@ pipeline — not just the code — before any commit reaches production.
 - Hotfixes where CI/CD is already established and the fix is trivial
 - Documentation-only changes with no code impact
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Shipping pipeline + deployment plan | `DEPLOYMENT.md` + CI/CD config (YAML) + monitoring config | Root (`DEPLOYMENT.md`) + `.github/workflows/` + monitoring provider | All 8 phases complete (context, discovery, research, CI/CD, testing, orchestration, monitoring, launch checklist), CI/CD pipeline designed with 2-3 options evaluated, testing strategy defined for PR/merge/staging/prod, deployment orchestration includes environments/migrations/secrets/rollback, monitoring tools installed with actionable alerting rules, pre/during/post launch checklist completed, DEPLOYMENT.md created with pipeline overview, environments table, testing stages, rollback procedure, and monitoring |
+
 ---
 
 ## Core Process
