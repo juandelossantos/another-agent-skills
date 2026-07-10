@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-08  
+> **Last updated:** 2026-07-10  
 > **Current version:** 4.1.0 (auto-generated)
-> **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts 🔜 → docs honesty → release
+> **Status:** Released — 0 errors, 39 warnings, 74 guides across 57 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts 🔜 (19/56 tasks, 37 missing contracts) → docs honesty → release
 
 ---
 
@@ -21,14 +21,14 @@
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
-| `adapt-skill` | 129 | 2 |  |
-| `api-and-interface-design` | 108 | 2 |  |
+| `adapt-skill` | 135 | 2 |  |
+| `api-and-interface-design` | 125 | 2 |  |
 | `architecture-analysis` | 220 | 3 |  |
 | `audit-skill` | 150 | 4 |  |
-| `backend-api-mastery` | 195 | 5 |  |
+| `backend-api-mastery` | 201 | 5 |  |
 | `browser-testing-with-devtools` | 74 | 0 |  |
 | `ci-cd-and-automation` | 123 | 2 |  |
-| `clarify-skill` | 91 | 4 |  |
+| `clarify-skill` | 125 | 4 |  |
 | `cli-tools` | 108 | 2 |  |
 | `code-review-and-quality` | 136 | 3 |  |
 | `code-simplification` | 239 | 2 |  |
@@ -37,17 +37,17 @@
 | `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files
 | `debugging-and-error-recovery` | 90 | 5 |  |
 | `debugging-three-strikes` | 66 | 0 |  |
-| `delight-skill` | 149 | 4 |  |
+| `delight-skill` | 155 | 4 |  |
 | `deprecation-and-migration` | 94 | 2 |  |
 | `dev-environment-audit` | 152 | 4 |  |
 | `documentation-and-adrs` | 68 | 3 |  |
 | `doubt-driven-development` | 90 | 2 |  |
-| `engineering-fundamentals` | 226 | 6 |  |
-| `frontend-desktop` | 236 | 3 |  |
-| `frontend-mobile` | 240 | 3 |  |
-| `frontend-pwa` | 196 | 4 |  |
-| `frontend-ui-engineering` | 119 | 2 |  |
-| `frontend-web` | 233 | 8 |  |
+| `engineering-fundamentals` | 230 | 6 |  |
+| `frontend-desktop` | 242 | 3 |  |
+| `frontend-mobile` | 246 | 3 |  |
+| `frontend-pwa` | 202 | 4 |  |
+| `frontend-ui-engineering` | 123 | 2 |  |
+| `frontend-web` | 239 | 8 |  |
 | `fullstack-shipping` | 178 | 3 |  |
 | `git-init-and-versioning` | 243 | 6 |  |
 | `git-workflow-and-versioning` | 181 | 3 |  |
@@ -56,27 +56,27 @@
 | `incremental-implementation` | 89 | 2 |  |
 | `industrial-brutalist-ui` | 75 | 0 |  |
 | `interview-me` | 108 | 2 |  |
-| `minimalist-ui` | 68 | 0 |  |
-| `multi-agent-orchestration` | 81 | 1 |  |
+| `minimalist-ui` | 74 | 0 |  |
+| `multi-agent-orchestration` | 85 | 1 |  |
 | `observability-and-instrumentation` | 104 | 2 |  |
-| `optimize-skill` | 139 | 4 |  |
+| `optimize-skill` | 145 | 4 |  |
 | `output-skill` | 87 | 1 |  |
 | `performance-optimization` | 99 | 2 |  |
 | `planning-and-task-breakdown` | 90 | 2 |  |
-| `polish-skill` | 136 | 2 |  |
+| `polish-skill` | 142 | 2 |  |
 | `project-health-check` | 211 | 2 |  |
 | `project-metrics` | 151 | 2 |  |
-| `redesign-skill` | 64 | 0 |  |
+| `redesign-skill` | 70 | 0 |  |
 | `security-and-hardening` | 31 | 0 |  |
 | `self-improvement` | 88 | 4 |  |
 | `shipping-and-launch` | 163 | 2 |  |
 | `skill-creator` | 166 | 2 |  |
 | `skill-improver` | 157 | 2 |  |
-| `soft-premium-ui` | 69 | 0 |  |
+| `soft-premium-ui` | 75 | 0 |  |
 | `source-driven-development` | 91 | 2 |  |
 | `spec-driven-development` | 215 | 3 |  |
 | `test-driven-development` | 138 | 6 |  |
-| `typeset-skill` | 136 | 2 |  |
+| `typeset-skill` | 142 | 2 |  |
 | `user-onboarding` | 187 | 2 |  |
 
 ### Architecture Decisions Implemented
@@ -137,7 +137,7 @@
 
 ### In Progress
 
-- **Phase 3: Output Contracts** — Adding standardized Output Contract section to all skills.
+- **Phase 3: Output Contracts** — Adding standardized Output Contract section to all skills. 19/56 tasks done, 37 still missing. Contracts completed: engineering-fundamentals, multi-agent-orchestration, frontend-web, frontend-mobile, frontend-desktop, frontend-pwa, frontend-ui-engineering, adapt-skill, polish-skill, delight-skill, optimize-skill, typeset-skill, clarify-skill, minimalist-ui, soft-premium-ui, redesign-skill, backend-api-mastery, api-and-interface-design (+2 pre-existing: customize-opencode, interview-me). Guides improved: CONTRACT-TEMPLATES.md (+WebSocket, +module boundaries), VERSIONING-STRATEGIES.md (+breaking rules, +edge cases).
 
 ### Completed
 

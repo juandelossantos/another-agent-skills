@@ -3,13 +3,13 @@
 **Date:** 2026-07-10  
 **Current version:** v4.1.0  
 **Branch:** `feat/output-contracts`  
-**Status:** Phase 3 — Output Contracts in progress (18/56 tasks done)
+**Status:** Phase 3 — Output Contracts in progress (19/56 tasks done)
 
 ---
 
 ## Progress
 
-### Completed (13 contracts)
+### Completed (19 tasks: Check 16 + 18 contracts)
 
 | # | Skill | Key Detail |
 |---|---|---|
@@ -47,16 +47,35 @@ git checkout feat/output-contracts
 git log --oneline -3
 ```
 
-Then continue with Task 3.14 — next skill in the plan.
+Then continue with Task 3.19 (`cli-tools`) — next skill in the plan.
+
+---
+
+## Contract Methodology (repeat for each task)
+
+1. **Read skill** — full SKILL.md + guides + frontmatter
+2. **Deep research** — Context7 + web fetch (Microsoft, Google AIP, OWASP, semver.org, Stripe, NNGroup, industry benchmarks)
+3. **Identify output** — what does the skill produce? (artifact, format, location)
+4. **Gap analysis** — compare skill content vs. research; find missing quality criteria
+5. **Confidence scoring** — 6 factors (purpose, triggers, consistency, universality, sources, maturity)
+6. **Present analysis** → user approves or challenges
+7. **Write contract** — `## Output Contract` table with Artifact, Format, Location, Quality Criteria
+8. **Guide improvements** — append to existing guides, never overwrite
+9. **Expand triggers** — if underspecified, add concrete use cases
+10. **Test** — `bash scripts/skill-lint.sh`
+11. **Sync** — update HEALTH-CHECK.md + SESSION_STATE.md
+12. **Stage + commit** — provide instruction with `OVERRIDE: content-only change`
+
+**Guiding principles:** universal/agnostic framing, research beyond Context7, never overwrite existing content, quality over speed, Guardian Pattern (approval before mutation).
 
 ---
 
 ## Key Stats
 
 - **Check 16 warnings:** 37 (down from 55)
-- **HEALTH-CHECK.md:** DEGRADED (expected — 43 skills still need contracts)
+- **HEALTH-CHECK.md:** DEGRADED (expected — 37 skills still need contracts)
 - **Tests:** 29/29 passing
-- **Lint:** 0 errors, 43 warnings
+- **Lint:** 0 errors, 39 warnings (37 Check 16 + 2 other)
 
 ---
 
