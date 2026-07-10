@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Two-Gate Check (v5)
-# Gate 1: COMMIT_APPROVED — user must say "yes commit" before commit runs
-# Gate 2: TDD enforcement — code files need matching test files
+# commit-msg — Another Agent Skills Single-Gate TDD Check (v4)
+# Single gate: TDD enforcement only.
+# All other approval checks removed — user runs git commit directly.
+# Pre-commit hook (v11) runs before this for branch/TDD/test gates.
 #
 # Flow:
 # 1. Agent stages files and presents manifest in chat
-# 2. User says "yes commit" in chat
-# 3. Agent writes: echo "yes commit: <message-hash>" > .git/COMMIT_APPROVED
-# 4. User runs: git commit -m "message"
-# 5. commit-msg hook: checks approval freshness + TDD gate
+# 2. User runs: git commit -m "message"
+# 3. commit-msg hook validates TDD gate
+#
+# No COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG required.
+# The user running git commit IS the approval.
 
 set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
-APPROVAL_FILE="${REPO_ROOT}/.git/COMMIT_APPROVED"
 TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
 
@@ -26,62 +27,8 @@ NC='\033[0m'
 CURRENT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
 
 # ─────────────────────────────────────────
-# Gate 1: COMMIT_APPROVED — verify user approved this commit
+# Gate 1: TDD gate — code files need test files
 # ─────────────────────────────────────────
-echo ""
-echo "╔════════════════════════════════════════════╗"
-echo "║  COMMIT APPROVAL CHECK                    ║"
-echo "╚════════════════════════════════════════════╝"
-
-APPROVED=0
-if [ -f "$APPROVAL_FILE" ]; then
-  APPROVED_CONTENT=$(cat "$APPROVAL_FILE" 2>/dev/null | tr -d '\n')
-  APPROVED_TIME=$(stat -c %Y "$APPROVAL_FILE" 2>/dev/null || echo "0")
-  NOW=$(date +%s)
-  AGE=$((NOW - APPROVED_TIME))
-
-  if [ "$AGE" -lt 300 ]; then
-    # Extract message hash: "yes commit: <hash>"
-    APPROVED_HASH=$(echo "$APPROVED_CONTENT" | sed 's/^yes commit: *//')
-    MSG_HASH=$(echo "$CURRENT_MSG" | sha256sum 2>/dev/null | cut -c1-16 || echo "$CURRENT_MSG" | md5sum 2>/dev/null | cut -c1-16 || echo "$CURRENT_MSG")
-
-    if echo "$APPROVED_CONTENT" | grep -q "yes commit:"; then
-      echo -e "  ${GREEN}✓${NC} Commit approved by user (${AGE}s ago)"
-      APPROVED=1
-    else
-      echo -e "  ${RED}✗${NC} Invalid approval format"
-    fi
-  else
-    echo -e "  ${RED}✗${NC} Approval expired (${AGE}s old, max 300s)"
-  fi
-fi
-
-if [ "$APPROVED" -eq 0 ]; then
-  echo ""
-  echo "╔════════════════════════════════════════════════════════════╗"
-  echo "║  ❌ COMMIT BLOCKED — No valid approval                    ║"
-  echo "╠════════════════════════════════════════════════════════════╣"
-  echo "║                                                          ║"
-  echo "║  The agent must present a DECISION POINT in chat.        ║"
-  echo "║  You must type 'yes commit' explicitly.                  ║"
-  echo "║                                                          ║"
-  echo "║  Then the agent writes .git/COMMIT_APPROVED.             ║"
-  echo "║  You have 5 minutes to run git commit after approval.    ║"
-  echo "╚════════════════════════════════════════════════════════════╝"
-  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] APPROVAL_BLOCKED: ${CURRENT_MSG}" >> "$APPROVAL_LOG"
-  exit 1
-fi
-
-rm -f "$APPROVAL_FILE"
-
-# ─────────────────────────────────────────
-# Gate 2: TDD gate — code files need test files
-# ─────────────────────────────────────────
-echo ""
-echo "╔════════════════════════════════════════════╗"
-echo "║  TDD ENFORCEMENT                          ║"
-echo "╚════════════════════════════════════════════╝"
-
 if [[ -f "$TDD_GATE" ]]; then
   TDD_EXIT=0
   TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1) || TDD_EXIT=$?
