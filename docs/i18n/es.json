@@ -13,7 +13,8 @@
     "customization": "Personalización",
     "eval": "Guía de Evaluación",
     "docs": "Docs",
-    "universalLoop": "Bucle Universal"
+    "universalLoop": "Bucle Universal",
+    "quickstart": "Guía de inicio rápido"
   },
   "universalLoop": {
     "title": "Bucle Universal de Auto-Mejora",
@@ -87,7 +88,9 @@
     "agents": "Agentes",
     "agentsDesc": "Agentes compatibles: OpenCode, Claude Code, Cursor, Devin Desktop y más.",
     "eval": "Guía de Evaluación",
-    "evalDesc": "Sistema de eval: formato, tiers, cómo agregar evals, ejecutar tests y checklist de cobertura.",
+    "evalDesc": "Sistema de eval: especificación de formato, tiers de skills, cómo agregar evals, ejecutar tests y lista de cobertura.",
+    "quickstart": "Guía de inicio rápido",
+    "quickstartDesc": "Primera sesión, cómo se activan los skills, escenarios comunes y consejos.",
     "quickLinks": "Enlaces rápidos",
     "version": "Versión actual",
     "skillsCount": "Skills",

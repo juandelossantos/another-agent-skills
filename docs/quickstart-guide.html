@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Start Guide — Another Agent Skills</title>
+<meta name="description" content="Learn how to use Another Agent Skills effectively: first session walkthrough, how skills activate, common scenarios, and tips.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=2">
+<link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="header" id="top">
+  <nav class="header__nav container">
+    <a href="../index.html" class="header__logo"><span class="header__logo-text">Another Agent Skills</span></a>
+    <ul class="header__links">
+      <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="index.html" data-i18n="nav.docs">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">GitHub →</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control header__lang" data-action="lang">ES</button>
+      <button class="header__control header__theme" data-action="theme">☾</button>
+    </div>
+  </nav>
+</header>
+<main class="docs" id="main">
+  <aside class="docs__sidebar">
+    <input type="search" class="docs__search" placeholder="Search docs..." aria-label="Search documentation">
+    <p class="sidebar__title" data-i18n="nav.docs">Docs</p>
+    <nav><ul class="sidebar__nav">
+      <li><a href="index.html" class="sidebar__link" data-i18n="nav.overview">Overview</a></li>
+      <li><a href="philosophy.html" class="sidebar__link" data-i18n="nav.philosophy">Philosophy</a></li>
+      <li><a href="getting-started.html" class="sidebar__link" data-i18n="nav.gettingStarted">Getting Started</a></li>
+      <li><a href="quickstart-guide.html" class="sidebar__link sidebar__link--active" data-i18n="nav.quickstart">Quick Start Guide</a></li>
+      <li><a href="lifecycle.html" class="sidebar__link" data-i18n="nav.lifecycle">Lifecycle</a></li>
+      <li><a href="skills.html" class="sidebar__link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="universal-loop.html" class="sidebar__link" data-i18n="nav.universalLoop">Universal Loop</a></li>
+      <li><a href="enforcement.html" class="sidebar__link" data-i18n="nav.enforcement">The Harness</a></li>
+      <li><a href="design-review.html" class="sidebar__link" data-i18n="nav.designReview">Design Review</a></li>
+      <li><a href="rules.html" class="sidebar__link" data-i18n="nav.rules">Rules</a></li>
+      <li><a href="agents.html" class="sidebar__link" data-i18n="nav.agents">Agents</a></li>
+      <li><a href="customization.html" class="sidebar__link" data-i18n="nav.customization">Customization</a></li>
+      <li><a href="evaluation.html" class="sidebar__link" data-i18n="nav.eval">Evaluation Guide</a></li>
+    </ul></nav>
+  </aside>
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.quickstart">Quick Start Guide</span></div>
+
+    <h1 data-i18n="quickstart.title">Quick Start Guide</h1>
+
+    <p data-i18n="quickstart.intro">You installed 57 skills and ran <code>init-agents</code>. Now what? This guide shows you how to work with your agent effectively using the skills you have.</p>
+
+    <h2 id="first-session" data-i18n="quickstart.firstSession">Your First Session</h2>
+
+    <p data-i18n="quickstart.firstSessionDesc">After <code>init-agents</code>, describe what you want to build. The agent auto-detects which skills to load. Here's what the first feature looks like from your side:</p>
+
+    <ol>
+      <li><strong data-i18n="quickstart.step1Title">You describe the task</strong> — <span data-i18n="quickstart.step1Desc">"Build a login page with email and password." The agent matches this to <code>frontend-web</code>, <code>security-and-hardening</code>, and <code>test-driven-development</code>.</span></li>
+      <li><strong data-i18n="quickstart.step2Title">Agent loads skills</strong> — <span data-i18n="quickstart.step2Desc">The skill gate logs which skills were consulted. You'll see this in the pre-commit output.</span></li>
+      <li><strong data-i18n="quickstart.step3Title">Agent writes SPEC.md</strong> — <span data-i18n="quickstart.step3Desc">The spec defines scope, stack, acceptance criteria, and boundaries. The agent asks you questions to fill gaps.</span></li>
+      <li><strong data-i18n="quickstart.step4Title">You review the plan</strong> — <span data-i18n="quickstart.step4Desc">The agent presents a DECISION POINT: "Here's the spec. Shall I proceed?" Read it. Say "yes" or request changes.</span></li>
+      <li><strong data-i18n="quickstart.step5Title">Agent builds incrementally</strong> — <span data-i18n="quickstart.step5Desc">One slice at a time. Each slice includes code + tests. After each slice, the agent runs tests.</span></li>
+      <li><strong data-i18n="quickstart.step6Title">Tests run automatically</strong> — <span data-i18n="quickstart.step6Desc">Pre-commit Gate 14 runs <code>bash tests/run-all.sh</code> before every commit. If tests fail, the commit blocks.</span></li>
+      <li><strong data-i18n="quickstart.step7Title">Agent presents commit decision</strong> — <span data-i18n="quickstart.step7Desc">You see a DECISION POINT with the diff summary. Type "yes commit" to approve. The TDD gate verifies tests accompany code.</span></li>
+    </ol>
+
+    <h2 id="how-skills-activate" data-i18n="quickstart.howActivate">How Skills Activate</h2>
+
+    <p data-i18n="quickstart.howActivateDesc">Skills load automatically when the agent detects a matching task. You don't call skills — you describe what you need.</p>
+
+    <table>
+      <tr><th data-i18n="quickstart.youSay">You Say</th><th data-i18n="quickstart.skillLoads">Skill That Loads</th></tr>
+      <tr><td>"Add a login page"</td><td><code>frontend-web</code> + <code>spec-driven-development</code> + <code>test-driven-development</code></td></tr>
+      <tr><td>"Build a REST API"</td><td><code>backend-api-mastery</code> + <code>api-and-interface-design</code></td></tr>
+      <tr><td>"Create a CLI tool"</td><td><code>cli-tools</code> + <code>spec-driven-development</code></td></tr>
+      <tr><td>"Review this code"</td><td><code>code-review-and-quality</code></td></tr>
+      <tr><td>"Fix this bug"</td><td><code>debugging-and-error-recovery</code></td></tr>
+      <tr><td>"Write tests"</td><td><code>test-driven-development</code></td></tr>
+      <tr><td>"Deploy to production"</td><td><code>shipping-and-launch</code> + <code>ci-cd-and-automation</code></td></tr>
+      <tr><td>"Design a landing page"</td><td><code>frontend-web</code> + <code>critique-skill</code> + <code>polish-skill</code></td></tr>
+    </table>
+
+    <p data-i18n="quickstart.explicitRequest"><strong>Pro tip:</strong> If auto-detection misses, say "load the [skill-name] skill" or "use TDD for this." You can also say "what skill are you using?" to see what's loaded.</p>
+
+    <h2 id="six-phases" data-i18n="quickstart.sixPhases">The 6 Phases from Your Side</h2>
+
+    <p data-i18n="quickstart.sixPhasesDesc">Every feature follows the same flow. Your role changes per phase:</p>
+
+    <table>
+      <tr><th data-i18n="quickstart.phase">Phase</th><th data-i18n="quickstart.agentDoes">Agent Does</th><th data-i18n="quickstart.youDo">You Do</th></tr>
+      <tr><td><strong>DEFINE</strong></td><td data-i18n="quickstart.defineAgent">Writes SPEC.md. Asks discovery questions.</td><td data-i18n="quickstart.defineYou">Read the spec. Confirm or request changes. Say "yes" to proceed.</td></tr>
+      <tr><td><strong>PLAN</strong></td><td data-i18n="quickstart.planAgent">Breaks work into tasks with acceptance criteria.</td><td data-i18n="quickstart.planYou">Review the task list. Confirm or reorder.</td></tr>
+      <tr><td><strong>BUILD</strong></td><td data-i18n="quickstart.buildAgent">Implements one slice. Writes tests. Verifies.</td><td data-i18n="quickstart.buildYou">Review each increment. Reject if it doesn't match spec.</td></tr>
+      <tr><td><strong>VERIFY</strong></td><td data-i18n="quickstart.verifyAgent">Runs test suite. Checks gates.</td><td data-i18n="quickstart.verifyYou">Wait. Fix if a gate blocks. Tests are mechanical — trust them.</td></tr>
+      <tr><td><strong>REVIEW</strong></td><td data-i18n="quickstart.reviewAgent">Reviews its own code: security, perf, quality.</td><td data-i18n="quickstart.reviewYou">Read the review. Approve or request changes.</td></tr>
+      <tr><td><strong>SHIP</strong></td><td data-i18n="quickstart.shipAgent">Commits. Pushes. CI runs.</td><td data-i18n="quickstart.shipYou">Type "yes commit" when you see the DECISION POINT.</td></tr>
+    </table>
+
+    <h2 id="guardian-pattern" data-i18n="quickstart.guardianPattern">Guardian Pattern — Your Role in Quality</h2>
+
+    <p data-i18n="quickstart.guardianDesc">Before every mutation (commit, push, merge), the agent must present a DECISION POINT block. This is your opportunity to review before giving consent.</p>
+
+    <pre><code>DECISION POINT — Commit
+  Plan approved: ✅
+  Manifest: 3 files changed (src/login.ts, src/login.test.ts, SPEC.md)
+  Tests: 5/5 passed (TDD gate: ✅)
+
+  → Approve this commit? Reply "yes commit" to proceed.</code></pre>
+
+    <p data-i18n="quickstart.guardianRules"><strong>Rules:</strong></p>
+    <ul>
+      <li data-i18n="quickstart.guardianValid"><strong>Valid responses:</strong> "yes", "yes commit", "sí", "proceed", "adelante", "let's go"</li>
+      <li data-i18n="quickstart.guardianInvalid"><strong>Invalid responses:</strong> "ok", "sure", "mmhm", "continue" — the agent will ask again</li>
+      <li data-i18n="quickstart.guardianSeparate"><strong>Plan ≠ Commit:</strong> Approving the plan does NOT approve the commit. Each mutation is a separate decision.</li>
+      <li data-i18n="quickstart.guardianReject"><strong>You can reject:</strong> Say "no" or "change X" to send it back. The agent cannot proceed without your consent.</li>
+    </ul>
+
+    <h2 id="common-scenarios" data-i18n="quickstart.commonScenarios">Common Scenarios</h2>
+
+    <h3 data-i18n="quickstart.scenarioNewFeature">Building a New Feature</h3>
+    <ol>
+      <li data-i18n="quickstart.featureStep1">Describe the feature: "Add a password reset flow"</li>
+      <li data-i18n="quickstart.featureStep2">Agent writes SPEC.md → you approve</li>
+      <li data-i18n="quickstart.featureStep3">Agent plans tasks → you confirm</li>
+      <li data-i18n="quickstart.featureStep4">Agent builds + tests each slice → you review</li>
+      <li data-i18n="quickstart.featureStep5">Tests run → pre-commit gates pass → "yes commit"</li>
+    </ol>
+
+    <h3 data-i18n="quickstart.scenarioBugFix">Fixing a Bug</h3>
+    <ol>
+      <li data-i18n="quickstart.bugStep1">Describe the bug: "The login button doesn't work on mobile"</li>
+      <li data-i18n="quickstart.bugStep2">Agent loads <code>debugging-and-error-recovery</code> → inspects root cause</li>
+      <li data-i18n="quickstart.bugStep3">Agent writes a failing test that reproduces the bug (TDD)</li>
+      <li data-i18n="quickstart.bugStep4">Agent fixes the code → test passes</li>
+      <li data-i18n="quickstart.bugStep5">Pre-commit gates validate → "yes commit"</li>
+    </ol>
+
+    <h3 data-i18n="quickstart.scenarioRefactor">Refactoring Code</h3>
+    <ol>
+      <li data-i18n="quickstart.refactorStep1">Say "Refactor this component to be simpler"</li>
+      <li data-i18n="quickstart.refactorStep2">Agent loads <code>code-simplification</code> → analyzes complexity</li>
+      <li data-i18n="quickstart.refactorStep3">Agent applies Beck's 4 rules: passes tests, reveals intention, no duplication, fewest elements</li>
+      <li data-i18n="quickstart.refactorStep4">Tests verify behavior didn't change → "yes commit"</li>
+    </ol>
+
+    <h2 id="tips" data-i18n="quickstart.tips">Tips for Better Results</h2>
+
+    <ul>
+      <li data-i18n="quickstart.tipSpecific"><strong>Be specific about your stack.</strong> "Build a React app using Next.js 14 with TypeScript" gets better results than "build an app."</li>
+      <li data-i18n="quickstart.tipSkillNames"><strong>Use skill names when it matters.</strong> "Load the test-driven-development skill" forces TDD. "Use code-review-and-quality" triggers a full review.</li>
+      <li data-i18n="quickstart.tipDecisionPoints"><strong>Read DECISION POINTs carefully.</strong> The agent describes what it will do. If it sounds wrong, say "no" or "change X."</li>
+      <li data-i18n="quickstart.tipWrongSkill"><strong>If the agent loads the wrong skill</strong>, say "load the [correct-skill] skill instead." The skill gate adjusts.</li>
+      <li data-i18n="quickstart.tipCheckGates"><strong>Check which gates ran.</strong> After a commit, the pre-commit output shows all 14 gates. If one skipped when it shouldn't, investigate.</li>
+      <li data-i18n="quickstart.tipRunTests"><strong>Run tests before creating a PR.</strong> Pre-commit Gate 14 catches failures. If you skip with SKIP_TEST_RUNNER, CI catches it.</li>
+    </ul>
+
+    <div class="docs__nav">
+      <a href="getting-started.html" class="docs__nav-link"><span class="docs__nav-label">← </span><span class="docs__nav-title" data-i18n="quickstart.prevPage">Getting Started</span></a>
+      <a href="lifecycle.html" class="docs__nav-link"><span class="docs__nav-title" data-i18n="quickstart.nextPage">Lifecycle</span><span class="docs__nav-label"> →</span></a>
+    </div>
+  </div>
+  <aside class="docs__toc"><p class="toc__title" data-i18n="toc.title">On this page</p><ul class="toc__list"></ul></aside>
+</main>
+<script src="js/docs.js?v=3"></script>
+</body>
+</html>
