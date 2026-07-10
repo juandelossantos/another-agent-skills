@@ -3,7 +3,7 @@
 **Date:** 2026-07-10  
 **Current version:** v4.1.0  
 **Branch:** `feat/output-contracts`  
-**Status:** Phase 3 — Output Contracts in progress (22/56 tasks done)
+**Status:** Phase 3 — Output Contracts in progress (23/56 tasks done)
 
 ---
 
@@ -35,8 +35,9 @@
 | 3.19 | `cli-tools` | CLI tool source code — standard parser, exit codes, composability, NO_COLOR, SIGINT, --json |
 | 3.20 | `security-and-hardening` | Hardened source code — OWASP Top 10, input validation, auth, secrets, CSP, rate limiting, deps scan |
 | 3.21 | `performance-optimization` | Optimized system code — profiled baseline, bottleneck per cycle, verified improvement, no regression |
+| 3.22 | `observability-and-instrumentation` | Instrumented source code — RED + USE metrics, structured JSON logs, distributed tracing, symptom alerts |
  
-### Remaining (35 skills)
+### Remaining (34 skills)
 
 All other skills grouped by plan order.
 
@@ -50,7 +51,7 @@ git checkout feat/output-contracts
 git log --oneline -3
 ```
 
-Then continue with Task 3.22 (`observability-and-instrumentation`) — next skill in the plan.
+Then continue with Task 3.23 (`code-simplification`) — next skill in the plan.
 
 ---
 
@@ -75,10 +76,10 @@ Then continue with Task 3.22 (`observability-and-instrumentation`) — next skil
 
 ## Key Stats
 
-- **Check 16 warnings:** 34 (down from 55)
+- **Check 16 warnings:** 33 (down from 55)
 - **HEALTH-CHECK.md:** DEGRADED (expected — 37 skills still need contracts)
 - **Tests:** 29/29 passing
-- **Lint:** 0 errors, 36 warnings (34 Check 16 + 2 other)
+- **Lint:** 0 errors, 35 warnings (33 Check 16 + 2 other)
 
 ---
 

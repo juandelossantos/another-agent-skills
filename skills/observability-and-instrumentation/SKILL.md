@@ -25,6 +25,14 @@ Complementary to `shipping-and-launch`. Where shipping handles deployment and ro
 - Shipping features that run in production
 - Production issues reported but you can't tell what happened
 - Setting up monitoring dashboards
+- After an incident postmortem (filling observability gaps discovered during analysis)
+- Before a public launch or major feature release (ensuring launch readiness)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Instrumented source code + monitoring config | Source code changes (any language) + config files (YAML, JSON) | Existing source tree + `monitoring/` or `otel/` | JSON structured logs with correlation IDs on every entry, RED metrics (rate/errors/duration) per service, USE metrics (utilization/saturation/errors) per resource, distributed tracing on every external call with OpenTelemetry span attributes, symptom-based alerts with documented runbooks, no secrets or PII in log output, monitoring configuration treated as code |
 
 ## When NOT to Use
 
