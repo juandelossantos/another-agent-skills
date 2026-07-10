@@ -22,6 +22,12 @@ metadata:
 
 Single-line fixes, typo corrections, truly trivial changes (1 file, < 10 lines, no logic). For everything else, run the pipeline.
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| SPEC.md specification + implemented code | Markdown document with 10 sections + source code | Root (`SPEC.md`) + `src/` | INTENT.md checked before spec (P0 gate), research with current year sources (P2), architecture decided with trade-offs (P3), SPEC.md has all 10 sections (Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries), plan reviewed by user (P5), tasks broken with acceptance criteria (P6), explicit "yes" before code (P8→P10), spec committed alongside code, success criteria testable |
+
 ---
 
 ## Pipeline (Prompt → Code)
@@ -211,5 +217,5 @@ Code before SPEC.md. Research skipped for non-trivial. Phase 9 bypassed with vag
 - [ ] Spec committed alongside code
 - [ ] Metrics logged after Phase 10
 - [ ] Convergence check done after implementation (P11)
-- [ ] - [ ] `INTENT.md` checked before spec (Discovery Gate P0)
+- [ ] `INTENT.md` checked before spec (Discovery Gate P0)
 - [ ] `[current year]` used in research (not hardcoded year)
