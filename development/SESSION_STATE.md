@@ -68,9 +68,11 @@ Then continue with Task 3.23 (`code-simplification`) — next skill in the plan.
 9. **Expand triggers** — if underspecified, add concrete use cases
 10. **Test** — `bash scripts/skill-lint.sh`
 11. **Sync** — update HEALTH-CHECK.md + SESSION_STATE.md
-12. **Stage + commit** — provide instruction with `OVERRIDE: content-only change`
+12. **Stage** — `git add` the files
+13. **Present commit instruction** — provide the exact command with `OVERRIDE: content-only change`
+14. **User commits manually** — never run `git commit` yourself. Rule 12: agent stages, user commits.
 
-**Guiding principles:** universal/agnostic framing, research beyond Context7, never overwrite existing content, quality over speed, Guardian Pattern (approval before mutation).
+**Guiding principles:** universal/agnostic framing, research beyond Context7, never overwrite existing content, quality over speed, Guardian Pattern (approval before mutation), agent stages + user commits (never run git commit yourself).
 
 ---
 
