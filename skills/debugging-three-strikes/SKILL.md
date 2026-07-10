@@ -15,6 +15,23 @@ metadata:
 
 **When the same bug is reported 3+ times with different fixes, STOP.**
 
+## When to Use
+
+- Same test failing across 3+ consecutive commits (mechanical STRIKES_LOG trigger)
+- Same component fixed twice with different root causes
+- `bug-tag:` repeating in commit body for the same issue
+- Escalated from `debugging-and-error-recovery` after repeated fix attempts
+
+## When NOT to Use
+
+- First occurrence of a bug (use `debugging-and-error-recovery` instead)
+- One-off test flakiness or network-dependent failure
+- Different components failing independently (not the same root cause)
+
+## Output Contract
+
+Strike log entry + escalation diagnosis — `.git/STRIKES_LOG` recording each strike with test name and timestamp, root cause documented per strike, route-to-skill assigned at strike 3 (test gap → TDD, spec gap → review, process gap → doubt, architecture gap → analysis), user notified before any fix code at strike 3.
+
 ## Trigger: Test Failure Recurrence
 
 A mechanical pre-commit check reads `.git/STRIKES_LOG`. Same test name failing 3 consecutive commits → BLOCK and escalate.
