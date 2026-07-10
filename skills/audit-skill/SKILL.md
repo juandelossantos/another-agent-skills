@@ -25,10 +25,17 @@ Audit documents; it does not fix. Route findings to `harden`, `polish`, `optimiz
 - When tech lead says "we should look at [accessibility/performance]"
 - After a feature is functionally complete but not reviewed
 
-Do NOT use for:
-- Design quality (use `critique-skill`)
-- One-off tweaks (use individual fix skills directly)
+## When NOT to Use
+
+- Design quality evaluation (use `critique-skill`)
+- One-off visual tweaks (use individual fix skills directly)
 - Incomplete features (audit finds issues that are just unfinished)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Audit report | Markdown report with 5 dimension scores (0-4) + P0-P3 findings | Delivered to user (not file) | All 5 dimensions scored (accessibility, performance, theming, responsive, anti-patterns), every finding tagged P0-P3 with severity definition, P0 items flagged as blocking, no fixes applied (audit documents only), recommendations routed to correct fix skills |
 
 ## Process
 
