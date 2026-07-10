@@ -25,6 +25,7 @@ The only skill that covers the full lifecycle of retiring functionality: decidin
 - Migrating users from one implementation to another
 - Deciding whether to maintain or sunset existing code
 - Planning backward-compatible transitions
+- A third-party API or dependency your system relies on announces deprecation
 
 ## Output Contract
 
