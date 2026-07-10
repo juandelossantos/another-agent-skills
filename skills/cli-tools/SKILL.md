@@ -19,10 +19,26 @@ This skill covers the patterns that separate professional CLI tools from ad-hoc 
 
 ## When to Use
 
+**MANDATORY when:**
 - Building a new CLI tool or command
-- Adding a CLI interface to an existing project
-- Refactoring ad-hoc scripts into a proper CLI
-- User says: "build a CLI", "terminal app", "command line tool"
+- Adding a CLI interface to an existing project or service
+- Refactoring ad-hoc scripts into a proper CLI (argument parsing, exit codes, composability)
+- Creating developer tooling: scaffolds, code generators, linters, formatters, migration tools
+- Building a multi-command tool (git-style subcommands: `tool <noun> <verb>`)
+- Implementing automation that needs reliable exit codes and piped output (CI/CD, scripts)
+
+**User says:** "build a CLI", "terminal app", "command line tool", "make a tool that...", "create a command"
+
+**When NOT to use:**
+- GUI applications (desktop, web, mobile)
+- Simple one-off shell scripts (use a shell script directly)
+- Full-screen TUI applications (emacs, vim-style interactive interfaces)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| CLI tool source code | CLI executable (language-agnostic, framework-independent) | `src/cli/` or project root | Standard argument parser used, exit codes (0=success, non-zero=error), stdout for data + stderr for logs/errors, `--help` + `--version` flags, `--quiet` suppresses non-essential output, colors auto-suppressed when non-TTY (`isatty`), `NO_COLOR` env var respected, `--json` flag for machine-readable output, config file at `~/.config/<tool>/` with `--config` override, SIGINT handler for clean shutdown, `--` separates options from positional args |
 
 ## Core Principles
 
