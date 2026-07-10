@@ -32,6 +32,12 @@ Product UIs, documentation sites, SaaS dashboards, editorial layouts. Not for pl
 - Generic placeholder names ("John Doe", "Acme Corp")
 - AI copywriting clichés ("Elevate", "Seamless", "Unleash")
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Minimalist UI source code | HTML/CSS/TSX (Tailwind CSS v4 `@theme` tokens) | Component source files | Responsive all breakpoints (mobile ≤768px), WCAG AA contrast (4.5:1 text, 3:1 large text), token-compliant warm monochrome palette, transform/opacity motion only |
+
 ## Typography
 
 - **Sans:** SF Pro Display, Geist, Switzer
