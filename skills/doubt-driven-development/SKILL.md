@@ -27,6 +27,10 @@ Apply when: about to make an architectural decision, commit non-trivial code, cl
 
 **When NOT to use:** mechanical operations (renaming, formatting), clear unambiguous instructions, reading/summarizing code, one-line changes, pure tooling. If you doubt every keystroke, you ship nothing.
 
+## Output Contract
+
+Doubt cycle log + adversarial review findings — CLAIM statement, isolated ARTIFACT + CONTRACT, fresh-context reviewer findings classified by precedence (contract misread / actionable / trade-off / noise), cross-model offer recorded, stop condition met.
+
 ## Loading Constraints
 
 Designed for the **main-session orchestrator** — Step 3 spawns a fresh-context reviewer. Do NOT add this skill to a persona's `skills:` frontmatter (personas must not invoke other personas). If inside a subagent context, surface to the user that doubt-driven cannot run nested. As last resort, use degraded self-questioning fallback (flag as degraded in output).
