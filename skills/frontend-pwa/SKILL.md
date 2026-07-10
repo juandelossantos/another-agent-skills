@@ -29,6 +29,12 @@ Do NOT use for:
 - Simple marketing sites with no offline needs (use `frontend-web`)
 - Pure native apps (use `frontend-mobile`)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| PWA application | Source code + service worker + manifest | Project source directory | Offline-capable, installable, cross-device responsive |
+
 ### Context Persistence Check
 
 Before starting work:
