@@ -23,6 +23,12 @@ Complementary to `optimize-skill`. Where optimize-skill focuses on frontend desi
 - Core Web Vitals need improvement
 - Load times or Time-to-Interactive are too slow
 - Profiling reveals backend or infrastructure bottlenecks
+- After a major dependency upgrade or framework migration (regression risk)
+- Preparing for a traffic event (launch, sale, campaign)
+
+## Output Contract
+
+Optimized system code — modified source files (any stack), in-place, with profiled baseline captured, single bottleneck identified and fixed per cycle, re-measured improvement confirmed, no regression on other metrics, caching strategy documented and applied.
 
 ## When NOT to Use
 
@@ -49,7 +55,7 @@ Compare each metric against the target. The largest gap is your priority.
 | Metric | Green (Good) | Yellow (Needs Improvement) | Red (Poor) |
 |---|---|---|---|---|
 | LCP (Largest Contentful Paint) | ≤ 2500ms | 2500ms–4000ms | > 4000ms |
-| FID (First Input Delay) | ≤ 100ms | 100ms–300ms | > 300ms |
+| INP (Interaction to Next Paint) | ≤ 200ms | 200ms–500ms | > 500ms |
 | CLS (Cumulative Layout Shift) | ≤ 0.1 | 0.1–0.25 | > 0.25 |
 | TBT (Total Blocking Time) | ≤ 200ms | 200ms–500ms | > 500ms |
 | TTFB (Time to First Byte) | ≤ 800ms | 800ms–1800ms | > 1800ms |
