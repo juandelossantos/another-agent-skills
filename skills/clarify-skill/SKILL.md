@@ -29,6 +29,37 @@ Functional text only — labels, errors, instructions, confirmations. Not market
 - Empty states are invitations to act: "Your first message will appear here after you invite a teammate"
 - Keep the register conversational but tuned: match tone to audience
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Rewritten UX copy | Text strings | Component source files | Clear, concise, consistent, accessible, audience-tuned, security-safe |
+
+### Security Considerations for Error Messages
+
+Error messages must balance UX clarity with security (OWASP Error Handling Cheat Sheet):
+
+**DO:**
+- Tell the user WHAT went wrong in user-friendly terms
+- Tell the user HOW to fix it (actionable steps)
+- Use consistent error message format across the application
+
+**DON'T:**
+- Reveal technical details (stack traces, SQL queries, file paths, server versions)
+- Reveal whether a username/email exists (use "Invalid username or password" not "User not found")
+- Include database table names, column names, or query syntax
+- Expose internal error codes or system architecture
+
+**Examples:**
+- ❌ "SQL syntax error at line 42 in query SELECT * FROM users WHERE..."
+- ✅ "Invalid input. Please check your entry and try again."
+- ❌ "User 'admin' not found in database"
+- ✅ "Invalid username or password"
+- ❌ "File not found: /var/www/app/config.json"
+- ✅ "Something went wrong. Please try again or contact support."
+
+**Log technical details server-side for debugging, but return generic messages to users.**
+
 ## When to Use
 
 - Writing feels templated or generic — no deliberate voice
@@ -89,3 +120,6 @@ Adjust based on audience: technical (precise), consumer (plain language), rushed
 - [ ] Confirmation dialogs name object + consequence
 - [ ] Voice tuned to audience
 - [ ] No "you" blaming in error messages
+- [ ] Error messages don't reveal technical details (OWASP compliance)
+- [ ] Error messages don't reveal whether username/email exists
+- [ ] Technical details logged server-side, not shown to users
