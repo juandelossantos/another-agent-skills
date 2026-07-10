@@ -28,6 +28,12 @@ Prevents framework hype, cargo-culting, resume-driven development.
 
 **Skip when:** Stack locked in `SPEC.md`, pure implementation. One-off tweaks. Toy projects.
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Architecture decision + research documentation | `SPEC.md` Architecture Decisions section + `architecture/ARCHITECTURE.md` + `architecture/research.md` | Root (`SPEC.md`) + `architecture/` | ≥2 options with honest pros AND cons, user context (scale, team, constraints) discovered, critical challenge questioned ≥1 assumption, single option recommended with justification tied to context, user explicitly accepted, SPEC.md updated with Architecture Decisions, ARCHITECTURE.md with stack/pattern/structure/risks, research.md with evaluated technologies/benchmarks/sources |
+
 ---
 
 ## Core Process
