@@ -28,6 +28,12 @@ Captures user preferences, constraints, context. Eliminates repetitive discovery
 
 **Skip when:** Profile exists and < 90 days old. User says "skip" AND profile exists. Turbo Mode + profile exists.
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| User profile | JSON file with 7 sections (identity, preferences, design, workflow, constraints, session defaults) | `~/.config/opencode/user-profile.json` | Profile saved after full onboarding (27 questions across 7 sections), versioned schema with `created_at`/`updated_at`, no secrets or API keys stored, profile <90 days old or update offered, Quick Verify on subsequent sessions |
+
 **How it works:**
 ```
 User: "Crea una landing page"
