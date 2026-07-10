@@ -47,6 +47,14 @@ cd "$REPO_ROOT"
 # 1. Git repository exists
 check "Git repository" "ok" ""
 
+# 1b. Project config files exist (git-init-and-versioning gate)
+if [ ! -f "$REPO_ROOT/.gitignore" ] || [ ! -f "$REPO_ROOT/.env.example" ]; then
+  MISSING=""
+  [ ! -f "$REPO_ROOT/.gitignore" ] && MISSING="$MISSING .gitignore"
+  [ ! -f "$REPO_ROOT/.env.example" ] && MISSING="$MISSING .env.example"
+  check "Project config files" "fail" "Missing:$MISSING — Run git-init-and-versioning skill first"
+fi
+
 # 2. Current branch — must not be main (unless MAIN_ALLOWED=true)
 BRANCH=$(git branch --show-current)
 if [ -z "$BRANCH" ]; then

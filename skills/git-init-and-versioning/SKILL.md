@@ -28,6 +28,12 @@ This skill runs once per project, immediately after contracts (SPEC.md, DESIGN.m
 - The project already has a Git repository with `.gitignore` and `.env.example`
 - The task is purely committing changes in an existing repo (use `git-workflow-and-versioning`)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Initialized Git repository with project configuration | `.gitignore` + `.env.example` + `SETUP.md` + branching docs + pre-commit checklist | Repository root + `.github/guides/` | `.git/` initialized with `main` branch, `.gitignore` covers stack (node_modules, .env, build outputs, IDE files), `.env` in gitignore + `.env.example` documents all variables with placeholders, repo structure decided (mono vs multi) and documented, branching strategy chosen and documented, pre-commit checklist exists for BUILD phase, first commit includes contracts+config only (no generated code), remote configured if URL provided |
+
 ---
 
 ## Core Process
