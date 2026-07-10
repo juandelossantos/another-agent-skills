@@ -32,6 +32,12 @@ Do NOT use for:
 - Structural redesign (use `redesign`)
 - Copy rewriting (use `clarify`)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Visual consistency fixes | CSS/token values | Source files | Token-compliant spacing, radius, shadows; no hardcoded values |
+
 ## Process
 
 ### 1. Scan for Drift
