@@ -24,6 +24,10 @@ Systematic debugging with structured triage. When something breaks, stop adding 
 - Performance degrades unexpectedly
 - User reports a bug
 
+## Output Contract
+
+Bug fix with root cause documentation — modified source files (any language, any framework) in existing source tree, with regression test covering the fixed path, root cause documented (not symptoms), all existing tests passing, build succeeding.
+
 ## The Stop-the-Line Rule
 
 ```
