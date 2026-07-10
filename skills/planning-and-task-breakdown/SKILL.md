@@ -24,7 +24,14 @@ Decompose work into small, verifiable tasks with explicit acceptance criteria. E
 - Work needs to be parallelized across multiple agents or sessions
 - The implementation order isn't obvious
 
-**When NOT to use:** Single-file changes with obvious scope, or when the spec already contains well-defined tasks.
+## When NOT to Use
+
+- Single-file changes with obvious scope
+- Spec already contains well-defined tasks
+
+## Output Contract
+
+Task breakdown plan — ordered task list (any project, any stack) with acceptance criteria, verification steps, dependencies, and file scope per task, sized XS/S/M/L, with parallelization markers ([S]/[P]/[Pm]), checkpoint every 2-3 tasks, reviewed and approved by user before implementation.
 
 ## The Planning Process
 
