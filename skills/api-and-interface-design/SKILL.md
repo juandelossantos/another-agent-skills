@@ -9,6 +9,7 @@ tier: draft
 metadata:
   audience: all-engineers
   workflow: design-contract
+  guides: contract-templates versioning-strategies
 ---
 
 # API and Interface Design
@@ -32,13 +33,27 @@ api-and-interface-design (this skill — boundaries and contracts)
 - Designing API contracts between frontend and backend
 - Defining module boundaries in a codebase
 - Creating type interfaces shared across packages
-- Establishing communication protocols
+- Establishing communication protocols between services
+- Adding a new public endpoint to an existing API
+- Changing an existing API endpoint (versioning decision required)
+- Introducing a new service that communicates with existing services
+- Splitting a monolith into microservices (boundary discovery)
+- Creating a client SDK or client library for an API
+- Reviewing an existing API for backward compatibility issues
+- Starting a new feature that touches more than one module (contract first, code second)
 
 ## When NOT to Use
 
-- Deep backend implementation (use backend-api-mastery)
-- Frontend-specific work (use frontend-web, etc.)
+- Deep backend implementation (use `backend-api-mastery`)
+- Frontend-specific work (use `frontend-web`, etc.)
 - Database schema design
+- Purely operational API changes (add one field to existing endpoint, no versioning change)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| API contract + module interface definitions | Machine-readable contract file (OpenAPI YAML/JSON, GraphQL SDL, Protobuf — see `guides/CONTRACT-TEMPLATES.md`) + shared type definitions | `api/` or `contracts/` (API), shared types package (modules) | Protocol chosen per communication pattern (REST/GraphQL/gRPC/WebSocket), resource-oriented design per Google AIP-121 (nouns + standard methods), SemVer 2.0 (breaking=MAJOR, additive=MINOR, fixes=PATCH), backward compatibility per AIP-180 (no removals, no type changes, additive-only optional fields), contract-first workflow (define → generate → implement → test), contract tests verify compliance, versioning strategy documented (see `guides/VERSIONING-STRATEGIES.md`), module boundaries enforced by dependency inversion, max 2 active versions, deprecation notice + Sunset header before removal |
 
 ## Protocol Selection
 
@@ -100,9 +115,11 @@ If two modules share internal types, they are not separate modules.
 ## Verification
 
 - [ ] Protocol chosen based on communication pattern
-- [ ] Machine-readable contract exists
-- [ ] Contract-first workflow followed
-- [ ] Versioning strategy documented
-- [ ] Breaking changes bump MAJOR version
-- [ ] Deprecation notice published before removal
+- [ ] Machine-readable contract exists (OpenAPI, GraphQL SDL, Protobuf — see `guides/CONTRACT-TEMPLATES.md`)
+- [ ] Contract-first workflow followed (define → generate → implement → test)
+- [ ] Versioning strategy documented (see `guides/VERSIONING-STRATEGIES.md`)
+- [ ] Breaking changes bump MAJOR version (SemVer 2.0)
+- [ ] Backward compatibility checklist applied (no removal, no type change, additive-only optional fields)
+- [ ] Deprecation notice published before removal (Sunset + Deprecation headers)
 - [ ] Module boundaries enforced by dependency inversion
+- [ ] Max 2 active versions maintained simultaneously

@@ -118,6 +118,47 @@ message ListOrdersResponse {
 
 Key conventions: stable field numbers, first enum value UNSPECIFIED = 0, use message pairs for request/response.
 
+## WebSocket
+
+Use a message envelope for bidirectional communication:
+
+```typescript
+interface WsMessage {
+  type: string;
+  id: string;
+  timestamp: string;
+  payload: unknown;
+  error?: { code: string; message: string };
+}
+```
+
+Key conventions: every message has a type identifier, unique ID for correlation, and ISO 8601 timestamp. Errors are a field inside the envelope, not a separate message type.
+
+## Module Boundary Contract
+
+Shared type contract between two modules in the same codebase. No internal types leak across the boundary.
+
+```typescript
+// contracts/resource-service.ts — the BOUNDARY between layers
+// Neither side imports the other's internal types.
+
+export interface ResourceData {
+  readonly id: string;
+  name: string;
+}
+
+export interface CreateResourceCommand {
+  name: string;
+}
+
+export interface ResourceRepository {
+  findById(id: string): Promise<ResourceData | null>;
+  save(data: ResourceData): Promise<void>;
+}
+```
+
+Key conventions: interfaces only, no implementation. Read-only on server-controlled fields. Repository pattern for data access abstraction.
+
 ## Contract Testing
 
 Contract tests verify the API response matches the documented contract. Run them in CI:
