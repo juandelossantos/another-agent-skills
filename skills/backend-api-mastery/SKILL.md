@@ -38,6 +38,12 @@ backend-specific implementation to the universal philosophy.
 - The backend is already designed and documented in `API-DESIGN.md`
 - The task is purely operational (fix a bug in existing API, add one field)
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| API implementation + design document | Source code (framework-agnostic) + `API-DESIGN.md` | `src/` (implementation), `API-DESIGN.md` (root) | Protocol decision justified (REST/GraphQL/tRPC/WebSocket), noun-based resource URIs, correct HTTP status codes, input validation (Zod/schema), object-level authorization (OWASP API1), rate limiting, structured errors `{ error: { code, message, details, requestId } }`, pagination + filtering, API documentation (OpenAPI/GraphQL introspection/tRPC types), distributed tracing (Correlation-ID), additive-only migrations, unit + integration + contract tests passing |
+
 ### Stack Detection
 
 Before applying any backend-specific instruction, check for `STACK_CONFIG.md` in the project root.

@@ -3,7 +3,7 @@
 **Date:** 2026-07-10  
 **Current version:** v4.1.0  
 **Branch:** `feat/output-contracts`  
-**Status:** Phase 3 — Output Contracts in progress (16/56 tasks done)
+**Status:** Phase 3 — Output Contracts in progress (17/56 tasks done)
 
 ---
 
@@ -30,8 +30,9 @@
 | 3.14 | `minimalist-ui` | Minimalist UI code — editorial HTML/CSS/TSX, responsive, token-compliant, WCAG AA |
 | 3.15 | `soft-premium-ui` | Premium-styled visual layer — HTML/CSS design tokens, spring motion, Double-Bezel architecture |
 | 3.16 | `redesign-skill` | Visually redesigned source code — 8-category audit, 7-step fix priority, post-redesign verification |
+| 3.17 | `backend-api-mastery` | API implementation + design document — protocol-justified, auth, validation, tests, OpenAPI docs |
  
-### Remaining (40 skills)
+### Remaining (39 skills)
 
 All other skills grouped by plan order.
 
@@ -51,7 +52,7 @@ Then continue with Task 3.14 — next skill in the plan.
 
 ## Key Stats
 
-- **Check 16 warnings:** 40 (down from 55)
+- **Check 16 warnings:** 38 (down from 55)
 - **HEALTH-CHECK.md:** DEGRADED (expected — 43 skills still need contracts)
 - **Tests:** 29/29 passing
 - **Lint:** 0 errors, 43 warnings
