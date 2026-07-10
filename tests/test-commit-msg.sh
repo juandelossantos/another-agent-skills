@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# test-commit-msg.sh — Test suite for commit-msg hook (v5: approval + TDD)
-# Verifies that commit-msg requires COMMIT_APPROVED and TDD gate.
+# test-commit-msg.sh — Test suite for commit-msg hook (no COMMIT_APPROVED dependency)
+# Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
+#
+# Verifies that commit-msg hook only depends on TDD gate,
+# not on COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG.
 #
 # Usage: bash tests/test-commit-msg.sh
 # Exit: 0 if all tests pass, 1 if any fail
@@ -38,6 +41,7 @@ assert() {
   fi
 }
 
+# Helper: simulate commit-msg with TDD gate result
 setup_repo() {
   local repo="$1"
   mkdir -p "$repo"
@@ -48,16 +52,11 @@ setup_repo() {
   git -C "$repo" add README.md
   git -C "$repo" commit -q -m "init"
   mkdir -p "$repo/tests" "$repo/scripts"
+  # Reference the TDD gate by absolute path so the hook finds it
   echo '#!/usr/bin/env bash' > "$repo/scripts/tdd-gate.sh"
   echo "exec bash '$TDD_GATE' \"\$@\"" >> "$repo/scripts/tdd-gate.sh"
   chmod +x "$repo/scripts/tdd-gate.sh"
   mkdir -p "$repo/.git"
-}
-
-write_approval() {
-  local repo="$1"
-  local msg="$2"
-  echo "yes commit: $msg" > "$repo/.git/COMMIT_APPROVED"
 }
 
 run_commit_msg() {
@@ -72,27 +71,34 @@ run_commit_msg() {
 echo -e "${YELLOW}Commit-Msg Hook Test Suite${NC}"
 echo "──────────────────────────────────────"
 
-# ─── Test 1: Valid COMMIT_APPROVED + passing TDD → PASS ───
+# ─── Test 1: Commit-msg passes without COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG ───
 echo ""
-echo "Test 1: Valid approval + passing TDD (expect PASS)"
+echo "Test 1: Commit-msg passes without approval files (expect PASS)"
 REPO1="$TESTS_DIR/repo1"
 setup_repo "$REPO1"
+
+# Stage code + test (TDD should pass)
 touch "$REPO1/foo.js" "$REPO1/foo.test.js"
 git -C "$REPO1" add foo.js foo.test.js
-write_approval "$REPO1" "feat: add foo"
-run_commit_msg "$REPO1" "feat: add foo"
-assert "Valid approval + TDD passes" "[ $? -eq 0 ]"
 
-# ─── Test 2: Missing COMMIT_APPROVED → BLOCK ───
+# Ensure NO approval files exist
+rm -f "$REPO1/.git/COMMIT_APPROVED" "$REPO1/.git/COMMIT_MANIFEST" "$REPO1/.git/TEST_LOG"
+
+run_commit_msg "$REPO1" "feat: add foo"
+assert "Commit-msg passes without COMMIT_APPROVED" "[ $? -eq 0 ]"
+
+# ─── Test 2: Commit-msg still blocks when TDD fails ───
 echo ""
-echo "Test 2: Missing COMMIT_APPROVED (expect BLOCK)"
+echo "Test 2: Commit-msg blocks when TDD fails (expect BLOCK)"
 REPO2="$TESTS_DIR/repo2"
 setup_repo "$REPO2"
-touch "$REPO2/bar.js" "$REPO2/bar.test.js"
-git -C "$REPO2" add bar.js bar.test.js
-rm -f "$REPO2/.git/COMMIT_APPROVED"
+
+# Stage code only (TDD should fail)
+touch "$REPO2/bar.js"
+git -C "$REPO2" add bar.js
+
 run_commit_msg "$REPO2" "feat: add bar"
-assert "Blocks without approval" "[ $? -eq 1 ]"
+assert "Commit-msg blocks on TDD failure" "[ $? -eq 1 ]"
 
 # ─── Test 3: Syntax valid ───
 echo ""
@@ -100,11 +106,11 @@ echo "Test 3: Syntax valid"
 bash -n "$HOOK" 2>/dev/null
 assert "bash -n passes" "[ $? -eq 0 ]"
 
-# ─── Test 4: Header says v5 with two gates ───
+# ─── Test 4: Header says v4 with TDD gate ───
 echo ""
-echo "Test 4: Version is v5"
-assert "version v5 in header" "head -3 '$HOOK' | grep -q 'v5'"
-assert "Two-Gate in header" "head -3 '$HOOK' | grep -qi 'two-gate\|COMMIT_APPROVED'"
+echo "Test 4: Version is v4"
+assert "version v4 in header" "head -3 '$HOOK' | grep -q 'v4'"
+assert "TDD gate in header" "head -5 '$HOOK' | grep -qi 'TDD'"
 
 # ─── Summary ───
 echo ""
