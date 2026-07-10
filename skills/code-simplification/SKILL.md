@@ -27,6 +27,12 @@ Complements `code-review-and-quality`. Where code review identifies problems, co
 - Duplicated logic could be unified
 - After code review reveals complexity issues
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Simplified source code | Modified source files (any language, any framework) | Existing source tree (in-place) | All tests pass before and after (Rule 1), intention clear from names (Rule 2), no duplicated logic (Rule 3), every element serves a purpose (Rule 4), cyclomatic complexity ≤ 10 per function, cognitive complexity reduced from baseline, structure-only changes (behavior preserved) |
+
 ## When NOT to Use
 
 - Behavior must change (use feature implementation skills)
