@@ -157,35 +157,13 @@ Read `guides/AUTH-GUIDE.md` in this skill directory for the **complete auth stra
 
 ---
 
-## Examples
+## Reference
 
-See guides for full walkthroughs: `guides/DISCOVERY-GUIDE.md` (simple CRUD blog API), `guides/PROTOCOL-GUIDE.md` (e-commerce with GraphQL + Stripe).
-
----
-
-## Common Rationalizations
-
-| Excuse | Why It's Wrong |
-|---|---|
-| "Express with no ORM." | Raw SQL = error-prone. ORM prevents injection + enables refactoring. |
-| "JWT is modern, so better." | JWT insecure for sessions. Server-side sessions are more revocable. |
-| "GraphQL > REST." | GraphQL for complex multi-consumer queries. REST for simple CRUD. |
-| "I'll build my own auth." | Auth is security-critical. Use NextAuth, Clerk, Supabase Auth. |
-| "400 and 422 are the same." | 400 = malformed. 422 = valid syntax, invalid semantics. Fix helps clients debug. |
+See `references/REFERENCE.md` for common rationalizations, red flags, and full walkthrough examples.
 
 ---
 
-## Red Flags
-
-- The agent defaults to Express + MongoDB without justification.
-- The agent proposes JWT for traditional web apps without discussing sessions.
-- The agent designs auth from scratch instead of using established libraries.
-- The agent omits input validation or rate limiting.
-- The agent uses 200 OK for errors or mixes up 401/403.
-- The agent skips API documentation.
-- The agent uses 2025 or any hardcoded year in research queries (must use [current year]).
-
----
+## Verification
 
 ## Verification
 
