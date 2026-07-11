@@ -20,6 +20,12 @@ metadata:
 
 Automatically in background after every significant action. No direct invocation needed.
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| quality-metrics.json data file | JSON file with per-project metrics (build, commit, gate, coverage, discovery, override) + global aggregates | `~/.config/opencode/quality-metrics.json` | Metrics logged automatically after every significant action, 6 metric types covered, global aggregates recalculated after each entry, no secrets or code in file, last 90 days per-project retained |
+
 Logs empirical quality metrics after every significant action, enabling retrospectives, trend analysis, and continuous improvement.
 
 ## Purpose
