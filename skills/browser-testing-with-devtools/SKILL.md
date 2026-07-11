@@ -9,6 +9,7 @@ tier: read-only
 metadata:
   audience: frontend-developers
   workflow: test-verify
+  guides: workflow-scenarios
 ---
 
 # Browser Testing with DevTools
@@ -51,6 +52,10 @@ For deeper browser access, some agents support browser testing via MCP servers:
 - Verifying visual output with real runtime data
 - Capturing console errors or network request issues
 - Profiling frontend performance
+
+## Output Contract
+
+Browser verification evidence — DOM snapshots, console logs, network request analysis, screenshots, interaction results, captured via available browser testing tools (built-in or MCP-based), reported with findings and fixes.
 
 ## When NOT to Use
 
