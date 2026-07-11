@@ -8,6 +8,9 @@
 set -uo pipefail
 RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
 
+# Override CI detection — tests must run in non-CI mode to check branch protection
+export GITHUB_ACTIONS="false"
+export CI="false"
 SCRIPT="$(cd "$(dirname "$0")/.." && pwd)/scripts/pre-flight.sh"
 PASSED=0; FAILED=0; TOTAL=0
 
