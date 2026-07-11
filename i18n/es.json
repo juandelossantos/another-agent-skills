@@ -138,7 +138,7 @@
     "q5": "¿Cómo funciona el enforcement mecánico?",
     "a5": "Cuatro niveles: (1) Reglas de proceso: el agente recuerda. (2) Manifiesto visible: el agente presenta un punto de decisión. (3) Approval por ventana de tiempo: commit-msg hook v7 verifica frescura (<5 min). (4) TDD enforcement: commit-msg Gate 4 bloquea código sin tests. Sin tokens, sin hash, sin fricción.",
     "q6": "¿Puedo personalizar los skills?",
-    "a6": "Sí. Los skills son archivos Markdown en el directorio `skills/`. Edítalos, agrega nuevos, elimina los que no necesitas. El framework es modular: usa los 55 o elige los que importan a tu flujo de trabajo.",
+    "a6": "Sí. Los skills son archivos Markdown en el directorio `skills/`. Edítalos, agrega nuevos, elimina los que no necesitas. El framework es modular: usa los 57 o elige los que importan a tu flujo de trabajo.",
     "q7": "¿Puede un agente romper las reglas a pesar del enforcement?",
     "a7": "Sí. Los hooks enforcement en operaciones de git (commit, push) — requieren tokens, y los tokens requieren manifiestos. Pero ningún sistema puede prevenir completamente que un agente actúe contra el protocolo. El agente podría generar un token sin presentar el manifiesto, interpretar respuestas ambiguas como aprobación, o hacer push sin preguntar. El usuario debe mantenerse alerta. Estas barreras crean fricción, no garantías.",
     "q8": "¿Qué es el Harness?",

@@ -1,5 +1,40 @@
 # Release Notes
 
+## 4.2.0 (2026-07-10) — Phase 3: Output Contracts Complete
+
+### New (Phase 3 — 57 Output Contracts)
+- **All 57 skills now have standardized Output Contracts** declaring artifact, format, location, and quality criteria — Check 16 warnings: 37→0
+- **Word count advisories resolved** — 4 skills trimmed (engineering-fundamentals, spec-driven-development, code-simplification, backend-api-mastery): detailed content moved to `references/`, total warnings: 4→0
+- **Guides improved:**
+  - `api-and-interface-design`: CONTRACT-TEMPLATES.md (+WebSocket envelope, +module boundary contract), VERSIONING-STRATEGIES.md (+breaking vs non-breaking table, +edge cases)
+  - `browser-testing-with-devtools`: WORKFLOW-SCENARIOS.md (6 scenarios: console errors, forms, responsive, performance, visual, keyboard)
+- **Mechanical enforcement added:** `scripts/pre-flight.sh` now checks `.gitignore` and `.env.example` exist before allowing edits (git-init-and-versioning gate)
+- **Bug fix:** `performance-optimization` — FID→INP (Google deprecated FID March 2024, replaced with Interaction to Next Paint)
+- **Bug fix:** `spec-driven-development` — double checkbox in verification list fixed
+
+### Contracts by Category (38 commits)
+- Foundation: engineering-fundamentals, multi-agent-orchestration
+- Frontend: frontend-web, mobile, desktop, pwa, ui-engineering, adapt, polish, delight, optimize, typeset, clarify
+- Design direction: minimalist-ui, soft-premium-ui, industrial-brutalist-ui, redesign-skill
+- Backend: backend-api-mastery, api-and-interface-design, cli-tools
+- Quality: security-and-hardening, performance-optimization, observability-and-instrumentation, code-simplification, debugging-and-error-recovery, debugging-three-strikes, deprecation-and-migration, source-driven-development, hard-skill, output-skill
+- Review: critique-skill, audit-skill, code-review-and-quality
+- DevOps: ci-cd-and-automation, shipping-and-launch, fullstack-shipping, git-init-and-versioning, git-workflow-and-versioning, dev-environment-audit
+- Process: spec-driven-development, planning-and-task-breakdown, architecture-analysis, idea-refine, user-onboarding, context-engineering, doubt-driven-development, incremental-implementation, test-driven-development, browser-testing-with-devtools, project-health-check, project-metrics
+- Meta: documentation-and-adrs, skill-creator, skill-improver, self-improvement
+
+## 4.1.0 (2026-07-08) — Quick Start Guide & Navigation Overhaul
+
+### New
+- **QUICKSTART.md** — User-facing workflow guide covering installation, first run, and effective usage
+- **Full Spanish i18n** — 60 translated keys across landing page + documentation site (en.json + es.json)
+- **Navigation chain fixed** — Fixed broken breadcrumb navigation across 13 documentation pages
+
+### Changed
+- **README.md** — Prominent QUICKSTART.md link added to hero section
+- **COMMIT_APPROVED gate restored** — commit-msg hook re-enabled after v4.0.0 simplification
+- **TDD gate expanded** — Now covers all text formats (markdown, txt, HTML, CSS, YAML, JSON, SVG) in addition to code files
+
 ## 4.0.0 (2026-07-08) — Foundation Repair & Critical Stubs
 
 ### New (Phase 2 — 15 Stubs Completed)
