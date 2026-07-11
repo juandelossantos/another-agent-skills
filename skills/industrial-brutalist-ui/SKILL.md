@@ -20,6 +20,10 @@ Use when: user chooses brutalist / military / industrial / tactical design direc
 
 Architect web interfaces synthesizing mid-century Swiss design, industrial manuals, and retro-futuristic aerospace terminals.
 
+## Output Contract
+
+Brutalist UI source code — HTML/CSS (framework-agnostic visual layer) in source files, single archetype selected (not mixed), zero border-radius, macro-typography using clamp() for fluid scale, ASCII decorative elements present, grid with gap-1px dividing lines, analog degradation effects applied (halftone/scanlines/noise).
+
 ## Visual Archetype (Pick ONE per project)
 
 ### Swiss Industrial Print (Light)
