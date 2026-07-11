@@ -27,6 +27,12 @@ Diagnose before operating. Audit against engineering standards. Surface misalign
 
 **Skip when:** Project initialized this session (already compliant). Single-line fix in audited project.
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| HEALTH-CHECK.md health report | Markdown report with summary, stack/structure/quality/config/dependency/workflow audit, drift detection, recommendations | Root (`HEALTH-CHECK.md`) | Audit covers 6 categories (stack, structure, code quality, config, dependencies, workflow), drift detected between docs and reality (stats, version, features, commands, links), user explicitly chose A (fix), B (proceed with caution), or C (ignore with risk), decision documented, re-audit date set within 7 days |
+
 ---
 
 ## Core Process
