@@ -21,63 +21,63 @@
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|---|
-| `adapt-skill` | 135 | 2 |  |
+| `adapt-skill` | 136 | 2 |  |
 | `api-and-interface-design` | 125 | 2 |  |
-| `architecture-analysis` | 226 | 3 |  |
+| `architecture-analysis` | 232 | 3 |  |
 | `audit-skill` | 157 | 4 |  |
-| `backend-api-mastery` | 179 | 5 |  |
+| `backend-api-mastery` | 180 | 5 |  |
 | `browser-testing-with-devtools` | 79 | 1 |  |
 | `ci-cd-and-automation` | 129 | 2 |  |
-| `clarify-skill` | 125 | 4 |  |
-| `cli-tools` | 124 | 2 |  |
+| `clarify-skill` | 126 | 4 |  |
+| `cli-tools` | 125 | 2 |  |
 | `code-review-and-quality` | 148 | 3 |  |
 | `code-simplification` | 166 | 2 |  |
 | `context-engineering` | 138 | 2 |  |
 | `critique-skill` | 172 | 3 |  |
-| `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files
+| `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files |
 | `debugging-and-error-recovery` | 103 | 5 |  |
 | `debugging-three-strikes` | 83 | 0 |  |
-| `delight-skill` | 155 | 4 |  |
+| `delight-skill` | 156 | 4 |  |
 | `deprecation-and-migration` | 99 | 2 |  |
-| `dev-environment-audit` | 158 | 4 |  |
-| `documentation-and-adrs` | 72 | 3 |  |
-| `doubt-driven-development` | 94 | 2 |  |
-| `engineering-fundamentals` | 186 | 6 |  |
-| `frontend-desktop` | 242 | 3 |  |
-| `frontend-mobile` | 246 | 3 |  |
-| `frontend-pwa` | 202 | 4 |  |
+| `dev-environment-audit` | 161 | 4 |  |
+| `documentation-and-adrs` | 74 | 3 |  |
+| `doubt-driven-development` | 99 | 2 |  |
+| `engineering-fundamentals` | 190 | 6 |  |
+| `frontend-desktop` | 243 | 3 |  |
+| `frontend-mobile` | 247 | 3 |  |
+| `frontend-pwa` | 203 | 4 |  |
 | `frontend-ui-engineering` | 123 | 2 |  |
-| `frontend-web` | 239 | 8 |  |
-| `fullstack-shipping` | 184 | 3 |  |
-| `git-init-and-versioning` | 249 | 6 |  |
+| `frontend-web` | 240 | 8 |  |
+| `fullstack-shipping` | 185 | 3 |  |
+| `git-init-and-versioning` | 250 | 6 |  |
 | `git-workflow-and-versioning` | 193 | 3 |  |
 | `hard-skill` | 157 | 4 |  |
 | `idea-refine` | 113 | 2 |  |
-| `incremental-implementation` | 93 | 2 |  |
-| `industrial-brutalist-ui` | 79 | 0 |  |
+| `incremental-implementation` | 95 | 2 |  |
+| `industrial-brutalist-ui` | 84 | 0 |  |
 | `interview-me` | 108 | 2 |  |
-| `minimalist-ui` | 74 | 0 |  |
-| `multi-agent-orchestration` | 85 | 1 |  |
+| `minimalist-ui` | 79 | 0 |  |
+| `multi-agent-orchestration` | 86 | 1 |  |
 | `observability-and-instrumentation` | 112 | 2 |  |
-| `optimize-skill` | 145 | 4 |  |
+| `optimize-skill` | 146 | 4 |  |
 | `output-skill` | 104 | 2 |  |
 | `performance-optimization` | 105 | 2 |  |
 | `planning-and-task-breakdown` | 97 | 2 |  |
-| `polish-skill` | 142 | 2 |  |
-| `project-health-check` | 217 | 2 |  |
-| `project-metrics` | 157 | 2 |  |
-| `redesign-skill` | 70 | 0 |  |
+| `polish-skill` | 143 | 2 |  |
+| `project-health-check` | 220 | 2 |  |
+| `project-metrics` | 162 | 2 |  |
+| `redesign-skill` | 76 | 0 |  |
 | `security-and-hardening` | 37 | 0 |  |
-| `self-improvement` | 92 | 4 |  |
-| `shipping-and-launch` | 172 | 2 |  |
+| `self-improvement` | 97 | 4 |  |
+| `shipping-and-launch` | 177 | 2 |  |
 | `skill-creator` | 172 | 2 |  |
 | `skill-improver` | 163 | 2 |  |
-| `soft-premium-ui` | 75 | 0 |  |
+| `soft-premium-ui` | 80 | 0 |  |
 | `source-driven-development` | 97 | 2 |  |
 | `spec-driven-development` | 180 | 3 |  |
-| `test-driven-development` | 144 | 6 |  |
-| `typeset-skill` | 142 | 2 |  |
-| `user-onboarding` | 193 | 2 |  |
+| `test-driven-development` | 146 | 6 |  |
+| `typeset-skill` | 143 | 2 |  |
+| `user-onboarding` | 197 | 2 |  |
 
 ### Architecture Decisions Implemented
 

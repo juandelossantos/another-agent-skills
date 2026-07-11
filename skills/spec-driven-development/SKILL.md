@@ -123,7 +123,7 @@ After implementation, verify codebase matches spec. Check each acceptance criter
 
 ## Multi-Agent Integration
 
-Delegate phases via `multi-agent-orchestration`: P0-P4 (orchestrator), P5 (subagent writes SPEC.md), P6-P7 (subagent plans tasks), P9 (parallel per module). Each subagent receives only the relevant skill.
+Delegate phases via `multi-agent-orchestration` (see `multi-agent-orchestration/guides/GUIDE.md`): P0-P4 (orchestrator), P5 (subagent writes SPEC.md), P6-P7 (subagent plans tasks), P9 (parallel per module). Each subagent receives only the relevant skill.
 
 ---
 
