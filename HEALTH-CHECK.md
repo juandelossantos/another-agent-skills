@@ -70,9 +70,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 ## Recommendations
 
-1. **Execute Phase 3** — Output Contracts: add standardized Output Contract section to all skills.
-2. **Add `.env.example`** for convention compliance (pre-flight gate now blocks if missing).
-3. **Fix eval e2e trigger-dashboard bug** — exits 0 but prints failure.
+1. **Execute Phase 4** — Docs Honesty: remaining doc surface updates.
 
 ---
 
