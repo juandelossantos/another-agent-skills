@@ -38,39 +38,7 @@ Loaded by all platform skills. Never invoke directly.
 
 **MANDATORY.** Run before Phase 0 and before any file mutation.
 
-### Step 1 — Diagnose
-
-This repo: `bash scripts/pre-flight.sh`
-Any repo: `git status && git fetch --dry-run && git branch --show-current`
-
-Then `git log --oneline -3` to understand recent context.
-
-### Step 2 — Present & Ask (MANDATORY)
-
-Present full state and ask about branch intent before any action:
-
-```
-Git state: [branch] [clean/dirty] [up-to-date/behind] [upstream]
-→ "Estás en [branch]. Quieres seguir aquí, crear una rama nueva, o cambiar?"
-```
-
-| State | Ask |
-|---|---|---|
-| Clean + correct branch | ¿Seguir en [branch] o crear rama? |
-| Dirty tree | ¿Commit, stash, o descartar? |
-| Behind remote | ¿Pull --rebase ahora? |
-| Wrong branch | ¿Cambiar a [target] o crear nueva? |
-| Detached HEAD | ¿Crear rama o checkout a main? |
-
-### Step 3 — Verify
-
-- Not a git repo → `git init` (see `git-init-and-versioning`)
-- Dirty tree → ask: commit, stash, or discard
-- Remote has unpulled changes → ask: pull --rebase?
-
-### Enforcement
-
-Pre-commit hook enforces this mechanically. See `scripts/git-hooks/pre-commit`.
+Run `bash scripts/pre-flight.sh` and present state to user. Ask about branch intent before any action. See `references/PRE-FLIGHT-DETAIL.md` for full steps and state table.
 
 ---
 
@@ -171,19 +139,7 @@ Before declaring complete:
 
 ### Phase 5b — Error Path Design
 
-Inspired by Harness Books (Chapter 9, Principle 9.6): "Error paths are main paths."
-
-**Every tool call, gate, loop, and session needs a failure path:**
-
-| Component | Failure → Response |
-|---|---|
-| Tool call | Fail → return as observation |
-| Pre-commit gate | Block → bypass with human approval |
-| Debug loop | 3 strikes → escalate to user |
-| Session | Context loss → continue (Rule 0i) |
-| Verification | Can't reach world → "ship status unknown" (Rule 0h) |
-
-**Anti-patterns:** "It'll probably work" (hope, not workflow), "Just retry" (noise, not diagnosis).
+Inspired by Harness Books: "Error paths are main paths." Every tool call, gate, loop, and session needs a failure path. See `references/ERROR-PATHS.md` for the full failure path matrix and anti-patterns.
 
 ---
 
