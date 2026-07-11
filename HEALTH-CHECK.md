@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **14** |
+| Warnings | **13** |
 | `Overall` | **🟡 DEGRADED** |
 
 ---
@@ -26,7 +26,7 @@
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
 | VERSION | ✅ 4.1.0 | Consistent |
-| Skill lint | ✅ 0 errors, 14 warnings | Check 16: 10 skills still need Output Contract — Phase 3 in progress |
+| Skill lint | ✅ 0 errors, 13 warnings | Check 16: 9 skills still need Output Contract — Phase 3 in progress |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
@@ -39,7 +39,7 @@
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
-| Skill lint | ✅ 0 errors, 14 warnings | Check 16 active — 10 skills still need Output Contract |
+| Skill lint | ✅ 0 errors, 13 warnings | Check 16 active — 9 skills still need Output Contract |
 
 ---
 

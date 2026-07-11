@@ -26,6 +26,10 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 
 **When NOT to use:** Single-file, single-function changes where scope is already minimal.
 
+## Output Contract
+
+Incrementally implemented feature — thin vertical slices, each independently tested and committed, project compilable after each increment, full test suite passing, feature works end-to-end, no uncommitted changes.
+
 ## The Increment Cycle
 
 ```
