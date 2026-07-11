@@ -29,6 +29,12 @@ review required before promotion to action-allowed.
 - Want a skill with eval cases included from the start
 - Rapid prototyping of new capabilities
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| New skill directory | SKILL.md (Markdown) + eval cases (JSONL) + optional references | `skills/<skill-name>/` | Description passes all 6 Check 15 criteria (verb-led, triggers front-loaded, anti-trigger, ≤200 chars, 3+ triggers, no jargon), SKILL.md ≤250 lines, 7 eval cases (3 trigger + 2 golden + 2 adversarial), all pass skill-lint and eval runners, tier = draft |
+
 ## When NOT to Use
 
 - Modifying an existing skill (use `skill-improver`)
