@@ -24,7 +24,9 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 - Refactoring existing code
 - Any time you're tempted to write >100 lines before testing
 
-**When NOT to use:** Single-file, single-function changes where scope is already minimal.
+## When NOT to Use
+
+- Single-file, single-function changes where scope is already minimal
 
 ## Output Contract
 

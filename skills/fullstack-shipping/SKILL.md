@@ -34,7 +34,8 @@ pipeline — not just the code — before any commit reaches production.
 - `backend-api-mastery` Phase 7 (documentation & versioning before release)
 - `spec-driven-development` Phase 8 (implement gate before deployment)
 
-**When NOT to use:**
+## When NOT to Use
+
 - Local development or prototyping without production intent
 - Hotfixes where CI/CD is already established and the fix is trivial
 - Documentation-only changes with no code impact

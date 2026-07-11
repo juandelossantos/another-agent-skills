@@ -26,7 +26,11 @@ Captures user preferences, constraints, context. Eliminates repetitive discovery
 - `user-profile.json` > 90 days old
 - User says "setup preferences", "remember stack", "configure defaults"
 
-**Skip when:** Profile exists and < 90 days old. User says "skip" AND profile exists. Turbo Mode + profile exists.
+## When NOT to Use
+
+- Profile exists and < 90 days old (Quick Verify instead)
+- User says "skip" and profile exists
+- Turbo Mode active with existing profile
 
 ## Output Contract
 

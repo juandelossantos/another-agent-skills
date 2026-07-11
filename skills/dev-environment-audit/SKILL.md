@@ -27,7 +27,10 @@ Audit agent capabilities (MCPs), user CLI tools, project runtime requirements. P
 
 **Invoked by:** `spec-driven-development` Phase 7, `shipping-and-launch`, `frontend-*` (if MCPs absent)
 
-**Skip when:** Fresh `DEV-ENVIRONMENT.md` (<7 days) with all tools verified. Pure documentation task.
+## When NOT to Use
+
+- Fresh `DEV-ENVIRONMENT.md` (<7 days) with all tools verified (skip audit)
+- Pure documentation task with no tooling needs
 
 ## Output Contract
 

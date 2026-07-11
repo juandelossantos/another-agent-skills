@@ -30,7 +30,8 @@ Merged, tested source code from coordinated subagents. No single artifact — th
 3. Spec-driven pipeline with phase gates (Spec → Implement → Test → Review)
 4. Competitive exploration (swarm mode for architecture decisions)
 
-**Do NOT use for:**
+## When NOT to Use
+
 - Single-file changes (one agent is sufficient)
 - Tasks where files overlap (causes merge conflicts)
 - Simple CRUD or linear workflows

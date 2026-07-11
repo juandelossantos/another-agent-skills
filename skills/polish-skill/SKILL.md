@@ -26,7 +26,8 @@ Where `harden` fixes technical issues, `polish` fixes visual ones. Works within 
 - During design QA before shipping
 - When design tokens exist but aren't applied consistently
 
-Do NOT use for:
+## When NOT to Use
+
 - Technical issues (use `harden`)
 - UX flow issues (use `redesign`, `distill`)
 - Structural redesign (use `redesign`)

@@ -22,6 +22,11 @@ Ship with confidence. Deploy safely: monitoring in place, rollback plan ready, c
 - Migrating data or infrastructure
 - Any deployment that carries risk (all of them)
 
+## When NOT to Use
+
+- Local development or prototyping
+- Pre-production CI/CD setup (use `ci-cd-and-automation`)
+
 ## Output Contract
 
 | Artifact | Format | Location | Quality Criteria |

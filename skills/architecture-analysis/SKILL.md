@@ -28,6 +28,12 @@ Prevents framework hype, cargo-culting, resume-driven development.
 
 **Skip when:** Stack locked in `SPEC.md`, pure implementation. One-off tweaks. Toy projects.
 
+## When NOT to Use
+
+- Implementation details after architecture is decided
+- One-off tweaks or toy projects
+- When the stack is already locked in `SPEC.md`
+
 ## Output Contract
 
 | Artifact | Format | Location | Quality Criteria |

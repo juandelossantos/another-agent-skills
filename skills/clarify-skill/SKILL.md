@@ -70,7 +70,8 @@ Error messages must balance UX clarity with security (OWASP Error Handling Cheat
 - Tooltips restate the label
 - Confirmation dialogs don't name consequences
 
-Do NOT use for:
+## When NOT to Use
+
 - Marketing or landing page copy (needs a writer)
 - Voice/personality upgrades (use `delight`)
 - Content strategy or information architecture

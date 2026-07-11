@@ -25,7 +25,8 @@ PWA-specific implementation.
 - Cross-device (phone, tablet, foldable, TV, desktop)
 - Future native distribution via Capacitor/Ionic
 
-Do NOT use for:
+## When NOT to Use
+
 - Simple marketing sites with no offline needs (use `frontend-web`)
 - Pure native apps (use `frontend-mobile`)
 

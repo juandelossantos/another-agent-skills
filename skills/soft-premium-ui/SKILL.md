@@ -20,6 +20,11 @@ Use when: user chooses premium agency / luxury / calm design direction.
 
 Engineer $150k+ agency-level digital experiences. Haptic depth, cinematic spatial rhythm, obsessive micro-interactions.
 
+## When NOT to Use
+
+- Industrial, brutalist, or raw mechanical aesthetics
+- Minimalist editorial or documentation UIs
+
 ## Banned Elements
 
 - Fonts: Inter, Roboto, Arial, Open Sans, Helvetica (use Geist, Clash Display, PP Editorial New, Plus Jakarta Sans)

@@ -24,7 +24,8 @@ This skill runs once per project, immediately after contracts (SPEC.md, DESIGN.m
 - When the user says "start the project", "setup repo", "git init"
 - Before `npm install`, `create-next-app`, or any tool that generates files
 
-**When NOT to use:**
+## When NOT to Use
+
 - The project already has a Git repository with `.gitignore` and `.env.example`
 - The task is purely committing changes in an existing repo (use `git-workflow-and-versioning`)
 

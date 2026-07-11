@@ -30,7 +30,8 @@ Micro-interactions are the difference between a UI that feels alive and one that
 - Loading states are blank or flicker
 - After functionality is complete, before polish
 
-Do NOT use for:
+## When NOT to Use
+
 - Performance optimization (use `optimize` — then `delight` on top)
 - Structural changes (use `build` skills)
 - Replacing missing states (use `harden` first)

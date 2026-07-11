@@ -22,7 +22,8 @@ web-specific implementation.
 
 Build, design, or redesign any **web interface**.
 
-Do NOT use for:
+## When NOT to Use
+
 - Backend-only, CLI, non-visual software
 - Native mobile (use `frontend-mobile`)
 - Installable offline apps (use `frontend-pwa`)

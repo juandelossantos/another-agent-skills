@@ -20,6 +20,11 @@ metadata:
 
 Automatically in background after every significant action. No direct invocation needed.
 
+## When NOT to Use
+
+- Manual data collection or ad-hoc queries (runs automatically)
+- Direct invocation (background skill only)
+
 ## Output Contract
 
 | Artifact | Format | Location | Quality Criteria |

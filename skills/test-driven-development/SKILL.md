@@ -23,7 +23,9 @@ Write a failing test before writing the code that makes it pass. For bug fixes, 
 - Adding edge case handling
 - User says "add tests" or "make sure it works"
 
-**When NOT to use:** Pure configuration changes, documentation updates, or static content changes.
+## When NOT to Use
+
+- Pure configuration changes, documentation updates, or static content changes
 
 ## Output Contract
 

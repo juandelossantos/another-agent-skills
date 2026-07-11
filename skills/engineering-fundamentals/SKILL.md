@@ -25,6 +25,10 @@ No artifact. Consumed implicitly by all platform skills as a foundation referenc
 
 Loaded by all platform skills. Never invoke directly.
 
+## When NOT to Use
+
+- Platform-specific implementation (platform skills add details to this foundation)
+
 ## Core Philosophy
 
 1. **Contracts Before Code** — No file until SPEC.md, DESIGN.md, DESIGN-LOCK.md, .gitignore exist.

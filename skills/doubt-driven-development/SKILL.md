@@ -25,7 +25,12 @@ A decision is **non-trivial** when it introduces branching logic, crosses a modu
 
 Apply when: about to make an architectural decision, commit non-trivial code, claim a non-obvious fact, or work in code you don't fully understand.
 
-**When NOT to use:** mechanical operations (renaming, formatting), clear unambiguous instructions, reading/summarizing code, one-line changes, pure tooling. If you doubt every keystroke, you ship nothing.
+## When NOT to Use
+
+- Mechanical operations (renaming, formatting)
+- Clear, unambiguous instructions
+- Reading or summarizing existing code
+- One-line changes or pure tooling
 
 ## Output Contract
 

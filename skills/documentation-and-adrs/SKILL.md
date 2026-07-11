@@ -23,7 +23,9 @@ Document decisions, not just code. The most valuable documentation captures the 
 - Shipping a feature that changes user-facing behavior
 - Onboarding new team members or agents
 
-**When NOT to use:** Don't document obvious code or throwaway prototypes.
+## When NOT to Use
+
+- Documenting obvious code or throwaway prototypes
 
 ## Output Contract
 

@@ -27,7 +27,8 @@ Adapt is the responsive counterpart to `polish`. Where `polish` fixes the design
 - User says "this doesn't work on my phone"
 - After adding responsive review to a shipping pipeline
 
-Do NOT use for:
+## When NOT to Use
+
 - Creating new responsive layouts from scratch (use `build` skills)
 - Animations (use `delight` or `optimize`)
 - Typography scaling (use `typeset`)

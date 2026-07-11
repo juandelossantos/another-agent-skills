@@ -25,7 +25,10 @@ Diagnose before operating. Audit against engineering standards. Surface misalign
 3. Return after gap >3 days.
 4. Before "significant change" (>3 files or new feature).
 
-**Skip when:** Project initialized this session (already compliant). Single-line fix in audited project.
+## When NOT to Use
+
+- Project initialized this session (already compliant)
+- Single-line fix in an audited project with recent HEALTH-CHECK.md
 
 ## Output Contract
 

@@ -33,7 +33,8 @@ backend-specific implementation to the universal philosophy.
 - `architecture-analysis` (if non-trivial backend is chosen)
 - `frontend-web` or `frontend-mobile` (if frontend needs a backend to persist data)
 
-**When NOT to use:**
+## When NOT to Use
+
 - The project is frontend-only with no persistence (static site, landing page)
 - The backend is already designed and documented in `API-DESIGN.md`
 - The task is purely operational (fix a bug in existing API, add one field)

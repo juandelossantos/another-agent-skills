@@ -29,7 +29,8 @@ This skill covers the patterns that separate professional CLI tools from ad-hoc 
 
 **User says:** "build a CLI", "terminal app", "command line tool", "make a tool that...", "create a command"
 
-**When NOT to use:**
+## When NOT to Use
+
 - GUI applications (desktop, web, mobile)
 - Simple one-off shell scripts (use a shell script directly)
 - Full-screen TUI applications (emacs, vim-style interactive interfaces)

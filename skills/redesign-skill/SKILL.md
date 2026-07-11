@@ -20,6 +20,12 @@ metadata:
 
 Use when: upgrading visual design of existing codebase. Not for greenfield projects.
 
+## When NOT to Use
+
+- Greenfield projects (use build skills instead)
+- Framework migrations or stack changes
+- Performance optimization without visual changes
+
 ## Output Contract
 
 | Artifact | Format | Location | Quality Criteria |

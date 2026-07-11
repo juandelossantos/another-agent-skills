@@ -16,6 +16,11 @@ metadata:
 
 Clean editorial-style interfaces with high-contrast warm monochrome palette, bespoke typographic hierarchy, and ultra-flat component architecture.
 
+## When NOT to Use
+
+- Industrial, brutalist, or deliberately raw aesthetics
+- Playful consumer brands or experimental agency sites
+
 ## When to Use
 
 Product UIs, documentation sites, SaaS dashboards, editorial layouts. Not for playful consumer brands or experimental agency sites.
