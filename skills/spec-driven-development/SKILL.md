@@ -18,6 +18,15 @@ metadata:
 
 **No specification, no code.** Forces clarity through research, critical questioning, and documented decisions.
 
+## When to Use
+
+**MANDATORY** for:
+- Starting any new project or feature
+- Ambiguous or one-sentence requirements that need clarification
+- Changes touching >3 files or crossing module boundaries
+- Architectural or technology decisions
+- Any task estimated at >30 minutes
+
 ## When NOT to Use
 
 Single-line fixes, typo corrections, truly trivial changes (1 file, < 10 lines, no logic). For everything else, run the pipeline.

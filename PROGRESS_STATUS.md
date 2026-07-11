@@ -1,9 +1,9 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-10  
-> **Current version:** 4.1.0 (auto-generated)
-> **Status:** Released — 0 errors, 39 warnings, 74 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts 🔜 (19/56 tasks, 37 missing contracts) → docs honesty → release
+> **Current version:** 4.2.0 (auto-generated)
+> **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
+> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts ✅ (56/56 tasks, 0 missing) — docs honesty 🔜 → release 🔜
 
 ---
 
@@ -20,64 +20,64 @@
 ### 57 Custom Skills
 
 | Skill | Lines | Guides | Description |
-|---|---|---|---|
+|---|---|---|---|---|
 | `adapt-skill` | 135 | 2 |  |
 | `api-and-interface-design` | 125 | 2 |  |
-| `architecture-analysis` | 220 | 3 |  |
-| `audit-skill` | 150 | 4 |  |
-| `backend-api-mastery` | 201 | 5 |  |
-| `browser-testing-with-devtools` | 74 | 0 |  |
-| `ci-cd-and-automation` | 123 | 2 |  |
+| `architecture-analysis` | 226 | 3 |  |
+| `audit-skill` | 157 | 4 |  |
+| `backend-api-mastery` | 179 | 5 |  |
+| `browser-testing-with-devtools` | 79 | 1 |  |
+| `ci-cd-and-automation` | 129 | 2 |  |
 | `clarify-skill` | 125 | 4 |  |
-| `cli-tools` | 108 | 2 |  |
-| `code-review-and-quality` | 136 | 3 |  |
-| `code-simplification` | 239 | 2 |  |
-| `context-engineering` | 126 | 2 |  |
-| `critique-skill` | 165 | 3 |  |
+| `cli-tools` | 124 | 2 |  |
+| `code-review-and-quality` | 148 | 3 |  |
+| `code-simplification` | 166 | 2 |  |
+| `context-engineering` | 138 | 2 |  |
+| `critique-skill` | 172 | 3 |  |
 | `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files
-| `debugging-and-error-recovery` | 90 | 5 |  |
-| `debugging-three-strikes` | 66 | 0 |  |
+| `debugging-and-error-recovery` | 103 | 5 |  |
+| `debugging-three-strikes` | 83 | 0 |  |
 | `delight-skill` | 155 | 4 |  |
-| `deprecation-and-migration` | 94 | 2 |  |
-| `dev-environment-audit` | 152 | 4 |  |
-| `documentation-and-adrs` | 68 | 3 |  |
-| `doubt-driven-development` | 90 | 2 |  |
-| `engineering-fundamentals` | 230 | 6 |  |
+| `deprecation-and-migration` | 99 | 2 |  |
+| `dev-environment-audit` | 158 | 4 |  |
+| `documentation-and-adrs` | 72 | 3 |  |
+| `doubt-driven-development` | 94 | 2 |  |
+| `engineering-fundamentals` | 186 | 6 |  |
 | `frontend-desktop` | 242 | 3 |  |
 | `frontend-mobile` | 246 | 3 |  |
 | `frontend-pwa` | 202 | 4 |  |
 | `frontend-ui-engineering` | 123 | 2 |  |
 | `frontend-web` | 239 | 8 |  |
-| `fullstack-shipping` | 178 | 3 |  |
-| `git-init-and-versioning` | 243 | 6 |  |
-| `git-workflow-and-versioning` | 181 | 3 |  |
-| `hard-skill` | 149 | 4 |  |
-| `idea-refine` | 109 | 2 |  |
-| `incremental-implementation` | 89 | 2 |  |
-| `industrial-brutalist-ui` | 75 | 0 |  |
+| `fullstack-shipping` | 184 | 3 |  |
+| `git-init-and-versioning` | 249 | 6 |  |
+| `git-workflow-and-versioning` | 193 | 3 |  |
+| `hard-skill` | 157 | 4 |  |
+| `idea-refine` | 113 | 2 |  |
+| `incremental-implementation` | 93 | 2 |  |
+| `industrial-brutalist-ui` | 79 | 0 |  |
 | `interview-me` | 108 | 2 |  |
 | `minimalist-ui` | 74 | 0 |  |
 | `multi-agent-orchestration` | 85 | 1 |  |
-| `observability-and-instrumentation` | 104 | 2 |  |
+| `observability-and-instrumentation` | 112 | 2 |  |
 | `optimize-skill` | 145 | 4 |  |
-| `output-skill` | 87 | 1 |  |
-| `performance-optimization` | 99 | 2 |  |
-| `planning-and-task-breakdown` | 90 | 2 |  |
+| `output-skill` | 104 | 2 |  |
+| `performance-optimization` | 105 | 2 |  |
+| `planning-and-task-breakdown` | 97 | 2 |  |
 | `polish-skill` | 142 | 2 |  |
-| `project-health-check` | 211 | 2 |  |
-| `project-metrics` | 151 | 2 |  |
+| `project-health-check` | 217 | 2 |  |
+| `project-metrics` | 157 | 2 |  |
 | `redesign-skill` | 70 | 0 |  |
-| `security-and-hardening` | 31 | 0 |  |
-| `self-improvement` | 88 | 4 |  |
-| `shipping-and-launch` | 163 | 2 |  |
-| `skill-creator` | 166 | 2 |  |
-| `skill-improver` | 157 | 2 |  |
+| `security-and-hardening` | 37 | 0 |  |
+| `self-improvement` | 92 | 4 |  |
+| `shipping-and-launch` | 172 | 2 |  |
+| `skill-creator` | 172 | 2 |  |
+| `skill-improver` | 163 | 2 |  |
 | `soft-premium-ui` | 75 | 0 |  |
-| `source-driven-development` | 91 | 2 |  |
-| `spec-driven-development` | 215 | 3 |  |
-| `test-driven-development` | 138 | 6 |  |
+| `source-driven-development` | 97 | 2 |  |
+| `spec-driven-development` | 180 | 3 |  |
+| `test-driven-development` | 144 | 6 |  |
 | `typeset-skill` | 142 | 2 |  |
-| `user-onboarding` | 187 | 2 |  |
+| `user-onboarding` | 193 | 2 |  |
 
 ### Architecture Decisions Implemented
 
@@ -137,10 +137,11 @@
 
 ### In Progress
 
-- **Phase 3: Output Contracts** — Adding standardized Output Contract section to all skills. 19/56 tasks done, 37 still missing. Contracts completed: engineering-fundamentals, multi-agent-orchestration, frontend-web, frontend-mobile, frontend-desktop, frontend-pwa, frontend-ui-engineering, adapt-skill, polish-skill, delight-skill, optimize-skill, typeset-skill, clarify-skill, minimalist-ui, soft-premium-ui, redesign-skill, backend-api-mastery, api-and-interface-design (+2 pre-existing: customize-opencode, interview-me). Guides improved: CONTRACT-TEMPLATES.md (+WebSocket, +module boundaries), VERSIONING-STRATEGIES.md (+breaking rules, +edge cases).
+- **Phase 4: Docs Honesty** — Updating all docs surfaces to reflect Phase 3 completion and current warning counts.
 
 ### Completed
 
+- **Phase 3: Output Contracts** — All 57 skills now have standardized Output Contracts declaring artifact, format, location, and quality criteria. Check 16 warnings: 37 → 0. Word count advisories resolved: 4 → 0. Guides improved: CONTRACT-TEMPLATES.md (+WebSocket, +module boundaries), VERSIONING-STRATEGIES.md (+breaking rules, +edge cases), WORKFLOW-SCENARIOS.md (+6 browser testing scenarios).
 - **Phase QS: Quick Start Guide** — User-facing workflow guide, full Spanish i18n (60 keys), nav chain fixed across 13 docs pages, COMMIT_APPROVED gate restored, README prominent link.
 - **Phase 2: Complete Critical Stubs** — 15 stub skills completed with full content, workflows, and guides. `visual-frontend-mastery` merged into `frontend-ui-engineering` (57 skills). 
 - **Phase 1: Foundation Repair** — 29 descriptions quoted (YAML-safe), 4 stray lines cleaned, 23 flat guides moved to `guides/`. Pre-flight blocks on `main`. ANSI colors fixed in all scripts. 13/13 test suites.
@@ -177,7 +178,8 @@
 ## Version History
 
 | Version | Date | Key Changes |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
+| **4.2.0** | 2026-07-10 | **Phase 3: Output Contracts** — All 57 skills have standardized Output Contracts. Check 16 warnings: 37→0. Word count advisories resolved. Guides improved: CONTRACT-TEMPLATES, VERSIONING-STRATEGIES, WORKFLOW-SCENARIOS. Pre-flight gate added for .gitignore/.env.example. |
 | **4.1.0** | 2026-07-08 | Quick Start Guide & Navigation Overhaul: user-facing walkthrough, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate covers all text formats. |
 | **4.0.0** | 2026-07-08 | Foundation Repair & Critical Stubs: 15 stubs completed, frontmatter fixes, flat guide consolidation, 57 skills, CI portable via STACK_CONFIG.md. |
 | **3.1.0** | 2026-07-07 | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. All hooks renumbered, bug fixes. |
