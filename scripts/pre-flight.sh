@@ -66,8 +66,8 @@ if [ "$IS_CI" = "true" ]; then
   check "Branch (CI mode)" "ok" ""
 elif [ -z "$BRANCH" ]; then
   check "Detached HEAD" "fail" "Checkout a branch before making changes"
-elif [ "$BRANCH" = "main" ] && [ "${MAIN_ALLOWED:-false}" != "true" ]; then
-  check "Branch: $BRANCH" "fail" "Direct work on main is blocked. Create a feature branch: git checkout -b fix/your-task-name"
+elif [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ] && [ "${MAIN_ALLOWED:-false}" != "true" ]; then
+  check "Branch: $BRANCH" "fail" "Direct work on $BRANCH is blocked. Create a feature branch: git checkout -b fix/your-task-name"
 else
   check "Branch: $BRANCH" "ok" ""
 fi
