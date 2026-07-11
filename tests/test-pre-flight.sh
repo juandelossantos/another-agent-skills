@@ -26,8 +26,8 @@ echo ""
 echo "Test 1: Blocks on main"
 TMP=$(mktemp -d)
 (cd "$TMP" && git init -q && git config user.email "t@t.com" && git config user.name "T")
-touch "$TMP/README.md"
-(cd "$TMP" && git add README.md && git commit -q -m "init")
+touch "$TMP/README.md" "$TMP/.gitignore" "$TMP/.env.example"
+(cd "$TMP" && git add README.md .gitignore .env.example && git commit -q -m "init")
 # Git's default branch might be master or main
 DEFAULT=$(cd "$TMP" && git branch --show-current)
 SKIP_UPSTREAM_CHECK=true bash "$SCRIPT" 2>/dev/null; RC=$?
@@ -44,8 +44,8 @@ echo ""
 echo "Test 2: Passes on feature branch"
 TMP2=$(mktemp -d)
 (cd "$TMP2" && git init -q -b feat/test && git config user.email "t@t.com" && git config user.name "T")
-touch "$TMP2/README.md"
-(cd "$TMP2" && git add README.md && git commit -q -m "init")
+touch "$TMP2/README.md" "$TMP2/.gitignore" "$TMP2/.env.example"
+(cd "$TMP2" && git add README.md .gitignore .env.example && git commit -q -m "init")
 (cd "$TMP2" && SKIP_UPSTREAM_CHECK=true bash "$SCRIPT" > /dev/null 2>&1); RC=$?
 assert "passes on feat/test" "[ $RC -eq 0 ]"
 rm -rf "$TMP2"
@@ -55,8 +55,8 @@ echo ""
 echo "Test 3: Passes on main with MAIN_ALLOWED"
 TMP3=$(mktemp -d)
 (cd "$TMP3" && git init -q && git config user.email "t@t.com" && git config user.name "T")
-touch "$TMP3/README.md"
-(cd "$TMP3" && git add README.md && git commit -q -m "init")
+touch "$TMP3/README.md" "$TMP3/.gitignore" "$TMP3/.env.example"
+(cd "$TMP3" && git add README.md .gitignore .env.example && git commit -q -m "init")
 DEFAULT=$(cd "$TMP3" && git branch --show-current)
 if [ "$DEFAULT" = "main" ] || [ "$DEFAULT" = "master" ]; then
   (cd "$TMP3" && MAIN_ALLOWED=true SKIP_UPSTREAM_CHECK=true bash "$SCRIPT" > /dev/null 2>&1); RC=$?

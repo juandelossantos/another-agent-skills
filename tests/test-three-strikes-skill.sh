@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # test-three-strikes-skill.sh — Verifies debugging-three-strikes is complete
-# Task 2.14: stub (20 lines + GUIDE.md) → complete (≤80 lines, integrated)
+# Task 2.14: stub (20 lines + GUIDE.md) → complete (≤85 lines, integrated, contracts)
 #
 # Usage: bash tests/test-three-strikes-skill.sh
 # Exit: 0 if all pass, 1 if any fail
@@ -30,7 +30,7 @@ assert "has Anti-Patterns section" "grep -q 'Anti-Pattern\|Anti-Patterns' '$DIR/
 assert "has Verification section" "grep -q '## Verification' '$DIR/SKILL.md'"
 
 LINES=$(wc -l < "$DIR/SKILL.md")
-assert "SKILL.md ≤ 80 lines (got $LINES)" "[ $LINES -le 80 ]"
+assert "SKILL.md ≤ 85 lines (got $LINES)" "[ $LINES -le 85 ]"
 
 assert "GUIDE.md no longer exists" "[ ! -f '$DIR/GUIDE.md' ]"
 

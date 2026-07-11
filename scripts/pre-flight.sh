@@ -7,6 +7,7 @@
 #   or source scripts/pre-flight.sh (to get variables)
 #
 # Exits 0 if all checks pass, 1 if any fail.
+# In CI (GITHUB_ACTIONS=true), skips git-state checks (detached HEAD, remote).
 
 set -euo pipefail
 
@@ -16,6 +17,10 @@ YELLOW=$'\033[1;33m'
 NC=$'\033[0m'
 PASS=0
 FAIL=0
+
+# CI detection — skip git-state checks that don't apply to CI runners
+IS_CI="${CI:-false}"
+[ "${GITHUB_ACTIONS:-false}" = "true" ] && IS_CI="true"
 
 check() {
   local label="$1"
@@ -56,8 +61,10 @@ if [ ! -f "$REPO_ROOT/.gitignore" ] || [ ! -f "$REPO_ROOT/.env.example" ]; then
 fi
 
 # 2. Current branch — must not be main (unless MAIN_ALLOWED=true)
-BRANCH=$(git branch --show-current)
-if [ -z "$BRANCH" ]; then
+BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+if [ "$IS_CI" = "true" ]; then
+  check "Branch (CI mode)" "ok" ""
+elif [ -z "$BRANCH" ]; then
   check "Detached HEAD" "fail" "Checkout a branch before making changes"
 elif [ "$BRANCH" = "main" ] && [ "${MAIN_ALLOWED:-false}" != "true" ]; then
   check "Branch: $BRANCH" "fail" "Direct work on main is blocked. Create a feature branch: git checkout -b fix/your-task-name"
@@ -65,24 +72,28 @@ else
   check "Branch: $BRANCH" "ok" ""
 fi
 
-# 3. Working tree clean
-if [ -z "$(git status --porcelain)" ]; then
-  check "Working tree clean" "ok" ""
-else
-  MODIFIED=$(git status --porcelain | wc -l)
-  check "Working tree clean" "fail" "$MODIFIED uncommitted change(s). Commit or stash before new work."
+# 3. Working tree clean (skip in CI — checkouts are always clean)
+if [ "$IS_CI" != "true" ]; then
+  if [ -z "$(git status --porcelain)" ]; then
+    check "Working tree clean" "ok" ""
+  else
+    MODIFIED=$(git status --porcelain | wc -l)
+    check "Working tree clean" "fail" "$MODIFIED uncommitted change(s). Commit or stash before new work."
+  fi
 fi
 
-# 4. No unpulled remote changes
-FETCH_OUTPUT=$(git fetch --dry-run 2>&1)
-if [ -z "$FETCH_OUTPUT" ]; then
-  check "Remote up to date" "ok" ""
-else
-  check "Remote up to date" "fail" "Unpulled remote changes. Run 'git pull --rebase' first."
+# 4. No unpulled remote changes (skip in CI)
+if [ "$IS_CI" != "true" ]; then
+  FETCH_OUTPUT=$(git fetch --dry-run 2>&1)
+  if [ -z "$FETCH_OUTPUT" ]; then
+    check "Remote up to date" "ok" ""
+  else
+    check "Remote up to date" "fail" "Unpulled remote changes. Run 'git pull --rebase' first."
+  fi
 fi
 
-# 5. Upstream tracking configured (skippable with SKIP_UPSTREAM_CHECK=true)
-if [ "${SKIP_UPSTREAM_CHECK:-false}" != "true" ]; then
+# 5. Upstream tracking configured (skippable with SKIP_UPSTREAM_CHECK=true, skip in CI)
+if [ "$IS_CI" != "true" ] && [ "${SKIP_UPSTREAM_CHECK:-false}" != "true" ]; then
   UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null || echo "")
   if [ -z "$UPSTREAM" ]; then
     check "Upstream configured" "fail" "No upstream tracking branch. Set with: git branch -u origin/<branch>"
@@ -96,9 +107,6 @@ echo "───"
 if [ "$FAIL" -gt 0 ]; then
   echo -e "${RED}✗ $FAIL check(s) failed. BLOCKING.${NC}"
   echo "Run the following before proceeding:"
-  if echo "$FETCH_OUTPUT" | grep -q .; then
-    echo "  git pull --rebase"
-  fi
   if [ -n "$(git status --porcelain)" ]; then
     echo "  git status  (commit or stash changes)"
   fi
