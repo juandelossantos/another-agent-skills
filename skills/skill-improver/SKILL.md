@@ -30,6 +30,12 @@ before applying — this skill never auto-commits changes.
 - A skill's description is too narrow or too broad
 - Eval coverage is partial and needs expansion
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Skill improvement diff | Diff proposal + applied changes (SKILL.md edits, eval additions, references/ moves) | `skills/<name>/SKILL.md` + `skills/<name>/evals/` | Failure pattern classified (trigger/execution/budget/coverage/adversarial), diff proposed before changes, user explicitly approved before applying, SKILL.md stays ≤250 lines, no eval cases modified (skill fixed instead) |
+
 ## When NOT to Use
 
 - Creating a new skill (use `skill-creator`)

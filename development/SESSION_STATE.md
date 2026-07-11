@@ -1,115 +1,122 @@
-# Session State — v5.0.0 TDD-First
+# Session State — Phase 3 Output Contracts — COMPLETE
 
-**Date:** 2026-07-07  
-**Current version:** v3.1.0 (released)  
-**Target version:** v5.0.0  
-**Branch:** `main`  
-**Status:** Phase 0 ✅ done & released. Next: Phase 0.5 — Test Infrastructure.  
-**Plan:** `development/PLAN-v5-TDD-FIRST.md` (7 phases, 41 tasks, ~29h)
+**Date:** 2026-07-10  
+**Current version:** v4.2.0  
+**Branch:** `feat/output-contracts`  
+**Status:** ✅ Phase 3 complete — all 57 skills have Output Contracts. PR #31 merged.
 
 ---
 
-## Session Summary
+## Final Summary
 
-This session shipped **v3.1.0 — TDD Enforcement Gate**: mechanical TDD enforcement in commit-msg v7 (Gate 4), pre-commit v10 (13 sequential gates), standalone tdd-gate.sh, sync-hooks subcommand, 25 new tests across 3 suites, SPEC-TDD-GATE.md. All documentation surfaces updated.
+**Phase 3 delivered:**
+- 57 Output Contracts (55 added, 2 pre-existing)
+- 31 `## When NOT to Use` sections added
+- 4 word count advisories resolved (content moved to `references/`)
+- 4 guides improved/created (CONTRACT-TEMPLATES, VERSIONING-STRATEGIES, WORKFLOW-SCENARIOS, SCOPE-MANAGEMENT)
+- FID→INP bug fix (Google deprecated FID March 2024)
+- Pre-flight mechanical gate for .gitignore/.env.example
+- All documentation surfaces updated (README, RELEASE-NOTES, PROGRESS_STATUS, i18n EN/ES, docs)
+- 51 commits on `feat/output-contracts`, PR #31
 
-## Completed (10 commits, PR #21 merged, v3.1.0 released)
-
-| Phase | What | Key Commit |
+**Stats:**
+| Metric | Before | After |
 |---|---|---|
-| 0.1 | SPEC-TDD-GATE.md specification | `30d5d83` |
-| 0.2 | `scripts/tdd-gate.sh` + wired into commit-msg v7 | `1dd0748` |
-| 0.2 (RED) | Test suite (8 tests, RED phase) | `20aac6f` |
-| Bug fix | Extensionless shell scripts detected via shebang | `07349a4` |
-| 0.6 | Pre-commit gates renumbered (v9→v10, 13 sequential) | `e331c16` |
-| 0.5 | All 13 documentation surfaces updated | `405ff01` |
-| 0.5b | `init-agents.sh sync-hooks` subcommand | `77bb9ae` |
-| Fix | PR review checklist sha256 check removed | `f68b102` |
-| — | PR #21 merged to main | `2a3aa8d` |
-| — | **v3.1.0 RELEASED** (tag, push, GitHub release) | `bdf26bf` |
+| Lint errors | 0 | 0 |
+| Lint warnings | 57 | 0 |
+| HEALTH-CHECK.md | 🟡 DEGRADED | 🟢 HEALTHY |
+| Skills with contracts | 2 | 57 |
+| Skills with When NOT to Use | 26 | 57 |
 
-## Key Decisions Made
+---
 
-- **TDD gate in commit-msg, not pre-commit**: commit-msg can read commit message body for OVERRIDE detection; pre-commit runs before message exists. Separation of concerns.
-- **Extensionless shell scripts**: Detected via shebang (`#!/usr/bin/env bash`, `#!/bin/sh`) and `scripts/git-hooks/` directory — 3 regression tests added.
-- **Task 0.3 deferred**: Skill invocation check deemed overcomplicated (SOUL.md P6). Test Companion gate is mechanical enforcement — more reliable.
-- **Guardian Pattern respected**: Every mutation required explicit user approval. No silent commits.
+## Next Steps
 
-## Evidence Summary
+- **Phase 4: Docs Honesty** — remaining doc surface updates
+- **Add .env.example** — resolves pre-flight gate warning
 
-- **37/37 tests**: 11 TDD gate + 7 pre-commit gates + 7 sync hooks + 3 audit + 9 Playwright
-- **All gates**: skill-lint 0 errors, validate-skill-table PASS
-- **VERSION**: 3.1.0
-- **GitHub Release**: v3.1.0 published at https://github.com/juandelossantos/another-agent-skills/releases/tag/v3.1.0
-- **PR #21**: Merged by user, branch `feat/tdd-enforcement-gate` deleted
+---
 
-## Active Plan: v5.0.0 TDD-First
+## Progress
 
+### Completed (19 tasks: Check 16 + 18 contracts)
+
+| # | Skill | Key Detail |
+|---|---|---|
+| 3.0 | Lint Check 16 | Added to `scripts/skill-lint.sh` |
+| 3.1 | `engineering-fundamentals` | Foundation — no artifact |
+| 3.2 | `multi-agent-orchestration` | Foundation — no artifact |
+| 3.3 | `frontend-web` | Web interface, source code, stack-agnostic |
+| 3.4 | `frontend-mobile` | Mobile interface, source code, platform-agnostic |
+| 3.5 | `frontend-desktop` | Desktop app, source code + native config |
+| 3.6 | `frontend-pwa` | PWA, source code + service worker + manifest |
+| 3.7 | `frontend-ui-engineering` | UI patterns via platform skills |
+| 3.8 | `adapt-skill` | Responsive CSS fixes |
+| 3.9 | `polish-skill` | Token-compliant visual consistency |
+| 3.10 | `delight-skill` | Micro-interactions, 150-400ms |
+| 3.11 | `optimize-skill` | Performance fixes, profile-validated |
+| 3.12 | `typeset-skill` | Typography CSS, type ramp compliant |
+| 3.13 | `clarify-skill` | UX copy rewrite, OWASP security guidelines |
+| 3.14 | `minimalist-ui` | Minimalist UI code — editorial HTML/CSS/TSX, responsive, token-compliant, WCAG AA |
+| 3.15 | `soft-premium-ui` | Premium-styled visual layer — HTML/CSS design tokens, spring motion, Double-Bezel architecture |
+| 3.16 | `redesign-skill` | Visually redesigned source code — 8-category audit, 7-step fix priority, post-redesign verification |
+| 3.17 | `backend-api-mastery` | API implementation + design document — protocol-justified, auth, validation, tests, OpenAPI docs |
+| 3.18 | `api-and-interface-design` | API contract + module interfaces — OpenAPI/GraphQL/Protobuf, SemVer 2.0, AIP-121/180, contract-first |
+| 3.19 | `cli-tools` | CLI tool source code — standard parser, exit codes, composability, NO_COLOR, SIGINT, --json |
+| 3.20 | `security-and-hardening` | Hardened source code — OWASP Top 10, input validation, auth, secrets, CSP, rate limiting, deps scan |
+| 3.21 | `performance-optimization` | Optimized system code — profiled baseline, bottleneck per cycle, verified improvement, no regression |
+| 3.22 | `observability-and-instrumentation` | Instrumented source code — RED + USE metrics, structured JSON logs, distributed tracing, symptom alerts |
+ 
+### Remaining (34 skills)
+
+All other skills grouped by plan order.
+
+---
+
+## Next Session Start
+
+```bash
+git fetch origin
+git checkout feat/output-contracts
+git log --oneline -3
 ```
-Phase 0:     ✅ feat/tdd-enforcement-gate (TDD enforcement gate) — DONE, v3.1.0 released
-Phase 0.5:   🔜 feat/test-infrastructure (CI update, test runner, pre-commit Gate 14) — 5h
-Phase 1:     fix/foundation-repair (broken frontmatter + flat guides) — 2.5h
-Phase 2:     feat/complete-critical-stubs (14 stub skills + 1 merge) — 12h
-Phase 3:     feat/output-contracts (Output Contract for all skills) — 4h
-Phase 4:     fix/docs-honesty (README, STATUS, i18n) — 2h
-Phase 5:     release/v5.0.0 (version bump, release notes) — 30m
-```
 
-**Total:** 41 tasks, ~29h
-**Next:** Phase 0.5 Task 0.5.1 — Update `.github/workflows/ci.yml` to run init tests + skill-lint
+Then continue with Task 3.23 (`code-simplification`) — next skill in the plan.
 
-## Next Session Start: Step-by-Step
+---
 
-1. `git checkout main && git pull`
-2. `git checkout -b feat/test-infrastructure`
-3. Read `development/PLAN-v5-TDD-FIRST.md` Phase 0.5 (lines 426-611)
-4. Start with **Task 0.5.1**: Update `.github/workflows/ci.yml` — add init tests and skill-lint. NO runtime setup (universal principle).
-5. Continue through Tasks 0.5.2 → 0.5.3 → 0.5.4 → 0.5.5
-6. Run checkpoint (line 591-609), present to user, get approval, PR, merge
+## Contract Methodology (repeat for each task)
 
-## Key Files for Phase 0.5
+1. **Read skill** — full SKILL.md + guides + frontmatter
+2. **Deep research** — Context7 + web fetch (Microsoft, Google AIP, OWASP, semver.org, Stripe, NNGroup, industry benchmarks)
+3. **Identify output** — what does the skill produce? (artifact, format, location)
+4. **Gap analysis** — compare skill content vs. research; find missing quality criteria
+5. **Confidence scoring** — 6 factors (purpose, triggers, consistency, universality, sources, maturity)
+6. **Present analysis** → user approves or challenges
+7. **Write contract** — `## Output Contract` table with Artifact, Format, Location, Quality Criteria
+8. **Guide improvements** — append to existing guides, never overwrite
+9. **Expand triggers** — if underspecified, add concrete use cases
+10. **Test** — `bash scripts/skill-lint.sh`
+11. **Sync** — update HEALTH-CHECK.md + SESSION_STATE.md
+12. **Stage** — `git add` the files
+13. **Present commit instruction** — provide the exact command with `OVERRIDE: content-only change`
+14. **User commits manually** — never run `git commit` yourself. Rule 12: agent stages, user commits.
 
-| File | What to do |
-|---|---|
-| `.github/workflows/ci.yml` | Add init tests + skill-lint jobs |
-| `tests/run-all.sh` | CREATE — unified test runner |
-| `scripts/git-hooks/pre-commit` | Add Gate 14 (Test Runner) |
-| `tests/playwright/package.json` | Track in git |
-| `tests/playwright/package-lock.json` | Track in git |
-| `README.md` | Add test section |
-| `DEVELOPMENT.md` | Add test instructions |
+**Guiding principles:** universal/agnostic framing, research beyond Context7, never overwrite existing content, quality over speed, Guardian Pattern (approval before mutation), agent stages + user commits (never run git commit yourself).
 
-## Context Management
+---
 
-- **Rule 8 budget respected**: Tests (37/37), gates, and evidence loaded.
-- **Lazy loading**: `using-agent-skills`, `planning-and-task-breakdown`, `test-driven-development`, `git-workflow-and-versioning`, `documentation-and-adrs` loaded.
-- **Compression trigger**: History > 20 messages → this summary replaces session log.
-- **No active work evicted**: Phase 0.5 plan is in `development/PLAN-v5-TDD-FIRST.md`.
+## Key Stats
 
-## Artifacts (this session)
+- **Check 16 warnings:** 33 (down from 55)
+- **HEALTH-CHECK.md:** DEGRADED (expected — 37 skills still need contracts)
+- **Tests:** 29/29 passing
+- **Lint:** 0 errors, 35 warnings (33 Check 16 + 2 other)
 
-| Location | Purpose |
-|---|---|
-| `development/PLAN-v5-TDD-FIRST.md` | Updated — Phase 0 marked done |
-| `development/SESSION_STATE.md` | This file — session handoff |
-| `development/SPEC-TDD-GATE.md` | TDD gate specification |
-| `scripts/tdd-gate.sh` | Standalone TDD enforcement gate |
-| `scripts/git-hooks/commit-msg` | v7 — 4 gates (TDD is Gate 4) |
-| `scripts/git-hooks/pre-commit` | v10 — 13 sequential gates |
-| `scripts/init-agents.sh` | Added `sync-hooks` subcommand |
-| `tests/test-tdd-gate.sh` | 11 tests |
-| `tests/test-pre-commit-gates.sh` | 7 tests |
-| `tests/test-sync-hooks.sh` | 7 tests |
+---
 
-## Stale Artifacts (cleanup recommended)
+## Context
 
-| Location | Why stale |
-|---|---|
-| `development/UNIVERSAL-SELF-IMPROVEMENT-PLAN.md` | Superseded by PLAN-v5-TDD-FIRST.md |
-
-## Stats
-
-- **58 skills** (unchanged)
-- **v3.1.0** released
-- Working tree: clean (main)
-- Local untracked: `.agents/`, `.claude/`, `.opencode/skills/customer-research/`, `.opencode/skills/email-drip/`, `.opencode/skills/showcase/`, `serve.py`, `tests/playwright/evidence/`, `tests/playwright/node_modules/`
+- All commits include `HEALTH-CHECK.md` sync
+- Each commit uses `OVERRIDE: content-only change` for TDD gate
+- Guardian Pattern: agent stages, user commits

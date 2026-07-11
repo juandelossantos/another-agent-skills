@@ -31,6 +31,12 @@ Focused on CI/CD pipeline setup and automation. For the complete end-to-end ship
 - Automating build and deployment processes
 - Adding test runners to CI
 
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| CI/CD pipeline configuration | YAML/JSON pipeline definition files (CI provider-agnostic) | `.github/workflows/` or equivalent | All stages defined (lint, test, build, deploy, staging, production), quality gates blocking on failure, deployment strategy chosen (blue-green/canary/rolling/recreate) with documented risk level, secrets managed through provider's secure store (never in code), rollback plan defined with detect/decide/execute/verify steps, manual approval gate for production stage, no secrets in version control, pipeline triggers scoped per environment |
+
 ## When NOT to Use
 
 - Full deployment strategy with monitoring and rollback (use fullstack-shipping)

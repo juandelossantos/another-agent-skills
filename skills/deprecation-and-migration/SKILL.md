@@ -25,6 +25,11 @@ The only skill that covers the full lifecycle of retiring functionality: decidin
 - Migrating users from one implementation to another
 - Deciding whether to maintain or sunset existing code
 - Planning backward-compatible transitions
+- A third-party API or dependency your system relies on announces deprecation
+
+## Output Contract
+
+Deprecation + migration plan — documented timeline (Announce → Deprecate → Support → Sunset) with source code changes in existing source tree, migration strategy chosen with risk level (parallel/strangler/big-bang/phased), backward compatibility rules followed (breaking = MAJOR), deprecated endpoints marked with `deprecated` flag + `Sunset` HTTP header, deprecation notice published before support window, migration guide with before/after examples, rollback plan in place, old system officially sunset after window expires.
 
 ## When NOT to Use
 

@@ -28,11 +28,18 @@ Poor typesetting is the most visible "almost right" failure. Fixing it has outsi
 - Letter-spacing is random or missing
 - After changing type scale or introducing a new variant
 
-Do NOT use for:
+## When NOT to Use
+
 - Choosing a new typeface (design decision, not polish)
 - Rewriting copy (use `clarify`)
 - Color/token issues (use `polish`)
 - Spacing/layout issues (use `polish`)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Typography CSS fixes | CSS (font-size, line-height, letter-spacing, margin) | Source files | Type ramp compliant, line-height per text type, intentional letter-spacing |
 
 ## Process
 

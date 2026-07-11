@@ -23,6 +23,18 @@ Git is your safety net. Treat commits as save points, branches as sandboxes, and
 - Organizing parallel work streams
 - Setting up a new project's git workflow
 
+## When NOT to Use
+
+- Repository initialization or `.gitignore` setup (use `git-init-and-versioning`)
+- Deployment or release branching and tagging (use `fullstack-shipping`)
+- Code review or PR approval decisions (use `code-review-and-quality`)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Git commits + branch history | Git repository commits + branch structure | The repository itself | Commits follow Conventional Commits format (`type(scope): description`), every commit is atomic (one logical change), commit message describes WHAT and WHY, tests + lint + typecheck pass before commit, branch is up to date with main before merge, no secrets or sensitive data in diff, branch naming follows `type/scope-description` pattern |
+
 ## Decision Tree: Rebase or Merge?
 
 ```

@@ -33,6 +33,10 @@ This is a **foundation skill** referenced by platform-specific skills (frontend-
 - Platform-specific work (use the dedicated platform skill)
 - API or backend work (use backend-api-mastery)
 
+## Output Contract
+
+No standalone artifact. UI architecture patterns and accessibility rules realized through platform-specific skills (frontend-web, frontend-mobile, frontend-desktop, frontend-pwa).
+
 ## Relationship to Platform Skills
 
 ```

@@ -18,6 +18,23 @@ metadata:
 
 This is a pre-output self-audit. Complements the project's post-commit audit (`universal-audit.sh`) and pre-commit Gate 8 (Anti-Slop). Catches incomplete output before it's delivered.
 
+## When to Use
+
+- Before delivering any code output to a user
+- After completing an implementation phase (before marking done)
+- When context limits force truncated responses
+- After any code generation that involves multiple files
+
+## When NOT to Use
+
+- One-off draft or throwaway code
+- Exploratory or research-only output
+- Output that will be immediately deleted or overwritten
+
+## Output Contract
+
+Complete, runnable source code output — delivered files (any language, any framework) in existing source tree, with scope declared before output started, zero truncation/placeholder/shortcut/deferred patterns detected via self-audit grep, no mid-function breaks, remaining scope stated if truncated, each file independently runnable as-delivered.
+
 ## Core Process
 
 ### Phase 1 — Scope Lock
@@ -64,7 +81,7 @@ When output exceeds context limits:
 | `// \.\.\.` or `/\* \.\.\. \*/` | Truncation | Block |
 | `rest is similar|same for|repeat for` | Structural shortcut | Block |
 | `for brevity|for brevity|you get the idea` | Evasion | Block |
-| `TODO:|FIXME:|HACK:|XXX:` | Deferred work | Block |
+| `TODO:|FIXME:|HACK:|XXX:|unimplemented!\(\)` | Deferred work | Block |
 | `add your|your.*here|replace with actual` | Incomplete integration | Block |
 | `let me know if you want|let me continue` | Hand-off | Warn |
 

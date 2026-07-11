@@ -24,6 +24,17 @@ Systematic debugging with structured triage. When something breaks, stop adding 
 - Performance degrades unexpectedly
 - User reports a bug
 
+## When NOT to Use
+
+- Code review or quality assessment (use `code-review-and-quality`)
+- Building new features (use feature implementation skills)
+- Speculative debugging without evidence
+- First-time flaky test without reproduction steps
+
+## Output Contract
+
+Bug fix with root cause documentation — modified source files (any language, any framework) in existing source tree, with regression test covering the fixed path, root cause documented (not symptoms), all existing tests passing, build succeeding.
+
 ## The Stop-the-Line Rule
 
 ```
@@ -88,3 +99,5 @@ After fixing a bug:
 - [ ] Regression test exists and passes
 - [ ] All existing tests pass
 - [ ] Build succeeds
+- [ ] Hypothesis formed before fix (not trial-and-error)
+- [ ] Git bisect considered if cause is a regression from known-good commit

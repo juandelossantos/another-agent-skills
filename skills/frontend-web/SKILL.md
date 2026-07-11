@@ -22,10 +22,17 @@ web-specific implementation.
 
 Build, design, or redesign any **web interface**.
 
-Do NOT use for:
+## When NOT to Use
+
 - Backend-only, CLI, non-visual software
 - Native mobile (use `frontend-mobile`)
 - Installable offline apps (use `frontend-pwa`)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Web interface | Source code | Project source directory | Accessible, responsive, token-compliant, build passes |
 
 ### Context Persistence Check
 

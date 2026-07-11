@@ -22,6 +22,18 @@ Feed agents the right information at the right time. Context is the single bigge
 - Switching between parts of a codebase
 - Setting up a new project for AI-assisted development
 
+## When NOT to Use
+
+- One-off queries with no context needs
+- Trivial changes with no dependencies
+- Already in an active session with fresh context
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Context configuration + session setup | Rules file (AGENTS.md/CLAUD.md) + session context loading | `.opencode/` or project root + session state | Rules file covers stack/commands/conventions/boundaries, context hierarchy followed (rules → spec → source → errors → history), session started with Brain Dump template, confusion surfaced with options not silently resolved, continuation over recap after context loss |
+
 ## Context Hierarchy
 
 ```

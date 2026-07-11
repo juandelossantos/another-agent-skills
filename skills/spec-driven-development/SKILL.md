@@ -18,9 +18,24 @@ metadata:
 
 **No specification, no code.** Forces clarity through research, critical questioning, and documented decisions.
 
+## When to Use
+
+**MANDATORY** for:
+- Starting any new project or feature
+- Ambiguous or one-sentence requirements that need clarification
+- Changes touching >3 files or crossing module boundaries
+- Architectural or technology decisions
+- Any task estimated at >30 minutes
+
 ## When NOT to Use
 
 Single-line fixes, typo corrections, truly trivial changes (1 file, < 10 lines, no logic). For everything else, run the pipeline.
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| SPEC.md specification + implemented code | Markdown document with 10 sections + source code | Root (`SPEC.md`) + `src/` | INTENT.md checked before spec (P0 gate), research with current year sources (P2), architecture decided with trade-offs (P3), SPEC.md has all 10 sections (Objective, Research, Architecture, Stack, Commands, Structure, Style, Testing, Acceptance Criteria, Boundaries), plan reviewed by user (P5), tasks broken with acceptance criteria (P6), explicit "yes" before code (P8→P10), spec committed alongside code, success criteria testable |
 
 ---
 
@@ -57,23 +72,7 @@ RESEARCH FINDINGS:
 
 ### P3 — Structured Clarification (MANDATORY before plan)
 
-After research and before deep discovery, systematically identify underspecified areas:
-
-1. **Coverage scan** — Read the spec draft and flag every noun, verb, and number that is vague: "multiple users" (how many?), "fast" (what metric?), "modern" (which stack?), "secure" (what threat model?).
-2. **Sequential questioning** — Ask one question per gap. Record each answer in `SPEC.md` under a "Clarifications" section. Do NOT batch questions (overwhelms user).
-3. **Skip option** — If user explicitly says "spike/exploratory, skip clarification" — note it in SPEC.md and proceed. Silence is not consent.
-
-Output:
-```
-CLARIFICATION LOG:
-  Q1: "Multiple users — how many concurrent?"
-  A1: "Up to 50 concurrent, no auth needed for MVP"
-  Q2: "Fast — what's the target load time?"
-  A2: "Under 2s on 4G"
-  → 4 gaps closed, 0 remaining.
-```
-
-Only after all gaps are closed (or explicitly waived) proceed to P4.
+After research and before deep discovery, systematically identify underspecified areas: **Coverage scan** (flag vague nouns/verbs/numbers), **Sequential questioning** (one question per gap, record in `SPEC.md` Clarifications section), **Skip option** (if user says "spike/exploratory" — note it, proceed). Only proceed after all gaps closed or explicitly waived.
 
 ### P4 — Deep Discovery (MANDATORY)
 Read `guides/DISCOVERY-GUIDE.md`. Surface 5+ assumptions. Ask 6 questions (objective, scope, context, constraints, stack, success metrics). Challenge: over-engineering, XY problems, scope creep, missing context. Lock with explicit "yes."
@@ -112,53 +111,19 @@ Full stop. Confirm: SPEC ✅ | PLAN ✅ | TASKS ✅ | ARCH ✅ | ENV ✅.
 Require explicit "yes" / "sí" / "proceed" / "let's go". Invalid: "ok" / "sure".
 Only then invoke `incremental-implementation` + `test-driven-development`.
 
-**After completion, log metrics:**
-```
-LOG METRIC: gate
-- project: [detect from git remote or directory]
-- gate_name: spec-implement
-- result: pass
-```
-```
-LOG METRIC: discovery
-- project: [detect]
-- duration_minutes: [P0 to P10]
-- questions_asked: [count]
-- user_confirms: [count]
-```
+After completion, log `LOG METRIC: gate — result: pass` and `LOG METRIC: discovery — duration, questions_asked, user_confirms`.
 
-**Quick reference:** `guides/SPEC-FLOW.md` for one-page pipeline visualization + memory aid.
+**Quick reference:** `guides/SPEC-FLOW.md` for one-page pipeline visualization.
 
 ### P11 — Convergence (post-implementation)
 
-After implementation, verify the codebase matches the spec:
-
-1. **Check each acceptance criterion** — For every item in SPEC.md Acceptance Criteria, confirm it is true in the running code. PASS or FAIL.
-2. **Check for unplanned features** — If code exists that was never in the spec, flag it. Either add to spec or justify removal.
-3. **Generate convergence report:**
-   ```
-   CONVERGENCE REPORT:
-     Acceptance criteria: 8/10 PASS, 2/10 FAIL
-       FAIL: "LCP < 2.5s on 4G" — measured 3.8s. Needs optimization pass.
-       FAIL: "Offline fallback" — not implemented. Spec says P1, built as P2.
-     Unplanned features: 1 — "Dark mode toggle" (not in spec, acceptable scope creep)
-     → Spec is accurate? Spec needs update? New tasks needed?
-   ```
-4. If gaps found: create new tasks, feed back through P7 (Tasks) and P2 (Clarification if needed).
-5. If clean: Deliver final report. Spec is done until next iteration.
+After implementation, verify codebase matches spec. Check each acceptance criterion, flag unplanned features, generate convergence report. See `references/CONVERGENCE-EXAMPLE.md` for full report template. If gaps found, create tasks through P7. If clean, spec is done until next iteration.
 
 ---
 
 ## Multi-Agent Integration
 
-Delegate phases via `multi-agent-orchestration`:
-```
-P0-P4: Orchestrator (single agent)
-P5:    Subagent writes SPEC.md
-P6-P7: Subagent plans + breaks tasks
-P9:    Parallel subagents per module
-```
-Each subagent receives only relevant skill. See `multi-agent-orchestration/guides/GUIDE.md`.
+Delegate phases via `multi-agent-orchestration` (see `multi-agent-orchestration/guides/GUIDE.md`): P0-P4 (orchestrator), P5 (subagent writes SPEC.md), P6-P7 (subagent plans tasks), P9 (parallel per module). Each subagent receives only the relevant skill.
 
 ---
 
@@ -211,5 +176,5 @@ Code before SPEC.md. Research skipped for non-trivial. Phase 9 bypassed with vag
 - [ ] Spec committed alongside code
 - [ ] Metrics logged after Phase 10
 - [ ] Convergence check done after implementation (P11)
-- [ ] - [ ] `INTENT.md` checked before spec (Discovery Gate P0)
+- [ ] `INTENT.md` checked before spec (Discovery Gate P0)
 - [ ] `[current year]` used in research (not hardcoded year)

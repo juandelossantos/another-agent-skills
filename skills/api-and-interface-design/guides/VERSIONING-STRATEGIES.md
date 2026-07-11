@@ -64,6 +64,32 @@ Announce → Deprecate → Support Window → Remove
 | Support window | 6-12 months | Old version still serves |
 | Remove | After window | 410 Gone or route to migration guide |
 
+## Breaking vs Non-Breaking
+
+| Change | Breaking? |
+|---|---|
+| Adding an optional field | No |
+| Adding a new endpoint | No |
+| Extending an enum (clients handle unknown) | No |
+| Changing field type | **Yes** — bump MAJOR |
+| Removing a field | **Yes** — bump MAJOR |
+| Renaming a field | **Yes** — bump MAJOR |
+| Adding a required field | **Yes** — bump MAJOR |
+| Changing endpoint URL or HTTP method | **Yes** — bump MAJOR |
+| Changing default values | **Yes** — bump MAJOR |
+| Narrowing string length or numeric range | **Yes** — bump MAJOR |
+| Changing error format | **Yes** — bump MAJOR |
+
+## Edge Cases
+
+| Scenario | Guidance |
+|---|---|
+| Security fix in deprecated version | Backport to latest 2 active versions |
+| Client ignores all version headers | Default to latest stable, document this |
+| Bug in V2 that V1 handled correctly | Fix in V2. Do not reopen V1 unless breaking change |
+| Internal schema changed, wire format same | No version bump — internal refactor only |
+| Adding pagination to unpaginated endpoint | Default page_size must match previous unlimited behavior |
+
 ## Anti-Patterns
 
 1. No versioning — clients break on every deploy.

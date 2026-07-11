@@ -20,6 +20,11 @@ Use when: user chooses premium agency / luxury / calm design direction.
 
 Engineer $150k+ agency-level digital experiences. Haptic depth, cinematic spatial rhythm, obsessive micro-interactions.
 
+## When NOT to Use
+
+- Industrial, brutalist, or raw mechanical aesthetics
+- Minimalist editorial or documentation UIs
+
 ## Banned Elements
 
 - Fonts: Inter, Roboto, Arial, Open Sans, Helvetica (use Geist, Clash Display, PP Editorial New, Plus Jakarta Sans)
@@ -27,6 +32,12 @@ Engineer $150k+ agency-level digital experiences. Haptic depth, cinematic spatia
 - Generic `1px solid` gray borders, harsh `shadow-md`
 - Edge-to-edge sticky navbars, symmetrical 3-column Bootstrap grids
 - `linear` or `ease-in-out` transitions
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Premium-styled visual layer | HTML/CSS — design tokens + motion definitions | Source files | Responsive ≤768px, WCAG AA focus + contrast, `prefers-reduced-motion`, spring-physics motion curve, backdrop-blur on fixed/sticky only, Double-Bezel card architecture, ≥44px touch targets, lazy-loaded below-fold media |
 
 ## Creative Variance Engine
 

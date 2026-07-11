@@ -52,7 +52,7 @@ Compare each metric against the Core Web Vitals thresholds (see SKILL.md table).
 
 **Frontend:**
 - **LCP > 2500ms**: Slowest-largest-element problem. Common causes: large images, slow server response, render-blocking resources.
-- **FID > 100ms / TBT > 200ms**: Main thread congestion. Common causes: heavy JavaScript, long tasks (>50ms), third-party scripts.
+- **INP > 200ms**: Interaction latency. Common causes: long tasks (>50ms), heavy JavaScript, third-party scripts blocking main thread.
 - **CLS > 0.1**: Layout instability. Common causes: images without dimensions, late-loading ads or embeds, dynamic content injection.
 - **TTFB > 800ms**: Server delay. Common causes: cold starts, slow database queries, CDN miss.
 
@@ -78,6 +78,6 @@ If the metric did not improve, return to Phase 2. If it improved but another met
 
 ## References
 
-- Core Web Vitals thresholds: web.dev/vitals (Google, 2026) — defines LCP ≤2500ms, FID ≤100ms, CLS ≤0.1 at 75th percentile
+- Core Web Vitals thresholds: web.dev/vitals (Google, 2026) — defines LCP ≤2500ms, INP ≤200ms, CLS ≤0.1 at 75th percentile
 - Lighthouse performance scoring: web.dev/performance-scoring (Google, 2026)
 - METR study on developer productivity: Becker et al., arXiv:2507.09089 (2025) — "measure before optimizing" is a direct application of their finding that developers overestimate their speed

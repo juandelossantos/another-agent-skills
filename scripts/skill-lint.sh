@@ -171,6 +171,13 @@ for skill_dir in "$SKILLS_DIR"/*/; do
     echo "       Add \"Do NOT use for...\" to prevent misuse."
     WARNINGS=$((WARNINGS + 1))
   fi
+
+  # Check 16: Output Contract — every skill must declare what it produces
+  if ! grep -q "^## Output Contract" "$skill_file" 2>/dev/null; then
+    echo "  ${YELLOW}⚠${NC} $skill_name — Missing Output Contract section"
+    echo "       Add \"## Output Contract\" table declaring artifact, format, location, quality criteria."
+    WARNINGS=$((WARNINGS + 1))
+  fi
 done
 
 echo ""

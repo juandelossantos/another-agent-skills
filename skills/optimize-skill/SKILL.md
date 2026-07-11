@@ -27,10 +27,17 @@ Performance fixes are deterministic. Profile first, then apply the specific fix 
 - Bundle size exceeds budget (500KB critical path JS)
 - Images are loading at full resolution on mobile
 
-Do NOT use for:
+## When NOT to Use
+
 - Speculative optimization (measure first)
 - Design changes that happen to improve performance
 - Pre-optimization during initial build (build clean first, optimize later)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Performance fixes | HTML/CSS/JS code changes | Source files | Profile-validated, Lighthouse ≥90, critical JS <500KB |
 
 ## Process
 

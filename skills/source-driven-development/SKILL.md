@@ -25,6 +25,12 @@ Before implementing with a framework or library, verify API syntax, configuratio
 - Implementing against a documented interface
 - Migrating between versions of a dependency
 - Any time correctness of API usage matters
+- Using a new dependency for the first time (verify API surface before writing code)
+- Upgrading a major version of a dependency (breaking changes expected — verify against new docs, not old knowledge)
+
+## Output Contract
+
+Source-cited implementation code — source files (any language, any framework) in existing source tree, with every API function/parameter verified against official documentation, dependency versions pinned, freshness check performed (changelog + publication date), no deprecated APIs used, re-verified after implementation against the same source, dependencies explicitly declared per Twelve-Factor App.
 
 ## When NOT to Use
 

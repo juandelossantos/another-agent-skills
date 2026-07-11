@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v4.1.0](https://img.shields.io/badge/version-4.1.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v4.2.0](https://img.shields.io/badge/version-4.2.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -114,6 +114,10 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v4.2.0 — Phase 3: Output Contracts Complete
+
+All 57 skills now have standardized **Output Contracts** — each declares its artifact, format, location, and quality criteria. No more guessing what a skill produces. Check 16 warnings eliminated (37→0). Word count advisories resolved (4→0). Pre-flight gate added enforcing `.gitignore` and `.env.example` before edits.
 
 ## What's New in v4.1.0 — Quick Start Guide & Navigation Overhaul
 
@@ -321,7 +325,7 @@ If it fails, ask the user before taking any action.
 | [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
 | [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v4.0.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v4.2.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

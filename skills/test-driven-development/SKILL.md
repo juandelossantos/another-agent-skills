@@ -23,7 +23,15 @@ Write a failing test before writing the code that makes it pass. For bug fixes, 
 - Adding edge case handling
 - User says "add tests" or "make sure it works"
 
-**When NOT to use:** Pure configuration changes, documentation updates, or static content changes.
+## When NOT to Use
+
+- Pure configuration changes, documentation updates, or static content changes
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Test files + tested source code | Test files (framework-agnostic) + modified source code | `tests/` or alongside source (any project structure) | Test-first (RED→GREEN→REFACTOR) for every behavior change, bug fixes include reproduction test before fix, all tests passing, test names describe behavior (not implementation), no skipped/disabled tests, no empty tests (assert on behavior, not just "no error") |
 
 ## Decision Tree: What Kind of Test?
 

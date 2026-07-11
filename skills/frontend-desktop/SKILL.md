@@ -22,10 +22,17 @@ desktop-specific implementation.
 
 Build any **desktop application** with native OS integration.
 
-Do NOT use for:
+## When NOT to Use
+
 - Web-only apps (use `frontend-web`)
 - Mobile apps (use `frontend-mobile`)
 - CLI tools (use terminal workflow)
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Desktop application | Source code + native config | Project source directory | Native OS integration, builds pass, signed distribution |
 
 ### Context Persistence Check
 

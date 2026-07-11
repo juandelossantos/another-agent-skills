@@ -27,8 +27,15 @@ Harden does NOT redesign. It fixes what audit finds: accessibility, input robust
 - User says "make this accessible"
 - User says "handle edge cases better"
 - Before shipping to production
+- After automated a11y scan (axe-core, Lighthouse) reveals violations
 
-Do NOT use for:
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Hardened source code | Modified source files (any stack, any platform) | Existing source tree (in-place) | Every fix traces to a specific audit finding, ARIA labels descriptive (not generic), form labels properly associated, `prefers-reduced-motion` respected, focus indicators visible on all interactive elements (WCAG 2.4.11), empty/loading/error states present, destructive actions confirmed, no design decisions made (mechanical only), AI slop re-scanned post-fix |
+
+## When NOT to Use
 - Design decisions (use `polish`, `redesign`)
 - Performance fixes (use `optimize`)
 - Copy rewriting (use `clarify`)
@@ -142,7 +149,8 @@ Same 25 anti-patterns as `critique-skill`. After applying fixes, re-scan for:
 - [ ] ARIA labels are descriptive, not generic
 - [ ] Form labels properly associated (`htmlFor`/`aria-labelledby`)
 - [ ] `prefers-reduced-motion` respected
-- [ ] Focus indicators visible on all interactive elements
+- [ ] Focus indicators visible on all interactive elements (WCAG 2.4.11 Focus Appearance)
+- [ ] Interactive elements keyboard-operable (tab order, arrow keys for widgets)
 - [ ] Empty/loading/error states present where meaningful
 - [ ] Destructive actions have confirmation
 - [ ] No design decisions made — only mechanical fixes

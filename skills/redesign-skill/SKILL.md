@@ -20,6 +20,18 @@ metadata:
 
 Use when: upgrading visual design of existing codebase. Not for greenfield projects.
 
+## When NOT to Use
+
+- Greenfield projects (use build skills instead)
+- Framework migrations or stack changes
+- Performance optimization without visual changes
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Visually redesigned source code (font swap, color system, interactive states, layout, components, missing states, typography) | Modified source files (CSS, markup, component files) — same framework, same structure | Existing source tree | All 87 checks across 8 categories scanned from REDESIGN-GUIDE.md, severity-diagnosed (🔴🟡🔵⚪), 7-step priority order applied, no existing functionality broken, same framework preserved, one fix category per commit, post-redesign visual verification performed, DESIGN.md + DESIGN-LOCK.md updated |
+
 ## Process: Scan → Diagnose → Fix
 
 ### Phase 1: Scan

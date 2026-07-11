@@ -22,10 +22,17 @@ mobile-specific implementation.
 
 Build, design, or redesign any **mobile app interface**.
 
-Do NOT use for:
+## When NOT to Use
+
 - Web-only tasks (use `frontend-web`)
 - Installable web apps (use `frontend-pwa`)
 - Backend-only tasks
+
+## Output Contract
+
+| Artifact | Format | Location | Quality Criteria |
+|---|---|---|---|
+| Mobile interface | Source code | Project source directory | Platform-compliant, accessible, token-compliant, build passes |
 
 ### Context Persistence Check
 

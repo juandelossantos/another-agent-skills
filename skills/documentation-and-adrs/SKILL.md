@@ -23,7 +23,13 @@ Document decisions, not just code. The most valuable documentation captures the 
 - Shipping a feature that changes user-facing behavior
 - Onboarding new team members or agents
 
-**When NOT to use:** Don't document obvious code or throwaway prototypes.
+## When NOT to Use
+
+- Documenting obvious code or throwaway prototypes
+
+## Output Contract
+
+Documentation artifacts — ADR markdown files (`NNNN-title.md`) with context, options, decision outcome, and consequences, inline documentation explaining the *why* (not the *what*), README with quick start and architecture overview, all files in `docs/` or `ADRs/` directory.
 
 ## Core Workflows
 
