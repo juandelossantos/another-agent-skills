@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../css/style.css?v=2">
+<link rel="stylesheet" href="../../css/style.css?v=3">
 <link rel="stylesheet" href="../css/docs.css">
 </head>
 <body>
@@ -30,20 +30,57 @@
 </header>
 
 <main class="docs" id="main">
-  <div class="container docs__content">
-    <h1 data-i18n="skills.skill_self_improvement_title">self-improvement</h1>
-    <p class="docs__tagline" data-i18n="skills.skill_self_improvement">Closed-loop quality: audit, diagnose, propose, execute with human approval.</p>
-    <div class="docs__meta">
-      <span class="docs__meta-item" data-i18n="skills.category">Meta-Skill</span>
-      <span class="docs__meta-item">v1.0.0</span>
+  <aside class="docs__sidebar">
+    <p class="sidebar__title">Docs</p>
+    <nav>
+      <ul class="sidebar__nav">
+        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../quickstart-guide.html" class="sidebar__link">Quick Start Guide</a></li>
+        <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
+        <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
+        <li><a href="../universal-loop.html" class="sidebar__link">Universal Loop</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">The Harness</a></li>
+        <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
+        <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
+        <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
+        <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
+        <li><a href="../evaluation.html" class="sidebar__link" data-i18n="nav.eval">Evaluation Guide</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="docs__content">
+    <div class="docs__breadcrumb"><a href="../index.html">Docs</a> <span>›</span> <a href="../skills.html">Skills</a> <span>›</span> self-improvement</div>
+
+    <h1>self-improvement</h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">Closed-loop quality: audit, diagnose, propose, execute with human approval.</p>
+
+    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); flex-wrap: wrap;">
+      <span class="skill-card__badge">88 lines</span>
+      <span class="skill-card__badge">guide: 4 guides</span>
     </div>
-    <div class="docs__section">
-      <h2 data-i18n="skills.overview">Overview</h2>
-      <p data-i18n="skills.skill_self_improvement_overview">Run the self-improvement loop: detect issues via universal-audit.sh, diagnose root cause, propose fix with ADR, execute with human approval. Max 3 iterations per session.</p>
+
+    <div class="docs__skill-content">
+      <h2>Overview</h2>
+      <p>Run the self-improvement loop: detect issues via universal-audit.sh, diagnose root cause, propose fix with ADR, execute with human approval. Max 3 iterations per session.</p>
+    </div>
+
+    <div class="docs__nav">
+      <a href="../skills.html" class="docs__nav-link">
+        <span class="docs__nav-label">← Back</span>
+        <span class="docs__nav-title">Skills Catalog</span>
+      </a>
     </div>
   </div>
+
+  <aside class="docs__toc">
+    <p class="toc__title">On this page</p>
+    <ul class="toc__list"></ul>
+  </aside>
 </main>
 
-<script src="../js/docs.js"></script>
+<!-- Skill pages use landing page CSS only, no docs.js needed -->
 </body>
 </html>

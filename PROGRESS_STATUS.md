@@ -3,7 +3,7 @@
 > **Last updated:** 2026-07-10  
 > **Current version:** 4.2.0 (auto-generated)
 > **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts ✅ (56/56 tasks, 0 missing) — docs honesty 🔜 → release 🔜
+> **Current plan:** `PLAN.md` — Phase 4: Docs Honesty 🔜 → Phase 5: Release v5.0.0 🔜
 
 ---
 

@@ -273,7 +273,7 @@ A log file in `.git/TEST_LOG` written by `scripts/log-test-results.sh`. Required
 
 The commit approval mechanism requiring three gates: (1) TEST_LOG fresh, (2) COMMIT_MANIFEST present, (3) COMMIT_APPROVED fresh (<5 min). All three must pass for the commit-msg hook to allow the commit.
 
-**Source:** `scripts/git-hooks/commit-msg` — v6
+**Source:** `scripts/git-hooks/commit-msg` — v4 (simplified from v6 three-gate)
 
 ### Time-Window Approval
 

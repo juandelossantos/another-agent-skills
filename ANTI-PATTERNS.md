@@ -45,7 +45,7 @@ git commit -m "fixed bugs and added features"
 
 **Rule violated:** Rule 12 — Mutation Approval Gate  
 **Skill responsible:** `git-workflow-and-versioning`  
-**Mechanical fix:** commit-msg hook v6 (three-gate: TEST_LOG + MANIFEST + APPROVED)
+**Mechanical fix:** commit-msg hook v4 (TDD gate) + pre-commit v11 (14 quality gates)
 
 ---
 
@@ -448,7 +448,7 @@ with open("agent_output.py") as f:
 
 | Category | Anti-Pattern | Key Fix | Mechanical Gate |
 |---|---|---|---|
-| Behavioral | Batch Commitment | Atomic commits with Manifest | commit-msg v6 |
+| Behavioral | Batch Commitment | Atomic commits with Manifest | commit-msg v4 |
 | Behavioral | Silent Assumption | Surface assumptions first | TASK_MANIFEST |
 | Behavioral | Scope Creep | Touch only what you must | Pre-commit diff check |
 | Context | Context Stuffing | 60/25/15 budget | Context compaction |

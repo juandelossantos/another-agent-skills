@@ -86,6 +86,7 @@ mindmap
       user-onboarding
     Frontend
       frontend-web
+      frontend-pwa
       frontend-mobile
       frontend-desktop
       frontend-ui-engineering
