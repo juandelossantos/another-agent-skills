@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v4.2.0](https://img.shields.io/badge/version-4.2.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v5.0.0](https://img.shields.io/badge/version-5.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 New in v4.0.0: Foundation Repair & Critical Stubs** — 15 stubs completed, 57 skills, frontmatter fixes, enforcement simplification. [Learn more →](#whats-new-in-v400--foundation-repair--critical-stubs)
+> **🧠 Latest: v5.0.0 — Phase 4: Docs Honesty Complete** — 42 issues fixed across 86 files. Zero stale versions, hooks, or nav. [Learn more →](#whats-new-in-v500--phase-4-docs-honesty-complete)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -115,6 +115,10 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 ---
 
+## What's New in v5.0.0 — Phase 4: Docs Honesty Complete
+
+**42 issues fixed, 86 files changed, browser-verified.** Zero stale versions, hooks, i18n gaps, or nav inconsistencies. Full nav chain rebuild across 12 pages. 56 skill page sidebars aligned. 5 empty pages filled. i18n normalized (EN+ES). Self-improvement.html rebuilt with standard template.
+
 ## What's New in v4.2.0 — Phase 3: Output Contracts Complete
 
 All 57 skills now have standardized **Output Contracts** — each declares its artifact, format, location, and quality criteria. No more guessing what a skill produces. Check 16 warnings eliminated (37→0). Word count advisories resolved (4→0). Pre-flight gate added enforcing `.gitignore` and `.env.example` before edits.
@@ -128,7 +132,7 @@ v4.1.0 adds a user-facing Quick Start Guide for daily workflow, full Spanish tra
 - **Quick Start Guide** ([`docs/quickstart-guide.html`](./docs/quickstart-guide.html), [`QUICKSTART.md`](./QUICKSTART.md)) — Step-by-step walkthrough of your first session, how skills activate, the 6 phases from your side, Guardian Pattern, common scenarios, and pro tips.
 - **Full Spanish i18n** — 60 keys translated for Quick Start Guide content. All 24 nav prev/next buttons translated in both EN/ES.
 - **Navigation chain** — All 13 docs pages fixed with correct prev/next buttons following sidebar order.
-- **COMMIT_APPROVED gate restored** — commit-msg v5: user must explicitly say "yes commit" before commits go through.
+- **COMMIT_APPROVED gate restored** — commit-approval.sh requires explicit "yes commit" in chat. commit-msg v4 validates TDD only.
 - **TDD gate expanded** — HTML, JSON, Markdown, YAML, CSS, and more now require tests. SKIP_PATTERNS for binaries and lock files.
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
@@ -383,7 +387,7 @@ Ideas borrowed from the ecosystem, adapted to fit our philosophy. We don't copy.
 | Source | What We Took | How We Adapted |
 |---|---|---|
 | [Singhal et al. — *Agent Skills* (Google, 2026)](https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view) | EDD (Evaluation-Driven Development), 4 failure modes, Read/Draft/Act tiers, eval toolkit (5 patterns), meta-skills, skill smells | Created v2.0.0 eval framework (`scripts/eval/`), skill tier system in frontmatter, smells detection in skill-lint.sh, 14 new skills completing the lifecycle pipeline |
-| [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 55 skills with lazy loading, guides, enforcement, and evaluation system |
+| [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 57 skills with lazy loading, guides, enforcement, and evaluation system |
 | [Osmani, Saboo & Kartakis — *The New SDLC With Vibe Coding*](https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view) (2026) | Harness engineering, factory model, agentic engineering spectrum | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added AI review checklist, expanded Memory system |
 | [github/spec-kit](https://github.com/github/spec-kit) (2026) | Structured clarification before planning, convergence checks, research artifacts, parallel task markers | Added P2 Clarification + P10 Convergence to `spec-driven-development`, `architecture/research.md` artifact, `[S]/[P]/[Pm]` markers to `planning-and-task-breakdown` |
 | [Affaan Mustafa / ECC](https://github.com/affaan-m/ECC) | Cross-platform enforcement, SOUL.md pattern, shared memory gap analysis | Created SOUL.md, mechanical enforcement, incident-driven evolution |

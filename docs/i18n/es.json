@@ -140,8 +140,8 @@
     "anyGitAgent": "Cualquier agente basado en Git",
     "anyGitAgentDesc": "Los hooks de git funcionan con cualquier agente que use git. Copia los hooks a tu proyecto:",
     "troubleshooting": "Solución de problemas",
-    "prevPage": "Descripción general",
-    "nextPage": "Ciclo de vida"
+    "prevPage": "Filosofía",
+    "nextPage": "Guía de inicio rápido"
   },
   "lifecycle": {
     "title": "El ciclo de vida en 6 fases",
@@ -171,7 +171,7 @@
     "phase6Goal": "Commits limpios. CI/CD. Deploy.",
     "purposeDriven": "Ejecución basada en propósito",
     "purposeDesc": "El ciclo de vida pondera las fases por el propósito de la sesión:",
-    "prevPage": "Primeros pasos",
+    "prevPage": "Guía de inicio rápido",
     "nextPage": "Skills",
     "phase1Desc": "Escribir el spec antes de cualquier código. Entrevistar requisitos. Bloquear alcance.",
     "phase1SkillList": "spec-driven-development, architecture-analysis, interview-me, idea-refine",
@@ -244,7 +244,7 @@
     "filterGit": "Git",
     "filterMeta": "Meta",
     "prevPage": "Ciclo de vida",
-    "nextPage": "El Harness",
+    "nextPage": "Bucle Universal",
     "engineering_fundamentals": "Filosofía de ingeniería universal. Descubrimiento, contratos, anti-slop, quality gates.",
     "context_engineering": "Dar a los agents la información correcta en el momento correcto.",
     "user_onboarding": "30 preferencias preguntadas una vez, persistidas para siempre.",
@@ -324,12 +324,9 @@
     "gate12": "Skill lint — validar estructura de skill en cambios de SKILL.md",
     "gate13": "Gate de eval — ejecutar evals, dashboard y regresión en skills modificados",
     "gate14": "Test Runner — ejecuta tests/run-all.sh antes de cada commit",
-    "commitMsgTitle": "Gates de Commit-Msg (v4)",
-    "commitMsgDesc": "El hook de commit-msg ejecuta 4 gates después de escribir el mensaje de commit:",
-    "cmsgGate1": "TEST_LOG — tests fueron ejecutados y el estado es PASS",
-    "cmsgGate2": "COMMIT_MANIFEST — manifiesto existe con archivos afectados",
-    "cmsgGate3": "COMMIT_APPROVED — aprobación es reciente (<5 min) y el mensaje coincide",
-    "cmsgGate4": "TDD gate — archivos de código deben tener archivos de test staged",
+    "commitMsgTitle": "Gate de Commit-Msg (v4)",
+    "commitMsgDesc": "El hook de commit-msg ejecuta un solo gate TDD después de escribir el mensaje de commit:",
+    "cmsgGate1": "TDD gate — archivos de código deben tener archivos de test correspondientes",
     "harnessTitle": "Arquitectura del Harness",
     "harnessDesc": "Un harness es la infraestructura mecánica que enforcea el comportamiento del agente. Este proyecto implementa 6 componentes de harness que convierten \"por favor sigue las reglas\" en \"literalmente no puedes romperlas\":",
     "harnessComp1": "1. Instrucciones y Reglas — AGENTS.md, SOUL.md, STEERING-GUIDE.md. Quién es el agente y qué no debe hacer jamás.",
@@ -489,7 +486,7 @@
     "stackConfigDesc": "Editar STACK_CONFIG.md en tu proyecto para personalizar comandos (test, lint, build, dev).",
     "userProfileDesc": "Tus preferencias están en ~/.config/opencode/user-profile.json. Persisten en todos los proyectos.",
     "prevPage": "Agentes",
-    "nextPage": "Descripción general",
+    "nextPage": "Guía de evaluación",
     "evalsTitle": "Skills auto-mejorables con Evals",
     "evalsDesc": "Los skills pueden verificar la calidad de su propio output usando archivos evals.md. Cada skill define checks de pass/fail que el agente ejecuta después. Esta es la implementación práctica del Desafío Mayéutico — analizar antes de ejecutar.",
     "memoryTitle": "Aprendiendo de sesiones pasadas",
@@ -509,8 +506,7 @@
     "tiersDesc": "Cada skill tiene un tier en su frontmatter: read-only (analiza, nunca escribe), draft (en desarrollo), action-allowed (capacidad completa).",
     "fullDoc": "Documentación completa",
     "fullDocDesc": "Para la referencia completa incluyendo especificación de formato, schema, objetivos de precisión de trigger, checklist de cobertura y ejemplos, leé EVAL-GUIDE.md.",
-    "prevPage": "Personalización",
-    "nextPage": "Descripción general"
+    "prevPage": "Personalización"
   },
   "footer": {
     "docs": "Documentación"
@@ -532,7 +528,7 @@
     "adapt": "7. adapt-skill — Responsive",
     "optimize": "8. optimize-skill — Performance",
     "delight": "9. delight-skill — Micro-interacciones",
-    "prevPage": "Filosofía",
+    "prevPage": "El Harness",
     "nextPage": "Reglas",
     "critiqueDesc": "Revisión heurística usando las 10 heurísticas de usabilidad de Nielsen y 4 tests de persona. Detecta patrones de AI slop. Produce un score por heurística.",
     "auditDesc": "Escaneo de 5 dimensiones: accesibilidad, performance, theming, responsive, anti-patrones. Scoring de severidad P0-P3.",

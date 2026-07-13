@@ -6,7 +6,7 @@
 #   SPEC Enforcement, Progress Status, Skill Lint, Eval,
 #   Test Runner
 #
-# Approval check moved to commit-msg hook (v7, 4 gates).
+# Approval check moved to commit-msg hook (v4, single TDD gate).
 # pre-commit runs BEFORE commit message is written, so it cannot
 # validate commit message matching.
 # commit-msg runs AFTER message is written and handles approval + TDD gate.

@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-10  
-> **Current version:** 4.2.0 (auto-generated)
+> **Last updated:** 2026-07-13  
+> **Current version:** 5.0.0 (auto-generated)
 > **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
-> **Current plan:** **v5.0.0 TDD-First** — `development/PLAN-v5-TDD-FIRST.md` — 8 phases: Phases 0-2 ✅ → Quick Start Guide ✅ → output contracts ✅ (56/56 tasks, 0 missing) — docs honesty 🔜 → release 🔜
+> **Current plan:** `PLAN.md` — Backlog: troubleshooting guide, new skill tracks
 
 ---
 
@@ -179,6 +179,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|
+| **5.0.0** | 2026-07-13 | **Phase 4: Docs Honesty** — 42 issues fixed across 6 groups (version truth, hook drift, i18n, nav, content gaps, polish). 86 files changed, +629/−470. Browser-verified nav chain, sidebar, theme/language toggles. 0 lint warnings. |
 | **4.2.0** | 2026-07-10 | **Phase 3: Output Contracts** — All 57 skills have standardized Output Contracts. Check 16 warnings: 37→0. Word count advisories resolved. Guides improved: CONTRACT-TEMPLATES, VERSIONING-STRATEGIES, WORKFLOW-SCENARIOS. Pre-flight gate added for .gitignore/.env.example. |
 | **4.1.0** | 2026-07-08 | Quick Start Guide & Navigation Overhaul: user-facing walkthrough, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate covers all text formats. |
 | **4.0.0** | 2026-07-08 | Foundation Repair & Critical Stubs: 15 stubs completed, frontmatter fixes, flat guide consolidation, 57 skills, CI portable via STACK_CONFIG.md. |

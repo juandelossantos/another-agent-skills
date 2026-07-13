@@ -48,7 +48,7 @@ sequenceDiagram
 **Implementation:**
 - Rule 12 in `rules/common/enforcement.md`
 - `scripts/commit-approval.sh` writes time-windowed approval token
-- `scripts/git-hooks/commit-msg` v6 verifies 3 gates
+- `scripts/git-hooks/commit-msg` v4 validates TDD gate
 
 **See also:** Rule 12, `AGENTS-EXTENDED.md` — Commit Manifest Protocol
 
@@ -193,29 +193,27 @@ flowchart TD
 
 ---
 
-### Three-Gate Approval
+### Single-Gate TDD
 
-**Trigger:** Every `git commit` in production or shared branches.
+**Trigger:** Every `git commit`.
 
-**Trade-off:** Security vs velocity. Three mechanical gates must pass before commit is allowed, preventing common failure modes.
+**Trade-off:** Simplicity vs ceremony. A single TDD gate enforces test coverage without blocking velocity. The user running `git commit` IS the approval.
 
-**Description:** The commit-msg hook v6 verifies three gates: (1) TEST_LOG must be fresh (<1 hour), proving tests were run; (2) COMMIT_MANIFEST must exist, proving the manifest was presented; (3) COMMIT_APPROVED must be fresh (<5 min), proving user approval. All three must pass.
+**Description:** The commit-msg hook v4 validates a single TDD gate: code changes must be paired with corresponding test changes. All other approval checks were removed. Pre-commit v11 (14 gates) handles quality checks before the message is written.
 
 ```mermaid
 flowchart LR
-    A["git commit"] --> B{"Gate 1: TEST_LOG?"}
-    B -->|"Fresh (<1h)"| C{"Gate 2: MANIFEST?"}
-    B -->|"Expired"| Z["BLOCKED"]
-    C -->|"Present"| D{"Gate 3: APPROVED?"}
-    C -->|"Missing"| Z
-    D -->|"Fresh (<5min)"| E["✅ COMMIT ALLOWED"]
-    D -->|"Expired"| Z
+    A["git commit"] --> B{"Pre-commit v11?"}
+    B -->|"14 gates pass"| C{"TDD: test paired?"}
+    B -->|"Any fail"| Z["BLOCKED"]
+    C -->|"Yes"| E["✅ COMMIT ALLOWED"]
+    C -->|"No"| Z
 ```
 
 **Implementation:**
-- `scripts/git-hooks/commit-msg` — three-gate verification
-- `scripts/log-test-results.sh` — writes TEST_LOG
-- `scripts/commit-approval.sh` — writes COMMIT_APPROVED
+- `scripts/git-hooks/pre-commit` — 14 quality gates (v11)
+- `scripts/git-hooks/commit-msg` — single TDD gate (v4)
+- User stages + runs `git commit` directly — no token, no hash, no friction
 
 **See also:** Rule 12, `scripts/git-hooks/commit-msg`
 
@@ -249,13 +247,13 @@ pie title Context Budget 60/25/15
 
 | Pattern | Trigger | Primary Gate | Risk without it |
 |---|---|---|---|
-| Guardian Pattern | Before any mutation | commit-msg hook v6 | Unapproved changes in repo |
+| Guardian Pattern | Before any mutation | commit-msg hook v4 | Unapproved changes in repo |
 | Lazy Loading | Skill > 100 lines | skill-lint.sh Check 6 | Context saturation at message 8 |
 | Skill Gate | Before implementation | pre-commit hook | Implementation without process |
 | Edit Barrier | Before/after each edit | edit-guard.sh | Corrupted or truncated files |
 | Commit Manifest | Before each commit | commit-approval.sh | Batch-mode, unapproved commits |
 | Design Gate | Visual/design work | design-gate.sh | Undocumented visual decisions |
-| Three-Gate Approval | Production commits | commit-msg v6 | Missing tests, missing approval |
+| Single-Gate TDD | Every commit | commit-msg v4 | Missing tests or approval |
 | Context Budget | >20 messages | Manual compaction | Degraded output quality |
 
 ---

@@ -1,19 +1,20 @@
 # Git Hooks — Another Agent Skills
 
-## commit-msg: Time-Window Approval (v5)
+## commit-msg: Single-Gate TDD Check (v4)
 
-**Purpose:** Mechanical enforcement of Rule 12. Blocks `git commit` unless
-`.git/COMMIT_APPROVED` exists. Checks: file exists? <5 min old? message matches?
+**Purpose:** Enforces TDD — blocks commits without corresponding test files.
+
+**Design:** Single-gate hook. All other approval checks removed. The user running `git commit` IS the approval.
 
 **Flow:**
-1. Agent presents DECISION POINT → User says "yes commit" in chat
-2. Agent runs `bash scripts/commit-approval.sh "message"`
-3. Agent runs `git commit` → Hook verifies freshness → Commit proceeds
-4. File deleted after commit (next commit needs fresh approval)
+1. Agent stages files and presents commit manifest in chat
+2. User runs: `git commit -m "message"`
+3. Hook validates TDD pairing (code change → test change)
+4. Commit proceeds if TDD gate passes
 
-## pre-commit: Pre-Flight + Integrity Gates (v8)
+## pre-commit: Pre-Flight + Quality Gates (v11)
 
-**Purpose:** Runs 9 checks before every commit: branch, staged, remote sync, HTML integrity, skill gate, build verification, anti-slop, debug tracking, PROGRESS_STATUS validation.
+**Purpose:** 14 gates running before every commit — Branch, Staged, Remote, HTML integrity, Override escalation, Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes, SPEC Enforcement, Progress Status, Skill Lint, Eval, Test Runner.
 
 **Installation per project:**
 ```bash

@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-10
-**Version:** 4.1.0
+**Date:** 2026-07-13
+**Version:** 5.0.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** ✅ HEALTHY
 
@@ -25,9 +25,9 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 4.1.0 | Consistent |
+| VERSION | ✅ 4.2.0 | Consistent |
 | Skill lint | ✅ 0 errors, 0 warnings | |
-| validate-skill-table | 🔴 FAIL | Guide counts validated |
+| validate-skill-table | ✅ PASS | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v4.0.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v4.2.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 74 guides | Distributed across 57 skills |
 | Gate count | ✅ 14 pre-commit gates, 1 commit-msg gate | Landing, docs, i18n EN/ES |
 

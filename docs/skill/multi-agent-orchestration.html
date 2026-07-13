@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../css/style.css?v=2">
+<link rel="stylesheet" href="../../css/style.css?v=3">
 <link rel="stylesheet" href="../css/docs.css">
 </head>
 <body>
@@ -34,18 +34,20 @@
     <p class="sidebar__title">Docs</p>
     <nav>
       <ul class="sidebar__nav">
-        <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+                <li><a href="../index.html" class="sidebar__link">Overview</a></li>
+        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
         <li><a href="../getting-started.html" class="sidebar__link">Getting Started</a></li>
+        <li><a href="../quickstart-guide.html" class="sidebar__link">Quick Start Guide</a></li>
         <li><a href="../lifecycle.html" class="sidebar__link">Lifecycle</a></li>
         <li><a href="../skills.html" class="sidebar__link sidebar__link--active">Skills</a></li>
-        <li><a href="../enforcement.html" class="sidebar__link">Enforcement</a></li>
-        <li><a href="../philosophy.html" class="sidebar__link">Philosophy</a></li>
+        <li><a href="../universal-loop.html" class="sidebar__link">Universal Loop</a></li>
+        <li><a href="../enforcement.html" class="sidebar__link">The Harness</a></li>
         <li><a href="../design-review.html" class="sidebar__link">Design Review</a></li>
         <li><a href="../rules.html" class="sidebar__link">Rules</a></li>
         <li><a href="../agents.html" class="sidebar__link">Agents</a></li>
         <li><a href="../customization.html" class="sidebar__link">Customization</a></li>
         <li><a href="../evaluation.html" class="sidebar__link" data-i18n="nav.eval">Evaluation Guide</a></li>
-      </ul>
+</ul>
     </nav>
   </aside>
 
@@ -61,63 +63,10 @@
     </div>
 
     <div class="docs__skill-content">
-<br>
-<h2 id="quick workflow">quick workflow</h2>
-<br>
-1. **Detect** — Is this task parallelizable? Check overlap. If files overlap → sequential.
-2. **Decompose** — Break into non-overlapping sub-tasks. Plan context per subagent.
-3. **Delegate** — Launch subagents via <code>task</code> tool. Pass only relevant skill + context.
-4. **Collect** — Receive results. Verify each subagent's output independently.
-5. **Integrate** — Merge files. Resolve conflicts. Run build/tests.
-6. **Verify** — Full integration test. Only Orchestrator commits.
-<br>
----
-<br>
-<h2 id="load order">load order</h2>
-<br>
-1. This SKILL.md (index)
-2. <code>GUIDE.md</code> — Full patterns, real examples, error recovery
-3. If parallelizing: reference target skill per subagent (<code>frontend-web`, `backend-api-mastery</code>, etc.)
-<br>
----
-<br>
-<h2 id="relation to other skills">relation to other skills</h2>
-<br>
-| This skill | Other skill | Why |
-|---|---|---|
-| Orchestrator delegates build | <code>incremental-implementation</code> | Subagent 1 builds module A |
-| Orchestrator delegates tests | <code>test-driven-development</code> | Subagent 2 writes tests |
-| Orchestrator delegates review | <code>code-review-and-quality</code> | Subagent 3 reviews output |
-<br>
----
-<br>
-<h2 id="red flags">red flags</h2>
-<br>
-<ul>
-<li>Subagents editing the same file simultaneously</li>
-<ul>
-<li>Subagents receiving full AGENTS.md</li>
-<ul>
-<li>Orchestrator commits without verifying subagent output</li>
-<ul>
-<li><code>explore</code> agent type used for writing code (read-only!)</li>
-<ul>
-<li>No error handling when subagent fails</li>
-<br>
----
-<br>
-<h2 id="verification">verification</h2>
-<br>
-<ul>
-<li>[ ] Sub-tasks have non-overlapping file assignments</li>
-<ul>
-<li>[ ] Each subagent receives only its relevant skill</li>
-<ul>
-<li>[ ] Subagent output verified before integration</li>
-<ul>
-<li>[ ] Orchestrator merges, tests, then commits (never subagents)</li>
-<ul>
-<li>[ ] Build + tests pass after integration</li>
+      <h2>Overview</h2>
+      <p>Multi-agent orchestration is a meta-skill for coordinating multiple AI coding agents in parallel, pipeline, or swarm modes. It augments the orchestrator (primary session agent) with a six-step workflow: Detect parallelizability, Decompose into non-overlapping sub-tasks, Delegate via the task tool with scoped context, Collect and verify each subagent's output independently, Integrate merged files, and Verify with a full build and test suite.</p>
+      <p>Use this skill when a task requires more than two agents, involves multi-module refactors with independent files, or follows a spec-driven pipeline with phase gates. Subagents must never edit overlapping files, must receive only their relevant skill (not the full AGENTS.md), and must never commit — only the orchestrator commits after verification.</p>
+      <p>The output is merged, tested source code from coordinated subagents. The skill integrates with incremental-implementation (build), test-driven-development (tests), and code-review-and-quality (review) as subagent roles within the pipeline.</p>
     </div>
 
     <div class="docs__nav">
