@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v4.2.0](https://img.shields.io/badge/version-4.2.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v5.0.0](https://img.shields.io/badge/version-5.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 Latest: v4.2.0 — Phase 3: Output Contracts Complete** — All 57 skills now have standardized Output Contracts. 0 lint warnings. [Learn more →](#whats-new-in-v420--phase-3-output-contracts-complete)
+> **🧠 Latest: v5.0.0 — Phase 4: Docs Honesty Complete** — 42 issues fixed across 86 files. Zero stale versions, hooks, or nav. [Learn more →](#whats-new-in-v500--phase-4-docs-honesty-complete)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -114,6 +114,10 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v5.0.0 — Phase 4: Docs Honesty Complete
+
+**42 issues fixed, 86 files changed, browser-verified.** Zero stale versions, hooks, i18n gaps, or nav inconsistencies. Full nav chain rebuild across 12 pages. 56 skill page sidebars aligned. 5 empty pages filled. i18n normalized (EN+ES). Self-improvement.html rebuilt with standard template.
 
 ## What's New in v4.2.0 — Phase 3: Output Contracts Complete
 

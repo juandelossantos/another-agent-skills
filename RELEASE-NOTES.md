@@ -1,5 +1,34 @@
 # Release Notes
 
+## 5.0.0 (2026-07-13) — Phase 4: Docs Honesty Complete
+
+### New (Phase 4 — 42 Issues Fixed, 86 Files Changed)
+- **Deep audit (2026-07-13):** Scanned every doc surface across 6 dimensions (version refs, i18n, links, nav/sidebar, steering files, stats/hooks). Found 42 issues at P0-P3 severity.
+- **Version drift eliminated:** VERSION→5.0.0. All surfaces consistently reference v5.0.0. HEALTH-CHECK.md, docs index, README badge all synced.
+- **Hook version drift fixed:** 16 stale references to deprecated v5/v6/v7 hooks across i18n, PATTERNS.md, ANTI-PATTERNS.md, GLOSSARY.md, git-hooks README — all updated to current v4.
+- **i18n normalized:** philosophy.principle8 translated to ES, faq.a10 content synced EN↔ES, enforcement gate count corrected (4→1), ES "gate" terminology unified (puertas), duplicate 08/→09/ numbering fixed.
+- **Nav chain rebuilt:** All 12 docs pages now follow correct sidebar order — enforcement→design-review (not philosophy), skills→universal-loop (not enforcement), getting-started→quickstart (not lifecycle), etc. 5 stale i18n nav keys updated.
+- **Sidebar aligned:** 56 skill pages now share same 13-item sidebar (added Quick Start Guide, Universal Loop) matching main docs sidebar order.
+- **Content gaps filled:** 5 empty skill pages (test-driven-development, code-review-and-quality, doubt-driven-development, observability-and-instrumentation, multi-agent-orchestration) now have Overview content.
+- **self-improvement.html rebuilt:** Standard template with sidebar, breadcrumb, nav — matching 56 other skill pages.
+- **CSS cache-buster unified:** All pages use `style.css?v=3`.
+
+### Changed
+- **PLAN.md** — Expanded Phase 4 from 6 to 26 tasks across 6 groups (A–F) + verification gate
+- **PROGRESS_STATUS.md** — Plan ref updated from old `development/PLAN-v5-TDD-FIRST.md` to root `PLAN.md`
+- **AGENTS.md** — frontend-pwa added to skill hierarchy mindmap
+- **SOUL.md** — Historical hook evolution clarified (v5→v4 simplification noted)
+- **PATTERNS.md** — Three-Gate Approval pattern replaced with Single-Gate TDD pattern
+- **README.md** — Banner updated to v4.2.0, Prior Art skill count 55→57, hook ref corrected v5→v4
+- **git-hooks README** — Rewritten to describe current commit-msg v4 + pre-commit v11
+- **fullstack-shipping.html** — Spanish "Ver"→"See" (3 occurrences)
+
+### Browser-Verified
+- Landing page: theme toggle, language toggle, FAQ accuracy (v4, not v7)
+- Docs pages: nav chain walked 12 pages, sidebar verified on skill pages
+- Skill lint: 0 errors, 0 warnings
+- Validate: skill-table PASS, release-notes PASS
+
 ## 4.2.0 (2026-07-10) — Phase 3: Output Contracts Complete
 
 ### New (Phase 3 — 57 Output Contracts)

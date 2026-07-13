@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-10
-**Version:** 4.2.0
+**Date:** 2026-07-13
+**Version:** 5.0.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** ✅ HEALTHY
 
