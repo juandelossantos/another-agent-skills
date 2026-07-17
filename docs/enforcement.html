@@ -59,7 +59,7 @@
     <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
 
     <h2 data-i18n="enforcement.level3">Level 3: TDD Enforcement</h2>
-    <p data-i18n="enforcement.level3Desc">The commit-msg hook v4 runs a single TDD gate: code files staged without corresponding test files block the commit. No COMMIT_APPROVED, no COMMIT_MANIFEST, no TEST_LOG — those gates were removed when approval logic was consolidated into pre-commit. The user runs <code>git commit</code> directly.</p>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v5) runs two gates: override token validation (OVERRIDE in body requires .git/OVERRIDE_APPROVED) and TDD enforcement (code files need matching test files). The pre-commit hook checks .git/DECISION_APPROVED and warns if missing. The user runs <code>git commit</code> directly.</p>
 
     <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v11)</h2>
     <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 14 checks before every commit:</p>
