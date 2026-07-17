@@ -109,7 +109,7 @@ assert "bash -n passes" "[ $? -eq 0 ]"
 # ─── Test 4: Header says v4 with TDD gate ───
 echo ""
 echo "Test 4: Version is v4"
-assert "version v4 in header" "head -3 '$HOOK' | grep -q 'v4'"
+assert "version v5 in header" "head -3 '$HOOK' | grep -q 'v5'"
 assert "TDD gate in header" "head -5 '$HOOK' | grep -qi 'TDD'"
 
 # ─── Summary ───

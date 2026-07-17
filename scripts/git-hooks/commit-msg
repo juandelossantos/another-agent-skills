@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Single-Gate TDD Check (v4)
-# Single gate: TDD enforcement only.
-# All other approval checks removed — user runs git commit directly.
-# Pre-commit hook (v11) runs before this for branch/TDD/test gates.
+# commit-msg — Another Agent Skills Override + TDD Gate (v5)
+# Two gates:
+#   0: Override token validation — OVERRIDE in body requires .git/OVERRIDE_APPROVED
+#   1: TDD gate — code files need test files (skipped if override validated)
 #
 # Flow:
-# 1. Agent stages files and presents manifest in chat
+# 1. Agent stages files and presents in chat
 # 2. User runs: git commit -m "message"
-# 3. commit-msg hook validates TDD gate
-#
-# No COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG required.
-# The user running git commit IS the approval.
+# 3. commit-msg hook validates override token (if OVERRIDE in body), then TDD gate
 
 set -euo pipefail
 
@@ -18,6 +15,7 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
 TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
+OVERRIDE_FILE="${REPO_ROOT}/.git/OVERRIDE_APPROVED"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -25,13 +23,67 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 CURRENT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
+FULL_MSG=$(cat "$COMMIT_MSG_FILE" 2>/dev/null || echo "")
+
+HAS_OVERRIDE=0
+if echo "$FULL_MSG" | grep -qE 'OVERRIDE:'; then
+  HAS_OVERRIDE=1
+fi
+
+# ─────────────────────────────────────────
+# Gate 0: Override token validation
+# ─────────────────────────────────────────
+if [ $HAS_OVERRIDE -eq 1 ]; then
+  OVERRIDE_VALID=0
+  if [[ -f "$OVERRIDE_FILE" ]]; then
+    OVERRIDE_TS=$(cat "$OVERRIDE_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1)
+    if [[ -n "$OVERRIDE_TS" ]]; then
+      OVERRIDE_EPOCH=$(date -d "$OVERRIDE_TS" +%s 2>/dev/null || echo "0")
+      NOW_EPOCH=$(date +%s)
+      DIFF=$(( NOW_EPOCH - OVERRIDE_EPOCH ))
+      if [[ "$DIFF" -le 600 ]]; then
+        OVERRIDE_VALID=1
+      else
+        echo -e "  ${RED}✗${NC} Override token stale (${DIFF}s old, max 600s)"
+      fi
+    else
+      echo -e "  ${RED}✗${NC} Override token has no valid timestamp"
+    fi
+  else
+    echo -e "  ${RED}✗${NC} OVERRIDE in commit body but no .git/OVERRIDE_APPROVED token found"
+  fi
+
+  if [ $OVERRIDE_VALID -eq 0 ]; then
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  ❌ COMMIT BLOCKED — Override not approved               ║"
+    echo "╠════════════════════════════════════════════════════════════╣"
+    echo "║  OVERRIDE in commit body requires .git/OVERRIDE_APPROVED  ║"
+    echo "║  with a timestamp less than 10 minutes old.               ║"
+    echo "║                                                           ║"
+    echo "║  The agent must present the override justification to     ║"
+    echo "║  the user and get explicit approval before writing the    ║"
+    echo "║  token. OVERRIDE text alone is not sufficient.            ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+    echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] OVERRIDE_BLOCKED: ${CURRENT_MSG}" >> "$APPROVAL_LOG"
+    exit 1
+  fi
+
+  echo -e "  ${GREEN}✓${NC} Override token valid — TDD gate will skip"
+  export COMMIT_MSG="$FULL_MSG"
+fi
 
 # ─────────────────────────────────────────
 # Gate 1: TDD gate — code files need test files
 # ─────────────────────────────────────────
 if [[ -f "$TDD_GATE" ]]; then
-  TDD_EXIT=0
-  TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1) || TDD_EXIT=$?
+  if [ $HAS_OVERRIDE -eq 1 ]; then
+    TDD_OUTPUT=$(COMMIT_MSG="$FULL_MSG" bash "$TDD_GATE" 2>&1)
+  else
+    TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1)
+  fi
+  TDD_EXIT=$?
   if [ $TDD_EXIT -eq 0 ]; then
     echo -e "  ${GREEN}✓${NC} TDD gate passed"
   else
