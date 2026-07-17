@@ -2,8 +2,9 @@
 # commit-approval.sh — Manifest preview + precondition check (v4)
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
-# READ-ONLY. Does NOT write COMMIT_APPROVED or COMMIT_MANIFEST.
-# The user runs git commit directly — no agent-controlled approval file.
+# READ-ONLY. Does NOT write DECISION_APPROVED or OVERRIDE_APPROVED.
+# The agent writes those tokens after user says "yes" — this script only prints the manifest.
+# The user runs git commit directly.
 #
 # Flow:
 # 1. Agent runs tests → bash scripts/log-test-results.sh
@@ -91,7 +92,8 @@ echo "  To commit, run this command in your terminal:"
 echo ""
 echo "    git commit -m \"${COMMIT_MSG}\""
 echo ""
-echo "  The pre-commit hook will validate TDD, tests, and gates."
+  echo "  The pre-commit hook will validate tests, build, and decision token."
+  echo "  The commit-msg hook will validate TDD gate and override token if present."
 echo "  ─────────────────────────────────────────────"
 echo ""
 exit 0
