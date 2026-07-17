@@ -161,3 +161,4 @@ Both tokens go in `.gitignore`. Local only. The pre-commit hook validates the to
 - New skill tracks: CLI, IoT, GameDev, Container
 - Self-host Google Fonts
 - Polish 31 `## When NOT to Use` sections
+- **Configurable test scoping** — `tests/run-all.sh` runs all suites regardless of changed files. On non-Node projects (Arduino, Python, etc.) the TDD gate should detect available test runners, scope to changed files, and skip gracefully if nothing is compatible. Currently hardcoded to this project's structure — Rule 0k violation (not universal).
