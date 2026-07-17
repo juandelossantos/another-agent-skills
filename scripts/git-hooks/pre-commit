@@ -540,6 +540,19 @@ else
   echo "  ${YELLOW}−${NC} No test command found (define in STACK_CONFIG.md or create tests/run-all.sh)"
 fi
 
+# === Test Count Gate (prevent accumulation) ===
+MAX_TESTS=11
+TEST_COUNT=$(find "${REPO_ROOT}/tests" -maxdepth 1 -name 'test-*.sh' 2>/dev/null | wc -l | tr -d ' ')
+if [[ "$TEST_COUNT" -gt "$MAX_TESTS" ]]; then
+  echo ""
+  echo "  ${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
+  echo "  ${YELLOW}║  TEST COUNT WARNING                                     ║${NC}"
+  echo "  ${YELLOW}║                                                         ║${NC}"
+  echo "  ${YELLOW}║  $TEST_COUNT test files found (max $MAX_TESTS).             ║${NC}"
+  echo "  ${YELLOW}║  Archive completed task tests to tests/archived/.        ║${NC}"
+  echo "  ${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
+fi
+
 echo ""
 echo "  ${GREEN}✓${NC} All Phase 3 gates passed"
 echo ""

@@ -3,7 +3,7 @@
 **Date:** 2026-07-17
 **Version:** 5.0.0
 **Auditor:** OpenCode Agent (auto-generated)
-**Status:** 🟡 DEGRADED
+**Status:** 🟡 DEGRADED — P0+P6.1 complete. TDD override removed. DESIGN-MD-SCHEMA.md created. 20/20 test suites (15 archived). Run `bash scripts/generate-health-check.sh --apply` to sync.
 
 ---
 
