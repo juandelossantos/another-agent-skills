@@ -148,19 +148,19 @@ sequenceDiagram
     participant Agent
     participant User
     
-    Agent->>User: COMMIT MANIFEST
-    Note over Agent,User: Files, lines, Rule 12 checklist
-    User-->>Agent: "yes commit" / "sí"
-    Agent->>Agent: commit-approval.sh
-    Note over Agent: Writes COMMIT_APPROVED token
-    Agent->>Agent: git commit
-    Note over Agent: Hook verifies 3 gates
+    Agent->>Agent: git add <files>
+    Agent->>User: DECISION POINT
+    Note over Agent,User: Files, message, changes, TDD status
+    User-->>Agent: "yes"
+    Agent->>Agent: echo \"$(date)\" > .git/DECISION_APPROVED
+    User->>User: git commit -m "message"
+    Note over User: Hook warns if no token
 ```
 
 **Implementation:**
-- `AGENTS-EXTENDED.md` — Commit Manifest Protocol
-- `scripts/commit-approval.sh` — writes timestamped approval
-- `scripts/git-hooks/commit-msg` — three-gate verification
+- `rules/common/enforcement.md` — Rule 12: Agent Stages, User Commits
+- `scripts/project-pre-commit` — DECISION_APPROVED check (warning)
+- `scripts/git-hooks/commit-msg` — OVERRIDE_APPROVED check (blocking)
 
 **See also:** Rule 12, `AGENTS-EXTENDED.md` — Time-Window Approval
 
