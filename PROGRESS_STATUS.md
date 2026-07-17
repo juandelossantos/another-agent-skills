@@ -142,7 +142,7 @@
 ### Completed
 
 - **Phase 3: Output Contracts** — All 57 skills now have standardized Output Contracts declaring artifact, format, location, and quality criteria. Check 16 warnings: 37 → 0. Word count advisories resolved: 4 → 0. Guides improved: CONTRACT-TEMPLATES.md (+WebSocket, +module boundaries), VERSIONING-STRATEGIES.md (+breaking rules, +edge cases), WORKFLOW-SCENARIOS.md (+6 browser testing scenarios).
-- **Phase QS: Quick Start Guide** — User-facing workflow guide, full Spanish i18n (60 keys), nav chain fixed across 13 docs pages, COMMIT_APPROVED gate restored, README prominent link.
+- **Phase QS: Quick Start Guide** — User-facing workflow guide, full Spanish i18n (60 keys), nav chain fixed across 13 docs pages, COMMIT_APPROVED gate restored (later superseded by DECISION_APPROVED + OVERRIDE_APPROVED in v5.1.0), README prominent link.
 - **Phase 2: Complete Critical Stubs** — 15 stub skills completed with full content, workflows, and guides. `visual-frontend-mastery` merged into `frontend-ui-engineering` (57 skills). 
 - **Phase 1: Foundation Repair** — 29 descriptions quoted (YAML-safe), 4 stray lines cleaned, 23 flat guides moved to `guides/`. Pre-flight blocks on `main`. ANSI colors fixed in all scripts. 13/13 test suites.
 
