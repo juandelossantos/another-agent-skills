@@ -57,11 +57,17 @@ A structured block presented to the user before every commit, listing files chan
 
 **Source:** `AGENTS-EXTENDED.md` — Commit Manifest Protocol
 
-### COMMIT_APPROVED
+### DECISION_APPROVED
 
-A filesystem token written by `commit-approval.sh` after user says "yes commit." The commit-msg hook verifies this file exists, is <5 minutes old, and matches the commit message before allowing the commit.
+A filesystem token written by the agent in `.git/DECISION_APPROVED` after the user explicitly says "yes" to a DECISION POINT. The pre-commit hook checks this file exists and is <10 minutes old, warning if missing. Proves the agent presented the staged files and commit message before the user ran `git commit`.
 
-**Source:** `scripts/commit-approval.sh`, `scripts/git-hooks/commit-msg`
+**Source:** `scripts/project-pre-commit`, `rules/common/enforcement.md`
+
+### OVERRIDE_APPROVED
+
+A filesystem token written by the agent in `.git/OVERRIDE_APPROVED` after the user explicitly approves an override. Required when the commit message contains `OVERRIDE:` in the body. The commit-msg hook checks this file exists and is <10 minutes old, BLOCKING the commit if missing. Prevents silent TDD gate bypass.
+
+**Source:** `scripts/git-hooks/commit-msg`, `rules/common/enforcement.md`
 
 ### Context Budget (60/25/15)
 
@@ -269,17 +275,13 @@ A log file in `.git/TEST_LOG` written by `scripts/log-test-results.sh`. Required
 
 **Source:** `scripts/log-test-results.sh`
 
-### Three-Gate Approval
+### Three-Gate Approval (historical)
 
-The commit approval mechanism requiring three gates: (1) TEST_LOG fresh, (2) COMMIT_MANIFEST present, (3) COMMIT_APPROVED fresh (<5 min). All three must pass for the commit-msg hook to allow the commit.
-
-**Source:** `scripts/git-hooks/commit-msg` — v4 (simplified from v6 three-gate)
+The previous commit approval mechanism (removed in commit-msg v4) requiring three gates: TEST_LOG, COMMIT_MANIFEST, and COMMIT_APPROVED. Replaced by the DECISION_APPROVED + OVERRIDE_APPROVED two-token system. See `rules/common/enforcement.md` for the current flow.
 
 ### Time-Window Approval
 
-The mechanism where `commit-approval.sh` writes a timestamped approval file valid for 5 minutes. Prevents reuse of old approvals across sessions or commits.
-
-**Source:** `scripts/commit-approval.sh`
+The mechanism where the agent writes a timestamped token (`.git/DECISION_APPROVED` or `.git/OVERRIDE_APPROVED`) valid for 10 minutes. Both expire after 10 minutes — prevents reuse across sessions.
 
 ### TOOL_GAP
 
@@ -317,5 +319,5 @@ The rule that before any implementation, the agent must ask: "Does this work on 
 | `rules/common/skills.md` | Intent Mapping, Skill Gate, Skill Hierarchy |
 | `AGENTS-EXTENDED.md` | Anti-Rationalization, Batch-Mode Prevention, Commit Manifest, DECISION POINT, Design Gate, Edit Guard, PR Review Gate, Three-Gate Approval |
 | `AGENTS-EXTENDED.md` | Edit-to-Commit Barrier, Skill Gate Enforcement |
-| `scripts/` | COMMIT_APPROVED, COMMIT_MANIFEST, TASK_MANIFEST, TEST_LOG, Time-Window Approval |
+| `scripts/` | DECISION_APPROVED, OVERRIDE_APPROVED, TASK_MANIFEST, Time-Window Tokens |
 | `.opencode/skills/` | Design Skin, Output Enforcement |
