@@ -146,7 +146,7 @@ name_matches_code() {
   code_basename=$(basename "$code_file")
   test_basename=$(basename "$test_file")
 
-  # Exact stem match
+  # Exact stem match (with case-insensitive fallback)
   [[ "$test_stem" == "$code_stem" ]] && return 0
 
   # Test file basename contains code file basename (handles multi-word like "pre-commit")
@@ -154,6 +154,9 @@ name_matches_code() {
 
   # Test stem contains code stem (handles "test_pre_commit_gates" for "pre_commit")
   [[ "$test_stem" == *"$code_stem"* ]] && return 0
+
+  # Case-insensitive stem match (handles DESIGN-MD-SCHEMA vs design-md-schema)
+  [[ "${test_stem,,}" == "${code_stem,,}" ]] && return 0
 
   return 1
 }
@@ -164,17 +167,6 @@ is_new_file() {
   local repo_dir="${REPO_DIR:-.}"
   git -C "$repo_dir" ls-tree HEAD -- "$file" 2>/dev/null | grep -q . && return 1
   return 0
-}
-
-has_override() {
-  local msg="${COMMIT_MSG:-}"
-  if [[ -z "$msg" ]]; then
-    # Try to read from COMMIT_EDITMSG if in a git repo
-    if [[ -f "${REPO_DIR}/.git/COMMIT_EDITMSG" ]]; then
-      msg=$(cat "${REPO_DIR}/.git/COMMIT_EDITMSG")
-    fi
-  fi
-  [[ "$msg" =~ OVERRIDE: ]]
 }
 
 log_gate() {
@@ -217,12 +209,6 @@ done <<< "$STAGED_FILES"
 # No code files staged → SKIP
 if [[ ${#CODE_FILES[@]} -eq 0 ]]; then
   log_gate "SKIP" "none" "${TEST_FILES[*]:-none}" "no-code-files"
-  exit 0
-fi
-
-# Check for OVERRIDE
-if has_override; then
-  log_gate "PASS" "${CODE_FILES[*]}" "${TEST_FILES[*]:-none}" "override-used"
   exit 0
 fi
 

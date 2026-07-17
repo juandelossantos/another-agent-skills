@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# test-commit-msg.sh — Test suite for commit-msg hook (v5: override + TDD gates)
+# test-commit-msg.sh — Test suite for commit-msg hook (v6: TDD only, no override)
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
-# Verifies that commit-msg hook validates override token and TDD gate.
+# Verifies that commit-msg hook enforces TDD gate with no override bypass.
 #
 # Usage: bash tests/test-commit-msg.sh
 # Exit: 0 if all tests pass, 1 if any fail
@@ -108,7 +108,7 @@ assert "bash -n passes" "[ $? -eq 0 ]"
 # ─── Test 4: Header says v4 with TDD gate ───
 echo ""
 echo "Test 4: Version is v4"
-assert "version v5 in header" "head -3 '$HOOK' | grep -q 'v5'"
+assert "version v6 in header" "head -3 '$HOOK' | grep -q 'v6'"
 assert "TDD gate in header" "head -5 '$HOOK' | grep -qi 'TDD'"
 
 # ─── Summary ───

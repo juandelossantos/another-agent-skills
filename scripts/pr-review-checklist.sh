@@ -173,12 +173,12 @@ HOOKS_OK=1
 for file in $PR_FILES; do
     case "$file" in
         scripts/git-hooks/pre-commit)
-            if ! grep -q "ESCAPE_HATCH\|OVERRIDE" "$file" 2>/dev/null; then
+            if ! grep -q "DECISION_APPROVED" "$file" 2>/dev/null; then
                 echo -e "  ${RED}✗${NC} $file missing escape hatch"
                 HOOKS_OK=0
             fi
-            if ! grep -q "DECISION_APPROVED\|OVERRIDE_APPROVED" "$file" 2>/dev/null; then
-                echo -e "  ${RED}✗${NC} $file missing DECISION_APPROVED/OVERRIDE_APPROVED"
+            if ! grep -q "DECISION_APPROVED" "$file" 2>/dev/null; then
+                echo -e "  ${RED}✗${NC} $file missing DECISION_APPROVED"
                 HOOKS_OK=0
             fi
             ;;

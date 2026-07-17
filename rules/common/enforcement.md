@@ -93,22 +93,11 @@ DECISION POINT
      presentation step happened before the commit.
 ```
 
-### Override Flow
+### No Override
 
-When the agent needs to bypass the TDD gate (e.g., doc-only changes, urgent fixes without tests):
+TDD has no override mechanism. Every code change requires a matching test file. The TDD gate validates: code file exists in staged → matching test file exists in staged → test was created before code (mtime check). No text-based bypass exists.
 
-```
-1. Agent: presents DECISION POINT with override justification
-2. Agent: "OVERRIDE needed: <reason>. Approve? (y/n)"
-3. User: "yes"
-4. Agent: echo "OVERRIDE: <reason> | $(date -Iseconds)" > .git/OVERRIDE_APPROVED
-5. User: git commit -m "message" -m "OVERRIDE: <reason>"
-6. Commit-msg hook: OVERRIDE in body requires .git/OVERRIDE_APPROVED
-   → If token exists and fresh (<10 min): PASS (green)
-   → If token missing or stale: BLOCK (red) — OVERRIDE text alone is forgeable
-```
-
-**The OVERRIDE text in the commit body alone is NOT sufficient.** The token is the mechanical proof.
+Only files matching skip patterns (lock files, binaries, images) are exempt.
 
 ### Rules:
 - **NEVER batch approval.** Previous approval does not transfer. Every mutation is a separate decision.
@@ -121,20 +110,19 @@ When the agent needs to bypass the TDD gate (e.g., doc-only changes, urgent fixe
 ### Mechanical Enforcement
 
 | Hook | Check | Behavior | What It Catches |
-|---|---|---|---|
+|---|---|---|---|---|
 | Pre-commit (`scripts/project-pre-commit`) | `.git/DECISION_APPROVED` exists and <10min | WARN (yellow) if missing or stale | Agent skipping the presentation step |
-| Commit-msg (`scripts/git-hooks/commit-msg`) | OVERRIDE in body + `.git/OVERRIDE_APPROVED` exists and <10min | BLOCK (red) if missing or stale | Agent forging OVERRIDE without approval |
+| Commit-msg (`scripts/git-hooks/commit-msg`) | TDD gate: code files need matching new test | BLOCK (red) if missing or mismatched | Code changes without tests. No override mechanism. |
 
-Both tokens live in `.git/` which is inherently local (never tracked by git). Never committed.
+DECISION_APPROVED token lives in `.git/` — inherently local, never tracked.
 
 ### Tokens
 
 | Token | File | Written By | Validated By | Blocks? |
-|---|---|---|---|---|
+|---|---|---|---|---|---|
 | Decision token | `.git/DECISION_APPROVED` | Agent (after user says "yes") | Pre-commit hook | No (warns) |
-| Override token | `.git/OVERRIDE_APPROVED` | Agent (after user approves override) | Commit-msg hook | Yes (blocks) |
 
-The decision token is a warn because the user running git commit IS the approval. The override token is a block because OVERRIDE text alone is trivially forgeable by any agent in any commit message.
+The decision token is a warn because the user running git commit IS the approval. The TDD gate has no override — every code change requires a matching test file.
 
 See AGENTS-EXTENDED.md for full DECISION POINT templates and examples.
 

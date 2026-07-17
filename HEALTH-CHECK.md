@@ -1,9 +1,9 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-16
-**Version:** 5.0.0 (Phase 6 planning)
+**Date:** 2026-07-17
+**Version:** 5.0.0
 **Auditor:** OpenCode Agent (auto-generated)
-**Status:** ✅ HEALTHY — Phase 6 planning complete on `feat/phase6-design-skills`. See PLAN.md for 12 subtasks across 4 groups (P0+P6.0-P6.3).
+**Status:** 🟡 DEGRADED
 
 ---
 
@@ -13,8 +13,8 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **0** |
-| Overall | **✅ HEALTHY** |
+| Warnings | **1** |
+| Overall | **🟡 DEGRADED** |
 
 ---
 
@@ -25,9 +25,9 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 4.2.0 | Consistent |
-| Skill lint | ✅ 0 errors, 0 warnings | |
-| validate-skill-table | ✅ PASS | Guide counts validated |
+| VERSION | ✅ 5.0.0 | Consistent |
+| Skill lint | ✅ 0 errors, 1 warnings | |
+| validate-skill-table | 🔴 FAIL | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
 

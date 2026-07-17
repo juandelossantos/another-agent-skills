@@ -43,30 +43,12 @@ echo "╚═══════════════════════�
 run_suite "Audit wrapper-contract" "bash tests/audit/run.sh"
 run_suite "Audit universal engine" "bash tests/audit/universal.sh"
 run_suite "Init-agents features"  "bash tests/init/run.sh"
-run_suite "TDD gate"              "bash tests/test-tdd-gate.sh"
-run_suite "Pre-commit gates"     "bash tests/test-pre-commit-gates.sh"
-run_suite "Gate 14 behavioral"  "bash tests/test-pre-commit-gate-14.sh"
-run_suite "Sync hooks"           "bash tests/test-sync-hooks.sh"
-run_suite "Commit-msg hook"     "bash tests/test-commit-msg.sh"
-run_suite "Commit-approval"     "bash tests/test-commit-approval.sh"
-run_suite "Frontmatter"         "bash tests/test-frontmatter.sh"
-run_suite "Pre-flight"          "bash tests/test-pre-flight.sh"
-run_suite "Flat files"          "bash tests/test-flat-files.sh"
-run_suite "Guide refs"          "bash tests/test-guide-refs.sh"
-run_suite "Skill content"       "bash tests/test-performance-skill.sh"
-run_suite "Observability"       "bash tests/test-observability-skill.sh"
-run_suite "API design"          "bash tests/test-api-design-skill.sh"
-run_suite "CI/CD"               "bash tests/test-ci-cd-skill.sh"
-run_suite "Skill merge"         "bash tests/test-skill-merge.sh"
-run_suite "Frontend UI"         "bash tests/test-frontend-ui-skill.sh"
-run_suite "Deprecation"         "bash tests/test-deprecation-skill.sh"
-run_suite "Source-driven"       "bash tests/test-source-driven-skill.sh"
-run_suite "Code simplif"        "bash tests/test-code-simplification-skill.sh"
-run_suite "Idea refine"         "bash tests/test-idea-refine-skill.sh"
-run_suite "Interview me"        "bash tests/test-interview-me-skill.sh"
-run_suite "Customize OpenCode"  "bash tests/test-customize-opencode-skill.sh"
-run_suite "Output skill"        "bash tests/test-output-skill.sh"
-run_suite "Three strikes"       "bash tests/test-three-strikes-skill.sh"
+# Auto-discover tests/test-*.sh — no manual registration needed
+for test_file in "$REPO_ROOT"/tests/test-*.sh; do
+  [ -f "$test_file" ] || continue
+  name=$(basename "$test_file" .sh | sed 's/^test-//')
+  run_suite "$name" "bash '$test_file'"
+done
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then
