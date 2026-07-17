@@ -132,7 +132,7 @@ v4.1.0 adds a user-facing Quick Start Guide for daily workflow, full Spanish tra
 - **Quick Start Guide** ([`docs/quickstart-guide.html`](./docs/quickstart-guide.html), [`QUICKSTART.md`](./QUICKSTART.md)) — Step-by-step walkthrough of your first session, how skills activate, the 6 phases from your side, Guardian Pattern, common scenarios, and pro tips.
 - **Full Spanish i18n** — 60 keys translated for Quick Start Guide content. All 24 nav prev/next buttons translated in both EN/ES.
 - **Navigation chain** — All 13 docs pages fixed with correct prev/next buttons following sidebar order.
-- **COMMIT_APPROVED gate restored** — commit-approval.sh requires explicit "yes commit" in chat. commit-msg v4 validates TDD only.
+- **COMMIT_APPROVED gate restored (v4.1.0)** — later superseded by DECISION_APPROVED + OVERRIDE_APPROVED tokens (v5.1.0). See `rules/common/enforcement.md` for current commit flow.
 - **TDD gate expanded** — HTML, JSON, Markdown, YAML, CSS, and more now require tests. SKIP_PATTERNS for binaries and lock files.
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
