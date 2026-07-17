@@ -1,9 +1,9 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-13
-**Version:** 5.0.0
+**Date:** 2026-07-16
+**Version:** 5.0.0 (Phase 6 planning)
 **Auditor:** OpenCode Agent (auto-generated)
-**Status:** ✅ HEALTHY
+**Status:** ✅ HEALTHY — Phase 6 planning complete on `feat/phase6-design-skills`. See PLAN.md for 12 subtasks across 4 groups (P0+P6.0-P6.3).
 
 ---
 

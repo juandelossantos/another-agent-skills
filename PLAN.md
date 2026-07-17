@@ -45,6 +45,62 @@
 
 ---
 
+### P0 — Enforcement Fix: Agent Stages, User Commits
+
+**Trigger:** I committed without approval on this branch. The agent should never run `git commit`. The correct flow: agent stages files (`git add`), presents the proposed commit to the user (files + message + reasoning), user reviews and runs the commit themselves.
+
+**Fix:** Two changes. First, document the correct flow so the skills enforce it. Second, pre-commit hook validates that the user explicitly approved the staged changes before allowing the commit.
+
+| Agent Does | User Does |
+|---|---|
+| `git add <files>` (stages relevant files) | Reviews staged files |
+| Presents: "Files staged, commit message ready, what changed, why." | Approves or requests changes |
+| Writes `.git/DECISION_APPROVED` after approval | Runs `git commit` |
+| — | Pre-commit hook validates token exists and is fresh |
+
+| Token | File | What It Proves |
+|---|---|---|
+| Decision token | `.git/DECISION_APPROVED` | Agent presented the staged files + message, user explicitly said "yes, commit this." Timestamp must be < 10 min old. |
+| Override token | `.git/OVERRIDE_APPROVED` | Same as above, but override was justified and approved. Only checked when commit body contains OVERRIDE. |
+
+**Old broken flow (what I did):**
+```
+Agent: git add PLAN.md && git commit -m "plan: Phase 6"
+→ No decision point, no user approval, commit happens
+```
+
+**Correct flow:**
+```
+Agent: git add PLAN.md
+Agent: "Staged: PLAN.md. Message: plan: Phase 6 — Design Skill Integrity.
+        This sets the task breakdown for the next phase. Approve? (y/n)"
+User: "yes"
+Agent: writes .git/DECISION_APPROVED
+User: git commit -m "plan: Phase 6 — Design Skill Integrity"
+→ Pre-commit hook: .git/DECISION_APPROVED exists + fresh → PASS → commit succeeds
+```
+
+**Override flow:**
+```
+Agent: "OVERRIDE needed: no test for this doc-only change. Approve? (y/n)"
+User: "yes"
+Agent: writes .git/OVERRIDE_APPROVED (with reason)
+User: git commit -m "..." -m "OVERRIDE: doc-only change"
+→ Pre-commit hook: OVERRIDE in body + .git/OVERRIDE_APPROVED exists + fresh → PASS
+→ Without token: BLOCK even with OVERRIDE in body
+```
+
+Both tokens go in `.gitignore`. Local only. The pre-commit hook validates the token exists and is recent — if the agent wrote it without approval, the user will see it when they check the file content before committing.
+
+| # | Task | Deliverable | Lines | Gate |
+|---|---|---|---|---|
+| P0.1 | Document correct commit flow in enforcement rules — agent stages, presents decision point, user commits | Update `rules/common/enforcement.md` — Rule 12: add "Agent never runs git commit. Agent stages and presents. User commits." | ~5 | — |
+| P0.2 | Add decision token check to pre-commit hook — blocks commit if `.git/DECISION_APPROVED` is missing or stale | Pre-commit hook upgrade: new Gate 1 (Decision Approval). Checks file exists, is < 10 min old. Runs before all other gates since it validates that user explicitly approved this commit. | ~10 | pre-commit hook |
+| P0.3 | Add override token check to pre-commit hook — OVERRIDE in message body requires `.git/OVERRIDE_APPROVED` | Pre-commit hook upgrade: new Gate 2 (Override Token). If commit body contains OVERRIDE, requires `.git/OVERRIDE_APPROVED` with fresh timestamp. | ~8 | pre-commit hook |
+| P0.4 | Add both tokens to `.gitignore` | `.gitignore` update | ~2 | — |
+
+---
+
 ### P6.0 — Gates & Schema (Foundation)
 
 | # | Task | Deliverable | Lines | Gate |

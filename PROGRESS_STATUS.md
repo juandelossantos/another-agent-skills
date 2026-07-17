@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-13  
-> **Current version:** 5.0.0 (auto-generated)
+> **Last updated:** 2026-07-16  
+> **Current version:** 5.0.0 (Phase 6 planning in progress)
 > **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
-> **Current plan:** `PLAN.md` — Backlog: troubleshooting guide, new skill tracks
+> **Current plan:** `PLAN.md` — Phase 6: Design Skill Integrity (v5.1.0) on `feat/phase6-design-skills`
 
 ---
 
