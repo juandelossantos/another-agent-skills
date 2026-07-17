@@ -125,7 +125,7 @@ When the agent needs to bypass the TDD gate (e.g., doc-only changes, urgent fixe
 | Pre-commit (`scripts/project-pre-commit`) | `.git/DECISION_APPROVED` exists and <10min | WARN (yellow) if missing or stale | Agent skipping the presentation step |
 | Commit-msg (`scripts/git-hooks/commit-msg`) | OVERRIDE in body + `.git/OVERRIDE_APPROVED` exists and <10min | BLOCK (red) if missing or stale | Agent forging OVERRIDE without approval |
 
-Both tokens are in `.gitignore`. Local only. Never committed.
+Both tokens live in `.git/` which is inherently local (never tracked by git). Never committed.
 
 ### Tokens
 
