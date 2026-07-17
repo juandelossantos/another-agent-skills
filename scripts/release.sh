@@ -201,7 +201,7 @@ TAG_MSG="v${NEW_VERSION}
 ${RELEASE_NOTES}"
 
 git -C "${REPO_DIR}" add VERSION RELEASE-NOTES.md README.md
-date +%s > "${REPO_DIR}/.git/COMMIT_APPROVED"
+date -Iseconds > "${REPO_DIR}/.git/DECISION_APPROVED"
 git -C "${REPO_DIR}" commit -m "release: v${NEW_VERSION}
 
 ${RELEASE_NOTES}"

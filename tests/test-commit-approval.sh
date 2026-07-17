@@ -5,7 +5,7 @@
 # Verifies that commit-approval.sh:
 # 1. Validates --plan-approved and --manifest-presented flags
 # 2. Blocks on main without --allow-main
-# 3. Does NOT write COMMIT_APPROVED or COMMIT_MANIFEST
+# 3. Does NOT write approval tokens (read-only script)
 #
 # Usage: bash tests/test-commit-approval.sh
 # Exit: 0 if all tests pass, 1 if any fail
@@ -51,13 +51,13 @@ echo "Test 3: Blocks without --manifest-presented"
 bash "$SCRIPT" "test" --plan-approved > /dev/null 2>&1
 assert "exit 1" "[ $? -eq 1 ]"
 
-# ─── Test 4: Does NOT write COMMIT_APPROVED ───
+# ─── Test 4: Does NOT write approval tokens ───
 echo ""
-echo "Test 4: Does not write COMMIT_APPROVED"
+echo "Test 4: Does not write DECISION_APPROVED"
 TMP=$(mktemp -d)
 (cd "$TMP" && git init -q -b dev-test && git config user.email "t@t.com" && git config user.name "T")
 bash "$SCRIPT" "msg" --plan-approved --manifest-presented > /dev/null 2>&1
-assert "COMMIT_APPROVED not created" "[ ! -f '$TMP/.git/COMMIT_APPROVED' ]"
+assert "DECISION_APPROVED not created" "[ ! -f '$TMP/.git/DECISION_APPROVED' ]"
 rm -rf "$TMP"
 
 # ─── Test 5: Does NOT write COMMIT_MANIFEST ───

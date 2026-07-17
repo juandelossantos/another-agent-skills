@@ -109,7 +109,8 @@ fi
 # Gate 5: Override escalation — block after 3 overrides on this branch
 # Token validation moved to commit-msg hook v7 because pre-commit runs BEFORE
 # COMMIT_EDITMSG is written, making message validation impossible here.
-# If no COMMIT_APPROVED exists when commit-msg runs, it will BLOCK.
+# If no OVERRIDE_APPROVED exists when commit-msg runs and OVERRIDE is in body, it will BLOCK.
+# See scripts/git-hooks/commit-msg (v5) for current override token validation.
 
 OVERRIDE_COUNT=$(count_overrides)
 if [ "$OVERRIDE_COUNT" -ge "$ESCALATION_THRESHOLD" ]; then

@@ -177,13 +177,13 @@ for file in $PR_FILES; do
                 echo -e "  ${RED}✗${NC} $file missing escape hatch"
                 HOOKS_OK=0
             fi
-            if ! grep -q "COMMIT_APPROVED" "$file" 2>/dev/null; then
-                echo -e "  ${RED}✗${NC} $file missing COMMIT_APPROVED"
+            if ! grep -q "DECISION_APPROVED\|OVERRIDE_APPROVED" "$file" 2>/dev/null; then
+                echo -e "  ${RED}✗${NC} $file missing DECISION_APPROVED/OVERRIDE_APPROVED"
                 HOOKS_OK=0
             fi
             ;;
         scripts/git-hooks/commit-msg)
-            if ! grep -q "COMMIT_APPROVED\|TDD_GATE\|tdd-gate" "$file" 2>/dev/null; then
+            if ! grep -q "OVERRIDE_APPROVED\|TDD_GATE\|tdd-gate" "$file" 2>/dev/null; then
                 echo -e "  ${RED}✗${NC} $file missing approval/TDD verification"
                 HOOKS_OK=0
             fi
