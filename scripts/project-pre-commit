@@ -60,6 +60,31 @@ echo "╔═══════════════════════�
 echo "║  LIFECYCLE ENFORCEMENT                     ║"
 echo "╚════════════════════════════════════════════╝"
 
+# === 0. DECISION APPROVAL CHECK ===
+DECISION_FILE="${REPO_ROOT}/.git/DECISION_APPROVED"
+DECISION_WARNED=0
+if [[ -f "$DECISION_FILE" ]]; then
+  DECISION_TS=$(cat "$DECISION_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1)
+  if [[ -n "$DECISION_TS" ]]; then
+    DECISION_EPOCH=$(date -d "$DECISION_TS" +%s 2>/dev/null || echo "0")
+    NOW_EPOCH=$(date +%s)
+    DIFF=$(( NOW_EPOCH - DECISION_EPOCH ))
+    if [[ "$DIFF" -gt 600 ]]; then
+      echo "  ${YELLOW}⚠${NC} Decision token stale (${DIFF}s old, max 600s)"
+      DECISION_WARNED=1
+    fi
+  else
+    echo "  ${YELLOW}⚠${NC} Decision token has no valid timestamp"
+    DECISION_WARNED=1
+  fi
+else
+  echo "  ${YELLOW}⚠${NC} No decision token found — agent may not have presented before commit"
+  DECISION_WARNED=1
+fi
+if [[ "$DECISION_WARNED" -eq 0 ]]; then
+  echo "  ${GREEN}✓${NC} Decision token fresh"
+fi
+
 # === 1. TESTS PASS ===
 if is_hook_enabled "tests" && [[ -n "$TEST_CMD" ]]; then
   echo ""
