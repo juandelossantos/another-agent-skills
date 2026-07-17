@@ -35,7 +35,7 @@
 |---|---|---|
 | Pre-commit hook | ✅ v11 (14 gates) | Executable (755) |
 | commit-msg hook | ✅ v4 | Single-gate TDD enforcement (name-pairing + new-test) |
-| commit-approval.sh | ✅ | Writes COMMIT_MANIFEST + COMMIT_APPROVED |
+| commit-approval.sh | ✅ | READ-ONLY manifest preview (tokens written by agent directly) |
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
