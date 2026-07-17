@@ -37,6 +37,7 @@ assert "memory.md in guides/" "[ -f skills/debugging-and-error-recovery/guides/m
 assert "AESTHETIC-DIRECTIONS.md in guides/" "[ -f skills/engineering-fundamentals/guides/AESTHETIC-DIRECTIONS.md ]"
 assert "PLATFORM-SKILL-TEMPLATE.md in guides/" "[ -f skills/engineering-fundamentals/guides/PLATFORM-SKILL-TEMPLATE.md ]"
 assert "DESIGN-MD-SCHEMA.md in guides/" "[ -f skills/engineering-fundamentals/guides/DESIGN-MD-SCHEMA.md ]"
+assert "DISCOVERY-GUIDE.md in guides/" "[ -f skills/engineering-fundamentals/guides/DISCOVERY-GUIDE.md ]"
 assert "GUIDE.md in guides/" "[ -f skills/multi-agent-orchestration/guides/GUIDE.md ]"
 assert "BOTTLENECK-GUIDE.md in guides/" "[ -f skills/optimize-skill/guides/BOTTLENECK-GUIDE.md ]"
 assert "SPACING-GUIDE.md in guides/" "[ -f skills/polish-skill/guides/SPACING-GUIDE.md ]"

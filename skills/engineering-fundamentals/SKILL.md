@@ -72,7 +72,7 @@ If no SPEC.md exists and this is new work (not a one-off tweak), invoke `spec-dr
 
 #### 2B: DESIGN.md — Visual Identity + Implementation Contract
 
-DESIGN.md has two layers. See `guides/DESIGN-MD-SCHEMA.md` for the full 17-section template.
+DESIGN.md has two layers. See `guides/DESIGN-MD-SCHEMA.md` for the full 17-section template. See `guides/DISCOVERY-GUIDE.md` for the discovery interview flow that produces `design/design-discovery.md`.
 
 **Sections 1-12 (Visual Identity):** Colors, Typography, Spacing, Border radius, Elevation, Motion, Component states. Filled by direction skills. Blocks if missing required fields.
 

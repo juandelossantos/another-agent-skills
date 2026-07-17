@@ -127,6 +127,24 @@ install_custom_skills() {
             ok "Installed custom skill: ${skill_name}"
         fi
     done
+
+    # Remove custom skills that no longer exist in the repo (prevent stale/deprecated skills)
+    local cleaned=0
+    for existing_path in "${GLOBAL_SKILLS_DIR}"/*/; do
+        local existing_name
+        existing_name="$(basename "${existing_path}")"
+        # Skip symlinks (official skills from remote)
+        if [[ -L "${existing_path}" ]]; then continue; fi
+        # Skip if skill still exists in repo
+        if [[ -d "${custom_dir}/${existing_name}" ]]; then continue; fi
+        # Remove — skill was deleted from repo
+        rm -rf "${existing_path}"
+        warn "Removed deprecated custom skill: ${existing_name} (no longer in repo)"
+        ((cleaned++)) || true
+    done
+    if [[ "${cleaned}" -gt 0 ]]; then
+        info "Cleaned ${cleaned} deprecated custom skills."
+    fi
 }
 
 # ---------------------------------------------------------------------------
