@@ -17,10 +17,10 @@ TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
 OVERRIDE_FILE="${REPO_ROOT}/.git/OVERRIDE_APPROVED"
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+NC=$'\033[0m'
 
 CURRENT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
 FULL_MSG=$(cat "$COMMIT_MSG_FILE" 2>/dev/null || echo "")
