@@ -1,6 +1,6 @@
 # ADR-007: Time-Window Approval for Commits
 
-**Status:** Accepted
+**Status:** Superseded (see DECISION_APPROVED + OVERRIDE_APPROVED in `rules/common/enforcement.md`)
 **Date:** 2026-06-17
 **Deciders:** Project maintainer (after INCIDENT_004b)
 
