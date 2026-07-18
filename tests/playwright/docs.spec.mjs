@@ -35,5 +35,5 @@ test('self-improvement skill page loads', async ({ page }) => {
 test('enforcement page shows current gate counts', async ({ page }) => {
   await page.goto('/docs/enforcement.html');
   const body = await page.textContent('body');
-  expect(body).toContain('14 gates');
+  expect(body).toContain('15 gates');
 });

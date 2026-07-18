@@ -50,7 +50,7 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.enforcement">The Harness</span></div>
     <h1 data-i18n="enforcement.title">The Harness</h1>
-    <p data-i18n="enforcement.subtitle">6 components. 14 gates. Zero shortcuts. Agent = Model + Harness.</p>
+    <p data-i18n="enforcement.subtitle">6 components. 15 gates. Zero shortcuts. Agent = Model + Harness.</p>
 
     <h2 data-i18n="enforcement.level1">Level 1: Process Rules</h2>
     <p data-i18n="enforcement.level1Desc">Agent remembers rules from AGENTS.md. Load-bearing for simple tasks, but fails when attention drifts.</p>
@@ -59,11 +59,12 @@
     <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
 
     <h2 data-i18n="enforcement.level3">Level 3: TDD Enforcement</h2>
-    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v5) runs two gates: override token validation (OVERRIDE in body requires .git/OVERRIDE_APPROVED) and TDD enforcement (code files need matching test files). The pre-commit hook checks .git/DECISION_APPROVED and warns if missing. The user runs <code>git commit</code> directly.</p>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v6) runs a single TDD gate — code files need matching test files. No override mechanism exists. The pre-commit hook checks .git/DECISION_APPROVED and warns if missing. The user runs <code>git commit</code> directly.</p>
 
     <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v11)</h2>
-    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 14 checks before every commit:</p>
+    <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 15 checks before every commit:</p>
     <ul>
+      <li data-i18n="enforcement.gate0">Gate 0: DECISION_APPROVED — token exists and is fresh (&lt;10 min)</li>
       <li data-i18n="enforcement.gate1">Branch check — not on detached HEAD</li>
       <li data-i18n="enforcement.gate2">Staged changes — something is staged</li>
       <li data-i18n="enforcement.gate3">Remote sync — no unpulled remote changes</li>
@@ -80,7 +81,7 @@
       <li data-i18n="enforcement.gate14">Test Runner — runs tests/run-all.sh, blocks if any suite fails</li>
     </ul>
 
-    <h3 data-i18n="enforcement.commitMsgTitle">Commit-Msg Gate (v4)</h3>
+    <h3 data-i18n="enforcement.commitMsgTitle">Commit-Msg Gate (v6)</h3>
     <p data-i18n="enforcement.commitMsgDesc">The commit-msg hook runs 1 gate (TDD enforcement) after the commit message is written:</p>
     <ul>
       <li data-i18n="enforcement.cmsgGate4">TDD gate — code files must have test files staged. Name-pairing check (test name matches code) + new-test enforcement (at least one staged test is new).</li>
@@ -93,7 +94,7 @@
       <li data-i18n="enforcement.harnessComp2">2. Tools — 57 skills loaded on demand via skill gate.</li>
       <li data-i18n="enforcement.harnessComp3">3. Sandboxes & Execution — Terminal, git workspace, CI.</li>
       <li data-i18n="enforcement.harnessComp4">4. Orchestration — skill-gate.sh, init-agents.sh, multi-agent patterns.</li>
-      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v11 (14 gates, Test Runner), commit-msg v4 (TDD gate), commit-approval.sh.</li>
+      <li data-i18n="enforcement.harnessComp5">5. Guardrails & Hooks — Pre-commit v11 (15 gates including Gate 0, Test Runner), commit-msg v6 (TDD gate — no override).</li>
       <li data-i18n="enforcement.harnessComp6">6. Observability — project-metrics, HEALTH-CHECK.md, PROGRESS_STATUS.md.</li>
     </ul>
 

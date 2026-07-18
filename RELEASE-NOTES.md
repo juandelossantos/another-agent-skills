@@ -1,5 +1,48 @@
 # Release Notes
 
+## 6.0.0 (2026-07-17) — Phase 6: Design Skill Integrity
+
+### New (Phase 6 — Design Flow Redefinition)
+
+- **Design Flow Transformation** — The entire design process is now governed by mechanical gates. A 17-section DESIGN.md schema (`DESIGN-MD-SCHEMA.md`) serves as the universal contract for all platforms. `design-gate.sh` runs in 3 modes (strict/audit/verify): strict blocks on checkable violations (missing tokens, wrong contrast, no breakpoints), audit warns on everything, verify ensures pre-merge compliance.
+
+- **TDD Enforcement (No Override)** — commit-msg hook v6 runs a single TDD gate with zero bypass mechanisms. Every code change requires a name-pairing test. New-test enforcement: at least one test must be new. mtime check: test before code (RED→GREEN). No override mechanism exists.
+
+- **Gate 0: DECISION_APPROVED Block** — Pre-commit Gate 0 now BLOCKS (upgraded from warn) if `.git/DECISION_APPROVED` token is missing or stale (>10 min). The agent must present a DECISION POINT, get explicit approval, write the token, then the user commits. 15 gates total (up from 14).
+
+- **design-upgrade.sh** — Auto-extracts design tokens from existing codebases: CSS vars (spacing, color, breakpoints, transitions), HTML (framework, font loading, icons, theme), package.json (framework detection). Detects platform automatically, fills gaps with 2-3 targeted user questions.
+
+- **token-validate.sh** — CSS drift detection against DESIGN.md tokens. Scans CSS for values not in the token schema, reports drift percentage. Platform-specific scanners: web (CSS vars), mobile (StyleSheet), desktop (Tauri config).
+
+- **approval-gate.sh** — Prototype→approved transition gate. Requires explicit "APPROVED" with timestamp before moving from `design/prototype/` to `design/approved/`.
+
+- **Direction + Platform Wiring** — Direction skills (industrial-brutalist-ui, minimalist-ui, soft-premium-ui) now wire into the DESIGN.md generation flow, filling sections 1-12. Platform skills (web, mobile, desktop, PWA) fill sections 13-17. The schema ensures direction choices compose with any platform.
+
+- **critique-skill Upgrade** — Optional visual design pass with 5 felt dimensions: color harmony, typographic craft, visual hierarchy, spatial accuracy, mood/tone. These are human-review dimensions (not automated blocks) per Contra Design Crit research (best model achieves 54.3% vs 74.1% human agreement on aesthetic dimensions).
+
+- **Prompt Drift Detection** — token-validate.sh now includes semantic checks: output using tokens/colors/components not in DESIGN.md or spec. Catches hallucinated content, not just token drift.
+
+- **43 Stale Ref Cleanup** — All COMMIT_APPROVED references from previous flows replaced with current DECISION_APPROVED + commit-msg v6 flow across 19 files.
+
+- **Install.sh Deprecated Cleanup** — install.sh now removes deprecated skills from global install on upgrade.
+
+### Changed
+
+- **PLAN.md** — Release plan added for v6.0.0 with full pre-release audit (15 doc files)
+- **enforcement.html** — Gate count corrected 14→15, commit-msg v4→v6, Gate 0 (DECISION_APPROVED) documented
+- **index.html (homepage + docs)** — Version refs updated, What's New sections rewritten for v6.0.0
+- **i18n EN/ES** — Hero subtitle, stats, FAQ all updated to reflect 15 gates
+- **quickstart-guide.html** — Gate references updated from 14→15
+- **design-review.html** — Phase 6 design gate pipeline referenced
+- **DESIGN-WORKFLOW.md** — "futuro" skills now marked as current/implemented
+
+### Infrastructure
+
+- 9 new test files for v6.0.0 release verification
+- Playwright tests cover landing page and docs page rendering
+
+---
+
 ## 5.0.0 (2026-07-13) — Phase 4: Docs Honesty Complete
 
 ### New (Phase 4 — 42 Issues Fixed, 86 Files Changed)

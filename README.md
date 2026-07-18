@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v5.0.0](https://img.shields.io/badge/version-5.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 Latest: v5.0.0 — Phase 4: Docs Honesty Complete** — 42 issues fixed across 86 files. Zero stale versions, hooks, or nav. [Learn more →](#whats-new-in-v500--phase-4-docs-honesty-complete)
+> **🧠 Latest: v6.0.0 — Phase 6: Design Skill Integrity** — Design flow redefined with mechanical gates, 17-section DESIGN.md schema, TDD enforcement (no override), Gate 0 block. [Learn more →](#whats-new-in-v600--phase-6-design-skill-integrity)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -71,7 +71,7 @@ Run `init-agents` in every new project — it:
 | **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 74 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v6 (TDD gate — no override) |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (15 gates including Gate 0, Test Runner), commit-msg v6 (TDD gate — no override) |
 | **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
 
 [**Full Harness architecture →**](./docs/HARNESS.md)
@@ -100,7 +100,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 **Six Layers Beyond Prompts:**
 
 1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 14 gates (including Test Runner). Single-gate TDD enforcement via commit-msg v6 (no override). No other framework does this.
+2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 15 gates (including Gate 0 and Test Runner). Single-gate TDD enforcement via commit-msg v6 (no override). No other framework does this.
 3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
 4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
 5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
@@ -114,6 +114,21 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v6.0.0 — Phase 6: Design Skill Integrity
+
+**Design flow redefined with mechanical gates.** The entire design process — from discovery to production — is now governed by deterministic enforcement, not agent memory.
+
+- **Design Flow Transformation** — 17-section DESIGN.md schema (`DESIGN-MD-SCHEMA.md`) serves as universal contract. `design-gate.sh` runs in 3 modes: strict (blocks on checkable violations), audit (warns), verify (pre-merge compliance).
+- **TDD Enforcement (No Override)** — commit-msg v6 blocks every code change without a matching test. No bypass. Zero override mechanism.
+- **Gate 0: DECISION_APPROVED Block** — Pre-commit now BLOCKS if no decision token exists. 15 gates total (was 14).
+- **design-upgrade.sh** — Auto-extracts design tokens from existing codebases (CSS vars, HTML, package.json). Fills gaps with 2-3 questions.
+- **token-validate.sh** — CSS drift detection against DESIGN.md tokens. Platform-specific scanners.
+- **Direction + Platform Wiring** — Direction skills (brutalist, minimalist, premium) compose with platform skills through the schema.
+- **critique-skill Upgrade** — Optional visual design pass with 5 felt dimensions for human review.
+- **43 stale refs cleaned** — All COMMIT_APPROVED references replaced.
+
+[**Full release notes →**](./RELEASE-NOTES.md)
 
 ## What's New in v5.0.0 — Phase 4: Docs Honesty Complete
 
@@ -132,7 +147,6 @@ v4.1.0 adds a user-facing Quick Start Guide for daily workflow, full Spanish tra
 - **Quick Start Guide** ([`docs/quickstart-guide.html`](./docs/quickstart-guide.html), [`QUICKSTART.md`](./QUICKSTART.md)) — Step-by-step walkthrough of your first session, how skills activate, the 6 phases from your side, Guardian Pattern, common scenarios, and pro tips.
 - **Full Spanish i18n** — 60 keys translated for Quick Start Guide content. All 24 nav prev/next buttons translated in both EN/ES.
 - **Navigation chain** — All 13 docs pages fixed with correct prev/next buttons following sidebar order.
-- **COMMIT_APPROVED gate restored (v4.1.0)** — later superseded by DECISION_APPROVED + OVERRIDE_APPROVED tokens (v5.1.0). See `rules/common/enforcement.md` for current commit flow.
 - **TDD gate expanded** — HTML, JSON, Markdown, YAML, CSS, and more now require tests. SKIP_PATTERNS for binaries and lock files.
 
 > See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
@@ -331,12 +345,12 @@ If it fails, ask the user before taking any action.
 | [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
 | [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v4.2.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.0.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v11 (14 gates) |
+| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v11 (15 gates including Gate 0) |
 | [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v6 (TDD only — no override. User runs git commit directly) |
 | [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |

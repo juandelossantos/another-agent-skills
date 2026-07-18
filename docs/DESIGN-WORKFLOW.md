@@ -1,6 +1,7 @@
 # Design Workflow
 
 > Mapa del ecosistema de diseño: cómo las skills de diseño se relacionan, encadenan y ejecutan.
+> **Actualizado para v6.0.0 — Phase 6: Design Skill Integrity.**
 
 ## Arquitectura
 
@@ -77,13 +78,10 @@ engineering-fundamentals/guides/DESIGN-CORE.md
 | Skill | Fase | Qué hace | Depende de |
 |---|---|---|---|
 | `engineering-fundamentals/guides/DESIGN-CORE.md` | Brief + Dials | Brief Inference, Three Dials, Color, Dark Mode | — |
-| `critique-skill` *(futuro)* | Review | Scoring Nielsen + personas + slop detection | DESIGN-CORE.md |
-| `audit-skill` *(futuro)* | Review | 5-dimension technical quality (a11y, perf, theming, responsive, anti-patterns) | — |
-| `clarify-skill` *(futuro)* | Harden | Reescritura de UX copy | — |
-| `distill-skill` *(futuro)* | Refine | Simplificación ruthlessness | — |
-| `delight-skill` *(futuro)* | Refine | Personalidad + micro-interactions | — |
-| `harden-skill` *(futuro)* | Harden | Edge cases, i18n, error states | — |
-| `onboard-skill` *(futuro)* | Harden | First-run, empty states | — |
+| `critique-skill` | Review | Scoring Nielsen + personas + slop detection + visual design pass (Phase 6) | DESIGN-CORE.md |
+| `audit-skill` | Review | 5-dimension technical quality (a11y, perf, theming, responsive, anti-patterns) | — |
+| `clarify-skill` | Harden | Reescritura de UX copy | — |
+| `delight-skill` | Refine | Personalidad + micro-interactions | — |
 
 ### Platform-Specific
 
@@ -170,6 +168,22 @@ engineering-fundamentals/guides/DESIGN-CORE.md
 | Mejorar UX copy | `clarify-skill` *(futuro)* |
 | Endurecer edge cases | `harden-skill` *(futuro)* |
 | Diseñar onboarding | `onboard-skill` *(futuro)* |
+
+---
+
+---
+
+## Phase 6 Updates (v6.0.0)
+
+El flujo de diseño ahora está gobernado por gates mecánicos:
+
+- **DESIGN-MD-SCHEMA.md** — Esquema universal de 17 secciones que aplica a todas las plataformas
+- **design-gate.sh** — 3 modos: strict (bloquea violaciones verificables), audit (advierte), verify (pre-merge)
+- **design-upgrade.sh** — Extracción automática de tokens desde codebases existentes (CSS vars, HTML, package.json)
+- **token-validate.sh** — Detección de CSS drift contra tokens de DESIGN.md
+- **approval-gate.sh** — Transición prototype→approved con timestamp explícito
+- **Direction + Platform Wiring** — Skills de dirección (brutalist, minimalist, premium) componen con plataforma vía el schema
+- **critique-skill** — Pass opcional de diseño visual con 5 dimensiones felt (color, tipografía, jerarquía, espacial, tono)
 
 ---
 

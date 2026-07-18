@@ -103,23 +103,23 @@
     <h2 data-i18n="overview.quickLinks">Quick Links</h2>
 
     <table>
-      <tr><td data-i18n="overview.version">Current version</td><td>v4.2.0</td></tr>
+      <tr><td data-i18n="overview.version">Current version</td><td>v6.0.0</td></tr>
       <tr><td data-i18n="overview.skillsCount">Skills</td><td>57</td></tr>
       <tr><td data-i18n="overview.guidesCount">Guides</td><td>74</td></tr>
       <tr><td data-i18n="overview.license">License</td><td>MIT</td></tr>
     </table>
 
-    <h2 data-i18n="overview.whatsNew">What's New in v4.2.0</h2>
+    <h2 data-i18n="overview.whatsNew">What's New in v6.0.0</h2>
     <ul class="whats-new">
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Output Contracts for All 57 Skills</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">Every skill now declares artifact, format, location, and quality criteria — no more guessing what a skill produces. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">Zero Lint Warnings</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">Check 16 (missing contracts) eliminated: 37→0. Word count advisories resolved: 4→0. Pre-flight gate enforces .gitignore + .env.example.</span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">Browser Testing Guide</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">WORKFLOW-SCENARIOS.md: 6 practical browser testing scenarios covering console errors, forms, responsive, performance, visual, keyboard.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Design Flow Transformado</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">17-section DESIGN.md schema, 3-mode design-gate.sh (strict/audit/verify), design-upgrade.sh auto-extracts tokens from existing codebases. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">TDD Enforcement — No Override</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">commit-msg v6 blocks every code change without a matching test. Zero bypass. Every change needs a test. No override mechanism exists.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">Gate 0: DECISION_APPROVED Block</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">Pre-commit now BLOCKS if no decision token exists. 15 gates total (up from 14). Token-validate.sh detects CSS drift. Approval-gate.sh enforces prototype→production transitions.</span></li>
     </ul>
 
     <h3>Previous releases</h3>
     <ul class="whats-new">
-      <li><span class="whats-new__item" data-i18n="">v4.2.0 — Phase 3: Output Contracts Complete</span> — <span class="whats-new__desc">All 57 skills now have standardized Output Contracts. Check 16 warnings eliminated (37→0). Word count advisories resolved (4→0). Pre-flight gate enforces .gitignore + .env.example before edits. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
-      <li><span class="whats-new__item" data-i18n="">v4.1.0 — Quick Start Guide &amp; Navigation Overhaul</span> — <span class="whats-new__desc">User-facing workflow guide, full Spanish i18n (60 keys), nav chain fixed across 13 docs pages, COMMIT_APPROVED gate restored (superseded by DECISION_APPROVED + OVERRIDE_APPROVED in v5.1.0).</span></li>
+      <li><span class="whats-new__item" data-i18n="">v5.0.0 — Phase 4: Docs Honesty Complete</span> — <span class="whats-new__desc">42 issues fixed across 6 groups, 86 files changed. Zero stale versions, hooks, i18n gaps, or nav inconsistencies. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
+      <li><span class="whats-new__item" data-i18n="">v4.2.0 — Phase 3: Output Contracts Complete</span> — <span class="whats-new__desc">All 57 skills now have standardized Output Contracts. Check 16 warnings eliminated (37→0). <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
       <li><span class="whats-new__item" data-i18n="">v4.0.0 — Foundation Repair &amp; Critical Stubs</span> — <span class="whats-new__desc">15 critical stub skills completed. All 57 skills ≤250 lines. Hook simplification (commit-msg v7→v4). Pre-commit v11 (14 gates). <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
       <li><span class="whats-new__item" data-i18n="">v3.1.1 — Test Infrastructure</span> — <span class="whats-new__desc">Unified test runner (<code>tests/run-all.sh</code>), pre-commit Gate 14, name-pairing + new-test enforcement.</span></li>
       <li><span class="whats-new__item" data-i18n="">v3.1.0 — TDD Enforcement Gate</span> — <span class="whats-new__desc"><a href="enforcement.html">Commit-msg Gate 4</a> enforces TDD. Pre-commit v11 with 14 gates. <a href="enforcement.html">Learn more →</a></span></li>

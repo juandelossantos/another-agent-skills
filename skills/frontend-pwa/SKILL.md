@@ -190,6 +190,10 @@ LOG METRIC: gate
 
 ---
 
+## DESIGN.md Output
+
+Fills sections 13-17 for PWA. Next.js 16 + React 19. CSS vars in :root, data-theme + prefers-color-scheme. Manifest with standalone display. Workbox 7 SW, Capacitor 6 native bridge. Device matrix 280–3840px. Touch + mouse. Offline-first. next/font + next/image.
+
 ## Verification
 
 - `manifest.json` with `display: standalone`.
