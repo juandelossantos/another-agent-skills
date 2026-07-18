@@ -391,17 +391,22 @@ echo "╚═══════════════════════�
 SKILL_LINT="${REPO_ROOT}/scripts/skill-lint.sh"
 STAGED_SKILLS=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'skills/.*/SKILL\.md$' || true)
 if [ -n "$STAGED_SKILLS" ] && [ -f "$SKILL_LINT" ]; then
-  echo "  Checking skill structure compliance..."
-  if bash "$SKILL_LINT" "$REPO_ROOT/skills"; then
-    echo "  ${GREEN}✓${NC} All skills compliant"
+  ALL_LINT_OK=true
+  while IFS= read -r skill_file; do
+    skill_dir="$(dirname "$skill_file")"
+    echo "  Linting: $skill_dir"
+    if ! bash "$SKILL_LINT" "$REPO_ROOT/$skill_dir" 2>&1; then
+      ALL_LINT_OK=false
+    fi
+  done <<< "$STAGED_SKILLS"
+  if $ALL_LINT_OK; then
+    echo "  ${GREEN}✓${NC} Changed skills compliant"
   else
     echo ""
     echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
     echo "  ${RED}║  SKILL LINT FAILED                                       ║${NC}"
     echo "  ${RED}║                                                         ║${NC}"
-    echo "  ${RED}║  One or more skills violate Rule 6 (skills as indexes).  ║${NC}"
-    echo "  ${RED}║  Move detailed content to guides/ and keep SKILL.md     ║${NC}"
-    echo "  ${RED}║  as a ~250-line index.                                   ║${NC}"
+    echo "  ${RED}║  Changed skills violate Rule 6 (skills as indexes).     ║${NC}"
     echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
     echo ""
     exit 1
