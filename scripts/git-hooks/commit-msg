@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
-# commit-msg — Another Agent Skills Single-Gate TDD Check (v4)
-# Single gate: TDD enforcement only.
-# All other approval checks removed — user runs git commit directly.
-# Pre-commit hook (v11) runs before this for branch/TDD/test gates.
+# commit-msg — Another Agent Skills TDD Gate Only (v6)
+# Single gate: TDD enforcement. No override mechanism — every change needs a test.
 #
 # Flow:
-# 1. Agent stages files and presents manifest in chat
-# 2. User runs: git commit -m "message"
-# 3. commit-msg hook validates TDD gate
-#
-# No COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG required.
-# The user running git commit IS the approval.
+# 1. Agent stages files and presents DECISION POINT in chat
+# 2. User approves, writes DECISION_APPROVED token
+# 3. User runs: git commit -m "message"
+# 4. commit-msg hook runs TDD gate — no override possible
 
 set -euo pipefail
 
@@ -19,19 +15,19 @@ APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
 TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
 COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+NC=$'\033[0m'
 
 CURRENT_MSG=$(head -1 "$COMMIT_MSG_FILE" | tr -d '\n')
 
 # ─────────────────────────────────────────
-# Gate 1: TDD gate — code files need test files
+# Gate 1: TDD gate — every code change needs a test. No override.
 # ─────────────────────────────────────────
 if [[ -f "$TDD_GATE" ]]; then
-  TDD_EXIT=0
-  TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1) || TDD_EXIT=$?
+  TDD_OUTPUT=$(bash "$TDD_GATE" 2>&1)
+  TDD_EXIT=$?
   if [ $TDD_EXIT -eq 0 ]; then
     echo -e "  ${GREEN}✓${NC} TDD gate passed"
   else
@@ -39,8 +35,8 @@ if [[ -f "$TDD_GATE" ]]; then
     echo "╔════════════════════════════════════════════════════════════╗"
     echo "║  ❌ COMMIT BLOCKED — TDD gate failed                     ║"
     echo "╠════════════════════════════════════════════════════════════╣"
-    echo "║  Code files need matching test files.                     ║"
-    echo "║  See output above for details.                            ║"
+    echo "║  Every code change requires a matching test.              ║"
+    echo "║  No override mechanism exists — all changes need tests.   ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
     echo "$TDD_OUTPUT"

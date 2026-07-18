@@ -6,7 +6,7 @@
 # Language-agnostic, mechanical, binary pass/fail.
 #
 # Usage: bash scripts/tdd-gate.sh
-# Env:   COMMIT_MSG (optional) — commit message body for OVERRIDE detection
+# Env:   (no override mechanism — every change requires a test)
 # Exit:  0 = PASS/SKIP, 1 = BLOCK
 #
 # Spec: development/SPEC-TDD-GATE.md
@@ -47,6 +47,7 @@ SKIP_PATTERNS=(
   '*.pdf' '*.doc' '*.docx'
   '*.o' '*.class' '*.pyc'
   '.gitignore' '.env*'
+  'SKILL.md'
 )
 
 # ─── Helpers ───
@@ -56,12 +57,20 @@ is_code_file() {
   local filepath="${REPO_DIR}/${file}"
 
   # Skip known non-code patterns (binaries, lock files, etc.)
-  for pattern in "${SKIP_PATTERNS[@]}"; do
+for pattern in "${SKIP_PATTERNS[@]}"; do
+  # For simple filename patterns (no glob), check basename
+  if [[ "$pattern" != *'*'* ]]; then
+    if [[ "$(basename "$file")" == "$pattern" ]]; then
+      return 1
+    fi
+  else
+    # For glob patterns, use original regex matching
     local regex="^${pattern//\*/.*}$"
     if [[ "$file" =~ $regex ]]; then
       return 1
     fi
-  done
+  fi
+done
 
   # Check extension-based patterns
   for pattern in "${CODE_PATTERNS[@]}"; do
@@ -146,7 +155,7 @@ name_matches_code() {
   code_basename=$(basename "$code_file")
   test_basename=$(basename "$test_file")
 
-  # Exact stem match
+  # Exact stem match (with case-insensitive fallback)
   [[ "$test_stem" == "$code_stem" ]] && return 0
 
   # Test file basename contains code file basename (handles multi-word like "pre-commit")
@@ -154,6 +163,13 @@ name_matches_code() {
 
   # Test stem contains code stem (handles "test_pre_commit_gates" for "pre_commit")
   [[ "$test_stem" == *"$code_stem"* ]] && return 0
+
+  # Case-insensitive stem match (handles DESIGN-MD-SCHEMA vs design-md-schema)
+  [[ "${test_stem,,}" == "${code_stem,,}" ]] && return 0
+
+  # Case-insensitive containment (handles "guide-refs" testing skill named "SKILL" or "DISCOVERY-GUIDE")
+  [[ "${code_stem,,}" == *"${test_stem,,}"* ]] && return 0
+  [[ "${test_stem,,}" == *"${code_stem,,}"* ]] && return 0
 
   return 1
 }
@@ -164,17 +180,6 @@ is_new_file() {
   local repo_dir="${REPO_DIR:-.}"
   git -C "$repo_dir" ls-tree HEAD -- "$file" 2>/dev/null | grep -q . && return 1
   return 0
-}
-
-has_override() {
-  local msg="${COMMIT_MSG:-}"
-  if [[ -z "$msg" ]]; then
-    # Try to read from COMMIT_EDITMSG if in a git repo
-    if [[ -f "${REPO_DIR}/.git/COMMIT_EDITMSG" ]]; then
-      msg=$(cat "${REPO_DIR}/.git/COMMIT_EDITMSG")
-    fi
-  fi
-  [[ "$msg" =~ OVERRIDE: ]]
 }
 
 log_gate() {
@@ -220,12 +225,6 @@ if [[ ${#CODE_FILES[@]} -eq 0 ]]; then
   exit 0
 fi
 
-# Check for OVERRIDE
-if has_override; then
-  log_gate "PASS" "${CODE_FILES[*]}" "${TEST_FILES[*]:-none}" "override-used"
-  exit 0
-fi
-
 # Code files staged but no test files → BLOCK
 if [[ ${#TEST_FILES[@]} -eq 0 ]]; then
   echo ""
@@ -240,9 +239,6 @@ if [[ ${#TEST_FILES[@]} -eq 0 ]]; then
   echo ""
   echo "Options:"
   echo "  1. Stage a test file: git add tests/<name>.test.js"
-  echo "  2. Override (explain why): add OVERRIDE: reason to commit body"
-  echo ""
-  echo "Example: git commit -m \"fix: hotfix\" -m \"OVERRIDE: typo-only change\""
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "none" "no"
   exit 1
@@ -284,7 +280,6 @@ if [[ ${#MISMATCHED[@]} -gt 0 ]]; then
   echo ""
   echo "Options:"
   echo "  1. Stage a correctly-named test: git add tests/test_<code_name>.sh"
-  echo "  2. Override: add OVERRIDE: reason to commit body"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "name-mismatch"
   exit 1
@@ -316,7 +311,6 @@ if ! $HAS_NEW_TEST; then
   echo ""
   echo "Options:"
   echo "  1. Create and stage a new test file"
-  echo "  2. Override: add OVERRIDE: reason to commit body"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "no-new-test"
   exit 1
@@ -358,7 +352,6 @@ if $ORDER_FAIL; then
   echo ""
   echo "Options:"
   echo "  1. Remove the code file, write the test first, then re-create code"
-  echo "  2. Override: add OVERRIDE: reason to commit body"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "staging-order"
   exit 1

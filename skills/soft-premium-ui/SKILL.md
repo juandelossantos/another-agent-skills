@@ -68,6 +68,18 @@ Every premium card uses **nested enclosures**:
 - All motion: `cubic-bezier(0.32, 0.72, 0, 1)` — never `ease-in-out`
 - Animate only `transform` and `opacity`
 
+## DESIGN.md Output
+
+Populates DESIGN.md sections 1-12 with premium constraints:
+
+| Section | Values |
+|---|---|
+| Color Palette | Deep OLED black `#050505`, warm cream `#FDFBF7`, muted sage. Ethereal glass or editorial luxury vibes. |
+| Typography | Sans: Geist/Clash Display/Plus Jakarta Sans. Serif: PP Editorial New. Mono: Geist Mono. |
+| Spacing Scale | 8px baseline. Section padding ≥ `py-24`. Generous vertical rhythm. |
+| Component Specs | Double-Bezel (Doppelrand) nested cards. Fluid island nav. Magnetic buttons with spring motion. backdrop-blur on fixed/sticky only. |
+| Anti-Pattern Bans | No Inter, Roboto, Arial, Helvetica. No Lucide/FontAwesome icons. No generic `1px solid` gray borders. No `linear` or `ease-in-out` transitions. |
+
 ## Pre-Output Checklist
 
 - [ ] No banned fonts, icons, borders, shadows, layouts, or motion

@@ -1,6 +1,6 @@
 # Git Hooks — Another Agent Skills
 
-## commit-msg: Single-Gate TDD Check (v4)
+## commit-msg: TDD Only (v6)
 
 **Purpose:** Enforces TDD — blocks commits without corresponding test files.
 

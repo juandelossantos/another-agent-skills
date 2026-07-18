@@ -89,15 +89,15 @@ git -C "$REPO" add icon.png
 ACTUAL=$?
 assert_exit "Binary only → PASS" 0 "$ACTUAL"
 
-# ─── Test 4: OVERRIDE in commit message → PASS ───
+# ─── Test 4: OVERRIDE text in message → MUST BLOCK ───
 echo ""
-echo "Test 4: OVERRIDE in message (expect PASS)"
+echo "Test 4: OVERRIDE in message (expect BLOCK — no override mechanism)"
 REPO=$(setup_repo 4)
-touch "$REPO/bar.ts"
-git -C "$REPO" add bar.ts
-(cd "$REPO" && COMMIT_MSG=$'fix: typo\n\nOVERRIDE: typo-only change' bash "$GATE_SCRIPT" > /dev/null 2>&1)
+touch "$REPO/foo.js"
+git -C "$REPO" add foo.js
+(cd "$REPO" && COMMIT_MSG=$'fix: typo\n\nOVERRIDE: no test' bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
-assert_exit "OVERRIDE in message → PASS" 0 "$ACTUAL"
+assert_exit "OVERRIDE in message → BLOCK" 1 "$ACTUAL"
 
 # ─── Test 5: Test in tests/ directory → PASS ───
 echo ""

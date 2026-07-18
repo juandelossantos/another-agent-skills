@@ -230,11 +230,21 @@ LOG METRIC: build - project: [detect] - result: pass/fail - warnings: [count]
 
 ---
 
+## DESIGN.md Output
+
+Populates DESIGN.md sections 13-17 with web-specific values:
+
+| Section | Content |
+|---|---|
+| CSS Architecture | CSS custom properties in `:root`, Tailwind `@theme`. |
+| Theme Implementation | `data-theme` attribute toggle, `.dark` class with CSS variables. |
+| Component Framework | React with shadcn/ui. Framer Motion for animation. Lucide React icons. |
+| Platform Responsiveness | Tailwind breakpoints (sm/md/lg/xl/2xl). Mobile-first. |
+| Asset Pipeline | `next/font/google` with `--font-display`, `--font-body` CSS variables. Next.js `<Image>` with `alt`. |
+
 ## Examples & Troubleshooting
 
 Read `guides/EXAMPLES.md`:
-- Landing page walkthrough (15 steps)
-- Adding animation to existing component
-- Troubleshooting (Next.js 16 params, fonts, FOUC, hydration, build)
+- Landing page walkthrough, animation, troubleshooting
 
 

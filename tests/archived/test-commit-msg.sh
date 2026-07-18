@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# test-commit-msg.sh — Test suite for commit-msg hook (no COMMIT_APPROVED dependency)
+# test-commit-msg.sh — Test suite for commit-msg hook (v6: TDD only, no override)
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
-# Verifies that commit-msg hook only depends on TDD gate,
-# not on COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG.
+# Verifies that commit-msg hook enforces TDD gate with no override bypass.
 #
 # Usage: bash tests/test-commit-msg.sh
 # Exit: 0 if all tests pass, 1 if any fail
@@ -71,9 +70,9 @@ run_commit_msg() {
 echo -e "${YELLOW}Commit-Msg Hook Test Suite${NC}"
 echo "──────────────────────────────────────"
 
-# ─── Test 1: Commit-msg passes without COMMIT_APPROVED, COMMIT_MANIFEST, or TEST_LOG ───
+# ─── Test 1: Commit-msg passes without override (normal TDD flow) ───
 echo ""
-echo "Test 1: Commit-msg passes without approval files (expect PASS)"
+echo "Test 1: Commit-msg passes without override (expect PASS)"
 REPO1="$TESTS_DIR/repo1"
 setup_repo "$REPO1"
 
@@ -81,11 +80,11 @@ setup_repo "$REPO1"
 touch "$REPO1/foo.js" "$REPO1/foo.test.js"
 git -C "$REPO1" add foo.js foo.test.js
 
-# Ensure NO approval files exist
-rm -f "$REPO1/.git/COMMIT_APPROVED" "$REPO1/.git/COMMIT_MANIFEST" "$REPO1/.git/TEST_LOG"
+# Ensure NO override token exists (shouldn't be needed for normal flow)
+rm -f "$REPO1/.git/OVERRIDE_APPROVED" "$REPO1/.git/DECISION_APPROVED" "$REPO1/.git/COMMIT_MANIFEST" "$REPO1/.git/TEST_LOG"
 
 run_commit_msg "$REPO1" "feat: add foo"
-assert "Commit-msg passes without COMMIT_APPROVED" "[ $? -eq 0 ]"
+assert "Commit-msg passes without override (normal TDD flow)" "[ $? -eq 0 ]"
 
 # ─── Test 2: Commit-msg still blocks when TDD fails ───
 echo ""
@@ -109,7 +108,7 @@ assert "bash -n passes" "[ $? -eq 0 ]"
 # ─── Test 4: Header says v4 with TDD gate ───
 echo ""
 echo "Test 4: Version is v4"
-assert "version v4 in header" "head -3 '$HOOK' | grep -q 'v4'"
+assert "version v6 in header" "head -3 '$HOOK' | grep -q 'v6'"
 assert "TDD gate in header" "head -5 '$HOOK' | grep -qi 'TDD'"
 
 # ─── Summary ───

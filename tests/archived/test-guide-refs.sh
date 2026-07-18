@@ -24,6 +24,7 @@ echo "────────────────────────�
 assert "cli-tools → guides/ANTI-SLOP-GUIDE.md" "grep -q 'guides/ANTI-SLOP-GUIDE' skills/cli-tools/SKILL.md"
 assert "cli-tools → guides/LANGUAGE-GUIDE.md" "grep -q 'guides/LANGUAGE-GUIDE' skills/cli-tools/SKILL.md"
 assert "engineering-fundamentals → guides/PLATFORM-SKILL-TEMPLATE" "grep -q 'guides/PLATFORM-SKILL-TEMPLATE' skills/engineering-fundamentals/SKILL.md"
+assert "engineering-fundamentals → guides/DESIGN-MD-SCHEMA" "grep -q 'guides/DESIGN-MD-SCHEMA' skills/engineering-fundamentals/SKILL.md"
 assert "multi-agent-orchestration → guides/GUIDE.md" "grep -q 'guides/GUIDE.md' skills/multi-agent-orchestration/SKILL.md"
 assert "spec-driven-development → multi-agent-orchestration/guides/GUIDE.md" "grep -q 'guides/GUIDE.md' skills/spec-driven-development/SKILL.md"
 
@@ -35,6 +36,8 @@ assert "LANGUAGE-GUIDE.md in guides/" "[ -f skills/cli-tools/guides/LANGUAGE-GUI
 assert "memory.md in guides/" "[ -f skills/debugging-and-error-recovery/guides/memory.md ]"
 assert "AESTHETIC-DIRECTIONS.md in guides/" "[ -f skills/engineering-fundamentals/guides/AESTHETIC-DIRECTIONS.md ]"
 assert "PLATFORM-SKILL-TEMPLATE.md in guides/" "[ -f skills/engineering-fundamentals/guides/PLATFORM-SKILL-TEMPLATE.md ]"
+assert "DESIGN-MD-SCHEMA.md in guides/" "[ -f skills/engineering-fundamentals/guides/DESIGN-MD-SCHEMA.md ]"
+assert "DISCOVERY-GUIDE.md in guides/" "[ -f skills/engineering-fundamentals/guides/DISCOVERY-GUIDE.md ]"
 assert "GUIDE.md in guides/" "[ -f skills/multi-agent-orchestration/guides/GUIDE.md ]"
 assert "BOTTLENECK-GUIDE.md in guides/" "[ -f skills/optimize-skill/guides/BOTTLENECK-GUIDE.md ]"
 assert "SPACING-GUIDE.md in guides/" "[ -f skills/polish-skill/guides/SPACING-GUIDE.md ]"

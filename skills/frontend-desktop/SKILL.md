@@ -238,6 +238,10 @@ Web app in desktop window, no OS theme, no native file dialogs, no keyboard shor
 
 ---
 
+## DESIGN.md Output
+
+Fills sections 13-17 for desktop. Tauri v2 (Rust) + React. CSS vars in frontend, OS theme listener. Configurable window sizes, multi-window, state persistence. Native menus, tray, shortcuts. Code signing. Auto-updater.
+
 ## Verification
 
 Config file (tauri/electron) set. Native menus. guides/PLATFORM-GUIDE.md read. Code signing configured. Build passes for target OSes. No browser-only APIs. Window state persistence.

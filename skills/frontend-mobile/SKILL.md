@@ -223,6 +223,10 @@ Read `guides/EXAMPLES.md`:
 
 ---
 
+## DESIGN.md Output
+
+Fills sections 13-17 for mobile. React Native + Expo SDK 52. StyleSheet tokens, Appearance API, device sizes (375pt/428pt/tablet). expo-font, expo-image. Reanimated animations.
+
 ## Red Flags (Mobile-Specific)
 
 - System default colors or generic palettes used.
@@ -240,8 +244,7 @@ Read `guides/EXAMPLES.md`:
 - `DESIGN.md` exists in project root.
 - `design/DESIGN-LOCK.md` exists with approved decisions.
 - Theme provider or `StyleSheet.create` contains tokens.
-- `accessibilityLabel` on every interactive element.
-- `AccessibilityInfo` reduced-motion check exists.
+- `accessibilityLabel` on every element. Reduced-motion check exists.
 - Build passes (`eas build` or `expo prebuild`).
 - No generic system color utilities.
 - Animation code only touches `transform` and `opacity`.

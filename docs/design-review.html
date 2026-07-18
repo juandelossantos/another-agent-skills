@@ -50,10 +50,13 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.designReview">Design Review</span></div>
     <h1 data-i18n="designReview.title">Design Review Pipeline</h1>
-    <p data-i18n="designReview.subtitle">9 skills. One pipeline. Deterministic quality.</p>
-    <h2 data-i18n="designReview.pipeline">The Pipeline</h2>
+    <p data-i18n="designReview.subtitle">9 skills + Phase 6 design gates. One pipeline. Deterministic quality.</p>
+
+    <div class="docs__callout"><div class="docs__callout-title">⚙ Phase 6</div><p>Design flow is now governed by mechanical gates: 17-section <code>DESIGN.md</code> schema, <code>design-gate.sh</code> in 3 modes (strict/audit/verify), <code>design-upgrade.sh</code> for existing projects, <code>token-validate.sh</code> for CSS drift, and <code>approval-gate.sh</code> for prototype→approved transitions. Direction skills (brutalist, minimalist, premium) compose with platform skills through the schema. See <a href="../PLAN.md">Release v6.0.0 →</a></p></div>
+
+    <h2 data-i18n="designReview.pipeline">The Review Pipeline</h2>
     <pre><code>critique → audit → clarify → hard → polish → typeset → adapt → optimize → delight</code></pre>
-    <h2 data-i18n="designReview.skills">9 Skills</h2>
+    <h2 data-i18n="designReview.skills">9 Review Skills</h2>
     <h3 data-i18n="designReview.critique">1. critique-skill — Design Quality</h3>
     <p data-i18n="designReview.critiqueDesc">Heuristic review using Nielsen's 10 usability heuristics and 4 persona tests. Detects AI slop patterns. Produces a score per heuristic.</p>
     <h3 data-i18n="designReview.audit">2. audit-skill — Technical Quality</h3>

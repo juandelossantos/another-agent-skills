@@ -21,7 +21,7 @@ This project is a complete open-source Harness.
 | **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 74 guides, MCP servers, shell scripts |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI environment, Docker |
 | **4. Orchestration** | When each tool fires, how agents coordinate | `skill-gate.sh`, `init-agents.sh`, `multi-agent-orchestration` skill, `.sessionrc` |
-| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v11 (14 gates, Test Runner), `commit-msg` hook v4 (TDD gate), `edit-guard.sh`, `commit-approval.sh`, `task-manifest.sh` |
+| **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v11 (15 gates, Test Runner), `commit-msg` hook v6 (TDD gate, no override), `edit-guard.sh`, `task-manifest.sh` |
 | **6. Observability** | Evidence that it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md`, `development/INCIDENT_*` |
 
 ---
@@ -60,8 +60,8 @@ The harness routes failures back to the agent for self-correction:
 
 The harness ensures safe behavior in production:
 
-- **commit-msg hook v4** runs a single TDD gate — staged code files must have matching test files. Name-pairing + new-test enforcement
-- **commit-approval.sh** writes `.git/COMMIT_APPROVED` with timestamp after user says "yes commit" in chat (time-window based, no friction)
+- **commit-msg hook v6** runs a single TDD gate — staged code files must have matching test files. No override mechanism exists. Name-pairing + new-test enforcement
+- **DECISION_APPROVED token** — agent writes timestamped token after user says "yes". Pre-commit hook warns if token missing.
 - **HEALTH-CHECK.md** is re-audited every 7 days (Rule 0b)
 - **PROGRESS_STATUS.md** tracks project state against actual disk
 

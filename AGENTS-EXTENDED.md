@@ -167,18 +167,19 @@ See `multi-agent-orchestration` SKILL.md + GUIDE.md for complete patterns.
 
 This barrier exists specifically to prevent "batch-mode commits" — where multiple file edits flow naturally into a commit because the agent doesn't pause between editing and versioning.
 
-**Common failure mode:** User says "fix these 5 things" → agent edits 5 files → agent commits all 5 as one batch without asking. The fix: after the last edit, STOP. Present manifest. Only commit after explicit approval. The edits were approved. The commit is not.
+**Common failure mode:** User says "fix these 5 things" → agent edits 5 files → agent commits all 5 as one batch without asking. The fix: after the last edit, STOP. Present DECISION POINT. Only commit after explicit approval. The edits were approved. The commit is not.
 
 ```
-VALID:                             INVALID (batch-mode):
-  msg: "Edits done. Manifest:"       msg: "Edits done."
-  block: COMMIT MANIFEST             bash: token + git add + git commit
-  bash: printf '...' | sha256sum
-  user: "sí"
-  bash: git add && git commit
+VALID:                                INVALID (batch-mode):
+  msg: "Edits done. DECISION POINT:"    msg: "Edits done."
+  block: git add <files>                bash: git add && git commit
+  bash: git add src/file.ts
+  user: "yes"
+  bash: echo "$(date -Iseconds)" > .git/DECISION_APPROVED
+  user: git commit -m "message"
 ```
 
-Token generation (`sha256sum > .git/COMMIT_APPROVED`) and `git commit` MUST be in separate bash calls. Never in the same bash call.
+File staging (`git add`) and writing the decision token MUST be in separate steps. Never in the same tool call.
 
 ---
 
@@ -382,26 +383,30 @@ This is a **process violation** regardless of content quality.
 
 Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? → NOT exempt. Iteration? → NOT exempt. Already approved? → Does not transfer. <3 lines? → NOT exempt. Trust? → Does not waive gate. **No commit is exempt.**
 
-### Time-Window Approval
+### Decision Token + Override Token Flow
 
-**The agent writes approval AFTER user says "yes commit" in chat.** The flow:
+**The agent writes a decision token AFTER user says "yes" in chat.** The agent NEVER runs `git commit`.
 
-1. Agent presents Commit Manifest + test results + diff
-2. User says "yes commit" in chat
-3. Agent runs `bash scripts/commit-approval.sh "msg" "file1.ts" "file2.ts"`
-4. Script writes `.git/COMMIT_APPROVED` with timestamp
-5. Agent commits
-6. `commit-msg` hook verifies: file exists? <5 min old? message matches? → allows
-7. File deleted after commit (no reuse)
+**Normal flow:**
 
-**Why this works:**
-| Without "yes commit" | With "yes commit" |
+1. Agent presents DECISION POINT: files staged + message + changes + TDD status
+2. User says "yes" / "commit" in chat
+3. Agent writes `.git/DECISION_APPROVED` with timestamp
+4. User runs `git commit` themselves
+5. Pre-commit hook checks `.git/DECISION_APPROVED` exists and is <10 min old → warns if missing/stale (doesn't block)
+
+**No override:** TDD gate has no bypass mechanism. Every code change requires a matching test file.
+
+**Flow comparison:**
+| Without approval | With approval |
 |---|---|
-| Agent writes nothing (Rule 12 violation) | Agent writes COMMIT_APPROVED |
-| Commit is blocked by hook | Commit proceeds |
-| Chat history shows no approval | Chat history shows "yes commit" |
+| Agent writes no token (Rule 12 violation) | Agent writes DECISION_APPROVED |
+| Pre-commit warns: no decision token | Pre-commit passes with fresh token |
+| Chat history shows no "yes" | Chat history shows explicit "yes" |
 
-**Audit trail:** The conversation history is the primary audit trail. The time-window (5 min) prevents the agent from reusing old approvals. The escape hatch (`OVERRIDE: reason`) logs bypasses.
+**Audit trail:** The conversation history is the primary audit trail. The decision token with timestamp proves the presentation happened. TDD gate has no override — every code change needs a matching test.
+
+See `rules/common/enforcement.md` for the full Rule 12 specification.
 
 ### Post-Commit Verification
 

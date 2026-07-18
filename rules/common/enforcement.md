@@ -42,7 +42,7 @@ Run `bash scripts/edit-guard.sh` before and after every file edit. See AGENTS-EX
 
 ### Step 4 — Edit-to-Commit Barrier (BLOCKING)
 
-After completing edits, the agent MUST STOP before any git add/commit. No commit without a Commit Manifest. See AGENTS-EXTENDED.md for full Commit Manifest Protocol, time-window approval, and batch-mode prevention rules.
+After completing edits, the agent MUST STOP and present the decision point. No commit without explicit user approval. See Rule 12 below for the full commit flow.
 
 ---
 
@@ -50,35 +50,81 @@ After completing edits, the agent MUST STOP before any git add/commit. No commit
 
 **No git operation that mutates the repository without explicit user approval.**
 
+### Core Rule: Agent Stages, User Commits
+
+The agent NEVER runs `git commit`. The correct flow:
+
+1. Agent stages files with `git add <files>`
+2. Agent presents the DECISION POINT to the user
+3. User explicitly approves
+4. Agent writes `.git/DECISION_APPROVED` with timestamp
+5. User runs `git commit` themselves
+
 ### Guardian Pattern — MANDATORY DECISION POINT
 
-Before ANY mutation, present the DECISION POINT block (see AGENTS-EXTENDED.md for template). Wait for explicit "yes" / "sí" / "commit" / "proceed". **Invalid:** "ok", "mmhm", "sigamos", "dale", "continue", silence, emoji reactions.
+Before ANY mutation, present the DECISION POINT block. Wait for explicit "yes" / "sí" / "commit" / "proceed". **Invalid:** "ok", "mmhm", "sigamos", "dale", "continue", silence, emoji reactions.
+
+Decision point must include:
+- Files staged (list)
+- Commit message
+- What changed and why
+- Test results (TDD gate status)
+
+```
+DECISION POINT
+  Staged: src/button.tsx, src/button.test.tsx
+  Message: feat: add accessible button component
+  Changes: 3 files, +120 lines, -0 lines
+  TDD gate: PASS (test files match code files)
+  → Approve commit? (y/n)
+```
+
+### Commit Flow
+
+```
+1. Agent: git add <files>
+2. Agent: presents DECISION POINT
+3. User: "yes" / "commit"
+4. Agent: echo "$(date -Iseconds)" > .git/DECISION_APPROVED
+5. User: git commit -m "feat: message"
+6. Pre-commit hook: checks .git/DECISION_APPROVED exists and is <10 min old
+   → If missing or stale: WARN (yellow, doesn't block)
+   → The user running git commit IS the approval. The token is evidence the
+     presentation step happened before the commit.
+```
+
+### No Override
+
+TDD has no override mechanism. Every code change requires a matching test file. The TDD gate validates: code file exists in staged → matching test file exists in staged → test was created before code (mtime check). No text-based bypass exists.
+
+Only files matching skip patterns (lock files, binaries, images) are exempt.
 
 ### Rules:
 - **NEVER batch approval.** Previous approval does not transfer. Every mutation is a separate decision.
 - **Commit and push are SEPARATE decisions.** Plan approval ≠ commit approval ≠ push approval.
 - **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
-- **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit manifest + test results → get approval → commit.
-- **"yes commit" = commit approval.** When user types "yes commit" in chat, agent runs `commit-approval.sh` and commits.
+- **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit → get approval → user commits.
+- **"yes commit" = agent writes DECISION_APPROVED, user commits.** Agent never runs git commit.
 - **"yes push" = push approval.** When user types "yes push" in chat, agent pushes.
 
-### MECHANICAL ENFORCEMENT (time-window based):
+### Mechanical Enforcement
 
-A `commit-msg` git hook blocks `git commit` unless a `.git/COMMIT_APPROVED` file exists with a timestamp less than 5 minutes old and a matching commit message. The agent writes this file ONLY after getting explicit "yes commit" from the user in chat.
+| Hook | Check | Behavior | What It Catches |
+|---|---|---|---|---|
+| Pre-commit (`scripts/project-pre-commit`) | `.git/DECISION_APPROVED` exists and <10min | WARN (yellow) if missing or stale | Agent skipping the presentation step |
+| Commit-msg (`scripts/git-hooks/commit-msg`) | TDD gate: code files need matching new test | BLOCK (red) if missing or mismatched | Code changes without tests. No override mechanism. |
 
-```
-Flow:
-1. Agent: presents DECISION POINT (manifest + diff + test results)
-2. User: "yes commit" in chat
-3. Agent: bash scripts/commit-approval.sh "feat: message" → writes .git/COMMIT_APPROVED
-4. Agent: git commit -m "feat: message"
-5. Hook: checks file exists, <5 min old, message matches → allows
-6. File is deleted after successful commit (no reuse)
-```
+DECISION_APPROVED token lives in `.git/` — inherently local, never tracked.
 
-The hook is a safety net, not the primary enforcement. The primary enforcement is the agent's behavioral compliance with Rule 12. The escape hatch (`OVERRIDE: reason` in commit message body) allows bypassing for emergencies, logged to `.git/OVERRIDE_LOG`.
+### Tokens
 
-See AGENTS-EXTENDED.md for full Commit Manifest Protocol and time-window details.
+| Token | File | Written By | Validated By | Blocks? |
+|---|---|---|---|---|---|
+| Decision token | `.git/DECISION_APPROVED` | Agent (after user says "yes") | Pre-commit hook | No (warns) |
+
+The decision token is a warn because the user running git commit IS the approval. The TDD gate has no override — every code change requires a matching test file.
+
+See AGENTS-EXTENDED.md for full DECISION POINT templates and examples.
 
 ---
 

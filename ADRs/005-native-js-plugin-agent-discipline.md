@@ -1,6 +1,6 @@
 # ADR-005: Native JS Plugin for Agent Discipline
 
-> **Status:** Accepted
+> **Status:** Accepted (COMMIT_APPROVED flow superseded by DECISION_APPROVED + OVERRIDE_APPROVED — see `rules/common/enforcement.md`)
 > **Date:** 2026-05-29
 > **Deciders:** Agent (architectural proposal) + User (approved implementation)
 > **Affected:** AGENTS.md Rule 0f, Rule 0g, `.opencode/plugins/agent-discipline/`, scripts/

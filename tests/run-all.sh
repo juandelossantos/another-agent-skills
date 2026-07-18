@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # tests/run-all.sh — Unified test runner for another-agent-skills
 #
-# Runs all project-level test suites and reports results.
-# Used by CI and pre-commit (Gate 14).
+# Runs project-level test suites. With --changed flag, scopes to tests
+# matching staged files (used by pre-commit Gate 14).
 #
-# Invocation: bash tests/run-all.sh
-#
-# Runs all project-level test suites and reports results.
-# Used by CI and pre-commit (Gate 14).
+# Invocation: bash tests/run-all.sh [--changed]
+
 set -uo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
@@ -22,8 +20,54 @@ NC='\033[0m'
 PASS=0
 FAIL=0
 
+INFRA_TESTS="test-tdd-gate.sh test-tdd-no-override.sh test-commit-msg.sh test-pre-flight.sh test-pre-commit-gates.sh test-pre-commit-gate-14.sh test-flat-files.sh test-sync-hooks.sh test-guide-refs.sh"
+
+# Determine scope mode
+SCOPE_CHANGED=false
+if [[ "${1:-}" == "--changed" ]]; then
+  SCOPE_CHANGED=true
+fi
+
 run_suite() {
   local name="$1" cmd="$2"
+  # In --changed mode, check if test matches any staged file
+  if $SCOPE_CHANGED; then
+    # Extract test filename from command
+    local test_file
+    test_file=$(echo "$cmd" | grep -oP "tests/test-\w+\.sh" | head -1 || true)
+    if [ -z "$test_file" ]; then
+      # Always run non-file-specific suites (audit, init)
+      true
+    else
+      # Check if test name-matches any changed file
+      local test_stem
+      test_stem=$(basename "$test_file" .sh | sed 's/^test-//')
+      local matched=false
+      while IFS= read -r changed_file; do
+        local code_stem
+        code_stem=$(basename "$changed_file" | sed 's/\.[^.]*$//')
+        # Case-insensitive containment check
+        if echo "$code_stem" | grep -qi "$test_stem" || echo "$test_stem" | grep -qi "$code_stem"; then
+          matched=true
+          break
+        fi
+      done < <(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
+      # Always run infrastructure tests
+      local base
+      base=$(basename "$test_file")
+      for infra in $INFRA_TESTS; do
+        if [ "$base" = "$infra" ]; then
+          matched=true
+          break
+        fi
+      done
+      if ! $matched; then
+        echo ""
+        echo -e "  ${YELLOW}−${NC} $name — skipped (no matching changes)"
+        return 0
+      fi
+    fi
+  fi
   echo ""
   echo -e "${BOLD}[$name]${NC}"
   if bash -c "$cmd" 2>&1; then
@@ -43,30 +87,12 @@ echo "╚═══════════════════════�
 run_suite "Audit wrapper-contract" "bash tests/audit/run.sh"
 run_suite "Audit universal engine" "bash tests/audit/universal.sh"
 run_suite "Init-agents features"  "bash tests/init/run.sh"
-run_suite "TDD gate"              "bash tests/test-tdd-gate.sh"
-run_suite "Pre-commit gates"     "bash tests/test-pre-commit-gates.sh"
-run_suite "Gate 14 behavioral"  "bash tests/test-pre-commit-gate-14.sh"
-run_suite "Sync hooks"           "bash tests/test-sync-hooks.sh"
-run_suite "Commit-msg hook"     "bash tests/test-commit-msg.sh"
-run_suite "Commit-approval"     "bash tests/test-commit-approval.sh"
-run_suite "Frontmatter"         "bash tests/test-frontmatter.sh"
-run_suite "Pre-flight"          "bash tests/test-pre-flight.sh"
-run_suite "Flat files"          "bash tests/test-flat-files.sh"
-run_suite "Guide refs"          "bash tests/test-guide-refs.sh"
-run_suite "Skill content"       "bash tests/test-performance-skill.sh"
-run_suite "Observability"       "bash tests/test-observability-skill.sh"
-run_suite "API design"          "bash tests/test-api-design-skill.sh"
-run_suite "CI/CD"               "bash tests/test-ci-cd-skill.sh"
-run_suite "Skill merge"         "bash tests/test-skill-merge.sh"
-run_suite "Frontend UI"         "bash tests/test-frontend-ui-skill.sh"
-run_suite "Deprecation"         "bash tests/test-deprecation-skill.sh"
-run_suite "Source-driven"       "bash tests/test-source-driven-skill.sh"
-run_suite "Code simplif"        "bash tests/test-code-simplification-skill.sh"
-run_suite "Idea refine"         "bash tests/test-idea-refine-skill.sh"
-run_suite "Interview me"        "bash tests/test-interview-me-skill.sh"
-run_suite "Customize OpenCode"  "bash tests/test-customize-opencode-skill.sh"
-run_suite "Output skill"        "bash tests/test-output-skill.sh"
-run_suite "Three strikes"       "bash tests/test-three-strikes-skill.sh"
+# Auto-discover tests/test-*.sh — no manual registration needed
+for test_file in "$REPO_ROOT"/tests/test-*.sh; do
+  [ -f "$test_file" ] || continue
+  name=$(basename "$test_file" .sh | sed 's/^test-//')
+  run_suite "$name" "bash '$test_file'"
+done
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"
 
 if [ -f scripts/eval/test-e2e.sh ]; then

@@ -37,5 +37,5 @@ test('landing page loads in Spanish', async ({ page }) => {
 test('harness section shows current gate counts', async ({ page }) => {
   await page.goto('/');
   const body = await page.textContent('body');
-  expect(body).toContain('14 pre-commit');
+  expect(body).toContain('15 pre-commit');
 });

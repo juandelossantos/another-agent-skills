@@ -70,15 +70,21 @@ Spanish keywords → Spanish. English → English. Other → that language. Neve
 
 If no SPEC.md exists and this is new work (not a one-off tweak), invoke `spec-driven-development`. Must include: Objective, Scope, Tech stack, Project structure, Acceptance criteria, Boundaries.
 
-#### 2B: DESIGN.md (VISUAL ONLY)
+#### 2B: DESIGN.md — Visual Identity + Implementation Contract
 
-DESIGN.md is for **visual identity and tokens ONLY**. Colors, Typography, Spacing, Border radius, Elevation, Motion. NOT tech versions, folder structure, API routes, auth, DB — those go in SPEC.md or ADRs.
+DESIGN.md has two layers. See `guides/DESIGN-MD-SCHEMA.md` for the full 17-section template. See `guides/DISCOVERY-GUIDE.md` for the discovery interview flow that produces `design/design-discovery.md`.
+
+**Sections 1-12 (Visual Identity):** Colors, Typography, Spacing, Border radius, Elevation, Motion, Component states. Filled by direction skills. Blocks if missing required fields.
+
+**Sections 13-17 (Implementation Contract):** CSS Architecture, Theme Implementation, Component Framework, Platform Responsiveness, Asset Pipeline. Filled by platform DESIGN-GUIDE.md. Warns if missing (platform-specific).
+
+**What NEVER goes in (any section):** Business logic, API routes, database schema, auth implementation, folder structure — those belong in SPEC.md or ADRs.
 
 | State | Action |
 |---|---|
-| DESIGN.md exists | Read it, extract tokens, build within |
-| No DESIGN.md, wants visual system | Generate with tokens only, confirm |
-| No DESIGN.md, one-off task | Do task, mention DESIGN.md once |
+| DESIGN.md exists | Read it, extract tokens. Validate against `DESIGN-MD-SCHEMA.md`. Build within. |
+| No DESIGN.md, wants visual system | Run discovery, pick direction skill, generate 12-section visual contract. Platform fills sections 13-17. |
+| No DESIGN.md, one-off task | Do task, mention DESIGN.md once. |
 
 **Do NOT write code yet.** Verify SPEC.md exists, invoke `planning-and-task-breakdown`. Only after plan is confirmed, proceed to BUILD.
 

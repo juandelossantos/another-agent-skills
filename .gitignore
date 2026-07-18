@@ -25,6 +25,9 @@ scripts/audit-project.sh
 /*.png
 /hero-english.txt
 
+# Design prototypes (throwaway exploration — use approval-gate to promote)
+design/prototype/
+
 # Playwright runtime artifacts
 tests/playwright/evidence/
 tests/playwright/test-results/

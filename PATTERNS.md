@@ -148,19 +148,19 @@ sequenceDiagram
     participant Agent
     participant User
     
-    Agent->>User: COMMIT MANIFEST
-    Note over Agent,User: Files, lines, Rule 12 checklist
-    User-->>Agent: "yes commit" / "sí"
-    Agent->>Agent: commit-approval.sh
-    Note over Agent: Writes COMMIT_APPROVED token
-    Agent->>Agent: git commit
-    Note over Agent: Hook verifies 3 gates
+    Agent->>Agent: git add <files>
+    Agent->>User: DECISION POINT
+    Note over Agent,User: Files, message, changes, TDD status
+    User-->>Agent: "yes"
+    Agent->>Agent: echo \"$(date)\" > .git/DECISION_APPROVED
+    User->>User: git commit -m "message"
+    Note over User: Hook warns if no token
 ```
 
 **Implementation:**
-- `AGENTS-EXTENDED.md` — Commit Manifest Protocol
-- `scripts/commit-approval.sh` — writes timestamped approval
-- `scripts/git-hooks/commit-msg` — three-gate verification
+- `rules/common/enforcement.md` — Rule 12: Agent Stages, User Commits
+- `scripts/project-pre-commit` — DECISION_APPROVED check (warning)
+- `scripts/git-hooks/commit-msg` — TDD gate enforcement (no override)
 
 **See also:** Rule 12, `AGENTS-EXTENDED.md` — Time-Window Approval
 
@@ -172,24 +172,25 @@ sequenceDiagram
 
 **Trade-off:** Consistency vs agility. Requires design intent to be documented before implementation, preventing aimless visual iteration.
 
-**Description:** A mechanical gate (`scripts/design-gate.sh`) that blocks visual work unless DESIGN.md or DESIGN-LOCK.md exists and the appropriate design skill has been loaded. Prevents shipping visual output without design intent.
+**Description:** A mechanical gate (`scripts/design-gate.sh`) that validates design system completeness against the 17-section DESIGN.md schema. Three modes: `--strict` (blocks new projects on incomplete contracts), `--audit` (warns on existing projects), `--verify` (pre-merge drift detection). Split into automated blocks (checkable dimensions like tokens, contrast, breakpoints) and human review flags (felt dimensions like harmony, mood).
 
 ```mermaid
 flowchart TD
-    A["Visual work needed"] --> B{"DESIGN.md exists?"}
-    B -->|Yes| C{"Design skill loaded?"}
-    B -->|No| D["Create DESIGN.md first"]
-    D --> A
-    C -->|Yes| E["Proceed with visual work"]
-    C -->|No| F["Load design skill"]
-    F --> C
+    A["Visual work needed"] --> B{"design-gate.sh --mode"}
+    B -->|strict| C["Validate: DESIGN.md has 17 sections?"]
+    C -->|Missing sections| D["Block — run design-upgrade.sh"]
+    C -->|Complete| E["Checkable dimensions pass?"]
+    E -->|No| D
+    E -->|Yes| F["Felt dimensions flagged for review"]
+    F --> G["Proceed if flags accepted"]
 ```
 
 **Implementation:**
-- `scripts/design-gate.sh` — checks DESIGN.md + skill-loaded marker
-- Skills: `soft-premium-ui`, `minimalist-ui`, `industrial-brutalist-ui`, `frontend-ui-engineering`
+- `scripts/design-gate.sh` — 3-mode schema validation
+- `scripts/token-validate.sh` — CSS drift detection (called by --verify)
+- `scripts/design-upgrade.sh` — auto-extract missing sections
 
-**See also:** Rule 0d (Design Gate), `SOUL.md` Principle 1
+**See also:** Rule 0d (Design Gate), `SOUL.md` Principle 1, `DESIGN-MD-SCHEMA.md`
 
 ---
 
@@ -199,7 +200,7 @@ flowchart TD
 
 **Trade-off:** Simplicity vs ceremony. A single TDD gate enforces test coverage without blocking velocity. The user running `git commit` IS the approval.
 
-**Description:** The commit-msg hook v4 validates a single TDD gate: code changes must be paired with corresponding test changes. All other approval checks were removed. Pre-commit v11 (14 gates) handles quality checks before the message is written.
+**Description:** The commit-msg hook v6 validates a single TDD gate: code changes must be paired with corresponding test changes. All other approval checks were removed. Pre-commit v11 (14 gates) handles quality checks before the message is written.
 
 ```mermaid
 flowchart LR
@@ -247,13 +248,13 @@ pie title Context Budget 60/25/15
 
 | Pattern | Trigger | Primary Gate | Risk without it |
 |---|---|---|---|
-| Guardian Pattern | Before any mutation | commit-msg hook v4 | Unapproved changes in repo |
+| Guardian Pattern | Before any mutation | commit-msg hook v6 | Unapproved changes in repo |
 | Lazy Loading | Skill > 100 lines | skill-lint.sh Check 6 | Context saturation at message 8 |
 | Skill Gate | Before implementation | pre-commit hook | Implementation without process |
 | Edit Barrier | Before/after each edit | edit-guard.sh | Corrupted or truncated files |
 | Commit Manifest | Before each commit | commit-approval.sh | Batch-mode, unapproved commits |
 | Design Gate | Visual/design work | design-gate.sh | Undocumented visual decisions |
-| Single-Gate TDD | Every commit | commit-msg v4 | Missing tests or approval |
+| Single-Gate TDD | Every commit | commit-msg v6 | Missing tests or approval |
 | Context Budget | >20 messages | Manual compaction | Degraded output quality |
 
 ---
