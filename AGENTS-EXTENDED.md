@@ -395,22 +395,16 @@ Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? →
 4. User runs `git commit` themselves
 5. Pre-commit hook checks `.git/DECISION_APPROVED` exists and is <10 min old → warns if missing/stale (doesn't block)
 
-**Override flow (bypassing TDD gate):**
-
-1. Agent presents DECISION POINT with override justification
-2. User approves override explicitly
-3. Agent writes `.git/OVERRIDE_APPROVED` with timestamp and reason
-4. User runs `git commit -m "msg" -m "OVERRIDE: reason"` 
-5. Commit-msg hook checks OVERRIDE in body requires `.git/OVERRIDE_APPROVED` → blocks if missing/stale
+**No override:** TDD gate has no bypass mechanism. Every code change requires a matching test file.
 
 **Flow comparison:**
 | Without approval | With approval |
 |---|---|
-| Agent writes no token (Rule 12 violation) | Agent writes DECISION_APPROVED or OVERRIDE_APPROVED |
+| Agent writes no token (Rule 12 violation) | Agent writes DECISION_APPROVED |
 | Pre-commit warns: no decision token | Pre-commit passes with fresh token |
 | Chat history shows no "yes" | Chat history shows explicit "yes" |
 
-**Audit trail:** The conversation history is the primary audit trail. The decision token with timestamp proves the presentation happened. The override token with timestamp proves the override was approved. Both expire after 10 minutes.
+**Audit trail:** The conversation history is the primary audit trail. The decision token with timestamp proves the presentation happened. TDD gate has no override — every code change needs a matching test.
 
 See `rules/common/enforcement.md` for the full Rule 12 specification.
 
