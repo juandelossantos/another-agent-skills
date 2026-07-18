@@ -71,7 +71,7 @@ Run `init-agents` in every new project — it:
 | **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 74 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v4 (TDD gate), commit-approval.sh |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (14 gates, Test Runner), commit-msg v6 (TDD gate — no override) |
 | **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
 
 [**Full Harness architecture →**](./docs/HARNESS.md)
@@ -100,7 +100,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 **Six Layers Beyond Prompts:**
 
 1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 14 gates (including Test Runner). Single-gate TDD enforcement via commit-msg v4. No other framework does this.
+2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 14 gates (including Test Runner). Single-gate TDD enforcement via commit-msg v6 (no override). No other framework does this.
 3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
 4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
 5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
@@ -168,29 +168,31 @@ Run all test suites with a single command:
 bash tests/run-all.sh
 ```
 
-The test runner executes 9 suites and reports pass/fail per suite:
+The test runner auto-discovers tests in `tests/test-*.sh` and runs 15 suites:
 
-| Suite | Command | What It Tests |
-|---|---|---|
-| Audit wrapper-contract | `bash tests/audit/run.sh` | Audit engine behavioral invariants |
-| Audit universal engine | `bash tests/audit/universal.sh` | Config-driven audit engine (17 feature tests) |
-| Init-agents features | `bash tests/init/run.sh` | init-agents scaffolding (7 tests) |
-| TDD gate | `bash tests/test-tdd-gate.sh` | TDD enforcement: name-pairing + new-test (14 tests) |
-| Pre-commit gates | `bash tests/test-pre-commit-gates.sh` | Gate numbering sequential 1-14 (7 tests) |
-| Gate 14 behavioral | `bash tests/test-pre-commit-gate-14.sh` | Test Runner blocks on failure, passes on success (7 tests) |
-| Sync hooks | `bash tests/test-sync-hooks.sh` | Hook installation and sync (7 tests) |
-| Skill lint | `bash scripts/skill-lint.sh skills/` | Rule 6: SKILL.md ≤250 lines, guides present |
-| Eval e2e | `bash scripts/eval/test-e2e.sh` | End-to-end: skill-lint + evals + dashboard + regression |
+| Suite | What It Tests |
+|---|---|
+| 3 audit/init suites | Audit engine + init-agents scaffolding |
+| TDD gate | Name-pairing + new-test (22 tests) |
+| Pre-commit gates | Gate numbering sequential 1-14 |
+| Gate 14 behavioral | Test Runner blocks on failure, passes on success |
+| Sync hooks | Hook installation and sync |
+| Flat files | Guide file structure compliance |
+| Guide refs | Guide reference resolution |
+| Pre-flight | Pre-flight hook behavior |
+| Skill lint (scoped) | Rule 6 compliance on changed skills only |
+| Eval e2e | End-to-end: skill-lint + evals + dashboard + regression |
 
-The test runner also runs automatically as **Pre-commit Gate 14** before every commit.
+The test runner also runs automatically as **Pre-commit Gate 14** before every commit, scoped to changed files.
 
 ### TDD Gate Rules
 
-Every commit with code changes must include a matching test file:
+Every commit with code changes must include a matching test file. No override mechanism exists:
 
 - **Name-pairing**: test file name must match code file name (e.g., `scripts/tdd-gate.sh` → `tests/test-tdd-gate.sh`)
 - **New-test**: at least one staged test file must be new (not previously committed)
-- **Override**: add `OVERRIDE: reason` to commit message body to bypass
+- **Staging-order**: test must be created before code (mtime check, TDD RED→GREEN)
+- **No override**: there is no way to bypass TDD — every change needs a test
 
 ### Playwright Tests (Browser)
 
@@ -335,7 +337,7 @@ If it fails, ask the user before taking any action.
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
 | [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v11 (14 gates) |
-| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v4 (single TDD gate — user runs git commit directly) |
+| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v6 (TDD only — no override. User runs git commit directly) |
 | [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
 | [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
 | [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
