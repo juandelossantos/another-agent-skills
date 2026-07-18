@@ -73,6 +73,18 @@ Brutalist UI source code — HTML/CSS (framework-agnostic visual layer) in sourc
 - CRT scanlines: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px)`
 - Mechanical noise: global low-opacity SVG static filter on DOM root
 
+## DESIGN.md Output
+
+Populates DESIGN.md sections 1-12 with brutalist constraints:
+
+| Section | Values |
+|---|---|
+| Color Palette | Hazard red `#E61919`, near-black `#0A0A0A`, near-white `#F4F4F0`. No purple. |
+| Typography | Display: Neue Haas Grotesk/Archivo Black (macro, uppercase). Mono: JetBrains Mono (micro). Negative tracking. |
+| Spacing Scale | 4px baseline. `gap: 1px` grid lines. No generous whitespace. |
+| Component Specs | Zero border-radius. ASCII framing (`>>>`). Scanlines or halftone noise. |
+| Anti-Pattern Bans | No border-radius anywhere. No gradients. No sans-serif for headings. |
+
 ## Pre-Output Checklist
 
 - [ ] Single visual archetype selected (not mixed)

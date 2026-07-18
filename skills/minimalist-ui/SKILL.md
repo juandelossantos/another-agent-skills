@@ -70,6 +70,18 @@ Product UIs, documentation sites, SaaS dashboards, editorial layouts. Not for pl
 - FAQ: no container boxes, `border-bottom` only
 - Keystrokes: `<kbd>` with `border: 1px solid #EAEAEA`, mono font
 
+## DESIGN.md Output
+
+Populates DESIGN.md sections 1-12 with minimalist constraints:
+
+| Section | Values |
+|---|---|
+| Color Palette | Warm monochrome: bone `#F7F6F3`, off-black `#111111`. Muted pastel accents (red, blue, green, yellow). |
+| Typography | Sans: Geist/SF Pro/Switzer. Serif (editorial): Newsreader. Mono: Geist Mono/JetBrains Mono. |
+| Spacing Scale | 8px baseline. Generous whitespace. |
+| Component Specs | Flat cards with `border: 1px solid #EAEAEA`. Border-radius max 12px. Bento grids. Ultra-subtle shadows. FAQ uses border-bottom only. |
+| Anti-Pattern Bans | No shadows > ultra-subtle. No rounded-full. No emojis. No Inter/Roboto/Open Sans. |
+
 ## Motion
 
 - Scroll entry: gentle fade-up (`translateY(12px)` + `opacity: 0` over 600ms, `cubic-bezier(0.16, 1, 0.3, 1)`)
