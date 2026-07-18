@@ -8,12 +8,12 @@
 
 | Metric | Value |
 |---|---|
-| Version | **5.0.0** (released 2026-07-13) |
+| Version | **5.0.0** (Phase 6 design skills complete) → **6.0.0** |
 | Lint | 0 errors, 0 warnings |
 | Health | ✅ HEALTHY |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 74 across all skills |
-| Tests | 29 suites passing |
+| Tests | 15 suites passing (26 archived, 10 infrastructure active) |
 
 ---
 
@@ -25,6 +25,7 @@
 | **QS** | **v4.1.0** | Quick Start Guide, Spanish i18n, nav chain fix |
 | **3** | **v4.2.0** | Output Contracts: 57/57, 0 warnings, pre-flight gate |
 | **4** | **v5.0.0** | Docs Honesty: 42 issues fixed across 6 groups, 86 files changed |
+| **Phase 6** | **v6.0.0** | Design Skill Integrity: TDD enforcement (no override), 17-section DESIGN.md schema, 3-mode design-gate, token-validate CSS drift, approval-gate prototype→approved, design dir rules, DISCOVERY-GUIDE.md, install.sh deprecated cleanup, design-upgrade.sh, direction+platform skill DESIGN.md wiring, critique-skill visual dimensions, prompt drift detection. 35+ commits, 80+ files changed. |
 
 ---
 
@@ -42,6 +43,14 @@
 - Cross-platform: same 17-section schema works for web, mobile, desktop, PWA. Direction skills compose with any platform
 
 **How user activates it:** Through the agent. Skills detect context automatically. `design-gate.sh` runs on every design-related commit. `design-upgrade.sh` activates when user says "improve design" or when `design-gate.sh` detects an incomplete DESIGN.md. No manual script execution needed.
+
+**Completed so far:**
+- **P0.1-P0.4**: Enforcement rules rewritten, DECISION_APPROVED check in pre-commit, OVERRIDE_APPROVED removed (replaced by unconditional TDD), token path documented
+- **P0.5**: 43 stale COMMIT_APPROVED refs cleaned across 19 files, 15 past-phase tests archived
+- **P0.6**: hooks synced, test plan verified
+- **Override removal**: TDD bypass removed entirely — every change requires a matching test. No override mechanism exists. TDD gate enforces: code → matching new test → test-before-code (mtime). 20 test suites, 20 passing.
+- **P6.1**: DESIGN-MD-SCHEMA.md (17-section contract) created, engineering-fundamentals Phase 2B updated, task-specific test suite with 16 tests
+- **P6.2**: design-gate.sh upgraded to 3 modes (strict/audit/verify) with schema validation against DESIGN-MD-SCHEMA, checkable vs felt split, platform detection. Test count gate added to pre-commit (max 11 tests). Task test with 4 tests.
 
 ---
 
@@ -172,7 +181,7 @@ Both tokens go in `.gitignore`. Local only.
 | Metric | Value |
 |---|---|
 | Branch | `feat/phase6-design-skills` |
-| Target version | **v5.1.0** |
+| Target version | **v6.0.0** |
 | Base | `main` |
 | New scripts | 2 (`token-validate.sh`, `approval-gate.sh`) |
 | Upgraded scripts | 1 (`design-gate.sh` — automated block + human-flag split) |
@@ -184,6 +193,56 @@ Both tokens go in `.gitignore`. Local only.
 | New gates | 3 (strict, approval, token, prompt-drift) |
 | Research integrated | Contra Design Crit (arXiv:2605.20731) — checkable vs felt dimensions, designer agreement baselines, prompt-drift detection |
 | Backward compatibility | Existing projects not broken. Upgrade is opt-in. |
+
+---
+
+---
+
+## Release v6.0.0 — Phase 6: Design Skill Integrity
+
+**Target:** Merge `feat/phase6-design-skills` → `main`, tag v6.0.0, publish release.
+
+### Pre-Release Audit (15 files need fixes)
+
+| # | File | Issue | Fix |
+|---|---|---|---|
+| 1 | `VERSION` | 5.0.0 | → 6.0.0 |
+| 2 | `RELEASE-NOTES.md` | Missing v6.0.0 section | Add Phase 6 release notes |
+| 3 | `README.md` | Badge v5.0.0, What's New, "current: v4.2.0" | Version + Phase 6 content |
+| 4 | `index.html` | "14 gates" in FAQ a2/a5 | → 15 gates |
+| 5 | `i18n/en.json` | "14 gates" in hero, FAQ | → 15 gates |
+| 6 | `i18n/es.json` | Same as EN | Sync |
+| 7 | `docs/index.html` | v4.2.0 everywhere, stale "superseded by v5.1.0" ref | → v6.0.0 |
+| 8 | `docs/i18n/en.json` | What's New in v4.2.0 | → v6.0.0 Phase 6 |
+| 9 | `docs/i18n/es.json` | Same as EN | Sync |
+| 10 | `docs/enforcement.html` | "14 gates" ×4, "v4" → v6, missing Gate 0 | Update gate list |
+| 11 | `docs/i18n/en.json` (enforcement) | "14 gates" ×2, "v4" → v6 | Update |
+| 12 | `docs/quickstart-guide.html` | "14 gates" ×2, "Gate 14" → Gate 15 | Update |
+| 13 | `docs/design-review.html` | No Phase 6 design gate pipeline reference | Add gate flow |
+| 14 | `docs/DESIGN-WORKFLOW.md` | "futuro" skills now implemented | Mark current |
+| 15 | `PLAN.md` (this file) | Needs release plan | Done |
+
+### Release Steps
+
+1. Fix all 15 files (TDD: each file + matching test → commit → archive → next)
+2. Create the "What's New" content for v6.0.0 (Phase 6 highlights)
+3. Run Playwright tests: `npx playwright test` in `tests/playwright/`
+4. Run full test suite: `bash tests/run-all.sh`
+5. Update `docs/index.html` version table: v4.2.0 → v6.0.0
+6. Final commit: `git tag v6.0.0 && git push --tags`
+7. Create GitHub Release with release notes
+
+### What "What's New in v6.0.0" Should Cover
+
+- **Design Flow Transformation** — 17-section DESIGN.md schema, 3-mode design-gate.sh (strict/audit/verify)
+- **TDD Enforcement (no override)** — commit-msg v6 blocks code without matching tests. No bypass mechanism.
+- **Gate 0: DECISION_APPROVED Block** — Pre-commit now BLOCKS if no decision token exists (upgraded from warn).
+- **15 Gates Total** — 15 pre-commit gates (was 14) + 1 commit-msg gate.
+- **design-upgrade.sh** — Auto-extract design tokens from existing codebases.
+- **token-validate.sh** — CSS drift detection against DESIGN.md tokens.
+- **43 stale refs cleaned** — All COMMIT_APPROVED references replaced with current flow.
+- **Design direction + platform wiring** — Direction skills (brutalist, minimalist, premium) compose with platform skills through the schema.
+- **critique-skill upgrade** — Optional visual design pass with 5 felt dimensions (color, typography, hierarchy, spatial, mood).
 
 ---
 

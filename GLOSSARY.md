@@ -63,12 +63,6 @@ A filesystem token written by the agent in `.git/DECISION_APPROVED` after the us
 
 **Source:** `scripts/project-pre-commit`, `rules/common/enforcement.md`
 
-### OVERRIDE_APPROVED
-
-A filesystem token written by the agent in `.git/OVERRIDE_APPROVED` after the user explicitly approves an override. Required when the commit message contains `OVERRIDE:` in the body. The commit-msg hook checks this file exists and is <10 minutes old, BLOCKING the commit if missing. Prevents silent TDD gate bypass.
-
-**Source:** `scripts/git-hooks/commit-msg`, `rules/common/enforcement.md`
-
 ### Context Budget (60/25/15)
 
 The allocation strategy for context window usage: 60% current task, 25% core rules, 15% recent history. Enforced by compaction when messages exceed 20 turns.
@@ -277,7 +271,7 @@ A log file in `.git/TEST_LOG` written by `scripts/log-test-results.sh`. Required
 
 ### Three-Gate Approval (historical)
 
-The previous commit approval mechanism (removed in commit-msg v4) requiring three gates: TEST_LOG, COMMIT_MANIFEST, and COMMIT_APPROVED. Replaced by the DECISION_APPROVED + OVERRIDE_APPROVED two-token system. See `rules/common/enforcement.md` for the current flow.
+The previous commit approval mechanism (removed in commit-msg v4, current v6) requiring three gates: TEST_LOG, COMMIT_MANIFEST, and COMMIT_APPROVED. Replaced by the DECISION_APPROVED + OVERRIDE_APPROVED two-token system. See `rules/common/enforcement.md` for the current flow.
 
 ### Time-Window Approval
 

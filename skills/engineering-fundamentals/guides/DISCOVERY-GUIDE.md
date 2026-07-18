@@ -1,6 +1,6 @@
-# Visual Frontend Mastery — Discovery Guide
+# Design Discovery Guide
 
-This guide contains the complete Phase 1 Discovery Gate for `visual-frontend-mastery`.
+Part of the universal design flow (loaded by platform skills). Contains the Phase 1 discovery interview that produces `design/design-discovery.md`.
 
 Execute every step. Do not skip. Do not assume.
 

@@ -110,7 +110,7 @@ mindmap
       observability-and-instrumentation
 ```
 - **Rule 2:** Intent mapping — detect platform before acting
-- **Rule 3:** Lifecycle — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP. TDD enforcement: commit-msg hook v4 blocks code commits without test files.
+- **Rule 3:** Lifecycle — DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP. TDD enforcement: commit-msg hook v6 blocks code commits without test files (no override).
 
 ```mermaid
 flowchart LR

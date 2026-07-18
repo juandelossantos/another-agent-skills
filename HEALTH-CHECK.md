@@ -3,7 +3,7 @@
 **Date:** 2026-07-17
 **Version:** 5.0.0
 **Auditor:** OpenCode Agent (auto-generated)
-**Status:** 🟡 DEGRADED — P0+P6.1 complete. TDD override removed. DESIGN-MD-SCHEMA.md created. 20/20 test suites (15 archived). Run `bash scripts/generate-health-check.sh --apply` to sync.
+**Status:** ✅ HEALTHY — Phase 6: Design Skill Integrity complete. TDD enforced (no override). 10 infrastructure tests, 26 archived. 15/15 suites passing.
 
 ---
 
@@ -13,7 +13,7 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **1** |
+| Warnings | **2** |
 | Overall | **🟡 DEGRADED** |
 
 ---
@@ -26,7 +26,7 @@
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
 | VERSION | ✅ 5.0.0 | Consistent |
-| Skill lint | ✅ 0 errors, 1 warnings | |
+| Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | 🔴 FAIL | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)

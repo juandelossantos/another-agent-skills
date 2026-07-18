@@ -6,7 +6,7 @@ Most agent failures blamed on "the model" are actually harness failures. Documen
 
 | Failure | Root Cause | Fix |
 |---|---|---|
-| Agent commits without review | Missing pre-commit gate | Added commit-msg hook v4 with SHA256 token validation |
+| Agent commits without review | Missing pre-commit gate | Added commit-msg hook v4 (v6 now) with SHA256 token validation |
 | Agent skips skill consultation | No mechanical gate for Rule 1 | Added skill-gate.sh with marker timestamp |
 | Agent produces stale PROGRESS_STATUS.md | No verification mechanism | Added validate-skill-table.sh + pre-commit v8 gate |
 | Agent generates generic UI | No design tokens or style rules | Added STEERING-GUIDE.md with DESIGN-LOCK.md |
