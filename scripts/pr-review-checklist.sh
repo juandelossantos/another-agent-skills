@@ -183,7 +183,7 @@ for file in $PR_FILES; do
             fi
             ;;
         scripts/git-hooks/commit-msg)
-            if ! grep -q "OVERRIDE_APPROVED\|TDD_GATE\|tdd-gate" "$file" 2>/dev/null; then
+            if ! grep -q "DECISION_APPROVED\|TDD_GATE\|tdd-gate" "$file" 2>/dev/null; then
                 echo -e "  ${RED}✗${NC} $file missing approval/TDD verification"
                 HOOKS_OK=0
             fi
