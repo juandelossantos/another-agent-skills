@@ -20,6 +20,7 @@ CSS_DIR="$REPO_ROOT"
 CSS_FILE=""
 THRESHOLD=5
 PLATFORM="web"
+DRIFT_CHECK=false
 
 # Parse args
 while [ $# -gt 0 ]; do
@@ -29,6 +30,8 @@ while [ $# -gt 0 ]; do
     --css-file)   CSS_FILE="$2"; shift 2 ;;
     --threshold)  THRESHOLD="$2"; shift 2 ;;
     --platform)   PLATFORM="$2"; shift 2 ;;
+    --drift)      DRIFT_CHECK=true; shift ;;
+    --help)       echo "Usage: token-validate.sh [--design-dir <dir>] [--css-dir <dir>] [--css-file <file>] [--threshold <N>] [--platform web|mobile|desktop|pwa] [--drift]"; exit 0 ;;
     *) shift ;;
   esac
 done
@@ -123,6 +126,41 @@ fi
 
 if [ "$DRIFT_PCT" -ge "$THRESHOLD" ]; then
   echo "  ${RED}✗ DRIFT EXCEEDS THRESHOLD${NC}"
+fi
+
+# ─── Prompt drift check (--drift flag) ───
+if $DRIFT_CHECK && [ -f "$DESIGN_FILE" ]; then
+  echo ""
+  echo "  Checking prompt drift (fonts/spacing not in DESIGN.md)..."
+  # Extract font families from DESIGN.md Section 3
+  DESIGN_FONTS=$(sed -n '/## Section 3/,/## Section/ p' "$DESIGN_FILE" | grep -oiP "[\w\s-]+(?=,|\n|$)" | tr '[:upper:]' '[:lower:]' | sort -u || true)
+  
+  # Extract font-family values from CSS (resolve var() refs)
+  CSS_FONTS=""
+  for f in $(find "$SCAN_DIR" -name '*.css' 2>/dev/null | head -5); do
+    [ -f "$f" ] || continue
+    # Extract direct font names from font-family
+    CSS_FONTS+=$(grep -oiP "font-family:\s*'\K[^']+" "$f" 2>/dev/null || true)
+    CSS_FONTS+=" "
+    # Resolve var(--font-*) to actual values
+    for var in $(grep -oP 'var\(--[\w-]+\)' "$f" 2>/dev/null); do
+      resolved=$(grep -oP "^\s*$var:\s*\K[^;]+" "$DESIGN_FILE" 2>/dev/null || true)
+      CSS_FONTS+="$resolved "
+    done
+  done
+  CSS_FONTS=$(echo "$CSS_FONTS" | tr '[:upper:]' '[:lower:]' | grep -oP "[\w\s-]+" | sort -u)
+  
+  SKIP_FONTS="serif sans-serif monospace cursive fantasy system-ui ui-sans-serif ui-serif ui-monospace"
+  for font in $CSS_FONTS; do
+    [ "${#font}" -lt 3 ] && continue
+    echo "$SKIP_FONTS" | grep -qi "$font" && continue
+    if ! echo "$DESIGN_FONTS" | grep -qi "$font"; then
+      echo "  ${YELLOW}⚠${NC} Drift: '$font' not found in DESIGN.md Section 3"
+    fi
+  done
+fi
+
+if [ "$DRIFT_PCT" -ge "$THRESHOLD" ]; then
   exit 1
 else
   echo "  ${GREEN}✓ Drift within threshold${NC}"
