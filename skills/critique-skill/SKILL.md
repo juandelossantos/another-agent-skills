@@ -80,6 +80,12 @@ Evaluate the interface across six dimensions:
    - Flag any of the 25 anti-patterns present. See `ANTI-PATTERNS.md`.
 6. **DO/DON'T Catalog**:
    - Cross-reference against DESIGN-CORE.md principles.
+7. **Visual Design (optional)** — Score 5 dimensions 0-4. These are **felt** dimensions (flag for human review, not automated block):
+   - **Color Harmony** — Palette unity, accent intentionality, contrast feel
+   - **Typographic Craft** — Hierarchy, scale rhythm, readability, pairings
+   - **Visual Hierarchy** — Read order, emphasis, scanability, information priority
+   - **Spatial Accuracy** — Spacing token consistency, grid alignment, balance
+   - **Mood/Tone** — Does the design communicate the intended feeling?
 
 ### Phase 2 — Automated Detection
 
@@ -170,3 +176,5 @@ Questions:
 - [ ] Priority issues extracted (3-5 items)
 - [ ] Questions to answer surfaced
 - [ ] Report delivered to user before any fix
+- [ ] Visual design dimensions scored if applicable (5 dimensions, 0-4 each)
+- [ ] Felt dimensions flagged for human review, not treated as automated block
