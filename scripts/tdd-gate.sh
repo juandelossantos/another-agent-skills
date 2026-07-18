@@ -6,7 +6,7 @@
 # Language-agnostic, mechanical, binary pass/fail.
 #
 # Usage: bash scripts/tdd-gate.sh
-# Env:   COMMIT_MSG (optional) — commit message body for OVERRIDE detection
+# Env:   (no override mechanism — every change requires a test)
 # Exit:  0 = PASS/SKIP, 1 = BLOCK
 #
 # Spec: development/SPEC-TDD-GATE.md
@@ -47,6 +47,7 @@ SKIP_PATTERNS=(
   '*.pdf' '*.doc' '*.docx'
   '*.o' '*.class' '*.pyc'
   '.gitignore' '.env*'
+  'SKILL.md'
 )
 
 # ─── Helpers ───
@@ -158,6 +159,10 @@ name_matches_code() {
   # Case-insensitive stem match (handles DESIGN-MD-SCHEMA vs design-md-schema)
   [[ "${test_stem,,}" == "${code_stem,,}" ]] && return 0
 
+  # Case-insensitive containment (handles "guide-refs" testing skill named "SKILL" or "DISCOVERY-GUIDE")
+  [[ "${code_stem,,}" == *"${test_stem,,}"* ]] && return 0
+  [[ "${test_stem,,}" == *"${code_stem,,}"* ]] && return 0
+
   return 1
 }
 
@@ -226,9 +231,6 @@ if [[ ${#TEST_FILES[@]} -eq 0 ]]; then
   echo ""
   echo "Options:"
   echo "  1. Stage a test file: git add tests/<name>.test.js"
-  echo "  2. Override (explain why): add OVERRIDE: reason to commit body"
-  echo ""
-  echo "Example: git commit -m \"fix: hotfix\" -m \"OVERRIDE: typo-only change\""
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "none" "no"
   exit 1
@@ -270,7 +272,6 @@ if [[ ${#MISMATCHED[@]} -gt 0 ]]; then
   echo ""
   echo "Options:"
   echo "  1. Stage a correctly-named test: git add tests/test_<code_name>.sh"
-  echo "  2. Override: add OVERRIDE: reason to commit body"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "name-mismatch"
   exit 1
@@ -302,7 +303,6 @@ if ! $HAS_NEW_TEST; then
   echo ""
   echo "Options:"
   echo "  1. Create and stage a new test file"
-  echo "  2. Override: add OVERRIDE: reason to commit body"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "no-new-test"
   exit 1
@@ -344,7 +344,6 @@ if $ORDER_FAIL; then
   echo ""
   echo "Options:"
   echo "  1. Remove the code file, write the test first, then re-create code"
-  echo "  2. Override: add OVERRIDE: reason to commit body"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "staging-order"
   exit 1

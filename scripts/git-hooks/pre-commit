@@ -507,7 +507,7 @@ fi
 if [ -z "$TEST_CMD" ]; then
   TEST_RUNNER="${REPO_ROOT}/tests/run-all.sh"
   if [ -f "$TEST_RUNNER" ]; then
-    TEST_CMD="bash $TEST_RUNNER"
+    TEST_CMD="bash $TEST_RUNNER --changed"
   fi
 fi
 
