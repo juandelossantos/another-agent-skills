@@ -6,7 +6,7 @@
 #   SPEC Enforcement, Progress Status, Skill Lint, Eval,
 #   Test Runner
 #
-# Approval check moved to commit-msg hook (v4, single TDD gate).
+# Approval check moved to commit-msg hook (v6, single TDD gate).
 # pre-commit runs BEFORE commit message is written, so it cannot
 # validate commit message matching.
 # commit-msg runs AFTER message is written and handles approval + TDD gate.
@@ -33,6 +33,28 @@ echo ""
 echo "╔════════════════════════════════════════════╗"
 echo "║  PRE-FLIGHT CHECK                          ║"
 echo "╚════════════════════════════════════════════╝"
+
+# Gate 0: Decision approval — agent must present DECISION POINT before commit
+DECISION_FILE="${REPO_ROOT}/.git/DECISION_APPROVED"
+if [[ -f "$DECISION_FILE" ]]; then
+  DECISION_TS=$(cat "$DECISION_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1)
+  if [[ -n "$DECISION_TS" ]]; then
+    DECISION_EPOCH=$(date -d "$DECISION_TS" +%s 2>/dev/null || echo "0")
+    NOW_EPOCH=$(date +%s)
+    DIFF=$(( NOW_EPOCH - DECISION_EPOCH ))
+    if [[ "$DIFF" -gt 600 ]]; then
+      echo "  ${RED}✗${NC} Decision token stale (${DIFF}s old, max 600s)"
+      exit 1
+    fi
+  else
+    echo "  ${RED}✗${NC} Decision token has no valid timestamp"
+    exit 1
+  fi
+else
+  echo "  ${RED}✗${NC} No decision token found — agent must present DECISION POINT"
+  exit 1
+fi
+echo "  ${GREEN}✓${NC} Decision approval fresh"
 
 # Gate 1: Branch check — verify not on detached HEAD, protect main
 BRANCH=$(git branch --show-current)
