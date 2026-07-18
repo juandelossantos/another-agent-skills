@@ -57,12 +57,20 @@ is_code_file() {
   local filepath="${REPO_DIR}/${file}"
 
   # Skip known non-code patterns (binaries, lock files, etc.)
-  for pattern in "${SKIP_PATTERNS[@]}"; do
+for pattern in "${SKIP_PATTERNS[@]}"; do
+  # For simple filename patterns (no glob), check basename
+  if [[ "$pattern" != *'*'* ]]; then
+    if [[ "$(basename "$file")" == "$pattern" ]]; then
+      return 1
+    fi
+  else
+    # For glob patterns, use original regex matching
     local regex="^${pattern//\*/.*}$"
     if [[ "$file" =~ $regex ]]; then
       return 1
     fi
-  done
+  fi
+done
 
   # Check extension-based patterns
   for pattern in "${CODE_PATTERNS[@]}"; do
