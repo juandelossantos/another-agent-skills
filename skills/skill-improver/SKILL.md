@@ -160,4 +160,4 @@ Never auto-apply without explicit approval.
 - `scripts/skill-lint.sh` — structural validation
 - `docs/EVAL-GUIDE.md` — complete eval system documentation (format, tiers, coverage, advanced)
 - `skills/skill-creator/` — for creating skills from scratch
-- `development/PLAN-v5-TDD-FIRST.md` — current improvement plan
+- `PLAN.md` — project roadmap and current phase plan
