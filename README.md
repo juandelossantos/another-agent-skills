@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.1.0](https://img.shields.io/badge/version-6.1.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 Latest: v6.0.0 — Phase 6: Design Skill Integrity** — Design flow redefined with mechanical gates, 17-section DESIGN.md schema, TDD enforcement (no override), Gate 0 block. [Learn more →](#whats-new-in-v600--phase-6-design-skill-integrity)
+> **🧠 Latest: v6.1.0 — Claude Code Parity** — 57 skills auto-install to `~/.claude/skills/`, all 3 enforcement hooks auto-wire into `.claude/settings.json`. One command, no manual setup. [Learn more →](#whats-new-in-v610--claude-code-parity)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -114,6 +114,16 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v6.1.0 — Claude Code Parity
+
+**Claude Code gets full skill+hook parity with OpenCode — one command, zero manual setup.** Closes the skills+hooks gap inside Phase 7's Task 7.1 (the `agents/`/`commands/` mirror is still open — see `PLAN.md`).
+
+- **57 skills, auto-installed globally** — `bash install.sh` / `bash install.sh --agent claude` install every skill to `~/.claude/skills/`, Claude Code's own auto-discovery path. Manifest-tracked, idempotent, never touches skills you already have there.
+- **Enforcement hooks, made to actually work** — `commit-approval.sh`, `pre-flight.sh`, and `edit-guard.sh` now parse Claude Code's real `PreToolUse`/`PostToolUse` JSON payload and use the correct block exit code (`2`, not `1` — the old scripts would not have blocked anything even if wired). `install.sh --agent claude` merges them into `.claude/settings.json` automatically via an idempotent `jq` merge (native `ConvertTo-Json` on Windows) that never overwrites your own hooks or settings.
+- **15 new tests, 24/24 suites passing** — hook behavior (block/allow, exit codes, risky-command scoping), install idempotency, and EN/ES doc parity are all covered. A full code review before shipping caught two bugs that would have made the hooks unusable (`pre-flight.sh` blocking every commit, `commit-approval.sh` checking a token file the repo stopped using long ago) — see [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) for details.
+
+[**Full release notes →**](./RELEASE-NOTES.md)
 
 ## What's New in v6.0.0 — Phase 6: Design Skill Integrity
 
@@ -346,7 +356,7 @@ If it fails, ask the user before taking any action.
 | [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
 | [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.0.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.1.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

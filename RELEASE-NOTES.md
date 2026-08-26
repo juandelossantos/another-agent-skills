@@ -1,5 +1,41 @@
 # Release Notes
 
+## 6.1.0 (2026-08-26) — Claude Code Parity (Task 7.1, partial)
+
+Closes the skills+hooks gap inside Phase 7's Task 7.1 — not the full task (the
+`.opencode/agents/`+`commands/` mirror into `.claude/` is still open), but the
+two pieces that make Claude Code actually work automatically end to end.
+
+### New
+
+- **Global skills, real parity with OpenCode.** `bash install.sh` / `bash install.sh --agent claude` install all 57 skills into `~/.claude/skills/` (Claude Code's own auto-discovery path), tracked via a manifest so re-installs are safe and never touch unrelated skills already in that directory. Mirrored in `install.ps1`.
+- **Enforcement hooks, made to actually work.** `commit-approval.sh`, `pre-flight.sh`, and `edit-guard.sh` were copied into projects by the old adapter but never wired to anything — and even if wired, would not have blocked (`exit 1` where Claude Code's `PreToolUse` block contract requires `exit 2`). Rewrote all three to parse Claude Code's real hook JSON (stdin `tool_input.command` / `tool_input.file_path`), scope themselves to actually-risky commands (mirroring the OpenCode plugin's `isRiskyCommand`/`BLOCKED_COMMANDS`, not the broader manual `scripts/pre-flight.sh`), and use the correct exit codes. `install.sh --agent claude` now merges the matching hooks into `.claude/settings.json` via a `jq`-based, idempotent, additive merge (never replaces the file, never touches a user's own hooks/keys) — `install.ps1` does the same via native `ConvertFrom-Json -AsHashtable`/`ConvertTo-Json`.
+- **Website + docs caught up to reality.** `index.html`, `docs/agents.html`, `docs/getting-started.html`, `docs/AGENT-ADAPTERS.md`, `README.md`, and all 4 i18n files (`i18n/{en,es}.json`, `docs/i18n/{en,es}.json`, kept at 100% key parity) now describe Claude Code's real, automatic skill+hook parity instead of the old manual-setup instructions.
+- **15 new tests** (`tests/test-commit-approval.sh`, `test-pre-flight-hook.sh`, `test-edit-guard-hook.sh`, `test-_risky-commands.sh`, `test-install.sh`, plus 10 content/parity checks) covering the new hook behavior and the doc/i18n updates.
+
+### Fixed
+
+Two of the following were caught by a full code review of this release *before it shipped* — they would have made the hooks unusable for anyone who actually installed them, so they're called out explicitly rather than folded silently into "New":
+
+- **`pre-flight.sh` blocked every normal commit.** It gated `git commit` on a clean working tree, but staged changes (the normal precondition for committing) always make the tree "dirty" — so this would have blocked 100% of commits, always. Fixed: `git commit` is now exempt from the dirty-tree check (still gated by `commit-approval.sh`'s approval-token check, and still blocked if the branch is behind upstream).
+- **`commit-approval.sh` checked a retired token file.** It read `.git/COMMIT_APPROVED`, a scheme this repo's own current workflow replaced with `.git/DECISION_APPROVED` back in commit-msg v4 — nothing writes the old file anymore, so the gate could never be satisfied through any documented current workflow. Fixed: now reads `.git/DECISION_APPROVED` with the same 10-minute freshness check the real pre-commit hook uses.
+- **`edit-guard.sh` false-positived on every newly created file.** The shared `scripts/edit-guard.sh`'s line-count baseline can't be recorded for a file that doesn't exist yet (it errors under `set -e`), so every file created via the `Write` tool got a spurious ">20% content-drop" warning on its first edit. Fixed: the wrapper now recognizes the shared script's "no pre-flight data" case and treats it as informational, not a warning.
+- A leading-whitespace bypass in the hooks' risky-command matcher (an indented `git commit` would have skipped the gate).
+- A stale `templates/CLAUDE.md` reference pointing at the OpenCode-only `~/.config/opencode/skills/` path instead of Claude Code's own `~/.claude/skills/`.
+- A content-parity gap between `i18n/en.json` and `i18n/es.json` in `faq.a10` (ES was missing a sentence present in EN).
+
+### Changed
+
+- `commit-approval.sh` and `pre-flight.sh` now share one risky-command classification (`_risky-commands.sh`) instead of two copies of the same `case` statement that could silently drift apart.
+- `install.sh --agent claude` scopes the `commit-approval.sh` hook to `"if": "Bash(git *)"` in `.claude/settings.json`, so Claude Code skips spawning it for the many Bash calls that aren't git commands (`pre-flight.sh` still runs on every Bash call — it also checks `rm -rf`/`mv`). Mirrored in `install.ps1`.
+
+### Known limitations (unchanged, documented)
+
+- `.claude-plugin/agent-discipline/` is still not a real auto-discoverable Claude Code plugin (`plugin.json` nested one level too deep per the actual plugin spec) — works today only because `install.sh` merges its hooks directly into `.claude/settings.json`, not via plugin auto-discovery.
+- Cursor/Kiro adapters unchanged — still manual setup.
+
+---
+
 ## 6.0.0 (2026-07-17) — Phase 6: Design Skill Integrity
 
 ### New (Phase 6 — Design Flow Redefinition)

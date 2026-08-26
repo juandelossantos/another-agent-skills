@@ -27,6 +27,9 @@ assert "documents the enforcement hooks automation work" "grep -qi 'enforcement 
 assert "documents the website update work" "grep -qi 'website' '$FILE'"
 assert "lists what's still open under Task 7.1" "grep -q 'Still Open' '$FILE'"
 assert "notes the plugin-structure limitation isn't fixed yet" "grep -qi 'not a real auto-discoverable Claude Code plugin' '$FILE'"
+assert "documents the post-commit code-review pass and what it caught" "grep -q 'full .code-review. pass' '$FILE'"
+assert "documents the pre-flight.sh dirty-tree-blocks-every-commit bug" "grep -qi 'blocked 100% of commits' '$FILE'"
+assert "documents the commit-approval.sh dead-token bug" "grep -q 'DECISION_APPROVED' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

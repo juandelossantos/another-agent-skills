@@ -96,13 +96,13 @@
     "skillsCount": "Skills",
     "guidesCount": "Guías",
     "license": "Licencia",
-    "whatsNew": "Novedades en v6.0.0",
-    "whatsNewItem1": "Flujo de Diseño Transformado",
-    "whatsNewDesc1": "Schema DESIGN.md de 17 secciones, design-gate.sh en 3 modos (strict/audit/verify), design-upgrade.sh para codebases existentes.",
-    "whatsNewItem2": "TDD Enforcement — Sin Override",
-    "whatsNewDesc2": "commit-msg v6 bloquea todo cambio sin test coincidente. Sin bypass. No existe mecanismo de override.",
-    "whatsNewItem3": "Gate 0: Bloqueo DECISION_APPROVED",
-    "whatsNewDesc3": "Pre-commit bloquea si no hay token de decisión. 15 gates total (antes 14). Token-validate + approval-gate añadidos."
+    "whatsNew": "Novedades en v6.1.0",
+    "whatsNewItem1": "Paridad con Claude Code",
+    "whatsNewDesc1": "Las 57 skills se instalan solas en ~/.claude/skills/ (auto-descubiertas, igual que en OpenCode). Un solo comando, sin configuración por proyecto.",
+    "whatsNewItem2": "Hooks de Enforcement, Ahora Funcionan de Verdad",
+    "whatsNewDesc2": "commit-approval, pre-flight y edit-guard ahora parsean el JSON real de los hooks de Claude Code y se conectan solos a .claude/settings.json vía un merge idempotente que nunca toca tus propios hooks.",
+    "whatsNewItem3": "15 Tests Nuevos",
+    "whatsNewDesc3": "Comportamiento de hooks, idempotencia del instalador, y paridad de docs EN/ES, todo cubierto — 24/24 suites de test pasando."
   },
   "gettingStarted": {
     "title": "Primeros pasos",

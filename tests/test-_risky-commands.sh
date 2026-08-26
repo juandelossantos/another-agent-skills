@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# test-_risky-commands.sh — Unit tests for .claude-plugin/agent-discipline/hooks/_risky-commands.sh
+# (the shared risky-command classification sourced by commit-approval.sh and
+# pre-flight.sh — added after code review flagged their duplicated case
+# statements as a desync risk).
+
+set -uo pipefail
+
+RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$REPO_ROOT/.claude-plugin/agent-discipline/hooks/_risky-commands.sh"
+
+PASSED=0; FAILED=0; TOTAL=0
+assert_bool() {
+  local name="$1" expected="$2" actual="$3"
+  TOTAL=$((TOTAL + 1))
+  if [ "$actual" = "$expected" ]; then
+    echo -e "  ${GREEN}✓${NC} $name"
+    PASSED=$((PASSED + 1))
+  else
+    echo -e "  ${RED}✗${NC} $name (expected $expected, got $actual)"
+    FAILED=$((FAILED + 1))
+  fi
+}
+
+check() { if "$1" "$2"; then echo "true"; else echo "false"; fi; }
+
+assert_bool "is_git_mutation_command: git commit -m x" "true" "$(check is_git_mutation_command 'git commit -m x')"
+assert_bool "is_git_mutation_command: git push" "true" "$(check is_git_mutation_command 'git push')"
+assert_bool "is_git_mutation_command: git status is NOT a mutation" "false" "$(check is_git_mutation_command 'git status')"
+
+assert_bool "is_risky_command: git commit IS risky (upstream-behind still checked)" "true" "$(check is_risky_command 'git commit -m x')"
+assert_bool "is_risky_command: rm -rf" "true" "$(check is_risky_command 'rm -rf dir')"
+assert_bool "is_risky_command: ls is NOT risky" "false" "$(check is_risky_command 'ls -la')"
+
+assert_bool "is_dirty_tree_risky_command: git commit is EXEMPT (staged=dirty is normal)" "false" "$(check is_dirty_tree_risky_command 'git commit -m x')"
+assert_bool "is_dirty_tree_risky_command: git push IS gated on a clean tree" "true" "$(check is_dirty_tree_risky_command 'git push')"
+assert_bool "is_dirty_tree_risky_command: rm -rf IS gated on a clean tree" "true" "$(check is_dirty_tree_risky_command 'rm -rf dir')"
+
+TRIMMED="$(trim_leading_whitespace '   git commit -m x')"
+assert_bool "trim_leading_whitespace strips leading spaces" "git commit -m x" "$TRIMMED"
+
+echo ""
+echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
+[ "$FAILED" -gt 0 ] && exit 1
+exit 0

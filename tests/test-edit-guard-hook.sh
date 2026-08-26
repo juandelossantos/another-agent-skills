@@ -44,6 +44,15 @@ assert_exit "PostToolUse warns (non-blocking) on >20% line-count drop" 1 "$?"
 echo "{}" | bash "$HOOK" >/dev/null 2>&1
 assert_exit "no-op (exit 0) when file_path is missing from payload" 0 "$?"
 
+# Regression: a brand-new file has no PreToolUse baseline (the shared script
+# dies under `set -e` on cmd_lines() for a nonexistent file) — PostToolUse
+# must not misreport this as a >20% content-drop warning.
+rm -f "$TMP_REPO/created.txt"
+jq -n --arg fp "$TMP_REPO/created.txt" '{hook_event_name: "PreToolUse", tool_input: {file_path: $fp}}' | bash "$HOOK" >/dev/null 2>&1
+printf "a\nb\nc\nd\ne\n" > "$TMP_REPO/created.txt"
+jq -n --arg fp "$TMP_REPO/created.txt" '{hook_event_name: "PostToolUse", tool_input: {file_path: $fp}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "PostToolUse does not false-positive-warn on a newly created file" 0 "$?"
+
 rm -rf "$TMP_REPO"
 
 echo ""

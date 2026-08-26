@@ -262,6 +262,14 @@ function Configure-ClaudeHooks {
     $existing["hooks"]["PreToolUse"] = Merge-HookGroup -Groups $existing["hooks"]["PreToolUse"] -Matcher "Bash" -Commands @($cmdPreFlight, $cmdCommitApproval)
     $existing["hooks"]["PostToolUse"] = Merge-HookGroup -Groups $existing["hooks"]["PostToolUse"] -Matcher "Edit|Write" -Commands @($cmdEditGuard)
 
+    # commit-approval only ever cares about git commands — scope it with "if"
+    # so Claude Code skips spawning it for every other Bash call (ls, npm test, ...).
+    $bashGroup = @($existing["hooks"]["PreToolUse"]) | Where-Object { $_.matcher -eq "Bash" }
+    if ($bashGroup) {
+        $commitHook = @($bashGroup[0].hooks) | Where-Object { $_.command -eq $cmdCommitApproval }
+        if ($commitHook) { $commitHook[0]["if"] = "Bash(git *)" }
+    }
+
     $existing | ConvertTo-Json -Depth 10 | Set-Content $settingsFile
     Write-Ok "Wired 3 hooks (edit-guard, pre-flight, commit-approval) into $settingsFile"
 }

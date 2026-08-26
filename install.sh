@@ -562,7 +562,7 @@ configure_claude_hooks() {
                     {matcher: "Edit|Write", hooks: [{type: "command", command: $editGuard}]},
                     {matcher: "Bash", hooks: [
                         {type: "command", command: $preFlight},
-                        {type: "command", command: $commitApproval}
+                        {type: "command", command: $commitApproval, if: "Bash(git *)"}
                     ]}
                 ],
                 PostToolUse: [

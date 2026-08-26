@@ -3,6 +3,8 @@
 #
 # Simulates the JSON payload Claude Code sends on stdin for a PreToolUse/Bash
 # hook and asserts the correct exit code (0 = allow, 2 = block) for each case.
+# Uses .git/DECISION_APPROVED (the repo's current approval-token scheme —
+# see rules/common/enforcement.md), not the retired .git/COMMIT_APPROVED.
 
 set -uo pipefail
 
@@ -37,12 +39,20 @@ echo "git status" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/
 assert_exit "allows non-blocked command (git status)" 0 "$?"
 
 echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
-assert_exit "blocks git commit without approval token" 2 "$?"
+assert_exit "blocks git commit without DECISION_APPROVED token" 2 "$?"
 
-touch "$TMP_REPO/.git/COMMIT_APPROVED"
+echo "$(date -Iseconds)" > "$TMP_REPO/.git/DECISION_APPROVED"
 echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
-assert_exit "allows git commit with approval token" 0 "$?"
-rm "$TMP_REPO/.git/COMMIT_APPROVED"
+assert_exit "allows git commit with a fresh DECISION_APPROVED token" 0 "$?"
+
+# No UTC/offset suffix — matches how the hook's regex reads a real
+# DECISION_APPROVED token (it strips the offset and lets `date -d`
+# interpret the bare timestamp as local time, same as the token writer).
+date -d "-11 minutes" +"%Y-%m-%dT%H:%M:%S" > "$TMP_REPO/.git/DECISION_APPROVED" 2>/dev/null \
+  || date -v-11M +"%Y-%m-%dT%H:%M:%S" > "$TMP_REPO/.git/DECISION_APPROVED"
+echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "blocks git commit with a stale (>10min) DECISION_APPROVED token" 2 "$?"
+rm -f "$TMP_REPO/.git/DECISION_APPROVED"
 
 echo "   git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
 assert_exit "blocks indented git commit (leading-whitespace fix)" 2 "$?"

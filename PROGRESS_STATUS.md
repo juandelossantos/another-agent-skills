@@ -1,13 +1,14 @@
 # Project Progress Status
 
-> **Last updated:** 2026-07-23  
-> **Current version:** 6.0.0 → v7.0.0-dev (auto-generated)
-> **Status:** v6.0.0 released. Next: **Phase 7: Cross-Platform Harness Parity** — see `PLAN.md`
+> **Last updated:** 2026-08-26  
+> **Current version:** 6.1.0 (auto-generated)
+> **Status:** v6.1.0 released (Task 7.1 partial — Claude Code skills+hooks parity). Next: rest of **Phase 7: Cross-Platform Harness Parity** — see `PLAN.md`
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
 
 ## What Exists Now
+
 
 
 

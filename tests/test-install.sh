@@ -40,6 +40,11 @@ if command -v jq &>/dev/null && [ -f "$TMP_PROJECT/.claude/settings.json" ]; the
 
   BASH_HOOK_COUNT=$(jq '.hooks.PreToolUse[] | select(.matcher=="Bash") | .hooks | length' "$TMP_PROJECT/.claude/settings.json" 2>/dev/null || echo 0)
   assert "Bash matcher has 2 commands (pre-flight + commit-approval)" "[ '$BASH_HOOK_COUNT' -eq 2 ]"
+
+  COMMIT_APPROVAL_IF=$(jq -r '.hooks.PreToolUse[] | select(.matcher=="Bash") | .hooks[] | select(.command | test("commit-approval")) | .if' "$TMP_PROJECT/.claude/settings.json" 2>/dev/null || echo "")
+  assert "commit-approval scoped with if:Bash(git *) (skips spawn on non-git commands)" '[ "$COMMIT_APPROVAL_IF" = "Bash(git *)" ]'
+  PRE_FLIGHT_IF=$(jq -r '.hooks.PreToolUse[] | select(.matcher=="Bash") | .hooks[] | select(.command | test("pre-flight")) | .if // "none"' "$TMP_PROJECT/.claude/settings.json" 2>/dev/null || echo "")
+  assert "pre-flight has no if-filter (also checks rm/mv, not just git)" '[ "$PRE_FLIGHT_IF" = "none" ]'
 fi
 
 echo ""

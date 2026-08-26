@@ -37,6 +37,8 @@ assert "i18n/en.json faq.a3 mentions Claude Code parity" "jq -r '.faq.a3' '$REPO
 
 assert "docs/i18n/en.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/en.json' | grep -q '~/.claude/skills/'"
 assert "docs/i18n/es.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/es.json' | grep -q '~/.claude/skills/'"
+assert "docs/i18n/en.json whatsNew heading is v6.1.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'v6.1.0'"
+assert "docs/i18n/es.json whatsNew heading is v6.1.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'v6.1.0'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

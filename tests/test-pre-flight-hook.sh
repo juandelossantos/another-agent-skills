@@ -2,8 +2,10 @@
 # test-pre-flight-hook.sh — Tests for .claude-plugin/agent-discipline/hooks/pre-flight.sh
 #
 # Confirms it scopes to actually-risky commands only (unlike a blanket
-# "Bash(git *)" matcher, which would also block routine `git status`), and
-# blocks risky commands on a dirty tree with the correct Claude Code exit code.
+# "Bash(git *)" matcher, which would also block routine `git status`), blocks
+# risky commands on a dirty tree with the correct Claude Code exit code, and
+# — critically — does NOT block a normal `git commit` on staged changes
+# (staged = dirty is commit's expected precondition, not a danger sign).
 
 set -uo pipefail
 
@@ -41,11 +43,18 @@ echo "git push" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/nu
 assert_exit "allows risky command (git push) on a clean tree" 0 "$?"
 
 echo "dirty" >> "$TMP_REPO/f"
-echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
-assert_exit "blocks risky command (git commit) on a dirty tree" 2 "$?"
+echo "git push" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "blocks git push on a dirty (unstaged) tree" 2 "$?"
 
 echo "rm -rf somedir" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
 assert_exit "blocks rm -rf on a dirty tree" 2 "$?"
+
+# The regression this test suite missed before code review caught it live:
+# staging a change for commit makes the tree "dirty" too, but committing
+# staged changes is the ONLY normal way `git commit` is ever invoked.
+git -C "$TMP_REPO" add f
+echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "allows git commit on a normal staged-for-commit tree (regression)" 0 "$?"
 
 git -C "$TMP_REPO" checkout -q f
 rm -rf "$TMP_REPO"

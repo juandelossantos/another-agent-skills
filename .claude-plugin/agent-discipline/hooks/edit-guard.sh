@@ -34,7 +34,20 @@ case "$EVENT" in
     exit 0
     ;;
   PostToolUse)
-    if bash "$SHARED_SCRIPT" verify "$FILE_PATH" >&2; then
+    # `if var=$(cmd)` (not a bare assignment) so a non-zero exit from the
+    # shared script doesn't trip `set -e` before we get to inspect it.
+    if VERIFY_OUTPUT="$(bash "$SHARED_SCRIPT" verify "$FILE_PATH" 2>&1)"; then
+      VERIFY_EXIT=0
+    else
+      VERIFY_EXIT=$?
+    fi
+    echo "$VERIFY_OUTPUT" >&2
+    if [ "$VERIFY_EXIT" -eq 0 ]; then
+      exit 0
+    elif echo "$VERIFY_OUTPUT" | grep -q "No pre-flight data"; then
+      # New/newly-created file with no PreToolUse baseline (the shared
+      # script can't distinguish "no data" from "legitimately started at 0
+      # lines" — see scripts/edit-guard.sh cmd_verify). Not a real warning.
       exit 0
     else
       echo "[edit-guard] Line count changed >20% on $FILE_PATH — verify the edit didn't drop content." >&2

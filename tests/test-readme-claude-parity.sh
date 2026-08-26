@@ -24,6 +24,9 @@ assert() {
 assert "compatibility table has a global-skills row" "grep -q '57 skills installed globally' '$FILE'"
 assert "row credits Claude Code with ~/.claude/skills/ auto" "grep -q 'auto → \`~/.claude/skills/\`' '$FILE'"
 assert "Quick Start still documents --agent claude" "grep -q 'install.sh --agent claude' '$FILE'"
+assert "version badge is v6.1.0" "grep -q 'Version: v6.1.0' '$FILE'"
+assert "What's New in v6.1.0 section exists" "grep -q \"What's New in v6.1.0\" '$FILE'"
+assert "credits the code review that caught real bugs" "grep -qi 'code review before shipping caught' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
