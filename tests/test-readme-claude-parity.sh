@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# test-progress_status.sh — Content check for PROGRESS_STATUS.md: the
-# "Known Limitations" row no longer claims Claude Code needs manual adapter
-# setup for skills+hooks (it doesn't, since today's install.sh change).
+# test-readme-claude-parity.sh — Content check for README.md: the Agent
+# Compatibility table credits Claude Code with global auto-installed skills.
 
 set -uo pipefail
 
 RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-FILE="$REPO_ROOT/PROGRESS_STATUS.md"
+FILE="$REPO_ROOT/README.md"
 
 PASSED=0; FAILED=0; TOTAL=0
 assert() {
@@ -22,8 +21,9 @@ assert() {
   fi
 }
 
-assert "Known Limitations row no longer lumps Claude with Cursor" "! grep -q 'Claude/Cursor need adapter setup' '$FILE'"
-assert "Known Limitations row credits Claude Code with automatic parity" "grep -q 'Claude Code now gets full automatic parity' '$FILE'"
+assert "compatibility table has a global-skills row" "grep -q '57 skills installed globally' '$FILE'"
+assert "row credits Claude Code with ~/.claude/skills/ auto" "grep -q 'auto → \`~/.claude/skills/\`' '$FILE'"
+assert "Quick Start still documents --agent claude" "grep -q 'install.sh --agent claude' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

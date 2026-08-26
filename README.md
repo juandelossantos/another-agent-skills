@@ -50,7 +50,7 @@ Run `init-agents` in every new project — it:
 
 > **Safety:** Backs up before replacing. `init-agents` merges — never overwrites.
 > **Universal:** Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
-> **Agent adapters:** `bash install.sh --agent claude` or `.\install.ps1 -Agent claude`
+> **Only use Claude Code?** `bash install.sh --agent claude` installs the 57 skills to `~/.claude/skills/` (Claude Code's own global skill path — auto-discovered in every project, no `init-agents` needed) plus `CLAUDE.md` and the enforcement hooks, without setting up OpenCode at all. The plain `bash install.sh` above installs skills globally for **both** OpenCode and Claude Code every time. See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md#claude-code) for hook wiring.
 >
 > **📖 New to skills?** Read the [**Quick Start Guide →**](./docs/quickstart-guide.html) ([Markdown version](./QUICKSTART.md)) for a step-by-step walkthrough of your first session, how skills activate, and day-to-day tips.
 
@@ -279,6 +279,7 @@ Another Agent Skills works with multiple AI coding agents. **Git hooks work ever
 
 | Feature | OpenCode | Claude Code | Cursor | Kiro | Any Git Agent |
 |---|---|---|---|---|---|
+| 57 skills installed globally (`bash install.sh`) | ✅ auto → `~/.config/opencode/skills/` | ✅ auto → `~/.claude/skills/` | ⚠️ manual | ⚠️ manual | ⚠️ manual |
 | Git hooks (pre-commit, commit-msg) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | Manifest gate (commit-approval.sh + log-test-results.sh) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | SOUL.md + AGENTS.md rules | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |

@@ -1,9 +1,9 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-23
-**Version:** 6.0.0 → v7.0.0 (in progress)
+**Date:** 2026-08-26
+**Version:** 6.0.0 → v7.0.0-dev
 **Auditor:** OpenCode Agent (auto-generated)
-**Status:** ✅ HEALTHY — v6.0.0 released. **Phase 7** in progress on `feat/phase7-cross-platform-harness`. See `PLAN.md` for roadmap.
+**Status:** 🟡 DEGRADED
 
 ---
 
@@ -13,8 +13,8 @@
 |---|---|
 | Critical Issues | **0** |
 | Errors (Check 14) | **0** (guide violations) |
-| Warnings | **0** |
-| Overall | **✅ HEALTHY** |
+| Warnings | **2** |
+| Overall | **🟡 DEGRADED** |
 
 ---
 
@@ -25,9 +25,9 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 6.0.0 | Consistent |
-| Skill lint | ✅ 0 errors, 0 warnings | |
-| validate-skill-table | ✅ PASS | Guide counts validated |
+| VERSION | ✅ 6.0.0 → v7.0.0-dev | Consistent |
+| Skill lint | ✅ 0 errors, 2 warnings | |
+| validate-skill-table | 🔴 FAIL | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
 
@@ -72,7 +72,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 1. **Execute Phase 7: Cross-Platform Harness Parity** — See `PLAN.md` for 10 tasks.
 2. **Active tests:** `tests/test-plan-v7.sh`, `tests/test-sync-hooks.sh`, `tests/test-tdd-gate.sh`. All v6.0.0 tests archived.
-3. **Next session:** Start Task 7.1 — Claude Code `.claude/` Mirror.
+3. **Task 7.1 — Claude Code `.claude/` Mirror:** the skills + hooks portion is done — `bash install.sh --agent claude` installs all 57 skills globally to `~/.claude/skills/` and wires all 3 enforcement hooks into `.claude/settings.json` automatically. Still open: the `agents/`/`commands/` mirror of `.opencode/` that Task 7.1 also scoped. **Next session:** pick up that remaining piece, or move to Task 7.2 — Cursor `.cursor/` Mirror.
 
 ---
 

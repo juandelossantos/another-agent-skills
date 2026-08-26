@@ -1,7 +1,7 @@
 # Project Progress Status
 
 > **Last updated:** 2026-07-23  
-> **Current version:** 6.0.0 (Phase 6: Design Skill Integrity complete)
+> **Current version:** 6.0.0 → v7.0.0-dev (auto-generated)
 > **Status:** v6.0.0 released. Next: **Phase 7: Cross-Platform Harness Parity** — see `PLAN.md`
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
@@ -17,67 +17,68 @@
 
 
 
+
 ### 57 Custom Skills
 
 | Skill | Lines | Guides | Description |
-|---|---|---|---|---|
+|---|---|---|---|
 | `adapt-skill` | 136 | 2 |  |
-| `api-and-interface-design` | 125 | 2 |  |
-| `architecture-analysis` | 232 | 3 |  |
+| `api-and-interface-design` | 125 | 2 | Design stable APIs and module boundaries with clear contracts. Use when designin |
+| `architecture-analysis` | 232 | 3 | Evaluate architecture options with 2-3 alternatives before building. Challenges  |
 | `audit-skill` | 157 | 4 |  |
-| `backend-api-mastery` | 180 | 5 |  |
-| `browser-testing-with-devtools` | 79 | 1 |  |
-| `ci-cd-and-automation` | 129 | 2 |  |
-| `clarify-skill` | 126 | 4 |  |
-| `cli-tools` | 125 | 2 |  |
+| `backend-api-mastery` | 180 | 5 | Design production-grade APIs with intentional architecture before writing endpoi |
+| `browser-testing-with-devtools` | 79 | 1 | Test interfaces in real browsers: inspect DOM, capture console errors, analyze n |
+| `ci-cd-and-automation` | 129 | 2 | Automate CI/CD pipeline setup, quality gates, and deployment. Use when configuri |
+| `clarify-skill` | 126 | 4 | Rewrite confusing UX copy so interfaces explain themselves: labels, buttons, err |
+| `cli-tools` | 125 | 2 | Build production-grade CLI tools with argument parsing, exit codes, colored outp |
 | `code-review-and-quality` | 148 | 3 |  |
-| `code-simplification` | 166 | 2 |  |
+| `code-simplification` | 166 | 2 | Simplify code for clarity without changing behavior. Use when refactoring code t |
 | `context-engineering` | 138 | 2 |  |
-| `critique-skill` | 172 | 3 |  |
-| `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration files |
+| `critique-skill` | 180 | 3 | Evaluate interfaces with two-pass design review: scoring, persona tests, AI slop |
+| `customize-opencode` | 102 | 2 | Edit or create OpenCode's own configuration. Use ONLY when configuring |
 | `debugging-and-error-recovery` | 103 | 5 |  |
-| `debugging-three-strikes` | 83 | 0 |  |
+| `debugging-three-strikes` | 83 | 0 | Stop speculative debugging after 3 same-bug strikes. Diagnose systematically bef |
 | `delight-skill` | 156 | 4 |  |
-| `deprecation-and-migration` | 99 | 2 |  |
+| `deprecation-and-migration` | 99 | 2 | Manage deprecation and migration of old systems, APIs, and features. Covers suns |
 | `dev-environment-audit` | 161 | 4 |  |
 | `documentation-and-adrs` | 74 | 3 |  |
 | `doubt-driven-development` | 99 | 2 |  |
-| `engineering-fundamentals` | 190 | 6 |  |
-| `frontend-desktop` | 243 | 3 |  |
-| `frontend-mobile` | 247 | 3 |  |
-| `frontend-pwa` | 203 | 4 |  |
-| `frontend-ui-engineering` | 123 | 2 |  |
-| `frontend-web` | 240 | 8 |  |
-| `fullstack-shipping` | 185 | 3 |  |
-| `git-init-and-versioning` | 250 | 6 |  |
-| `git-workflow-and-versioning` | 193 | 3 |  |
-| `hard-skill` | 157 | 4 |  |
-| `idea-refine` | 113 | 2 |  |
+| `engineering-fundamentals` | 196 | 8 | Define the universal engineering philosophy for all platform skills: discovery,  |
+| `frontend-desktop` | 247 | 3 | Build production-grade desktop apps with native OS integration. Default: Tauri v |
+| `frontend-mobile` | 250 | 3 | Build production-grade mobile apps with native design tokens and platform compli |
+| `frontend-pwa` | 207 | 4 | Build installable, offline-first web apps for all devices with native migration  |
+| `frontend-ui-engineering` | 123 | 2 | Build production-quality UIs with component architecture, state management, and  |
+| `frontend-web` | 250 | 8 | Build production-grade web interfaces. Triggers: website, landing page, web app, |
+| `fullstack-shipping` | 185 | 3 | Build, test, and deploy with production-grade CI/CD, testing, orchestration, and |
+| `git-init-and-versioning` | 250 | 6 | Initialize and configure Git before writing code. Decides mono vs multi-repo, cr |
+| `git-workflow-and-versioning` | 193 | 3 | Manage git workflow practices: branching, committing, resolving conflicts, paral |
+| `hard-skill` | 157 | 4 | Fix critical and high-severity accessibility, input, and state issues determinis |
+| `idea-refine` | 113 | 2 | Refine raw ideas into sharp, actionable concepts through divergent and convergen |
 | `incremental-implementation` | 95 | 2 |  |
-| `industrial-brutalist-ui` | 84 | 0 |  |
-| `interview-me` | 108 | 2 |  |
-| `minimalist-ui` | 79 | 0 |  |
+| `industrial-brutalist-ui` | 96 | 0 | Design raw mechanical interfaces with Swiss typographic print and military termi |
+| `interview-me` | 108 | 2 | Extract what the user actually wants through one-question-at-a-time interviewing |
+| `minimalist-ui` | 91 | 0 | Design editorial product UI inspired by Notion and Linear: warm monochrome palet |
 | `multi-agent-orchestration` | 86 | 1 |  |
-| `observability-and-instrumentation` | 112 | 2 |  |
-| `optimize-skill` | 146 | 4 |  |
-| `output-skill` | 104 | 2 |  |
-| `performance-optimization` | 105 | 2 |  |
+| `observability-and-instrumentation` | 112 | 2 | Instrument code so production behavior is visible: structured logging, metrics,  |
+| `optimize-skill` | 146 | 4 | Fix performance issues: bundle size, animations, reflows, lazy loading, image op |
+| `output-skill` | 104 | 2 | Prevent placeholders, truncated code, and half-finished agent outputs. Use when  |
+| `performance-optimization` | 105 | 2 | Optimize application performance beyond the frontend: Core Web Vitals, load time |
 | `planning-and-task-breakdown` | 97 | 2 |  |
-| `polish-skill` | 143 | 2 |  |
+| `polish-skill` | 143 | 2 | Fix design detail issues: spacing, alignment, consistency, token compliance. Use |
 | `project-health-check` | 220 | 2 |  |
-| `project-metrics` | 162 | 2 |  |
-| `redesign-skill` | 76 | 0 |  |
-| `security-and-hardening` | 37 | 0 |  |
-| `self-improvement` | 97 | 4 |  |
+| `project-metrics` | 162 | 2 | Log empirical quality metrics across projects: build pass rate, rework, coverage |
+| `redesign-skill` | 80 | 0 | Improve existing codebases systematically: scan the UI, diagnose issues across 8 |
+| `security-and-hardening` | 37 | 0 | Harden code against vulnerabilities: OWASP prevention, input validation, authent |
+| `self-improvement` | 97 | 4 | Audit and fix project issues via self-improvement loop: detect, diagnose, propos |
 | `shipping-and-launch` | 177 | 2 |  |
-| `skill-creator` | 172 | 2 |  |
+| `skill-creator` | 172 | 2 | Generate new agent skills from a workflow description: SKILL.md with frontmatter |
 | `skill-improver` | 163 | 2 |  |
-| `soft-premium-ui` | 80 | 0 |  |
-| `source-driven-development` | 97 | 2 |  |
-| `spec-driven-development` | 180 | 3 |  |
+| `soft-premium-ui` | 92 | 0 |  |
+| `source-driven-development` | 97 | 2 | Ground every implementation decision in official documentation before writing co |
+| `spec-driven-development` | 180 | 3 | Create comprehensive specifications from user requests through research, critica |
 | `test-driven-development` | 146 | 6 |  |
-| `typeset-skill` | 143 | 2 |  |
-| `user-onboarding` | 197 | 2 |  |
+| `typeset-skill` | 143 | 2 | Fix typography and reading rhythm issues: typeface, weight, size, line-height, s |
+| `user-onboarding` | 197 | 2 | Capture user preferences once, persist across projects. Creates a user profile f |
 
 ### Architecture Decisions Implemented
 
@@ -160,7 +161,7 @@
 
 | Limitation | Impact | Workaround |
 |---|---|---|---|
-| OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
+| OpenCode-first invocation | Cursor/Kiro still need manual adapter setup — Claude Code now gets full automatic parity (skills + hooks) via `bash install.sh --agent claude` | `bash install.sh --agent cursor` or `--agent kiro` |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---

@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# test-edit-guard-hook.sh — Tests for .claude-plugin/agent-discipline/hooks/edit-guard.sh
+#
+# PreToolUse (record) must never block. PostToolUse (verify) must exit 0 when
+# the line-count delta is small, exit 1 (non-blocking warning) when it exceeds
+# the shared scripts/edit-guard.sh threshold.
+
+set -uo pipefail
+
+RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+HOOK="$REPO_ROOT/.claude-plugin/agent-discipline/hooks/edit-guard.sh"
+
+PASSED=0; FAILED=0; TOTAL=0
+assert_exit() {
+  local name="$1" expected="$2" actual="$3"
+  TOTAL=$((TOTAL + 1))
+  if [ "$actual" -eq "$expected" ]; then
+    echo -e "  ${GREEN}✓${NC} $name (exit $actual)"
+    PASSED=$((PASSED + 1))
+  else
+    echo -e "  ${RED}✗${NC} $name (expected exit $expected, got $actual)"
+    FAILED=$((FAILED + 1))
+  fi
+}
+
+TMP_REPO=$(mktemp -d)
+mkdir -p "$TMP_REPO/scripts"
+cp "$REPO_ROOT/scripts/edit-guard.sh" "$TMP_REPO/scripts/"
+export CLAUDE_PROJECT_DIR="$TMP_REPO"
+
+seq 1 20 > "$TMP_REPO/big.txt"
+
+jq -n --arg fp "$TMP_REPO/big.txt" '{hook_event_name: "PreToolUse", tool_input: {file_path: $fp}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "PreToolUse always allows (recording step)" 0 "$?"
+
+jq -n --arg fp "$TMP_REPO/big.txt" '{hook_event_name: "PostToolUse", tool_input: {file_path: $fp}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "PostToolUse allows when file unchanged" 0 "$?"
+
+echo "1" > "$TMP_REPO/big.txt"  # shrink 20 -> 1 line, well past the 20% threshold
+jq -n --arg fp "$TMP_REPO/big.txt" '{hook_event_name: "PostToolUse", tool_input: {file_path: $fp}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "PostToolUse warns (non-blocking) on >20% line-count drop" 1 "$?"
+
+echo "{}" | bash "$HOOK" >/dev/null 2>&1
+assert_exit "no-op (exit 0) when file_path is missing from payload" 0 "$?"
+
+rm -rf "$TMP_REPO"
+
+echo ""
+echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
+[ "$FAILED" -gt 0 ] && exit 1
+exit 0

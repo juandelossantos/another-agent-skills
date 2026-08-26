@@ -4,10 +4,14 @@
 # One-command setup for production-grade AI agent skills on Windows.
 #
 # Usage:
-#   .\install.ps1                           # Full install
-#   .\install.ps1 -Agent claude             # Claude Code adapter only
+#   .\install.ps1                           # Full install (OpenCode + Claude Code)
+#   .\install.ps1 -Agent claude             # Claude Code adapter only (project files + global skills)
 #   .\install.ps1 -Agent cursor             # Cursor adapter only
 #   .\install.ps1 -Agent all                # All adapters
+#
+# The 57 custom skills in skills/ are installed globally for BOTH OpenCode
+# (~/.config/opencode/skills/) and Claude Code (~/.claude/skills/, or
+# $env:CLAUDE_SKILLS_DIR) every run — no per-project setup needed.
 # ==============================================================================
 
 param(
@@ -20,6 +24,7 @@ $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RemoteRepo = "https://github.com/addyosmani/agent-skills.git"
 $RemoteDir = "$env:USERPROFILE\.config\opencode\.agent-skills-remote"
 $GlobalSkillsDir = "$env:USERPROFILE\.config\opencode\skills"
+$ClaudeSkillsDir = if ($env:CLAUDE_SKILLS_DIR) { $env:CLAUDE_SKILLS_DIR } else { "$env:USERPROFILE\.claude\skills" }
 $LocalBin = "$env:USERPROFILE\.local\bin"
 
 function Write-Info  { Write-Host "[INFO] $args" -ForegroundColor Blue }
@@ -121,6 +126,147 @@ function Install-CustomSkills {
 }
 
 # ------------------------------------------------------------------------------
+function Install-ClaudeGlobalSkills {
+    # Installs this repo's skills/ into $ClaudeSkillsDir (Claude Code's global
+    # skill discovery path) tracked via a manifest file, so re-runs can safely
+    # remove skills THIS TOOL previously installed but that were since deleted
+    # from the repo — without ever touching unrelated skills already present
+    # in that directory (e.g. other custom Claude Code skills).
+    Write-Info "Installing skills globally for Claude Code..."
+
+    $customDir = Join-Path $RepoRoot "skills"
+    if (-not (Test-Path $customDir)) {
+        Write-Warn "No skills directory found at $customDir. Skipping."
+        return
+    }
+
+    if (-not (Test-Path $ClaudeSkillsDir)) {
+        New-Item -ItemType Directory -Path $ClaudeSkillsDir -Force | Out-Null
+    }
+
+    $manifest = Join-Path $ClaudeSkillsDir ".another-agent-skills-manifest"
+    $manifestNames = @()
+    if (Test-Path $manifest) {
+        $manifestNames = @(Get-Content $manifest | Where-Object { $_ -ne "" })
+    }
+
+    $installed = 0
+    $updated = 0
+    Get-ChildItem $customDir -Directory | ForEach-Object {
+        $skillPath = $_.FullName
+        $skillName = $_.Name
+        $skillMd = Join-Path $skillPath "SKILL.md"
+        if (-not (Test-Path $skillMd)) { return }
+
+        $target = Join-Path $ClaudeSkillsDir $skillName
+
+        if (Test-Path $target) {
+            $diff = Compare-Object -ReferenceObject (Get-ChildItem $skillPath -Recurse -File | Get-FileHash) `
+                                    -DifferenceObject (Get-ChildItem $target -Recurse -File | Get-FileHash) `
+                                    -Property Hash -ErrorAction SilentlyContinue
+            if (-not $diff) {
+                if ($manifestNames -notcontains $skillName) { $manifestNames += $skillName }
+                return
+            }
+            $backup = "$target.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+            Copy-Item -Recurse $target $backup
+            Write-Warn "Backed up previous: $skillName → $(Split-Path -Leaf $backup)"
+            Remove-Item -Recurse -Force $target
+            $updated++
+        } else {
+            $installed++
+        }
+
+        Copy-Item -Recurse $skillPath $target
+        if ($manifestNames -notcontains $skillName) { $manifestNames += $skillName }
+    }
+
+    # Remove skills THIS TOOL installed previously but no longer in the repo.
+    # Only acts on names recorded in the manifest.
+    $removed = 0
+    $keep = @()
+    foreach ($name in $manifestNames) {
+        if (Test-Path (Join-Path $customDir $name)) {
+            $keep += $name
+        } else {
+            $staleTarget = Join-Path $ClaudeSkillsDir $name
+            if (Test-Path $staleTarget) {
+                Remove-Item -Recurse -Force $staleTarget
+                Write-Warn "Removed deprecated skill from Claude Code skills: $name (no longer in repo)"
+                $removed++
+            }
+        }
+    }
+    Set-Content $manifest ($keep -join "`n")
+
+    Write-Ok "Claude Code skills: $installed installed, $updated updated, $removed removed → $ClaudeSkillsDir"
+}
+
+# ------------------------------------------------------------------------------
+function Configure-ClaudeHooks {
+    # Wires the 3 Claude Code hooks (edit-guard, pre-flight, commit-approval)
+    # into the project's .claude/settings.json so they run automatically.
+    # Merges into any existing settings.json (preserves unrelated keys and the
+    # user's own hooks) using native ConvertFrom-Json/ConvertTo-Json — no jq
+    # dependency needed on Windows.
+    Write-Info "Wiring Claude Code hooks into .claude/settings.json..."
+
+    if ($PSVersionTable.PSVersion.Major -lt 6) {
+        Write-Warn "PowerShell $($PSVersionTable.PSVersion) detected — automatic hook wiring needs PowerShell 6+ (ConvertFrom-Json -AsHashtable)."
+        Write-Warn "Install PowerShell 7 (https://aka.ms/powershell) and re-run, or wire .claude/settings.json manually (see docs/AGENT-ADAPTERS.md)."
+        return
+    }
+
+    $settingsDir = Join-Path (Get-Location) ".claude"
+    $settingsFile = Join-Path $settingsDir "settings.json"
+    if (-not (Test-Path $settingsDir)) { New-Item -ItemType Directory -Path $settingsDir -Force | Out-Null }
+
+    $existing = @{}
+    if (Test-Path $settingsFile) {
+        try {
+            $existing = Get-Content $settingsFile -Raw | ConvertFrom-Json -AsHashtable
+        } catch {
+            Write-Warn "$settingsFile is not valid JSON — skipping automatic hook wiring."
+            Write-Warn "Fix or remove it, then re-run to enable automatic hooks."
+            return
+        }
+    }
+
+    $hooksDir = '"$CLAUDE_PROJECT_DIR"/.claude-plugin/agent-discipline/hooks'
+    $cmdEditGuard = "bash $hooksDir/edit-guard.sh"
+    $cmdPreFlight = "bash $hooksDir/pre-flight.sh"
+    $cmdCommitApproval = "bash $hooksDir/commit-approval.sh"
+
+    if (-not $existing.ContainsKey("hooks")) { $existing["hooks"] = @{} }
+    if (-not $existing["hooks"].ContainsKey("PreToolUse")) { $existing["hooks"]["PreToolUse"] = @() }
+    if (-not $existing["hooks"].ContainsKey("PostToolUse")) { $existing["hooks"]["PostToolUse"] = @() }
+
+    function Merge-HookGroup {
+        param($Groups, [string]$Matcher, [string[]]$Commands)
+        $found = @($Groups) | Where-Object { $_.matcher -eq $Matcher }
+        if ($found) {
+            $existingCommands = @($found[0].hooks) | ForEach-Object { $_.command }
+            foreach ($cmd in $Commands) {
+                if ($existingCommands -notcontains $cmd) {
+                    $found[0].hooks = @($found[0].hooks) + @(@{type = "command"; command = $cmd})
+                }
+            }
+            return $Groups
+        } else {
+            $newGroup = @{matcher = $Matcher; hooks = @($Commands | ForEach-Object { @{type = "command"; command = $_} })}
+            return @($Groups) + @($newGroup)
+        }
+    }
+
+    $existing["hooks"]["PreToolUse"] = Merge-HookGroup -Groups $existing["hooks"]["PreToolUse"] -Matcher "Edit|Write" -Commands @($cmdEditGuard)
+    $existing["hooks"]["PreToolUse"] = Merge-HookGroup -Groups $existing["hooks"]["PreToolUse"] -Matcher "Bash" -Commands @($cmdPreFlight, $cmdCommitApproval)
+    $existing["hooks"]["PostToolUse"] = Merge-HookGroup -Groups $existing["hooks"]["PostToolUse"] -Matcher "Edit|Write" -Commands @($cmdEditGuard)
+
+    $existing | ConvertTo-Json -Depth 10 | Set-Content $settingsFile
+    Write-Ok "Wired 3 hooks (edit-guard, pre-flight, commit-approval) into $settingsFile"
+}
+
+# ------------------------------------------------------------------------------
 function Update-ShellProfile {
     Write-Info "Updating PowerShell profile..."
 
@@ -179,6 +325,7 @@ function Install-AgentAdapter {
 
     switch ($AgentName) {
         "claude" {
+            Install-ClaudeGlobalSkills
             $src = Join-Path $templateDir "CLAUDE.md"
             $dst = Join-Path (Get-Location) "CLAUDE.md"
             if (Test-Path $dst) {
@@ -188,6 +335,23 @@ function Install-AgentAdapter {
             }
             Copy-Item $src $dst
             Write-Ok "Installed CLAUDE.md → $dst"
+
+            $pluginSrc = Join-Path $RepoRoot ".claude-plugin"
+            $pluginDst = Join-Path (Get-Location) ".claude-plugin"
+            if (Test-Path $pluginSrc) {
+                Copy-Item -Recurse -Force $pluginSrc $pluginDst
+                Write-Ok "Installed .claude-plugin/ → $pluginDst"
+            }
+
+            $scriptsSrc = Join-Path $RepoRoot "scripts"
+            $scriptsDst = Join-Path (Get-Location) "scripts"
+            if (Test-Path $scriptsSrc) {
+                if (-not (Test-Path $scriptsDst)) { New-Item -ItemType Directory -Path $scriptsDst -Force | Out-Null }
+                Copy-Item (Join-Path $scriptsSrc "*.sh") $scriptsDst -Force
+                Write-Ok "Installed scripts/ → $scriptsDst"
+            }
+
+            Configure-ClaudeHooks
         }
         "cursor" {
             $src = Join-Path $templateDir ".cursorrules"
@@ -247,10 +411,20 @@ function Verify-Installation {
     }
 
     Write-Host ""
+    if (Test-Path $ClaudeSkillsDir) {
+        $claudeManifest = Join-Path $ClaudeSkillsDir ".another-agent-skills-manifest"
+        $claudeCount = if (Test-Path $claudeManifest) { (Get-Content $claudeManifest | Where-Object { $_ -ne "" }).Count } else { 0 }
+        Write-Ok "Claude Code skills → $claudeCount installed at $ClaudeSkillsDir"
+    } else {
+        Write-Error "Claude Code skills → MISSING at $ClaudeSkillsDir"
+    }
+
+    Write-Host ""
     Write-Host "Next steps:"
     Write-Host "  1. Reload your profile: . `$PROFILE  (or open new terminal)"
-    Write-Host "  2. Test: Get-ChildItem ~/.config/opencode/skills/"
-    Write-Host "  3. Use:  init-agents  (in any project)"
+    Write-Host "  2. Test OpenCode:    Get-ChildItem ~/.config/opencode/skills/"
+    Write-Host "  3. Test Claude Code: Get-ChildItem ~/.claude/skills/  (auto-discovered)"
+    Write-Host "  4. Use:  init-agents  (in any project)"
     Write-Host ""
     Write-Host "Global functions:"
     Write-Host "  init-agents          → Initialize agent rules in any project"
@@ -285,6 +459,7 @@ function Main {
     Setup-RemoteSkills
     Link-RemoteSkills
     Install-CustomSkills
+    Install-ClaudeGlobalSkills
     Update-ShellProfile
     Verify-Installation
     Write-Ok "All done!"

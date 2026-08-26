@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# test-progress_status.sh — Content check for PROGRESS_STATUS.md: the
-# "Known Limitations" row no longer claims Claude Code needs manual adapter
-# setup for skills+hooks (it doesn't, since today's install.sh change).
+# test-health-check-sync.sh — Content check for HEALTH-CHECK.md: the
+# Recommendations note reflects that Task 7.1's skills+hooks portion is done,
+# not a stale "start Task 7.1" pointer.
 
 set -uo pipefail
 
 RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-FILE="$REPO_ROOT/PROGRESS_STATUS.md"
+FILE="$REPO_ROOT/HEALTH-CHECK.md"
 
 PASSED=0; FAILED=0; TOTAL=0
 assert() {
@@ -22,8 +22,8 @@ assert() {
   fi
 }
 
-assert "Known Limitations row no longer lumps Claude with Cursor" "! grep -q 'Claude/Cursor need adapter setup' '$FILE'"
-assert "Known Limitations row credits Claude Code with automatic parity" "grep -q 'Claude Code now gets full automatic parity' '$FILE'"
+assert "notes the skills+hooks portion of Task 7.1 is done" "grep -q 'skills + hooks portion is done' '$FILE'"
+assert "notes the agents/commands mirror is still open" "grep -q 'agents/.*commands/.*mirror' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
