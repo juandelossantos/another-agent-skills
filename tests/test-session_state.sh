@@ -31,6 +31,7 @@ assert "documents the post-commit code-review pass and what it caught" "grep -q 
 assert "documents the pre-flight.sh dirty-tree-blocks-every-commit bug" "grep -qi 'blocked 100% of commits' '$FILE'"
 assert "documents the commit-approval.sh dead-token bug" "grep -q 'DECISION_APPROVED' '$FILE'"
 assert "documents the PR #34 GitHub review pass and the CI failure it explains" "grep -q 'PR #34' '$FILE' && grep -qi 'CI run failed' '$FILE'"
+assert "documents the self-found absolute-symlink CI root cause" "grep -qi 'absolute, machine-specific path' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

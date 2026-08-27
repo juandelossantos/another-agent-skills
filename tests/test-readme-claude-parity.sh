@@ -27,6 +27,7 @@ assert "Quick Start still documents --agent claude" "grep -q 'install.sh --agent
 assert "version badge is v6.1.0" "grep -q 'Version: v6.1.0' '$FILE'"
 assert "What's New in v6.1.0 section exists" "grep -q \"What's New in v6.1.0\" '$FILE'"
 assert "credits the code reviews that caught real bugs" "grep -qi 'full code reviews' '$FILE'"
+assert "reflects the final 19 new tests, 28/28 suites count" "grep -q '19 new tests, 28/28 suites' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

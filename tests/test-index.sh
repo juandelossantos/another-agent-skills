@@ -29,7 +29,7 @@ assert "faq.a3 data-i18n hook still present" "grep -q 'data-i18n=\"faq.a3\"' '$F
 DOCS_INDEX="$REPO_ROOT/docs/index.html"
 assert "docs/index.html shows current version v6.1.0" "grep -q '<tr><td data-i18n=\"overview.version\">Current version</td><td>v6.1.0</td></tr>' '$DOCS_INDEX'"
 assert "docs/index.html demotes v6.0.0 into Previous releases" "grep -q 'v6.0.0 — Phase 6' '$DOCS_INDEX'"
-assert "docs/index.html reflects the final 26/26 suite count" "grep -q '26/26 test suites passing' '$DOCS_INDEX'"
+assert "docs/index.html reflects the final 28/28 suite count" "grep -q '28/28 test suites passing' '$DOCS_INDEX'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

@@ -101,8 +101,8 @@
     "whatsNewDesc1": "Las 57 skills se instalan solas en ~/.claude/skills/ (auto-descubiertas, igual que en OpenCode). Un solo comando, sin configuración por proyecto.",
     "whatsNewItem2": "Hooks de Enforcement, Ahora Funcionan de Verdad",
     "whatsNewDesc2": "commit-approval, pre-flight y edit-guard ahora parsean el JSON real de los hooks de Claude Code y se conectan solos a .claude/settings.json vía un merge idempotente que nunca toca tus propios hooks.",
-    "whatsNewItem3": "17 Tests Nuevos",
-    "whatsNewDesc3": "Comportamiento de hooks, idempotencia del instalador, y paridad de docs EN/ES, todo cubierto — 26/26 suites de test pasando."
+    "whatsNewItem3": "19 Tests Nuevos",
+    "whatsNewDesc3": "Comportamiento de hooks, idempotencia del instalador, y paridad de docs EN/ES, todo cubierto — 28/28 suites de test pasando."
   },
   "gettingStarted": {
     "title": "Primeros pasos",

@@ -121,7 +121,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 
 - **57 skills, auto-installed globally** — `bash install.sh` / `bash install.sh --agent claude` install every skill to `~/.claude/skills/`, Claude Code's own auto-discovery path. Manifest-tracked, idempotent, never touches skills you already have there.
 - **Enforcement hooks, made to actually work** — `commit-approval.sh`, `pre-flight.sh`, and `edit-guard.sh` now parse Claude Code's real `PreToolUse`/`PostToolUse` JSON payload and use the correct block exit code (`2`, not `1` — the old scripts would not have blocked anything even if wired). `install.sh --agent claude` merges them into `.claude/settings.json` automatically via an idempotent `jq` merge (native `ConvertTo-Json` on Windows) that never overwrites your own hooks or settings.
-- **17 new tests, 26/26 suites passing** — hook behavior (block/allow, exit codes, risky-command scoping, compound-command detection), install idempotency, and EN/ES doc parity are all covered. Two full code reviews (one before shipping, one on the GitHub PR itself) caught real bugs that would have made the hooks unusable or macOS-incompatible — see [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) for details.
+- **19 new tests, 28/28 suites passing** — hook behavior (block/allow, exit codes, risky-command scoping, compound-command detection), install idempotency, and EN/ES doc parity are all covered. Two full code reviews (one before shipping, one on the GitHub PR itself) caught real bugs that would have made the hooks unusable or macOS-incompatible — see [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) for details.
 
 [**Full release notes →**](./RELEASE-NOTES.md)
 
