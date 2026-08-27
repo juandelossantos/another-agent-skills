@@ -25,12 +25,19 @@ assert() {
 echo "Test: bash install.sh --agent claude (throwaway project)"
 TMP_PROJECT=$(mktemp -d)
 TMP_CLAUDE_SKILLS=$(mktemp -d)
-(cd "$TMP_PROJECT" && CLAUDE_SKILLS_DIR="$TMP_CLAUDE_SKILLS" bash "$REPO_ROOT/install.sh" --agent claude >/tmp/install-test.log 2>&1)
+INSTALL_LOG=$(mktemp)
+(cd "$TMP_PROJECT" && CLAUDE_SKILLS_DIR="$TMP_CLAUDE_SKILLS" bash "$REPO_ROOT/install.sh" --agent claude >"$INSTALL_LOG" 2>&1)
 
 assert "CLAUDE.md installed" "[ -f '$TMP_PROJECT/CLAUDE.md' ]"
 assert ".claude-plugin/ installed" "[ -d '$TMP_PROJECT/.claude-plugin' ]"
 assert "skills installed to isolated CLAUDE_SKILLS_DIR" "[ -d \"$TMP_CLAUDE_SKILLS/engineering-fundamentals\" ]"
+if ! [ -f "$TMP_PROJECT/.claude/settings.json" ]; then
+  echo -e "  ${YELLOW}--- install.sh output (settings.json was not created) ---${NC}"
+  sed 's/^/  /' "$INSTALL_LOG"
+  echo -e "  ${YELLOW}--- end install.sh output ---${NC}"
+fi
 assert ".claude/settings.json created" "[ -f '$TMP_PROJECT/.claude/settings.json' ]"
+assert "jq is available in this environment (required for hook wiring)" "command -v jq &>/dev/null"
 
 if command -v jq &>/dev/null && [ -f "$TMP_PROJECT/.claude/settings.json" ]; then
   PRE_COUNT=$(jq '.hooks.PreToolUse | length' "$TMP_PROJECT/.claude/settings.json" 2>/dev/null || echo 0)
@@ -49,7 +56,7 @@ fi
 
 echo ""
 echo "Test: idempotent re-run does not duplicate hooks"
-(cd "$TMP_PROJECT" && CLAUDE_SKILLS_DIR="$TMP_CLAUDE_SKILLS" bash "$REPO_ROOT/install.sh" --agent claude >>/tmp/install-test.log 2>&1)
+(cd "$TMP_PROJECT" && CLAUDE_SKILLS_DIR="$TMP_CLAUDE_SKILLS" bash "$REPO_ROOT/install.sh" --agent claude >>"$INSTALL_LOG" 2>&1)
 if command -v jq &>/dev/null; then
   BASH_HOOK_COUNT_2=$(jq '.hooks.PreToolUse[] | select(.matcher=="Bash") | .hooks | length' "$TMP_PROJECT/.claude/settings.json" 2>/dev/null || echo 0)
   assert "re-run: still 2 commands, no duplicates" "[ '$BASH_HOOK_COUNT_2' -eq 2 ]"
@@ -62,7 +69,7 @@ mkdir -p "$TMP_PROJECT2/.claude"
 cat > "$TMP_PROJECT2/.claude/settings.json" <<'EOF'
 {"permissions": {"allow": ["Bash(ls*)"]}, "hooks": {"PreToolUse": [{"matcher": "Bash", "hooks": [{"type": "command", "command": "bash my-own-hook.sh"}]}]}}
 EOF
-(cd "$TMP_PROJECT2" && CLAUDE_SKILLS_DIR="$TMP_CLAUDE_SKILLS" bash "$REPO_ROOT/install.sh" --agent claude >>/tmp/install-test.log 2>&1)
+(cd "$TMP_PROJECT2" && CLAUDE_SKILLS_DIR="$TMP_CLAUDE_SKILLS" bash "$REPO_ROOT/install.sh" --agent claude >>"$INSTALL_LOG" 2>&1)
 if command -v jq &>/dev/null; then
   HAS_PERMISSIONS=$(jq '.permissions.allow[0]' "$TMP_PROJECT2/.claude/settings.json" 2>/dev/null)
   HAS_OWN_HOOK=$(jq '[.hooks.PreToolUse[] | select(.matcher=="Bash") | .hooks[] | select(.command=="bash my-own-hook.sh")] | length' "$TMP_PROJECT2/.claude/settings.json" 2>/dev/null || echo 0)
@@ -70,7 +77,7 @@ if command -v jq &>/dev/null; then
   assert "user's own hook command preserved alongside ours" "[ '$HAS_OWN_HOOK' -eq 1 ]"
 fi
 
-rm -rf "$TMP_PROJECT" "$TMP_PROJECT2" "$TMP_CLAUDE_SKILLS" /tmp/install-test.log
+rm -rf "$TMP_PROJECT" "$TMP_PROJECT2" "$TMP_CLAUDE_SKILLS" "$INSTALL_LOG"
 
 echo ""
 echo "Test: install.ps1 static checks (TOOL_GAP — no pwsh in this environment, not executed)"

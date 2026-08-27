@@ -10,9 +10,10 @@
 #   {"tool_input": {"command": "..."}, ...}
 # Exit 0 = allow. Exit 2 = block (Claude Code's PreToolUse block contract).
 #
-# Scoped in-script (not via the settings.json "if" matcher) because partial
-# glob matching like "Bash(git commit*)" isn't documented precisely — matching
-# on the full command string here is unambiguous.
+# Scoped in-script (not via the settings.json "if" matcher, beyond the coarse
+# "if": "Bash(git *)" install.sh already sets) because partial glob matching
+# like "Bash(git commit*)" isn't documented precisely — matching on the full
+# command string here is unambiguous.
 
 set -euo pipefail
 
@@ -20,6 +21,11 @@ PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=_risky-commands.sh
 source "$HOOK_DIR/_risky-commands.sh"
+
+if ! command -v jq &>/dev/null; then
+  echo "[commit-approval] WARNING: jq not found — cannot parse hook input, gate disabled for this call." >&2
+  exit 0
+fi
 
 INPUT="$(cat)"
 COMMAND="$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)"
@@ -47,12 +53,24 @@ EOF
   exit 2
 }
 
+# Parse an ISO-8601-ish "YYYY-MM-DDTHH:MM:SS" timestamp to epoch seconds.
+# GNU `date -d` and BSD/macOS `date -j -f` use different flags for this —
+# try both rather than assuming GNU (the original scripts/git-hooks/pre-commit
+# has this same GNU-only assumption; fixed here rather than there, since that
+# file is shared across every agent adapter and out of scope for this PR).
+_to_epoch() {
+  date -d "$1" +%s 2>/dev/null \
+    || date -j -f "%Y-%m-%dT%H:%M:%S" "$1" +%s 2>/dev/null
+}
+
 [ -f "$DECISION_FILE" ] || block "no .git/DECISION_APPROVED token found"
 
 DECISION_TS="$(grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}' "$DECISION_FILE" 2>/dev/null | head -1)"
 [ -n "$DECISION_TS" ] || block ".git/DECISION_APPROVED has no valid timestamp"
 
-DECISION_EPOCH="$(date -d "$DECISION_TS" +%s 2>/dev/null || echo 0)"
+DECISION_EPOCH="$(_to_epoch "$DECISION_TS")"
+[ -n "$DECISION_EPOCH" ] || block ".git/DECISION_APPROVED timestamp could not be parsed"
+
 NOW_EPOCH="$(date +%s)"
 AGE=$(( NOW_EPOCH - DECISION_EPOCH ))
 

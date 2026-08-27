@@ -19,6 +19,11 @@ Closed the Claude Code parity gap inside Task 7.1 — not the full task (that al
    - Also fixed (lower severity, same review): `edit-guard.sh` false-positived a ">20% content drop" warning on every newly-created file (no PreToolUse baseline exists for a file that didn't exist yet). Extracted the duplicated risky-command `case` statements from both hooks into a shared `_risky-commands.sh` (the two lists could previously drift apart silently). Scoped `commit-approval.sh` with `"if": "Bash(git *)"` in the generated `.claude/settings.json` so Claude Code skips spawning it on non-git Bash calls.
    - Added 15 tests total (up from the original 14) covering these fixes directly, including the exact stage-then-commit scenario the bug review caught. 24/24 suites passing.
    - **Lesson for next time:** write the "does this actually let a normal commit through" test *before* wiring a blocking hook into `.claude/settings.json` — the original `tests/test-pre-flight-hook.sh` never staged a file before testing `git commit`, so it never exercised the real-world precondition and gave false confidence.
+6. **Pushed the branch, opened PR #34, ran a third review pass — this time `code-review high 34 --comment`, posting findings as inline GitHub PR comments.** Found 3 more real, independently-verified issues, plus the PR's own CI run failed for a related reason:
+   - `commit-approval.sh` used GNU-only `date -d` for the DECISION_APPROVED freshness check — errors on macOS/BSD, falls back to epoch 0, blocks every commit as "stale." Same bug class as #16 above, reintroduced on a different platform. Fixed with a GNU/BSD `date` fallback.
+   - The risky-command matcher had no word boundary (`git commit-tree` misclassified as `git commit`) and didn't look past the first `;`/`&&`/`||`/`|`-separated segment or a leading `env`/`NAME=value` prefix, so `cd x && git push` and similar everyday compound commands bypassed the gate entirely — not just adversarially, but by ordinary accident. Rewrote `_risky-commands.sh`'s matching as segment-splitting regex instead of a single anchored `case` glob. Documented as still best-effort (matches Claude Code's own stated position on hook command filters), not a hard security boundary.
+   - `jq` missing at hook-run time failed completely silently. **This is exactly what happened in the PR's own CI run**: the "quality" job's `.claude/settings.json` assertion failed with the real cause hidden, because `tests/test-install.sh` redirected `install.sh`'s output to a fixed `/tmp` path instead of surfacing it on failure. Fixed both: hooks now print a visible warning when `jq` is missing, the test surfaces `install.sh`'s captured output when the assertion fails, and `.github/workflows/ci.yml` gained an explicit "Ensure jq is available" step so this class of failure can't recur silently.
+   - One finding (manifest-tracked skill cleanup doesn't retroactively sweep skills from a *pre-this-PR* OpenCode install) was deliberately left as a documented known limitation rather than fixed — reverting to a blanket sweep would reintroduce the exact "might delete a user's unrelated skill" risk the manifest system exists to prevent.
 
 ## Still Open (Task 7.1 remainder + rest of PLAN.md)
 
@@ -33,7 +38,7 @@ Closed the Claude Code parity gap inside Task 7.1 — not the full task (that al
 - `tests/test-plan-v7.sh` — validates PLAN.md Phase 7 content
 - `tests/test-sync-hooks.sh` — hook infrastructure (git hooks only — unrelated to the Claude Code plugin hooks touched today)
 - `tests/test-tdd-gate.sh` — TDD gate infrastructure
-- `bash tests/run-all.sh` — 24/24 suites passing after today's changes (including the review-driven fixes)
+- `bash tests/run-all.sh` — 26/26 suites passing after today's changes (including both rounds of review-driven fixes)
 
 ## Gate Notes
 

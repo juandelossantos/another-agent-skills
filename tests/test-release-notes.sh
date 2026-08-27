@@ -27,6 +27,8 @@ assert "6.1.0 is the topmost (most recent) entry" "[ \"\$(grep -n '^## ' '$FILE'
 assert "documents the pre-flight.sh commit-blocking bug" "grep -qi 'blocked every normal commit' '$FILE'"
 assert "documents the commit-approval.sh retired-token bug" "grep -q 'retired token file' '$FILE'"
 assert "VERSION matches the top RELEASE-NOTES entry" "[ \"\$(cat '$REPO_ROOT/VERSION')\" = '6.1.0' ]"
+assert "documents the second (GitHub PR) review round's macOS date bug" "grep -qi 'GNU-only .date -d.' '$FILE'"
+assert "documents the CI failure this review caught" "grep -qi 'CI failure this review caught' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

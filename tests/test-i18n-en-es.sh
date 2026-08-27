@@ -39,6 +39,8 @@ assert "docs/i18n/en.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq 
 assert "docs/i18n/es.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/es.json' | grep -q '~/.claude/skills/'"
 assert "docs/i18n/en.json whatsNew heading is v6.1.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'v6.1.0'"
 assert "docs/i18n/es.json whatsNew heading is v6.1.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'v6.1.0'"
+assert "docs/i18n/en.json whatsNewDesc3 reflects the final 26/26 suite count" "jq -r '.overview.whatsNewDesc3' '$REPO_ROOT/docs/i18n/en.json' | grep -q '26/26'"
+assert "docs/i18n/es.json whatsNewDesc3 reflects the final 26/26 suite count" "jq -r '.overview.whatsNewDesc3' '$REPO_ROOT/docs/i18n/es.json' | grep -q '26/26'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

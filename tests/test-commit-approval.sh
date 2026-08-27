@@ -57,6 +57,29 @@ rm -f "$TMP_REPO/.git/DECISION_APPROVED"
 echo "   git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
 assert_exit "blocks indented git commit (leading-whitespace fix)" 2 "$?"
 
+# Regression: jq missing at hook-run time must fail open WITH a visible
+# warning (not silently), not crash and not silently allow with no trace.
+# A curated allow-list PATH (not "strip jq's directory") — on this system jq
+# and bash live in the same directory, so removing that directory broke
+# everything, not just jq.
+NO_JQ_DIR="$(mktemp -d)"
+for tool in bash cat grep sed date git dirname mktemp head tr; do
+  t="$(command -v "$tool" 2>/dev/null)"
+  [ -n "$t" ] && ln -sf "$t" "$NO_JQ_DIR/$tool"
+done
+WARNING="$(PATH="$NO_JQ_DIR" bash "$HOOK" 2>&1 <<<'{"tool_input":{"command":"git commit -m x"}}' >/dev/null)"
+WARN_EXIT=$?
+rm -rf "$NO_JQ_DIR"
+assert_exit "exits 0 (fail-open) when jq is unavailable" 0 "$WARN_EXIT"
+TOTAL=$((TOTAL + 1))
+if echo "$WARNING" | grep -q "jq not found"; then
+  echo -e "  ${GREEN}✓${NC} prints a visible warning when jq is unavailable (not silent)"
+  PASSED=$((PASSED + 1))
+else
+  echo -e "  ${RED}✗${NC} prints a visible warning when jq is unavailable (not silent) — got: $WARNING"
+  FAILED=$((FAILED + 1))
+fi
+
 rm -rf "$TMP_REPO"
 
 echo ""

@@ -53,6 +53,26 @@ printf "a\nb\nc\nd\ne\n" > "$TMP_REPO/created.txt"
 jq -n --arg fp "$TMP_REPO/created.txt" '{hook_event_name: "PostToolUse", tool_input: {file_path: $fp}}' | bash "$HOOK" >/dev/null 2>&1
 assert_exit "PostToolUse does not false-positive-warn on a newly created file" 0 "$?"
 
+# Regression: jq missing at hook-run time must fail open WITH a visible
+# warning, not silently.
+NO_JQ_DIR="$(mktemp -d)"
+for tool in bash cat grep sed date git dirname mktemp head tr; do
+  t="$(command -v "$tool" 2>/dev/null)"
+  [ -n "$t" ] && ln -sf "$t" "$NO_JQ_DIR/$tool"
+done
+WARNING="$(PATH="$NO_JQ_DIR" bash "$HOOK" 2>&1 <<<"{\"hook_event_name\":\"PreToolUse\",\"tool_input\":{\"file_path\":\"$TMP_REPO/big.txt\"}}" >/dev/null)"
+WARN_EXIT=$?
+rm -rf "$NO_JQ_DIR"
+assert_exit "exits 0 (fail-open) when jq is unavailable" 0 "$WARN_EXIT"
+TOTAL=$((TOTAL + 1))
+if echo "$WARNING" | grep -q "jq not found"; then
+  echo -e "  ${GREEN}✓${NC} prints a visible warning when jq is unavailable (not silent)"
+  PASSED=$((PASSED + 1))
+else
+  echo -e "  ${RED}✗${NC} prints a visible warning when jq is unavailable (not silent) — got: $WARNING"
+  FAILED=$((FAILED + 1))
+fi
+
 rm -rf "$TMP_REPO"
 
 echo ""

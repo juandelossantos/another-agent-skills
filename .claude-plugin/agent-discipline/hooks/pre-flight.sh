@@ -23,6 +23,11 @@ HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=_risky-commands.sh
 source "$HOOK_DIR/_risky-commands.sh"
 
+if ! command -v jq &>/dev/null; then
+  echo "[pre-flight] WARNING: jq not found — cannot parse hook input, gate disabled for this call." >&2
+  exit 0
+fi
+
 INPUT="$(cat)"
 COMMAND="$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)"
 

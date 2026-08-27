@@ -19,6 +19,11 @@ set -euo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 
+if ! command -v jq &>/dev/null; then
+  echo "[edit-guard] WARNING: jq not found — cannot parse hook input, gate disabled for this call." >&2
+  exit 0
+fi
+
 INPUT="$(cat)"
 EVENT="$(printf '%s' "$INPUT" | jq -r '.hook_event_name // empty' 2>/dev/null || true)"
 FILE_PATH="$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null || true)"

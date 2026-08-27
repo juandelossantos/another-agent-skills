@@ -40,6 +40,14 @@ assert_bool "is_dirty_tree_risky_command: rm -rf IS gated on a clean tree" "true
 TRIMMED="$(trim_leading_whitespace '   git commit -m x')"
 assert_bool "trim_leading_whitespace strips leading spaces" "git commit -m x" "$TRIMMED"
 
+# Regressions from the second code-review pass on PR #34.
+assert_bool "word boundary: 'git commit-tree' (plumbing) is NOT misclassified as 'git commit'" "false" "$(check is_git_mutation_command 'git commit-tree abc123')"
+assert_bool "word boundary: 'git pushx' is NOT misclassified as 'git push'" "false" "$(check is_git_mutation_command 'git pushx origin main')"
+assert_bool "compound command: 'cd x && git push' is still detected" "true" "$(check is_git_mutation_command 'cd x && git push')"
+assert_bool "compound command: 'git status; git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'git status; git commit -m x')"
+assert_bool "env-var prefix: 'FOO=bar git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'FOO=bar git commit -m x')"
+assert_bool "env command prefix: 'env FOO=bar git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'env FOO=bar git commit -m x')"
+
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1
