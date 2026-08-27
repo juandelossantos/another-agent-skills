@@ -1,9 +1,9 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-07-17
-**Version:** 5.0.0
+**Date:** 2026-08-26
+**Version:** 6.1.0
 **Auditor:** OpenCode Agent (auto-generated)
-**Status:** ✅ HEALTHY — Phase 6: Design Skill Integrity complete. TDD enforced (no override). 10 infrastructure tests, 26 archived. 15/15 suites passing.
+**Status:** 🟡 DEGRADED
 
 ---
 
@@ -25,16 +25,16 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 5.0.0 | Consistent |
+| VERSION | ✅ 6.1.0 | Consistent |
 | Skill lint | ✅ 0 errors, 2 warnings | |
-| validate-skill-table | 🔴 FAIL | Guide counts validated |
+| validate-skill-table | ✅ PASS | Guide counts validated |
 
 ## Mechanical Enforcement: PASS (7/7)
 
 | Check | Status | Notes |
 |---|---|---|
-| Pre-commit hook | ✅ v11 (14 gates) | Executable (755) |
-| commit-msg hook | ✅ v4 | Single-gate TDD enforcement (name-pairing + new-test) |
+| Pre-commit hook | ✅ v11 (15 gates including Gate 0) | Executable (755) |
+| commit-msg hook | ✅ v6 | Single-gate TDD enforcement (name-pairing + new-test, no override) |
 | commit-approval.sh | ✅ | READ-ONLY manifest preview (tokens written by agent directly) |
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
@@ -62,15 +62,17 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v4.2.0 | Landing, docs, i18n EN/ES |
+| Version references | ✅ v6.1.0 | Landing, docs, i18n EN/ES |
 | Guide count | ✅ 74 guides | Distributed across 57 skills |
-| Gate count | ✅ 14 pre-commit gates, 1 commit-msg gate | Landing, docs, i18n EN/ES |
+| Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 
 ---
 
 ## Recommendations
 
-1. **Execute Phase 4** — Docs Honesty: remaining doc surface updates.
+1. **Execute Phase 7: Cross-Platform Harness Parity** — See `PLAN.md` for 10 tasks.
+2. **Active tests:** `tests/test-plan-v7.sh`, `tests/test-sync-hooks.sh`, `tests/test-tdd-gate.sh`. All v6.0.0 tests archived.
+3. **Task 7.1 — Claude Code `.claude/` Mirror:** the skills + hooks portion is done — `bash install.sh --agent claude` installs all 57 skills globally to `~/.claude/skills/` and wires all 3 enforcement hooks into `.claude/settings.json` automatically. Still open: the `agents/`/`commands/` mirror of `.opencode/` that Task 7.1 also scoped. **Next session:** pick up that remaining piece, or move to Task 7.2 — Cursor `.cursor/` Mirror.
 
 ---
 

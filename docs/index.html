@@ -103,21 +103,22 @@
     <h2 data-i18n="overview.quickLinks">Quick Links</h2>
 
     <table>
-      <tr><td data-i18n="overview.version">Current version</td><td>v6.0.0</td></tr>
+      <tr><td data-i18n="overview.version">Current version</td><td>v6.1.0</td></tr>
       <tr><td data-i18n="overview.skillsCount">Skills</td><td>57</td></tr>
       <tr><td data-i18n="overview.guidesCount">Guides</td><td>74</td></tr>
       <tr><td data-i18n="overview.license">License</td><td>MIT</td></tr>
     </table>
 
-    <h2 data-i18n="overview.whatsNew">What's New in v6.0.0</h2>
+    <h2 data-i18n="overview.whatsNew">What's New in v6.1.0</h2>
     <ul class="whats-new">
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Design Flow Transformado</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">17-section DESIGN.md schema, 3-mode design-gate.sh (strict/audit/verify), design-upgrade.sh auto-extracts tokens from existing codebases. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">TDD Enforcement — No Override</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">commit-msg v6 blocks every code change without a matching test. Zero bypass. Every change needs a test. No override mechanism exists.</span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">Gate 0: DECISION_APPROVED Block</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">Pre-commit now BLOCKS if no decision token exists. 15 gates total (up from 14). Token-validate.sh detects CSS drift. Approval-gate.sh enforces prototype→production transitions.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Claude Code Parity</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">57 skills auto-install to ~/.claude/skills/ (auto-discovered, same as OpenCode). One command, no per-project setup. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">Enforcement Hooks, Made to Actually Work</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">commit-approval, pre-flight, and edit-guard now parse Claude Code's real hook JSON and auto-wire into .claude/settings.json via an idempotent merge that never touches your own hooks.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">19 New Tests</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">Hook behavior, install idempotency, and EN/ES doc parity all covered — 28/28 test suites passing.</span></li>
     </ul>
 
     <h3>Previous releases</h3>
     <ul class="whats-new">
+      <li><span class="whats-new__item" data-i18n="">v6.0.0 — Phase 6: Design Skill Integrity</span> — <span class="whats-new__desc">17-section DESIGN.md schema, 3-mode design-gate.sh, TDD enforcement with no override, Gate 0 DECISION_APPROVED block. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
       <li><span class="whats-new__item" data-i18n="">v5.0.0 — Phase 4: Docs Honesty Complete</span> — <span class="whats-new__desc">42 issues fixed across 6 groups, 86 files changed. Zero stale versions, hooks, i18n gaps, or nav inconsistencies. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
       <li><span class="whats-new__item" data-i18n="">v4.2.0 — Phase 3: Output Contracts Complete</span> — <span class="whats-new__desc">All 57 skills now have standardized Output Contracts. Check 16 warnings eliminated (37→0). <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
       <li><span class="whats-new__item" data-i18n="">v4.0.0 — Foundation Repair &amp; Critical Stubs</span> — <span class="whats-new__desc">15 critical stub skills completed. All 57 skills ≤250 lines. Hook simplification (commit-msg v7→v4). Pre-commit v11 (14 gates). <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>

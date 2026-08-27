@@ -11,10 +11,15 @@ set -euo pipefail
 #   - Windows: install.ps1
 #
 # Usage:
-#   bash install.sh                        # Full skill installation
-#   bash install.sh --agent claude         # Install Claude Code adapter
+#   bash install.sh                        # Full skill installation (OpenCode + Claude Code)
+#   bash install.sh --agent claude         # Install Claude Code adapter (project files + global skills)
 #   bash install.sh --agent cursor         # Install Cursor adapter
 #   bash install.sh --agent all            # Install all adapters
+#
+# The 57 custom skills in skills/ are installed globally for BOTH OpenCode
+# (~/.config/opencode/skills/, or $AGENT_SKILLS_DIR/skills/) and Claude Code
+# (~/.claude/skills/, or $CLAUDE_SKILLS_DIR) every run — no per-project setup
+# needed. Claude Code auto-discovers skills from ~/.claude/skills/.
 # =============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -23,6 +28,7 @@ REMOTE_REPO="https://github.com/addyosmani/agent-skills.git"
 : "${AGENT_SKILLS_DIR:=$HOME/.config/opencode}"
 REMOTE_DIR="${AGENT_SKILLS_DIR}/.agent-skills-remote"
 GLOBAL_SKILLS_DIR="${AGENT_SKILLS_DIR}/skills"
+: "${CLAUDE_SKILLS_DIR:=$HOME/.claude/skills}"
 ZSHRC="${HOME}/.zshrc"
 BASHRC="${HOME}/.bashrc"
 FISH_CONFIG="${HOME}/.config/fish/config.fish"
@@ -91,60 +97,80 @@ link_remote_skills() {
 }
 
 # ---------------------------------------------------------------------------
-install_custom_skills() {
-    info "Installing custom skills from this repo..."
+# Install this repo's skills/ into a target directory, tracked via a
+# ".another-agent-skills-manifest" file so re-runs can safely remove skills
+# THIS TOOL previously installed but that were since deleted from the repo —
+# without ever touching unrelated skills a user already has in that directory
+# (e.g. other custom Claude Code skills unrelated to this project).
+install_skills_to() {
+    local target_dir="$1"
+    local label="$2"
     local custom_dir="${SCRIPT_DIR}/skills"
+    local manifest="${target_dir}/.another-agent-skills-manifest"
+
     if [[ ! -d "${custom_dir}" ]]; then
-        warn "No custom skills directory found at ${custom_dir}. Skipping."
+        warn "No skills directory found at ${custom_dir}. Skipping ${label}."
         return 0
     fi
 
+    mkdir -p "${target_dir}"
+    touch "${manifest}"
+
+    local installed=0 updated=0
     for skill_path in "${custom_dir}"/*/; do
-        if [[ -f "${skill_path}/SKILL.md" ]]; then
-            local skill_name
-            skill_name="$(basename "${skill_path}")"
-            local target="${GLOBAL_SKILLS_DIR}/${skill_name}"
-            
-            # Backup before overwrite
-            if [[ -d "${target}" ]]; then
-                if [[ -L "${target}" ]]; then
-                    # Symlink to official skill → save reference for restore
-                    local official_target
-                    official_target="$(readlink "${target}")"
-                    echo "${skill_name}:${official_target}" >> "${GLOBAL_SKILLS_DIR}/.official-backups"
-                    warn "Backed up official skill reference: ${skill_name} → ${official_target}"
-                else
-                    # Real directory (previous custom) → make timestamped backup
-                    local backup
-                    backup="${target}.backup.$(date +%Y%m%d%H%M%S)"
-                    cp -r "${target}" "${backup}"
-                    warn "Backed up previous: ${skill_name} → $(basename "${backup}")"
-                fi
+        [[ -f "${skill_path}/SKILL.md" ]] || continue
+        local skill_name target
+        skill_name="$(basename "${skill_path}")"
+        target="${target_dir}/${skill_name}"
+
+        if [[ -e "${target}" ]]; then
+            if diff -rq "${skill_path}" "${target}" &>/dev/null; then
+                grep -qxF "${skill_name}" "${manifest}" || echo "${skill_name}" >> "${manifest}"
+                continue
             fi
-            
+            local backup="${target}.backup.$(date +%Y%m%d%H%M%S)"
+            cp -r "${target}" "${backup}"
+            warn "Backed up previous: ${skill_name} → $(basename "${backup}")"
             rm -rf "${target}"
-            cp -r "${skill_path}" "${target}"
-            ok "Installed custom skill: ${skill_name}"
+            ((updated++)) || true
+        else
+            ((installed++)) || true
         fi
+
+        cp -r "${skill_path}" "${target}"
+        grep -qxF "${skill_name}" "${manifest}" || echo "${skill_name}" >> "${manifest}"
     done
 
-    # Remove custom skills that no longer exist in the repo (prevent stale/deprecated skills)
+    # Remove skills THIS TOOL installed previously but that no longer exist in
+    # the repo. Only acts on names recorded in the manifest.
     local cleaned=0
-    for existing_path in "${GLOBAL_SKILLS_DIR}"/*/; do
-        local existing_name
-        existing_name="$(basename "${existing_path}")"
-        # Skip symlinks (official skills from remote)
-        if [[ -L "${existing_path}" ]]; then continue; fi
-        # Skip if skill still exists in repo
-        if [[ -d "${custom_dir}/${existing_name}" ]]; then continue; fi
-        # Remove — skill was deleted from repo
-        rm -rf "${existing_path}"
-        warn "Removed deprecated custom skill: ${existing_name} (no longer in repo)"
-        ((cleaned++)) || true
-    done
-    if [[ "${cleaned}" -gt 0 ]]; then
-        info "Cleaned ${cleaned} deprecated custom skills."
+    if [[ -s "${manifest}" ]]; then
+        local tmp_manifest
+        tmp_manifest="$(mktemp)"
+        while IFS= read -r name; do
+            [[ -z "${name}" ]] && continue
+            if [[ -d "${custom_dir}/${name}" ]]; then
+                echo "${name}" >> "${tmp_manifest}"
+            elif [[ -d "${target_dir}/${name}" ]]; then
+                rm -rf "${target_dir}/${name}"
+                warn "Removed deprecated skill from ${label}: ${name} (no longer in repo)"
+                ((cleaned++)) || true
+            fi
+        done < "${manifest}"
+        mv "${tmp_manifest}" "${manifest}"
     fi
+
+    ok "${label}: ${installed} installed, ${updated} updated$( [[ "${cleaned}" -gt 0 ]] && echo ", ${cleaned} removed" ) → ${target_dir}"
+}
+
+install_custom_skills() {
+    install_skills_to "${GLOBAL_SKILLS_DIR}" "OpenCode custom skills"
+}
+
+# ---------------------------------------------------------------------------
+install_claude_global_skills() {
+    info "Installing skills globally for Claude Code..."
+    install_skills_to "${CLAUDE_SKILLS_DIR}" "Claude Code skills"
 }
 
 # ---------------------------------------------------------------------------
@@ -424,6 +450,15 @@ verify_installation() {
     echo "Total skills:    ${total_skills}"
     echo ""
 
+    if [[ -d "${CLAUDE_SKILLS_DIR}" ]]; then
+        local claude_managed
+        claude_managed="$(wc -l < "${CLAUDE_SKILLS_DIR}/.another-agent-skills-manifest" 2>/dev/null || echo 0)"
+        ok "Claude Code skills → ${claude_managed} installed at ${CLAUDE_SKILLS_DIR}"
+    else
+        error "Claude Code skills → MISSING at ${CLAUDE_SKILLS_DIR}"
+    fi
+    echo ""
+
     for skill_name in engineering-fundamentals frontend-web frontend-pwa frontend-mobile frontend-desktop backend-api-mastery fullstack-shipping spec-driven-development git-init-and-versioning architecture-analysis dev-environment-audit project-health-check project-metrics user-onboarding; do
         if [[ -d "${GLOBAL_SKILLS_DIR}/${skill_name}" ]]; then
             ok "${skill_name} → INSTALLED"
@@ -469,14 +504,104 @@ verify_installation() {
     echo "Next steps:"
     echo "  1. Reload your shell: source ~/.zshrc (Zsh), source ~/.bashrc (Bash),"
     echo "     or exec fish (Fish). Or open a new terminal."
-    echo "  2. Test: ls ~/.config/opencode/skills/"
-    echo "  3. Use:  init-agents  (in any project — works in any shell)"
+    echo "  2. Test OpenCode:    ls ~/.config/opencode/skills/"
+    echo "  3. Test Claude Code: ls ~/.claude/skills/  (auto-discovered, no restart needed"
+    echo "                        beyond starting a new session)"
+    echo "  4. Use:  init-agents  (in any project — works in any shell)"
     echo ""
     echo "Global scripts installed:"
     echo "  ${LOCAL_BIN}/init-agents         → Initialize agent rules in any project"
     echo "  ${LOCAL_BIN}/update-global-skills → Pull latest skill updates"
     echo ""
     echo "========================================"
+}
+
+# ---------------------------------------------------------------------------
+# Wire the 3 Claude Code hooks (edit-guard, pre-flight, commit-approval) into
+# the project's .claude/settings.json so they run automatically — no more
+# manual JSON editing. Requires jq; skips gracefully (with a warning) if
+# unavailable, since the rest of the Claude adapter install must not fail.
+configure_claude_hooks() {
+    if ! command -v jq &>/dev/null; then
+        warn "jq not found — skipping automatic hook wiring."
+        warn "Install jq, then re-run 'bash install.sh --agent claude' to enable it,"
+        warn "or wire .claude/settings.json manually (see docs/AGENT-ADAPTERS.md)."
+        return 0
+    fi
+
+    local settings_dir="${PWD}/.claude"
+    local settings_file="${settings_dir}/settings.json"
+    mkdir -p "${settings_dir}"
+
+    local existing="{}"
+    if [[ -f "${settings_file}" ]]; then
+        if ! existing="$(jq '.' "${settings_file}" 2>/dev/null)"; then
+            warn "${settings_file} is not valid JSON — skipping automatic hook wiring."
+            warn "Fix or remove it, then re-run to enable automatic hooks."
+            return 0
+        fi
+    fi
+
+    # Build each hook command as a plain string (single-quoted so
+    # $CLAUDE_PROJECT_DIR stays literal — Claude Code expands it at hook
+    # invocation time, not now), then let `jq -n --arg` handle JSON escaping
+    # correctly instead of hand-splicing quotes into a JSON literal.
+    local hooks_dir='"$CLAUDE_PROJECT_DIR"/.claude-plugin/agent-discipline/hooks'
+    local cmd_edit_guard="bash ${hooks_dir}/edit-guard.sh"
+    local cmd_pre_flight="bash ${hooks_dir}/pre-flight.sh"
+    local cmd_commit_approval="bash ${hooks_dir}/commit-approval.sh"
+
+    local new_hooks
+    new_hooks="$(jq -n \
+        --arg editGuard "${cmd_edit_guard}" \
+        --arg preFlight "${cmd_pre_flight}" \
+        --arg commitApproval "${cmd_commit_approval}" \
+        '{
+            hooks: {
+                PreToolUse: [
+                    {matcher: "Edit|Write", hooks: [{type: "command", command: $editGuard}]},
+                    {matcher: "Bash", hooks: [
+                        {type: "command", command: $preFlight},
+                        {type: "command", command: $commitApproval, if: "Bash(git *)"}
+                    ]}
+                ],
+                PostToolUse: [
+                    {matcher: "Edit|Write", hooks: [{type: "command", command: $editGuard}]}
+                ]
+            }
+        }')"
+
+    local jq_filter='
+def merge_group($existing; $newGroup):
+  ($existing | map(.matcher) | index($newGroup.matcher)) as $idx
+  | if $idx == null then
+      $existing + [$newGroup]
+    else
+      $existing
+      | .[$idx].hooks = (
+          .[$idx].hooks
+          + ($newGroup.hooks | map(select(.command as $c | ($existing[$idx].hooks | map(.command) | index($c)) == null)))
+        )
+    end;
+
+def merge_event($existing; $newGroups):
+  reduce $newGroups[] as $g ($existing; merge_group(.; $g));
+
+.hooks = (.hooks // {})
+| .hooks.PreToolUse = merge_event(.hooks.PreToolUse // []; $new.hooks.PreToolUse // [])
+| .hooks.PostToolUse = merge_event(.hooks.PostToolUse // []; $new.hooks.PostToolUse // [])
+'
+
+    local merged tmp_settings
+    if ! merged="$(echo "${existing}" | jq --argjson new "${new_hooks}" "${jq_filter}" 2>&1)"; then
+        warn "Failed to merge hooks into ${settings_file}: ${merged}"
+        return 0
+    fi
+
+    tmp_settings="$(mktemp)"
+    echo "${merged}" > "${tmp_settings}"
+    mv "${tmp_settings}" "${settings_file}"
+    ok "Wired 3 hooks (edit-guard, pre-flight, commit-approval) into ${settings_file}"
 }
 
 # ---------------------------------------------------------------------------
@@ -495,6 +620,8 @@ install_agent_adapter() {
     case "${agent}" in
         claude)
             info "Installing Claude Code adapter..."
+            # Global skills (available in every project, no project-local copy needed)
+            install_claude_global_skills
             # Copy CLAUDE.md
             dest="${PWD}/CLAUDE.md"
             if [[ ! -f "${template_dir}/CLAUDE.md" ]]; then
@@ -521,6 +648,8 @@ install_agent_adapter() {
                 chmod +x "${PWD}/scripts/"*.sh
                 ok "Installed scripts/ → ${PWD}/scripts/"
             fi
+            # Wire hooks into .claude/settings.json — active automatically, no manual JSON editing
+            configure_claude_hooks
             ;;
         cursor)
             info "Installing Cursor adapter..."
@@ -574,7 +703,7 @@ install_agent_adapter() {
         *)
             echo "${AGENT_USAGE}"
             echo ""
-            echo "  claude   Install CLAUDE.md + .claude-plugin/ (Claude Code adapter)"
+            echo "  claude   Install 57 skills → ~/.claude/skills/ + CLAUDE.md + .claude-plugin/ (Claude Code adapter)"
             echo "  cursor   Install .cursorrules + .cursor-plugin/ (Cursor adapter)"
             echo "  kiro     Install .kiro/hooks/ (Kiro adapter)"
             echo "  all      Install all adapters"
@@ -604,6 +733,7 @@ main() {
     setup_remote_skills
     link_remote_skills
     install_custom_skills
+    install_claude_global_skills
     install_opencode_plugin
     install_global_framework
     update_shell_config
@@ -634,7 +764,11 @@ if [[ "${1:-}" == "--agent" ]]; then
         echo "  Agent Adapter — Setup Complete"
         echo "========================================"
         echo ""
-        echo "To remove, delete the copied file from your project root."
+        echo "To remove project files, delete the copied file(s) from your project root."
+        if [[ "$2" == "claude" || "$2" == "all" ]]; then
+            echo "Global Claude Code skills were installed at ${CLAUDE_SKILLS_DIR}"
+            echo "(available in every project — no per-project copy needed)."
+        fi
     fi
     exit "${_agent_rc}"
 fi

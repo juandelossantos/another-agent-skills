@@ -50,7 +50,7 @@
   <div class="docs__content">
     <div class="docs__breadcrumb"><a href="index.html" data-i18n="nav.docs">Docs</a> <span>›</span> <span data-i18n="nav.agents">Agents</span></div>
     <h1 data-i18n="agents.title">Agent Compatibility</h1>
-    <p data-i18n="agents.subtitle">Git hooks work everywhere. Skill concepts load automatically for OpenCode.</p>
+    <p data-i18n="agents.subtitle">Git hooks work everywhere. Skill concepts load automatically for OpenCode and Claude Code.</p>
 
     <h2 data-i18n="agents.whatWorks">What Works Where</h2>
     <table>
@@ -58,7 +58,7 @@
       <tr><td>Git hooks</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
       <tr><td>Manifest gate</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
       <tr><td>SOUL.md / AGENTS.md</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
-      <tr><td>SKILL.md concepts</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+      <tr><td>SKILL.md concepts</td><td>Auto</td><td>Auto</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
       <tr><td>Stack detection</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td><td>Auto</td></tr>
       <tr><td>i18n</td><td>Auto</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
     </table>
@@ -73,8 +73,8 @@ cd your-project
 init-agents</code></pre>
 
     <h3 data-i18n="agents.claudeCode">Claude Code</h3>
-    <p data-i18n="agents.claudeCodeDesc">Copy rules into CLAUDE.md. Install adapter hooks. Skills load via CLAUDE.md reference.</p>
-    <p data-i18n="agents.claudeCodeExample">Creates .claude-plugin/ with hooks. Copy SOUL.md and AGENTS.md key principles into your CLAUDE.md.</p>
+    <p data-i18n="agents.claudeCodeDesc">Full parity: 57 skills install to ~/.claude/skills/ (auto-discovered) and all 3 enforcement hooks wire themselves into .claude/settings.json. No manual JSON editing.</p>
+    <p data-i18n="agents.claudeCodeExample">Skills and hooks are automatic. To also load SOUL.md and AGENTS.md rules, copy the key principles into your CLAUDE.md — that part stays manual.</p>
     <pre><code>bash install.sh --agent claude</code></pre>
 
     <h3 data-i18n="agents.cursor">Cursor</h3>
