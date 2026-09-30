@@ -291,6 +291,78 @@ install_skills_for_agent() {
     ok "${agent}: ${linked} linked, ${copied} copied, ${unchanged} unchanged → ${dest}"
 }
 
+# Install the Claude guardrail: unconditional-deny hooks (philosophy A) +
+# registration in ~/.claude/settings.json (idempotent, backup).
+install_claude_guardrails() {
+    local hooks_src="${SCRIPT_DIR}/.claude-plugin/agent-discipline/hooks"
+    local hooks_dst="${HOME}/.claude/hooks/agent-discipline"
+
+    if [[ ! -d "${hooks_src}" ]]; then
+        warn "Claude guardrail source not found at ${hooks_src}. Skipping."
+        return 0
+    fi
+
+    mkdir -p "${hooks_dst}"
+    local f
+    for f in "${hooks_src}"/*.sh; do
+        [[ -f "${f}" ]] || continue
+        cp "${f}" "${hooks_dst}/"
+        chmod +x "${hooks_dst}/$(basename "${f}")"
+    done
+    ok "Installed Claude guardrail hooks → ${hooks_dst}"
+
+    local settings="${HOME}/.claude/settings.json"
+    local hook_cmd="~/.claude/hooks/agent-discipline/commit-approval.sh"
+
+    if ! command -v jq >/dev/null 2>&1; then
+        warn "jq not found — cannot register the Claude hook automatically."
+        warn "  Add '${hook_cmd}' under hooks.PreToolUse (matcher: Bash) in ${settings}"
+        return 0
+    fi
+
+    [[ -f "${settings}" ]] || echo '{}' > "${settings}"
+    cp "${settings}" "${settings}.backup.$(date +%Y%m%d%H%M%S)"
+    local tmp
+    tmp="$(mktemp)"
+    jq --arg cmd "${hook_cmd}" '
+      .hooks //= {} |
+      .hooks.PreToolUse //= [] |
+      if any(.hooks.PreToolUse[]; (.hooks // []) | any(.command == $cmd))
+      then .
+      else .hooks.PreToolUse += [{"matcher":"Bash","hooks":[{"type":"command","command":$cmd,"timeout":10}]}]
+      end
+    ' "${settings}" > "${tmp}" && mv "${tmp}" "${settings}"
+    ok "Registered Claude guardrail in ${settings}"
+}
+
+# Install guardrails for one agent, dispatching on its mechanism.
+install_guardrails_for_agent() {
+    local agent="$1"
+    local kind
+    kind="$(agent_guardrails_kind "${agent}")"
+    case "${kind}" in
+        plugin) install_opencode_plugin ;;
+        hooks)  install_claude_guardrails ;;
+        *)      warn "No known guardrails for '${agent}' — skipped." ;;
+    esac
+}
+
+# Install guardrails for every detected agent (philosophy A).
+install_guardrails_for_detected_agents() {
+    local agents
+    agents="$(detect_agents)"
+    if [[ -z "${agents}" ]]; then
+        info "No agents detected — guardrails installed for OpenCode only."
+        install_opencode_plugin
+        return 0
+    fi
+    local agent
+    while IFS= read -r agent; do
+        [[ -z "${agent}" ]] && continue
+        install_guardrails_for_agent "${agent}"
+    done <<< "${agents}"
+}
+
 # Install skills for every detected agent (OpenCode is handled by install_custom_skills).
 install_skills_for_detected_agents() {
     local agents
@@ -732,13 +804,23 @@ main() {
     link_remote_skills
     install_custom_skills
     install_skills_for_detected_agents
-    install_opencode_plugin
+    install_guardrails_for_detected_agents
     install_global_framework
     update_shell_config
     create_global_scripts
     verify_installation
     ok "All done!"
 }
+
+# Guardrails-only mode — install guardrails for every detected agent (no network, no shell edits).
+if [[ "${1:-}" == "--guardrails-only" ]]; then
+    echo ""
+    echo "Another Agent Skills — Guardrails Installer"
+    echo "=========================================="
+    echo ""
+    install_guardrails_for_detected_agents
+    exit 0
+fi
 
 # Skills-only mode — install skills for every detected agent (no network, no shell edits).
 if [[ "${1:-}" == "--skills-only" ]]; then

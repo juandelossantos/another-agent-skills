@@ -11,13 +11,11 @@
  *   - https://opencode.ai/v2/docs/build/plugins
  *   - https://opencode.ai/v2/docs/build/plugins/migrate-v1
  *
- * Enforcement (v6 semantics — see rules/common/enforcement.md):
- *   - git mutations require a fresh `.git/DECISION_APPROVED` token (< 10 min).
- *     The token is evidence the agent presented a DECISION POINT and the user
- *     approved. There is NO override mechanism (removed in v6).
- *   - pre-flight: block push/merge/rebase/reset/… on a dirty tree or a branch
- *     that is behind upstream.
- *   - guardian: warn (non-blocking) on mutations and destructive commands.
+ * Enforcement (philosophy A — the agent never commits/pushes):
+ *   - git commit/push/merge/rebase/reset/cherry-pick/revert are ALWAYS blocked.
+ *     There is no token bypass: the agent presents the exact command/message and
+ *     the USER runs it (Rule 12). This matches the unconditional Claude guardrail.
+ *   - guardian: warn (non-blocking) on other mutations and destructive commands.
  *   - edit-guard: passive warning when an edit changes a file's line count by
  *     more than 20%.
  *   - anti-slop: re-inject reminders into the compaction context.
@@ -29,28 +27,12 @@
  *   dispose                    → cleanup function returned by setup()
  */
 import * as fs from "node:fs"
-import { execSync } from "node:child_process"
 
-// ── Config ──────────────────────────────────────────────────────────────────
-
-const DECISION_TOKEN_PATH = ".git/DECISION_APPROVED"
-const DECISION_TTL_SECONDS = 600
 const LINE_COUNT_THRESHOLD_PERCENT = 20
-const TOKEN_TS_RE = /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[+-]\d{2}:\d{2})?/
 
+// Mutations the agent must NEVER run. The user runs them.
 const BLOCKED_MUTATIONS = [
   "git commit",
-  "git push",
-  "git merge",
-  "git rebase",
-  "git reset",
-  "git cherry-pick",
-  "git revert",
-]
-
-// Mutations that must not run on a dirty tree / stale branch. `git commit` is
-// excluded: staged changes are expected right before a commit.
-const PREFLIGHT_MUTATIONS = [
   "git push",
   "git merge",
   "git rebase",
@@ -90,46 +72,6 @@ ${GUARDIAN_PATTERN_REMINDER}`
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
-function sh(command) {
-  try {
-    return execSync(command, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim()
-  } catch {
-    return ""
-  }
-}
-
-function gitState() {
-  const branch = sh("git branch --show-current") || "unknown"
-  const porcelain = sh("git status --porcelain")
-  const upstream = sh("git rev-parse --abbrev-ref HEAD@{upstream} 2>/dev/null")
-  let behind = 0
-  if (upstream && upstream !== "HEAD") {
-    const counts = sh(`git rev-list --left-right --count HEAD...${upstream}`)
-    const parsed = counts.split(/\s+/).map(Number)
-    if (Number.isFinite(parsed[1])) behind = parsed[1]
-  }
-  return { branch, dirty: porcelain.length > 0, behind, upstream: upstream || null }
-}
-
-function decisionTokenStatus() {
-  if (!fs.existsSync(DECISION_TOKEN_PATH)) return { exists: false, fresh: false }
-  let content = ""
-  try {
-    content = fs.readFileSync(DECISION_TOKEN_PATH, "utf-8")
-  } catch {
-    return { exists: true, fresh: false, reason: "unreadable" }
-  }
-  const match = content.match(TOKEN_TS_RE)
-  if (!match) return { exists: true, fresh: false, reason: "no timestamp" }
-  // Match the pre-commit hook: a bare timestamp is interpreted as local time.
-  // Only use an explicit offset when the token carries one.
-  const epoch = Date.parse(`${match[1]}${match[2] || ""}`)
-  if (Number.isNaN(epoch)) return { exists: true, fresh: false, reason: "bad timestamp" }
-  const ageSeconds = Math.floor((Date.now() - epoch) / 1000)
-  const fresh = ageSeconds >= 0 && ageSeconds <= DECISION_TTL_SECONDS
-  return { exists: true, fresh, ageSeconds, reason: fresh ? null : "stale" }
-}
-
 function startsWithAny(command, prefixes) {
   return prefixes.some((prefix) => command === prefix || command.startsWith(`${prefix} `))
 }
@@ -151,36 +93,13 @@ function evaluateBashCommand(rawCommand) {
   const command = rawCommand.trim()
   if (!command) return null
 
-  const blocked = startsWithAny(command, BLOCKED_MUTATIONS)
-  const preflight = startsWithAny(command, PREFLIGHT_MUTATIONS)
-  const destructive = DESTRUCTIVE_RE.some((re) => re.test(command))
-
-  if (blocked) {
-    if (preflight) {
-      const state = gitState()
-      if (state.dirty) {
-        return { block: `[pre-flight] Working tree has uncommitted changes. Commit or stash before "${command}".` }
-      }
-      if (state.behind > 0) {
-        return { block: `[pre-flight] Branch is ${state.behind} commit(s) behind upstream. Pull --rebase before "${command}".` }
-      }
-    }
-
-    const token = decisionTokenStatus()
-    if (!token.exists) {
-      return {
-        block: `[decision] Mutation "${command}" requires approval. Present the DECISION POINT, get explicit user approval, then write ${DECISION_TOKEN_PATH} with a fresh ISO timestamp.`,
-      }
-    }
-    if (!token.fresh) {
-      const detail = token.reason === "stale" ? `${token.ageSeconds}s old (max ${DECISION_TTL_SECONDS}s)` : token.reason
-      return {
-        block: `[decision] Approval token at ${DECISION_TOKEN_PATH} is ${detail}. Re-present the DECISION POINT and refresh the token.`,
-      }
+  if (startsWithAny(command, BLOCKED_MUTATIONS)) {
+    return {
+      block: `The agent never runs "${command}". Present the exact command and message, then let the user run it (Rule 12).`,
     }
   }
 
-  if (blocked || isMutation(command) || destructive) {
+  if (isMutation(command) || DESTRUCTIVE_RE.some((re) => re.test(command))) {
     return { warn: guardianMessage(command) }
   }
   return null
@@ -220,7 +139,7 @@ const definition = {
     const controller = new AbortController()
     const editGuardMap = new Map()
 
-    // 1) Enforcement: pre-flight + decision-approval + guardian (blocking).
+    // 1) Enforcement: block git mutations; warn on other mutations (Rule 12).
     await ctx.tool.hook("execute.before", (event) => {
       if (event?.tool !== "bash") return
       const result = evaluateBashCommand(event?.input?.command)

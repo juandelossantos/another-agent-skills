@@ -48,6 +48,17 @@ agent_skills_dir() {
   esac
 }
 
+# Print the guardrails mechanism for an agent, or nothing when unknown.
+#   plugin → native plugin directory
+#   hooks  → hook scripts registered in the agent's config
+agent_guardrails_kind() {
+  case "$1" in
+    opencode) echo "plugin" ;;
+    claude)   echo "hooks" ;;
+    *)        echo "" ;;
+  esac
+}
+
 # Return 0 when any signal for one agent matches.
 _agent_hit() {
   local bin="$1" gdir="$2" pfiles="$3"

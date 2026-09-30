@@ -1,53 +1,33 @@
 #!/usr/bin/env bash
-# commit-approval.sh — Claude Code hook: Block commits without approval
-# BLOCKING: Exits 1 if no COMMIT_APPROVED token found
-# Updated: v1.6.1 — references manifest gate and new rules
-
+# commit-approval.sh — Claude Code PreToolUse hook (matcher: Bash)
+#
+# Philosophy A: the agent NEVER runs `git commit` or `git push` — in any repo.
+# There is no token bypass. The agent presents the exact command and message,
+# then the USER runs it (Rule 12).
+#
+# Registered in ~/.claude/settings.json under hooks.PreToolUse. Reads the hook
+# payload from stdin and emits a deny decision for commit/push.
 set -euo pipefail
 
-REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+PAYLOAD="$(cat)"
+COMMAND="$(echo "$PAYLOAD" | jq -r '.tool_input.command // empty' 2>/dev/null || echo "")"
 
-APPROVAL_FILE="$REPO_ROOT/.git/COMMIT_APPROVED"
-MANIFEST_FILE="$REPO_ROOT/.git/COMMIT_MANIFEST"
-
-if [ ! -f "$APPROVAL_FILE" ]; then
-  echo ""
-  echo "╔════════════════════════════════════════════════════════════╗"
-  echo "║  BLOCKED: No commit approval token found.               ║"
-  echo "║                                                          ║"
-  echo "║  Before committing, the agent MUST:                     ║"
-  echo "║                                                          ║"
-  echo "║  1. Read SOUL.md and AGENTS.md for project rules        ║"
-  echo "║  2. Present what will change (Commit Manifest)          ║"
-  echo "║  3. Explain impact and risk                              ║"
-  echo "║  4. Ask: 'Do you approve this commit?'                   ║"
-  echo "║  5. Wait for explicit approval                           ║"
-  echo "║  6. Run: bash scripts/approve-commit.sh \"message\" --auto ║"
-  echo "║                                                          ║"
-  echo "║  Key rules to follow:                                    ║"
-  echo "║  - Rule 0h: TOOL_GAP — report 'ship status unknown'     ║"
-  echo "║    when tools can't verify. Never fake a win.           ║"
-  echo "║  - Rule 0i: Continuation Over Recap — resume, don't     ║"
-  echo "║    recap after context loss.                             ║"
-  echo "║  - Principle 8: Verification without evidence is        ║"
-  echo "║    inspection.                                           ║"
-  echo "║                                                          ║"
-  echo "║  NEVER bypass this gate. Doing so is a process violation.║"
-  echo "╚════════════════════════════════════════════════════════════╝"
-  echo ""
-  exit 1
+if [[ -z "$COMMAND" ]]; then
+  exit 0
 fi
 
-# Token exists - read it for logging
-TOKEN_CONTENT=$(cat "$APPROVAL_FILE" 2>/dev/null || echo "")
-TOKEN_HASH=$(echo "$TOKEN_CONTENT" | cut -d$'\t' -f1)
-
-echo ""
-echo "╔════════════════════════════════════════════════════════════╗"
-echo "║  COMMIT APPROVAL CHECK                                    ║"
-echo "╚════════════════════════════════════════════════════════════╝"
-echo "  Token: ${TOKEN_HASH:0:16}..."
-echo "  ✓ Approval token present"
-echo ""
+# \b after (commit|push) so `commit-graph`/`push-something` do not match, but
+# `git commit` and `git push` do (with optional flags in between).
+if echo "$COMMAND" | grep -qE '\bgit\b([[:space:]]+-[A-Za-z0-9-]+([[:space:]]+[^[:space:]]+)?)*[[:space:]]+(commit|push)([[:space:]]|$)'; then
+  cat <<'JSON_EOF'
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "The agent never runs git commit or git push, in any repo (Rule 12, no bypass). Present the exact command and message, then let the user run it."
+  }
+}
+JSON_EOF
+fi
 
 exit 0
