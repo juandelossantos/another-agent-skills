@@ -3,4 +3,4 @@
 * @juandelossantos
 
 # Plugin architecture (future-proofing for multi-maintainer)
-.opencode/plugins/agent-discipline/ @juandelossantos
+plugins/agent-discipline/ @juandelossantos

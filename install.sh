@@ -181,7 +181,7 @@ quarantine_legacy_plugin_dirs() {
 
 install_opencode_plugin() {
     info "Installing OpenCode agent-discipline plugin..."
-    local plugin_src="${SCRIPT_DIR}/.opencode/plugins/agent-discipline"
+    local plugin_src="${SCRIPT_DIR}/plugins/agent-discipline"
     local plugins_dir="${AGENT_SKILLS_DIR}/plugins"
     local plugin_dst="${plugins_dir}/agent-discipline"
 

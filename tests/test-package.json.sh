@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # test-package.json.sh — validates the agent-discipline plugin manifest
-# (.opencode/plugins/agent-discipline/package.json).
+# (plugins/agent-discipline/package.json).
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PKG="$REPO_ROOT/.opencode/plugins/agent-discipline/package.json"
+PKG="$REPO_ROOT/plugins/agent-discipline/package.json"
 
 if [ ! -f "$PKG" ]; then
   echo "  ✗ package.json not found: $PKG"

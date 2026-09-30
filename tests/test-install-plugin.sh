@@ -41,7 +41,7 @@ COUNT="$(find "$PLUGINS" -maxdepth 1 -type d -name 'agent-discipline*' | wc -l |
 
 [ -d "$AGENT_SKILLS_DIR/.plugin-backups" ]; check $? "legacy backup quarantined to .plugin-backups"
 
-if diff -q "$LEGACY/index.js" "$REPO_ROOT/.opencode/plugins/agent-discipline/index.js" >/dev/null 2>&1; then
+if diff -q "$LEGACY/index.js" "$REPO_ROOT/plugins/agent-discipline/index.js" >/dev/null 2>&1; then
   echo "  ✓ installed plugin matches repo source"
 else
   echo "  ✗ installed plugin differs from repo source"; fail=1

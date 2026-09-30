@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # test-agent-discipline-index.sh — the agent-discipline OpenCode plugin
-# (.opencode/plugins/agent-discipline/index.js): dual contract (v1 + v2) and
+# (plugins/agent-discipline/index.js): dual contract (v1 + v2) and
 # philosophy A — the agent NEVER runs git commit/push (no token bypass).
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PLUGIN="$REPO_ROOT/.opencode/plugins/agent-discipline/index.js"
+PLUGIN="$REPO_ROOT/plugins/agent-discipline/index.js"
 
 if [ ! -f "$PLUGIN" ]; then
   echo "  ✗ plugin not found: $PLUGIN"
