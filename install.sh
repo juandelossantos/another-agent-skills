@@ -272,7 +272,11 @@ install_skills_for_agent() {
             if diff -rq "${target}" "${source}" >/dev/null 2>&1; then
                 rm -rf "${target}"                                   # identical → replace silently
             else
-                mv "${target}" "${target}.backup.$(date +%Y%m%d%H%M%S)"
+                # Quarantine OUTSIDE the skills dir — a *.backup.* sibling inside
+                # it would be loaded as a duplicate skill by the agent.
+                local quarantine="${dest}.backups"
+                mkdir -p "${quarantine}"
+                mv "${target}" "${quarantine}/${name}.$(date +%Y%m%d%H%M%S)"
             fi
         fi
         rm -f "${target}"
