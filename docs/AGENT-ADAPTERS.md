@@ -4,43 +4,38 @@ Use Another Agent Skills from any AI coding agent. Each agent has native hook su
 
 ## Agent Compatibility Matrix
 
-| Agent | Primary? | Hook System | Plugin Config | Shell Fallback |
-|---|---|---|---|---|
-| **OpenCode** | ✅ Yes | JS Event Hooks | `.opencode/plugins/agent-discipline/` | N/A |
-| **Claude Code** | Secondary | JS Hooks | `.claude-plugin/agent-discipline/` | ✅ |
-| **Cursor** | Secondary | JS Hooks | `.cursor-plugin/agent-discipline/` | ✅ |
-| **Kiro** | Secondary | JSON Config | `.kiro/hooks/` | ✅ |
-| **Others** | N/A | N/A | N/A | ✅ |
+**Philosophy A (all agents):** the agent **never** runs `git commit`/`git push` — no token bypass. It presents the exact command/message and the **user** runs it (Rule 12).
+
+| Agent | Skills dir | Guardrails | Installed by |
+|---|---|---|---|
+| **OpenCode** | `~/.config/opencode/skills/` | native plugin `agent-discipline` → **deny** | `install.sh --plugin-only` / `--guardrails-only` |
+| **Claude Code** | `~/.claude/skills/` | hook `~/.claude/hooks/agent-discipline/commit-approval.sh` → **deny** | `install.sh --guardrails-only` |
+| **Gemini** | `~/.gemini/skills/` | none (git hooks apply) | `install.sh --skills-only` |
+| **Kiro / Zed / others** | not managed | git hooks (`commit-msg` TDD) per project | `init-agents` |
+
+Skills are symlinked from the canonical OpenCode dir (`~/.config/opencode/skills/`) so there is a single source of truth.
 
 ---
 
 ## OpenCode (Primary)
 
-**Full native support with TypeScript plugin.**
+**Dual-contract plugin** — one default export serves OpenCode v2 (`setup()`) and v1 (`server()`, 1.18.29+). Source lives at `plugins/agent-discipline/` and is installed to `~/.config/opencode/plugins/agent-discipline/`.
 
 ```
-.opencode/plugins/agent-discipline/
-├── plugin.json          # Event registrations
-├── src/
-│   ├── index.ts         # Plugin entry
-│   ├── hooks/
-│   │   ├── edit-guard.ts
-│   │   ├── pre-flight.ts
-│   │   ├── commit-approval.ts
-│   │   └── session-compact.ts
-│   └── lib/
-│       ├── file-integrity.ts
-│       ├── git-state.ts
-│       └── token-manager.ts
+plugins/agent-discipline/
+├── index.js          # dual contract: id + setup(ctx) [v2] and server() [v1]
+└── package.json      # type: module, main: index.js, engines.opencode >= 1.18.29
 ```
 
-**Auto-enforced events:**
-- `file.edited` → Structural integrity check
-- `tool.execute.before` → Git state pre-flight
-- `tui.command.execute` → Commit approval gate
-- `session.compacted` → Anti-slop reminder
+**Enforcement (philosophy A):**
+- `tool.execute.before` → **blocks** `git commit/push/merge/rebase/reset/cherry-pick/revert` (no token bypass)
+- `file.edited` → passive line-count drift warning (edit-guard)
+- `session.compaction` → anti-slop reminder
+- other mutations → guardian warning (non-blocking)
 
-**Install:** Included with `install.sh`
+**Why the source is NOT under `.opencode/plugins/`:** OpenCode auto-loads that directory, so a repo-local copy collides with the globally installed plugin under the same id (`Duplicate plugin ID: agent-discipline`).
+
+**Install:** `bash install.sh --plugin-only` (or `--guardrails-only`).
 
 ---
 

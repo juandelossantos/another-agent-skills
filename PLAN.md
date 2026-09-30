@@ -359,6 +359,8 @@ export default {
 - ✅ **P7.5 (núcleo) completado** — `scripts/agent-detect.sh`: motor de detección multi-agente (binario en `PATH` + dir global bajo `$HOME` + archivos de proyecto + override `AAS_AGENTS`), con 15 agentes soportados. Wire en `init-agents.sh`: `--list-agents` y `--check-env` reporta `agents=`. Pendiente: P7.6/P7.7 (instalar skills/guardrails por agente) y P9.4 (selección interactiva TTY).
 - ✅ **P7.6 completado** — `agent_skills_dir()` (mapa `agent→skills`: opencode `.config/opencode/skills`, claude `.claude/skills`, gemini `.gemini/skills`). `install.sh --skills-only` + `install_skills_for_detected_agents()`: enlaza (symlink) las 57 skills del repo desde el dir canónico de OpenCode hacia el dir de cada agente detectado (una sola fuente de verdad), idempotente, con backup solo si el contenido difiere. Wire en `main()`. Pendiente: P7.7 (guardrails por agente) y P9.4 (selección interactiva).
 - ✅ **P7.7 completado — filosofía A (deny incondicional)** — el agente **nunca** corre `git commit`/`push`, sin bypass de token. Plugin de OpenCode (`index.js`) pasa de token-allow a **deny**; guardrail canónico de Claude (`.claude-plugin/agent-discipline/hooks/commit-approval.sh`) reescrito a deny; `agent_guardrails_kind()` + `install.sh --guardrails-only` instala guardrails por agente detectado (opencode → plugin; claude → hooks + registro en `~/.claude/settings.json`, idempotente con backup; resto → skip). Alinea con Rule 12 y cierra por diseño el agujero del token auto-emitido (P8.4).
+- ✅ **P7.7b — coherencia del plugin** — el error `Duplicate plugin ID: agent-discipline` (plugin del repo auto-cargado + global, mismo `id`) se resolvió moviendo la fuente a `plugins/agent-discipline/` (fuera de `.opencode/plugins/`, que OpenCode auto-escanea). `install.sh`, tests y CODEOWNERS actualizados.
+- ✅ **P7.3 completado** — `docs/AGENT-ADAPTERS.md` (matriz agente × skills × guardrails, contrato dual, filosofía A, ruta `plugins/agent-discipline/`), addendum en `ADRs/005-native-js-plugin-agent-discipline.md` (v1 object form deprecado, tabla de migración), y backlog **B3** (tdd-gate false-pass).
 
 ---
 
@@ -508,3 +510,14 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | B2.3 | Actualizar `scripts/git-hooks/README.md`: 15 gates, quitar `--no-verify` | README refleja el v11 real |
 
 **Evidencia (RED):** `grep -n OVERRIDE scripts/git-hooks/pre-commit` → Gate 5 + línea 346; `grep -n "14 gates\|no-verify" scripts/git-hooks/README.md` → desactualizado.
+
+### Backlog detallado — B3: TDD gate false-pass cuando no hay code files staged
+
+**Problema:** `tdd-gate.sh` hace `SKIP` si no hay archivos de código staged (`code_files=none`). Si el agente olvida `git add` de las modificaciones (solo stagea un test nuevo), el gate pasa **en falso** y el commit queda incompleto. Ocurrió en el commit `56453c4` (movió el plugin pero no stageó `install.sh` → HEAD quedó roto hasta el commit de seguimiento `db0c711`).
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B3.1 | El gate compara las modificaciones **sin stagear** del working tree con el test staged; si hay code files modificados sin stagear que emparejen, avisa/bloquea | No se puede commitear dejando modificaciones de código sin stagear |
+| B3.2 | `SKIP` por `no-code-files` solo si de verdad no hay code files modificados sin stagear | `code_files=none` deja de ser un falso PASS |
+
+**Evidencia (RED):** `.git/TDD_GATE_LOG` de `56453c4` → `decision=SKIP code_files=none` mientras `install.sh` estaba modificado sin stagear.

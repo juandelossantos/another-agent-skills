@@ -123,4 +123,30 @@ Bundled with skillset installation (`install.sh`), not separate plugin.
 - INCIDENT_003: `development/INCIDENT_003_RULE12_HASH_BYPASS.md`
 - Rule 0f: Plugin Architecture (`AGENTS.md`)
 - Rule 0g: Mayéutic Challenge (`AGENTS.md`)
-- Plugin: `.opencode/plugins/agent-discipline/`
+- Plugin source: `plugins/agent-discipline/` (installed to `~/.config/opencode/plugins/agent-discipline/`)
+
+---
+
+## Addendum (2026-09-30) — Dual contract, philosophy A, relocated source
+
+**Context:** OpenCode v2 (2.0.20) rejects v1 plugin contracts. The original plugin (`plugin.json` + `src/*.ts`, `register(plugin)` v1 form) was never loaded. The validated v2 port lived only outside the repo.
+
+**Decision — dual contract, single source of truth:**
+- `plugins/agent-discipline/index.js` default-exports `{ ...{ id, setup(ctx) }, async server() }`.
+- OpenCode v2 calls `setup(ctx)`; OpenCode v1 (1.18.29+) calls `server()`.
+- The v1 object entrypoint is deprecated upstream; the `server()` shim is temporary until the v1 support window ends.
+
+**v1 → v2 mapping:**
+
+| v1 | v2 |
+|---|---|
+| `tool.execute.before` | `ctx.tool.hook("execute.before", …)` (throw to block) |
+| `experimental.session.compacting` | `ctx.session.hook("compaction", …)` |
+| `event` | `ctx.event.subscribe({ signal })` |
+| `dispose` | cleanup function returned by `setup()` |
+
+**Philosophy A (supersedes the token-based gate):** the plugin **denies** `git commit/push` unconditionally — no `DECISION_APPROVED` bypass. The agent presents the command/message; the user runs it (Rule 12). This closes the self-issued-token hole (P8.4).
+
+**Source location:** NOT under `.opencode/plugins/` — OpenCode auto-loads that dir and a repo-local copy collides with the global install (`Duplicate plugin ID: agent-discipline`). It lives at `plugins/agent-discipline/`.
+
+**Superseded:** the token-based `commit-approval.sh` (Claude) and the `COMMIT_APPROVED`/OVERRIDE logic are removed.
