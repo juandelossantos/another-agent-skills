@@ -13,6 +13,10 @@ AGENTS_SOURCE="${SCRIPT_DIR}/../AGENTS.md"
 DELIMITER_BEGIN="# >>> another-agent-skills-rules"
 DELIMITER_END="# <<< another-agent-skills-rules"
 
+# Shared agent detection (detect_agents / list_agents)
+# shellcheck source=agent-detect.sh
+source "${SCRIPT_DIR}/agent-detect.sh"
+
 # Colors
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -41,8 +45,9 @@ usage() {
   echo "Subcommands:"
   echo "  sync-hooks                 Copy hooks from scripts/git-hooks/ to .git/hooks/"
   echo "                             (use after modifying hooks without full re-init)"
-  echo "  check-env                  Print the detected OpenCode version and the"
-  echo "                             agent-discipline plugin state (legacy/dual-contract)"
+  echo "  check-env                  Print detected agents, the OpenCode version, and"
+  echo "                             the agent-discipline plugin state"
+  echo "  list-agents                Print every supported agent id"
   echo ""
   echo "Options:"
   echo "  --skip-self-improvement    Skip scaffolding the self-improvement loop"
@@ -59,6 +64,7 @@ for arg in "$@"; do
   case "$arg" in
     sync-hooks) SUBCOMMAND="sync-hooks" ;;
     check-env|--check-env) SUBCOMMAND="check-env" ;;
+    list-agents|--list-agents) SUBCOMMAND="list-agents" ;;
     --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
     --help|-h) usage ;;
     *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
@@ -95,9 +101,17 @@ fi
 # ─── check-env subcommand ───
 # Report the OpenCode version and the agent-discipline plugin state so a user on
 # OpenCode v2 can tell whether their installed plugin actually loads.
+if [ "$SUBCOMMAND" = "list-agents" ]; then
+  list_agents
+  exit 0
+fi
+
 if [ "$SUBCOMMAND" = "check-env" ]; then
   GLOBAL_DIR="${AGENT_SKILLS_DIR:-${HOME}/.config/opencode}"
   PLUGINS_DIR="${GLOBAL_DIR}/plugins"
+
+  DETECTED_AGENTS="$(detect_agents | paste -sd, -)"
+  echo "agents=${DETECTED_AGENTS:-none}"
 
   OC_VERSION=""
   if command -v opencode >/dev/null 2>&1; then

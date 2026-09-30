@@ -356,6 +356,7 @@ export default {
 - Pendiente: P7.2 (install/init-agents instalan dual-contract + detectan versión), P7.5–P7.7 (multi-agente), P7.3/P7.9 (docs/tests). Validación de carga real en OpenCode v2.0.20 → P7.4.
 - Nota: el plugin global en `~/.config/opencode/plugins/agent-discipline/` sigue con semántica vieja (`COMMIT_APPROVED` + OVERRIDE) → P7.2 debe reemplazarlo para evitar doble enforcement.
 - ✅ **P7.2 completado** — `install.sh --plugin-only` reemplaza atómicamente el plugin global (borra artefactos v1: `plugin.json`, `src/`, `dist/`, `node_modules`), pone en cuarentena los `agent-discipline.backup.*` a `.plugin-backups/`, verifica que quede **una sola** instancia y detecta la versión de OpenCode (avisa si < 1.18.29). `init-agents.sh --check-env` reporta la versión y el estado del plugin (`legacy`/`dual-contract`). Esto cierra el doble enforcement confirmado en el log de OpenCode (dos `agent-discipline` cargados con el mismo `id`).
+- ✅ **P7.5 (núcleo) completado** — `scripts/agent-detect.sh`: motor de detección multi-agente (binario en `PATH` + dir global bajo `$HOME` + archivos de proyecto + override `AAS_AGENTS`), con 15 agentes soportados. Wire en `init-agents.sh`: `--list-agents` y `--check-env` reporta `agents=`. Pendiente: P7.6/P7.7 (instalar skills/guardrails por agente) y P9.4 (selección interactiva TTY).
 
 ---
 
@@ -424,8 +425,47 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 | 10 | Troubleshooting guide | Backlog | 🟡 P2 | Soporte al usuario; no bloquea. |
 | 11 | Self-host Google Fonts | Backlog | 🟢 P3 | Rendimiento/privacidad; cosmético. |
 | 12 | New skill tracks (CLI, IoT, GameDev, Container) | Backlog | 🟢 P3 | Expansión; requiere validación de demanda. No urgente. |
+| 13 | Framework self-hosting: hook source integrity (B1.1–B1.5) | Backlog | 🟠 P1 | `init-agents` degrada el v11 sin avisar en el repo del framework. Barato y protege la calidad del propio proyecto. |
 
 **Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético.
+
+---
+
+## Phase 9: Distribution & Upgrades (v6.3.0)
+
+**Branch:** `feat/phase9-distribution`
+**Goal:** Distribución universal sin clonar el repo, y actualización gestionada. Separar **canal** (cómo llega el código) de **experiencia** (detectar → seleccionar → instalar/actualizar por agente).
+
+**Why:** Hoy el único canal es `git clone`; `install.sh` exige el repo local; `~/.claude/skills` y `~/.gemini/skills` existen en el sistema pero **no los gestiona nadie** (drift). El proto `check-update.sh` + auto-pull en el rc no es una solución de distribución.
+
+**Modelo (canal vs experiencia):**
+
+| Capa | Qué es | Decisión |
+|---|---|---|
+| Canal primario | Release versionado + bootstrap `curl` pineado | GitHub Releases (tarball + checksums + attestations) |
+| Canal secundario | npm (wrapper sin payload) | `npx`/`-g` que descarga+verifica el mismo release |
+| Canal contribuidores | `git clone` | Se mantiene |
+| Experiencia | CLI `aas`: `install` / `upgrade` / `doctor` / `uninstall` | Detecta agentes → multi-select (solo TTY) → instala/actualiza cada uno |
+
+Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación de integridad.
+
+### Tasks
+
+| Task | Prioridad | Descripción | Deliverable | Criterio de aceptación |
+|---|---|---|---|---|
+| P9.1 | 🔴 P0 | Releases versionados: workflow CI que en cada tag construye el tarball de fuentes y lo adjunta con `checksums.txt` + GitHub Artifact Attestations | `.github/workflows/release.yml` | `gh release download vX` trae tarball + checksums; `gh attestation verify` OK |
+| P9.2 | 🔴 P0 | Bootstrap `curl` **pineado**: descarga el tarball del release a `~/.local/share/another-agent-skills/<version>`, verifica sha256, enlaza `~/.local/bin/aas`, añade PATH. Flags `--version`, `--dry-run`, `--uninstall` | `bootstrap.sh` + sección en README | Instalación en una línea sin git ni clone; checksum verificado; `--dry-run` no muta |
+| P9.3 | 🔴 P0 | CLI `aas` con `install`/`upgrade`/`doctor`/`uninstall`. `upgrade` = self-update atómico desde el último release (reemplaza `check-update.sh` + auto-pull del rc) | `bin/aas` | `aas upgrade` actualiza atómico y reporta versión antes/después; `aas doctor` = `--check-env` |
+| P9.4 | 🟠 P1 | Selección de agentes: `--agents auto\|all\|<lista>`; multi-select interactivo **solo si TTY**; en CI nunca bloquea (default no-interactivo). Reusa P7.5 | flags en `aas install` | TTY → prompt; no-TTY → usa detectado o `--agents`; nunca espera input en CI |
+| P9.5 | 🟡 P2 | npm wrapper sin payload: descarga+verifica el mismo release; no añade Node al core | paquete `@scope/another-agent-skills` | `npx ... install` funciona en un proyecto sin clonar; el paquete no contiene el payload |
+| P9.6 | 🟢 P3 | Homebrew tap (opcional): fórmula auto-generada apuntando al tarball del release | tap + fórmula | `brew install <tap>/another-agent-skills` |
+
+**Need evidence (RED) actual:**
+- `grep -n "git clone" install.sh README.md` → el canal documentado es clonar el repo
+- `ls ~/.claude/skills/.another-agent-skills-manifest ~/.gemini/skills` → skills globales presentes pero sin gestor (drift)
+- `grep -n "check-update.sh" scripts/install.sh install.sh` → proto de update, no distribución
+
+**Out of scope:** binario compilado (no aplica: es shell+markdown, sin cross-compile), firmas PGP propias (las attestations cubren la integridad).
 
 ---
 
@@ -436,3 +476,19 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 - Self-host Google Fonts
 - Polish 31 `## When NOT to Use` sections
 - **Configurable test scoping** — `tests/run-all.sh` runs all suites regardless of changed files. On non-Node projects (Arduino, Python, etc.) the TDD gate should detect available test runners, scope to changed files, and skip gracefully if nothing is compatible. Currently hardcoded to this project's structure — Rule 0k violation (not universal).
+
+### Backlog detallado — Framework self-hosting: hook source integrity
+
+**Problema:** `init-agents` (completo) instala `scripts/project-pre-commit` (genérico, 194 líneas) como pre-commit, **sobrescribiendo** el hook propio del framework `scripts/git-hooks/pre-commit` (v11, 586 líneas, 15 gates). En el repo del framework esto **degrada el enforcement en silencio**. `sync-hooks` reinstala el v11, pero nada le dice al usuario cuál usar ni avisa del overwrite.
+
+**Por qué importa:** el repo del framework debería correr sus 15 gates (skill-lint, validación de progreso, eval, anti-slop, test count). Perderlos sin aviso es una regresión de calidad. Además, hay dos fuentes de pre-commit sin contrato claro — confunde a cualquiera.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B1.1 | `init-agents` detecta que corre en el repo del framework (señales: `.opencode/plugins/agent-discipline/`, `scripts/git-hooks/pre-commit`, `SOUL.md`, `VERSION`) y usa el v11 — o pregunta | En el repo del framework, `init-agents` **no** degrada el pre-commit |
+| B1.2 | Nunca sobrescribir un pre-commit existente sin aviso explícito + backup, indicando la fuente instalada | El output dice qué hook se instaló y desde qué archivo |
+| B1.3 | Documentar los dos hooks (cuándo `init-agents` vs `sync-hooks`, trade-offs) en `scripts/git-hooks/README.md` y `docs/AGENT-ADAPTERS.md` | Docs explican la elección y el trade-off |
+| B1.4 | Flag `--hook <lifecycle\|full>` (o `--pre-commit <source>`) para elegir explícitamente | El flag selecciona el hook correcto |
+| B1.5 | Test: `init-agents` en fixture de repo-framework → v11 preservado; en fixture de proyecto → hook lifecycle | Ambos fixtures cubiertos |
+
+**Evidencia (RED):** `bash scripts/init-agents.sh` en este repo reemplazó el v11 (586 líneas) por `project-pre-commit` (194 líneas) sin avisar; el v11 quedó solo en `.git/hooks/pre-commit.backup.*`.
