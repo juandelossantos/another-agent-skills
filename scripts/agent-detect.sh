@@ -37,6 +37,17 @@ list_agents() {
   printf '%s\n' "${AAS_AGENT_TABLE}" | cut -d'|' -f1
 }
 
+# Print the global skills directory (relative to $HOME) an agent reads, or
+# nothing when the path is not known.
+agent_skills_dir() {
+  case "$1" in
+    opencode) echo ".config/opencode/skills" ;;
+    claude)   echo ".claude/skills" ;;
+    gemini)   echo ".gemini/skills" ;;
+    *)        echo "" ;;
+  esac
+}
+
 # Return 0 when any signal for one agent matches.
 _agent_hit() {
   local bin="$1" gdir="$2" pfiles="$3"

@@ -357,6 +357,7 @@ export default {
 - Nota: el plugin global en `~/.config/opencode/plugins/agent-discipline/` sigue con semántica vieja (`COMMIT_APPROVED` + OVERRIDE) → P7.2 debe reemplazarlo para evitar doble enforcement.
 - ✅ **P7.2 completado** — `install.sh --plugin-only` reemplaza atómicamente el plugin global (borra artefactos v1: `plugin.json`, `src/`, `dist/`, `node_modules`), pone en cuarentena los `agent-discipline.backup.*` a `.plugin-backups/`, verifica que quede **una sola** instancia y detecta la versión de OpenCode (avisa si < 1.18.29). `init-agents.sh --check-env` reporta la versión y el estado del plugin (`legacy`/`dual-contract`). Esto cierra el doble enforcement confirmado en el log de OpenCode (dos `agent-discipline` cargados con el mismo `id`).
 - ✅ **P7.5 (núcleo) completado** — `scripts/agent-detect.sh`: motor de detección multi-agente (binario en `PATH` + dir global bajo `$HOME` + archivos de proyecto + override `AAS_AGENTS`), con 15 agentes soportados. Wire en `init-agents.sh`: `--list-agents` y `--check-env` reporta `agents=`. Pendiente: P7.6/P7.7 (instalar skills/guardrails por agente) y P9.4 (selección interactiva TTY).
+- ✅ **P7.6 completado** — `agent_skills_dir()` (mapa `agent→skills`: opencode `.config/opencode/skills`, claude `.claude/skills`, gemini `.gemini/skills`). `install.sh --skills-only` + `install_skills_for_detected_agents()`: enlaza (symlink) las 57 skills del repo desde el dir canónico de OpenCode hacia el dir de cada agente detectado (una sola fuente de verdad), idempotente, con backup solo si el contenido difiere. Wire en `main()`. Pendiente: P7.7 (guardrails por agente) y P9.4 (selección interactiva).
 
 ---
 
@@ -492,3 +493,17 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | B1.5 | Test: `init-agents` en fixture de repo-framework → v11 preservado; en fixture de proyecto → hook lifecycle | Ambos fixtures cubiertos |
 
 **Evidencia (RED):** `bash scripts/init-agents.sh` en este repo reemplazó el v11 (586 líneas) por `project-pre-commit` (194 líneas) sin avisar; el v11 quedó solo en `.git/hooks/pre-commit.backup.*`.
+
+### Backlog detallado — B2: limpieza del pre-commit v11 (drift post-v6)
+
+**Problema:** `scripts/git-hooks/pre-commit` (v11) todavía contiene el mecanismo OVERRIDE que v6 eliminó: Gate 5 (`OVERRIDE_LOG`, escalación) y la línea 346 (`"To skip: Add OVERRIDE: reason before your commit msg"`). Además `scripts/git-hooks/README.md` dice "14 gates" (son 15) y documenta el bypass `git commit --no-verify`.
+
+**Por qué importa:** es guía engañosa — el OVERRIDE ya no salta nada (commit-msg es TDD-only). Es el mismo patrón de "doc que promete enforcement inexistente" que venimos corrigiendo.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B2.1 | Eliminar Gate 5 (override escalation) y `OVERRIDE_LOG` de `scripts/git-hooks/pre-commit` | Sin refs a OVERRIDE en el hook |
+| B2.2 | Quitar la línea 346 (`"To skip: Add OVERRIDE…"`) | Sin guía de bypass obsoleta |
+| B2.3 | Actualizar `scripts/git-hooks/README.md`: 15 gates, quitar `--no-verify` | README refleja el v11 real |
+
+**Evidencia (RED):** `grep -n OVERRIDE scripts/git-hooks/pre-commit` → Gate 5 + línea 346; `grep -n "14 gates\|no-verify" scripts/git-hooks/README.md` → desactualizado.

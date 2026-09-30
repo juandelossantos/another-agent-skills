@@ -19,6 +19,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Agent detection + skills-path mapping (detect_agents / agent_skills_dir)
+# shellcheck source=scripts/agent-detect.sh
+source "${SCRIPT_DIR}/scripts/agent-detect.sh"
+
 REMOTE_REPO="https://github.com/addyosmani/agent-skills.git"
 : "${AGENT_SKILLS_DIR:=$HOME/.config/opencode}"
 REMOTE_DIR="${AGENT_SKILLS_DIR}/.agent-skills-remote"
@@ -98,6 +102,8 @@ install_custom_skills() {
         warn "No custom skills directory found at ${custom_dir}. Skipping."
         return 0
     fi
+
+    mkdir -p "${GLOBAL_SKILLS_DIR}"
 
     for skill_path in "${custom_dir}"/*/; do
         if [[ -f "${skill_path}/SKILL.md" ]]; then
@@ -225,6 +231,75 @@ install_opencode_plugin() {
         return 1
     fi
     ok "Verified: single agent-discipline instance."
+}
+
+# ---------------------------------------------------------------------------
+# Link (or copy) every repo skill into an agent's global skills directory,
+# pointing at the canonical OpenCode skills dir so there is one source of truth.
+install_skills_for_agent() {
+    local agent="$1"
+    local rel
+    rel="$(agent_skills_dir "${agent}")"
+    if [[ -z "${rel}" ]]; then
+        warn "No known skills path for '${agent}' — skipped."
+        return 0
+    fi
+
+    local canonical="${AGENT_SKILLS_DIR}/skills"
+    local dest="${HOME}/${rel}"
+
+    # OpenCode's own dir IS the canonical dir — nothing to link.
+    if [[ "${dest}" = "${canonical}" ]]; then
+        ok "${agent}: canonical skills dir (${dest})"
+        return 0
+    fi
+
+    mkdir -p "${dest}"
+    local linked=0 copied=0 unchanged=0
+    local skill_path name source target
+    for skill_path in "${SCRIPT_DIR}/skills"/*/; do
+        [[ -f "${skill_path}/SKILL.md" ]] || continue
+        name="$(basename "${skill_path}")"
+        source="${canonical}/${name}"
+        [[ -d "${source}" ]] || source="${skill_path}"
+        target="${dest}/${name}"
+
+        if [[ -L "${target}" ]] && [[ "$(readlink "${target}")" = "${source}" ]]; then
+            unchanged=$((unchanged + 1))
+            continue
+        fi
+        if [[ -e "${target}" ]] && [[ ! -L "${target}" ]]; then
+            if diff -rq "${target}" "${source}" >/dev/null 2>&1; then
+                rm -rf "${target}"                                   # identical → replace silently
+            else
+                mv "${target}" "${target}.backup.$(date +%Y%m%d%H%M%S)"
+            fi
+        fi
+        rm -f "${target}"
+        if ln -s "${source}" "${target}" 2>/dev/null; then
+            linked=$((linked + 1))
+        elif cp -r "${source}" "${target}" 2>/dev/null; then
+            copied=$((copied + 1))
+        else
+            warn "${agent}: could not install ${name}"
+        fi
+    done
+    ok "${agent}: ${linked} linked, ${copied} copied, ${unchanged} unchanged → ${dest}"
+}
+
+# Install skills for every detected agent (OpenCode is handled by install_custom_skills).
+install_skills_for_detected_agents() {
+    local agents
+    agents="$(detect_agents)"
+    if [[ -z "${agents}" ]]; then
+        info "No agents detected — skills installed for OpenCode only."
+        return 0
+    fi
+    local agent
+    while IFS= read -r agent; do
+        [[ -z "${agent}" ]] && continue
+        install_skills_for_agent "${agent}"
+    done <<< "${agents}"
 }
 
 # ---------------------------------------------------------------------------
@@ -652,6 +727,7 @@ main() {
     setup_remote_skills
     link_remote_skills
     install_custom_skills
+    install_skills_for_detected_agents
     install_opencode_plugin
     install_global_framework
     update_shell_config
@@ -659,6 +735,17 @@ main() {
     verify_installation
     ok "All done!"
 }
+
+# Skills-only mode — install skills for every detected agent (no network, no shell edits).
+if [[ "${1:-}" == "--skills-only" ]]; then
+    echo ""
+    echo "Another Agent Skills — Skills Installer"
+    echo "======================================="
+    echo ""
+    install_custom_skills
+    install_skills_for_detected_agents
+    exit 0
+fi
 
 # Plugin-only mode — install/repair just the OpenCode plugin (no network, no shell edits).
 if [[ "${1:-}" == "--plugin-only" ]]; then
