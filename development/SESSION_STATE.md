@@ -1,9 +1,10 @@
-# Session State — Phase 3 Output Contracts — COMPLETE
+# Session State — Phase 7: OpenCode v1/v2 Plugin Compatibility
 
-**Date:** 2026-07-10  
-**Current version:** v4.2.0  
-**Branch:** `feat/output-contracts`  
-**Status:** ✅ Phase 3 complete — all 57 skills have Output Contracts. PR #31 merged.
+**Date:** 2026-09-30
+**Branch:** `fix/opencode-v2-plugin-compat` — **9 commits ahead of `origin/main`, NOT pushed**
+**Status:** 🔄 In progress. Done: P7.1, P7.2, P7.5, P7.6, P7.7 (+ coherence fixes). Next: **P7.4**.
+
+> Below this section: the previous session's handoff (Phase 3, v4.2.0) — historical.
 
 ---
 
@@ -30,10 +31,21 @@
 
 ---
 
-## Next Steps
+## Next Steps (resume here next session)
 
-- **Phase 4: Docs Honesty** — remaining doc surface updates
-- **Add .env.example** — resolves pre-flight gate warning
+**Resume:** `git checkout fix/opencode-v2-plugin-compat` → read `PLAN.md` (Phase 7 + Backlog).
+
+- **P7.4** — test matrix OpenCode `v1-latest` × `v2-latest`: plugin installs, loads, enforcement active.
+- **Docs leftovers** — historical old-path refs in `rules/common/context.md` + `RELEASE-NOTES.md` (non-functional).
+- **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass with no code files staged).
+- **Then** — Phase 8 (remote enforcement), Phase 9 (distribution).
+
+**System state (verified 2026-09-30):**
+- OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance (no duplicate id).
+- Claude: guardrail `~/.claude/hooks/agent-discipline/commit-approval.sh` (**deny**) registered in `~/.claude/settings.json`.
+- Skills: canonical `~/.config/opencode/skills` (57 custom + official); `~/.claude/skills` and `~/.gemini/skills` symlink to it.
+- Hooks (this repo): pre-commit **v11** (15 gates, via `sync-hooks`), commit-msg **v6** (TDD).
+- Tests: **34 suites passing**. Branch tip: `f52c57e`.
 
 ---
 
