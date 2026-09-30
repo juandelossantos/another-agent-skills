@@ -41,6 +41,8 @@ usage() {
   echo "Subcommands:"
   echo "  sync-hooks                 Copy hooks from scripts/git-hooks/ to .git/hooks/"
   echo "                             (use after modifying hooks without full re-init)"
+  echo "  check-env                  Print the detected OpenCode version and the"
+  echo "                             agent-discipline plugin state (legacy/dual-contract)"
   echo ""
   echo "Options:"
   echo "  --skip-self-improvement    Skip scaffolding the self-improvement loop"
@@ -56,6 +58,7 @@ SUBCOMMAND=""
 for arg in "$@"; do
   case "$arg" in
     sync-hooks) SUBCOMMAND="sync-hooks" ;;
+    check-env|--check-env) SUBCOMMAND="check-env" ;;
     --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
     --help|-h) usage ;;
     *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
@@ -86,6 +89,42 @@ if [ "$SUBCOMMAND" = "sync-hooks" ]; then
     fi
   done
   log "Hooks synced. Run 'bash scripts/init-agents.sh sync-hooks' after modifying hooks."
+  exit 0
+fi
+
+# ─── check-env subcommand ───
+# Report the OpenCode version and the agent-discipline plugin state so a user on
+# OpenCode v2 can tell whether their installed plugin actually loads.
+if [ "$SUBCOMMAND" = "check-env" ]; then
+  GLOBAL_DIR="${AGENT_SKILLS_DIR:-${HOME}/.config/opencode}"
+  PLUGINS_DIR="${GLOBAL_DIR}/plugins"
+
+  OC_VERSION=""
+  if command -v opencode >/dev/null 2>&1; then
+    OC_VERSION="$(opencode --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+  fi
+  echo "opencode=${OC_VERSION:-not-found}"
+
+  if [ -d "${PLUGINS_DIR}/agent-discipline" ]; then
+    if [ -f "${PLUGINS_DIR}/agent-discipline/plugin.json" ] \
+       || [ -d "${PLUGINS_DIR}/agent-discipline/src" ] \
+       || [ -d "${PLUGINS_DIR}/agent-discipline/dist" ]; then
+      echo "agent-discipline=legacy"
+      warn "Legacy agent-discipline plugin detected at ${PLUGINS_DIR}/agent-discipline (v1-only artifacts)."
+      warn "Fix: bash install.sh --plugin-only"
+    else
+      echo "agent-discipline=dual-contract"
+    fi
+  else
+    echo "agent-discipline=not-installed"
+  fi
+
+  DUPLICATES="$(find "${PLUGINS_DIR}" -maxdepth 1 -type d -name 'agent-discipline*' 2>/dev/null | wc -l | tr -d ' ')"
+  if [ "${DUPLICATES}" -gt 1 ]; then
+    echo "agent-discipline-duplicates=${DUPLICATES}"
+    warn "${DUPLICATES} agent-discipline dirs found — only one should load. Fix: bash install.sh --plugin-only"
+  fi
+
   exit 0
 fi
 
@@ -660,7 +699,7 @@ show_next_steps() {
     [[ -f "./STACK_CONFIG.md" ]] && echo "    ✓ STACK_CONFIG.md — ${stack}"
     [[ -f "./.sessionrc" ]] && echo "    ✓ .sessionrc — purpose-driven sessions"
     [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ pre-commit hook — lifecycle enforcement"
-    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — time-window approval (v5)"
+    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — TDD gate (v6)"
     echo ""
 
     # --- LINKED (via ~/.config/opencode/) ---

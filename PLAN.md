@@ -355,6 +355,7 @@ export default {
 - Verificado: `node --check` OK; el contrato dual expone `id` + `setup` + `server`; el hook v1 bloquea `git commit` sin token, permite con token fresco, bloquea `git push` con árbol sucio, y permite comandos no-mutación. Suite completa: **15/15**.
 - Pendiente: P7.2 (install/init-agents instalan dual-contract + detectan versión), P7.5–P7.7 (multi-agente), P7.3/P7.9 (docs/tests). Validación de carga real en OpenCode v2.0.20 → P7.4.
 - Nota: el plugin global en `~/.config/opencode/plugins/agent-discipline/` sigue con semántica vieja (`COMMIT_APPROVED` + OVERRIDE) → P7.2 debe reemplazarlo para evitar doble enforcement.
+- ✅ **P7.2 completado** — `install.sh --plugin-only` reemplaza atómicamente el plugin global (borra artefactos v1: `plugin.json`, `src/`, `dist/`, `node_modules`), pone en cuarentena los `agent-discipline.backup.*` a `.plugin-backups/`, verifica que quede **una sola** instancia y detecta la versión de OpenCode (avisa si < 1.18.29). `init-agents.sh --check-env` reporta la versión y el estado del plugin (`legacy`/`dual-contract`). Esto cierra el doble enforcement confirmado en el log de OpenCode (dos `agent-discipline` cargados con el mismo `id`).
 
 ---
 
