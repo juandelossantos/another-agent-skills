@@ -499,6 +499,29 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ---
 
+## Phase 11: Docs site — Astro + Starlight (v6.3.0)
+
+**Goal:** Migrar el sitio de documentación a Astro + Starlight: SEO por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages.
+
+**Principio de frontera (no erosionar):** el **core** (skills, rules, hooks, `install.sh`) se mantiene **sin build**. El build vive **solo en la capa de docs**; `install.sh` nunca debe requerir Node. El CI del core no corre el build de docs.
+
+**Why:** el JSON-i18n funciona, pero el toggle client-side no indexa `/es/` (SEO) y 21 páginas a mano escalan mal. Astro es el estándar actual para docs en Pages y nos mantiene al día en la capa de presentación.
+
+**Paso intermedio (barato, opcional):** rutas reales `/es/` en el sitio estático → arregla SEO sin build.
+
+| # | Task | Criterio |
+|---|---|---|
+| P11.1 | Verificar con Context7 la guía oficial de Astro (i18n + GitHub Pages) **antes** de implementar | Fuentes citadas, no de memoria |
+| P11.2 | Elegir Astro + Starlight (recomendado) vs Astro pelado | Decisión documentada (ADR) |
+| P11.3 | Migrar 13 HTML + 8 MD a content collections; portar el diseño | Paridad de contenido |
+| P11.4 | i18n por rutas (`/en/`, `/es/`) — reemplaza el toggle JSON client-side | Ambas indexables |
+| P11.5 | Workflow de deploy a Pages, **separado** del CI del core | Core sin build |
+| P11.6 | Reescribir tests de docs (Playwright, i18n, nav); build fuera del pre-commit del core | Suite verde; `install.sh` sin Node |
+
+**Costo honesto:** migración real (21 páginas + diseño custom + reescritura de tests de docs). No es un fin de semana; va **después** de v6.1.0 y Phase 10.
+
+---
+
 ## Backlog
 
 - Troubleshooting guide
