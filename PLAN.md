@@ -8,7 +8,8 @@
 
 | Metric | Value |
 |---|---|
-| Version | **5.0.0** (Phase 6 design skills complete) → **6.0.0** |
+| Version | **6.0.0** (Phase 6: Design Skill Integrity released) |
+| Next target | **v7.0.0** (Phase 7: Cross-Platform Harness Parity) |
 | Lint | 0 errors, 0 warnings |
 | Health | ✅ HEALTHY |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
@@ -25,224 +26,175 @@
 | **QS** | **v4.1.0** | Quick Start Guide, Spanish i18n, nav chain fix |
 | **3** | **v4.2.0** | Output Contracts: 57/57, 0 warnings, pre-flight gate |
 | **4** | **v5.0.0** | Docs Honesty: 42 issues fixed across 6 groups, 86 files changed |
-| **Phase 6** | **v6.0.0** | Design Skill Integrity: TDD enforcement (no override), 17-section DESIGN.md schema, 3-mode design-gate, token-validate CSS drift, approval-gate prototype→approved, design dir rules, DISCOVERY-GUIDE.md, install.sh deprecated cleanup, design-upgrade.sh, direction+platform skill DESIGN.md wiring, critique-skill visual dimensions, prompt drift detection. 35+ commits, 80+ files changed. |
+| **6** | **v6.0.0** | Design Skill Integrity: TDD enforcement (no override), 17-section DESIGN.md schema, 3-mode design-gate, token-validate CSS drift, approval-gate prototype→approved, design dir rules, design-upgrade.sh, direction+platform skill DESIGN.md wiring, critique-skill visual dimensions, prompt drift detection. 35+ commits, 80+ files changed. |
 
 ---
 
-## Phase 6: Design Skill Integrity (v5.1.0)
+## Phase 7: Cross-Platform Harness Parity (v7.0.0)
 
-**Branch:** `feat/phase6-design-skills`
-**Goal:** Upgrade design/prototype skills to produce complete, verified, stack-aware design systems with mechanical gates. Direction skills (brutalist, minimalist, premium) wire into a universal 17-section DESIGN.md schema. Platform skills (web, mobile, desktop, PWA) fill stack-specific sections. Gates validate completeness, detect drift, and enforce transitions.
+**Derived from:** deep analysis of [javierpa95/harness](https://github.com/javierpa95/harness)
+**Focus fronts:** (A) Easy Dev Docs — clear, practical, discoverable docs
+**Focus fronts:** (B) SEO — landing page + docs site optimization
 
-**Why:** Currently DESIGN.md has no enforced schema, direction skills don't integrate with platform skills, existing projects have no upgrade path, and token drift goes undetected. Additionally, Contra's Design Crit research (arXiv:2605.20731) shows that automated design critique is unreliable for aesthetic dimensions (best model achieves 54.3% vs 74.1% human agreement) — our gates must separate **checkable dimensions** (tokens, contrast, breakpoints) that can be automated from **felt dimensions** (color harmony, mood) that require human review.
+### Task 7.1 — Claude Code `.claude/` Mirror
 
-**Value to user:**
-- New projects: agent produces complete design system contracts with explicit user approval at every step
-- Existing projects: `design-upgrade.sh` auto-extracts tokens from codebase, fills gaps with targeted questions
-- All projects: gates block incomplete DESIGN.md, catch CSS drift, enforce prototype→production transitions
-- Cross-platform: same 17-section schema works for web, mobile, desktop, PWA. Direction skills compose with any platform
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `.claude/` directory with agents/, commands/, skills/, settings.json mirroring `.opencode/` |
+| **Files** | New: `.claude/agents/*.md` (8 agents), `.claude/commands/start.md`, `.claude/commands/end.md`, `.claude/settings.json`, `.claude/skills/handoff/SKILL.md` |
+| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` — add `.claude/` path in tables. Update `README.md` agent matrix: Claude Code → ✅ auto. Update `docs/agents.html` |
+| **Docs (B)** | Add `CLAUDE.md` to landing page FAQ. Add structured data for Claude Code integration |
+| **SEO** | New keywords: "Claude Code", "Anthropic agent", "Claude Code skills" — update meta keywords in all HTML. Add OG tags to `docs/agents.html` |
+| **Gate** | pre-commit validates `.claude/` mirrors `.opencode/agents/` |
+| **Tests** | adapter test: both `.claude/` and `.opencode/` agent counts match |
 
-**How user activates it:** Through the agent. Skills detect context automatically. `design-gate.sh` runs on every design-related commit. `design-upgrade.sh` activates when user says "improve design" or when `design-gate.sh` detects an incomplete DESIGN.md. No manual script execution needed.
+### Task 7.2 — Cursor `.cursor/` Mirror
 
-**Completed so far:**
-- **P0.1-P0.4**: Enforcement rules rewritten, DECISION_APPROVED check in pre-commit, OVERRIDE_APPROVED removed (replaced by unconditional TDD), token path documented
-- **P0.5**: 43 stale COMMIT_APPROVED refs cleaned across 19 files, 15 past-phase tests archived
-- **P0.6**: hooks synced, test plan verified
-- **Override removal**: TDD bypass removed entirely — every change requires a matching test. No override mechanism exists. TDD gate enforces: code → matching new test → test-before-code (mtime). 20 test suites, 20 passing.
-- **P6.1**: DESIGN-MD-SCHEMA.md (17-section contract) created, engineering-fundamentals Phase 2B updated, task-specific test suite with 16 tests
-- **P6.2**: design-gate.sh upgraded to 3 modes (strict/audit/verify) with schema validation against DESIGN-MD-SCHEMA, checkable vs felt split, platform detection. Test count gate added to pre-commit (max 11 tests). Task test with 4 tests.
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `.cursor/rules/` (4 rules), `.cursor/instructions.md`. Update `.cursor-plugin/` to use `.cursor/` instead of symlinks |
+| **Files** | New: `.cursor/rules/*.md`, `.cursor/instructions.md`. Updated: `.cursor-plugin/agent-discipline/` |
+| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` Cursor section. Update `docs/getting-started.html` Cursor tab. Update `QUICKSTART.md` |
+| **Docs (B)** | Add "Cursor AI", "Cursor agent rules" keywords. Add `.cursor/rules/` path to `docs/agents.html` |
+| **SEO** | New FAQ entry: "Does this work with Cursor?" — yes, with `.cursor/rules/`. Link from FAQ → `docs/agents.html#cursor` |
+| **Gate** | pre-commit validates `.cursor/rules/` mirrors `.opencode/rules/` |
+| **Tests** | adapter test: both directories parse correctly |
+
+### Task 7.3 — Devin/Kiro Config Update
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Update `.kiro/hooks/` to match current script paths. Add `.devin/config.md` |
+| **Files** | `.kiro/hooks/agent-discipline.json`, new: `.devin/config.md` |
+| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` Devin+Kiro. Add Devin setup to `docs/getting-started.html` |
+| **Docs (B)** | New section in `docs/agents.html` for Devin Desktop workflow |
+| **SEO** | Keywords: "Devin AI", "Devin Desktop", "Kiro agent" — meta keywords |
+| **Gate** | verify `.kiro/hooks/agent-discipline.json` parses as valid JSON |
+| **Tests** | install with `bash install.sh --agent kiro`, verify hooks load |
+
+### Task 7.4 — Shared Memory System
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `agent-memory/` (git-tracked) with per-agent MEMORY.md files |
+| **Files** | New: `agent-memory/README.md`, `agent-memory/spec-writer/MEMORY.md`, `agent-memory/code-reviewer/MEMORY.md`, `agent-memory/docs-auditor/MEMORY.md` |
+| **Docs (A)** | New `docs/memory.html` — how per-agent memory works. Update `docs/customization.html`, `docs/getting-started.html` |
+| **Docs (B)** | "agent memory", "persistent context" keywords in meta. Link from landing page "How It Works" → `docs/memory.html` |
+| **SEO** | Dedicated memory page with structured data. Value prop: "<1% of agent frameworks have persistent memory" |
+| **Gate** | `agent-memory/README.md` exists and references all agent dirs |
+| **Tests** | memory test: create entry, verify agent can read it |
+
+### Task 7.5 — Shared Makefile Control Panel
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `Makefile` with targets: `make help`, `make skills`, `make gates`, `make check`, `make memory`, `make hooks`, `make health`, `make docs` |
+| **Files** | New: `Makefile`. Update: `README.md` commands table |
+| **Docs (A)** | Add `make` commands table to `README.md`. "Quick Reference" card on `docs/index.html`. Update `docs/getting-started.html` |
+| **Docs (B)** | Landing page "Quick Start": `make help` as first command. Terminal code blocks in `docs/quickstart-guide.html` |
+| **SEO** | Low direct. Medium UX (lower bounce rate). `make` code blocks for rich snippets |
+| **Gate** | `make help` exits 0 |
+| **Tests** | run all targets, verify exit codes |
+
+### Task 7.6 — Interactive `init.sh` Setup
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Interactive script: asks project name, type, stack, design system → generates STACK_CONFIG.md, selects skills, installs hooks |
+| **Files** | New: `init.sh`, `init.ps1`. Update: `install.sh` (optional delegation) |
+| **Docs (A)** | Update `docs/getting-started.html` flow: Install → init.sh → init-agents. Walkthrough in `docs/quickstart-guide.html`. Update `QUICKSTART.md` |
+| **Docs (B)** | Hero command: `bash init.sh` (more approachable). "Guided setup" as hero feature |
+| **SEO** | "interactive setup", "project scaffolding" keywords. Step-by-step CLI output rich results |
+| **Gate** | `bash init.sh --dry-run` exits 0 |
+| **Tests** | pipe answers to init.sh, verify generated files exist |
+
+### Task 7.7 — commitlint + Conventional Commits
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Add `commitlint` + Husky for THIS repo. Custom `security` commit type. Update `commit-msg` hook to validate conventional commits + TDD |
+| **Files** | New: `commitlint.config.js`. Update: `package.json`, `scripts/git-hooks/commit-msg` |
+| **Docs (A)** | Update `docs/getting-started.html` commit section. Add conventional commits to `docs/quickstart-guide.html`. Update `CONTRIBUTING.md` |
+| **Docs (B)** | Add commit format to `docs/rules.html`. Document `security` type in `docs/enforcement.html` |
+| **SEO** | "conventional commits for AI agents" long-tail content depth |
+| **Gate** | `npx commitlint --from HEAD~1 --to HEAD` passes |
+| **Tests** | good message passes, bad message fails |
+
+### Task 7.8 — Docs-Auditor Pre-Commit Gate
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Pre-commit Gate 15: if source files changed, verify corresponding docs updated. Warn-only |
+| **Files** | Update: `scripts/git-hooks/pre-commit` (add Gate 15). New: `scripts/verify-docs.sh` |
+| **Docs (A)** | Update `docs/enforcement.html` gate list (15→16). Update `i18n/en.json` + `i18n/es.json`. Update `docs/quickstart-guide.html` |
+| **Docs (B)** | Landing page hero: "15 gates" → "16 gates". Update `docs/index.html` "What's New". All gate count refs across landing, docs, i18n |
+| **SEO** | Gate count increment = content refresh across all pages (recrawl signal). Update SoftwareApplication schema |
+| **Gate** | pre-commit runs `scripts/verify-docs.sh`, warns on stale docs |
+| **Tests** | update source without updating docs → warning fires |
+
+### Task 7.9 — Dev Docs Clarity Overhaul
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Full-text search on `docs/` via client-side JS indexing. 5 concept pages (Guardian Pattern, TDD Gate, Design Gate, Skill Gate, Context Engineering). JSON-LD structured data on ALL docs pages |
+| **Files** | Update: `docs/js/docs.js`, `docs/index.html` (search). New: `docs/concepts/guardian-pattern.html`, `tdd-gate.html`, `design-gate.html`, `skill-gate.html`, `context-engineering.html`. ALL `docs/*.html` (structured data) |
+| **Docs (A)** | Consistent H1 + meta desc on all pages. Concept pages link to skills, guides, rules. "Related" sections on major pages |
+| **Docs (B)** | JSON-LD SearchAction for Sitelinks Search Box. Concept pages target distinct long-tail keywords. Bidirectional link graph: concept → skill → rule → enforcement |
+| **SEO** | HIGH — 5 topic-cluster pages interlinking with 57 skill pages. TechArticle/HowTo/FAQ schemas for rich results. Topical authority for "AI agent enforcement" |
+| **Gate** | Google Rich Results Test passes for every page. Each concept page has ≥3 internal links |
+| **Tests** | batch validate all HTML with structured data linter. 5 search queries return expected results |
+
+### Task 7.10 — SEO Infrastructure
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Auto-generated sitemap with hreflang (EN/ES). Core Web Vitals (Lighthouse 90+ all pages). Internal link audit (zero broken links) |
+| **Files** | Update: `sitemap.xml`, `robots.txt`, `css/style.css` (inline critical), all HTML (preload, lazy-load). New: `scripts/generate-sitemap.sh` |
+| **Docs (A)** | Add hreflang `<link>` tags to all pages. "Related Skills" sections for discoverability |
+| **Docs (B)** | Hreflang for bilingual SEO. CWV ranking signals. Hub pages (enforcement.html, lifecycle.html) link to all 57 skills for authority flow |
+| **SEO** | HIGH — hreflang for bilingual indexation, CWV as ranking signal, dense internal link graph for topical authority. 70+ pages with zero broken links |
+| **Gate** | Lighthouse 90+ all page types. Zero broken internal links. `scripts/generate-sitemap.sh` exits 0 |
+| **Tests** | Lighthouse CI batch audit (fail if <85). Broken link auditor on all HTML. Sitemap validates against schema |
 
 ---
 
-### P0 — Enforcement Fix: Agent Stages, User Commits
+## Summary
 
-**Trigger:** I committed without approval on this branch. The agent should never run `git commit`. The correct flow: agent stages files (`git add`), presents the proposed commit to the user (files + message + reasoning), user reviews and runs the commit themselves.
-
-**Audit findings (before starting):**
-
-| Claim | Reality |
-|---|---|
-| "Pre-commit hook v11 (14 gates) is active" | **FALSE.** `scripts/git-hooks/pre-commit` (v11, 545 lines) is NOT installed. The active pre-commit is `scripts/project-pre-commit` (169 lines). |
-| "enforcement.md Rule 12 reflects reality" | **FALSE.** It still describes an old COMMIT_APPROVED three-gate flow that was removed in commit-msg v4. The section must be rewritten, not amended. |
-| "OVERRIDE is validated mechanically" | **FALSE.** `scripts/tdd-gate.sh` line 177: `[[ "$msg" =~ OVERRIDE: ]]` — pure regex. Any agent can forge OVERRIDE in the commit body. |
-| "Stale references are limited" | **FALSE.** 43 references to COMMIT_APPROVED across 14 files found. The old flow is documented in enforcement.md, AGENTS-EXTENDED.md, GLOSSARY.md, HARNESS.md, PATTERNS.md, ADRs, HEALTH-CHECK.md, etc. |
-| `scripts/git-hooks/pre-commit` (v11, 30147 bytes) | Not installed anywhere. Exists as source only. |
-
-**Why 43 stale references matter:** If the old COMMIT_APPROVED flow is still documented anywhere, an agent reading those docs will follow the old flow instead of the new one. Every reference must be updated or the P0 enforcement will be undermined by conflicting documentation.
-
-**What 100% confidence requires:**
-1. Rewrite enforcement.md Rule 12 — not "add a line" but replace the outdated COMMIT_APPROVED section with the new DECISION_APPROVED + OVERRIDE_APPROVED flow
-2. Add DECISION_APPROVED check to **the active pre-commit hook** (`scripts/project-pre-commit`) — warn if missing/stale, since the user running `git commit` IS the approval
-3. Add OVERRIDE_APPROVED check to **the active commit-msg hook** (`scripts/git-hooks/commit-msg`) — BLOCK if OVERRIDE in body but no token, since OVERRIDE is trivially forgeable by regex
-4. Add both tokens to `.gitignore`
-5. Find and update all 43 stale COMMIT_APPROVED references across 14 files, organized by impact: enforcement docs first, then ADRs, glossaries, then release/history notes
-6. Sync hooks + run test plan
-
-**Active hooks (what actually runs):**
-
-| Hook | Source File | What It Does |
+| Metric | Current | Target v7.0.0 |
 |---|---|---|
-| `.git/hooks/pre-commit` | `scripts/project-pre-commit` (169 lines) | Tests, build, secrets scan, design gate |
-| `.git/hooks/commit-msg` | `scripts/git-hooks/commit-msg` (57 lines, v4) | TDD gate only |
-
-**Token flow:**
-
-| Agent Does | User Does |
-|---|---|
-| `git add <files>` (stages relevant files) | Reviews staged files |
-| Presents: "Files staged \| message \| what changed \| why" | Approves or requests changes |
-| Writes `.git/DECISION_APPROVED` after approval | Runs `git commit` |
-| — | Pre-commit hook validates token exists and is fresh |
-
-| Token | File | What It Proves |
-|---|---|---|
-| Decision token | `.git/DECISION_APPROVED` | Agent presented the staged files + message, user explicitly said "yes, commit this." Timestamp must be < 10 min old. |
-| Override token | `.git/OVERRIDE_APPROVED` | Same as above, but override was justified and approved. Only checked when commit body contains OVERRIDE. |
-
-**Decision token behavior:** WARN (not BLOCK) when missing. The user running `git commit` IS the approval — the token is evidence that the presentation step happened. If missing, the user sees a yellow warning that "no decision point was presented before this commit."
-
-**Override token behavior:** BLOCK when OVERRIDE in body but no token. OVERRIDE bypasses the TDD gate — it requires mechanical proof that the user explicitly approved the bypass. Without the token, any agent can forge OVERRIDE silently.
-
-**Flow examples:**
-
-```
-Correct flow:
-  Agent: git add PLAN.md
-  Agent: "Staged: PLAN.md. Approve? (y/n)"
-  User: "yes"
-  Agent: writes .git/DECISION_APPROVED
-  User: git commit -m "message"
-  → pre-commit: DECISION_APPROVED fresh → PASS ✓
-
-Override flow:
-  Agent: "OVERRIDE needed: no test for this doc-only. Approve? (y/n)"
-  User: "yes"
-  Agent: writes .git/OVERRIDE_APPROVED
-  User: git commit -m "msg" -m "OVERRIDE: doc-only"
-  → commit-msg: OVERRIDE in body + token fresh → PASS ✓
-  → Without token: BLOCK ❌ (even with OVERRIDE in body)
-
-Missing token (user commits directly):
-  User: git commit -m "msg"
-  → pre-commit: no DECISION_APPROVED → WARN ⚠ (no block)
-```
-
-Both tokens go in `.gitignore`. Local only.
-
-| # | Task | Deliverable | Lines | File(s) | Gate |
-|---|---|---|---|---|---|
-| P0.1 | Rewrite `rules/common/enforcement.md` Rule 12 — replace old COMMIT_APPROVED section with new DECISION_APPROVED + OVERRIDE_APPROVED flow | Updated enforcement rules: agent stages and presents, user commits. Token validation described correctly. No references to commit-approval.sh or three-gate approval. | ~30 | `rules/common/enforcement.md` | — |
-| P0.2 | Add DECISION_APPROVED check to active pre-commit hook (`scripts/project-pre-commit`) | New gate in project-pre-commit: if `.git/DECISION_APPROVED` missing or stale (>10min), warn but don't block. Checks before tests/ build/ secrets gates. | ~15 | `scripts/project-pre-commit` | pre-commit hook (warn) |
-| P0.3 | Add OVERRIDE_APPROVED check to active commit-msg hook (`scripts/git-hooks/commit-msg`) | New gate in commit-msg v4+: if commit body contains OVERRIDE, require `.git/OVERRIDE_APPROVED` exists and is <10min old. BLOCK if missing or stale. Runs before TDD gate. | ~12 | `scripts/git-hooks/commit-msg` | commit-msg hook (block) |
-| P0.4 | Document that tokens live in `.git/` (inherently local) — no `.gitignore` needed | `.gitignore` doesn't apply to `.git/` directory. Tokens are already untracked. Update enforcement.md to reflect this instead of claiming `.gitignore` coverage. | ~1 | `rules/common/enforcement.md` | — |
-| P0.5 | Clean up all 43 stale COMMIT_APPROVED references across 14 files — organized by impact | **High impact** (agent reads these during design flow): `AGENTS-EXTENDED.md` (3 refs), `GLOSSARY.md` (2 refs), `PATTERNS.md` (1 ref), `HARNESS.md` (1 ref), `scripts/commit-approval.sh` (deprecate or update). **Medium impact** (reference/decision docs): `ADRs/ADR-006.md`, `ADR-007.md`, `ADR-005.md`. **Low impact** (historical release notes): `RELEASE-NOTES.md`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md`, `README.md`. | ~80 across 14 files | 14 files | All stale refs cleared |
-| P0.6 | Sync hooks + run full test plan | `bash scripts/init-agents.sh sync-hooks` → installs updated hooks. Then verify all 6 test scenarios. | ~10 | — | All gates |
+| Platforms | 1 (OpenCode full) | 4 (OpenCode + Claude + Cursor + Devin) |
+| Attribution | In README only | Dedicated ATTRIBUTION.md + docs page |
+| Memory | Session-only | Per-agent persistent MEMORY.md |
+| Makefile | None | Full control panel (10+ targets) |
+| Interactive setup | None | `init.sh` guided CLI |
+| Docs search | None | Client-side full-text search |
+| Concept pages | 0 | 5 standalone concept pages |
+| Structured data | 1 page (landing) | All 14+ docs pages |
+| Pre-commit gates | 15 | 16 (+ Docs-Auditor) |
+| Lighthouse | ~85-95 | 90+ all pages |
+| Internal links | Manual | Auto-audited, zero broken |
+| Hreflang | None | All pages EN ↔ ES |
+| Sitemap | Static | Auto-generated from git |
 
 ---
 
-### P6.0 — Gates & Schema (Foundation)
+## Release Checklist v7.0.0
 
-| # | Task | Deliverable | Lines | Gate |
-|---|---|---|---|---|
-| P6.1 | Define 17-section DESIGN.md schema — universal template for all platforms, annotated with checkable vs felt dimensions | `engineering-fundamentals/guides/DESIGN-MD-SCHEMA.md` — documents all 17 sections, which are universal vs platform-specific, required fields per section, and for each section whether it is **checkable** (can be verified mechanically: tokens, breakpoints, contrast) or **felt** (requires human review: color harmony, mood). This split is based on Contra Design Crit finding: designers agree >74% on checkable dimensions but <55% on felt ones, and no automated system can reliably judge the latter. | ~60 | — |
-| P6.2 | Upgrade `design-gate.sh` — 3 modes (strict/audit/verify), split each mode into automated blocks + human review flags | Script upgrade: strict blocks on checkable violations (missing tokens, wrong contrast, no breakpoints), flags for human review on felt dimensions. Audit warns on both but doesn't block. Verify checks pre-merge that automated checks passed and felt flags were reviewed. Detects platform from codebase, calls platform validator if available. | ~50 | — |
-| P6.3 | Create `token-validate.sh` — CSS drift detection against DESIGN.md tokens | New script: scans CSS for values not in DESIGN.md token schema. Reports drift percentage. Platform-specific scanners (web: CSS vars, mobile: StyleSheet, desktop: Tauri config) | ~40 | token-validate.sh |
-| P6.4 | Create `approval-gate.sh` — prototype→approved transition | New script: requires explicit "APPROVED" with timestamp before moving from `design/prototype/` to `design/approved/` | ~25 | approval-gate.sh |
-| P6.5 | Define `design/` directory rules + update `.gitignore` | Document all 4 directory roles (prototype, approved, archive, contract). Add `design/prototype/` to `.gitignore` for main branch | ~10 | .gitignore |
-
-### P6.1 — Discovery & Extraction
-
-| # | Task | Deliverable | Lines | Gate |
-|---|---|---|---|---|
-| P6.6 | Upgrade `visual-frontend-mastery` Phase 1 — Discovery produces `design/design-discovery.md` artifact | Discovery uses `interview-me` pattern (one question with guess+confidence). Produces structured artifact with: intent, audience, vibe, Three Dials, references, constraints, explicit user approval. DESIGN.md is EXTRACTED from this artifact, not guessed | ~40 | design-gate.sh --strict |
-| P6.7 | Create `design-upgrade.sh` — auto-extract design system from existing codebase | Reads existing codebase: CSS vars (spacing, color, breakpoints, transitions), HTML (framework, font loading, icons, theme), package.json (framework detection). Detects platform automatically (web/mobile/desktop/PWA). Offers direction skill selection. Produces complete DESIGN.md with only 2-3 user questions for gaps | ~60 | design-gate.sh --audit |
-
-### P6.2 — Direction & Platform Integration
-
-| # | Task | Deliverable | Lines | Gate |
-|---|---|---|---|---|
-| P6.8 | Wire direction skills into DESIGN.md generation — each fills sections 1-12 | Add DESIGN.md OUTPUT section to `industrial-bratulist-ui`, `minimalist-ui`, `soft-premium-ui` SKILL.md — declares which sections they populate and with what constraints. Agent reads direction skill output, applies to DESIGN.md sections 1-12 before platform skill fills 13-17 | ~20 per skill | design-gate.sh validates direction constraints |
-| P6.9 | Wire platform skills into DESIGN.md generation — each fills sections 13-17 | Add platform DESIGN.md sections table to each platform skill's DESIGN-GUIDE.md (.md (web, mobile, desktop, PWA) — declares what goes in sections 13-17. Agent reads platform guide, applies to DESIGN.md after direction | ~10 per platform | design-gate.sh delegates to platform validator |
-
-### P6.3 — Upstream Integration & Verification
-
-| # | Task | Deliverable | Lines | Gate |
-|---|---|---|---|---|
-| P6.10 | Wire `design-upgrade.sh` → `redesign-skill` flow | When user says "redesign", `design-upgrade.sh` runs first (fix contract), then `redesign-skill` (fix visuals). Document the flow in redesign-skill's When to Use | ~15 | Both gates pass |
-| P6.11 | Upgrade `critique-skill` — add optional Visual Design pass with Contra's dimension taxonomy | Add 5 visual design dimensions (color harmony, typographic craft, visual hierarchy, spatial accuracy, mood/tone) as an optional pass. Score each 0-4 alongside existing Nielsen heuristics. These dimensions are **felt** — they flag for human review, not automated block. | ~30 | Critique pipeline |
-| P6.12 | Add "prompt drift" detection to `token-validate.sh` / anti-pattern checks | Contra found 10% of AI-generated designs hallucinate elements not in the prompt. Add semantic check: output uses tokens/colors/components not in DESIGN.md or spec. Catches hallucinated content, not just token drift. | ~15 | token-validate.sh |
-| P6.13 | Upgrade our own DESIGN.md as real-world test case | Run `design-upgrade.sh` against our project. Auto-extract from CSS/HTML. Fill 7 missing sections. User confirms. `design-gate.sh --verify` passes | ~30 (documentation) | design-gate.sh --verify |
-| P6.14 | Verify all gates + full pipeline integration | `design-gate.sh --strict` passes on new project. `design-gate.sh --audit` warns on legacy. `token-validate.sh` catches drift. `approval-gate.sh` blocks without approval. End-to-end flow: discovery → DESIGN.md → build → gate passes | ~20 (tests) | All gates |
-
----
-
-### Summary
-
-| Metric | Value |
-|---|---|
-| Branch | `feat/phase6-design-skills` |
-| Target version | **v6.0.0** |
-| Base | `main` |
-| New scripts | 2 (`token-validate.sh`, `approval-gate.sh`) |
-| Upgraded scripts | 1 (`design-gate.sh` — automated block + human-flag split) |
-| New script | 1 (`design-upgrade.sh`) |
-| Upgraded skills | 2 (`visual-frontend-mastery`, `critique-skill`) |
-| Direction skills updated | 3 (brutalist, minimalist, premium) |
-| Platform skills updated | 4 (web, mobile, desktop, PWA) |
-| New guides | 1 (`DESIGN-MD-SCHEMA.md` with checkable/felt annotation) |
-| New gates | 3 (strict, approval, token, prompt-drift) |
-| Research integrated | Contra Design Crit (arXiv:2605.20731) — checkable vs felt dimensions, designer agreement baselines, prompt-drift detection |
-| Backward compatibility | Existing projects not broken. Upgrade is opt-in. |
-
----
-
----
-
-## Release v6.0.0 — Phase 6: Design Skill Integrity
-
-**Target:** Merge `feat/phase6-design-skills` → `main`, tag v6.0.0, publish release.
-
-### Pre-Release Audit (15 files need fixes)
-
-| # | File | Issue | Fix |
-|---|---|---|---|
-| 1 | `VERSION` | 5.0.0 | → 6.0.0 |
-| 2 | `RELEASE-NOTES.md` | Missing v6.0.0 section | Add Phase 6 release notes |
-| 3 | `README.md` | Badge v5.0.0, What's New, "current: v4.2.0" | Version + Phase 6 content |
-| 4 | `index.html` | "14 gates" in FAQ a2/a5 | → 15 gates |
-| 5 | `i18n/en.json` | "14 gates" in hero, FAQ | → 15 gates |
-| 6 | `i18n/es.json` | Same as EN | Sync |
-| 7 | `docs/index.html` | v4.2.0 everywhere, stale "superseded by v5.1.0" ref | → v6.0.0 |
-| 8 | `docs/i18n/en.json` | What's New in v4.2.0 | → v6.0.0 Phase 6 |
-| 9 | `docs/i18n/es.json` | Same as EN | Sync |
-| 10 | `docs/enforcement.html` | "14 gates" ×4, "v4" → v6, missing Gate 0 | Update gate list |
-| 11 | `docs/i18n/en.json` (enforcement) | "14 gates" ×2, "v4" → v6 | Update |
-| 12 | `docs/quickstart-guide.html` | "14 gates" ×2, "Gate 14" → Gate 15 | Update |
-| 13 | `docs/design-review.html` | No Phase 6 design gate pipeline reference | Add gate flow |
-| 14 | `docs/DESIGN-WORKFLOW.md` | "futuro" skills now implemented | Mark current |
-| 15 | `PLAN.md` (this file) | Needs release plan | Done |
-
-### Release Steps
-
-1. Fix all 15 files (TDD: each file + matching test → commit → archive → next)
-2. Create the "What's New" content for v6.0.0 (Phase 6 highlights)
-3. Run Playwright tests: `npx playwright test` in `tests/playwright/`
-4. Run full test suite: `bash tests/run-all.sh`
-5. Update `docs/index.html` version table: v4.2.0 → v6.0.0
-6. Final commit: `git tag v6.0.0 && git push --tags`
-7. Create GitHub Release with release notes
-
-### What "What's New in v6.0.0" Should Cover
-
-- **Design Flow Transformation** — 17-section DESIGN.md schema, 3-mode design-gate.sh (strict/audit/verify)
-- **TDD Enforcement (no override)** — commit-msg v6 blocks code without matching tests. No bypass mechanism.
-- **Gate 0: DECISION_APPROVED Block** — Pre-commit now BLOCKS if no decision token exists (upgraded from warn).
-- **15 Gates Total** — 15 pre-commit gates (was 14) + 1 commit-msg gate.
-- **design-upgrade.sh** — Auto-extract design tokens from existing codebases.
-- **token-validate.sh** — CSS drift detection against DESIGN.md tokens.
-- **43 stale refs cleaned** — All COMMIT_APPROVED references replaced with current flow.
-- **Design direction + platform wiring** — Direction skills (brutalist, minimalist, premium) compose with platform skills through the schema.
-- **critique-skill upgrade** — Optional visual design pass with 5 felt dimensions (color, typography, hierarchy, spatial, mood).
+- [ ] All 4 platform adapters created and tested (7.1-7.3)
+- [ ] Shared agent-memory/ with per-agent MEMORY.md (7.4)
+- [ ] Makefile with 10+ targets passing (7.5)
+- [ ] init.sh/init.ps1 interactive setup flow tested (7.6)
+- [ ] commitlint + conventional commits for this repo (7.7)
+- [ ] Docs-Auditor Gate 15 added to pre-commit (7.8)
+- [ ] 5 concept pages created with bidirectional link graph (7.9)
+- [ ] Structured data on ALL docs pages (7.9)
+- [ ] Full-text search on docs/ (7.9)
+- [ ] Sitemap auto-generated, hreflang added (7.10)
+- [ ] Lighthouse 90+ on all page types (7.10)
+- [ ] Zero broken internal links (7.10)
+- [ ] i18n EN/ES updated across all new pages
+- [ ] Version bumped to 7.0.0
+- [ ] Release notes written
 
 ---
 

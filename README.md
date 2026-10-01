@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v6.1.0](https://img.shields.io/badge/version-6.1.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.2.0](https://img.shields.io/badge/version-6.2.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -50,7 +50,7 @@ Run `init-agents` in every new project — it:
 
 > **Safety:** Backs up before replacing. `init-agents` merges — never overwrites.
 > **Universal:** Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
-> **Agent adapters:** `bash install.sh --agent claude` or `.\install.ps1 -Agent claude`
+> **Only use Claude Code?** `bash install.sh --agent claude` installs the 57 skills to `~/.claude/skills/` (Claude Code's own global skill path — auto-discovered in every project, no `init-agents` needed) plus `CLAUDE.md` and the enforcement hooks, without setting up OpenCode at all. The plain `bash install.sh` above installs skills globally for **both** OpenCode and Claude Code every time. See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md#claude-code) for hook wiring.
 >
 > **📖 New to skills?** Read the [**Quick Start Guide →**](./docs/quickstart-guide.html) ([Markdown version](./QUICKSTART.md)) for a step-by-step walkthrough of your first session, how skills activate, and day-to-day tips.
 
@@ -63,7 +63,9 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 Latest: v6.1.0 — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — Dual-contract plugin, multi-agent detection + version-gated installs, per-agent skills and guardrails, and **philosophy A** (the agent never commits or pushes). [Release notes →](./RELEASE-NOTES.md)
+> **🧠 Latest: v6.2.0 — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — Dual-contract plugin, multi-agent detection + version-gated installs, per-agent skills and guardrails, and **philosophy A** (the agent never commits or pushes). [Release notes →](./RELEASE-NOTES.md)
+>
+> **v6.1.0 — Claude Code Parity** — 57 skills auto-install to `~/.claude/skills/`, all 3 enforcement hooks auto-wire into `.claude/settings.json`. One command, no manual setup. [Learn more →](#whats-new-in-v610--claude-code-parity)
 
 | Component | What It Is | In This Project |
 |---|---|---|
@@ -114,6 +116,30 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
 
 ---
+
+## What's New in v6.2.0 — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails
+
+**One plugin, two OpenCode contracts; every agent detected, version-gated, and guarded — and the agent never commits or pushes.**
+
+- **Dual-contract plugin** — `agent-discipline` now serves OpenCode v2 (`setup(ctx)`) and v1 (`server()`, 1.18.29+) from one default export. Source moved to `plugins/agent-discipline/` (not auto-loaded) so a repo-local copy can't collide with the global install (`Duplicate plugin ID`).
+- **Multi-agent detection** — `scripts/agent-detect.sh` detects 15 agents via a PATH binary, a global dir, or a project file; `AAS_AGENTS` overrides. `init-agents --list-agents` / `--check-env` report the detected agents **and their versions**.
+- **Version-gated installs** — `agent_support_note()` flags unsupported versions (OpenCode v1 < 1.18.29); `install.sh` warns and installs accordingly.
+- **Skills per agent** — `install.sh --skills-only` symlinks the canonical OpenCode skills dir into each detected agent's skills dir (`~/.claude/skills`, `~/.gemini/skills`) — one source of truth; diverging dirs are quarantined outside the skills dir.
+- **Philosophy A: the agent never commits or pushes** — the OpenCode plugin and the Claude guardrail deny `git commit/push/merge/rebase/reset/…` unconditionally, with **no token bypass** (Rule 12). Closes the self-issued-token hole.
+- **Per-agent guardrails** — `install.sh --guardrails-only`: OpenCode → dual-contract plugin; Claude → hook registered in `~/.claude/settings.json` (idempotent, with backup); others skipped.
+- **Global install hardening** — `install.sh --plugin-only` does an atomic replace, drops stale v1 artifacts, quarantines legacy backups, verifies a single instance, and detects the OpenCode version.
+
+[**Full release notes →**](./RELEASE-NOTES.md)
+
+## What's New in v6.1.0 — Claude Code Parity
+
+**Claude Code gets full skill+hook parity with OpenCode — one command, zero manual setup.** Closes the skills+hooks gap inside Phase 7's Task 7.1 (the `agents/`/`commands/` mirror is still open — see `PLAN.md`).
+
+- **57 skills, auto-installed globally** — `bash install.sh` / `bash install.sh --agent claude` install every skill to `~/.claude/skills/`, Claude Code's own auto-discovery path. Manifest-tracked, idempotent, never touches skills you already have there.
+- **Enforcement hooks, made to actually work** — `commit-approval.sh`, `pre-flight.sh`, and `edit-guard.sh` now parse Claude Code's real `PreToolUse`/`PostToolUse` JSON payload and use the correct block exit code (`2`, not `1` — the old scripts would not have blocked anything even if wired). `install.sh --agent claude` merges them into `.claude/settings.json` automatically via an idempotent `jq` merge (native `ConvertTo-Json` on Windows) that never overwrites your own hooks or settings.
+- **19 new tests, 28/28 suites passing** — hook behavior (block/allow, exit codes, risky-command scoping, compound-command detection), install idempotency, and EN/ES doc parity are all covered. Two full code reviews (one before shipping, one on the GitHub PR itself) caught real bugs that would have made the hooks unusable or macOS-incompatible — see [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) for details.
+
+[**Full release notes →**](./RELEASE-NOTES.md)
 
 ## What's New in v6.0.0 — Phase 6: Design Skill Integrity
 
@@ -279,6 +305,7 @@ Another Agent Skills works with multiple AI coding agents. **Git hooks work ever
 
 | Feature | OpenCode | Claude Code | Cursor | Kiro | Any Git Agent |
 |---|---|---|---|---|---|
+| 57 skills installed globally (`bash install.sh`) | ✅ auto → `~/.config/opencode/skills/` | ✅ auto → `~/.claude/skills/` | ⚠️ manual | ⚠️ manual | ⚠️ manual |
 | Git hooks (pre-commit, commit-msg) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | Manifest gate (commit-approval.sh + log-test-results.sh) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | SOUL.md + AGENTS.md rules | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
@@ -345,7 +372,7 @@ If it fails, ask the user before taking any action.
 | [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
 | [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.0.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.2.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

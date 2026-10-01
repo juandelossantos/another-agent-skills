@@ -1,9 +1,10 @@
 # Project Progress Status
 
 > **Last updated:** 2026-10-01  
-> **Current version:** 6.1.0 (auto-generated)
-> **Status:** Released — 0 errors, 0 warnings, 74 guides across 57 skills  
+> **Current version:** 6.2.0 (auto-generated)
+> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails); 0 errors, 0 warnings, 74 guides across 57 skills  
 > **Current plan:** `PLAN.md` — Phase 7 complete; Phase 10 (landing) and Phase 11 (docs site) planned
+> **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
 
@@ -153,7 +154,7 @@
 - New skill tracks: CLI, IoT, GameDev, Container
 - Self-host Google Fonts (Newsreader + JetBrains Mono)
 - Copy button micro-interaction (scale + check icon)
-- Promotion campaign (see development/PROMOTION-PLAN.md)
+- Promotion campaign
 
 ---
 
@@ -161,7 +162,7 @@
 
 | Limitation | Impact | Workaround |
 |---|---|---|---|
-| OpenCode-first invocation | Claude/Cursor need adapter setup | `bash install.sh --agent claude` or `--agent cursor` |
+| OpenCode-first invocation | Cursor/Kiro still need manual adapter setup — Claude Code now gets full automatic parity (skills + hooks) via `bash install.sh --agent claude` | `bash install.sh --agent cursor` or `--agent kiro` |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
 ---
@@ -180,6 +181,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|
+| **6.0.0** | 2026-07-18 | **Phase 6: Design Skill Integrity** — Design flow redefined with mechanical gates. 17-section DESIGN.md schema, 3-mode design-gate.sh, TDD enforcement (no override), Gate 0: DECISION_APPROVED block (15 gates total), design-upgrade.sh, token-validate.sh, approval-gate.sh, direction+platform wiring, critique-skill upgrade, 43 stale refs cleaned. 3 commits, 33+24+1 files. Browser-verified EN+ES, Playwright 12/12. |
 | **5.0.0** | 2026-07-13 | **Phase 4: Docs Honesty** — 42 issues fixed across 6 groups (version truth, hook drift, i18n, nav, content gaps, polish). 86 files changed, +629/−470. Browser-verified nav chain, sidebar, theme/language toggles. 0 lint warnings. |
 | **4.2.0** | 2026-07-10 | **Phase 3: Output Contracts** — All 57 skills have standardized Output Contracts. Check 16 warnings: 37→0. Word count advisories resolved. Guides improved: CONTRACT-TEMPLATES, VERSIONING-STRATEGIES, WORKFLOW-SCENARIOS. Pre-flight gate added for .gitignore/.env.example. |
 | **4.1.0** | 2026-07-08 | Quick Start Guide & Navigation Overhaul: user-facing walkthrough, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate covers all text formats. |

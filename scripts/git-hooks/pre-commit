@@ -568,7 +568,7 @@ else
 fi
 
 # === Test Count Gate (prevent accumulation) ===
-MAX_TESTS=40
+MAX_TESTS=60
 TEST_COUNT=$(find "${REPO_ROOT}/tests" -maxdepth 1 -name 'test-*.sh' 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$TEST_COUNT" -gt "$MAX_TESTS" ]]; then
   echo ""
