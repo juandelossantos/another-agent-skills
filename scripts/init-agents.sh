@@ -113,6 +113,12 @@ if [ "$SUBCOMMAND" = "check-env" ]; then
   DETECTED_AGENTS="$(detect_agents | paste -sd, -)"
   echo "agents=${DETECTED_AGENTS:-none}"
 
+  # Per-agent version — what the installer gates on.
+  while IFS= read -r _a; do
+    [ -z "${_a}" ] && continue
+    echo "agent:${_a}=$(agent_version "$(agent_binary "${_a}")")"
+  done <<< "$(detect_agents)"
+
   OC_VERSION=""
   if command -v opencode >/dev/null 2>&1; then
     OC_VERSION="$(opencode --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"

@@ -59,6 +59,19 @@ agent_guardrails_kind() {
   esac
 }
 
+# Print the binary name for an agent, or nothing.
+agent_binary() {
+  printf '%s\n' "${AAS_AGENT_TABLE}" | awk -F'|' -v id="$1" '$1==id { print $2; exit }'
+}
+
+# Print the installed version (X.Y.Z) of an agent, or nothing when unavailable.
+agent_version() {
+  local bin="$1"
+  [ -n "${bin}" ] || return 0
+  type -P "${bin}" >/dev/null 2>&1 || return 0
+  "${bin}" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1
+}
+
 # Return 0 when any signal for one agent matches.
 _agent_hit() {
   local bin="$1" gdir="$2" pfiles="$3"
