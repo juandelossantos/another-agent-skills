@@ -68,5 +68,34 @@ check("git status is allowed", (await run("git status")) === "allowed")
 check("git diff is allowed", (await run("git diff")) === "allowed")
 check("git add is allowed", (await run("git add a.txt")) === "allowed")
 
+// ── v2 path: setup(ctx) registers hooks and enforces identically ──
+const calls = []
+let v2ExecuteBefore = null
+let v2Compaction = null
+const ctx = {
+  app: { log: () => {} },
+  tool: { hook: async (name, fn) => { calls.push(`tool:${name}`); if (name === "execute.before") v2ExecuteBefore = fn } },
+  session: { hook: async (name, fn) => { calls.push(`session:${name}`); if (name === "compaction") v2Compaction = fn } },
+  event: { subscribe: () => ({ [Symbol.asyncIterator]: async function* () {} }) },
+}
+const cleanup = await plugin.setup(ctx)
+check("v2 setup registers tool.execute.before", calls.includes("tool:execute.before"))
+check("v2 setup registers session.compaction", calls.includes("session:compaction"))
+check("v2 setup returns a cleanup function", typeof cleanup === "function")
+
+const runV2 = (command) => {
+  try { v2ExecuteBefore({ tool: "bash", input: { command } }); return "allowed" }
+  catch { return "blocked" }
+}
+check("v2 blocks git commit", runV2("git commit -m x") === "blocked")
+check("v2 blocks git push", runV2("git push origin main") === "blocked")
+check("v2 allows git status", runV2("git status") === "allowed")
+
+const system = []
+v2Compaction({ system })
+check("v2 compaction injects a reminder", system.length === 1 && typeof system[0].text === "string")
+
+if (typeof cleanup === "function") cleanup()
+
 process.exit(failed)
 JS
