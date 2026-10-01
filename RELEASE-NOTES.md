@@ -22,6 +22,12 @@
 - Plugin source relocated to `plugins/agent-discipline/`.
 - Docs: `docs/AGENT-ADAPTERS.md` (per-agent matrix) and an `ADRs/005` addendum.
 
+### Platform notes
+- **Phase 7 flags are POSIX-only.** `--skills-only`, `--guardrails-only`,
+  `--plugin-only`, multi-agent detection, and version-gating live in
+  `install.sh`. `install.ps1` still provides Claude Code parity (global skills +
+  hook wiring) only; the Phase-7 flags are not implemented there yet.
+
 ### Tests
 - 34+ suites: plugin contract (v1 + v2), version detection, load-log guard, opt-in compatibility matrix.
 

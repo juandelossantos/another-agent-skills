@@ -40,6 +40,12 @@ init-agents              # In any project: activates skill-driven mode
 **That's it.** Your AI agent now has 57 custom skills + 74 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
+> **Platform note (Phase 7):** the Phase-7 installer flags — `--skills-only`,
+> `--guardrails-only`, `--plugin-only`, and multi-agent detection/version-gating
+> — are **POSIX-only** (`install.sh`). `install.ps1` provides Claude Code parity
+> (global skills + hook wiring) but not yet these flags; on Windows, run the
+> equivalent steps via the Bash installer (WSL/Git Bash) until parity lands.
+
 Run `init-agents` in every new project — it:
 - Merges AGENTS.md without overwriting existing rules
 - Links framework files (rules, scripts, SOUL.md) from global installation

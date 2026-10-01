@@ -24,6 +24,8 @@ check("type is module", pkg.type === "module")
 check("main points to index.js", pkg.main === "index.js")
 check("exports entry is index.js", pkg.exports && pkg.exports["."] === "./index.js")
 check("engines.opencode includes 1.18.29", typeof pkg.engines?.opencode === "string" && pkg.engines.opencode.includes("1.18.29"))
+check("description does not claim an approval token", !/approval token/i.test(pkg.description || ""))
+check("description states the no-token philosophy", /no token bypass/i.test(pkg.description || ""))
 
 process.exit(failed)
 '

@@ -38,4 +38,13 @@ AFTER="$(find "$HOME/.claude/skills" -maxdepth 1 -mindepth 1 | wc -l | tr -d ' '
 # ── agent without a known skills path is skipped cleanly ──
 AAS_AGENTS="cursor" bash "$REPO_ROOT/install.sh" --skills-only >/dev/null 2>&1; check $? "unknown-path agent skipped cleanly"
 
+# ── custom AGENT_SKILLS_DIR: OpenCode's dir IS the canonical dir ──
+# Regression: install_skills_for_agent hardcoded ~/.config/opencode/skills, so
+# a custom AGENT_SKILLS_DIR fell through the dest==canonical short-circuit and
+# created a stray skills dir under HOME.
+rm -rf "$HOME/.config/opencode"
+AAS_AGENTS="opencode" bash "$REPO_ROOT/install.sh" --skills-only >/dev/null 2>&1; check $? "opencode-only install exits 0"
+[ ! -e "$HOME/.config/opencode/skills" ]; check $? "custom AGENT_SKILLS_DIR respected (no ~/.config/opencode/skills created)"
+[ -f "$AGENT_SKILLS_DIR/skills/frontend-web/SKILL.md" ]; check $? "canonical skills still installed under AGENT_SKILLS_DIR"
+
 exit "$fail"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-progress-status-v610.sh — PROGRESS_STATUS.md header reflects v6.1.0.
+# test-progress-status-v620.sh — PROGRESS_STATUS.md header reflects v6.2.0.
 set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOC="$REPO_ROOT/PROGRESS_STATUS.md"

@@ -78,6 +78,17 @@ else
   FAILED=$((FAILED + 1))
 fi
 
+# Stale-reference regression: the hook mirrors plugins/agent-discipline/index.js
+# (not the deleted src/lib.ts), and no longer claims an approval-token gate.
+TOTAL=$((TOTAL + 1))
+if grep -q '\.opencode/plugins/agent-discipline\|approval-token' "$HOOK"; then
+  echo -e "  ${RED}✗${NC} still references a stale path or token"
+  FAILED=$((FAILED + 1))
+else
+  echo -e "  ${GREEN}✓${NC} no stale path/token reference"
+  PASSED=$((PASSED + 1))
+fi
+
 rm -rf "$TMP_REPO"
 
 echo ""

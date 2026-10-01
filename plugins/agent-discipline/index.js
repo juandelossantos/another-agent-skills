@@ -30,30 +30,91 @@ import * as fs from "node:fs"
 
 const LINE_COUNT_THRESHOLD_PERCENT = 20
 
-// Mutations the agent must NEVER run. The user runs them.
-const BLOCKED_MUTATIONS = [
-  "git commit",
-  "git push",
-  "git merge",
-  "git rebase",
-  "git reset",
-  "git cherry-pick",
-  "git revert",
-]
+// Git subcommands the agent must NEVER run. The user runs them (philosophy A).
+const GIT_BLOCKED_SUBCOMMANDS = new Set([
+  "commit",
+  "push",
+  "merge",
+  "rebase",
+  "reset",
+  "cherry-pick",
+  "revert",
+])
 
-const MUTATION_MARKERS = [
-  "git commit",
-  "git push",
-  "git merge",
-  "git rebase",
-  "git reset",
-  "git branch -d",
-  "git clean",
-  "git stash pop",
-  "git revert",
-]
+// git global flags that consume the NEXT token as their value, so a flags-aware
+// scan can step over `git -C <dir> commit` / `git -c <cfg> commit` and still
+// find the real subcommand. (Attached forms like `--git-dir=/x` need no skip.)
+const GIT_FLAGS_WITH_VALUE = new Set([
+  "-C",
+  "-c",
+  "--git-dir",
+  "--work-tree",
+  "--namespace",
+  "--exec-path",
+  "--config-env",
+])
 
-const DESTRUCTIVE_RE = [/^rm\s+-rf/, /^mv\s+/]
+// Split a compound shell command into its `&&`/`||`/`;`/`|`-separated segments
+// so a blocked command hidden after another one (`cd x && git commit`) is still
+// seen. Best-effort, not a shell parser — matches the Claude guardrail.
+function splitSegments(command) {
+  return command.split(/&&|\|\||;|\|/)
+}
+
+// Strip a leading `sudo`/`env` invocation, their flags, and bare NAME=value
+// assignments so `sudo git commit`, `env FOO=bar git commit`, and
+// `FOO=bar git commit` all reduce to `git commit`.
+function stripPrefixes(segment) {
+  let s = segment.trim()
+  for (;;) {
+    const before = s
+    s = s.replace(/^(?:sudo|env)\s+/, "")
+    s = s.replace(/^-[A-Za-z][A-Za-z0-9-]*\s+\S+\s+/, "")
+    s = s.replace(/^[A-Za-z_][A-Za-z0-9_]*=\S*\s+/, "")
+    if (s === before) break
+  }
+  return s.trim()
+}
+
+// Return the first non-flag token after `git` (skipping flag values), or null.
+function gitSubcommand(tokens) {
+  let i = 1
+  while (i < tokens.length) {
+    const token = tokens[i]
+    if (token.startsWith("-")) {
+      i += 1
+      if (GIT_FLAGS_WITH_VALUE.has(token) && i < tokens.length) i += 1
+      continue
+    }
+    return { sub: token, rest: tokens.slice(i + 1) }
+  }
+  return null
+}
+
+/**
+ * Classify one command segment: "block" for a git history/remote mutation,
+ * "warn" for another risky mutation, or null. Word-boundary safe so
+ * `git commit-tree` and `git status` are allowed negatives.
+ */
+function classifySegment(segment) {
+  const stripped = stripPrefixes(segment)
+  if (!stripped) return null
+  const tokens = stripped.split(/\s+/).filter(Boolean)
+
+  if (tokens[0] === "git") {
+    const found = gitSubcommand(tokens)
+    if (!found) return null
+    if (GIT_BLOCKED_SUBCOMMANDS.has(found.sub)) return "block"
+    if (found.sub === "branch" && found.rest.some((t) => t === "-d" || t === "-D" || t === "--delete")) return "warn"
+    if (found.sub === "clean") return "warn"
+    if (found.sub === "stash" && found.rest[0] === "pop") return "warn"
+    return null
+  }
+
+  if (tokens[0] === "rm" && tokens[1] === "-rf") return "warn"
+  if (tokens[0] === "mv") return "warn"
+  return null
+}
 
 const GUARDIAN_PATTERN_REMINDER = `【GUARDIAN PATTERN - MANDATORY】
 Before ANY mutation (commit, push, merge, rebase, reset, branch -d, clean, stash pop):
@@ -72,14 +133,6 @@ ${GUARDIAN_PATTERN_REMINDER}`
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
-function startsWithAny(command, prefixes) {
-  return prefixes.some((prefix) => command === prefix || command.startsWith(`${prefix} `))
-}
-
-function isMutation(command) {
-  return MUTATION_MARKERS.some((marker) => command.includes(marker))
-}
-
 function guardianMessage(command) {
   return `【GUARDIAN PATTERN ALERT】Mutation detected: "${command}". Did you present the DECISION POINT block and receive explicit approval? If NOT: STOP and wait for yes/sí/proceed.`
 }
@@ -93,15 +146,18 @@ function evaluateBashCommand(rawCommand) {
   const command = rawCommand.trim()
   if (!command) return null
 
-  if (startsWithAny(command, BLOCKED_MUTATIONS)) {
-    return {
-      block: `The agent never runs "${command}". Present the exact command and message, then let the user run it (Rule 12).`,
+  let warned = false
+  for (const segment of splitSegments(command)) {
+    const verdict = classifySegment(segment)
+    if (verdict === "block") {
+      return {
+        block: `The agent never runs "${command}". Present the exact command and message, then let the user run it (Rule 12).`,
+      }
     }
+    if (verdict === "warn") warned = true
   }
 
-  if (isMutation(command) || DESTRUCTIVE_RE.some((re) => re.test(command))) {
-    return { warn: guardianMessage(command) }
-  }
+  if (warned) return { warn: guardianMessage(command) }
   return null
 }
 
@@ -173,6 +229,9 @@ const definition = {
     })()
 
     // 3) anti-slop: re-inject reminders into the compaction context.
+    // V2 `compaction` receives a SessionContextHook whose `system` is a
+    // `SystemPart[]` (`{ type: "text", text }`) — verified against
+    // opencode.ai/v2/docs/build/plugins (session hooks).
     await ctx.session.hook("compaction", (event) => {
       try {
         if (Array.isArray(event?.system)) event.system.push({ type: "text", text: ANTI_SLOP_REMINDER })
@@ -203,7 +262,9 @@ export default {
       },
       "experimental.session.compacting": async (_input, output) => {
         try {
-          if (Array.isArray(output?.system)) output.system.push(ANTI_SLOP_REMINDER)
+          // V1 compacting output exposes `context: string[]` (and `prompt?`),
+          // not `system` — verified against opencode.ai/docs/plugins.
+          if (Array.isArray(output?.context)) output.context.push(ANTI_SLOP_REMINDER)
         } catch {
           /* best-effort */
         }

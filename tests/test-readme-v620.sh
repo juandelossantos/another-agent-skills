@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-readme-v610.sh — README.md reflects v6.2.0 (Phase 7: OpenCode v1/v2,
+# test-readme-v620.sh — README.md reflects v6.2.0 (Phase 7: OpenCode v1/v2,
 # Multi-Agent & Guardrails) while retaining the v6.1.0 Claude Code parity section.
 set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

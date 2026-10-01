@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-SESSION_STATE.sh — development/SESSION_STATE.md carries the current handoff.
+# test-session-state-v7.sh — development/SESSION_STATE.md carries the current handoff.
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

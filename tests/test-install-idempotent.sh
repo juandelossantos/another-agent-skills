@@ -26,6 +26,13 @@ BACKUPS="$(find "$CANON" -maxdepth 1 -name '*.backup.*' | wc -l | tr -d ' ')"
 [ "$BACKUPS" -eq 0 ]; check $? "no backup dirs created on re-run (found $BACKUPS)"
 [ "$FIRST" = "$SECOND" ]; check $? "skill count stable ($FIRST → $SECOND)"
 
+# ── install_skills_to: a diverging canonical skill is quarantined OUTSIDE ──
+echo "DIVERGENT CONTENT" >> "$CANON/frontend-web/SKILL.md"
+bash "$REPO_ROOT/install.sh" --skills-only >/dev/null 2>&1; check $? "install with a diverging canonical skill exits 0"
+[ -d "$AGENT_SKILLS_DIR/skills.backups" ]; check $? "diverging canonical skill quarantined outside the skills dir"
+CANON_INLINE="$(find "$CANON" -maxdepth 1 -name '*.backup.*' | wc -l | tr -d ' ')"
+[ "$CANON_INLINE" -eq 0 ]; check $? "no *.backup.* inside the canonical skills dir (found $CANON_INLINE)"
+
 # ── quarantine: a diverging real dir must be moved OUTSIDE the skills dir ──
 export AAS_AGENTS="claude"
 DEST="$HOME/.claude/skills"

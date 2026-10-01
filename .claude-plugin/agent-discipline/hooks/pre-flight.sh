@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 # pre-flight.sh — Claude Code PreToolUse hook (matcher: Bash)
 # Blocks risky git/filesystem commands when the working tree is dirty or the
-# branch is behind its upstream — mirrors OpenCode's isRiskyCommand()/preFlight()
-# (.opencode/plugins/agent-discipline/src/lib.ts + hooks.ts), not the broader
-# manual `scripts/pre-flight.sh` (branch/.gitignore/.env.example session-start
+# branch is behind its upstream — mirrors OpenCode's classifySegment/pre-flight
+# behavior (plugins/agent-discipline/index.js), not the broader manual
+# `scripts/pre-flight.sh` (branch/.gitignore/.env.example session-start
 # checks — those stay manual).
 #
 # "git commit" is deliberately EXEMPT from the dirty-tree check: committing
 # requires staged (dirty) changes, so gating it on a clean tree would block
-# every normal commit. It's still gated by commit-approval.sh's approval-token
-# check. The upstream-behind check still applies to it (no reason to commit
-# on top of a stale branch).
+# every normal commit. It is still denied unconditionally by
+# commit-approval.sh (philosophy A — the user runs it; no token bypass). The
+# upstream-behind check still applies to it (no reason to commit on top of a
+# stale branch).
 #
 # Claude Code passes the hook payload as JSON on stdin:
 #   {"tool_input": {"command": "..."}, ...}

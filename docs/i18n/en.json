@@ -96,7 +96,7 @@
     "skillsCount": "Skills",
     "guidesCount": "Guides",
     "license": "License",
-    "whatsNew": "What's New in v6.1.0",
+    "whatsNew": "What's New in v6.2.0",
     "whatsNewItem1": "Claude Code Parity",
     "whatsNewDesc1": "57 skills auto-install to ~/.claude/skills/ (auto-discovered, same as OpenCode). One command, no per-project setup.",
     "whatsNewItem2": "Enforcement Hooks, Made to Actually Work",

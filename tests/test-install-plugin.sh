@@ -53,4 +53,17 @@ else
   echo "  ✗ installed plugin does not load"; fail=1
 fi
 
+# ── Cursor adapter manifest (philosophy A) ──
+CURSOR_JSON="$REPO_ROOT/.cursor-plugin/agent-discipline/plugin.json"
+if jq -e '.hooks.beforeShellExecution' "$CURSOR_JSON" >/dev/null 2>&1; then
+  echo "  ✓ Cursor plugin.json registers the documented beforeShellExecution event"
+else
+  echo "  ✗ Cursor plugin.json missing beforeShellExecution"; fail=1
+fi
+if grep -q 'COMMIT_APPROVED\|onCommit\|approve-commit' "$CURSOR_JSON"; then
+  echo "  ✗ Cursor plugin.json still references the retired token/onCommit"; fail=1
+else
+  echo "  ✓ Cursor plugin.json has no retired token/onCommit reference"
+fi
+
 exit "$fail"

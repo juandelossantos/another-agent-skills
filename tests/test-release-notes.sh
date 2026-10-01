@@ -30,6 +30,7 @@ assert "VERSION matches the top RELEASE-NOTES entry" "[ \"\$(cat '$REPO_ROOT/VER
 assert "documents the second (GitHub PR) review round's macOS date bug" "grep -qi 'GNU-only .date -d.' '$FILE'"
 assert "documents the CI failure this review caught" "grep -qi 'CI failure this review caught' '$FILE'"
 assert "documents the absolute-symlink root cause found after fixing the review's findings" "grep -qi 'absolute, machine-specific path' '$FILE'"
+assert "documents the Phase-7 flags as POSIX-only" "grep -qi 'Phase 7 flags are POSIX-only' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

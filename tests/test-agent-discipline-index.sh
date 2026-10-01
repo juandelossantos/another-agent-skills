@@ -55,18 +55,45 @@ const run = async (command) => {
   }
 }
 
-check("git commit is blocked", (await run("git commit -m x")) === "blocked")
-check("git push is blocked", (await run("git push origin main")) === "blocked")
-check("git reset --hard is blocked", (await run("git reset --hard")) === "blocked")
-check("git rebase is blocked", (await run("git rebase main")) === "blocked")
+// Bypass shapes flagged by review: prefixes, separators, flags, double space.
+const BYPASS_CASES = [
+  ["cd x && git commit -m x", "compound &&"],
+  ["true; git push origin main", "compound ;"],
+  ["git status | git commit -m x", "compound |"],
+  ["FOO=bar git commit -m x", "NAME=val prefix"],
+  ["env git commit -m x", "env prefix"],
+  ["env FOO=bar git commit -m x", "env + NAME=val prefix"],
+  ["sudo git commit -m x", "sudo prefix"],
+  ["git -C dir commit -m x", "flags-aware -C"],
+  ["git --git-dir=/tmp/x commit -m x", "flags-aware --git-dir"],
+  ["git  commit -m x", "double space"],
+]
+const ALLOWED_CASES = [
+  ["git status", "status"],
+  ["git diff", "diff"],
+  ["git add a.txt", "add"],
+  ["git log --oneline", "log"],
+  ["git commit-tree abc123", "commit-tree plumbing"],
+  ["git pushx origin main", "pushx word boundary"],
+  ["git branch --list", "branch list"],
+]
+
+for (const [cmd, label] of BYPASS_CASES) {
+  check(`v1 blocks git mutation (${label}): ${cmd}`, (await run(cmd)) === "blocked")
+}
+for (const [cmd, label] of ALLOWED_CASES) {
+  check(`v1 allows (${label}): ${cmd}`, (await run(cmd)) === "allowed")
+}
 
 // A decision token must NOT re-enable committing.
 fs.writeFileSync(path.join(dir, ".git/DECISION_APPROVED"), `user approved ${new Date().toISOString()}`)
 check("git commit stays blocked with a fresh token", (await run("git commit -m x")) === "blocked")
+check("compound commit stays blocked with a fresh token", (await run("cd x && git commit -m x")) === "blocked")
 
-check("git status is allowed", (await run("git status")) === "allowed")
-check("git diff is allowed", (await run("git diff")) === "allowed")
-check("git add is allowed", (await run("git add a.txt")) === "allowed")
+// v1 compaction: the documented output field is `context: string[]`.
+const v1Context = []
+await hooks["experimental.session.compacting"]({}, { context: v1Context })
+check("v1 compaction pushes a reminder onto output.context", v1Context.length === 1 && typeof v1Context[0] === "string")
 
 // ── v2 path: setup(ctx) registers hooks and enforces identically ──
 const calls = []
@@ -87,13 +114,20 @@ const runV2 = (command) => {
   try { v2ExecuteBefore({ tool: "bash", input: { command } }); return "allowed" }
   catch { return "blocked" }
 }
-check("v2 blocks git commit", runV2("git commit -m x") === "blocked")
-check("v2 blocks git push", runV2("git push origin main") === "blocked")
-check("v2 allows git status", runV2("git status") === "allowed")
+for (const [cmd, label] of BYPASS_CASES) {
+  check(`v2 blocks git mutation (${label}): ${cmd}`, runV2(cmd) === "blocked")
+}
+for (const [cmd, label] of ALLOWED_CASES) {
+  check(`v2 allows (${label}): ${cmd}`, runV2(cmd) === "allowed")
+}
 
+// v2 compaction: documented `event.system` is a SystemPart[] (`{type,text}`).
 const system = []
 v2Compaction({ system })
-check("v2 compaction injects a reminder", system.length === 1 && typeof system[0].text === "string")
+check(
+  "v2 compaction injects a documented SystemPart reminder",
+  system.length === 1 && system[0].type === "text" && typeof system[0].text === "string",
+)
 
 if (typeof cleanup === "function") cleanup()
 

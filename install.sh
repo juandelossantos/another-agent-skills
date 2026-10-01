@@ -132,9 +132,14 @@ install_skills_to() {
                 grep -qxF "${skill_name}" "${manifest}" || echo "${skill_name}" >> "${manifest}"
                 continue
             fi
-            local backup="${target}.backup.$(date +%Y%m%d%H%M%S)"
+            # Quarantine OUTSIDE the skills dir — a *.backup.* sibling inside it
+            # would be loaded as a duplicate skill by the agent (mirrors
+            # install_skills_for_agent).
+            local quarantine="${target_dir}.backups"
+            mkdir -p "${quarantine}"
+            local backup="${quarantine}/${skill_name}.$(date +%Y%m%d%H%M%S)"
             cp -r "${target}" "${backup}"
-            warn "Backed up previous: ${skill_name} → $(basename "${backup}")"
+            warn "Backed up previous: ${skill_name} → ${backup}"
             rm -rf "${target}"
             ((updated++)) || true
         else
@@ -262,17 +267,25 @@ install_opencode_plugin() {
 # pointing at the canonical OpenCode skills dir so there is one source of truth.
 install_skills_for_agent() {
     local agent="$1"
-    local rel
-    rel="$(agent_skills_dir "${agent}")"
-    if [[ -z "${rel}" ]]; then
-        warn "No known skills path for '${agent}' — skipped."
-        return 0
+    local canonical="${AGENT_SKILLS_DIR}/skills"
+    local dest
+
+    # OpenCode's own dir IS the canonical dir, wherever AGENT_SKILLS_DIR points
+    # (a custom AGENT_SKILLS_DIR must not silently fall back to
+    # ~/.config/opencode/skills via the HOME-relative mapping below).
+    if [[ "${agent}" == "opencode" ]]; then
+        dest="${canonical}"
+    else
+        local rel
+        rel="$(agent_skills_dir "${agent}")"
+        if [[ -z "${rel}" ]]; then
+            warn "No known skills path for '${agent}' — skipped."
+            return 0
+        fi
+        dest="${HOME}/${rel}"
     fi
 
-    local canonical="${AGENT_SKILLS_DIR}/skills"
-    local dest="${HOME}/${rel}"
-
-    # OpenCode's own dir IS the canonical dir — nothing to link.
+    # Canonical dir has nothing to link.
     if [[ "${dest}" = "${canonical}" ]]; then
         ok "${agent}: canonical skills dir (${dest})"
         return 0
@@ -372,6 +385,10 @@ install_guardrails_for_agent() {
 }
 
 # Install guardrails for every detected agent (philosophy A).
+# OpenCode's plugin is the canonical target and is always installed exactly
+# once here; other detected agents get their own guardrails. (main() must not
+# call install_opencode_plugin itself, or a detected OpenCode would install it
+# twice per run.)
 install_guardrails_for_detected_agents() {
     local agents
     agents="$(detect_agents)"
@@ -380,9 +397,11 @@ install_guardrails_for_detected_agents() {
         install_opencode_plugin
         return 0
     fi
+    install_opencode_plugin
     local agent
     while IFS= read -r agent; do
         [[ -z "${agent}" ]] && continue
+        [[ "${agent}" == "opencode" ]] && continue
         install_guardrails_for_agent "${agent}"
     done <<< "${agents}"
 }
@@ -530,15 +549,15 @@ update_shell_config() {
     local count=0
     if [[ -f "${ZSHRC}" ]] || [[ "${SHELL:-}" == */zsh ]]; then
         _update_single_shell_config "${ZSHRC}" "Zsh (.zshrc)" _write_posix_block
-        ((count++))
+        ((count++)) || true
     fi
     if [[ -f "${BASHRC}" ]] || [[ "${SHELL:-}" == */bash ]]; then
         _update_single_shell_config "${BASHRC}" "Bash (.bashrc)" _write_posix_block
-        ((count++))
+        ((count++)) || true
     fi
     if [[ -f "${FISH_CONFIG}" ]] || [[ "${SHELL:-}" == */fish ]]; then
         _update_single_shell_config "${FISH_CONFIG}" "Fish (config.fish)" _write_fish_block
-        ((count++))
+        ((count++)) || true
     fi
 
     if [[ "${count}" -eq 0 ]]; then
@@ -932,7 +951,6 @@ main() {
     install_custom_skills
     install_claude_global_skills
     install_skills_for_detected_agents
-    install_opencode_plugin
     install_guardrails_for_detected_agents
     install_global_framework
     update_shell_config

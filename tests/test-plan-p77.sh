@@ -9,5 +9,8 @@ fail=0
 grep -q "P7.7" "$PLAN" && echo "  ✓ PLAN.md references P7.7" || { echo "  ✗ PLAN.md missing P7.7"; fail=1; }
 grep -qi "filosofía A\|deny incondicional" "$PLAN" && echo "  ✓ PLAN.md records philosophy A" || { echo "  ✗ PLAN.md missing philosophy A"; fail=1; }
 grep -q "guardrails-only" "$PLAN" && echo "  ✓ PLAN.md documents --guardrails-only" || { echo "  ✗ PLAN.md missing --guardrails-only"; fail=1; }
+# Stale token claim: the reconciled dual-contract note must not still say the
+# hook allows a commit with a fresh token.
+! grep -q "permite con token fresco" "$PLAN" && echo "  ✓ no stale 'token fresco' claim in PLAN.md" || { echo "  ✗ stale token claim remains"; fail=1; }
 
 exit "$fail"

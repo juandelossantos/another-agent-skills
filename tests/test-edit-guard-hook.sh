@@ -73,6 +73,17 @@ else
   FAILED=$((FAILED + 1))
 fi
 
+# Stale-reference regression: the hook mirrors plugins/agent-discipline/index.js,
+# not the deleted .opencode/plugins/agent-discipline/src/lib.ts path.
+TOTAL=$((TOTAL + 1))
+if grep -q '\.opencode/plugins/agent-discipline' "$HOOK"; then
+  echo -e "  ${RED}✗${NC} still references the deleted .opencode plugin path"
+  FAILED=$((FAILED + 1))
+else
+  echo -e "  ${GREEN}✓${NC} no reference to the deleted .opencode plugin path"
+  PASSED=$((PASSED + 1))
+fi
+
 rm -rf "$TMP_REPO"
 
 echo ""
