@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.1.0](https://img.shields.io/badge/version-6.1.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -63,7 +63,7 @@ Run `init-agents` in every new project — it:
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 Latest: v6.0.0 — Phase 6: Design Skill Integrity** — Design flow redefined with mechanical gates, 17-section DESIGN.md schema, TDD enforcement (no override), Gate 0 block. [Learn more →](#whats-new-in-v600--phase-6-design-skill-integrity)
+> **🧠 Latest: v6.1.0 — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — Dual-contract plugin, multi-agent detection + version-gated installs, per-agent skills and guardrails, and **philosophy A** (the agent never commits or pushes). [Release notes →](./RELEASE-NOTES.md)
 
 | Component | What It Is | In This Project |
 |---|---|---|
