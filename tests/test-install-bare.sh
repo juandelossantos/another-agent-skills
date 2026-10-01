@@ -13,6 +13,9 @@ fail=0
 check() { if [ "$1" = "0" ]; then echo "  ✓ $2"; else echo "  ✗ $2"; fail=1; fi; }
 
 export HOME="$TMP/home"
+# Control SHELL so only .zshrc is processed: with SHELL=bash (as in CI), install.sh
+# also creates a .bashrc, making the counter 2. Deterministic → always 1.
+unset SHELL
 export AGENT_SKILLS_DIR="$TMP/oc"
 export CLAUDE_SKILLS_DIR="$TMP/claude-skills"
 export AAS_AGENTS="opencode"   # deterministic: no other agents to detect
