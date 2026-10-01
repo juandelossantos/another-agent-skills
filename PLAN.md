@@ -473,6 +473,32 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ---
 
+## Phase 10: Landing & Docs Refresh (v6.2.0)
+
+**Branch:** `feat/phase10-landing`
+**Goal:** Landing y documentación atractivas, útiles y al día (multi-agente, v6.1.0), con diseño de calidad y mensaje de marketing.
+
+**Why:** La landing dice *"Designed for OpenCode"* pero el framework ya es **multi-agente**; no muestra el valor real (compat v1/v2, guardrails, filosofía A) ni un "What's new". Docs ES/EN desincronizadas.
+
+**Bloque A — Value doc + sync (entra en v6.1.0)**
+- A1 `RELEASE-NOTES.md` v6.1.0 · A2 `README`/`PROGRESS_STATUS` · A3 i18n ES/EN (`i18n/*.json`, `docs/i18n/*.json`) · A4 refs históricas (`rules/common/context.md`, `RELEASE-NOTES.md`).
+
+**Bloque B — Landing redesign (skills de diseño + marketing)**
+| # | Task | Detalle |
+|---|---|---|
+| B1 | Auditoría + IA de mensaje | `redesign-skill` (8 categorías) + `.agents/product-marketing.md` |
+| B2 | **Investigación de inspiración award-winning** | Awwwards, Godly, Land-book, SiteInspire, Lapa Ninja → patrones de hero, proof, CTA, motion |
+| B3 | Dirección visual | Decidir con el usuario: soft-premium / minimalist / industrial |
+| B4 | Implementación | `frontend-web` + `frontend-ui-engineering`: hero (thesis + proof + CTA), "What's new", matriz multi-agente, comandos |
+| B5 | Revisión | `critique-skill` + Playwright |
+| B6 | i18n ES/EN | Sync de todo lo nuevo |
+
+**Bloque C — Release v6.1.0 (Phase 7)**
+- C1 `VERSION` → 6.1.0 + tag + GitHub Release (value: compat v1/v2, multi-agente, filosofía A).
+- C2 push de `fix/opencode-v2-plugin-compat` + PR.
+
+---
+
 ## Backlog
 
 - Troubleshooting guide
