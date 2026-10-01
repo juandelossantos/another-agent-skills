@@ -67,6 +67,20 @@ const BYPASS_CASES = [
   ["git -C dir commit -m x", "flags-aware -C"],
   ["git --git-dir=/tmp/x commit -m x", "flags-aware --git-dir"],
   ["git  commit -m x", "double space"],
+  // C1 — wrapper options must NEVER consume the `git` token as their value.
+  ["env -i git commit -m x", "C1 env -i"],
+  ["sudo -n git commit -m x", "C1 sudo -n"],
+  ["sudo -u root git commit -m x", "C1 sudo -u <value>"],
+  ["env -u FOO git commit -m x", "C1 env -u <value>"],
+  // C2 — wrappers / subshells / brace groups the plugin + Cursor hook missed.
+  ["command git commit -m x", "C2 command"],
+  ["nohup git commit -m x", "C2 nohup"],
+  ["time git commit -m x", "C2 time"],
+  ["xargs git commit -m x", "C2 xargs"],
+  ["exec git commit -m x", "C2 exec"],
+  ["(git commit -m x)", "C2 subshell"],
+  ["{ git commit -m x; }", "C2 brace group"],
+  ["cd x && (git commit -m x)", "C2 compound + subshell"],
 ]
 const ALLOWED_CASES = [
   ["git status", "status"],
@@ -76,6 +90,15 @@ const ALLOWED_CASES = [
   ["git commit-tree abc123", "commit-tree plumbing"],
   ["git pushx origin main", "pushx word boundary"],
   ["git branch --list", "branch list"],
+  // Over-strip guards: wrappers + options must not turn a safe command risky,
+  // and must not swallow a `git` subcommand that is allowed.
+  ["env -i ls", "env -i non-git"],
+  ["sudo -n ls", "sudo -n non-git"],
+  ["command ls", "command non-git"],
+  ["time ls -la", "time non-git"],
+  ["nice -n 5 make", "nice -n <value> non-git"],
+  ["env -i git status", "env -i git status"],
+  ["sudo -n git status", "sudo -n git status"],
 ]
 
 for (const [cmd, label] of BYPASS_CASES) {
@@ -119,6 +142,13 @@ for (const [cmd, label] of BYPASS_CASES) {
 }
 for (const [cmd, label] of ALLOWED_CASES) {
   check(`v2 allows (${label}): ${cmd}`, runV2(cmd) === "allowed")
+}
+
+// v1/v2 parity: both loaders must classify every case identically (no drift).
+for (const [cmd, label] of [...BYPASS_CASES, ...ALLOWED_CASES]) {
+  const v1 = await run(cmd)
+  const v2 = runV2(cmd)
+  check(`v1/v2 parity (${label}): ${cmd}`, v1 === v2, `v1=${v1} v2=${v2}`)
 }
 
 // v2 compaction: documented `event.system` is a SystemPart[] (`{type,text}`).

@@ -930,9 +930,11 @@ install_agent_adapter() {
 
 install_all_adapters() {
     local errors=0
-    install_agent_adapter claude || ((errors++))
-    install_agent_adapter cursor || ((errors++))
-    install_agent_adapter kiro || ((errors++))
+    # `((errors++))` returns 1 while errors is 0; guard it so `set -e` doesn't
+    # abort the whole installer on the first adapter failure.
+    install_agent_adapter claude || ((errors++)) || true
+    install_agent_adapter cursor || ((errors++)) || true
+    install_agent_adapter kiro || ((errors++)) || true
     return "${errors}"
 }
 

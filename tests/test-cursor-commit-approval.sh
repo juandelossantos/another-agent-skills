@@ -35,9 +35,27 @@ deny '{"command":"true; git push"}' "compound push"
 deny '{"command":"FOO=bar git commit -m x"}' "env-var prefix"
 deny '{"command":"sudo git commit -m x"}' "sudo prefix"
 deny '{"tool_input":{"command":"git merge main"}}' "Claude-style payload"
+# C1 — wrapper options must NEVER consume the `git` token as their value.
+deny '{"command":"env -i git commit -m x"}' "C1 env -i commit"
+deny '{"command":"sudo -n git commit -m x"}' "C1 sudo -n commit"
+deny '{"command":"sudo -u root git commit -m x"}' "C1 sudo -u <value> commit"
+deny '{"command":"env -u FOO git commit -m x"}' "C1 env -u <value> commit"
+# C2 — wrappers / subshells / brace groups.
+deny '{"command":"command git commit -m x"}' "C2 command commit"
+deny '{"command":"nohup git commit -m x"}' "C2 nohup commit"
+deny '{"command":"time git commit -m x"}' "C2 time commit"
+deny '{"command":"xargs git commit -m x"}' "C2 xargs commit"
+deny '{"command":"(git commit -m x)"}' "C2 subshell commit"
+deny '{"command":"{ git commit -m x; }"}' "C2 brace group commit"
 allow '{"command":"git status"}' "git status"
 allow '{"command":"git commit-tree abc123"}' "git commit-tree (word boundary)"
 allow '{"command":"ls -la"}' "non-git command"
+# Over-strip guards.
+allow '{"command":"env -i ls"}' "env -i non-git"
+allow '{"command":"sudo -n ls"}' "sudo -n non-git"
+allow '{"command":"command ls"}' "command non-git"
+allow '{"command":"time ls -la"}' "time non-git"
+allow '{"command":"env -i git status"}' "env -i git status"
 
 # No bypass: a COMMIT_APPROVED file must NOT let a commit through.
 TMP="$(mktemp -d)"

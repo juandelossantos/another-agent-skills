@@ -314,6 +314,31 @@ export default {
 - ✅ **P7.7b — coherencia del plugin** — el error `Duplicate plugin ID: agent-discipline` (plugin del repo auto-cargado + global, mismo `id`) se resolvió moviendo la fuente a `plugins/agent-discipline/` (fuera de `.opencode/plugins/`, que OpenCode auto-escanea). `install.sh`, tests y CODEOWNERS actualizados.
 - ✅ **P7.3 completado** — `docs/AGENT-ADAPTERS.md` (matriz agente × skills × guardrails, contrato dual, filosofía A, ruta `plugins/agent-discipline/`), addendum en `ADRs/005-native-js-plugin-agent-discipline.md` (v1 object form deprecado, tabla de migración), y backlog **B3** (tdd-gate false-pass).
 
+### Lección de revisión — el clasificador de comandos debe ser una única fuente de verdad
+
+**Contexto:** la revisión final del PR (iteraciones C1/C2/C4) encontró que el
+**clasificador de comandos** (qué constituye un `git commit`/`push`/…) estaba
+**duplicado por adaptador** — una copia en el plugin de OpenCode
+(`plugins/agent-discipline/index.js`), otra en el hook de Claude
+(`.claude-plugin/agent-discipline/hooks/_risky-commands.sh`) y otra en el hook de
+Cursor (`.cursor-plugin/agent-discipline/hooks/commit-approval.sh`) — cada una
+con su propio `stripPrefixes` anclado a mano.
+
+**Qué se rompió:** las copias **derivaron**. `env -i git commit` y
+`sudo -n git commit` eran *bloqueados* por Claude pero *permitidos* por el plugin
+de OpenCode y por Cursor, porque su regla genérica «pela el flag y su valor»
+consumía el token `git` como valor de `-i`/`-n` (bug C1). Los wrappers
+`command`/`nohup`/`time`/`xargs` y los subshells `(git commit)`/`{ git commit; }`
+tenían el mismo destino (C2). Un clasificador que se copia y se ancla de memoria
+es, por construcción, **bypasseable** en el adaptador que se olvidó de actualizar.
+
+**Regla:** al tocar la clasificación, actualizar **todos** los adaptadores
+(OpenCode v1+v2, Claude, Cursor) y añadir casos de paridad en los tests. Un
+`stripPrefixes` sólo pela **wrappers conocidos** (`sudo`/`env`/`command`/`nohup`/
+`time`/`nice`/`xargs`/`exec`) y sus opciones, y **nunca** consume el token `git`
+como valor de un flag. La paridad v1/v2 está asertada en
+`tests/test-agent-discipline-index.sh`.
+
 ---
 
 ## Phase 8: Remote Enforcement — Gate Integrity (v6.2.0)

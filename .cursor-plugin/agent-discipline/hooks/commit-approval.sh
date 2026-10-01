@@ -12,10 +12,16 @@
 # also accepted so the same gate works across adapters.
 # Exit 0 = allow. Exit 2 = block (Cursor's documented deny contract; the JSON
 # denial shape is emitted too for clients that read stdout).
+#
+# fail-open on missing jq is INTENTIONAL (documented, not an oversight): jq is a
+# declared prerequisite, and blocking every shell command on a host without it
+# is worse than a best-effort gate. This mirrors the Claude hook. The manifest
+# sets failClosed:true, which covers crashes/timeouts/non-zero exits — exit 0
+# here is a deliberate allow with a visible warning.
 set -euo pipefail
 
 if ! command -v jq &>/dev/null; then
-  echo "[commit-approval] WARNING: jq not found — cannot parse hook input, gate disabled for this call." >&2
+  echo "[commit-approval] WARNING: jq not found — cannot parse hook input, gate disabled for this call (intentional fail-open; see header)." >&2
   exit 0
 fi
 
@@ -29,15 +35,52 @@ trim_leading_whitespace() {
   echo "${s#"${s%%[![:space:]]*}"}"
 }
 
+# Only these known wrappers are peeled, and their options are stripped only
+# after a wrapper is seen. A generic "strip any leading flag" rule is the C1
+# bug: `env -i git commit` reduced to `commit` because `-i` ate `git`.
+_WRAPPERS_RE='^(sudo|env|command|nohup|time|nice|xargs|exec)([[:space:]]+(.*))?$'
+
 _strip_prefixes() {
-  local seg
-  seg="$(trim_leading_whitespace "$1")"
-  # strip sudo/env invocations (with flags) and bare NAME=value assignments.
+  local seg="$1"
+  seg="$(trim_leading_whitespace "$seg")"
+
+  # Bounded grouping peel: `(git commit)` / `{ git commit; }`.
+  if [[ "$seg" == "("* ]]; then seg="${seg#(}"; fi
+  if [[ "$seg" == "{"* ]]; then seg="${seg#\{}"; fi
+  seg="$(trim_leading_whitespace "$seg")"
+  if [[ "$seg" == *")" ]]; then seg="${seg%\)}"; fi
+  if [[ "$seg" == *"}" ]]; then seg="${seg%\}}"; fi
+  seg="$(trim_leading_whitespace "$seg")"
+
+  local saw_wrapper=0
   while :; do
     local before="$seg"
-    if [[ "$seg" =~ ^(sudo|env)[[:space:]]+(.*)$ ]]; then seg="${BASH_REMATCH[2]}"; fi
-    if [[ "$seg" =~ ^-[A-Za-z][A-Za-z0-9-]*[[:space:]]+[^[:space:]]+[[:space:]]+(.*)$ ]]; then seg="${BASH_REMATCH[1]}"; fi
-    while [[ "$seg" =~ ^[A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+(.*)$ ]]; do seg="${BASH_REMATCH[1]}"; done
+    # bare NAME=value assignments
+    while [[ "$seg" =~ ^[A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+(.*)$ ]]; do
+      seg="${BASH_REMATCH[1]}"
+    done
+    # a wrapper word starts an option run
+    if [[ "$seg" =~ $_WRAPPERS_RE ]]; then
+      seg="${BASH_REMATCH[3]:-}"
+      saw_wrapper=1
+    fi
+    # strip wrapper options; never consume git/rm/mv as an option value
+    if [ "$saw_wrapper" -eq 1 ]; then
+      while [[ "$seg" =~ ^(-[^[:space:]]+)([[:space:]]+(.*))?$ ]]; do
+        local opt="${BASH_REMATCH[1]}"
+        seg="${BASH_REMATCH[3]:-}"
+        if [ "$opt" = "--" ]; then break; fi
+        if [[ "$opt" == *=* ]]; then continue; fi
+        if [[ "$seg" =~ ^([^[:space:]-][^[:space:]]*)([[:space:]]+(.*))?$ ]]; then
+          local val="${BASH_REMATCH[1]}"
+          if [ "$val" != "git" ] && [ "$val" != "rm" ] && [ "$val" != "mv" ]; then
+            seg="${BASH_REMATCH[3]:-}"
+          fi
+        fi
+        seg="$(trim_leading_whitespace "$seg")"
+      done
+    fi
+    seg="$(trim_leading_whitespace "$seg")"
     [ "$seg" = "$before" ] && break
   done
   echo "$seg"

@@ -41,6 +41,10 @@ assert "explains the duplicate-id constraint" "grep -q 'Duplicate plugin ID' '$F
 assert "dual contract documented" "grep -qi 'dual-contract' '$FILE'"
 assert "per-agent matrix present" "grep -q '~/.claude/skills' '$FILE'"
 
+# C4: the Cursor section must document the real manifest location and failClosed.
+assert "Cursor section documents the .cursor/hooks.json manifest location" "grep -q '.cursor/hooks.json' '$FILE'"
+assert "Cursor section documents failClosed" "grep -q 'failClosed' '$FILE'"
+
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1

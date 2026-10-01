@@ -13,4 +13,9 @@ grep -q "guardrails-only" "$PLAN" && echo "  ✓ PLAN.md documents --guardrails-
 # hook allows a commit with a fresh token.
 ! grep -q "permite con token fresco" "$PLAN" && echo "  ✓ no stale 'token fresco' claim in PLAN.md" || { echo "  ✗ stale token claim remains"; fail=1; }
 
+# Review lesson: the command classifier must be a single shared source of truth
+# across adapters (anchored/duplicated checks drift and become bypassable).
+grep -qi "clasificador de comandos" "$PLAN" && echo "  ✓ PLAN.md records the shared-classifier lesson" || { echo "  ✗ PLAN.md missing shared-classifier lesson"; fail=1; }
+grep -qi "única fuente de verdad" "$PLAN" && echo "  ✓ PLAN.md records the single-source-of-truth rule" || { echo "  ✗ PLAN.md missing single-source rule"; fail=1; }
+
 exit "$fail"

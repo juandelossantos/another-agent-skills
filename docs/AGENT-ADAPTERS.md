@@ -126,14 +126,22 @@ Only needed if you skip `install.sh` entirely:
 
 ```
 .cursor-plugin/agent-discipline/
-├── plugin.json
-└── hooks/  (symlinks to .claude-plugin)
+├── plugin.json   (packaging manifest)
+└── hooks/        (commit-approval.sh, pre-flight.sh, edit-guard.sh)
 ```
 
 **Cursor hook events:**
 - `beforeShellExecution` → `commit-approval.sh`
 - `afterFileEdit` → `edit-guard.sh`
 - `preToolUse[shell]` → `pre-flight.sh`
+
+> **Manifest location:** Cursor's documented hook config is `.cursor/hooks.json`
+> (project) or `~/.cursor/hooks.json` (user) — not `.cursor-plugin/…/plugin.json`,
+> which is this repo's packaging layout. Merge/copy the manifest into
+> `.cursor/hooks.json` for Cursor to load it. The security-critical
+> `beforeShellExecution` guard is marked `failClosed: true` (blocks on
+> crash/timeout/non-zero exit); its missing-`jq` path is intentionally
+> fail-open with a visible warning (best-effort gate, mirrors the Claude hook).
 
 ### Install
 

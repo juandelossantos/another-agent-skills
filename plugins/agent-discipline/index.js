@@ -61,19 +61,66 @@ function splitSegments(command) {
   return command.split(/&&|\|\||;|\|/)
 }
 
-// Strip a leading `sudo`/`env` invocation, their flags, and bare NAME=value
-// assignments so `sudo git commit`, `env FOO=bar git commit`, and
-// `FOO=bar git commit` all reduce to `git commit`.
+// Shell wrappers that can prefix the real command. Each may carry its own
+// options; we strip them so `sudo -n git commit` / `env -i git commit` still
+// reduce to `git commit`. Only these known wrappers are peeled — a generic
+// "strip any leading flag" rule is the C1 bug (it ate the `git` token).
+const COMMAND_WRAPPERS = new Set([
+  "sudo",
+  "env",
+  "command",
+  "nohup",
+  "time",
+  "nice",
+  "xargs",
+  "exec",
+])
+
+// Tokens the classifier acts on. A wrapper option must NEVER consume one of
+// these as its value: `env -i git commit` must stay `git commit`, not `commit`.
+const CLASSIFIED_COMMANDS = new Set(["git", "rm", "mv"])
+
+// Strip leading wrappers, their options, and bare NAME=value assignments so
+// `sudo -n git commit`, `env -i git commit`, and `FOO=bar git commit` all
+// reduce to `git commit`. Also peels one level of `(`/`{` … `)`/`}` grouping
+// so subshell/brace commands classify like the Claude guardrail. Best-effort,
+// not a shell parser.
 function stripPrefixes(segment) {
   let s = segment.trim()
-  for (;;) {
-    const before = s
-    s = s.replace(/^(?:sudo|env)\s+/, "")
-    s = s.replace(/^-[A-Za-z][A-Za-z0-9-]*\s+\S+\s+/, "")
-    s = s.replace(/^[A-Za-z_][A-Za-z0-9_]*=\S*\s+/, "")
-    if (s === before) break
+  // Bounded grouping peel: `(git commit)` / `{ git commit; }`.
+  s = s.replace(/^[({]+/, "").replace(/[)}]+$/, "").trim()
+  const tokens = s.split(/\s+/).filter(Boolean)
+
+  let sawWrapper = false
+  let changed = true
+  while (changed && tokens.length) {
+    changed = false
+    // Bare NAME=value assignments (`FOO=bar git commit`).
+    while (tokens.length && /^[A-Za-z_][A-Za-z0-9_]*=/.test(tokens[0])) {
+      tokens.shift()
+      changed = true
+    }
+    // A wrapper word, and then only its options. Options are stripped only
+    // after a wrapper, so `git -C dir commit` keeps its flags for gitSubcommand.
+    if (tokens.length && COMMAND_WRAPPERS.has(tokens[0])) {
+      tokens.shift()
+      sawWrapper = true
+      changed = true
+    }
+    if (sawWrapper) {
+      while (tokens.length && tokens[0].startsWith("-")) {
+        const opt = tokens.shift()
+        changed = true
+        if (opt === "--") break
+        if (opt.includes("=")) continue
+        const next = tokens[0]
+        // Consume a separate option value unless it is itself an option or a
+        // classified command — never swallow `git`.
+        if (next && !next.startsWith("-") && !CLASSIFIED_COMMANDS.has(next)) tokens.shift()
+      }
+    }
   }
-  return s.trim()
+  return tokens.join(" ")
 }
 
 // Return the first non-flag token after `git` (skipping flag values), or null.

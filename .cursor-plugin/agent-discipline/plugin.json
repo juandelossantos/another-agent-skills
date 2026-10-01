@@ -5,8 +5,11 @@
   "hooks": {
     "beforeShellExecution": [
       { "command": "bash .cursor-plugin/agent-discipline/hooks/pre-flight.sh" },
-      { "command": "bash .cursor-plugin/agent-discipline/hooks/commit-approval.sh" }
+      {
+        "command": "bash .cursor-plugin/agent-discipline/hooks/commit-approval.sh",
+        "failClosed": true
+      }
     ]
   },
-  "note": "Event names follow cursor.com/docs/hooks (beforeShellExecution). commit-approval.sh denies git mutations unconditionally (philosophy A, no token bypass)."
+  "note": "Packaging manifest. Cursor's documented runtime hook config is `.cursor/hooks.json` (project) or `~/.cursor/hooks.json` (user); event names follow cursor.com/docs/hooks (beforeShellExecution). failClosed:true blocks on crash/timeout/non-zero exit for the security-critical commit-approval guard. The jq-missing path is intentionally fail-open (best-effort gate, mirrors the Claude hook) and logs a visible warning — see the hook's header. commit-approval.sh denies git mutations unconditionally (philosophy A, no token bypass)."
 }

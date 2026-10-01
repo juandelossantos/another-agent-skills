@@ -65,5 +65,17 @@ if grep -q 'COMMIT_APPROVED\|onCommit\|approve-commit' "$CURSOR_JSON"; then
 else
   echo "  ✓ Cursor plugin.json has no retired token/onCommit reference"
 fi
+# C4: the security-critical beforeShellExecution guard is fail-closed on
+# crash/timeout, and the manifest documents Cursor's real config location.
+if jq -e '.hooks.beforeShellExecution[] | select(.command | test("commit-approval")) | .failClosed == true' "$CURSOR_JSON" >/dev/null 2>&1; then
+  echo "  ✓ commit-approval hook is failClosed:true"
+else
+  echo "  ✗ commit-approval hook is not failClosed:true"; fail=1
+fi
+if jq -r '.note' "$CURSOR_JSON" 2>/dev/null | grep -q '\.cursor/hooks\.json'; then
+  echo "  ✓ manifest documents Cursor's real hook config location (.cursor/hooks.json)"
+else
+  echo "  ✗ manifest does not document .cursor/hooks.json"; fail=1
+fi
 
 exit "$fail"
