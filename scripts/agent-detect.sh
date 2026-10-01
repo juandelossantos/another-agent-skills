@@ -72,6 +72,22 @@ agent_version() {
   "${bin}" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1
 }
 
+# Print a compatibility note for an agent + version, or nothing when fine.
+# This is the gate the installer uses to decide what it can install.
+agent_support_note() {
+  local id="$1" v="$2"
+  case "${id}" in
+    opencode)
+      [ -n "${v}" ] || return 0
+      local major minor patch
+      IFS=. read -r major minor patch <<< "${v}"
+      if [ "${major}" -eq 1 ] && { [ "${minor}" -lt 18 ] || { [ "${minor}" -eq 18 ] && [ "${patch}" -lt 29 ]; }; }; then
+        echo "OpenCode v${v} < 1.18.29 — dual-contract server() unsupported"
+      fi
+      ;;
+  esac
+}
+
 # Return 0 when any signal for one agent matches.
 _agent_hit() {
   local bin="$1" gdir="$2" pfiles="$3"

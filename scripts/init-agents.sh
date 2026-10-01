@@ -116,7 +116,10 @@ if [ "$SUBCOMMAND" = "check-env" ]; then
   # Per-agent version — what the installer gates on.
   while IFS= read -r _a; do
     [ -z "${_a}" ] && continue
-    echo "agent:${_a}=$(agent_version "$(agent_binary "${_a}")")"
+    _v="$(agent_version "$(agent_binary "${_a}")")"
+    echo "agent:${_a}=${_v}"
+    _n="$(agent_support_note "${_a}" "${_v}")"
+    [ -n "${_n}" ] && warn "${_n}"
   done <<< "$(detect_agents)"
 
   OC_VERSION=""
