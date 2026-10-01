@@ -33,7 +33,7 @@
 
 **OpenCode native plugin auto-fires enforcement on critical events.**
 
-The `agent-discipline` plugin (`.opencode/plugins/agent-discipline/`) provides mechanical enforcement via event-driven hooks:
+The `agent-discipline` plugin (`plugins/agent-discipline/`, installed to `~/.config/opencode/plugins/agent-discipline/`) provides mechanical enforcement via event-driven hooks:
 
 | Event | Hook | Purpose |
 |---|---|---|
