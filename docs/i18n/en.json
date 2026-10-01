@@ -96,7 +96,7 @@
     "skillsCount": "Skills",
     "guidesCount": "Guides",
     "license": "License",
-    "whatsNew": "What's New in v6.0.0",
+    "whatsNew": "What's New in v6.1.0",
     "whatsNewItem1": "Design Flow Transformed",
     "whatsNewDesc1": "17-section DESIGN.md schema, 3-mode design-gate (strict/audit/verify), design-upgrade.sh for existing codebases.",
     "whatsNewItem2": "TDD Enforcement — No Override",
