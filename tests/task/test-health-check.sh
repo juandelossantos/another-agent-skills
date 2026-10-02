@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # test-health-check.sh — Content check for HEALTH-CHECK.md: reflects the
-# post-v6.2.0 state (Phase 7 released, Phase 8 P8.1–P8.3 active).
+# Phase 8-complete state (remote enforcement live, Phase 10 next). Folds in the
+# former test-health-check-sync.sh Recommendations checks, which were archived
+# to tests/archived/phase8/ so the working set stays capped.
 
 set -uo pipefail
 
@@ -22,10 +24,13 @@ assert() {
 }
 
 assert "recommends Phase 7 released as v6.2.0" "grep -q 'Phase 7 released as v6.2.0' '$FILE'"
-assert "documents Phase 8 in progress" "grep -q 'Phase 8 in progress' '$FILE'"
-assert "documents P8.1–P8.3 done and ACTIVE" "grep -q 'P8.1–P8.3' '$FILE'"
+assert "documents Phase 8 COMPLETE" "grep -q 'Phase 8 COMPLETE' '$FILE'"
+assert "no longer says Phase 8 in progress" "! grep -q 'Phase 8 in progress' '$FILE'"
+assert "documents remote enforcement live" "grep -qi 'remote enforcement live' '$FILE'"
 assert "records remote authority (L2) ACTIVE" "grep -q 'Remote authority (L2)' '$FILE' && grep -q 'branch protection on .main.' '$FILE'"
 assert "version header is 6.2.0" "grep -q '\*\*Version:\*\* 6.2.0' '$FILE'"
+assert "documents the test cadence" "grep -q 'Test cadence' '$FILE'"
+assert "lists Phase 10 as planned next" "grep -q 'Phase 10' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

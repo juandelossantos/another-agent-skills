@@ -72,8 +72,8 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 ## Recommendations
 
 1. **Phase 7 released as v6.2.0** — dual-contract OpenCode plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never runs `git commit`/`push` — no token bypass), global install hardening. See `RELEASE-NOTES.md`.
-2. **Phase 8 in progress** — P8.1–P8.3 **done and ACTIVE**: `.github/workflows/gates.yml` is the required `gates` check, branch protection is enabled on `main`, and `CODEOWNERS` protects the gate config. Remaining: **P8.5** (docs honesty), **P8.6** (ship the remote layer via `init-agents`/`install`), **P8.7** (remote E2E). P8.4 closed by design (philosophy A).
-3. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`).
+2. **Phase 8 COMPLETE — remote enforcement live** — branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 (PRs #36/#37); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install`, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible GitHub Environment approval (PR #41); closure review (PR #43). P8.4 closed by design (philosophy A).
+3. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **66 suites** green.
 4. **Planned next** — Phase 10 (landing/docs refresh; `README.md` "What's New" still says 6.1.0) and Phase 11 (Astro + Starlight docs site).
 
 ---
@@ -103,5 +103,5 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | 2026-07-08 | **v4.1.0 RELEASED** | Quick Start Guide & Navigation Overhaul: user-facing workflow guide, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate expanded to all text formats. |
 | 2026-07-18 | **v6.0.0 RELEASED** | Design Skill Integrity: 17-section DESIGN.md schema, 3-mode design-gate, TDD enforcement (no override), token-validate, approval-gate, design-upgrade. |
 | 2026-10-01 | **v6.2.0 RELEASED (Phase 7)** | Dual-contract OpenCode plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, philosophy A (agent never commits/pushes — no token bypass), global install hardening. |
-| 2026-10-02 | **Phase 8 P8.1–P8.3 ACTIVE** | `.github/workflows/gates.yml` is the required `gates` check; `scripts/setup-branch-protection.sh` (solo-safe + lockout/code-owner guards) applied branch protection to `main`; `CODEOWNERS` protects the gate config. P8.4 closed by design (philosophy A). |
+| 2026-10-02 | **Phase 8 COMPLETE — remote enforcement live** | Branch protection (solo-safe + lockout/code-owner guards) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3; docs honesty (INCIDENT_004 + L1/L2/L3 model); ship-to-users (`templates/gates.yml`); remote E2E; Gate 0 → L1 prompt + GitHub Environment approval; closure review. Merged via PRs #36–#43. P8.4 closed by design (philosophy A). |
 | 2026-10-02 | Test cadence formalized | `tests/` = behavioral (permanent); `tests/task/` capped at 20 (`scripts/test-cadence.conf`); checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). |

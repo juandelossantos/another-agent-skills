@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.2.0** (Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails released) |
-| Next target | **v6.3.0** (finish Phase 8 remote enforcement → Phase 9 distribution) |
+| Version | **6.2.0** (Phase 7 released; Phase 8 remote enforcement **live**) |
+| Next target | **Phase 10** (landing/docs refresh) → **Phase 11** (Astro + Starlight docs site) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 74 across all skills |
-| Tests | 53 suites passing (behavioral + task working set capped at 20) |
+| Tests | 66 suites passing (behavioral + task working set capped at 20) |
 
 ---
 
@@ -28,6 +28,7 @@
 | **4** | **v5.0.0** | Docs Honesty: 42 issues fixed across 6 groups, 86 files changed |
 | **6** | **v6.0.0** | Design Skill Integrity: TDD enforcement (no override), 17-section DESIGN.md schema, 3-mode design-gate, token-validate CSS drift, approval-gate prototype→approved, design dir rules, design-upgrade.sh, direction+platform skill DESIGN.md wiring, critique-skill visual dimensions, prompt drift detection. 35+ commits, 80+ files changed. |
 | **7** | **v6.2.0** | OpenCode v1/v2 & Multi-Agent: dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. |
+| **8** | **v6.2.0** | Remote Enforcement — Gate Integrity: branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity (PRs #36/#37); P8.4 closed by design (philosophy A); docs honesty — INCIDENT_004 correction + L1/L2/L3 model (PR #39); ship-to-users — `templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist (PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review — script injection, fresh-repo hook block, L3 honesty (PR #43). Merged to `main` via PRs #36–#43. |
 
 ---
 
@@ -343,10 +344,10 @@ como valor de un flag. La paridad v1/v2 está asertada en
 
 ---
 
-## Phase 8: Remote Enforcement — Gate Integrity (v6.2.0) — 🔄 IN PROGRESS
+## Phase 8: Remote Enforcement — Gate Integrity (v6.2.0) — ✅ COMPLETE
 
-**Status (2026-10-02):** ✅ **P8.1–P8.3 DONE and ACTIVE.** `.github/workflows/gates.yml` runs the real gates and is the required `gates` check; `scripts/setup-branch-protection.sh` (solo-safe + lockout guard + code-owner guard) applied branch protection to `main` (PR required, `gates` required, 0 approvals, no force-push/deletions, admin bypass allowed → no lockout); `CODEOWNERS` protects the gate config. ✅ **P8.4 closed by design** (philosophy A: the agent never commits/pushes — no self-issued token to close). ⬜ Remaining: **P8.5** (docs honesty), **P8.6** (ship remote layer via `init-agents`/`install`), **P8.7** (remote E2E).
-**Branch:** `feat/phase8-remote-enforcement`
+**Status (2026-10-02):** ✅ **COMPLETE — all merged to `main` (PRs #36–#43).** P8.1–P8.3 branch protection + required `gates` check + `CODEOWNERS` (PRs #36/#37); P8.4 closed by design (philosophy A); P8.5 docs honesty (PR #39); P8.6 ship-to-users (PR #40); P8.7 remote E2E + fresh-repo `pre-commit` fix (PR #42); P8.8/P8.9 Gate 0 → L1 prompt + solo remote approval (PR #41); closure review (PR #43). **Remote enforcement is live on `main`**; suite **66 suites** green; version remains **6.2.0**.
+**Branch:** `feat/phase8-remote-enforcement` (merged)
 **Base:** `main`
 **Goal:** El gate que *decide* debe vivir donde el agente no pueda escribirlo. Hoy todos los gates viven en `.git/hooks/` (escribible por el agente) y en scripts del propio repo. Esta fase añade la capa de autoridad remota (required status checks + branch protection), protege la configuración del gate, y cierra el agujero del token auto-emitido.
 
@@ -378,9 +379,11 @@ Principio rector: *se diseña para el agente cooperativo, se enforza para el adv
 | P8.2 ✅ DONE | 🔴 P0 | Workflow de gates reales, separado del `ci.yml` genérico | `.github/workflows/gates.yml` que corre `tdd-gate.sh`, `tests/run-all.sh`, `skill-lint.sh`, `design-gate.sh --verify`, `token-validate.sh` | El workflow corre en PR; configurado como required status check; un PR con test faltante falla en CI (no solo en local) |
 | P8.3 ✅ DONE | 🔴 P0 | Proteger la configuración del gate (L3) | CODEOWNERS extendido (`.github/workflows/`, `scripts/git-hooks/`, `scripts/*gate*`, `scripts/tdd-gate.sh`, `scripts/edit-guard.sh`) + "Require review from Code Owners" activado en P8.1 | Un PR que edite `gates.yml` o `tdd-gate.sh` sin review de `@juandelossantos` no puede mergear |
 | P8.4 ✅ CLOSED | 🟠 P1 | Cerrar el agujero del token auto-emitido. Dos caminos (decisión de diseño): (a) mecanismo no forjable por el agente (approval fuera del alcance de escritura del agente / firmado / trailer de commit verificado), o (b) reclasificar honestamente en docs como "prompt de proceso, no enforcement" y renombrar | Decisión documentada en ADR nuevo + implementación o reclasificación de docs; `SKIP_TEST_GATE`/`SKIP_TEST_RUNNER` neutralizados (requieren token + log, o eliminados) | El flujo de aprobación no puede ser satisfecho por el agente sin acción humana verificable, **o** los docs dejan de llamarlo enforcement |
-| P8.5 ⬜ PENDING | 🟠 P1 | Docs honesty: corregir afirmaciones falsas y documentar el modelo de 3 capas | `docs/enforcement.html` + `docs/i18n/*` (INCIDENT_004: "branch protection" → Gate 1 local), `scripts/git-hooks/README.md` (quitar `--no-verify` obsoleto), sección L1/L2/L3 en `docs/` | `grep -ri "branch protection" docs/` sin afirmaciones falsas; README de hooks refleja v6 real |
-| P8.6 ⬜ PENDING | 🟠 P1 | Ship-to-users: `init-agents`/`install` generan la capa remota | Plantilla `.github/workflows/gates.yml` para proyectos + `setup-branch-protection.sh` copiado + checklist en `docs/AGENT-ADAPTERS.md` | Un proyecto nuevo con `init-agents` obtiene workflow remoto + instrucciones de branch protection; doc explica por qué local ≠ autoridad |
-| P8.7 ⬜ PENDING | 🟡 P2 | Verificación end-to-end del enforcement remoto | Test `tests/test-remote-enforcement.sh` + documento de evidencia | Test prueba: (1) PR con gate roto → merge bloqueado; (2) push directo → rechazado; (3) edición de `gates.yml` sin review → bloqueada; (4) `core.hooksPath` a directorio vacío + commit → CI lo atrapa igual |
+| P8.5 ✅ DONE | 🟠 P1 | Docs honesty: corregir afirmaciones falsas y documentar el modelo de 3 capas | `docs/enforcement.html` + `docs/i18n/*` (INCIDENT_004: "branch protection" → Gate 1 local), `scripts/git-hooks/README.md` (quitar `--no-verify` obsoleto), sección L1/L2/L3 en `docs/` | `grep -ri "branch protection" docs/` sin afirmaciones falsas; README de hooks refleja v6 real |
+| P8.6 ✅ DONE | 🟠 P1 | Ship-to-users: `init-agents`/`install` generan la capa remota | Plantilla `.github/workflows/gates.yml` para proyectos + `setup-branch-protection.sh` copiado + checklist en `docs/AGENT-ADAPTERS.md` | Un proyecto nuevo con `init-agents` obtiene workflow remoto + instrucciones de branch protection; doc explica por qué local ≠ autoridad |
+| P8.7 ✅ DONE | 🟡 P2 | Verificación end-to-end del enforcement remoto | Test `tests/test-remote-enforcement.sh` + documento de evidencia | Test prueba: (1) PR con gate roto → merge bloqueado; (2) push directo → rechazado; (3) edición de `gates.yml` sin review → bloqueada; (4) `core.hooksPath` a directorio vacío + commit → CI lo atrapa igual |
+| P8.8 ✅ DONE | 🟠 P1 | Reclasificar Gate 0 de "aprobación de decisión" a **prompt L1** explícito (el agente escribe el token; no es la autoridad de aprobación) | `scripts/git-hooks/pre-commit` (Gate 0) + `docs/enforcement.html` + i18n | Gate 0 documentado como L1 (no enforcement); el token no se presenta como aprobación |
+| P8.9 ✅ DONE | 🟠 P1 | Documentar la aprobación remota compatible con un mantenedor solo: GitHub Environment con required reviewers | `docs/BRANCH-PROTECTION.md` + `tests/test-branch-protection-harness-approval.sh` | Doc explica el Environment con required reviewers como alternativa sin segundo humano |
 
 **Need evidence (RED) — histórico, pre-P8.1 (ya resuelto):**
 - `gh api repos/:owner/:repo/branches/main/protection` → `404 Branch not protected`
@@ -392,8 +395,13 @@ Principio rector: *se diseña para el agente cooperativo, se enforza para el adv
 - ✅ **P8.2 — `.github/workflows/gates.yml`** corre `tdd-gate.sh`, `tests/run-all.sh`, `skill-lint.sh`, `validate-skill-table.sh` y syntax-check de scripts; es el **required status check** `gates`.
 - ✅ **P8.3 — L3 config integrity.** `CODEOWNERS` protege `.github/workflows/`, `scripts/git-hooks/`, `scripts/*gate*`, `tdd-gate.sh`, `edit-guard.sh`; el code-owner guard evita el lockout de un owner único.
 - ✅ **P8.4 — cerrado por diseño (filosofía A).** El agente nunca corre `git commit`/`push`; no hay token auto-emitido que cerrar (P7.7).
+- ✅ **P8.5 — docs honesty (PR #39).** Corregida la afirmación falsa de INCIDENT_004 ("Added main branch protection" era el Gate 1 local, no protección remota); documentado el modelo L1/L2/L3 en `docs/enforcement.html` + i18n EN/ES + `scripts/git-hooks/README.md`.
+- ✅ **P8.6 — ship-to-users (PR #40).** `templates/gates.yml` (único workflow remoto, job `gates`, read-only; reemplaza el genérico `templates/ci.yml`); `scripts/init-agents.sh` lo instala y enlaza `setup-branch-protection.sh`; `install.sh` lo distribuye; checklist L2 en `docs/AGENT-ADAPTERS.md`.
+- ✅ **P8.7 — remote E2E (PR #42).** `tests/test-remote-enforcement.sh` (static + live read-only + demo de bypass que prueba que L1 falla abierto y L2 atrapa) + `docs/REMOTE-ENFORCEMENT-EVIDENCE.md` con limitaciones honestas. Surfaceó un bug real: `pre-commit` bloqueaba todo commit en un proyecto nuevo sin `tests/task/` (pipefail + `find` sobre dir inexistente) → corregido.
+- ✅ **P8.8/P8.9 — approval semantics (PR #41).** Gate 0 reclasificado de "aprobación de decisión" a **prompt L1** explícito (el agente escribe el token; no es la autoridad de aprobación); documentada la aprobación remota compatible con un mantenedor solo (GitHub Environment con required reviewers).
+- ✅ **Closure review (PR #43).** Corregida una **script-injection** en `templates/gates.yml` (`${{ }}` en `run:`), un **bloqueo en repo nuevo** en `pre-commit` (HEAD unborn bajo `set -e`), y matizadas las afirmaciones L2/L3 en `docs/BRANCH-PROTECTION.md`.
 - ✅ **Test cadence** — `tests/` = behavioral (permanente); `tests/task/` = working set cap 20 (`scripts/test-cadence.conf`); checkpoint = push + review → archivar → reset (`docs/TEST-CADENCE.md`).
-- ⬜ Pendiente: **P8.5** (docs honesty: `docs/enforcement.html` + i18n, `--no-verify` obsoleto), **P8.6** (plantilla remota en `init-agents`/`install`), **P8.7** (E2E remoto).
+- **Estado:** Phase 8 **COMPLETE**; enforcement remoto **live** en `main`; suite **66 suites** verde; versión **6.2.0**.
 
 **Out of scope:** firmas criptográficas de commit, reemplazo de hooks locales, migración de `agent-discipline` a v2 (eso es Phase 7).
 
@@ -421,7 +429,7 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 **Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético.
 
-**Actualización (2026-10-02):** ✅ P7 (v6.2.0) y P8.1–P8.3 están **hechos**; P8.4 cerrado por diseño. Siguiente: P8.5 → P8.6 → P8.7, luego backlog (test scoping) y Phase 10/11.
+**Actualización (2026-10-02):** ✅ P7 (v6.2.0) y **P8 completa** (remote enforcement live en `main`) están **hechos**. Siguiente: **Phase 10** (landing/docs refresh) → **Phase 11** (docs site Astro + Starlight), luego backlog (test scoping).
 
 ---
 

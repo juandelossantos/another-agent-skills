@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# test-phase8-closure.sh — Phase 8 (Remote Enforcement) is closed across the
+# status/plan/progress docs: no doc still calls it "in progress", every P8.x
+# task is marked done, and the remote layer is described as live on `main`.
+#
+# This is the new-test companion for the Phase 8 closure docs update; it lives
+# in tests/ (behavioral/permanent), not the capped tests/task/ working set.
+
+set -uo pipefail
+
+RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PLAN="$REPO_ROOT/PLAN.md"
+PROGRESS="$REPO_ROOT/PROGRESS_STATUS.md"
+HEALTH="$REPO_ROOT/HEALTH-CHECK.md"
+SESSION="$REPO_ROOT/development/SESSION_STATE.md"
+
+PASSED=0; FAILED=0; TOTAL=0
+assert() {
+  local name="$1" condition="$2"
+  TOTAL=$((TOTAL + 1))
+  if eval "$condition"; then
+    echo -e "  ${GREEN}✓${NC} $name"
+    PASSED=$((PASSED + 1))
+  else
+    echo -e "  ${RED}✗${NC} $name"
+    FAILED=$((FAILED + 1))
+  fi
+}
+
+# --- PLAN.md ---
+assert "PLAN Phase 8 section is COMPLETE" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity (v6.2.0) — ✅ COMPLETE' '$PLAN'"
+assert "PLAN has no Phase 8 IN PROGRESS marker" "! grep -q '🔄 IN PROGRESS' '$PLAN'"
+assert "PLAN marks every P8.1–P8.9 task DONE/CLOSED" "! grep -qE 'P8\.[0-9] ⬜ PENDING' '$PLAN'"
+assert "PLAN lists Phase 8 in Completed Phases" "grep -qF '| **8** | **v6.2.0** |' '$PLAN'"
+assert "PLAN Next target is Phase 10" "grep -q 'Next target | \*\*Phase 10\*\*' '$PLAN'"
+assert "PLAN tests row says 66 suites" "grep -qF '66 suites passing' '$PLAN'"
+
+# --- PROGRESS_STATUS.md ---
+assert "PROGRESS header says Phase 8 complete" "grep -q 'Phase 8 complete' '$PROGRESS'"
+assert "PROGRESS says remote enforcement live" "grep -qi 'Remote Enforcement live' '$PROGRESS'"
+assert "PROGRESS In Progress names Phase 10" "grep -q 'Phase 10: Landing & Docs Refresh' '$PROGRESS'"
+assert "PROGRESS Completed lists Phase 8" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity' '$PROGRESS'"
+
+# --- HEALTH-CHECK.md ---
+assert "HEALTH recommends Phase 8 COMPLETE" "grep -q 'Phase 8 COMPLETE' '$HEALTH'"
+assert "HEALTH no longer says Phase 8 in progress" "! grep -q 'Phase 8 in progress' '$HEALTH'"
+assert "HEALTH records remote authority (L2) ACTIVE" "grep -q 'Remote authority (L2)' '$HEALTH'"
+
+# --- SESSION_STATE.md ---
+assert "SESSION_STATE title is Phase 8 COMPLETE" "grep -q '# Session State — Phase 8 COMPLETE: Remote Enforcement Live' '$SESSION'"
+assert "SESSION_STATE names the close-status branch" "grep -q 'chore/phase8-close-status' '$SESSION'"
+assert "SESSION_STATE resume points at Phase 10" "grep -q 'git checkout -b feat/phase10-landing' '$SESSION'"
+
+# --- Cross-doc: no stale "in progress" claim survives ---
+assert "no status doc still calls Phase 8 in progress" "! grep -qi 'Phase 8 in progress' '$PLAN' '$PROGRESS' '$HEALTH' '$SESSION'"
+
+echo ""
+echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
+[ "$FAILED" -gt 0 ] && exit 1
+exit 0
