@@ -581,7 +581,14 @@ if [ -f "$CADENCE_CONF" ]; then
   # shellcheck source=/dev/null
   . "$CADENCE_CONF"
 fi
-TASK_TEST_COUNT=$(find "${REPO_ROOT}/tests/task" -maxdepth 1 -name '*.sh' 2>/dev/null | wc -l | tr -d ' ')
+if [ -d "${REPO_ROOT}/tests/task" ]; then
+  TASK_TEST_COUNT=$(find "${REPO_ROOT}/tests/task" -maxdepth 1 -name '*.sh' 2>/dev/null | wc -l | tr -d ' ')
+else
+  # Projects without a task-test working set (e.g. a fresh init-agents project)
+  # have zero task tests. Guard the find: `set -o pipefail` + a missing dir
+  # would otherwise fail the whole hook and block every commit.
+  TASK_TEST_COUNT=0
+fi
 if [ "${TASK_TEST_COUNT:-0}" -ge "$MAX_TASK_TESTS" ]; then
   echo ""
   echo "  ${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
