@@ -1,26 +1,47 @@
-# CI Pipeline — Runs commands from STACK_CONFIG.md
+# gates.yml — Remote Enforcement (L2 authority layer)
 # Installed by init-agents (another-agent-skills)
 #
-# Universal: reads test/lint/build commands from STACK_CONFIG.md.
-# No stack detection. No runner assumptions. Just your commands.
-# If you need specific tools, add setup steps below.
+# This is the workflow whose job is named `gates`. Branch protection requires
+# that check, so nothing merges into main without passing it. Local hooks
+# (.git/hooks/*) are fast feedback for a cooperative agent, but they are
+# writable — `core.hooksPath` can be repointed and the hook files can be edited.
+# This workflow is enforced by GitHub and cannot be skipped by the committer.
+#
+# It runs your project's gates from STACK_CONFIG.md (test / lint / type check /
+# build) and, if present, the AAS project audit (scripts/audit-project.sh).
+#
+# Turn on the remote layer (once per repo, needs `gh` + admin):
+#   bash scripts/setup-branch-protection.sh --dry-run   # preview the payload
+#   bash scripts/setup-branch-protection.sh             # apply to main
+#
+# Spec: PLAN.md — Phase 8 / P8.6
 
-name: CI
+name: gates
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
+
+# Least privilege: the gates only read the repository.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref to save runner minutes.
+concurrency:
+  group: gates-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  quality:
+  gates:
+    name: gates
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read commands from STACK_CONFIG.md
+      - name: Read gates from STACK_CONFIG.md
         id: stack
         run: |
           if [ ! -f "STACK_CONFIG.md" ]; then
@@ -31,7 +52,6 @@ jobs:
             echo ""
             echo "Or create STACK_CONFIG.md manually with your commands:"
             echo "  | Test | \`your-test-command\` |"
-            echo "  | Build | \`your-build-command\` |"
             exit 1
           fi
 
@@ -45,13 +65,11 @@ jobs:
           [[ "$BUILD_CMD" == *"<configure:"* ]] && BUILD_CMD=""
           [[ "$TYPECHECK_CMD" == *"<configure:"* ]] && TYPECHECK_CMD=""
 
-          # Check if at least one command is configured
           if [[ -z "$TEST_CMD" && -z "$LINT_CMD" && -z "$BUILD_CMD" && -z "$TYPECHECK_CMD" ]]; then
             echo "⚠️ STACK_CONFIG.md has no configured commands."
             echo ""
             echo "Edit STACK_CONFIG.md and replace <configure: ...> with your actual commands:"
             echo "  | Test | \`npm test\` |"
-            echo "  | Build | \`npm run build\` |"
             exit 1
           fi
 
@@ -59,18 +77,14 @@ jobs:
           echo "lint_cmd=$LINT_CMD" >> $GITHUB_OUTPUT
           echo "build_cmd=$BUILD_CMD" >> $GITHUB_OUTPUT
           echo "typecheck_cmd=$TYPECHECK_CMD" >> $GITHUB_OUTPUT
-          echo "skip=false" >> $GITHUB_OUTPUT
 
           echo "📋 Running: test=${TEST_CMD:-none} lint=${LINT_CMD:-none} build=${BUILD_CMD:-none} typecheck=${TYPECHECK_CMD:-none}"
 
       # Add your setup steps here if needed:
-      # - name: Setup Arduino CLI
-      #   run: curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-      # - name: Setup Java
-      #   uses: actions/setup-java@v4
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
       #   with:
-      #     java-version: '21'
-      #     distribution: 'temurin'
+      #     node-version: '20'
 
       - name: Run tests
         if: steps.stack.outputs.test_cmd != ''
@@ -87,3 +101,11 @@ jobs:
       - name: Run build
         if: steps.stack.outputs.build_cmd != ''
         run: ${{ steps.stack.outputs.build_cmd }}
+
+      - name: AAS project audit (if installed)
+        run: |
+          if [ -x scripts/audit-project.sh ]; then
+            bash scripts/audit-project.sh
+          else
+            echo "No scripts/audit-project.sh — skipping the AAS audit."
+          fi

@@ -282,6 +282,54 @@ bash install.sh --agent all
 
 ---
 
+## Remote Enforcement (L2) — Required for Real Authority
+
+Local hooks (`pre-commit`, `commit-msg`) are **fast feedback**, not enforcement:
+they live in `.git/hooks/`, which the committer can repoint
+(`git config core.hooksPath /empty`) or edit. **What actually decides is the
+remote layer** — GitHub branch protection requiring the `gates` status check.
+If the gate that decides can be edited by the change it judges, it is not a gate.
+
+`init-agents` ships both halves:
+
+- `.github/workflows/gates.yml` — the workflow whose job is named `gates`
+  (runs your `STACK_CONFIG.md` commands + the AAS project audit).
+- `scripts/setup-branch-protection.sh` — configures branch protection to require
+  that check (solo-safe: it never demands an approval you cannot give).
+
+### Checklist
+
+1. **Initialize the project** (creates the workflow + the script):
+   ```bash
+   bash init-agents.sh
+   ```
+2. **Commit and push** `.github/workflows/gates.yml` on a branch and open a PR,
+   so the `gates` check reports at least once (GitHub only offers a check as
+   "required" after it has run).
+3. **Preview branch protection** (no writes):
+   ```bash
+   bash scripts/setup-branch-protection.sh --dry-run
+   ```
+4. **Apply it** (needs `gh` authenticated with admin on the repo):
+   ```bash
+   bash scripts/setup-branch-protection.sh
+   ```
+5. **Verify**:
+   ```bash
+   gh api repos/OWNER/REPO/branches/main/protection \
+     --jq '.required_status_checks.contexts'   # → ["gates"]
+   ```
+
+After this, a direct push to `main` is rejected and no PR can merge until
+`gates` passes — regardless of what the local hooks do.
+
+> **Solo maintainers are not locked out.** The script auto-detects a solo repo
+> and requires **0 approvals** (GitHub forbids approving your own PR) while still
+> requiring the `gates` check. See [`BRANCH-PROTECTION.md`](BRANCH-PROTECTION.md)
+> for the full L1/L2/L3 model and the lockout guard.
+
+---
+
 ## Architecture Notes
 
 ### Why Separate Implementations?
