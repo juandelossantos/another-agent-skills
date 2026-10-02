@@ -434,7 +434,8 @@ install_global_framework() {
     # scripts/ (enforcement scripts only)
     mkdir -p "${global_dir}/scripts"
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
+                  setup-branch-protection.sh; do
         if [[ -f "${SCRIPT_DIR}/scripts/${script}" ]]; then
             cp "${SCRIPT_DIR}/scripts/${script}" "${global_dir}/scripts/"
             chmod +x "${global_dir}/scripts/${script}"

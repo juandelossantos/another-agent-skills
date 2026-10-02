@@ -476,28 +476,28 @@ EOF
     log "Add .sessionrc to .gitignore to keep it local-only."
 }
 
-# Install CI template from STACK_CONFIG.md
-install_ci_template() {
-    local ci_dst=".github/workflows/ci.yml"
-    local ci_src="${SCRIPT_DIR}/../templates/ci.yml"
+# Install the remote-gate workflow (L2 authority) from STACK_CONFIG.md
+install_gates_workflow() {
+    local dst=".github/workflows/gates.yml"
+    local src="${SCRIPT_DIR}/../templates/gates.yml"
 
-    # Don't overwrite existing CI
-    if [[ -f "$ci_dst" ]]; then
-        log "CI workflow already exists. Skipping."
+    # Don't overwrite an existing gates workflow
+    if [[ -f "$dst" ]]; then
+        log "gates.yml already exists. Skipping."
         return 0
     fi
 
-    # Don't create if no .github/workflows directory
     if [[ ! -d ".github/workflows" ]]; then
         mkdir -p ".github/workflows"
     fi
 
-    if [[ -f "$ci_src" ]]; then
-        cp "$ci_src" "$ci_dst"
-        ok "Installed CI workflow (${ci_dst})"
-        log "CI reads STACK_CONFIG.md and runs test/lint/build automatically."
+    if [[ -f "$src" ]]; then
+        cp "$src" "$dst"
+        ok "Installed remote gate workflow (${dst})"
+        log "Its 'gates' job is the required status check. Turn on the remote"
+        log "layer with: bash scripts/setup-branch-protection.sh"
     else
-        warn "CI template not found at ${ci_src}. Skipping."
+        warn "gates template not found at ${src}. Skipping."
     fi
 }
 
@@ -674,8 +674,8 @@ main() {
         install_self_improvement
     fi
 
-    # Install CI template if GitHub Actions is not set up
-    install_ci_template
+    # Install the remote-gate workflow (L2 authority layer)
+    install_gates_workflow
 
     # Create .sessionrc for purpose-driven sessions
     if [[ ! -f "./.sessionrc" ]]; then
@@ -721,6 +721,7 @@ show_next_steps() {
     fi
     [[ -f "./STACK_CONFIG.md" ]] && echo "    ✓ STACK_CONFIG.md — ${stack}"
     [[ -f "./.sessionrc" ]] && echo "    ✓ .sessionrc — purpose-driven sessions"
+    [[ -f "./.github/workflows/gates.yml" ]] && echo "    ✓ .github/workflows/gates.yml — remote gate (required check)"
     [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ pre-commit hook — lifecycle enforcement"
     [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — TDD gate (v6)"
     echo ""
@@ -734,10 +735,21 @@ show_next_steps() {
         [[ -L "./AGENTS-EXTENDED.md" ]] && echo "    ✓ AGENTS-EXTENDED.md — anti-rationalization table"
         [[ -L "./VERSION" ]] && echo "    ✓ VERSION — framework version"
         local linked_scripts=0
-        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh; do
             [[ -L "./scripts/${s}" ]] && linked_scripts=$((linked_scripts + 1))
         done
         [[ ${linked_scripts} -gt 0 ]] && echo "    ✓ scripts/ — ${linked_scripts} enforcement scripts"
+        echo ""
+    fi
+
+    # --- REMOTE LAYER (L2 authority) ---
+    if [[ -f "./.github/workflows/gates.yml" ]]; then
+        echo "  REMOTE ENFORCEMENT (L2 — the authority):"
+        echo "    Local hooks are fast feedback; they are writable. The required"
+        echo "    'gates' status check is what actually decides. Turn it on with:"
+        echo "      bash scripts/setup-branch-protection.sh --dry-run   # preview"
+        echo "      bash scripts/setup-branch-protection.sh             # apply"
+        echo "    Why local ≠ authority: docs/BRANCH-PROTECTION.md"
         echo ""
     fi
 
@@ -894,7 +906,8 @@ install_framework_symlinks() {
 
     # Individual enforcement scripts (not the whole scripts/ dir — projects may have their own)
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh; do
+                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
+                  setup-branch-protection.sh; do
         link_or_copy "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
     done
 
