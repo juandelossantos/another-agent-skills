@@ -14,8 +14,8 @@
 #   solo — a single human with push access (owner is a User, <=1 pusher). A
 #          required approval would be impossible to satisfy: GitHub forbids
 #          approving your own pull request. So: PRs + the `gates` check are
-#          required, but approvals = 0, no code-owner review, admin bypass
-#          stays OFF (the sole admin can still merge their own PR).
+#          required, but approvals = 0, no code-owner review, admin enforcement
+#          stays OFF (so the sole admin can still merge their own PR).
 #
 #   team — more than one human with push access. Full protection: strict
 #          status checks, 1 required approval, code-owner review, and
@@ -26,12 +26,21 @@
 # required approval can never be given. Pass `--force-lockout-risk` to opt out
 # (prints a loud warning; not recommended).
 #
+# CODE-OWNER GUARD (mandatory): "Require review from Code Owners" is another
+# approval the author cannot give themselves. If the local CODEOWNERS lists a
+# single owner, that owner's own PRs can never satisfy it, so the requirement
+# is dropped (with a warning). A single *team* owner cannot be verified from
+# here, so it is warned about rather than forced. Pass
+# `--no-code-owner-reviews` to drop the requirement explicitly, or
+# `--force-lockout-risk` to keep the risky configuration.
+#
 # Idempotent: it reads the current protection and skips the write if the
 # desired state is already in place. Safe to re-run; it prints what it did.
 #
 # Usage:
 #   bash scripts/setup-branch-protection.sh [--mode auto|solo|team]
 #                                           [--approvals N] [--code-owner-reviews]
+#                                           [--no-code-owner-reviews]
 #                                           [--strict] [--enforce-admins]
 #                                           [--force-lockout-risk]
 #                                           [--repo OWNER/REPO] [--branch BRANCH]
@@ -64,8 +73,9 @@ Usage: bash scripts/setup-branch-protection.sh [options]
 
 Options:
   --mode MODE             auto (default) | solo | team. auto detects the repo shape.
-  --approvals N           Required approving reviews (overrides the profile).
+  --approvals N           Required approving reviews (overrides the profile; max 6).
   --code-owner-reviews    Require review from Code Owners (overrides the profile).
+  --no-code-owner-reviews Do not require review from Code Owners.
   --strict                Require branches to be up to date before merging.
   --enforce-admins        Apply the rules to admins too (no admin bypass).
   --force-lockout-risk    Allow a config that can lock out a solo maintainer.
@@ -78,16 +88,17 @@ EOF
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --repo)                REPO_SLUG="${2:-}"; shift 2 ;;
-    --branch)              BRANCH="${2:-}"; shift 2 ;;
-    --mode)                MODE_REQUESTED="${2:-}"; shift 2 ;;
-    --approvals)           OVR_APPROVALS="${2:-}"; shift 2 ;;
-    --code-owner-reviews)  OVR_CODE_OWNER=true; shift ;;
-    --strict)              OVR_STRICT=true; shift ;;
-    --enforce-admins)      OVR_ENFORCE_ADMINS=true; shift ;;
-    --force-lockout-risk)  FORCE_LOCKOUT_RISK=true; shift ;;
-    --dry-run)             DRY_RUN=true; shift ;;
-    -h|--help)             usage; exit 0 ;;
+    --repo)                  [ $# -ge 2 ] && [ -n "${2:-}" ] || { echo "${RED}ERROR:${NC} --repo requires a value." >&2; exit 2; }; REPO_SLUG="$2"; shift 2 ;;
+    --branch)                [ $# -ge 2 ] && [ -n "${2:-}" ] || { echo "${RED}ERROR:${NC} --branch requires a value." >&2; exit 2; }; BRANCH="$2"; shift 2 ;;
+    --mode)                  [ $# -ge 2 ] && [ -n "${2:-}" ] || { echo "${RED}ERROR:${NC} --mode requires a value." >&2; exit 2; }; MODE_REQUESTED="$2"; shift 2 ;;
+    --approvals)             [ $# -ge 2 ] && [ -n "${2:-}" ] || { echo "${RED}ERROR:${NC} --approvals requires a value." >&2; exit 2; }; OVR_APPROVALS="$2"; shift 2 ;;
+    --code-owner-reviews)    OVR_CODE_OWNER=true; shift ;;
+    --no-code-owner-reviews) OVR_CODE_OWNER=false; shift ;;
+    --strict)                OVR_STRICT=true; shift ;;
+    --enforce-admins)        OVR_ENFORCE_ADMINS=true; shift ;;
+    --force-lockout-risk)    FORCE_LOCKOUT_RISK=true; shift ;;
+    --dry-run)               DRY_RUN=true; shift ;;
+    -h|--help)               usage; exit 0 ;;
     *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
   esac
 done
@@ -153,6 +164,38 @@ detect_repo_shape() {
 
 detect_repo_shape
 
+# ─── Code-owner detection ───
+# "Require review from Code Owners" is an approval the author cannot give
+# themselves. GitHub resolves owners from CODEOWNERS (precedence:
+# .github/CODEOWNERS, CODEOWNERS, docs/CODEOWNERS). We read the local file to
+# count distinct owners: with a single user owner, a PR authored by that owner
+# can never satisfy the rule. CODEOWNERS_FILE overrides the lookup (tests, and
+# repos that keep the file elsewhere).
+CODEOWNERS_FOUND=false
+USER_OWNERS=0
+TEAM_OWNERS=0
+
+code_owner_stats() {
+  local f=""
+  if [ -n "${CODEOWNERS_FILE:-}" ]; then
+    if [ -f "$CODEOWNERS_FILE" ]; then f="$CODEOWNERS_FILE"; fi
+  elif [ -f .github/CODEOWNERS ]; then
+    f=".github/CODEOWNERS"
+  elif [ -f CODEOWNERS ]; then
+    f="CODEOWNERS"
+  elif [ -f docs/CODEOWNERS ]; then
+    f="docs/CODEOWNERS"
+  fi
+  [ -z "$f" ] && return 0
+  CODEOWNERS_FOUND=true
+  local tokens
+  tokens=$(awk '{ sub(/#.*/, ""); for (i = 1; i <= NF; i++) if ($i ~ /^@/) print $i }' "$f" | sort -u)
+  USER_OWNERS=$(printf '%s\n' "$tokens" | grep -cE '^@[^/]+$' || true)
+  TEAM_OWNERS=$(printf '%s\n' "$tokens" | grep -cE '^@[^/]+/.+$' || true)
+}
+
+code_owner_stats
+
 if [ -z "$OWNER_TYPE" ]; then
   # Detection failed (offline / no admin rights): fall back to the safe mode.
   DETECTED_MODE="solo"
@@ -194,8 +237,18 @@ if [ -n "$OVR_ENFORCE_ADMINS" ];  then ENFORCE_ADMINS="$OVR_ENFORCE_ADMINS"; fi
 # sole code owner / sole admin could otherwise be unable to merge at all.
 FINAL_MODE="$SELECTED_MODE"
 MAX_APPROVALS=$(( PUSH_COUNT > 0 ? PUSH_COUNT - 1 : 0 ))
+if [ "$MAX_APPROVALS" -gt 6 ]; then MAX_APPROVALS=6; fi
 GUARD_OVERRIDDEN=false
 GUARD_RISKY_APPROVALS=false
+GUARD_API_CAPPED=false
+GUARD_CODE_OWNER=false
+CODE_OWNER_UNVERIFIABLE=false
+
+# GitHub caps required approvals at 6; asking for more is a 422, not a lockout.
+if [ "$APPROVALS" -gt 6 ]; then
+  APPROVALS=6
+  GUARD_API_CAPPED=true
+fi
 
 if ! $FORCE_LOCKOUT_RISK; then
   if [ "$MAX_APPROVALS" -eq 0 ]; then
@@ -218,6 +271,23 @@ if ! $FORCE_LOCKOUT_RISK; then
   fi
 elif [ "$APPROVALS" -gt "$MAX_APPROVALS" ]; then
   GUARD_RISKY_APPROVALS=true
+fi
+
+# ─── Code-owner guard ───
+# A sole code owner authoring a PR cannot satisfy code-owner review (GitHub
+# forbids self-approval). We can prove this for a single *user* owner, so we
+# force the requirement off. A single *team* owner is unverifiable from here
+# (membership lives in the org API), so we warn and leave the choice to the
+# user. `--force-lockout-risk` opts out entirely.
+if [ "$CODE_OWNER" = "true" ] && ! $FORCE_LOCKOUT_RISK; then
+  if ! $CODEOWNERS_FOUND; then
+    CODE_OWNER_UNVERIFIABLE=true
+  elif [ "$USER_OWNERS" -eq 1 ] && [ "$TEAM_OWNERS" -eq 0 ]; then
+    GUARD_CODE_OWNER=true
+    CODE_OWNER=false
+  elif [ "$USER_OWNERS" -eq 0 ] && [ "$TEAM_OWNERS" -eq 1 ]; then
+    CODE_OWNER_UNVERIFIABLE=true
+  fi
 fi
 
 # ─── Final payload ───
@@ -281,6 +351,40 @@ if $GUARD_RISKY_APPROVALS; then
   echo ""
   echo "${RED}WARNING: --force-lockout-risk allows ${APPROVALS} required approval(s)${NC}"
   echo "  but only ${PUSH_COUNT} human(s) have push access; at most ${MAX_APPROVALS} approval(s) are reachable."
+fi
+
+if $GUARD_API_CAPPED; then
+  echo ""
+  echo "${YELLOW}NOTE:${NC} GitHub allows at most 6 required approvals; capped at 6."
+fi
+
+if $GUARD_CODE_OWNER; then
+  echo ""
+  echo "${YELLOW}WARNING: code-owner guard engaged.${NC}"
+  echo "  CODEOWNERS lists a single owner, so a pull request authored by that"
+  echo "  owner can never satisfy 'Require review from Code Owners' (GitHub does"
+  echo "  not let you approve your own pull request). Forcing code-owner review off."
+  echo "  Fix: add a second code owner to CODEOWNERS, or pass"
+  echo "  ${BOLD}--force-lockout-risk${NC} if you understand the risk."
+fi
+
+if $CODE_OWNER_UNVERIFIABLE; then
+  echo ""
+  echo "${YELLOW}WARNING: could not verify code-owner review is satisfiable.${NC}"
+  if ! $CODEOWNERS_FOUND; then
+    echo "  No CODEOWNERS file found locally; skipping the code-owner lockout check."
+  else
+    echo "  CODEOWNERS lists a single team owner; its membership cannot be checked"
+    echo "  here. If the team has only one member, that member's own PRs can be blocked."
+  fi
+  echo "  Add a second code owner, or pass ${BOLD}--no-code-owner-reviews${NC}."
+fi
+
+if $FORCE_LOCKOUT_RISK && [ "$CODE_OWNER" = "true" ] && $CODEOWNERS_FOUND \
+   && [ "$USER_OWNERS" -eq 1 ] && [ "$TEAM_OWNERS" -eq 0 ]; then
+  echo ""
+  echo "${RED}WARNING: --force-lockout-risk with a single code owner.${NC}"
+  echo "  A pull request authored by that owner cannot satisfy code-owner review."
 fi
 
 echo ""

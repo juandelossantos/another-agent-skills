@@ -103,6 +103,13 @@ exit 1
 MOCK
 chmod +x "$MOCK_DIR/gh"
 
+# CODEOWNERS fixtures for the code-owner guard. The guard reads the local
+# CODEOWNERS; the default is two distinct owners so the team profile keeps
+# code-owner review on. The single-user fixture is the lockout shape.
+printf '* @alice @bob\n'     > "$MOCK_DIR/CODEOWNERS.multi"
+printf '* @alice\n'          > "$MOCK_DIR/CODEOWNERS.single"
+printf '* @acme/reviewers\n' > "$MOCK_DIR/CODEOWNERS.team"
+
 # collaborators_json <n> — n humans with push access.
 collaborators_json() {
   local n="$1" out="[" i=1
@@ -115,10 +122,13 @@ collaborators_json() {
 }
 
 # run_mock <state> <owner-type> <n-collaborators> [args...] — stdout is the run.
+# CODEOWNERS_FILE defaults to the two-owner fixture; override with
+# MOCK_CODEOWNERS=<path> to exercise the code-owner guard.
 run_mock() {
   local state="$1" owner="$2" collabs="$3"; shift 3
   collaborators_json "$collabs" > "$state/collaborators.json"
   MOCK_GH_STATE="$state" MOCK_OWNER_TYPE="$owner" PATH="$MOCK_DIR:$PATH" \
+    CODEOWNERS_FILE="${MOCK_CODEOWNERS:-$MOCK_DIR/CODEOWNERS.multi}" \
     bash "$SCRIPT" --repo testowner/testrepo --branch main "$@" 2>&1
 }
 
@@ -195,6 +205,40 @@ A5c=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S
 assert "guard: --approvals 5 with 3 humans capped to 2" "[ '$A5c' = '2' ]"
 assert "guard: explains the approvals cap" "echo \"\$out5c\" | grep -qi 'Capping required approvals'"
 
+# ── Guard: a single code owner cannot satisfy code-owner review on their own PR ──
+S5d=$(mktemp -d)
+out5d=$(MOCK_CODEOWNERS="$MOCK_DIR/CODEOWNERS.single" run_mock "$S5d" Organization 3); rc5d=$?
+CO5d=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5d/last_input")
+assert "guard (single code owner): exits 0" "[ $rc5d -eq 0 ]"
+assert "guard: single code owner -> code-owner review forced off" "[ '$CO5d' = 'false' ]"
+assert "guard: warns a sole code owner cannot self-approve" "echo \"\$out5d\" | grep -qi 'code owner'"
+
+# ── Guard: a single *team* owner is unverifiable here -> warn, keep it on ──
+S5e=$(mktemp -d)
+out5e=$(MOCK_CODEOWNERS="$MOCK_DIR/CODEOWNERS.team" run_mock "$S5e" Organization 3); rc5e=$?
+CO5e=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5e/last_input")
+assert "guard (single team owner): exits 0" "[ $rc5e -eq 0 ]"
+assert "guard: single team owner -> code-owner review stays on" "[ '$CO5e' = 'true' ]"
+assert "guard: warns the team's membership is unverifiable" "echo \"\$out5e\" | grep -qi 'verif'"
+
+# ── --no-code-owner-reviews: explicit off switch ──
+S5f=$(mktemp -d)
+run_mock "$S5f" Organization 3 --no-code-owner-reviews >/dev/null
+CO5f=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5f/last_input")
+assert "--no-code-owner-reviews forces code-owner off" "[ '$CO5f' = 'false' ]"
+
+# ── Guard: --approvals is capped at GitHub's API maximum (6) ──
+S5g=$(mktemp -d)
+out5g=$(run_mock "$S5g" Organization 10 --approvals 9)
+A5g=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S5g/last_input")
+assert "guard: --approvals 9 with 10 humans capped at GitHub max 6" "[ '$A5g' = '6' ]"
+
+# ── Flag parsing: a value-taking flag without a value is a usage error ──
+out_bad=$(bash "$SCRIPT" --repo 2>&1); rc_bad=$?
+assert "missing --repo value exits 2" "[ $rc_bad -eq 2 ]"
+out_bad2=$(bash "$SCRIPT" --approvals 2>&1); rc_bad2=$?
+assert "missing --approvals value exits 2" "[ $rc_bad2 -eq 2 ]"
+
 # ── Dry-run: prints the plan, makes no PUT ──
 S6=$(mktemp -d)
 out6=$(run_mock "$S6" User 1 --dry-run); rc6=$?
@@ -219,7 +263,7 @@ assert "PUT sent the gates required check" "grep -q 'gates' '$S7/last_input'"
 assert "PUT disables force pushes" "grep -q 'allow_force_pushes' '$S7/last_input'"
 assert "PUT requires conversation resolution" "grep -q 'required_conversation_resolution' '$S7/last_input'"
 
-rm -rf "$MOCK_DIR" "$S1" "$S2" "$S3" "$S4" "$S5" "$S5b" "$S5c" "$S6" "$S7"
+rm -rf "$MOCK_DIR" "$S1" "$S2" "$S3" "$S4" "$S5" "$S5b" "$S5c" "$S5d" "$S5e" "$S5f" "$S5g" "$S6" "$S7"
 
 # ── L3: gate configuration is protected by CODEOWNERS ──
 assert "CODEOWNERS exists" "[ -f '$CO' ]"

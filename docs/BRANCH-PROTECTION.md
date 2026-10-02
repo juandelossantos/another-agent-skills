@@ -64,8 +64,17 @@ require **conversation resolution**, and disable **force pushes** and
 **deletions**. The difference is only whether a second human's approval is
 required.
 
+> **Solo caveat — admin bypass.** The solo profile sets `enforce_admins: false`,
+> which means the admin (you) can still bypass the required PR and the `gates`
+> check. The gates remain mandatory for everyone *without* admin rights, and
+> the configuration is in place for when you add a reviewer, but a sole admin
+> can always push/merge directly. That is deliberate — it is the strongest
+> setting that cannot lock a solo maintainer out. If you want the gates to bind
+> you too, you need a second human with push access (the team profile) so an
+> approval exists to give.
+
 - The **solo** profile keeps a sole maintainer unblocked: PRs and the gates are
-  still mandatory, but the author can merge their own PR (no approval to give,
+  still configured, but the author can merge their own PR (no approval to give,
   and admins are not bound so the owner can still merge).
 - The **team** profile is full enforcement: stale approvals are dismissed,
   a code owner must review, and `enforce_admins` is on so nobody — agent
@@ -108,6 +117,31 @@ If you are the only admin account and you use this flag, you can lock yourself
 out of `main`. If that happens, an organization owner can remove the rule from
 the repository's settings page, then re-run the script without the flag.
 
+## The code-owner guard (mandatory)
+
+"Require review from Code Owners" is a second kind of approval the author
+cannot give themselves. GitHub resolves code owners from `CODEOWNERS`, and a
+pull request that touches code owned by the author still needs a review from
+*another* code owner. If the file lists a single owner, that owner's own PRs
+can never satisfy the rule — a silent lockout.
+
+The script reads the local `CODEOWNERS` (precedence: `.github/CODEOWNERS`,
+`CODEOWNERS`, `docs/CODEOWNERS`) and counts distinct owners:
+
+- **A single user owner** — provably unsatisfiable for that owner's PRs. The
+  script forces code-owner review **off** and warns, unless
+  `--force-lockout-risk` is passed.
+- **A single team owner** — membership cannot be checked from here (it lives in
+  the organization API). The script keeps the rule but warns, so a one-member
+  team does not lock out silently.
+- **Two or more owners** — the rule is satisfiable and is kept.
+
+Fix a single-owner `CODEOWNERS` by adding a second owner (best — it preserves
+L3), or pass `--no-code-owner-reviews` to drop the requirement explicitly.
+
+`--approvals N` is also capped at GitHub's hard maximum of **6** required
+approvals; a larger value would be rejected by the API.
+
 ## Running it
 
 Prerequisites:
@@ -138,8 +172,9 @@ bash scripts/setup-branch-protection.sh --repo OWNER/REPO --branch main
 | Flag | Effect |
 |---|---|
 | `--mode auto\|solo\|team` | `auto` (default) detects the shape; `solo`/`team` force a profile. |
-| `--approvals N` | Required approving reviews. |
+| `--approvals N` | Required approving reviews (capped at GitHub's maximum of 6). |
 | `--code-owner-reviews` | Require review from Code Owners. |
+| `--no-code-owner-reviews` | Do not require review from Code Owners. |
 | `--strict` | Require the branch to be up to date before merging. |
 | `--enforce-admins` | Apply the rules to admins too (no admin bypass). |
 | `--force-lockout-risk` | Allow a config that can lock out a sole maintainer (loud warning). |
