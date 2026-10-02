@@ -131,6 +131,23 @@ After installation, these commands are available in your terminal:
 
 These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
 
+### Pinned one-liner install (Phase 9 preview)
+
+Once a release is published, `bootstrap.sh` installs a **pinned, checksum-verified**
+tarball from GitHub Releases (never a mutable branch) and links the `aas` CLI:
+
+```bash
+curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
+aas install --agents auto     # activate in the current project
+aas doctor                    # environment report
+aas upgrade                   # self-update from the latest pinned release
+aas uninstall                 # remove the CLI, install root, and PATH entry
+```
+
+`--version vX.Y.Z` pins an exact release; `--dry-run` prints every action without
+writing anything. The install root is `${XDG_DATA_HOME:-$HOME/.local/share}/another-agent-skills`
+(override with `AAS_HOME`); the symlink lives in `$HOME/.local/bin` (`AAS_BIN_DIR`).
+
 ---
 
 ## What Makes This Different

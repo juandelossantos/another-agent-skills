@@ -476,6 +476,12 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | P9.4 | 🟠 P1 | Selección de agentes: `--agents auto\|all\|<lista>`; multi-select interactivo **solo si TTY**; en CI nunca bloquea (default no-interactivo). Reusa P7.5 | flags en `aas install` | TTY → prompt; no-TTY → usa detectado o `--agents`; nunca espera input en CI |
 | P9.5 | 🟡 P2 | npm wrapper sin payload: descarga+verifica el mismo release; no añade Node al core | paquete `@scope/another-agent-skills` | `npx ... install` funciona en un proyecto sin clonar; el paquete no contiene el payload |
 | P9.6 | 🟢 P3 | Homebrew tap (opcional): fórmula auto-generada apuntando al tarball del release | tap + fórmula | `brew install <tap>/another-agent-skills` |
+| **P9.7** | 🔴 P0 | **Portable / standalone / cross-platform (B')**: `init-agents` **nunca** enlaza a `$SCRIPT_DIR` (el clon); la fuente es **la instalación** (release pineado); **shims/copias** en vez de symlinks absolutos; `.aas/config` con la versión esperada; resolver cross-platform (env `ANOTHER_AGENT_SKILLS_DIR` + búsqueda en ubicaciones por-OS); `aas init` / `doctor`; `--with-skills` opcional; **POSIX-first + wrapper PS fino** (no reimplementar gates) | Cero symlinks absolutos committeados; un proyecto clonado en otra máquina funciona tras `aas install`; Windows vía Git Bash documentado |
+| **P9.8** | 🔴 P0 | **Detección + guía + adopción legacy (sin pérdida de datos)**: `init-agents --dry-run` (mostrar, no mutar), `--repair` (migrar symlinks rotos → portable, idempotente), `--force` explícito para hooks custom; aviso **no bloqueante** de drift (versión del proyecto vs máquina) en `pre-commit`/`doctor`/CI; detección **legacy** (artefactos AAS sin `.aas/config`); higiene de backups (`.aas/backups/` o gitignored + poda) | Re-ejecutar es seguro (append/skip, nunca sobrescribe); `--dry-run` no muta; `--repair` no pierde `AGENTS.md` ni docs del equipo; migra proyectos existentes |
+
+**Orden recomendado dentro de Phase 9:** P9.1 → P9.2 → P9.3 → P9.4 → **P9.7 → P9.8** → P9.5 → P9.6 (la portabilidad es prerequisito conceptual de "instalar una vez, usar en cualquier proyecto").
+
+**Caso real:** un proyecto compartido (p.ej. `courtside-scoreboard`) tiene 16 symlinks absolutos committeados apuntando a `/home/<user>/...` → **rotos** para cualquiera que clone. `P9.7/P9.8` los migra con `--dry-run` + `--repair`, sin tocar el `AGENTS.md` ni los docs del equipo.
 
 **Need evidence (RED) actual:**
 - `grep -n "git clone" install.sh README.md` → el canal documentado es clonar el repo
@@ -520,6 +526,21 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | D6 | Award-winning quality bar | Inspiración Awwwards/Godly/Land-book/SiteInspire; motion con propósito; tipografía; micro-interacciones | Lighthouse Performance ≥95, CWV en verde |
 | D7 | Indexación + medición | Search Console + Bing Webmaster; submit sitemap; analytics ligero (Plausible/Umami) opcional | Sitemap aceptado; indexación confirmada |
 | D8 | Referencia en el sector | Contenido citable (guías, comparativas, "state of agent skills"), OG cards, publicación (dev.to/HN/Reddit) | Backlinks + menciones |
+
+**Bloque E — FAQ + guías de uso (ayudar al usuario en el flujo correcto)**
+Todo sale de P9.7/P9.8 — documentar en landing + docs + README:
+| # | Pregunta / Guía |
+|---|---|
+| E1 | "¿Instalo AAS por proyecto o una vez?" → **una vez por máquina**; cualquier proyecto lo usa; **sin duplicación** |
+| E2 | "¿Funciona en Windows/macOS/Linux?" → POSIX-first; Windows vía **Git for Windows (Git Bash)** |
+| E3 | "Un compañero clona mi proyecto y **no tiene AAS**, ¿se rompe?" → **no**: el proyecto funciona; cómo instalar; y el **CI (`gates.yml`) enforça para todos** |
+| E4 | "Heredé/migré un proyecto que usó AAS" → `aas doctor` → `init-agents --dry-run` → `--repair` (**sin perder datos**) |
+| E5 | "Me cambié de máquina" → `aas install` (misma versión) → `aas doctor` |
+| E6 | "Hay AAS nuevo, ¿actualizo el proyecto?" → aviso **no bloqueante** + `aas upgrade` + `--dry-run`/`--repair` |
+| E7 | "¿Qué son L1/L2/L3 y qué enforça de verdad?" → local = feedback; remoto (`gates`) = autoridad; **GitHub-only** |
+| E8 | Los **4 flujos** git/GitHub (sin git / git local / git+GitHub / git-later) |
+
+Estas Q&A alimentan también **D2 (FAQPage JSON-LD)** y **D3 (AEO)** → respuestas citables por buscadores y motores de IA.
 
 **Bloque C — Release (v6.4.0)**
 - C1 `VERSION` → 6.4.0 + tag + GitHub Release (value: multi-agente, distribución, descubribilidad).
