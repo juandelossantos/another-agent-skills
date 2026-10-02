@@ -1,6 +1,6 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-10-01
+**Date:** 2026-10-02
 **Version:** 6.2.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
@@ -35,11 +35,11 @@
 |---|---|---|
 | Pre-commit hook | ✅ v11 (15 gates including Gate 0) | Executable (755) |
 | commit-msg hook | ✅ v6 | Single-gate TDD enforcement (name-pairing + new-test, no override) |
-| commit-approval.sh | ✅ | READ-ONLY manifest preview (tokens written by agent directly) |
+| commit-approval.sh | ✅ | READ-ONLY manifest preview (philosophy A: the agent never runs `git commit`) |
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
-| Skill lint | ✅ 0 errors, 0 warnings | All 57 skills compliant |
+| Skill lint | 🟡 0 errors, 2 warnings | All 57 skills within contract; 2 advisories |
 
 ---
 
@@ -62,17 +62,19 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v6.2.0 | Landing, docs, i18n EN/ES |
+| Version references | 🟡 v6.2.0 (partial) | Landing + i18n EN/ES at 6.2.0; `README.md` "What's New" still 6.1.0 → Phase 10 |
 | Guide count | ✅ 74 guides | Distributed across 57 skills |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
+| Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |
 
 ---
 
 ## Recommendations
 
-1. **Execute Phase 7: Cross-Platform Harness Parity** — See `PLAN.md` for 10 tasks.
-2. **Active tests:** `tests/test-plan-v7.sh`, `tests/test-sync-hooks.sh`, `tests/test-tdd-gate.sh`. All v6.0.0 tests archived.
-3. **Task 7.1 — Claude Code `.claude/` Mirror:** the skills + hooks portion is done — `bash install.sh --agent claude` installs all 57 skills globally to `~/.claude/skills/` and wires all 3 enforcement hooks into `.claude/settings.json` automatically. Still open: the `agents/`/`commands/` mirror of `.opencode/` that Task 7.1 also scoped. **Next session:** pick up that remaining piece, or move to Task 7.2 — Cursor `.cursor/` Mirror.
+1. **Phase 7 released as v6.2.0** — dual-contract OpenCode plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never runs `git commit`/`push` — no token bypass), global install hardening. See `RELEASE-NOTES.md`.
+2. **Phase 8 in progress** — P8.1–P8.3 **done and ACTIVE**: `.github/workflows/gates.yml` is the required `gates` check, branch protection is enabled on `main`, and `CODEOWNERS` protects the gate config. Remaining: **P8.5** (docs honesty), **P8.6** (ship the remote layer via `init-agents`/`install`), **P8.7** (remote E2E). P8.4 closed by design (philosophy A).
+3. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`).
+4. **Planned next** — Phase 10 (landing/docs refresh; `README.md` "What's New" still says 6.1.0) and Phase 11 (Astro + Starlight docs site).
 
 ---
 
@@ -99,3 +101,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | 2026-07-07 | **v3.1.0 RELEASED** | TDD Enforcement Gate: commit-msg v4 (TDD gate), pre-commit v11 (14 gates), tdd-gate.sh, sync-hooks subcommand, 25 new tests, SPEC-TDD-GATE.md. Hook renumbering bug fixes. |
 | 2026-07-08 | **v4.0.0 RELEASED** | Foundation Repair & Critical Stubs: 15 stubs completed, frontmatter fixes, flat guide consolidation, enforcement simplification (commit-msg v4, pre-commit v11). 57 skills, 0 lint errors, HEALTHY status restored. |
 | 2026-07-08 | **v4.1.0 RELEASED** | Quick Start Guide & Navigation Overhaul: user-facing workflow guide, full Spanish i18n, nav chain fixed, COMMIT_APPROVED gate restored, TDD gate expanded to all text formats. |
+| 2026-07-18 | **v6.0.0 RELEASED** | Design Skill Integrity: 17-section DESIGN.md schema, 3-mode design-gate, TDD enforcement (no override), token-validate, approval-gate, design-upgrade. |
+| 2026-10-01 | **v6.2.0 RELEASED (Phase 7)** | Dual-contract OpenCode plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, philosophy A (agent never commits/pushes — no token bypass), global install hardening. |
+| 2026-10-02 | **Phase 8 P8.1–P8.3 ACTIVE** | `.github/workflows/gates.yml` is the required `gates` check; `scripts/setup-branch-protection.sh` (solo-safe + lockout/code-owner guards) applied branch protection to `main`; `CODEOWNERS` protects the gate config. P8.4 closed by design (philosophy A). |
+| 2026-10-02 | Test cadence formalized | `tests/` = behavioral (permanent); `tests/task/` capped at 20 (`scripts/test-cadence.conf`); checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). |

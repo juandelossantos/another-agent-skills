@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # test-health-check-sync.sh — Content check for HEALTH-CHECK.md: the
-# Recommendations note reflects that Task 7.1's skills+hooks portion is done,
-# not a stale "start Task 7.1" pointer.
+# Recommendations note reflect the post-v6.2.0 state (Phase 7 released,
+# Phase 8 P8.1–P8.3 active, P8.5–P8.7 remaining), not a stale "start Phase 7"
+# pointer.
 
 set -uo pipefail
 
@@ -22,9 +23,12 @@ assert() {
   fi
 }
 
-assert "notes the skills+hooks portion of Task 7.1 is done" "grep -q 'skills + hooks portion is done' '$FILE'"
-assert "notes the agents/commands mirror is still open" "grep -q 'agents/.*commands/.*mirror' '$FILE'"
-assert "version header is 6.2.0" "grep -q '\\*\\*Version:\\*\\* 6.2.0' '$FILE'"
+assert "notes Phase 7 is released as v6.2.0" "grep -q 'Phase 7 released as v6.2.0' '$FILE'"
+assert "notes Phase 8 is in progress" "grep -q 'Phase 8 in progress' '$FILE'"
+assert "lists P8.5 as remaining" "grep -q 'P8.5' '$FILE'"
+assert "lists P8.7 as remaining" "grep -q 'P8.7' '$FILE'"
+assert "documents the test cadence" "grep -q 'Test cadence' '$FILE'"
+assert "version header is 6.2.0" "grep -q '\*\*Version:\*\* 6.2.0' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
