@@ -185,33 +185,56 @@ fi
 # QUALITY GATES (6-13)
 # ============================================================
 
-# Gate 6: Skill Gate — verify skills were consulted before implementation
+# Gate 6: Skill Gate — verify skills were consulted before implementation.
+# Scope: BLOCKING in the framework repo (SOUL.md + VERSION present) or when the
+# project opts in via .aas/config ("skill_gate": "block"); ADVISORY (warn) in a
+# user project — "did the agent consult skills?" is an agent concept and must
+# not block a human committing in their own repo. AAS_SKILL_GATE overrides
+# (block|warn|off).
 echo ""
 echo "╔════════════════════════════════════════════╗"
 echo "║  SKILL GATE                                ║"
 echo "╚════════════════════════════════════════════╝"
 
+SKILL_GATE_MODE="${AAS_SKILL_GATE:-}"
+if [ -z "$SKILL_GATE_MODE" ]; then
+  if [ -f "${REPO_ROOT}/SOUL.md" ] && [ -f "${REPO_ROOT}/VERSION" ]; then
+    SKILL_GATE_MODE="block"      # the framework repo itself
+  elif [ -f "${REPO_ROOT}/.aas/config" ] && grep -q '"skill_gate"[[:space:]]*:[[:space:]]*"block"' "${REPO_ROOT}/.aas/config" 2>/dev/null; then
+    SKILL_GATE_MODE="block"      # user project opted in
+  else
+    SKILL_GATE_MODE="warn"       # user project: advisory
+  fi
+fi
+
 SKILL_GATE="${AAS_SCRIPTS}/skill-gate.sh"
-if [ -f "$SKILL_GATE" ]; then
+if [ "$SKILL_GATE_MODE" = "off" ]; then
+  echo "  ${YELLOW}−${NC} skill gate off (AAS_SKILL_GATE=off)"
+elif [ -f "$SKILL_GATE" ]; then
   if ! bash "$SKILL_GATE" check 2>&1; then
-    echo ""
-    echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
-    echo "  ${RED}║  SKILL GATE BLOCKED                                     ║${NC}"
-    echo "  ${RED}║                                                         ║${NC}"
-    echo "  ${RED}║  Rule 1: 'Always check skills first.'                  ║${NC}"
-    echo "  ${RED}║                                                         ║${NC}"
-    echo "  ${RED}║  No skills were consulted before implementation.        ║${NC}"
-    echo "  ${RED}║                                                         ║${NC}"
-    echo "  ${RED}║  Required:                                              ║${NC}"
-    echo "  ${RED}║  1. Load using-agent-skills                             ║${NC}"
-    echo "  ${RED}║  2. Identify applicable skill                           ║${NC}"
-    echo "  ${RED}║  3. Load and follow the skill                           ║${NC}"
-    echo "  ${RED}║                                                         ║${NC}"
-    echo "  ${RED}║  To bypass: echo 'override: reason' > .git/SKILLS_     ║${NC}"
-    echo "  ${RED}║             CONSULTED                                   ║${NC}"
-    echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
-    echo ""
-    exit 1
+    if [ "$SKILL_GATE_MODE" = "block" ]; then
+      echo ""
+      echo "  ${RED}╔═══════════════════════════════════════════════════════════╗${NC}"
+      echo "  ${RED}║  SKILL GATE BLOCKED                                     ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  Rule 1: 'Always check skills first.'                  ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  No skills were consulted before implementation.        ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  Required:                                              ║${NC}"
+      echo "  ${RED}║  1. Load using-agent-skills                             ║${NC}"
+      echo "  ${RED}║  2. Identify applicable skill                           ║${NC}"
+      echo "  ${RED}║  3. Load and follow the skill                           ║${NC}"
+      echo "  ${RED}║                                                         ║${NC}"
+      echo "  ${RED}║  To bypass: echo 'override: reason' > .git/SKILLS_     ║${NC}"
+      echo "  ${RED}║             CONSULTED                                   ║${NC}"
+      echo "  ${RED}╚═══════════════════════════════════════════════════════════╝${NC}"
+      echo ""
+      exit 1
+    fi
+    echo "  ${YELLOW}⚠${NC} Skill gate (advisory): no skills consulted before implementation."
+    echo "     Rule 1: 'Always check skills first.' To enforce it here, set"
+    echo "     \"skill_gate\": \"block\" in .aas/config."
   fi
 else
   echo "  ${YELLOW}−${NC} skill-gate.sh not found — skipped"

@@ -111,7 +111,7 @@ Only files matching skip patterns (lock files, binaries, images) are exempt.
 
 | Hook | Check | Behavior | What It Catches |
 |---|---|---|---|---|
-| Pre-commit (`scripts/project-pre-commit`) | `.git/DECISION_APPROVED` exists and <10min | WARN (yellow) if missing or stale | Agent skipping the presentation step |
+| Pre-commit (`scripts/git-hooks/pre-commit`, Gate 0) | `.git/DECISION_APPROVED` exists and <10min | BLOCK if missing or stale (L1 prompt) | Agent skipping the presentation step |
 | Commit-msg (`scripts/git-hooks/commit-msg`) | TDD gate: code files need matching new test | BLOCK (red) if missing or mismatched | Code changes without tests. No override mechanism. |
 
 DECISION_APPROVED token lives in `.git/` — inherently local, never tracked.

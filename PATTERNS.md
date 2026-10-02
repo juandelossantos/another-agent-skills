@@ -159,7 +159,7 @@ sequenceDiagram
 
 **Implementation:**
 - `rules/common/enforcement.md` — Rule 12: Agent Stages, User Commits
-- `scripts/project-pre-commit` — DECISION_APPROVED check (warning)
+- `scripts/git-hooks/pre-commit` — Gate 0: DECISION_APPROVED prompt (L1)
 - `scripts/git-hooks/commit-msg` — TDD gate enforcement (no override)
 
 **See also:** Rule 12, `AGENTS-EXTENDED.md` — Time-Window Approval

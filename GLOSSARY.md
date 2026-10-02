@@ -59,9 +59,9 @@ A structured block presented to the user before every commit, listing files chan
 
 ### DECISION_APPROVED
 
-A filesystem token written by the agent in `.git/DECISION_APPROVED` after the user explicitly says "yes" to a DECISION POINT. The pre-commit hook checks this file exists and is <10 minutes old, warning if missing. Proves the agent presented the staged files and commit message before the user ran `git commit`.
+A filesystem token written by the agent in `.git/DECISION_APPROVED` after the user explicitly says "yes" to a DECISION POINT. The pre-commit hook (Gate 0) checks this file exists and is <10 minutes old, blocking if missing or stale. This is an **L1 prompt** (fast feedback), not the approval authority — the human running `git commit` is the approval.
 
-**Source:** `scripts/project-pre-commit`, `rules/common/enforcement.md`
+**Source:** `scripts/git-hooks/pre-commit` (Gate 0), `rules/common/enforcement.md`
 
 ### Context Budget (60/25/15)
 

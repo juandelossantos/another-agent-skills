@@ -79,11 +79,21 @@ R1="$TMP/repo-nofw"; make_repo "$R1"
     bash .git/hooks/pre-commit ) >/dev/null 2>&1
 assert "no framework → pre-commit exits 0 (teammate without AAS)" "[ $? -eq 0 ]"
 
-# --- Behavioral: framework gate comes from $AAS_DIR and can block ---
+# --- Behavioral: skill gate is ADVISORY in a user project (P9.8 scoping) ---
 FW_BLOCK="$TMP/fw-block"; make_fw "$FW_BLOCK" 1
 R2="$TMP/repo-block"; make_repo "$R2"
 ( cd "$R2" && AAS_DIR="$FW_BLOCK" bash .git/hooks/pre-commit ) >/dev/null 2>&1
-assert "framework skill-gate from \$AAS_DIR blocks (exit 1)" "[ $? -ne 0 ]"
+assert "user project: failing skill-gate is advisory (exit 0)" "[ $? -eq 0 ]"
+
+# --- Behavioral: opt-in AAS_SKILL_GATE=block blocks ---
+( cd "$R2" && AAS_DIR="$FW_BLOCK" AAS_SKILL_GATE=block bash .git/hooks/pre-commit ) >/dev/null 2>&1
+assert "opt-in AAS_SKILL_GATE=block: blocks (exit 1)" "[ $? -ne 0 ]"
+
+# --- Behavioral: the framework repo blocks by default (SOUL.md + VERSION) ---
+touch "$R2/SOUL.md" "$R2/VERSION"
+( cd "$R2" && AAS_DIR="$FW_BLOCK" bash .git/hooks/pre-commit ) >/dev/null 2>&1
+assert "framework repo (SOUL.md+VERSION): blocks by default" "[ $? -ne 0 ]"
+rm -f "$R2/SOUL.md" "$R2/VERSION"
 
 # --- Behavioral: passing framework gate → hook passes ---
 FW_OK="$TMP/fw-ok"; make_fw "$FW_OK" 0

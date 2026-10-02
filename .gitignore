@@ -38,3 +38,6 @@ tests/playwright/test-results/
 .trigger-stats.json
 .trigger-stats.json.prev
 .regression-results.json
+
+# Another Agent Skills — local backups (framework)
+.aas/backups/
