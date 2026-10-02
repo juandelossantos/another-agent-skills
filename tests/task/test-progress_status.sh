@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # test-progress_status.sh — Content check for PROGRESS_STATUS.md: the header
-# reflects the post-v6.2.0 state (Phase 7 released, Phase 8 P8.1–P8.3 active),
-# and the "Known Limitations" row no longer claims Claude Code needs manual
-# adapter setup for skills+hooks.
+# reflects the Phase 8-complete state (remote enforcement live, Phase 10 next),
+# and the "Known Limitations" row credits Claude Code with automatic parity.
 
 set -uo pipefail
 
@@ -28,9 +27,11 @@ assert "Known Limitations row credits Claude Code with automatic parity" "grep -
 assert "status line reflects v6.2.0 released" "grep -q 'v6.2.0 released' '$FILE'"
 assert "header date is 2026-10-02" "grep -qF 'Last updated:** 2026-10-02' '$FILE'"
 assert "current version is 6.2.0" "grep -qF 'Current version:** 6.2.0' '$FILE'"
-assert "status names Phase 8 P8.1–P8.3 done" "grep -q 'Phase 8 P8.1–P8.3 done' '$FILE'"
-assert "status says branch protection ACTIVE" "grep -q 'branch protection ACTIVE' '$FILE'"
-assert "In Progress names Phase 8 Remote Enforcement" "grep -q 'Phase 8: Remote Enforcement (Gate Integrity)' '$FILE'"
+assert "status names Phase 8 complete" "grep -q 'Phase 8 complete' '$FILE'"
+assert "status says Remote Enforcement live" "grep -qi 'Remote Enforcement live' '$FILE'"
+assert "In Progress names Phase 10" "grep -q 'Phase 10: Landing & Docs Refresh' '$FILE'"
+assert "In Progress no longer names Phase 8" "! grep -q 'Phase 8: Remote Enforcement (Gate Integrity)' '$FILE'"
+assert "Completed lists Phase 8" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity' '$FILE'"
 assert "Completed lists Phase 7 v6.2.0" "grep -q 'Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails (v6.2.0)' '$FILE'"
 assert "Version History has a 6.2.0 row" "grep -qF '| **6.2.0** | 2026-10-01 |' '$FILE'"
 
