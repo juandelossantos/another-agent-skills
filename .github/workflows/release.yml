@@ -1,0 +1,64 @@
+# release.yml — Pinned, attested releases (Phase 9 / P9.1)
+# Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
+#
+# On every `v*` tag: build the source tarball + checksums.txt, attest build
+# provenance, and publish them as GitHub Release assets. bootstrap.sh installs
+# from exactly these assets (pinned tag, sha256-verified) — never from `main`.
+#
+# Asset naming is the single source of truth in scripts/lib/aas.sh
+# (aas_asset_name): another-agent-skills-v<version>.tar.gz + checksums.txt.
+
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (vX.Y.Z)'
+        required: true
+
+permissions:
+  contents: write        # create the release + upload assets
+  id-token: write        # OIDC for the attestation
+  attestations: write    # write the build provenance attestation
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event.inputs.tag }}"
+          [ -n "$TAG" ] || TAG="${{ github.ref_name }}"
+          case "$TAG" in
+            v[0-9]*.[0-9]*.[0-9]*) : ;;
+            *) echo "tag must be vX.Y.Z (got '$TAG')" >&2; exit 2 ;;
+          esac
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build the release tarball + checksums
+        run: bash scripts/build-release.sh "${{ steps.tag.outputs.tag }}" dist
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: dist/another-agent-skills-*.tar.gz
+
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.tag.outputs.tag }}"
+          gh release create "$TAG" \
+            "dist/another-agent-skills-${TAG#v}.tar.gz" \
+            dist/checksums.txt \
+            --title "$TAG" \
+            --generate-notes
