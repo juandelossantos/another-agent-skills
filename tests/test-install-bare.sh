@@ -48,7 +48,11 @@ PATH="$SHIM:$PATH" bash "$REPO_ROOT/install.sh" >"$LOG" 2>&1
 RC=$?
 [ "$RC" -eq 0 ]; check $? "bare install.sh exits 0 (got $RC)"
 grep -q "All done!" "$LOG"; check $? "bare install.sh reaches 'All done!'"
-grep -q "Shell configuration updated (1 file(s))." "$LOG"; check $? "shell config counter reached 1 (not aborted at 0)"
+# The exact count is environment-dependent (which shell rc files exist / $SHELL);
+# the invariant is that update_shell_config ran to completion (the old
+# `((count++))` aborted under set -e before this line was printed).
+grep -qE "Shell configuration updated \([0-9]+ file\(s\)\)\." "$LOG"; check $? "shell config update completed (counter not aborted)"
+grep -q "Shell configuration updated" "$LOG" || { echo "  --- shell config line ---"; grep -iE "shell config|Creating it" "$LOG" || echo "  (none)"; }
 grep -q "another-agent-skills-config" "$HOME/.zshrc"; check $? "managed block written to .zshrc"
 grep -q "Installed agent-discipline plugin" "$LOG"; check $? "OpenCode plugin installed"
 
