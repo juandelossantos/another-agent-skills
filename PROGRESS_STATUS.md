@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-10-01  
-> **Current version:** 6.2.0 (auto-generated)
-> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails); 0 errors, 0 warnings, 74 guides across 57 skills  
-> **Current plan:** `PLAN.md` — Phase 7 complete; Phase 10 (landing) and Phase 11 (docs site) planned
+> **Last updated:** 2026-10-02  
+> **Current version:** 6.2.0
+> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails); Phase 8 P8.1–P8.3 done (**branch protection ACTIVE** on `main`); 0 errors, 2 warnings, 74 guides across 57 skills  
+> **Current plan:** `PLAN.md` — Phase 7 released; Phase 8 in progress (P8.5–P8.7); Phase 10 (landing) and Phase 11 (docs site) planned
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
@@ -139,10 +139,11 @@
 
 ### In Progress
 
-- **Phase 4: Docs Honesty** — Updating all docs surfaces to reflect Phase 3 completion and current warning counts.
+- **Phase 8: Remote Enforcement (Gate Integrity)** — P8.1–P8.3 **done and active**: `.github/workflows/gates.yml` is the required `gates` check, branch protection is **enabled on `main`** (PR required, 0 approvals, no force-push/deletions, admin bypass → no lockout), and `CODEOWNERS` protects the gate config. P8.4 closed by design (philosophy A). Remaining: **P8.5** (docs honesty), **P8.6** (ship the remote layer via `init-agents`/`install`), **P8.7** (remote E2E). See `PLAN.md`.
 
 ### Completed
 
+- **Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails (v6.2.0)** — Dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. Test cadence formalized: `tests/` behavioral (permanent), `tests/task/` capped at 20.
 - **Phase 3: Output Contracts** — All 57 skills now have standardized Output Contracts declaring artifact, format, location, and quality criteria. Check 16 warnings: 37 → 0. Word count advisories resolved: 4 → 0. Guides improved: CONTRACT-TEMPLATES.md (+WebSocket, +module boundaries), VERSIONING-STRATEGIES.md (+breaking rules, +edge cases), WORKFLOW-SCENARIOS.md (+6 browser testing scenarios).
 - **Phase QS: Quick Start Guide** — User-facing workflow guide, full Spanish i18n (60 keys), nav chain fixed across 13 docs pages, COMMIT_APPROVED gate restored (later superseded by DECISION_APPROVED + OVERRIDE_APPROVED in v5.1.0), README prominent link.
 - **Phase 2: Complete Critical Stubs** — 15 stub skills completed with full content, workflows, and guides. `visual-frontend-mastery` merged into `frontend-ui-engineering` (57 skills). 
@@ -150,11 +151,12 @@
 
 ### Planned
 
+- **Phase 10: Landing & Docs Refresh** — landing/docs still say 6.1.0 in places; refresh the multi-agent value story and sync ES/EN.
+- **Phase 11: Docs site — Astro + Starlight** — SEO per language, search, sidebar/versioning, GitHub Pages (core stays build-free).
+- **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
 - Troubleshooting guide — common issues
 - New skill tracks: CLI, IoT, GameDev, Container
 - Self-host Google Fonts (Newsreader + JetBrains Mono)
-- Copy button micro-interaction (scale + check icon)
-- Promotion campaign
 
 ---
 
@@ -181,6 +183,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|
+| **6.2.0** | 2026-10-01 | **Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — dual-contract plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, philosophy A (agent never commits/pushes, no token bypass), global install hardening. **Phase 8 P8.1–P8.3:** `gates.yml` required check + branch protection ACTIVE on `main`. |
 | **6.0.0** | 2026-07-18 | **Phase 6: Design Skill Integrity** — Design flow redefined with mechanical gates. 17-section DESIGN.md schema, 3-mode design-gate.sh, TDD enforcement (no override), Gate 0: DECISION_APPROVED block (15 gates total), design-upgrade.sh, token-validate.sh, approval-gate.sh, direction+platform wiring, critique-skill upgrade, 43 stale refs cleaned. 3 commits, 33+24+1 files. Browser-verified EN+ES, Playwright 12/12. |
 | **5.0.0** | 2026-07-13 | **Phase 4: Docs Honesty** — 42 issues fixed across 6 groups (version truth, hook drift, i18n, nav, content gaps, polish). 86 files changed, +629/−470. Browser-verified nav chain, sidebar, theme/language toggles. 0 lint warnings. |
 | **4.2.0** | 2026-07-10 | **Phase 3: Output Contracts** — All 57 skills have standardized Output Contracts. Check 16 warnings: 37→0. Word count advisories resolved. Guides improved: CONTRACT-TEMPLATES, VERSIONING-STRATEGIES, WORKFLOW-SCENARIOS. Pre-flight gate added for .gitignore/.env.example. |

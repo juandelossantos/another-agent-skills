@@ -1,12 +1,44 @@
-# Session State — Phase 7: OpenCode v1/v2 Plugin Compatibility
+# Session State — Phase 8: Remote Enforcement
 
-**Date:** 2026-09-30
-**Branch:** `fix/opencode-v2-plugin-compat` — integrated on top of `origin/main` (Claude Code Parity, 2026-08-26), re-versioned to **v6.2.0**, NOT pushed
-**Status:** 🔄 In progress. Done: P7.1, P7.2, P7.5, P7.6, P7.7 (+ coherence fixes). Next: **P7.4**.
+**Date:** 2026-10-02
+**Branch:** `chore/session-status-update` — branched from `origin/main` (Phase 7 released as v6.2.0; Phase 8 P8.1–P8.3 merged), NOT pushed
+**Status:** ✅ Phase 7 released as **v6.2.0**; Phase 8 **P8.1–P8.3 done and ACTIVE** (branch protection on `main` requires the `gates` check). Next: **P8.5 / P8.6 / P8.7** → Phase 10 / Phase 11.
 **Plan:** `PLAN.md` — single source of truth
 
-> Below this section: the previous session's handoff (Claude Code Parity, 2026-08-26) — historical.
-> **Main-line next task:** Task 7.1 remainder — `.opencode/agents/` + `.opencode/commands/` mirror into `.claude/`.
+## What Was Done (2026-10-02)
+
+1. **Phase 7 released as v6.2.0** (merged to `main` via PR #35) — dual-contract OpenCode plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never runs `git commit`/`push` — no token bypass), global install hardening (`--plugin-only` / `--skills-only` / `--guardrails-only`).
+2. **Phase 8 P8.1–P8.3 done and ACTIVE** (PRs #36, #37):
+   - `.github/workflows/gates.yml` runs the real gates and is the **required `gates` check**.
+   - `scripts/setup-branch-protection.sh` (solo-safe + lockout guard + code-owner guard) applied branch protection to `main` — verified via `gh api`: required check `gates`, 0 approvals, code-owner reviews off (solo), `enforce_admins: false` (no lockout).
+   - `CODEOWNERS` protects the gate config (L3).
+3. **Test cadence formalized** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`).
+4. **This branch** refreshes `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, and this handoff to the post-v6.2.0 reality. Not committed, not pushed.
+
+## Next Steps (resume here next session)
+
+**Resume:**
+
+```bash
+git checkout main && git pull
+git checkout -b feat/phase8-remote-ship
+```
+
+- **P8.5 — docs honesty.** Fix false "branch protection" claims in `docs/enforcement.html` + i18n (INCIDENT_004 was the local Gate 1, not remote protection); document the L1/L2/L3 model; remove the obsolete `--no-verify` guidance in `scripts/git-hooks/README.md`.
+- **P8.6 — ship the remote layer.** `init-agents` / `install` generate `.github/workflows/gates.yml` + copy `setup-branch-protection.sh` for new projects; add the checklist to `docs/AGENT-ADAPTERS.md`.
+- **P8.7 — remote E2E.** `tests/test-remote-enforcement.sh`: broken gate blocks merge, direct push rejected, workflow edit blocked, `core.hooksPath` bypass caught by CI.
+- **P8.4 — closed by design** (philosophy A: no self-issued token).
+- **Then** — Phase 10 (landing/docs refresh; `README.md` "What's New" still says 6.1.0) and Phase 11 (Astro + Starlight docs site). Backlog: B1/B2/B3 + universal test scoping.
+
+**System state (verified 2026-10-02):**
+
+- Branch protection on `main`: required check `gates`, 0 approvals, code-owner reviews off (solo profile), `enforce_admins: false` → no lockout.
+- OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
+- Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
+- Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
+- Tests: **53 suites passing** (`bash tests/run-all.sh`).
+
+> Below this section: the previous session's handoff (Phase 7 kickoff + Claude Code Parity, 2026-08-26) — historical.
 
 ## What Was Done (2026-08-26)
 
