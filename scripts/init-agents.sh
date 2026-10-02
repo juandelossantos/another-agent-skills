@@ -922,6 +922,17 @@ if [ -z "\$_AAS_ROOT" ] && [ -f "\$_AAS_HERE/${resolver_rel}" ]; then
   _AAS_ROOT="\${AAS_DIR:-}"
 fi
 if [ -z "\$_AAS_ROOT" ]; then
+  # Inside the framework source tree? Use it, so a fresh clone of the framework
+  # repo works without installing anything (walk up for VERSION + the hook).
+  _AAS_WALK="\$_AAS_HERE"
+  while [ -n "\$_AAS_WALK" ] && [ "\$_AAS_WALK" != "/" ]; do
+    if [ -f "\$_AAS_WALK/VERSION" ] && [ -f "\$_AAS_WALK/scripts/git-hooks/pre-commit" ]; then
+      _AAS_ROOT="\$_AAS_WALK"; break
+    fi
+    _AAS_WALK=\$(dirname "\$_AAS_WALK")
+  done
+fi
+if [ -z "\$_AAS_ROOT" ]; then
   echo "AAS: framework not found — run 'aas install' or set ANOTHER_AGENT_SKILLS_DIR" >&2
   exit 0
 fi
@@ -990,7 +1001,17 @@ ensure_gitignore() {
     fi
 }
 
+# The framework source repo is not a "project": it must not get a .aas/ project
+# layer. Its hooks self-resolve via the source-tree walk in the shim.
+is_framework_repo() {
+    [ -f "./VERSION" ] && [ -f "./scripts/git-hooks/pre-commit" ] && [ -f "./SOUL.md" ]
+}
+
 install_framework_refs() {
+    if is_framework_repo; then
+        log "Framework source repo detected — skipping the .aas/ project layer (not needed here)."
+        return 0
+    fi
     if [ "$DRY_RUN" = true ]; then
         plan "write ${AAS_CONFIG_DIR}/config (version $(framework_version))"
         plan "copy scripts/aas-resolve.sh → ${AAS_CONFIG_DIR}/aas-resolve.sh"
