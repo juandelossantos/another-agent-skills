@@ -1,9 +1,12 @@
-# Session State — Phase 7: Cross-Platform Harness Parity
+# Session State — Phase 7: OpenCode v1/v2 Plugin Compatibility
 
-> **Last session:** 2026-08-26
-> **Branch:** `feat/phase7-cross-platform-harness`
-> **Plan:** `PLAN.md` — single source of truth
-> **Next task:** Task 7.1 remainder — `.opencode/agents/` + `.opencode/commands/` mirror into `.claude/` (see below — the skills+hooks portion of Task 7.1 is now done)
+**Date:** 2026-09-30
+**Branch:** `fix/opencode-v2-plugin-compat` — integrated on top of `origin/main` (Claude Code Parity, 2026-08-26), re-versioned to **v6.2.0**, NOT pushed
+**Status:** 🔄 In progress. Done: P7.1, P7.2, P7.5, P7.6, P7.7 (+ coherence fixes). Next: **P7.4**.
+**Plan:** `PLAN.md` — single source of truth
+
+> Below this section: the previous session's handoff (Claude Code Parity, 2026-08-26) — historical.
+> **Main-line next task:** Task 7.1 remainder — `.opencode/agents/` + `.opencode/commands/` mirror into `.claude/`.
 
 ## What Was Done (2026-08-26)
 
@@ -33,6 +36,22 @@ Closed the Claude Code parity gap inside Task 7.1 — not the full task (that al
 - `.claude-plugin/agent-discipline/` is still not a real auto-discoverable Claude Code plugin (`plugin.json` nested one level too deep per the actual plugin spec) — works today only because `install.sh` merges its hooks directly into `.claude/settings.json`, not via plugin auto-discovery. Restructuring it into a real installable plugin is still open, documented as a known limitation in `docs/AGENT-ADAPTERS.md`.
 - Cursor/Kiro adapters unchanged — still manual setup per `docs/AGENT-ADAPTERS.md`.
 - 2 pre-existing `skill-lint` warnings (unrelated to this session's work, not investigated).
+
+## Next Steps (resume here next session)
+
+**Resume:** `git checkout fix/opencode-v2-plugin-compat` → read `PLAN.md` (Phase 7 + Backlog).
+
+- **P7.4** — test matrix OpenCode `v1-latest` × `v2-latest`: plugin installs, loads, enforcement active.
+- **Docs leftovers** — historical old-path refs in `rules/common/context.md` + `RELEASE-NOTES.md` (non-functional).
+- **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass with no code files staged).
+- **Then** — Phase 8 (remote enforcement), Phase 9 (distribution).
+
+**System state (verified 2026-09-30):**
+- OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance (no duplicate id).
+- Claude: guardrail `~/.claude/hooks/agent-discipline/commit-approval.sh` (**deny**) registered in `~/.claude/settings.json`.
+- Skills: canonical `~/.config/opencode/skills` (57 custom + official); `~/.claude/skills` and `~/.gemini/skills` symlink to it.
+- Hooks (this repo): pre-commit **v11** (15 gates, via `sync-hooks`), commit-msg **v6** (TDD).
+- Tests: **34 suites passing**. Branch tip: `f52c57e`.
 
 ## Active Tests
 

@@ -24,6 +24,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Agent detection + skills-path mapping (detect_agents / agent_skills_dir)
+# shellcheck source=scripts/agent-detect.sh
+source "${SCRIPT_DIR}/scripts/agent-detect.sh"
+
 REMOTE_REPO="https://github.com/addyosmani/agent-skills.git"
 : "${AGENT_SKILLS_DIR:=$HOME/.config/opencode}"
 REMOTE_DIR="${AGENT_SKILLS_DIR}/.agent-skills-remote"
@@ -128,9 +132,14 @@ install_skills_to() {
                 grep -qxF "${skill_name}" "${manifest}" || echo "${skill_name}" >> "${manifest}"
                 continue
             fi
-            local backup="${target}.backup.$(date +%Y%m%d%H%M%S)"
+            # Quarantine OUTSIDE the skills dir — a *.backup.* sibling inside it
+            # would be loaded as a duplicate skill by the agent (mirrors
+            # install_skills_for_agent).
+            local quarantine="${target_dir}.backups"
+            mkdir -p "${quarantine}"
+            local backup="${quarantine}/${skill_name}.$(date +%Y%m%d%H%M%S)"
             cp -r "${target}" "${backup}"
-            warn "Backed up previous: ${skill_name} → $(basename "${backup}")"
+            warn "Backed up previous: ${skill_name} → ${backup}"
             rm -rf "${target}"
             ((updated++)) || true
         else
@@ -174,35 +183,242 @@ install_claude_global_skills() {
 }
 
 # ---------------------------------------------------------------------------
+# Detect the installed OpenCode version (empty when unavailable).
+opencode_version() {
+    command -v opencode >/dev/null 2>&1 || return 0
+    opencode --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1
+}
+
+# Move legacy/duplicate agent-discipline* directories out of the plugins dir so
+# only one instance can ever load. OpenCode loads every plugin dir it finds, and
+# two instances with different token semantics cause false blocks.
+quarantine_legacy_plugin_dirs() {
+    local plugins_dir="$1"
+    local backups_dir="${AGENT_SKILLS_DIR}/.plugin-backups"
+    local moved=0
+    shopt -s nullglob
+    for dir in "${plugins_dir}"/agent-discipline.*; do
+        [ -d "${dir}" ] || continue
+        mkdir -p "${backups_dir}"
+        mv "${dir}" "${backups_dir}/$(basename "${dir}").$(date +%Y%m%d%H%M%S)"
+        moved=$((moved + 1))
+    done
+    shopt -u nullglob
+    [ "${moved}" -gt 0 ] && info "Quarantined ${moved} legacy plugin dir(s) → ${backups_dir}"
+    return 0
+}
+
 install_opencode_plugin() {
     info "Installing OpenCode agent-discipline plugin..."
-    local plugin_src="${SCRIPT_DIR}/.opencode/plugins/agent-discipline"
-    local plugin_dst="${AGENT_SKILLS_DIR}/plugins/agent-discipline"
+    local plugin_src="${SCRIPT_DIR}/plugins/agent-discipline"
+    local plugins_dir="${AGENT_SKILLS_DIR}/plugins"
+    local plugin_dst="${plugins_dir}/agent-discipline"
 
     if [[ ! -d "${plugin_src}" ]]; then
         warn "Plugin source not found at ${plugin_src}. Skipping."
         return 0
     fi
 
-    mkdir -p "${AGENT_SKILLS_DIR}/plugins"
-
-    if [[ -d "${plugin_dst}" ]]; then
-        if [[ -L "${plugin_dst}" ]]; then
-            rm "${plugin_dst}"
-        else
-            mv "${plugin_dst}" "${plugin_dst}.backup.$(date +%Y%m%d%H%M%S)"
-            warn "Backed up existing plugin: ${plugin_dst}"
+    # Version gate: the dual-contract server() entrypoint needs OpenCode >= 1.18.29.
+    local version
+    version="$(opencode_version)"
+    if [[ -n "${version}" ]]; then
+        local major minor patch
+        IFS=. read -r major minor patch <<< "${version}"
+        if [[ "${major}" -eq 1 ]] && { [[ "${minor}" -lt 18 ]] || { [[ "${minor}" -eq 18 ]] && [[ "${patch}" -lt 29 ]]; }; }; then
+            warn "OpenCode v${version} is older than 1.18.29 — the dual-contract plugin may not load."
         fi
+        info "Detected OpenCode v${version}."
     fi
 
-    cp -r "${plugin_src}" "${plugin_dst}"
+    mkdir -p "${plugins_dir}"
 
-    if [[ -f "${plugin_dst}/package.json" ]]; then
-        info "Building plugin TypeScript..."
-        (cd "${plugin_dst}" && npm install --silent 2>/dev/null && npm run build --silent 2>/dev/null || true)
-    fi
+    # Atomic replace in a staging dir, then swap. Guarantees no stale artifacts
+    # (plugin.json, src/, dist/, node_modules) survive a previous install.
+    local staging
+    staging="$(mktemp -d "${plugins_dir}/.agent-discipline.stage.XXXXXX")"
+    cp "${plugin_src}/index.js" "${staging}/"
+    cp "${plugin_src}/package.json" "${staging}/"
+
+    rm -rf "${plugin_dst}"
+    mv "${staging}" "${plugin_dst}"
+
+    # Drop duplicate/legacy sibling dirs (agent-discipline.backup.* etc.).
+    quarantine_legacy_plugin_dirs "${plugins_dir}"
 
     ok "Installed agent-discipline plugin → ${plugin_dst}"
+
+    # Verify: exactly one instance, entrypoint present.
+    local count
+    count="$(find "${plugins_dir}" -maxdepth 1 -type d -name 'agent-discipline*' | wc -l | tr -d ' ')"
+    if [[ "${count}" -ne 1 ]]; then
+        error "Expected exactly 1 agent-discipline plugin dir, found ${count}."
+        return 1
+    fi
+    if [[ ! -f "${plugin_dst}/index.js" ]]; then
+        error "Plugin entrypoint missing: ${plugin_dst}/index.js"
+        return 1
+    fi
+    ok "Verified: single agent-discipline instance."
+}
+
+# ---------------------------------------------------------------------------
+# Link (or copy) every repo skill into an agent's global skills directory,
+# pointing at the canonical OpenCode skills dir so there is one source of truth.
+install_skills_for_agent() {
+    local agent="$1"
+    local canonical="${AGENT_SKILLS_DIR}/skills"
+    local dest
+
+    # OpenCode's own dir IS the canonical dir, wherever AGENT_SKILLS_DIR points
+    # (a custom AGENT_SKILLS_DIR must not silently fall back to
+    # ~/.config/opencode/skills via the HOME-relative mapping below).
+    if [[ "${agent}" == "opencode" ]]; then
+        dest="${canonical}"
+    else
+        local rel
+        rel="$(agent_skills_dir "${agent}")"
+        if [[ -z "${rel}" ]]; then
+            warn "No known skills path for '${agent}' — skipped."
+            return 0
+        fi
+        dest="${HOME}/${rel}"
+    fi
+
+    # Canonical dir has nothing to link.
+    if [[ "${dest}" = "${canonical}" ]]; then
+        ok "${agent}: canonical skills dir (${dest})"
+        return 0
+    fi
+
+    mkdir -p "${dest}"
+    local linked=0 copied=0 unchanged=0
+    local skill_path name source target
+    for skill_path in "${SCRIPT_DIR}/skills"/*/; do
+        [[ -f "${skill_path}/SKILL.md" ]] || continue
+        name="$(basename "${skill_path}")"
+        source="${canonical}/${name}"
+        [[ -d "${source}" ]] || source="${skill_path}"
+        target="${dest}/${name}"
+
+        if [[ -L "${target}" ]] && [[ "$(readlink "${target}")" = "${source}" ]]; then
+            unchanged=$((unchanged + 1))
+            continue
+        fi
+        if [[ -e "${target}" ]] && [[ ! -L "${target}" ]]; then
+            if diff -rq "${target}" "${source}" >/dev/null 2>&1; then
+                rm -rf "${target}"                                   # identical → replace silently
+            else
+                # Quarantine OUTSIDE the skills dir — a *.backup.* sibling inside
+                # it would be loaded as a duplicate skill by the agent.
+                local quarantine="${dest}.backups"
+                mkdir -p "${quarantine}"
+                mv "${target}" "${quarantine}/${name}.$(date +%Y%m%d%H%M%S)"
+            fi
+        fi
+        rm -f "${target}"
+        if ln -s "${source}" "${target}" 2>/dev/null; then
+            linked=$((linked + 1))
+        elif cp -r "${source}" "${target}" 2>/dev/null; then
+            copied=$((copied + 1))
+        else
+            warn "${agent}: could not install ${name}"
+        fi
+    done
+    ok "${agent}: ${linked} linked, ${copied} copied, ${unchanged} unchanged → ${dest}"
+}
+
+# Install the Claude guardrail: unconditional-deny hooks (philosophy A) +
+# registration in ~/.claude/settings.json (idempotent, backup).
+install_claude_guardrails() {
+    local hooks_src="${SCRIPT_DIR}/.claude-plugin/agent-discipline/hooks"
+    local hooks_dst="${HOME}/.claude/hooks/agent-discipline"
+
+    if [[ ! -d "${hooks_src}" ]]; then
+        warn "Claude guardrail source not found at ${hooks_src}. Skipping."
+        return 0
+    fi
+
+    mkdir -p "${hooks_dst}"
+    local f
+    for f in "${hooks_src}"/*.sh; do
+        [[ -f "${f}" ]] || continue
+        cp "${f}" "${hooks_dst}/"
+        chmod +x "${hooks_dst}/$(basename "${f}")"
+    done
+    ok "Installed Claude guardrail hooks → ${hooks_dst}"
+
+    local settings="${HOME}/.claude/settings.json"
+    local hook_cmd="~/.claude/hooks/agent-discipline/commit-approval.sh"
+
+    if ! command -v jq >/dev/null 2>&1; then
+        warn "jq not found — cannot register the Claude hook automatically."
+        warn "  Add '${hook_cmd}' under hooks.PreToolUse (matcher: Bash) in ${settings}"
+        return 0
+    fi
+
+    [[ -f "${settings}" ]] || echo '{}' > "${settings}"
+    cp "${settings}" "${settings}.backup.$(date +%Y%m%d%H%M%S)"
+    local tmp
+    tmp="$(mktemp)"
+    jq --arg cmd "${hook_cmd}" '
+      .hooks //= {} |
+      .hooks.PreToolUse //= [] |
+      if any(.hooks.PreToolUse[]; (.hooks // []) | any(.command == $cmd))
+      then .
+      else .hooks.PreToolUse += [{"matcher":"Bash","hooks":[{"type":"command","command":$cmd,"timeout":10}]}]
+      end
+    ' "${settings}" > "${tmp}" && mv "${tmp}" "${settings}"
+    ok "Registered Claude guardrail in ${settings}"
+}
+
+# Install guardrails for one agent, dispatching on its mechanism.
+install_guardrails_for_agent() {
+    local agent="$1"
+    local kind
+    kind="$(agent_guardrails_kind "${agent}")"
+    case "${kind}" in
+        plugin) install_opencode_plugin ;;
+        hooks)  install_claude_guardrails ;;
+        *)      warn "No known guardrails for '${agent}' — skipped." ;;
+    esac
+}
+
+# Install guardrails for every detected agent (philosophy A).
+# OpenCode's plugin is the canonical target and is always installed exactly
+# once here; other detected agents get their own guardrails. (main() must not
+# call install_opencode_plugin itself, or a detected OpenCode would install it
+# twice per run.)
+install_guardrails_for_detected_agents() {
+    local agents
+    agents="$(detect_agents)"
+    if [[ -z "${agents}" ]]; then
+        info "No agents detected — guardrails installed for OpenCode only."
+        install_opencode_plugin
+        return 0
+    fi
+    install_opencode_plugin
+    local agent
+    while IFS= read -r agent; do
+        [[ -z "${agent}" ]] && continue
+        [[ "${agent}" == "opencode" ]] && continue
+        install_guardrails_for_agent "${agent}"
+    done <<< "${agents}"
+}
+
+# Install skills for every detected agent (OpenCode is handled by install_custom_skills).
+install_skills_for_detected_agents() {
+    local agents
+    agents="$(detect_agents)"
+    if [[ -z "${agents}" ]]; then
+        info "No agents detected — skills installed for OpenCode only."
+        return 0
+    fi
+    local agent
+    while IFS= read -r agent; do
+        [[ -z "${agent}" ]] && continue
+        install_skills_for_agent "${agent}"
+    done <<< "${agents}"
 }
 
 # ---------------------------------------------------------------------------
@@ -333,15 +549,15 @@ update_shell_config() {
     local count=0
     if [[ -f "${ZSHRC}" ]] || [[ "${SHELL:-}" == */zsh ]]; then
         _update_single_shell_config "${ZSHRC}" "Zsh (.zshrc)" _write_posix_block
-        ((count++))
+        ((count++)) || true
     fi
     if [[ -f "${BASHRC}" ]] || [[ "${SHELL:-}" == */bash ]]; then
         _update_single_shell_config "${BASHRC}" "Bash (.bashrc)" _write_posix_block
-        ((count++))
+        ((count++)) || true
     fi
     if [[ -f "${FISH_CONFIG}" ]] || [[ "${SHELL:-}" == */fish ]]; then
         _update_single_shell_config "${FISH_CONFIG}" "Fish (config.fish)" _write_fish_block
-        ((count++))
+        ((count++)) || true
     fi
 
     if [[ "${count}" -eq 0 ]]; then
@@ -714,9 +930,11 @@ install_agent_adapter() {
 
 install_all_adapters() {
     local errors=0
-    install_agent_adapter claude || ((errors++))
-    install_agent_adapter cursor || ((errors++))
-    install_agent_adapter kiro || ((errors++))
+    # `((errors++))` returns 1 while errors is 0; guard it so `set -e` doesn't
+    # abort the whole installer on the first adapter failure.
+    install_agent_adapter claude || ((errors++)) || true
+    install_agent_adapter cursor || ((errors++)) || true
+    install_agent_adapter kiro || ((errors++)) || true
     return "${errors}"
 }
 
@@ -734,13 +952,46 @@ main() {
     link_remote_skills
     install_custom_skills
     install_claude_global_skills
-    install_opencode_plugin
+    install_skills_for_detected_agents
+    install_guardrails_for_detected_agents
     install_global_framework
     update_shell_config
     create_global_scripts
     verify_installation
     ok "All done!"
 }
+
+# Guardrails-only mode — install guardrails for every detected agent (no network, no shell edits).
+if [[ "${1:-}" == "--guardrails-only" ]]; then
+    echo ""
+    echo "Another Agent Skills — Guardrails Installer"
+    echo "=========================================="
+    echo ""
+    install_guardrails_for_detected_agents
+    exit 0
+fi
+
+# Skills-only mode — install skills for every detected agent (no network, no shell edits).
+if [[ "${1:-}" == "--skills-only" ]]; then
+    echo ""
+    echo "Another Agent Skills — Skills Installer"
+    echo "======================================="
+    echo ""
+    install_custom_skills
+    install_skills_for_detected_agents
+    exit 0
+fi
+
+# Plugin-only mode — install/repair just the OpenCode plugin (no network, no shell edits).
+if [[ "${1:-}" == "--plugin-only" ]]; then
+    echo ""
+    echo "Another Agent Skills — Plugin Installer"
+    echo "======================================="
+    echo ""
+    install_opencode_plugin
+    ok "Plugin install complete."
+    exit 0
+fi
 
 # Agent-only mode
 if [[ "${1:-}" == "--agent" ]]; then

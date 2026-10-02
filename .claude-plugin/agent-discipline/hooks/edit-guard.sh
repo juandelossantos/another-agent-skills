@@ -2,7 +2,7 @@
 # edit-guard.sh — Claude Code PreToolUse + PostToolUse hook (matcher: Edit|Write)
 # Structural integrity gate: records the line count before an edit, warns if
 # it changed by more than 20% after — same threshold as OpenCode's
-# verifyLineCountChange() (.opencode/plugins/agent-discipline/src/lib.ts).
+# edit-guard in plugins/agent-discipline/index.js.
 # OpenCode's "markers" field is computed but never checked in editGuard(), so
 # this only tracks line count, matching the real reference behavior.
 #

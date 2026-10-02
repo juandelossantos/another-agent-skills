@@ -24,7 +24,7 @@ assert() {
 
 assert "Known Limitations row no longer lumps Claude with Cursor" "! grep -q 'Claude/Cursor need adapter setup' '$FILE'"
 assert "Known Limitations row credits Claude Code with automatic parity" "grep -q 'Claude Code now gets full automatic parity' '$FILE'"
-assert "status line reflects v6.1.0 released" "grep -q 'v6.1.0 released' '$FILE'"
+assert "status line reflects v6.2.0 released" "grep -q 'v6.2.0 released' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

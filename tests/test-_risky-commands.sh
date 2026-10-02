@@ -48,6 +48,17 @@ assert_bool "compound command: 'git status; git commit -m x' is still detected" 
 assert_bool "env-var prefix: 'FOO=bar git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'FOO=bar git commit -m x')"
 assert_bool "env command prefix: 'env FOO=bar git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'env FOO=bar git commit -m x')"
 
+# Stale-reference regression: the shared classifier mirrors the OpenCode plugin
+# at plugins/agent-discipline/index.js, not the deleted src/lib.ts path.
+TOTAL=$((TOTAL + 1))
+if grep -q '\.opencode/plugins/agent-discipline' "$REPO_ROOT/.claude-plugin/agent-discipline/hooks/_risky-commands.sh"; then
+  echo -e "  ${RED}✗${NC} still references the deleted .opencode plugin path"
+  FAILED=$((FAILED + 1))
+else
+  echo -e "  ${GREEN}✓${NC} no reference to the deleted .opencode plugin path"
+  PASSED=$((PASSED + 1))
+fi
+
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1

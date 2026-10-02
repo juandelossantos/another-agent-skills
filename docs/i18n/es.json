@@ -96,13 +96,19 @@
     "skillsCount": "Skills",
     "guidesCount": "Guías",
     "license": "Licencia",
-    "whatsNew": "Novedades en v6.1.0",
+    "whatsNew": "Novedades en v6.2.0",
     "whatsNewItem1": "Paridad con Claude Code",
     "whatsNewDesc1": "Las 57 skills se instalan solas en ~/.claude/skills/ (auto-descubiertas, igual que en OpenCode). Un solo comando, sin configuración por proyecto.",
     "whatsNewItem2": "Hooks de Enforcement, Ahora Funcionan de Verdad",
     "whatsNewDesc2": "commit-approval, pre-flight y edit-guard ahora parsean el JSON real de los hooks de Claude Code y se conectan solos a .claude/settings.json vía un merge idempotente que nunca toca tus propios hooks.",
     "whatsNewItem3": "19 Tests Nuevos",
-    "whatsNewDesc3": "Comportamiento de hooks, idempotencia del instalador, y paridad de docs EN/ES, todo cubierto — 28/28 suites de test pasando."
+    "whatsNewDesc3": "Comportamiento de hooks, idempotencia del instalador, y paridad de docs EN/ES, todo cubierto — 28/28 suites de test pasando.",
+    "whatsNewItem4": "Plugin OpenCode de Contrato Dual (v1 + v2)",
+    "whatsNewDesc4": "Un solo plugin sirve OpenCode v2 (setup) y v1 (server, 1.18.29+) desde un único default export — sin colisiones de ID de plugin duplicado.",
+    "whatsNewItem5": "Detección Multi-Agente y Puertas de Versión",
+    "whatsNewDesc5": "agent-detect.sh detecta 15 agentes y sus versiones; install.sh avisa si OpenCode v1 no es soportado (<1.18.29) e instala por agente detectado.",
+    "whatsNewItem6": "Filosofía A — El Agente Nunca Hace Commit",
+    "whatsNewDesc6": "El plugin de OpenCode y el guardrail de Claude deniegan git commit/push/merge/rebase/reset incondicionalmente, sin bypass por token. El usuario ejecuta git."
   },
   "gettingStarted": {
     "title": "Primeros pasos",

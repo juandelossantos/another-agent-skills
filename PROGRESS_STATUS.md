@@ -1,14 +1,14 @@
 # Project Progress Status
 
-> **Last updated:** 2026-08-26  
-> **Current version:** 6.1.0 (auto-generated)
-> **Status:** v6.1.0 released (Task 7.1 partial — Claude Code skills+hooks parity). Next: rest of **Phase 7: Cross-Platform Harness Parity** — see `PLAN.md`
+> **Last updated:** 2026-10-01  
+> **Current version:** 6.2.0 (auto-generated)
+> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails); 0 errors, 0 warnings, 74 guides across 57 skills  
+> **Current plan:** `PLAN.md` — Phase 7 complete; Phase 10 (landing) and Phase 11 (docs site) planned
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
 
 ## What Exists Now
-
 
 
 

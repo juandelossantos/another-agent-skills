@@ -96,13 +96,19 @@
     "skillsCount": "Skills",
     "guidesCount": "Guides",
     "license": "License",
-    "whatsNew": "What's New in v6.1.0",
+    "whatsNew": "What's New in v6.2.0",
     "whatsNewItem1": "Claude Code Parity",
     "whatsNewDesc1": "57 skills auto-install to ~/.claude/skills/ (auto-discovered, same as OpenCode). One command, no per-project setup.",
     "whatsNewItem2": "Enforcement Hooks, Made to Actually Work",
     "whatsNewDesc2": "commit-approval, pre-flight, and edit-guard now parse Claude Code's real hook JSON and auto-wire into .claude/settings.json via an idempotent merge that never touches your own hooks.",
     "whatsNewItem3": "19 New Tests",
-    "whatsNewDesc3": "Hook behavior, install idempotency, and EN/ES doc parity all covered — 28/28 test suites passing."
+    "whatsNewDesc3": "Hook behavior, install idempotency, and EN/ES doc parity all covered — 28/28 test suites passing.",
+    "whatsNewItem4": "Dual-Contract OpenCode Plugin (v1 + v2)",
+    "whatsNewDesc4": "One plugin serves OpenCode v2 (setup) and v1 (server, 1.18.29+) from a single default export — no duplicate-plugin-ID collisions.",
+    "whatsNewItem5": "Multi-Agent Detection & Version Gates",
+    "whatsNewDesc5": "agent-detect.sh detects 15 agents and their versions; install.sh warns on unsupported OpenCode v1 (<1.18.29) and installs per detected agent.",
+    "whatsNewItem6": "Philosophy A — The Agent Never Commits",
+    "whatsNewDesc6": "The OpenCode plugin and Claude guardrail deny git commit/push/merge/rebase/reset unconditionally, with no token bypass. The user runs git."
   },
   "gettingStarted": {
     "title": "Getting Started",

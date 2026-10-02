@@ -2,7 +2,7 @@
 # _risky-commands.sh — Shared risky-command classification for the Claude
 # Code hooks in this directory. Single source of truth so commit-approval.sh
 # and pre-flight.sh can't silently drift out of sync (mirrors OpenCode's
-# BLOCKED_COMMANDS/isRiskyCommand in .opencode/plugins/agent-discipline/src/lib.ts).
+# classifySegment in plugins/agent-discipline/index.js).
 #
 # Not a standalone hook — sourced by the other scripts in this directory.
 #
@@ -47,7 +47,8 @@ GIT_MUTATION_RE='^git[[:space:]]+(commit|push|merge|rebase|reset|cherry-pick|rev
 RM_MV_RE='^rm[[:space:]]+-rf([[:space:]]|$)|^mv[[:space:]]+'
 GIT_DIRTY_TREE_RE='^git[[:space:]]+(push|merge|rebase|reset|cherry-pick|revert)([[:space:]]|$)'
 
-# Commands that mutate git history/remote state and require an approval token.
+# Commands that mutate git history/remote state and that the agent must never
+# run (philosophy A — the user runs them; no token bypass).
 # Deliberately excludes "git commit" being gated on tree cleanliness (see
 # is_dirty_tree_risky_command) — committing requires staged (dirty) changes.
 is_git_mutation_command() {

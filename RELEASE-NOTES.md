@@ -1,5 +1,38 @@
 # Release Notes
 
+## 6.2.0 (2026-10-01) — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails
+
+### New (Phase 7)
+
+- **Dual-contract plugin** — `agent-discipline` now serves OpenCode v2 (`setup(ctx)`) and v1 (`server()`, 1.18.29+) from one default export. Source moved to `plugins/agent-discipline/` (not auto-loaded) so a repo-local copy can't collide with the global install (`Duplicate plugin ID`).
+
+- **Multi-agent detection** — `scripts/agent-detect.sh` detects 15 agents via a PATH binary, a global dir, or a project file; `AAS_AGENTS` overrides. `init-agents --list-agents` / `--check-env` report the detected agents **and their versions**.
+
+- **Version-gated installs** — `agent_support_note()` flags unsupported versions (OpenCode v1 < 1.18.29); `install.sh` warns and installs accordingly.
+
+- **Skills per agent** — `install.sh --skills-only` symlinks the canonical OpenCode skills dir into each detected agent's skills dir (`~/.claude/skills`, `~/.gemini/skills`) — one source of truth; diverging dirs are quarantined outside the skills dir.
+
+- **Philosophy A: the agent never commits or pushes** — the OpenCode plugin and the Claude guardrail deny `git commit/push/merge/rebase/reset/…` unconditionally, with **no token bypass** (Rule 12). Closes the self-issued-token hole.
+
+- **Per-agent guardrails** — `install.sh --guardrails-only`: OpenCode → dual-contract plugin; Claude → hook registered in `~/.claude/settings.json` (idempotent, with backup); others skipped.
+
+- **Global install hardening** — `install.sh --plugin-only` does an atomic replace, drops stale v1 artifacts, quarantines legacy backups, verifies a single instance, and detects the OpenCode version.
+
+### Changed
+- Plugin source relocated to `plugins/agent-discipline/`.
+- Docs: `docs/AGENT-ADAPTERS.md` (per-agent matrix) and an `ADRs/005` addendum.
+
+### Platform notes
+- **Phase 7 flags are POSIX-only.** `--skills-only`, `--guardrails-only`,
+  `--plugin-only`, multi-agent detection, and version-gating live in
+  `install.sh`. `install.ps1` still provides Claude Code parity (global skills +
+  hook wiring) only; the Phase-7 flags are not implemented there yet.
+
+### Tests
+- 34+ suites: plugin contract (v1 + v2), version detection, load-log guard, opt-in compatibility matrix.
+
+---
+
 ## 6.1.0 (2026-08-26) — Claude Code Parity (Task 7.1, partial)
 
 Closes the skills+hooks gap inside Phase 7's Task 7.1 — not the full task (the

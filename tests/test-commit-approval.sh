@@ -3,8 +3,10 @@
 #
 # Simulates the JSON payload Claude Code sends on stdin for a PreToolUse/Bash
 # hook and asserts the correct exit code (0 = allow, 2 = block) for each case.
-# Uses .git/DECISION_APPROVED (the repo's current approval-token scheme —
-# see rules/common/enforcement.md), not the retired .git/COMMIT_APPROVED.
+#
+# Philosophy A: the agent NEVER runs git commit/push/merge/rebase/reset — there
+# is no approval token and no bypass. A fresh `.git/DECISION_APPROVED` file
+# (the repo's old token scheme) must NOT let a commit through.
 
 set -uo pipefail
 
@@ -39,20 +41,22 @@ echo "git status" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/
 assert_exit "allows non-blocked command (git status)" 0 "$?"
 
 echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
-assert_exit "blocks git commit without DECISION_APPROVED token" 2 "$?"
+assert_exit "blocks git commit unconditionally (philosophy A)" 2 "$?"
 
+# No bypass: a fresh token file must NOT satisfy the gate anymore.
 echo "$(date -Iseconds)" > "$TMP_REPO/.git/DECISION_APPROVED"
 echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
-assert_exit "allows git commit with a fresh DECISION_APPROVED token" 0 "$?"
-
-# No UTC/offset suffix — matches how the hook's regex reads a real
-# DECISION_APPROVED token (it strips the offset and lets `date -d`
-# interpret the bare timestamp as local time, same as the token writer).
-date -d "-11 minutes" +"%Y-%m-%dT%H:%M:%S" > "$TMP_REPO/.git/DECISION_APPROVED" 2>/dev/null \
-  || date -v-11M +"%Y-%m-%dT%H:%M:%S" > "$TMP_REPO/.git/DECISION_APPROVED"
-echo "git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
-assert_exit "blocks git commit with a stale (>10min) DECISION_APPROVED token" 2 "$?"
+assert_exit "still blocks git commit even with a fresh DECISION_APPROVED token (no bypass)" 2 "$?"
 rm -f "$TMP_REPO/.git/DECISION_APPROVED"
+
+echo "git push origin main" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "blocks git push unconditionally" 2 "$?"
+
+echo "cd /tmp && git push" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "blocks compound command (cd x && git push)" 2 "$?"
+
+echo "git commit-tree" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
+assert_exit "does not misclassify git commit-tree" 0 "$?"
 
 echo "   git commit -m x" | jq -Rn '{tool_input:{command: input}}' | bash "$HOOK" >/dev/null 2>&1
 assert_exit "blocks indented git commit (leading-whitespace fix)" 2 "$?"

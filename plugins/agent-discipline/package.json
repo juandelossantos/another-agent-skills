@@ -1,0 +1,15 @@
+{
+  "name": "agent-discipline",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Dual-contract OpenCode plugin (v1 + v2) for agent discipline enforcement. Blocks git mutations unconditionally (philosophy A: no token bypass).",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "keywords": ["opencode", "plugin", "agent", "discipline", "guardrails"],
+  "license": "MIT",
+  "engines": {
+    "opencode": ">=1.18.29"
+  }
+}

@@ -24,7 +24,7 @@ assert() {
 
 assert "notes the skills+hooks portion of Task 7.1 is done" "grep -q 'skills + hooks portion is done' '$FILE'"
 assert "notes the agents/commands mirror is still open" "grep -q 'agents/.*commands/.*mirror' '$FILE'"
-assert "version header is 6.1.0" "grep -q '\\*\\*Version:\\*\\* 6.1.0' '$FILE'"
+assert "version header is 6.2.0" "grep -q '\\*\\*Version:\\*\\* 6.2.0' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

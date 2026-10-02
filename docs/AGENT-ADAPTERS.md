@@ -4,9 +4,22 @@ Use Another Agent Skills from any AI coding agent. Each agent has native hook su
 
 ## Agent Compatibility Matrix
 
+**Philosophy A (all agents):** the agent **never** runs `git commit`/`git push` — no token bypass. It presents the exact command/message and the **user** runs it (Rule 12).
+
+| Agent | Skills dir | Guardrails | Installed by |
+|---|---|---|---|
+| **OpenCode** | `~/.config/opencode/skills/` | native plugin `agent-discipline` → **deny** | `install.sh --plugin-only` / `--guardrails-only` |
+| **Claude Code** | `~/.claude/skills/` | hook `~/.claude/hooks/agent-discipline/commit-approval.sh` → **deny** | `install.sh --guardrails-only` |
+| **Gemini** | `~/.gemini/skills/` | none (git hooks apply) | `install.sh --skills-only` |
+| **Kiro / Zed / others** | not managed | git hooks (`commit-msg` TDD) per project | `init-agents` |
+
+Skills are symlinked from the canonical OpenCode dir (`~/.config/opencode/skills/`) so there is a single source of truth.
+
+**Adapter detail:**
+
 | Agent | Primary? | Global Skills | Hook System | Plugin Config | Shell Fallback |
 |---|---|---|---|---|---|
-| **OpenCode** | ✅ Yes | `~/.config/opencode/skills/` (auto) | JS Event Hooks | `.opencode/plugins/agent-discipline/` | N/A |
+| **OpenCode** | ✅ Yes | `~/.config/opencode/skills/` (auto) | JS Event Hooks | `plugins/agent-discipline/` → `~/.config/opencode/plugins/agent-discipline/` | N/A |
 | **Claude Code** | Secondary | `~/.claude/skills/` (auto) | Bash (auto-wired) | `.claude-plugin/agent-discipline/` | ✅ |
 | **Cursor** | Secondary | — | JS Hooks | `.cursor-plugin/agent-discipline/` | ✅ |
 | **Kiro** | Secondary | — | JSON Config | `.kiro/hooks/` | ✅ |
@@ -16,31 +29,23 @@ Use Another Agent Skills from any AI coding agent. Each agent has native hook su
 
 ## OpenCode (Primary)
 
-**Full native support with TypeScript plugin.**
+**Dual-contract plugin** — one default export serves OpenCode v2 (`setup()`) and v1 (`server()`, 1.18.29+). Source lives at `plugins/agent-discipline/` and is installed to `~/.config/opencode/plugins/agent-discipline/`.
 
 ```
-.opencode/plugins/agent-discipline/
-├── plugin.json          # Event registrations
-├── src/
-│   ├── index.ts         # Plugin entry
-│   ├── hooks/
-│   │   ├── edit-guard.ts
-│   │   ├── pre-flight.ts
-│   │   ├── commit-approval.ts
-│   │   └── session-compact.ts
-│   └── lib/
-│       ├── file-integrity.ts
-│       ├── git-state.ts
-│       └── token-manager.ts
+plugins/agent-discipline/
+├── index.js          # dual contract: id + setup(ctx) [v2] and server() [v1]
+└── package.json      # type: module, main: index.js, engines.opencode >= 1.18.29
 ```
 
-**Auto-enforced events:**
-- `file.edited` → Structural integrity check
-- `tool.execute.before` → Git state pre-flight
-- `tui.command.execute` → Commit approval gate
-- `session.compacted` → Anti-slop reminder
+**Enforcement (philosophy A):**
+- `tool.execute.before` → **blocks** `git commit/push/merge/rebase/reset/cherry-pick/revert` (no token bypass)
+- `file.edited` → passive line-count drift warning (edit-guard)
+- `session.compaction` → anti-slop reminder
+- other mutations → guardian warning (non-blocking)
 
-**Install:** Included with `install.sh`
+**Why the source is NOT under `.opencode/plugins/`:** OpenCode auto-loads that directory, so a repo-local copy collides with the globally installed plugin under the same id (`Duplicate plugin ID: agent-discipline`).
+
+**Install:** `bash install.sh --plugin-only` (or `--guardrails-only`).
 
 ---
 
@@ -71,7 +76,7 @@ Verify: `ls ~/.claude/skills/` — start a new Claude Code session to pick up ch
 .claude-plugin/agent-discipline/
 ├── plugin.json
 └── hooks/
-    ├── commit-approval.sh   # PreToolUse/Bash — blocks git commit/push/merge/rebase/reset/cherry-pick/revert without an approval token
+    ├── commit-approval.sh   # PreToolUse/Bash — unconditionally blocks git commit/push/merge/rebase/reset/cherry-pick/revert (philosophy A: no token bypass)
     ├── pre-flight.sh        # PreToolUse/Bash — blocks risky git/rm/mv commands on a dirty tree or when behind upstream
     └── edit-guard.sh        # PreToolUse+PostToolUse/Edit|Write — warns if a file's line count changed >20% after an edit
 ```
@@ -121,14 +126,22 @@ Only needed if you skip `install.sh` entirely:
 
 ```
 .cursor-plugin/agent-discipline/
-├── plugin.json
-└── hooks/  (symlinks to .claude-plugin)
+├── plugin.json   (packaging manifest)
+└── hooks/        (commit-approval.sh, pre-flight.sh, edit-guard.sh)
 ```
 
 **Cursor hook events:**
 - `beforeShellExecution` → `commit-approval.sh`
 - `afterFileEdit` → `edit-guard.sh`
 - `preToolUse[shell]` → `pre-flight.sh`
+
+> **Manifest location:** Cursor's documented hook config is `.cursor/hooks.json`
+> (project) or `~/.cursor/hooks.json` (user) — not `.cursor-plugin/…/plugin.json`,
+> which is this repo's packaging layout. Merge/copy the manifest into
+> `.cursor/hooks.json` for Cursor to load it. The security-critical
+> `beforeShellExecution` guard is marked `failClosed: true` (blocks on
+> crash/timeout/non-zero exit); its missing-`jq` path is intentionally
+> fail-open with a visible warning (best-effort gate, mirrors the Claude hook).
 
 ### Install
 
@@ -273,14 +286,14 @@ bash install.sh --agent all
 
 ### Why Separate Implementations?
 
-OpenCode uses TypeScript (native plugin), other agents use shell scripts. Both implementations provide equivalent functionality but cannot share code due to language differences.
+OpenCode uses a native JavaScript plugin, other agents use shell scripts. Both implementations provide equivalent functionality but cannot share code due to language differences.
 
 | Component | OpenCode | Claude/Cursor/Kiro |
 |---|---|---|
 | Language | TypeScript | Bash |
-| Distribution | `.opencode/plugins/` | `.claude-plugin/`, `.cursor-plugin/`, `.kiro/` |
+| Distribution | `plugins/agent-discipline/` (installed to `~/.config/opencode/plugins/`) | `.claude-plugin/`, `.cursor-plugin/`, `.kiro/` |
 | Hook System | JS Event API | Shell scripts + config |
-| Source of Truth | `src/lib/` | `scripts/` |
+| Source of Truth | `plugins/agent-discipline/index.js` | `scripts/` |
 
 Both are maintained in sync. If you find a bug, fix both.
 
