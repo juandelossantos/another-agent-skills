@@ -1,0 +1,144 @@
+#!/usr/bin/env bash
+# bin/aas — Another Agent Skills CLI (Phase 9, P9.3/P9.4).
+#
+#   aas --version
+#   aas install [--agents auto|all|<comma-list>]
+#   aas upgrade
+#   aas doctor
+#   aas uninstall
+#
+# Installed as a symlink: ~/.local/bin/aas -> <version>/bin/aas. It therefore
+# resolves its own real path to locate the framework source it ships with.
+set -euo pipefail
+
+# Resolve our own directory even when invoked through a symlink.
+_aas_resolve_dir() {
+  local src="${BASH_SOURCE[0]}" dir
+  while [ -L "$src" ]; do
+    dir="$(cd -P "$(dirname "$src")" && pwd)"
+    src="$(readlink "$src")"
+    case "$src" in
+      /*) ;;
+      *) src="$dir/$src" ;;
+    esac
+  done
+  cd -P "$(dirname "$src")" && pwd
+}
+
+BIN_DIR="$(_aas_resolve_dir)"
+REPO_ROOT="$(cd "${BIN_DIR}/.." && pwd)"
+
+# shellcheck source=../scripts/agent-detect.sh
+source "${REPO_ROOT}/scripts/agent-detect.sh"
+# shellcheck source=../scripts/lib/aas.sh
+source "${REPO_ROOT}/scripts/lib/aas.sh"
+
+AAS_VERSION="$(cat "${REPO_ROOT}/VERSION" 2>/dev/null || echo "dev")"
+
+usage() {
+  cat <<'EOF'
+Usage: aas <command> [options]
+
+Commands:
+  install [--agents auto|all|<list>]   Install the framework into the current project
+  upgrade                              Self-update from the latest pinned release
+  doctor                               Check the environment (agents, plugin state)
+  uninstall                            Remove the installed version(s) and the aas symlink
+  --version, -V                        Print the installed version
+  --help, -h                           Show this help
+
+--agents:
+  auto   Prompt when stdin is a TTY; otherwise use detected agents (default)
+  all    Every supported agent
+  <list> Comma-separated agent ids (e.g. claude,opencode)
+EOF
+}
+
+cmd_version() { printf '%s\n' "$AAS_VERSION"; }
+
+cmd_install() {
+  local agents_mode="auto" skip_si=false
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --agents)   agents_mode="${2:-}"; shift 2 ;;
+      --agents=*) agents_mode="${1#*=}"; shift ;;
+      --skip-self-improvement) skip_si=true; shift ;;
+      --help|-h)  usage; return 0 ;;
+      *)          aas_error "unknown install option: $1"; return 2 ;;
+    esac
+  done
+
+  local selected
+  if ! selected="$(aas_choose_agents "$agents_mode")"; then
+    return 2
+  fi
+  aas_info "Agents: ${selected:-none}"
+
+  local init="${REPO_ROOT}/scripts/init-agents.sh"
+  if [ ! -f "$init" ]; then
+    aas_error "init-agents.sh not found at ${init}"
+    return 1
+  fi
+
+  local args=()
+  [ "$skip_si" = true ] && args+=(--skip-self-improvement)
+  # Thread the selection through to the underlying installer's environment;
+  # scripts/agent-detect.sh (sourced by init-agents.sh) honours AAS_AGENTS.
+  AAS_AGENTS="$selected" bash "$init" "${args[@]}"
+}
+
+cmd_upgrade() {
+  local before="$AAS_VERSION" latest
+  if ! latest="$(aas_resolve_latest_version)"; then
+    return 1
+  fi
+  if [ "$latest" = "$before" ]; then
+    aas_info "Already up to date (v${before})"
+    return 0
+  fi
+  aas_info "Upgrading Another Agent Skills: ${before} -> ${latest}"
+  aas_install_release "$latest" || return 1
+  aas_info "Version before: ${before}"
+  aas_info "Version after:  ${latest}"
+}
+
+cmd_doctor() {
+  aas_info "aas ${AAS_VERSION}"
+  aas_info "source: ${REPO_ROOT}"
+  aas_info "install root: ${AAS_HOME}"
+  local init="${REPO_ROOT}/scripts/init-agents.sh"
+  if [ ! -f "$init" ]; then
+    aas_error "init-agents.sh not found at ${init}"
+    return 1
+  fi
+  # --check-env can exit non-zero on an empty environment (its `find | wc`
+  # pipeline is subject to `set -o pipefail`); doctor reports and stays 0.
+  local rc=0
+  bash "$init" --check-env || rc=$?
+  if [ "$rc" -ne 0 ]; then
+    aas_warn "check-env exited ${rc} (see the environment report above)"
+  fi
+  return 0
+}
+
+cmd_uninstall() {
+  aas_info "Removing install root: ${AAS_HOME}"
+  aas_uninstall
+  aas_info "Removed symlink: ${AAS_BIN_DIR}/aas"
+}
+
+main() {
+  local cmd="${1:-}"
+  shift || true
+  case "$cmd" in
+    --version|-V|version) cmd_version ;;
+    install)              cmd_install "$@" ;;
+    upgrade|update)       cmd_upgrade "$@" ;;
+    doctor)               cmd_doctor "$@" ;;
+    uninstall|remove)     cmd_uninstall "$@" ;;
+    --help|-h|help|"")    usage ;;
+    *)                    aas_error "unknown command: ${cmd}"; usage >&2; exit 2 ;;
+  esac
+}
+
+main "$@"

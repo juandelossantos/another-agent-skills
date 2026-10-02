@@ -142,7 +142,13 @@ if [ "$SUBCOMMAND" = "check-env" ]; then
     echo "agent-discipline=not-installed"
   fi
 
-  DUPLICATES="$(find "${PLUGINS_DIR}" -maxdepth 1 -type d -name 'agent-discipline*' 2>/dev/null | wc -l | tr -d ' ')"
+  if [ -d "${PLUGINS_DIR}" ]; then
+    DUPLICATES="$(find "${PLUGINS_DIR}" -maxdepth 1 -type d -name 'agent-discipline*' 2>/dev/null | wc -l | tr -d ' ')"
+  else
+    # No plugins dir yet (fresh machine): zero duplicates. Guard the find —
+    # `set -o pipefail` + a missing dir would otherwise abort --check-env.
+    DUPLICATES=0
+  fi
   if [ "${DUPLICATES}" -gt 1 ]; then
     echo "agent-discipline-duplicates=${DUPLICATES}"
     warn "${DUPLICATES} agent-discipline dirs found — only one should load. Fix: bash install.sh --plugin-only"
