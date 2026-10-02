@@ -55,10 +55,12 @@ jobs:
             exit 1
           fi
 
-          TEST_CMD=$(grep -E "^\| Test \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1)
-          LINT_CMD=$(grep -E "^\| Lint \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1)
-          BUILD_CMD=$(grep -E "^\| Build \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1)
-          TYPECHECK_CMD=$(grep -E "^\| Type check \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1)
+          # `|| true` keeps `set -e` (the Actions default shell) from aborting
+          # the step when a row is absent, so the friendly check below runs.
+          TEST_CMD=$(grep -E "^\| Test \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1 || true)
+          LINT_CMD=$(grep -E "^\| Lint \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1 || true)
+          BUILD_CMD=$(grep -E "^\| Build \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1 || true)
+          TYPECHECK_CMD=$(grep -E "^\| Type check \|" STACK_CONFIG.md | sed 's/.*`\([^`]*\)`.*/\1/' | head -1 || true)
 
           [[ "$TEST_CMD" == *"<configure:"* ]] && TEST_CMD=""
           [[ "$LINT_CMD" == *"<configure:"* ]] && LINT_CMD=""
@@ -73,10 +75,14 @@ jobs:
             exit 1
           fi
 
-          echo "test_cmd=$TEST_CMD" >> $GITHUB_OUTPUT
-          echo "lint_cmd=$LINT_CMD" >> $GITHUB_OUTPUT
-          echo "build_cmd=$BUILD_CMD" >> $GITHUB_OUTPUT
-          echo "typecheck_cmd=$TYPECHECK_CMD" >> $GITHUB_OUTPUT
+          # Quote $GITHUB_OUTPUT (path with spaces) — values are single-line
+          # commands from a markdown table cell, so no delimiter is needed.
+          {
+            echo "test_cmd=$TEST_CMD"
+            echo "lint_cmd=$LINT_CMD"
+            echo "build_cmd=$BUILD_CMD"
+            echo "typecheck_cmd=$TYPECHECK_CMD"
+          } >> "$GITHUB_OUTPUT"
 
           echo "📋 Running: test=${TEST_CMD:-none} lint=${LINT_CMD:-none} build=${BUILD_CMD:-none} typecheck=${TYPECHECK_CMD:-none}"
 
@@ -86,21 +92,33 @@ jobs:
       #   with:
       #     node-version: '20'
 
+      # Commands come from STACK_CONFIG.md, which a pull request can edit. Never
+      # interpolate them into `run:` with `${{ }}` — that is GitHub's documented
+      # script-injection sink. Pass the value through an environment variable
+      # instead, then hand it to bash as data (not generated script).
       - name: Run tests
         if: steps.stack.outputs.test_cmd != ''
-        run: ${{ steps.stack.outputs.test_cmd }}
+        env:
+          GATES_CMD: ${{ steps.stack.outputs.test_cmd }}
+        run: bash -c "$GATES_CMD"
 
       - name: Run linter
         if: steps.stack.outputs.lint_cmd != ''
-        run: ${{ steps.stack.outputs.lint_cmd }}
+        env:
+          GATES_CMD: ${{ steps.stack.outputs.lint_cmd }}
+        run: bash -c "$GATES_CMD"
 
       - name: Run type check
         if: steps.stack.outputs.typecheck_cmd != ''
-        run: ${{ steps.stack.outputs.typecheck_cmd }}
+        env:
+          GATES_CMD: ${{ steps.stack.outputs.typecheck_cmd }}
+        run: bash -c "$GATES_CMD"
 
       - name: Run build
         if: steps.stack.outputs.build_cmd != ''
-        run: ${{ steps.stack.outputs.build_cmd }}
+        env:
+          GATES_CMD: ${{ steps.stack.outputs.build_cmd }}
+        run: bash -c "$GATES_CMD"
 
       - name: AAS project audit (if installed)
         run: |

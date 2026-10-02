@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # pre-commit — Another Agent Skills Pre-Flight + Quality Gates (v11)
 # Installed by init-agents.sh.
-# 14 gates: Branch, Staged, Remote, HTML integrity, Override escalation,
-#   Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes,
-#   SPEC Enforcement, Progress Status, Skill Lint, Eval,
+# 15 gates: Decision prompt (L1), Branch, Staged, Remote, HTML integrity,
+#   Override escalation, Skill Gate, Build Verification, Anti-Slop,
+#   Debug 3-Strikes, SPEC Enforcement, Progress Status, Skill Lint, Eval,
 #   Test Runner
 #
 # Approval check moved to commit-msg hook (v6, single TDD gate).
@@ -41,7 +41,7 @@ echo "╚═══════════════════════�
 # See docs/BRANCH-PROTECTION.md.
 DECISION_FILE="${REPO_ROOT}/.git/DECISION_APPROVED"
 if [[ -f "$DECISION_FILE" ]]; then
-  DECISION_TS=$(cat "$DECISION_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1)
+  DECISION_TS=$(cat "$DECISION_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1 || true)
   if [[ -n "$DECISION_TS" ]]; then
     DECISION_EPOCH=$(date -d "$DECISION_TS" +%s 2>/dev/null || echo "0")
     NOW_EPOCH=$(date +%s)
@@ -88,10 +88,13 @@ else
   echo "  ${YELLOW}⚠${NC} No staged changes. Did you forget 'git add'?"
 fi
 
-# Gate 3: Unpulled remote changes — verify not behind remote
-LOCAL=$(git rev-parse HEAD)
-REMOTE=$(git rev-parse @{upstream} 2>/dev/null || echo "$LOCAL")
-if [ "$LOCAL" != "$REMOTE" ]; then
+# Gate 3: Unpulled remote changes — verify not behind remote.
+# Guard the unborn-HEAD case: in a brand-new repo there is no HEAD yet, and
+# `git rev-parse HEAD` under `set -e` would abort the whole hook (blocking the
+# first commit). An empty LOCAL means "no history to compare" → skip.
+LOCAL=$(git rev-parse HEAD 2>/dev/null || echo "")
+REMOTE=$(git rev-parse @{upstream} 2>/dev/null || echo "${LOCAL:-}")
+if [ -n "$LOCAL" ] && [ "$LOCAL" != "$REMOTE" ]; then
   if ! git merge-base --is-ancestor "$REMOTE" "$LOCAL" 2>/dev/null; then
     echo "  ${RED}✗${NC} Unpulled remote changes detected. Run 'git pull --rebase' first."
     exit 1
