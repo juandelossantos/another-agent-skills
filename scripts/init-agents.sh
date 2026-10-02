@@ -9,9 +9,25 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AGENTS_SOURCE="${SCRIPT_DIR}/../AGENTS.md"
+# Framework resolution (P9.7). The running init-agents IS the framework tree;
+# pin AAS_DIR to it when valid, then let the shared resolver handle the rest.
+# Nothing here ever links a project to $SCRIPT_DIR/.. (the dev clone).
+if [ -z "${AAS_DIR:-}" ] && [ -f "${SCRIPT_DIR}/../VERSION" ] && [ -d "${SCRIPT_DIR}/../scripts/git-hooks" ]; then
+    AAS_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+fi
+# shellcheck source=aas-resolve.sh
+. "${SCRIPT_DIR}/aas-resolve.sh" 2>/dev/null || true
+if [ -z "${AAS_DIR:-}" ]; then
+    echo "[init-agents] ERROR: could not resolve the Another Agent Skills framework root." >&2
+    echo "[init-agents] Install it (bootstrap.sh / aas install) or set ANOTHER_AGENT_SKILLS_DIR." >&2
+    exit 1
+fi
+AGENTS_SOURCE="${AAS_DIR}/AGENTS.md"
 DELIMITER_BEGIN="# >>> another-agent-skills-rules"
 DELIMITER_END="# <<< another-agent-skills-rules"
+AAS_CONFIG_DIR="./.aas"
+AAS_BACKUP_DIR="${AAS_CONFIG_DIR}/backups"
+BACKUP_KEEP=5
 
 # Shared agent detection (detect_agents / list_agents)
 # shellcheck source=agent-detect.sh
@@ -21,11 +37,13 @@ source "${SCRIPT_DIR}/agent-detect.sh"
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 NC='\033[0m'
 
 log() { echo -e "${BLUE}[init-agents]${NC} $*"; }
 ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
+plan() { echo -e "${CYAN}[dry-run]${NC} would $*"; }
 
 # Portable: check if two paths resolve to the same filesystem entry
 # Uses cd+pwd -P instead of readlink -f for macOS compatibility
@@ -38,18 +56,26 @@ _same_path() {
 }
 
 WITH_SELF_IMPROVEMENT=true
+DRY_RUN=false
+REPAIR=false
+FORCE=false
+WITH_SKILLS=false
 
 usage() {
   echo "Usage: bash init-agents.sh [OPTIONS] [SUBCOMMAND]"
   echo ""
   echo "Subcommands:"
-  echo "  sync-hooks                 Copy hooks from scripts/git-hooks/ to .git/hooks/"
-  echo "                             (use after modifying hooks without full re-init)"
+  echo "  sync-hooks                 Re-install the portable hook shims in .git/hooks/"
   echo "  check-env                  Print detected agents, the OpenCode version, and"
   echo "                             the agent-discipline plugin state"
   echo "  list-agents                Print every supported agent id"
   echo ""
   echo "Options:"
+  echo "  --dry-run                  Print what would change; mutate nothing"
+  echo "  --repair                   Migrate a legacy project (absolute/broken symlinks)"
+  echo "                             to the portable form, without losing data"
+  echo "  --force                    Allow replacing custom hooks during --repair"
+  echo "  --with-skills              Copy the skills into the project (self-contained)"
   echo "  --skip-self-improvement    Skip scaffolding the self-improvement loop"
   echo "                             (By default, init-agents installs: .audit-config.json,"
   echo "                             scripts/audit-project.sh, skills/self-improvement/,"
@@ -66,37 +92,16 @@ for arg in "$@"; do
     check-env|--check-env) SUBCOMMAND="check-env" ;;
     list-agents|--list-agents) SUBCOMMAND="list-agents" ;;
     --skip-self-improvement) WITH_SELF_IMPROVEMENT=false ;;
+    --dry-run) DRY_RUN=true ;;
+    --repair) REPAIR=true ;;
+    --force) FORCE=true ;;
+    --with-skills) WITH_SKILLS=true ;;
     --help|-h) usage ;;
     *) warn "Unknown option: $arg. Run --help for usage."; exit 2 ;;
   esac
 done
 
-# ─── sync-hooks subcommand ───
-if [ "$SUBCOMMAND" = "sync-hooks" ]; then
-  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  if [ ! -d "./.git" ]; then
-    warn "No .git directory found. Run from a git repository."
-    exit 1
-  fi
-  mkdir -p "./.git/hooks"
-  for hook in pre-commit commit-msg; do
-    src="${SCRIPT_DIR}/git-hooks/${hook}"
-    dst="./.git/hooks/${hook}"
-    if [ -f "$src" ]; then
-      if [ -f "$dst" ]; then
-        cp "$dst" "${dst}.backup.$(date +%Y%m%d%H%M%S)"
-        warn "Backed up existing ${hook} hook"
-      fi
-      cp "$src" "$dst"
-      chmod +x "$dst"
-      ok "Synced ${hook} hook (${dst})"
-    else
-      warn "Source hook not found: ${src}"
-    fi
-  done
-  log "Hooks synced. Run 'bash scripts/init-agents.sh sync-hooks' after modifying hooks."
-  exit 0
-fi
+# ─── sync-hooks subcommand (executed after the helpers below are defined) ───
 
 # ─── check-env subcommand ───
 # Report the OpenCode version and the agent-discipline plugin state so a user on
@@ -184,11 +189,23 @@ has_our_rules() {
     grep -q "$DELIMITER_BEGIN" "$file" 2>/dev/null
 }
 
-# Backup existing file
+# Backup existing file under .aas/backups/ and prune old copies (P9.8).
 backup_file() {
     local file="$1"
-    local backup="${file}.backup.$(date +%Y%m%d%H%M%S)"
+    local base
+    base="$(basename "$file")"
+    local backup="${AAS_BACKUP_DIR}/${base}.$(date +%Y%m%d%H%M%S)"
+    if [ "$DRY_RUN" = true ]; then
+        plan "back up ${file} → ${backup}"
+        echo "$backup"
+        return 0
+    fi
+    mkdir -p "$AAS_BACKUP_DIR"
     cp "$file" "$backup"
+    # Prune: keep only the newest BACKUP_KEEP copies of this file.
+    ls -1t "${AAS_BACKUP_DIR}/${base}."* 2>/dev/null | tail -n +"$((BACKUP_KEEP + 1))" | while IFS= read -r old; do
+        rm -f "$old"
+    done
     echo "$backup"
 }
 
@@ -202,7 +219,12 @@ merge_into_file() {
         ok "Another Agent Skills rules already present in $(basename "$target"). Skipping."
         return 0
     fi
-    
+
+    if [ "$DRY_RUN" = true ]; then
+        plan "back up $(basename "$target") and append the AAS rules footer"
+        return 0
+    fi
+
     local backup
     backup=$(backup_file "$target")
     warn "Found existing $(basename "$target"). Making backup: $(basename "$backup")"
@@ -498,7 +520,7 @@ has_github_remote() {
 # Install the remote-gate workflow (L2 authority) from STACK_CONFIG.md
 install_gates_workflow() {
     local dst=".github/workflows/gates.yml"
-    local src="${SCRIPT_DIR}/../templates/gates.yml"
+    local src="${AAS_DIR}/templates/gates.yml"
 
     # Only install when the project can actually use it. Without git there are
     # no local hooks; without a GitHub remote there is no L2 authority to run it.
@@ -582,42 +604,27 @@ CONFIG
         log ".audit-config.json already exists. Skipping."
     fi
 
-    # Create scripts/audit-project.sh (symlink or copy of universal-audit.sh)
-    local aud_src="${SCRIPT_DIR}/universal-audit.sh"
+    # Create scripts/audit-project.sh as a portable shim (P9.7). Never a symlink
+    # to the dev clone; a legacy absolute symlink is replaced.
     local aud_dst="scripts/audit-project.sh"
-    if [[ -f "$aud_src" ]]; then
-        if [[ -e "$aud_dst" ]] || [[ -L "$aud_dst" ]]; then
-            warn "${aud_dst} — exists locally, preserved"
-        elif _same_path "$aud_src" "$aud_dst"; then
-            warn "${aud_dst} — source and destination are the same. Skipping."
-        else
-            mkdir -p "scripts"
-            if ln -s "$aud_src" "$aud_dst" 2>/dev/null; then
-                ok "Linked ${aud_dst} → universal-audit.sh"
-            else
-                cp "$aud_src" "$aud_dst" && chmod +x "$aud_dst" && ok "Copied ${aud_dst} (symlink unavailable)" || warn "${aud_dst} — could not copy"
-            fi
-        fi
+    if [ -L "$aud_dst" ]; then
+        [ "$DRY_RUN" = true ] || rm -f "$aud_dst"
+        write_shim "$aud_dst" "scripts/universal-audit.sh" "../.aas/aas-resolve.sh"
+    elif [ -e "$aud_dst" ]; then
+        warn "${aud_dst} — exists locally, preserved"
     else
-        warn "universal-audit.sh not found at ${aud_src}. Skipping."
+        write_shim "$aud_dst" "scripts/universal-audit.sh" "../.aas/aas-resolve.sh"
     fi
 
-    # Generate ADR script
-    local adr_src="${SCRIPT_DIR}/generate-adr.sh"
+    # Generate ADR script (portable shim)
     local adr_dst="scripts/generate-adr.sh"
-    if [[ -f "$adr_src" ]]; then
-        if [[ -e "$adr_dst" ]] || [[ -L "$adr_dst" ]]; then
-            warn "${adr_dst} — exists locally, preserved"
-        elif _same_path "$adr_src" "$adr_dst"; then
-            warn "${adr_dst} — source and destination are the same. Skipping."
-        else
-            mkdir -p "scripts"
-            if ln -s "$adr_src" "$adr_dst" 2>/dev/null; then
-                ok "Linked ${adr_dst}"
-            else
-                cp "$adr_src" "$adr_dst" && chmod +x "$adr_dst" && ok "Copied ${adr_dst} (symlink unavailable)" || warn "${adr_dst} — could not copy"
-            fi
-        fi
+    if [ -L "$adr_dst" ]; then
+        [ "$DRY_RUN" = true ] || rm -f "$adr_dst"
+        write_shim "$adr_dst" "scripts/generate-adr.sh" "../.aas/aas-resolve.sh"
+    elif [ -e "$adr_dst" ]; then
+        warn "${adr_dst} — exists locally, preserved"
+    else
+        write_shim "$adr_dst" "scripts/generate-adr.sh" "../.aas/aas-resolve.sh"
     fi
 
     # Determine skill install path based on agent config
@@ -631,7 +638,7 @@ CONFIG
     fi
 
     # Copy self-improvement skill (SKILL.md + guides)
-    local skill_src="${SCRIPT_DIR}/../skills/self-improvement"
+    local skill_src="${AAS_DIR}/skills/self-improvement"
     local skill_dst="${skill_dest_dir}/self-improvement"
     if [[ -d "$skill_src" ]]; then
         if [[ -e "$skill_dst" ]] || [[ -L "$skill_dst" ]]; then
@@ -639,31 +646,47 @@ CONFIG
         elif _same_path "$skill_src" "$skill_dst"; then
             warn "Self-improvement skill — source and destination are the same. Skipping."
         else
-            mkdir -p "$skill_dest_dir"
-            cp -r "$skill_src" "$skill_dst" && ok "Installed self-improvement skill → ${skill_dst}/" || warn "Self-improvement skill — could not copy"
+            if [ "$DRY_RUN" = true ]; then
+                plan "copy self-improvement skill → ${skill_dst}/"
+            else
+                mkdir -p "$skill_dest_dir"
+                cp -r "$skill_src" "$skill_dst" && ok "Installed self-improvement skill → ${skill_dst}/" || warn "Self-improvement skill — could not copy"
+            fi
         fi
     else
         warn "Self-improvement skill not found at ${skill_src}. Skipping."
     fi
 
-    # Symlink/copy PATTERNS.md and ANTI-PATTERNS.md
-    local patterns_src="${SCRIPT_DIR}/../PATTERNS.md"
-    local anti_src="${SCRIPT_DIR}/../ANTI-PATTERNS.md"
-    for pair in "${patterns_src}:PATTERNS.md" "${anti_src}:ANTI-PATTERNS.md"; do
+    # Copy PATTERNS.md and ANTI-PATTERNS.md (plain copies — never symlinks)
+    for pair in "${AAS_DIR}/PATTERNS.md:PATTERNS.md" "${AAS_DIR}/ANTI-PATTERNS.md:ANTI-PATTERNS.md"; do
         local src="${pair%%:*}"
         local dst="${pair##*:}"
-        if [[ -f "$src" ]] && [[ ! -f "$dst" ]]; then
-            if ln -s "$src" "$dst" 2>/dev/null; then
-                ok "Linked ${dst}"
+        [ -f "$src" ] || continue
+        if [ -L "$dst" ]; then
+            if [ "$DRY_RUN" = true ]; then
+                plan "replace legacy symlink ${dst} with a copy"
             else
-                cp "$src" "$dst" && ok "Copied ${dst} (symlink unavailable)"
+                rm -f "$dst"
+                cp "$src" "$dst" && ok "Replaced legacy symlink ${dst} with a copy"
+            fi
+        elif [ -f "$dst" ]; then
+            :
+        else
+            if [ "$DRY_RUN" = true ]; then
+                plan "copy ${dst}"
+            else
+                cp "$src" "$dst" && ok "Copied ${dst}"
             fi
         fi
     done
 
     # Create ADRs/ directory
-    mkdir -p "ADRs"
-    ok "Created ADRs/ directory"
+    if [ "$DRY_RUN" = true ]; then
+        [ -d "ADRs" ] || plan "create ADRs/ directory"
+    else
+        mkdir -p "ADRs"
+        ok "Created ADRs/ directory"
+    fi
 
     # Warn if jq is not available
     if ! command -v jq &>/dev/null; then
@@ -677,10 +700,24 @@ main() {
     # Check for updates before doing anything else
     bash "${SCRIPT_DIR}/check-update.sh" || true
 
+    # Non-blocking drift advisory + legacy detection (P9.8).
+    aas_drift_notice
+    detect_legacy || true
+
+    if [ "$DRY_RUN" = true ]; then
+        run_dry_run
+        return 0
+    fi
+
+    # Migrate a legacy project before the normal (idempotent) install.
+    if [ "$REPAIR" = true ]; then
+        repair_legacy
+    fi
+
     local existing_target
     existing_target=$(detect_target)
     local is_new_project=false
-    
+
     if [[ -n "$existing_target" ]]; then
         merge_into_file "$existing_target"
     else
@@ -689,12 +726,12 @@ main() {
         ok "Created AGENTS.md with Another Agent Skills rules"
         is_new_project=true
     fi
-    
-    # Install pre-commit hook for Rule 12 mechanical enforcement
-    install_precommit_hook
 
-    # Link framework files from global installation
-    install_framework_symlinks
+    # Install the portable hook shims (resolve $AAS_DIR, delegate)
+    install_hook_shims
+
+    # Write .aas/config + copy the resolver (no framework symlinks in the project)
+    install_framework_refs
 
     # Detect stack and create STACK_CONFIG.md (used by all skills)
     detect_stack_and_create_config
@@ -702,6 +739,11 @@ main() {
     # Scaffold self-improvement loop if requested
     if [[ "$WITH_SELF_IMPROVEMENT" == true ]]; then
         install_self_improvement
+    fi
+
+    # Copy skills into the project for a self-contained setup (optional)
+    if [[ "$WITH_SKILLS" == true ]]; then
+        install_with_skills
     fi
 
     # Install the remote-gate workflow (L2 authority layer)
@@ -756,21 +798,16 @@ show_next_steps() {
     [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — TDD gate (v6)"
     echo ""
 
-    # --- LINKED (via ~/.config/opencode/) ---
-    local global_dir="${HOME}/.config/opencode"
-    if [[ -d "${global_dir}" ]]; then
-        echo "  LINKED (via global installation):"
-        [[ -L "./rules/common" ]] && echo "    ✓ rules/common/ — 5 rule files"
-        [[ -L "./SOUL.md" ]] && echo "    ✓ SOUL.md — framework identity"
-        [[ -L "./AGENTS-EXTENDED.md" ]] && echo "    ✓ AGENTS-EXTENDED.md — anti-rationalization table"
-        [[ -L "./VERSION" ]] && echo "    ✓ VERSION — framework version"
-        local linked_scripts=0
-        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh; do
-            [[ -L "./scripts/${s}" ]] && linked_scripts=$((linked_scripts + 1))
-        done
-        [[ ${linked_scripts} -gt 0 ]] && echo "    ✓ scripts/ — ${linked_scripts} enforcement scripts"
-        echo ""
+    # --- FRAMEWORK (resolved from the machine install; nothing duplicated) ---
+    echo "  FRAMEWORK (resolved, not duplicated):"
+    echo "    ✓ .aas/config — pins the framework version"
+    echo "    ✓ .aas/aas-resolve.sh — portable resolver"
+    [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ .git/hooks/pre-commit — portable shim → \$AAS_DIR"
+    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ .git/hooks/commit-msg — portable shim → \$AAS_DIR"
+    if [ -n "${AAS_DIR:-}" ]; then
+        echo "    ✓ framework root: ${AAS_DIR}"
     fi
+    echo ""
 
     # --- REMOTE LAYER (L2 authority) ---
     # Be honest about what is actually available: never point at a remote layer
@@ -814,35 +851,6 @@ show_next_steps() {
         echo ""
     fi
 
-    # --- SKIPPED (existed locally) ---
-    local has_skipped=false
-    for f in SOUL.md AGENTS-EXTENDED.md VERSION; do
-        if [[ -f "./${f}" ]] && [[ ! -L "./${f}" ]]; then
-            if [[ "${has_skipped}" == false ]]; then
-                echo "  SKIPPED (already existed, preserved):"
-                has_skipped=true
-            fi
-            echo "    ⚠ ./${f}"
-        fi
-    done
-    if [[ -d "./rules/common" ]] && [[ ! -L "./rules/common" ]]; then
-        if [[ "${has_skipped}" == false ]]; then
-            echo "  SKIPPED (already existed, preserved):"
-            has_skipped=true
-        fi
-        echo "    ⚠ ./rules/common/"
-    fi
-    if [[ "${has_skipped}" == true ]]; then
-        echo ""
-    fi
-
-    # --- MISSING ---
-    if [[ ! -d "${global_dir}" ]]; then
-        echo "  ⚠ Global directory not found: ${global_dir}"
-        echo "    Run install.sh to install framework files globally."
-        echo ""
-    fi
-
     # --- NEXT STEPS ---
     echo "  Next steps:"
     echo "    1. Open this project in OpenCode"
@@ -856,111 +864,256 @@ show_next_steps() {
     echo ""
 }
 
-install_precommit_hook() {
-    local hook_src="${SCRIPT_DIR}/project-pre-commit"
-    local hook_dst="./.git/hooks/pre-commit"
-    local commit_msg_src="${SCRIPT_DIR}/git-hooks/commit-msg"
-    local commit_msg_dst="./.git/hooks/commit-msg"
-    
-    if [[ ! -f "${hook_src}" ]]; then
-        warn "Project pre-commit hook source not found at ${hook_src}. Skipping."
-        return 0
-    fi
-    
-    if [[ ! -d "./.git" ]]; then
-        log "No .git directory. Skipping pre-commit hook installation."
-        return 0
-    fi
-    
-    mkdir -p "./.git/hooks"
-    
-    if [[ -f "${hook_dst}" ]]; then
-        cp "${hook_dst}" "${hook_dst}.backup.$(date +%Y%m%d%H%M%S)"
-        warn "Backed up existing pre-commit hook"
-    fi
-    cp "${hook_src}" "${hook_dst}"
-    chmod +x "${hook_dst}"
-    ok "Installed lifecycle pre-commit hook (${hook_dst})"
-    
-    if [[ -f "${commit_msg_src}" ]]; then
-        if [[ -f "${commit_msg_dst}" ]]; then
-            cp "${commit_msg_dst}" "${commit_msg_dst}.backup.$(date +%Y%m%d%H%M%S)"
-            warn "Backed up existing commit-msg hook"
-        fi
-        cp "${commit_msg_src}" "${commit_msg_dst}"
-        chmod +x "${commit_msg_dst}"
-        ok "Installed commit-msg hook (${commit_msg_dst})"
-    fi
-    
-    log "Hook enforces: tests pass, build succeeds, no secrets."
-    log "Commands read from STACK_CONFIG.md (stack-agnostic)."
+# ─────────────────────────────────────────────────────────────────────────────
+# Portable project layer (P9.7): .aas/config + resolver copy + hook shims.
+# Nothing here creates an absolute symlink to the framework or the dev clone.
+# ─────────────────────────────────────────────────────────────────────────────
+
+framework_version() {
+    cat "${AAS_DIR}/VERSION" 2>/dev/null | tr -d '[:space:]' || true
 }
 
-install_framework_symlinks() {
-    local global_dir="${HOME}/.config/opencode"
-    local linked=0
-    local skipped=0
-    local missing=0
-    local copied=0
+aas_drift_notice() {
+    if type _aas_resolve_drift_notice >/dev/null 2>&1; then
+        _aas_resolve_drift_notice || true
+    fi
+}
 
-    if [[ ! -d "${global_dir}" ]]; then
-        warn "Global directory not found at ${global_dir}."
-        warn "Run install.sh first to install framework files globally."
-        echo ""
+# Legacy detection (P9.8): AAS artifacts but no .aas/config version marker.
+detect_legacy() {
+    [ -f "${AAS_CONFIG_DIR}/config" ] && return 0
+    local found=""
+    if [ -f "./AGENTS.md" ] && grep -q "$DELIMITER_BEGIN" ./AGENTS.md 2>/dev/null; then
+        found="AGENTS.md marker"
+    elif [ -f "./STACK_CONFIG.md" ]; then
+        found="STACK_CONFIG.md"
+    elif find . -maxdepth 3 -type l \( -path './scripts/*' -o -name 'SOUL.md' -o -name 'VERSION' \) 2>/dev/null | grep -q .; then
+        found="framework symlinks"
+    fi
+    [ -n "$found" ] || return 0
+    warn "Legacy AAS project detected (${found}) with no version marker."
+    log  "  Next: 'bash scripts/init-agents.sh --dry-run' then 'bash scripts/init-agents.sh --repair'"
+    return 0
+}
+
+# Write a 2-3 line portable shim that resolves $AAS_DIR and delegates.
+#   shim            path of the shim to write
+#   delegate        path relative to $AAS_DIR of the real script
+#   resolver_rel    path from the shim's dir to .aas/aas-resolve.sh
+write_shim() {
+    local shim="$1" delegate="$2" resolver_rel="$3"
+    if [ "$DRY_RUN" = true ]; then
+        plan "install portable shim ${shim} → \$AAS_DIR/${delegate}"
         return 0
     fi
+    mkdir -p "$(dirname "$shim")"
+    cat > "$shim" <<SHIM
+#!/bin/sh
+# AAS shim — portable, no absolute paths. Resolves the installed framework and
+# delegates. A machine without AAS is never blocked.
+_AAS_HERE=\$(cd "\$(dirname "\$0")" 2>/dev/null && pwd)
+_AAS_ROOT="\${AAS_DIR:-\${ANOTHER_AGENT_SKILLS_DIR:-}}"
+if [ -z "\$_AAS_ROOT" ] && command -v aas >/dev/null 2>&1; then
+  _AAS_ROOT="\$(aas --dir 2>/dev/null || true)"
+fi
+if [ -z "\$_AAS_ROOT" ] && [ -f "\$_AAS_HERE/${resolver_rel}" ]; then
+  SCRIPT_DIR="\$_AAS_HERE"
+  . "\$_AAS_HERE/${resolver_rel}" 2>/dev/null || true
+  _AAS_ROOT="\${AAS_DIR:-}"
+fi
+if [ -z "\$_AAS_ROOT" ]; then
+  echo "AAS: framework not found — run 'aas install' or set ANOTHER_AGENT_SKILLS_DIR" >&2
+  exit 0
+fi
+exec "\$_AAS_ROOT/${delegate}" "\$@"
+SHIM
+    chmod +x "$shim"
+    ok "Installed portable shim: ${shim}"
+}
 
-    link_or_copy() {
-        local src="$1" dst="$2" label="$3"
-        if [[ -e "${dst}" ]] || [[ -L "${dst}" ]]; then
-            if [[ -L "${dst}" ]]; then
-                local link_target
-                link_target=$(readlink "${dst}" 2>/dev/null || echo "")
-                if [[ "${link_target}" == "${src}" ]]; then
-                    ok "${label} — already linked"
-                    linked=$((linked + 1))
-                    return 0
-                fi
-            fi
-            warn "${label} — exists locally, preserved"
-            skipped=$((skipped + 1))
-            return 0
-        fi
-        if [[ ! -e "${src}" ]]; then
-            warn "${label} — not found in source"
-            missing=$((missing + 1))
-            return 0
-        fi
-        mkdir -p "$(dirname "${dst}")"
-        # Cross-platform: try symlink, fall back to copy (Windows Git Bash, restricted envs)
-        if ln -s "${src}" "${dst}" 2>/dev/null; then
-            ok "${label} — linked"
-            linked=$((linked + 1))
+install_one_hook_shim() {
+    local dst="$1" delegate="$2" force="${3:-false}"
+    if [ -L "$dst" ]; then
+        if [ "$DRY_RUN" = true ]; then
+            plan "replace legacy symlink ${dst} with a portable shim"
         else
-            cp -r "${src}" "${dst}" 2>/dev/null && ok "${label} — copied (symlink unavailable)" && copied=$((copied + 1)) || {
-                warn "${label} — could not link or copy"
-                missing=$((missing + 1))
-            }
+            rm -f "$dst"
         fi
-    }
-
-    # rules/common/
-    link_or_copy "${global_dir}/rules/common" "./rules/common" "rules/common/"
-
-    # Individual enforcement scripts (not the whole scripts/ dir — projects may have their own)
-    for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
-                  setup-branch-protection.sh tdd-gate.sh; do
-        link_or_copy "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
-    done
-
-    # SOUL.md, AGENTS-EXTENDED.md, VERSION
-    link_or_copy "${global_dir}/SOUL.md" "./SOUL.md" "SOUL.md"
-    link_or_copy "${global_dir}/AGENTS-EXTENDED.md" "./AGENTS-EXTENDED.md" "AGENTS-EXTENDED.md"
-    link_or_copy "${global_dir}/VERSION" "./VERSION" "VERSION"
-
-    echo ""
-    log "Framework: ${linked} linked, ${copied} copied, ${skipped} preserved, ${missing} missing"
+    elif [ -f "$dst" ]; then
+        if [ "$FORCE" = true ] || [ "$force" = true ]; then
+            backup_file "$dst" >/dev/null
+            warn "Replacing custom hook ${dst} (backup in ${AAS_BACKUP_DIR}/)"
+        else
+            warn "${dst} exists (custom hook) — preserved. Use --force to replace."
+            return 0
+        fi
+    fi
+    write_shim "$dst" "$delegate" "../../.aas/aas-resolve.sh"
 }
+
+install_hook_shims() {
+    local force="${1:-false}"
+    if [ ! -d "./.git" ]; then
+        log "No .git directory. Skipping hook shims."
+        return 0
+    fi
+    install_one_hook_shim "./.git/hooks/pre-commit" "scripts/git-hooks/pre-commit" "$force"
+    install_one_hook_shim "./.git/hooks/commit-msg" "scripts/git-hooks/commit-msg" "$force"
+}
+
+write_aas_config() {
+    local agents
+    agents="$(detect_agents 2>/dev/null | paste -sd, - || true)"
+    cat > "${AAS_CONFIG_DIR}/config" <<CONFIG
+{
+  "version": "$(framework_version)",
+  "agents": "${agents}",
+  "initialized": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+CONFIG
+}
+
+# .aas/aas-resolve.sh and .aas/config are committed so a clone stays portable;
+# only the local backups are ignored.
+ensure_gitignore() {
+    [ -f "./.gitignore" ] || return 0
+    if [ "$DRY_RUN" = true ]; then
+        grep -qF ".aas/backups/" .gitignore 2>/dev/null || plan "add .aas/backups/ to .gitignore"
+        grep -qF "*.backup.*" .gitignore 2>/dev/null || plan "add *.backup.* to .gitignore"
+        return 0
+    fi
+    if ! grep -qF ".aas/backups/" .gitignore 2>/dev/null; then
+        printf '\n# Another Agent Skills — local backups (framework)\n.aas/backups/\n' >> .gitignore
+    fi
+    if ! grep -qF "*.backup.*" .gitignore 2>/dev/null; then
+        printf '*.backup.*\n' >> .gitignore
+    fi
+}
+
+install_framework_refs() {
+    if [ "$DRY_RUN" = true ]; then
+        plan "write ${AAS_CONFIG_DIR}/config (version $(framework_version))"
+        plan "copy scripts/aas-resolve.sh → ${AAS_CONFIG_DIR}/aas-resolve.sh"
+        ensure_gitignore
+        return 0
+    fi
+    mkdir -p "$AAS_CONFIG_DIR"
+    write_aas_config
+    if [ -f "${AAS_DIR}/scripts/aas-resolve.sh" ]; then
+        cp "${AAS_DIR}/scripts/aas-resolve.sh" "${AAS_CONFIG_DIR}/aas-resolve.sh"
+    else
+        warn "aas-resolve.sh not found in the framework; shims will fall back to PATH/env."
+    fi
+    ensure_gitignore
+    ok "Wrote ${AAS_CONFIG_DIR}/config and ${AAS_CONFIG_DIR}/aas-resolve.sh"
+}
+
+# --with-skills: copy the framework skills into the project (self-contained).
+install_with_skills() {
+    local skill_dest_dir="skills"
+    local agent_config
+    agent_config=$(detect_target)
+    if echo "$agent_config" | grep -q '.claude/'; then
+        skill_dest_dir=".claude/skills"
+    elif echo "$agent_config" | grep -q '.opencode/'; then
+        skill_dest_dir=".opencode/skills"
+    fi
+    if [ "$DRY_RUN" = true ]; then
+        plan "copy framework skills into ${skill_dest_dir}/ (--with-skills)"
+        return 0
+    fi
+    mkdir -p "$skill_dest_dir"
+    local copied=0 skill_path name
+    for skill_path in "${AAS_DIR}/skills"/*/; do
+        [ -f "${skill_path}/SKILL.md" ] || continue
+        name="$(basename "$skill_path")"
+        [ -e "${skill_dest_dir}/${name}" ] && continue
+        cp -r "$skill_path" "${skill_dest_dir}/${name}" && copied=$((copied + 1))
+    done
+    ok "Copied ${copied} skill(s) into ${skill_dest_dir}/ (--with-skills)"
+}
+
+# --repair (P9.8): drop absolute/broken framework symlinks. The normal install
+# then recreates the portable form. Team docs and custom files are untouched.
+repair_legacy() {
+    log "Repairing legacy project (non-destructive)..."
+    local paths=(
+        "rules/common"
+        "SOUL.md"
+        "AGENTS-EXTENDED.md"
+        "VERSION"
+        "PATTERNS.md"
+        "ANTI-PATTERNS.md"
+        "scripts/audit-project.sh"
+        "scripts/generate-adr.sh"
+    )
+    local s
+    for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
+             commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
+             setup-branch-protection.sh tdd-gate.sh; do
+        paths+=("scripts/${s}")
+    done
+    local p target
+    for p in "${paths[@]}"; do
+        [ -L "$p" ] || continue
+        target="$(readlink "$p" 2>/dev/null || true)"
+        case "$target" in
+            /*) rm -f "$p"; warn "Removed absolute symlink ${p} → ${target}" ;;
+            *)  if [ ! -e "$p" ]; then rm -f "$p"; warn "Removed broken symlink ${p}"; fi ;;
+        esac
+    done
+    # Hook symlinks are replaced by the normal install; custom real hooks need --force.
+    if [ -L "./.git/hooks/pre-commit" ]; then rm -f "./.git/hooks/pre-commit"; fi
+    if [ -L "./.git/hooks/commit-msg" ]; then rm -f "./.git/hooks/commit-msg"; fi
+    return 0
+}
+
+# --dry-run: print exactly what would change and mutate nothing.
+run_dry_run() {
+    log "DRY RUN — no changes will be made."
+    local target
+    target="$(detect_target)"
+    if [ -n "$target" ]; then
+        if has_our_rules "$target"; then
+            plan "leave $(basename "$target") (AAS rules already present)"
+        else
+            plan "back up $(basename "$target") and append the AAS rules footer"
+        fi
+    else
+        plan "create AGENTS.md"
+    fi
+    if [ -d "./.git" ]; then
+        plan "install portable hook shims (.git/hooks/pre-commit, commit-msg)"
+    else
+        plan "skip hook shims (no .git directory)"
+    fi
+    plan "write .aas/config (version $(framework_version))"
+    plan "copy scripts/aas-resolve.sh → .aas/aas-resolve.sh"
+    [ -f "./STACK_CONFIG.md" ] || plan "create STACK_CONFIG.md"
+    [ -f "./.sessionrc" ] || plan "create .sessionrc"
+    if has_git && has_github_remote; then
+        [ -f "./.github/workflows/gates.yml" ] || plan "install .github/workflows/gates.yml"
+    fi
+    if [ "$WITH_SELF_IMPROVEMENT" == true ]; then
+        plan "scaffold the self-improvement loop"
+    fi
+    if [ "$WITH_SKILLS" == true ]; then
+        plan "copy framework skills into the project (--with-skills)"
+    fi
+    ensure_gitignore
+    log "Dry run complete — nothing changed."
+}
+
+# ─── sync-hooks subcommand ───
+if [ "$SUBCOMMAND" = "sync-hooks" ]; then
+    if [ ! -d "./.git" ]; then
+        warn "No .git directory found. Run from a git repository."
+        exit 1
+    fi
+    install_framework_refs
+    install_hook_shims true
+    log "Hooks synced. Re-run 'bash scripts/init-agents.sh sync-hooks' after changing hooks."
+    exit 0
+fi
 
 main "$@"

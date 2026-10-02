@@ -9,6 +9,10 @@ set -uo pipefail
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 INIT_SCRIPT="$REPO_ROOT/scripts/init-agents.sh"
 
+# Hermetic: resolve the framework to this repo for the project shims.
+export AAS_DIR="$REPO_ROOT"
+unset ANOTHER_AGENT_SKILLS_DIR
+
 PASS=0
 FAIL=0
 GREEN=$'\033[0;32m'
@@ -100,16 +104,21 @@ t_skill_install_path_claude() {
   ok "skill-path-claude: skill installs to .claude/skills/ when .claude/ exists"
 }
 
-# --- Contract: link_or_copy doesn't crash when symlinks unavailable ---
-t_link_fallback_copy() {
-  # Even on Linux where symlinks work, link_or_copy should succeed (symlink path)
+# --- Contract: init-agents creates no absolute symlinks (portable) ---
+t_portable_no_symlinks() {
   local tmp
   tmp=$(mktemp -d)
   (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
   local rc=$?
+  local absolute
+  absolute=$(find "$tmp" -type l -printf '%p -> %l\n' 2>/dev/null | grep -c ' -> /' || true)
+  local has_config=0
+  [ -f "$tmp/.aas/config" ] && has_config=1
   rm -rf "$tmp"
-  [ "$rc" -eq 0 ] || { ko "link-fallback: init-agents crashed (exit $rc)"; return; }
-  ok "link-fallback: link_or_copy succeeded (symlink on this system)"
+  [ "$rc" -eq 0 ] || { ko "portable: init-agents crashed (exit $rc)"; return; }
+  [ "$absolute" -eq 0 ] || { ko "portable: found $absolute absolute symlink(s)"; return; }
+  [ "$has_config" -eq 1 ] || { ko "portable: .aas/config missing"; return; }
+  ok "portable: no absolute symlinks; .aas/config written"
 }
 
 # --- Contract: after scaffolding, audit-project.sh runs and exits 0 ---
@@ -132,7 +141,7 @@ t_skip_no_artifacts
 t_config_stack_aware_node
 t_config_stack_aware_python
 t_skill_install_path_claude
-t_link_fallback_copy
+t_portable_no_symlinks
 t_audit_project_runs
 echo ""
 echo -e "  ${GREEN}PASS: $PASS${NC}  ${RED}FAIL: $FAIL${NC}"

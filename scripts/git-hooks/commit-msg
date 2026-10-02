@@ -11,8 +11,30 @@
 set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
+
+# ─── Framework resolution (P9.7) ───
+# The TDD gate is a framework script; resolve the installed framework portably.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+_AAS_RESOLVER=""
+for _aas_cand in \
+  "${SCRIPT_DIR}/../aas-resolve.sh" \
+  "${SCRIPT_DIR}/../../.aas/aas-resolve.sh" \
+  "${ANOTHER_AGENT_SKILLS_DIR:-}/scripts/aas-resolve.sh" \
+  "${AAS_DIR:-}/scripts/aas-resolve.sh"; do
+  if [ -f "$_aas_cand" ]; then _AAS_RESOLVER="$_aas_cand"; break; fi
+done
+if [ -n "$_AAS_RESOLVER" ]; then
+  # shellcheck source=../aas-resolve.sh
+  . "$_AAS_RESOLVER" 2>/dev/null || true
+fi
+AAS_SCRIPTS="${AAS_DIR:-}/scripts"
+# Non-blocking drift advisory (P9.8).
+if [ -n "${AAS_DIR:-}" ] && type _aas_resolve_drift_notice >/dev/null 2>&1; then
+  _aas_resolve_drift_notice || true
+fi
+
 APPROVAL_LOG="${REPO_ROOT}/.git/APPROVAL_LOG"
-TDD_GATE="${REPO_ROOT}/scripts/tdd-gate.sh"
+TDD_GATE="${AAS_SCRIPTS}/tdd-gate.sh"
 COMMIT_MSG_FILE="${1:-${REPO_ROOT}/.git/COMMIT_EDITMSG}"
 
 RED=$'\033[0;31m'

@@ -15,6 +15,29 @@ set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
+# ─── Framework resolution (P9.7) ───
+# Framework scripts live in the installed framework ($AAS_DIR), never in the
+# project. Resolve it portably (scripts/aas-resolve.sh) so this hook works from
+# any install location, on any machine, without a hardcoded path.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+_AAS_RESOLVER=""
+for _aas_cand in \
+  "${SCRIPT_DIR}/../aas-resolve.sh" \
+  "${SCRIPT_DIR}/../../.aas/aas-resolve.sh" \
+  "${ANOTHER_AGENT_SKILLS_DIR:-}/scripts/aas-resolve.sh" \
+  "${AAS_DIR:-}/scripts/aas-resolve.sh"; do
+  if [ -f "$_aas_cand" ]; then _AAS_RESOLVER="$_aas_cand"; break; fi
+done
+if [ -n "$_AAS_RESOLVER" ]; then
+  # shellcheck source=../aas-resolve.sh
+  . "$_AAS_RESOLVER" 2>/dev/null || true
+fi
+AAS_SCRIPTS="${AAS_DIR:-}/scripts"
+# Non-blocking drift advisory (P9.8): project pin vs installed framework.
+if [ -n "${AAS_DIR:-}" ] && type _aas_resolve_drift_notice >/dev/null 2>&1; then
+  _aas_resolve_drift_notice || true
+fi
+
 RED=$'\033[0;31m'
 GREEN=$'\033[0;32m'
 YELLOW=$'\033[1;33m'
@@ -103,7 +126,7 @@ fi
 echo "  ${GREEN}✓${NC} Remote up to date"
 
 # Gate 4: Structural integrity — verify HTML files have DOCTYPE and closing html tag
-EDIT_GUARD="${REPO_ROOT}/scripts/edit-guard.sh"
+EDIT_GUARD="${AAS_SCRIPTS}/edit-guard.sh"
 if [ -f "$EDIT_GUARD" ]; then
   STAGED_HTML=$(git diff --cached --name-only --diff-filter=ACM | grep -i '\.html$' || true)
   if [ -n "$STAGED_HTML" ]; then
@@ -168,7 +191,7 @@ echo "╔═══════════════════════�
 echo "║  SKILL GATE                                ║"
 echo "╚════════════════════════════════════════════╝"
 
-SKILL_GATE="${REPO_ROOT}/scripts/skill-gate.sh"
+SKILL_GATE="${AAS_SCRIPTS}/skill-gate.sh"
 if [ -f "$SKILL_GATE" ]; then
   if ! bash "$SKILL_GATE" check 2>&1; then
     echo ""
@@ -368,7 +391,7 @@ echo "╔═══════════════════════�
 echo "║  PROGRESS STATUS VALIDATION               ║"
 echo "╚════════════════════════════════════════════╝"
 
-VALIDATE_SCRIPT="${REPO_ROOT}/scripts/validate-skill-table.sh"
+VALIDATE_SCRIPT="${AAS_SCRIPTS}/validate-skill-table.sh"
 STAGED_PROGRESS=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'PROGRESS_STATUS\.md$' || true)
 if [ -n "$STAGED_PROGRESS" ] && [ -f "$VALIDATE_SCRIPT" ]; then
   echo "  Validating PROGRESS_STATUS.md skill table against disk..."
@@ -392,7 +415,7 @@ else
 fi
 
 # Health Check Validation — verify HEALTH-CHECK.md matches linter
-HEALTH_VALIDATE="${REPO_ROOT}/scripts/validate-health-check.sh"
+HEALTH_VALIDATE="${AAS_SCRIPTS}/validate-health-check.sh"
 if [ -f "$HEALTH_VALIDATE" ]; then
   echo ""
   echo "  Validating HEALTH-CHECK.md against linter state..."
@@ -417,7 +440,7 @@ echo "╔═══════════════════════�
 echo "║  SKILL LINT                                ║"
 echo "╚════════════════════════════════════════════╝"
 
-SKILL_LINT="${REPO_ROOT}/scripts/skill-lint.sh"
+SKILL_LINT="${AAS_SCRIPTS}/skill-lint.sh"
 STAGED_SKILLS=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'skills/.*/SKILL\.md$' || true)
 if [ -n "$STAGED_SKILLS" ] && [ -f "$SKILL_LINT" ]; then
   ALL_LINT_OK=true
@@ -450,8 +473,8 @@ echo "╔═══════════════════════�
 echo "║  SKILL EVALS                               ║"
 echo "╚════════════════════════════════════════════╝"
 
-EVAL_RUNNER="${REPO_ROOT}/scripts/eval/run-evals.sh"
-GOLDEN_RUNNER="${REPO_ROOT}/scripts/eval/run-golden.sh"
+EVAL_RUNNER="${AAS_SCRIPTS}/eval/run-evals.sh"
+GOLDEN_RUNNER="${AAS_SCRIPTS}/eval/run-golden.sh"
 STAGED_SKILL_DIRS=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^skills/[^/]+/' | sed 's|^skills/\([^/]*\)/.*|\1|' | sort -u || true)
 EVAL_FAIL=0
 
@@ -489,8 +512,8 @@ if [ -n "$STAGED_SKILL_DIRS" ] && [ -f "$EVAL_RUNNER" ]; then
     echo "  ${GREEN}✓${NC} All skill evals passed"
   fi
   # Also run trigger-dashboard and regression for changed skills
-  DASH_RUNNER="${REPO_ROOT}/scripts/eval/trigger-dashboard.sh"
-  REG_RUNNER="${REPO_ROOT}/scripts/eval/run-regression.sh"
+  DASH_RUNNER="${AAS_SCRIPTS}/eval/trigger-dashboard.sh"
+  REG_RUNNER="${AAS_SCRIPTS}/eval/run-regression.sh"
   for skill in $STAGED_SKILL_DIRS; do
     if [ -d "${REPO_ROOT}/skills/$skill/evals" ]; then
       if [ -f "$DASH_RUNNER" ]; then
@@ -580,6 +603,7 @@ fi
 # The ceiling lives in ONE place — scripts/test-cadence.conf — read here.
 MAX_TASK_TESTS=20
 CADENCE_CONF="${REPO_ROOT}/scripts/test-cadence.conf"
+[ -f "$CADENCE_CONF" ] || CADENCE_CONF="${AAS_SCRIPTS}/test-cadence.conf"
 if [ -f "$CADENCE_CONF" ]; then
   # shellcheck source=/dev/null
   . "$CADENCE_CONF"
