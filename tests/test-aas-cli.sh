@@ -35,6 +35,12 @@ OUT="$(bash "$AAS" --version 2>&1)"; RC=$?
 [ "$RC" -eq 0 ]; check $? "aas --version exits 0 (got $RC)"
 [ "$OUT" = "$REPO_VERSION" ]; check $? "aas --version prints repo VERSION ($REPO_VERSION)"
 
+# ── 1b. aas --dir (framework root for the resolver) ──────────────────────────
+OUT="$(bash "$AAS" --dir 2>&1)"; RC=$?
+[ "$RC" -eq 0 ]; check $? "aas --dir exits 0 (got $RC)"
+[ "$OUT" = "$REPO_ROOT" ]; check $? "aas --dir prints the framework root"
+[ -f "$OUT/VERSION" ] && [ -d "$OUT/scripts/git-hooks" ]; check $? "aas --dir points at a valid framework dir"
+
 # ── 2. aas install --agents claude (non-TTY: must never prompt) ──────────────
 PROJ="$TMP/proj"; mkdir -p "$PROJ"
 ( cd "$PROJ" && bash "$AAS" install --agents claude </dev/null > "$TMP/install.log" 2>&1 )

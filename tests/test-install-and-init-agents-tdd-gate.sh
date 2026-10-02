@@ -52,10 +52,14 @@ echo "A — tdd-gate.sh distribution"
 
 assert "install.sh global script list includes tdd-gate.sh" \
   "sed -n '/for script in skill-gate.sh edit-guard.sh/,/^    done/p' '$INSTALL_SCRIPT' | grep -q 'tdd-gate.sh'"
-assert "init-agents link_or_copy list includes tdd-gate.sh" \
-  "sed -n '/for script in skill-gate.sh edit-guard.sh/,/^    done/p' '$INIT_SCRIPT' | grep -q 'tdd-gate.sh'"
-assert "init-agents show_next_steps display list includes tdd-gate.sh" \
-  "grep -q 'for s in skill-gate.sh.*tdd-gate.sh' '$INIT_SCRIPT'"
+assert "install.sh distributes git-hooks + resolver to the global dir" \
+  "grep -q 'scripts/git-hooks' '$INSTALL_SCRIPT' && grep -q 'aas-resolve.sh' '$INSTALL_SCRIPT'"
+assert "init-agents installs a portable commit-msg shim" \
+  "grep -q 'git-hooks/commit-msg' '$INIT_SCRIPT'"
+assert "framework commit-msg resolves tdd-gate from \$AAS_DIR" \
+  "grep -q 'TDD_GATE=\"\${AAS_SCRIPTS}/tdd-gate.sh\"' '$REPO_ROOT/scripts/git-hooks/commit-msg'"
+assert "init-agents resolves the framework from \$AAS_DIR" \
+  "grep -q 'AAS_DIR' '$INIT_SCRIPT'"
 
 # Behavioral: init-agents ships the gate, and it actually blocks.
 repo="$TMP/repo-a"
@@ -69,12 +73,13 @@ git -C "$repo" add README.md
 git -C "$repo" commit -q -m init
 
 (cd "$repo" && HOME="$FAKE_HOME" bash "$INIT_SCRIPT" >/dev/null 2>&1)
-assert "init-agents yields scripts/tdd-gate.sh" "[ -f '$repo/scripts/tdd-gate.sh' ]"
+assert "init-agents installs a portable commit-msg shim" \
+  "[ -f '$repo/.git/hooks/commit-msg' ] && grep -q 'AAS_DIR' '$repo/.git/hooks/commit-msg'"
 
 echo 'export const x = 1' > "$repo/foo.js"
 git -C "$repo" add foo.js
 printf 'code without test\n' > "$TMP/msg-a.txt"
-(cd "$repo" && bash .git/hooks/commit-msg "$TMP/msg-a.txt") >/dev/null 2>&1
+(cd "$repo" && AAS_DIR="$REPO_ROOT" bash .git/hooks/commit-msg "$TMP/msg-a.txt") >/dev/null 2>&1
 hook_rc=$?
 assert "commit-msg blocks a code-without-test commit" "[ $hook_rc -ne 0 ]"
 

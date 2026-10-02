@@ -44,6 +44,7 @@ Commands:
   upgrade                              Self-update from the latest pinned release
   doctor                               Check the environment (agents, plugin state)
   uninstall                            Remove the installed version(s) and the aas symlink
+  --dir                                Print the framework root (used by scripts/aas-resolve.sh)
   --version, -V                        Print the installed version
   --help, -h                           Show this help
 
@@ -55,6 +56,10 @@ EOF
 }
 
 cmd_version() { printf '%s\n' "$AAS_VERSION"; }
+
+# Print the framework root. scripts/aas-resolve.sh uses this to find the
+# install without hardcoding a path (P9.7).
+cmd_dir() { printf '%s\n' "$REPO_ROOT"; }
 
 cmd_install() {
   local agents_mode="auto" skip_si=false
@@ -143,6 +148,7 @@ main() {
   shift || true
   case "$cmd" in
     --version|-V|version) cmd_version ;;
+    --dir|dir)            cmd_dir ;;
     install)              cmd_install "$@" ;;
     upgrade|update)       cmd_upgrade "$@" ;;
     doctor)               cmd_doctor "$@" ;;

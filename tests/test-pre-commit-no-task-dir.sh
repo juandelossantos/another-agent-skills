@@ -52,7 +52,7 @@ TMP=$(mktemp -d)
 
 # A fresh project has no tests/task/ — assert that explicitly, then run the hook.
 assert "the temp project has no tests/task/" "[ ! -d '$TMP/tests/task' ]"
-( cd "$TMP" && bash .git/hooks/pre-commit ) >/dev/null 2>&1
+( cd "$TMP" && env -u AAS_DIR -u ANOTHER_AGENT_SKILLS_DIR bash .git/hooks/pre-commit ) >/dev/null 2>&1
 HOOK_EXIT=$?
 assert "pre-commit exits 0 without tests/task/ (no false block)" "[ $HOOK_EXIT -eq 0 ]"
 

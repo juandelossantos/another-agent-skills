@@ -450,6 +450,19 @@ install_global_framework() {
         fi
     done
     ok "Installed framework files (SOUL.md, AGENTS-EXTENDED.md, VERSION)"
+
+    # git-hooks + the portable resolver (P9.7). This makes the global dir a
+    # valid framework root for scripts/aas-resolve.sh (legacy fallback) so
+    # project hook shims can delegate to it on machines without a pinned install.
+    mkdir -p "${global_dir}/scripts/git-hooks"
+    if [[ -d "${SCRIPT_DIR}/scripts/git-hooks" ]]; then
+        cp "${SCRIPT_DIR}/scripts/git-hooks/"* "${global_dir}/scripts/git-hooks/" 2>/dev/null || true
+        chmod +x "${global_dir}/scripts/git-hooks/"* 2>/dev/null || true
+    fi
+    if [[ -f "${SCRIPT_DIR}/scripts/aas-resolve.sh" ]]; then
+        cp "${SCRIPT_DIR}/scripts/aas-resolve.sh" "${global_dir}/scripts/"
+    fi
+    ok "Installed git-hooks + resolver → ${global_dir}/scripts/"
 }
 
 # ---------------------------------------------------------------------------

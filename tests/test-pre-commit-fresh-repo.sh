@@ -61,7 +61,7 @@ TMP=$(mktemp -d)
 ) >/dev/null 2>&1
 
 assert "temp repo really has an unborn HEAD" "! git -C '$TMP' rev-parse --verify HEAD >/dev/null 2>&1"
-( cd "$TMP" && bash .git/hooks/pre-commit ) >/dev/null 2>&1
+( cd "$TMP" && env -u AAS_DIR -u ANOTHER_AGENT_SKILLS_DIR bash .git/hooks/pre-commit ) >/dev/null 2>&1
 HOOK_EXIT=$?
 assert "pre-commit exits 0 with an unborn HEAD (no false block)" "[ $HOOK_EXIT -eq 0 ]"
 rm -rf "$TMP"
@@ -85,7 +85,7 @@ TMP2=$(mktemp -d)
   git add a.txt
 ) >/dev/null 2>&1
 
-OUT=$( cd "$TMP2" && bash .git/hooks/pre-commit 2>&1 ); MAL_EXIT=$?
+OUT=$( cd "$TMP2" && env -u AAS_DIR -u ANOTHER_AGENT_SKILLS_DIR bash .git/hooks/pre-commit 2>&1 ); MAL_EXIT=$?
 assert "malformed token still blocks (exit 1)" "[ $MAL_EXIT -eq 1 ]"
 assert "malformed token prints the friendly reason" "echo \"\$OUT\" | grep -q 'no valid timestamp'"
 rm -rf "$TMP2"
