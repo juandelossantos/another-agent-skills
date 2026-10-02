@@ -125,6 +125,16 @@
     "then": "Then in any project:",
     "conclusion": "Your agent now has 57 skills + 74 guides + 6 harness components. Every project. Every time."
   },
+  "workflows": {
+    "label": "git & github workflows",
+    "title": "Works with or without GitHub.",
+    "subtitle": "Four workflows. Enforcement adapts to what your project has.",
+    "flow1": "no-git — Independent or private, no VCS. init-agents still installs rules, skills, and AGENTS.md, but there are no hooks and no remote gate. Enforcement is convention-only. To enable more: run git init, then re-run init-agents (it installs the local hooks); add a GitHub remote for L2.",
+    "flow2": "local-git — A private repo or a non-GitHub forge. L1 hooks are active, but there is no L2/L3. To get remote enforcement: add a GitHub remote (git remote add origin …) and re-run init-agents, then run scripts/setup-branch-protection.sh.",
+    "flow3": "git + GitHub — Full L1 + L2 + L3. Run init-agents (hooks + gates.yml + setup-branch-protection.sh), push a branch and open a PR so the gates check reports once, preview with setup-branch-protection.sh --dry-run, apply it, then verify with gh api repos/OWNER/REPO/branches/main/protection.",
+    "flow4": "git-later — No git now, git (and GitHub) later. The key rule: re-run init-agents after git init and after adding the remote. It detects what is now available and installs the missing layers (hooks, gates.yml).",
+    "note": "L1 (local hooks) is fast feedback, advisory. L2 (the remote gates required check) and L3 (CODEOWNERS) are the authority — and L2/L3 are GitHub-only."
+  },
   "faq": {
     "label": "08 / faq",
     "title": "Questions.",

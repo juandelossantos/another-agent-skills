@@ -19,6 +19,13 @@ GATE_LOG="${REPO_ROOT}/.git/TDD_GATE_LOG"
 # Determine the repo root from current directory (for temp repo support)
 REPO_DIR=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 
+# Without a git work tree there is nothing to gate. Skip cleanly and, crucially,
+# do NOT create a stray .git/ directory (log_gate writes into $GATE_LOG).
+if ! git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "TDD gate: SKIP — not a git repository"
+  exit 0
+fi
+
 # ─── File Patterns ───
 
 CODE_PATTERNS=(
@@ -187,6 +194,10 @@ log_gate() {
   local code_files="$2"
   local test_files="$3"
   local override="$4"
+  # Never create a .git/ dir when there is no git repo.
+  if ! git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return 0
+  fi
   mkdir -p "$(dirname "$GATE_LOG")"
   cat > "$GATE_LOG" << EOF
 timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

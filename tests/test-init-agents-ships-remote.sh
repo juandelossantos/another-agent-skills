@@ -24,8 +24,13 @@ assert() {
   fi
 }
 
-# --- Behavioral: a scaffolded project gets the gate workflow ---
+# --- Behavioral: a git project with a GitHub remote gets the gate workflow ---
+# (init-agents only installs the remote workflow when a GitHub remote exists.)
 tmp=$(mktemp -d)
+git -C "$tmp" init -q
+git -C "$tmp" config user.email test@test.com
+git -C "$tmp" config user.name Test
+git -C "$tmp" remote add origin https://github.com/example/demo.git
 (cd "$tmp" && bash "$INIT_SCRIPT" >/dev/null 2>&1)
 assert "scaffold creates .github/workflows/gates.yml" "[ -f '$tmp/.github/workflows/gates.yml' ]"
 assert "installed workflow is the gates workflow" "grep -q '^name: gates' '$tmp/.github/workflows/gates.yml' 2>/dev/null"

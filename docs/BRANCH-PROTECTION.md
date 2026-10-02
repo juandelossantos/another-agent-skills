@@ -30,6 +30,28 @@ Hooks also live outside version control, so they drift from the repo and are
 re-installed per clone. They are excellent for *fast feedback* and for making the
 process visible; they cannot be the authority.
 
+## Without GitHub (local-only, or another forge)
+
+**L2 and L3 are GitHub-only.** Branch protection and the required `gates` status
+check are GitHub features; `CODEOWNERS` enforcement depends on GitHub's
+code-owner review. If your project has no GitHub remote, you still have **L1
+only** — local hooks that give fast feedback but are advisory (see
+[Why local hooks are not enough](#why-local-hooks-are-not-enough)).
+
+The framework supports four workflows without pretending the missing layers exist:
+
+| Workflow | Enforcement available | Steps |
+|---|---|---|
+| **no-git** — independent / private, no VCS | Convention-only (rules, skills, `AGENTS.md`) | `init-agents` still installs rules/skills; run `git init` and **re-run `init-agents`** to get L1 |
+| **local-git** — private repo or another forge | L1 hooks only; **no L2/L3** | Add a GitHub remote (`git remote add origin …`), **re-run `init-agents`**, then `bash scripts/setup-branch-protection.sh` |
+| **git + GitHub** | Full L1 + L2 + L3 | See [Running it](#running-it) |
+| **git-later** — no git now, git (+ GitHub) later | Grows as layers appear | **Re-run `init-agents` after `git init` and after adding the remote** — it installs the missing layers (hooks, `gates.yml`) |
+
+The re-run rule matters because `init-agents` installs each layer conditionally:
+local hooks only when `.git` exists, and `.github/workflows/gates.yml` only when a
+GitHub remote exists. Re-running it after a change is how a project graduates from
+convention-only to local hooks to full remote authority.
+
 ## Which checks belong where
 
 Split checks by *when they are meaningful*, not by how strict they sound:

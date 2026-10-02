@@ -476,10 +476,34 @@ EOF
     log "Add .sessionrc to .gitignore to keep it local-only."
 }
 
+# ─── Git / GitHub detection ───
+# Enforcement delivery must be honest: a remote-gate workflow is only useful
+# when the project is a git repo with a GitHub remote. Never install a dead
+# workflow or print impossible instructions.
+has_git() {
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1
+}
+
+has_github_remote() {
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 1
+    git remote -v 2>/dev/null | grep -q 'github\.com'
+}
+
 # Install the remote-gate workflow (L2 authority) from STACK_CONFIG.md
 install_gates_workflow() {
     local dst=".github/workflows/gates.yml"
     local src="${SCRIPT_DIR}/../templates/gates.yml"
+
+    # Only install when the project can actually use it. Without git there are
+    # no local hooks; without a GitHub remote there is no L2 authority to run it.
+    if ! has_git; then
+        log "No git repository — skipping remote gate workflow (${dst})."
+        return 0
+    fi
+    if ! has_github_remote; then
+        log "No GitHub remote — skipping remote gate workflow (${dst})."
+        return 0
+    fi
 
     # Don't overwrite an existing gates workflow
     if [[ -f "$dst" ]]; then
@@ -735,7 +759,7 @@ show_next_steps() {
         [[ -L "./AGENTS-EXTENDED.md" ]] && echo "    ✓ AGENTS-EXTENDED.md — anti-rationalization table"
         [[ -L "./VERSION" ]] && echo "    ✓ VERSION — framework version"
         local linked_scripts=0
-        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh; do
+        for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh; do
             [[ -L "./scripts/${s}" ]] && linked_scripts=$((linked_scripts + 1))
         done
         [[ ${linked_scripts} -gt 0 ]] && echo "    ✓ scripts/ — ${linked_scripts} enforcement scripts"
@@ -743,13 +767,26 @@ show_next_steps() {
     fi
 
     # --- REMOTE LAYER (L2 authority) ---
-    if [[ -f "./.github/workflows/gates.yml" ]]; then
+    # Be honest about what is actually available: never point at a remote layer
+    # that this project cannot use.
+    if has_git && has_github_remote && [[ -f "./.github/workflows/gates.yml" ]]; then
         echo "  REMOTE ENFORCEMENT (L2 — the authority):"
         echo "    Local hooks are fast feedback; they are writable. The required"
         echo "    'gates' status check is what actually decides. Turn it on with:"
         echo "      bash scripts/setup-branch-protection.sh --dry-run   # preview"
         echo "      bash scripts/setup-branch-protection.sh             # apply"
         echo "    Why local ≠ authority: docs/BRANCH-PROTECTION.md"
+        echo ""
+    elif ! has_git; then
+        echo "  ENFORCEMENT — convention-only (no git repository):"
+        echo "    No git repository: enforcement is convention-only. Run \`git init\`"
+        echo "    and re-run init-agents to enable local hooks; add a GitHub remote"
+        echo "    for remote enforcement."
+        echo ""
+    else
+        echo "  ENFORCEMENT — local only (L1 hooks active):"
+        echo "    Local git only: L1 (hooks) is active. Remote enforcement (L2) needs"
+        echo "    a GitHub remote — \`git remote add origin …\` then re-run init-agents."
         echo ""
     fi
 
@@ -907,7 +944,7 @@ install_framework_symlinks() {
     # Individual enforcement scripts (not the whole scripts/ dir — projects may have their own)
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
                   commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
-                  setup-branch-protection.sh; do
+                  setup-branch-protection.sh tdd-gate.sh; do
         link_or_copy "${global_dir}/scripts/${script}" "./scripts/${script}" "scripts/${script}"
     done
 

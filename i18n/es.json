@@ -125,6 +125,16 @@
     "then": "Después en cualquier proyecto:",
     "conclusion": "Tu agente ahora tiene 57 skills + 74 guías + 6 componentes del harness. Cada proyecto. Cada vez."
   },
+  "workflows": {
+    "label": "flujos de git y github",
+    "title": "Funciona con o sin GitHub.",
+    "subtitle": "Cuatro flujos. El enforcement se adapta a lo que tu proyecto tiene.",
+    "flow1": "no-git — Independiente o privado, sin VCS. init-agents igual instala reglas, skills y AGENTS.md, pero no hay hooks ni gate remoto. El enforcement es solo por convención. Para habilitar más: ejecutá git init y después re-ejecutá init-agents (instala los hooks locales); agregá un remoto de GitHub para L2.",
+    "flow2": "local-git — Un repo privado o una forja que no es GitHub. Los hooks L1 están activos, pero no hay L2/L3. Para obtener enforcement remoto: agregá un remoto de GitHub (git remote add origin …) y re-ejecutá init-agents, después ejecutá scripts/setup-branch-protection.sh.",
+    "flow3": "git + GitHub — L1 + L2 + L3 completos. Ejecutá init-agents (hooks + gates.yml + setup-branch-protection.sh), hacé push de una rama y abrí un PR para que el check gates reporte una vez, previsualizá con setup-branch-protection.sh --dry-run, aplicalo, y verificá con gh api repos/OWNER/REPO/branches/main/protection.",
+    "flow4": "git-later — Sin git ahora, git (y GitHub) después. La regla clave: re-ejecutá init-agents después de git init y después de agregar el remoto. Detecta lo que ahora está disponible e instala las capas faltantes (hooks, gates.yml).",
+    "note": "L1 (hooks locales) es feedback rápido y advisory. L2 (el check remoto gates requerido) y L3 (CODEOWNERS) son la autoridad — y L2/L3 son solo GitHub."
+  },
   "faq": {
     "label": "08 / faq",
     "title": "Preguntas.",

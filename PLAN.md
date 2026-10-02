@@ -491,6 +491,9 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | B5 | Revisión | `critique-skill` + Playwright |
 | B6 | i18n ES/EN | Sync de todo lo nuevo |
 
+**Bloque B.1 — Estilo propio de la sección `#workflows` (deuda de Phase 8.1)**
+- La sección `#workflows` de `index.html` (flujos git/GitHub) reutiliza el estilo `.philosophy` porque no existe `.workflows` en `css/style.css`. En el refresh: darle un estilo/componente propio de "flujo" y revisar responsive + i18n ES/EN.
+
 **Bloque C — Release v6.1.0 (Phase 7)**
 - C1 `VERSION` → 6.1.0 + tag + GitHub Release (value: compat v1/v2, multi-agente, filosofía A).
 - C2 push de `fix/opencode-v2-plugin-compat` + PR.
