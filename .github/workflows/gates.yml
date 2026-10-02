@@ -1,0 +1,68 @@
+# gates.yml — Remote Enforcement (L2 authority layer)
+# Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
+#
+# Runs the REAL gates on every pull request and every push to main. Local hooks
+# (.git/hooks/*) are fast feedback for a cooperative agent, but they are
+# writable — `core.hooksPath` can be repointed, hooks can be edited. This
+# workflow is the authority: it lives in the repo but is enforced by GitHub,
+# and the "gates" job is the required status check configured by
+# scripts/setup-branch-protection.sh.
+#
+# Design constraints: no network dependencies beyond the checkout action, and
+# no writes (never push, never commit). Read-only. If a gate fails, the PR
+# cannot merge.
+#
+# Spec: PLAN.md — Phase 8 / P8.2
+
+name: gates
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Least privilege: the gates only read the repository.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref to save runner minutes.
+concurrency:
+  group: gates-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gates:
+    name: gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: TDD gate — every code change needs a test
+        run: bash scripts/tdd-gate.sh
+
+      - name: Project test suite
+        run: bash tests/run-all.sh
+
+      - name: Skill lint
+        run: bash scripts/skill-lint.sh skills/
+
+      - name: Progress skill-table validation
+        run: bash scripts/validate-skill-table.sh
+
+      - name: Shell syntax check (scripts + hooks)
+        run: |
+          set -uo pipefail
+          fail=0
+          for f in scripts/*.sh scripts/git-hooks/*; do
+            [ -f "$f" ] || continue
+            case "$f" in *.md) continue ;; esac
+            if bash -n "$f"; then
+              echo "  ok: $f"
+            else
+              echo "  syntax error: $f"
+              fail=1
+            fi
+          done
+          exit "$fail"

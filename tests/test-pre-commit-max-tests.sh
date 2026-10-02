@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # test-pre-commit-max-tests.sh — the test-count ceiling in the pre-commit hook is
-# realistic for the current suite (it was 11, from when there were far fewer tests).
+# realistic for the current suite (it was 11, from when there were far fewer
+# tests; Phase 8 raised it to 64 after adding the remote-enforcement tests).
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

@@ -4,3 +4,14 @@
 
 # Plugin architecture (future-proofing for multi-maintainer)
 plugins/agent-discipline/ @juandelossantos
+
+# ── Gate configuration (L3 — integrity of the gate itself) ──────────────
+# The gate that decides must not be editable by the change it judges. With
+# "Require review from Code Owners" enabled (scripts/setup-branch-protection.sh),
+# a PR that edits the workflow, the hooks, or the gate scripts needs review from
+# @juandelossantos before it can merge — the agent cannot rewrite its own rules.
+.github/workflows/ @juandelossantos
+scripts/git-hooks/ @juandelossantos
+scripts/tdd-gate.sh @juandelossantos
+scripts/edit-guard.sh @juandelossantos
+scripts/*gate* @juandelossantos
