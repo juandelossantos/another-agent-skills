@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # test-setup-branch-protection.sh — asserts scripts/setup-branch-protection.sh
-# exists, is idempotent, talks to the GitHub API via `gh api`, and requires the
-# "gates" status check + code-owner review on main. Also asserts the gate
-# configuration itself is protected in CODEOWNERS (L3 integrity).
+# auto-detects the repo shape, selects the solo/team profile, enforces the
+# lockout guard, stays idempotent, and keeps dry-run side-effect free. Also
+# asserts the gate configuration itself is protected in CODEOWNERS (L3).
 #
 # Spec: PLAN.md — Phase 8 / P8.1 + P8.3
 
@@ -44,22 +44,8 @@ assert "disables force pushes" "grep -q 'allow_force_pushes' '$SCRIPT'"
 assert "disables deletions" "grep -q 'allow_deletions' '$SCRIPT'"
 assert "no hardcoded GitHub token" "! grep -qE '(GITHUB_TOKEN|ghp_[A-Za-z0-9]{10,})' '$SCRIPT'"
 
-# ── Dry-run is safe and informative ──
-DRY_FILE=$(mktemp)
-if bash "$SCRIPT" --repo testowner/testrepo --branch main --dry-run > "$DRY_FILE" 2>&1; then
-  DRY_RC=0
-else
-  DRY_RC=$?
-fi
-assert "dry-run exits 0" "[ $DRY_RC -eq 0 ]"
-assert "dry-run prints the protection endpoint" "grep -qF 'branches/main/protection' '$DRY_FILE'"
-assert "dry-run prints the gates required check" "grep -qF 'gates' '$DRY_FILE'"
-assert "dry-run does not mutate (no PUT executed)" "! grep -q 'gh api -X PUT' '$DRY_FILE'"
-rm -f "$DRY_FILE"
-
-# ── Idempotency against a stateful mock gh ──
+# ── Mocked gh: repo-shape detection + a stateful protection store ──
 MOCK_DIR=$(mktemp -d)
-STATE_DIR=$(mktemp -d)
 cat > "$MOCK_DIR/gh" <<'MOCK'
 #!/usr/bin/env bash
 state="${MOCK_GH_STATE:?}"
@@ -76,18 +62,38 @@ if [ "${1:-}" = "api" ]; then
     case "$1" in
       -X|--method) method="$2"; shift 2;;
       --input) shift; cat > "$state/last_input" 2>/dev/null || true; shift;;
+      --paginate) shift;;
+      --jq) shift 2;;
       -H|--header|-f|--raw-field|--field) shift 2;;
       *) endpoint="$1"; shift;;
     esac
   done
+  case "$endpoint" in
+    *"/collaborators"*)
+      cat "$state/collaborators.json" 2>/dev/null || echo '[]'
+      exit 0;;
+  esac
+  if [ "$endpoint" = "repos/testowner/testrepo" ]; then
+    printf '{"owner":{"type":"%s"}}\n' "${MOCK_OWNER_TYPE:-User}"
+    exit 0
+  fi
   if [ "$method" = "GET" ]; then
     if [ -f "$state/protected" ]; then cat "$state/protection.json"; exit 0; fi
     echo "gh: Not Found (HTTP 404)" >&2; exit 1
   fi
   if [ "$method" = "PUT" ]; then
-    cat > "$state/protection.json" <<'JSON'
-{"required_status_checks":{"strict":true,"contexts":["gates"]},"enforce_admins":{"enabled":true},"required_pull_request_reviews":{"dismiss_stale_reviews":true,"require_code_owner_reviews":true,"required_approving_review_count":1},"required_conversation_resolution":{"enabled":true},"allow_force_pushes":{"enabled":false},"allow_deletions":{"enabled":false}}
-JSON
+    jq '{
+      required_status_checks: {strict: .required_status_checks.strict, contexts: .required_status_checks.contexts},
+      enforce_admins: {enabled: .enforce_admins},
+      required_pull_request_reviews: {
+        dismiss_stale_reviews: .required_pull_request_reviews.dismiss_stale_reviews,
+        require_code_owner_reviews: .required_pull_request_reviews.require_code_owner_reviews,
+        required_approving_review_count: .required_pull_request_reviews.required_approving_review_count
+      },
+      required_conversation_resolution: {enabled: .required_conversation_resolution},
+      allow_force_pushes: {enabled: .allow_force_pushes},
+      allow_deletions: {enabled: .allow_deletions}
+    }' "$state/last_input" > "$state/protection.json"
     touch "$state/protected"
     echo '{"ok":true}'
     exit 0
@@ -97,20 +103,167 @@ exit 1
 MOCK
 chmod +x "$MOCK_DIR/gh"
 
-run1=$(MOCK_GH_STATE="$STATE_DIR" PATH="$MOCK_DIR:$PATH" bash "$SCRIPT" --repo testowner/testrepo --branch main 2>&1); rc1=$?
-run2=$(MOCK_GH_STATE="$STATE_DIR" PATH="$MOCK_DIR:$PATH" bash "$SCRIPT" --repo testowner/testrepo --branch main 2>&1); rc2=$?
+# CODEOWNERS fixtures for the code-owner guard. The guard reads the local
+# CODEOWNERS; the default is two distinct owners so the team profile keeps
+# code-owner review on. The single-user fixture is the lockout shape.
+printf '* @alice @bob\n'     > "$MOCK_DIR/CODEOWNERS.multi"
+printf '* @alice\n'          > "$MOCK_DIR/CODEOWNERS.single"
+printf '* @acme/reviewers\n' > "$MOCK_DIR/CODEOWNERS.team"
 
-assert "first run exits 0" "[ $rc1 -eq 0 ]"
-assert "second run exits 0 (idempotent)" "[ $rc2 -eq 0 ]"
+# collaborators_json <n> — n humans with push access.
+collaborators_json() {
+  local n="$1" out="[" i=1
+  while [ "$i" -le "$n" ]; do
+    [ "$i" -gt 1 ] && out="${out},"
+    out="${out}{\"login\":\"user${i}\",\"permissions\":{\"admin\":false,\"push\":true}}"
+    i=$((i + 1))
+  done
+  echo "${out}]"
+}
+
+# run_mock <state> <owner-type> <n-collaborators> [args...] — stdout is the run.
+# CODEOWNERS_FILE defaults to the two-owner fixture; override with
+# MOCK_CODEOWNERS=<path> to exercise the code-owner guard.
+run_mock() {
+  local state="$1" owner="$2" collabs="$3"; shift 3
+  collaborators_json "$collabs" > "$state/collaborators.json"
+  MOCK_GH_STATE="$state" MOCK_OWNER_TYPE="$owner" PATH="$MOCK_DIR:$PATH" \
+    CODEOWNERS_FILE="${MOCK_CODEOWNERS:-$MOCK_DIR/CODEOWNERS.multi}" \
+    bash "$SCRIPT" --repo testowner/testrepo --branch main "$@" 2>&1
+}
+
+# ── Solo profile: User owner + 1 human → no approval required ──
+S1=$(mktemp -d)
+out1=$(run_mock "$S1" User 1); rc1=$?
+A1=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S1/last_input")
+CO1=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S1/last_input")
+EA1=$(jq -r '.enforce_admins' "$S1/last_input")
+ST1=$(jq -r '.required_status_checks.strict' "$S1/last_input")
+assert "solo (User, 1 human): exits 0" "[ $rc1 -eq 0 ]"
+assert "solo: approvals = 0" "[ '$A1' = '0' ]"
+assert "solo: code-owner review off" "[ '$CO1' = 'false' ]"
+assert "solo: enforce_admins off" "[ '$EA1' = 'false' ]"
+assert "solo: strict off" "[ '$ST1' = 'false' ]"
+assert "solo: still requires the gates check" "jq -e '(.required_status_checks.contexts | index(\"gates\")) != null' '$S1/last_input' >/dev/null"
+assert "solo: reports final mode solo" "echo \"\$out1\" | grep -qi 'final mode: *solo'"
+
+# ── Team profile: Organization owner + 3 humans → 1 approval + code owners ──
+S2=$(mktemp -d)
+out2=$(run_mock "$S2" Organization 3); rc2=$?
+A2=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S2/last_input")
+CO2=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S2/last_input")
+EA2=$(jq -r '.enforce_admins' "$S2/last_input")
+ST2=$(jq -r '.required_status_checks.strict' "$S2/last_input")
+assert "team (Org, 3 humans): exits 0" "[ $rc2 -eq 0 ]"
+assert "team: approvals = 1" "[ '$A2' = '1' ]"
+assert "team: code-owner review on" "[ '$CO2' = 'true' ]"
+assert "team: enforce_admins on" "[ '$EA2' = 'true' ]"
+assert "team: strict on" "[ '$ST2' = 'true' ]"
+assert "team: reports final mode team" "echo \"\$out2\" | grep -qi 'final mode: *team'"
+
+# ── Lockout guard: --mode team but only 1 human → forced solo + warning ──
+S3=$(mktemp -d)
+out3=$(run_mock "$S3" Organization 1 --mode team); rc3=$?
+A3=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S3/last_input")
+CO3=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S3/last_input")
+EA3=$(jq -r '.enforce_admins' "$S3/last_input")
+assert "guard (--mode team, 1 human): exits 0" "[ $rc3 -eq 0 ]"
+assert "guard: approvals forced to 0" "[ '$A3' = '0' ]"
+assert "guard: code-owner review forced off" "[ '$CO3' = 'false' ]"
+assert "guard: enforce_admins forced off" "[ '$EA3' = 'false' ]"
+assert "guard: final mode forced solo" "echo \"\$out3\" | grep -qi 'final mode: *solo'"
+assert "guard: prints a lockout warning" "echo \"\$out3\" | grep -qi 'lockout guard'"
+assert "guard: explains self-approval is impossible" "echo \"\$out3\" | grep -qi 'approve your own'"
+
+# ── --force-lockout-risk: explicit opt-in allows the risky team config ──
+S4=$(mktemp -d)
+out4=$(run_mock "$S4" Organization 1 --mode team --force-lockout-risk); rc4=$?
+A4=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S4/last_input")
+EA4=$(jq -r '.enforce_admins' "$S4/last_input")
+assert "--force-lockout-risk: exits 0" "[ $rc4 -eq 0 ]"
+assert "--force-lockout-risk: risky approvals = 1" "[ '$A4' = '1' ]"
+assert "--force-lockout-risk: enforce_admins on" "[ '$EA4' = 'true' ]"
+assert "--force-lockout-risk: prints a loud warning" "echo \"\$out4\" | grep -qi 'force-lockout-risk'"
+
+# ── Flag overrides (profile first, flags second) ──
+S5=$(mktemp -d)
+run_mock "$S5" Organization 3 --approvals 2 --strict --code-owner-reviews --enforce-admins >/dev/null
+A5=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S5/last_input")
+assert "--approvals N overrides the profile" "[ '$A5' = '2' ]"
+
+# ── Guard: code-owner review with 1 human is also unsatisfiable ──
+S5b=$(mktemp -d)
+out5b=$(run_mock "$S5b" User 1 --mode solo --code-owner-reviews); rc5b=$?
+CO5b=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5b/last_input")
+assert "guard: code-owner review forced off for 1 human" "[ '$CO5b' = 'false' ]"
+assert "guard: warns when code-owner review is unsatisfiable" "echo \"\$out5b\" | grep -qi 'lockout guard'"
+
+# ── Guard: over-large --approvals is capped to reachable reviewers (N-1) ──
+S5c=$(mktemp -d)
+out5c=$(run_mock "$S5c" Organization 3 --approvals 5); rc5c=$?
+A5c=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S5c/last_input")
+assert "guard: --approvals 5 with 3 humans capped to 2" "[ '$A5c' = '2' ]"
+assert "guard: explains the approvals cap" "echo \"\$out5c\" | grep -qi 'Capping required approvals'"
+
+# ── Guard: a single code owner cannot satisfy code-owner review on their own PR ──
+S5d=$(mktemp -d)
+out5d=$(MOCK_CODEOWNERS="$MOCK_DIR/CODEOWNERS.single" run_mock "$S5d" Organization 3); rc5d=$?
+CO5d=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5d/last_input")
+assert "guard (single code owner): exits 0" "[ $rc5d -eq 0 ]"
+assert "guard: single code owner -> code-owner review forced off" "[ '$CO5d' = 'false' ]"
+assert "guard: warns a sole code owner cannot self-approve" "echo \"\$out5d\" | grep -qi 'code owner'"
+
+# ── Guard: a single *team* owner is unverifiable here -> warn, keep it on ──
+S5e=$(mktemp -d)
+out5e=$(MOCK_CODEOWNERS="$MOCK_DIR/CODEOWNERS.team" run_mock "$S5e" Organization 3); rc5e=$?
+CO5e=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5e/last_input")
+assert "guard (single team owner): exits 0" "[ $rc5e -eq 0 ]"
+assert "guard: single team owner -> code-owner review stays on" "[ '$CO5e' = 'true' ]"
+assert "guard: warns the team's membership is unverifiable" "echo \"\$out5e\" | grep -qi 'verif'"
+
+# ── --no-code-owner-reviews: explicit off switch ──
+S5f=$(mktemp -d)
+run_mock "$S5f" Organization 3 --no-code-owner-reviews >/dev/null
+CO5f=$(jq -r '.required_pull_request_reviews.require_code_owner_reviews' "$S5f/last_input")
+assert "--no-code-owner-reviews forces code-owner off" "[ '$CO5f' = 'false' ]"
+
+# ── Guard: --approvals is capped at GitHub's API maximum (6) ──
+S5g=$(mktemp -d)
+out5g=$(run_mock "$S5g" Organization 10 --approvals 9)
+A5g=$(jq -r '.required_pull_request_reviews.required_approving_review_count' "$S5g/last_input")
+assert "guard: --approvals 9 with 10 humans capped at GitHub max 6" "[ '$A5g' = '6' ]"
+
+# ── Flag parsing: a value-taking flag without a value is a usage error ──
+out_bad=$(bash "$SCRIPT" --repo 2>&1); rc_bad=$?
+assert "missing --repo value exits 2" "[ $rc_bad -eq 2 ]"
+out_bad2=$(bash "$SCRIPT" --approvals 2>&1); rc_bad2=$?
+assert "missing --approvals value exits 2" "[ $rc_bad2 -eq 2 ]"
+
+# ── Dry-run: prints the plan, makes no PUT ──
+S6=$(mktemp -d)
+out6=$(run_mock "$S6" User 1 --dry-run); rc6=$?
+assert "dry-run exits 0" "[ $rc6 -eq 0 ]"
+assert "dry-run prints the protection endpoint" "echo \"\$out6\" | grep -qF 'branches/main/protection'"
+assert "dry-run prints the gates required check" "echo \"\$out6\" | grep -qF 'gates'"
+assert "dry-run prints the final payload" "echo \"\$out6\" | grep -q 'required_status_checks'"
+assert "dry-run does not mutate (no PUT executed)" "! grep -q -- '-X PUT' '$S6/calls'"
+
+# ── Idempotency against the stateful mock gh ──
+S7=$(mktemp -d)
+run1=$(run_mock "$S7" User 1); rc7a=$?
+run2=$(run_mock "$S7" User 1); rc7b=$?
+assert "first run exits 0" "[ $rc7a -eq 0 ]"
+assert "second run exits 0 (idempotent)" "[ $rc7b -eq 0 ]"
 assert "second run reports already configured" "echo \"\$run2\" | grep -qi 'already'"
-PUT_COUNT=$(grep -c -- '-X PUT' "$STATE_DIR/calls" 2>/dev/null || true)
+PUT_COUNT=$(grep -c -- '-X PUT' "$S7/calls" 2>/dev/null || true)
 PUT_COUNT=${PUT_COUNT:-0}
 assert "PUT applied exactly once across two runs" "[ '$PUT_COUNT' -eq 1 ]"
-assert "PUT targets branches/main/protection" "grep -q 'branches/main/protection' '$STATE_DIR/calls'"
-assert "PUT sent the gates required check" "grep -q 'gates' '$STATE_DIR/last_input'"
-assert "PUT requires code owner review" "grep -q 'require_code_owner_reviews' '$STATE_DIR/last_input'"
-assert "PUT disables force pushes" "grep -q 'allow_force_pushes' '$STATE_DIR/last_input'"
-rm -rf "$MOCK_DIR" "$STATE_DIR"
+assert "PUT targets branches/main/protection" "grep -q 'branches/main/protection' '$S7/calls'"
+assert "PUT sent the gates required check" "grep -q 'gates' '$S7/last_input'"
+assert "PUT disables force pushes" "grep -q 'allow_force_pushes' '$S7/last_input'"
+assert "PUT requires conversation resolution" "grep -q 'required_conversation_resolution' '$S7/last_input'"
+
+rm -rf "$MOCK_DIR" "$S1" "$S2" "$S3" "$S4" "$S5" "$S5b" "$S5c" "$S5d" "$S5e" "$S5f" "$S5g" "$S6" "$S7"
 
 # ── L3: gate configuration is protected by CODEOWNERS ──
 assert "CODEOWNERS exists" "[ -f '$CO' ]"
