@@ -30,6 +30,57 @@ Hooks also live outside version control, so they drift from the repo and are
 re-installed per clone. They are excellent for *fast feedback* and for making the
 process visible; they cannot be the authority.
 
+## Which checks belong where
+
+Split checks by *when they are meaningful*, not by how strict they sound:
+
+| Kind | Examples | Where it belongs |
+|---|---|---|
+| **Decisions** (approval) | "may this land?" | **Remote** — a required status check, a PR review (team), or a deployment environment (solo). A decision that lives only in a hook is advisory the moment someone is in a hurry. |
+| **Working-tree checks** | branch / detached-HEAD, staged-changes, skill-gate, edit-guard, DECISION_APPROVED prompt | **Local** — they only make sense *before the commit exists*. CI cannot re-run "is the git state clean" or "did the agent load a skill" against the committed tree. |
+
+The rule of thumb: **a green hook is feedback, not approval.** Anything a reader
+could mistake for approval either moves remote or gets labelled L1.
+
+> **Gate 0 is L1.** `pre-commit` Gate 0 blocks until `.git/DECISION_APPROVED` is
+> fresh — but the **agent writes that token**, so it is a prompt that makes the
+> DECISION POINT visible, not an approval control. The human running `git commit`
+> is the approval; the `gates` check is the authority.
+
+## Remote approval that works for a solo maintainer
+
+A required **PR review** cannot work when you are the only human with push access
+(GitHub forbids approving your own PR — the lockout guard above exists for this
+reason). A **deployment environment with required reviewers** can: the
+"Prevent self-review" toggle is **off** by default, so the owner may approve
+their own deployment.
+
+Gate a release or deploy job behind an environment:
+
+```yaml
+# .github/workflows/release.yml
+name: release
+on: { workflow_dispatch: {} }
+permissions: { contents: write }
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: release          # Settings → Environments → required reviewers
+    steps:
+      - uses: actions/checkout@v4
+      - run: gh release create "${{ github.ref_name }}" --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Configure it in **Settings → Environments → `release` → Required reviewers**.
+The job then waits for a human approval enforced by the **remote** system — the
+one approval a solo maintainer cannot route around.
+
+Caveats: required reviewers are free on **public** repos only; up to 6 reviewers
+(one approval suffices); keep "Prevent self-review" **off** on a solo repo or you
+reintroduce the lockout.
+
 ## Solo vs team: you cannot approve your own PR
 
 The single most important fact about branch protection is this:

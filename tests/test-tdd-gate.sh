@@ -103,8 +103,8 @@ assert_exit "OVERRIDE in message → BLOCK" 1 "$ACTUAL"
 echo ""
 echo "Test 5: Test in tests/ directory (expect PASS)"
 REPO=$(setup_repo 5)
-touch "$REPO/app.py"
 touch "$REPO/tests/test_app.py"
+touch "$REPO/app.py"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -157,9 +157,9 @@ echo ""
 echo "Test 10: Extensionless script with shebang, with test (expect PASS)"
 REPO=$(setup_repo 10)
 mkdir -p "$REPO/scripts/git-hooks" "$REPO/tests"
+touch "$REPO/tests/test_pre-commit.sh"
 printf '#!/usr/bin/env bash\necho hello\n' > "$REPO/scripts/git-hooks/pre-commit"
 chmod +x "$REPO/scripts/git-hooks/pre-commit"
-touch "$REPO/tests/test_pre-commit.sh"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -264,8 +264,8 @@ assert_exit "HTML file without test → BLOCK" 1 "$ACTUAL"
 echo ""
 echo "Test 19: HTML file with test (expect PASS)"
 REPO=$(setup_repo 19)
-echo "<html><body>Hello</body></html>" > "$REPO/index.html"
 touch "$REPO/tests/test_index.html"
+echo "<html><body>Hello</body></html>" > "$REPO/index.html"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -295,10 +295,10 @@ assert_exit "Markdown file without test → BLOCK" 1 "$ACTUAL"
 echo ""
 echo "Test 22: JSON + MD with tests (expect PASS)"
 REPO=$(setup_repo 22)
-echo '{"key": "value"}' > "$REPO/config.json"
-echo "# Title" > "$REPO/README.md"
 mkdir -p "$REPO/tests"
 touch "$REPO/tests/test_config.json" "$REPO/tests/test_README.md"
+echo '{"key": "value"}' > "$REPO/config.json"
+echo "# Title" > "$REPO/README.md"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?

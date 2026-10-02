@@ -34,7 +34,11 @@ echo "╔═══════════════════════�
 echo "║  PRE-FLIGHT CHECK                          ║"
 echo "╚════════════════════════════════════════════╝"
 
-# Gate 0: Decision approval — agent must present DECISION POINT before commit
+# Gate 0: Decision prompt — L1 (advisory, NOT the authority).
+# The token is written by the agent, so this is fast feedback that the DECISION
+# POINT was presented — it is not an approval control. The human running
+# `git commit` is the approval; the remote `gates` status check is the authority.
+# See docs/BRANCH-PROTECTION.md.
 DECISION_FILE="${REPO_ROOT}/.git/DECISION_APPROVED"
 if [[ -f "$DECISION_FILE" ]]; then
   DECISION_TS=$(cat "$DECISION_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1)
@@ -43,18 +47,18 @@ if [[ -f "$DECISION_FILE" ]]; then
     NOW_EPOCH=$(date +%s)
     DIFF=$(( NOW_EPOCH - DECISION_EPOCH ))
     if [[ "$DIFF" -gt 600 ]]; then
-      echo "  ${RED}✗${NC} Decision token stale (${DIFF}s old, max 600s)"
+      echo "  ${RED}✗${NC} Decision prompt stale (${DIFF}s old, max 600s) — re-present the DECISION POINT (L1)"
       exit 1
     fi
   else
-    echo "  ${RED}✗${NC} Decision token has no valid timestamp"
+    echo "  ${RED}✗${NC} Decision prompt has no valid timestamp (L1)"
     exit 1
   fi
 else
-  echo "  ${RED}✗${NC} No decision token found — agent must present DECISION POINT"
+  echo "  ${RED}✗${NC} No decision prompt — present the DECISION POINT first (L1: feedback, not the approval authority)"
   exit 1
 fi
-echo "  ${GREEN}✓${NC} Decision approval fresh"
+echo "  ${GREEN}✓${NC} Decision prompt fresh (L1 — the human running git commit is the approval)"
 
 # Gate 1: Branch check — verify not on detached HEAD, protect main
 BRANCH=$(git branch --show-current)

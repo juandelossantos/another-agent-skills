@@ -61,7 +61,7 @@ The harness routes failures back to the agent for self-correction:
 The harness ensures safe behavior in production:
 
 - **commit-msg hook v6** runs a single TDD gate — staged code files must have matching test files. No override mechanism exists. Name-pairing + new-test enforcement
-- **DECISION_APPROVED token** — agent writes timestamped token after user says "yes". Pre-commit hook warns if token missing.
+- **DECISION_APPROVED token (L1 prompt)** — the agent writes a timestamped token after the user says "yes"; pre-commit Gate 0 blocks if it is missing or stale. This is **fast feedback, not enforcement**: the agent can write the token itself, and the human running `git commit` is the approval. The remote `gates` status check is the authority (see `docs/BRANCH-PROTECTION.md`).
 - **HEALTH-CHECK.md** is re-audited every 7 days (Rule 0b)
 - **PROGRESS_STATUS.md** tracks project state against actual disk
 
