@@ -51,6 +51,10 @@ make_repo() {
   git -C "$repo" add README.md && git -C "$repo" commit -q -m init
   mkdir -p "$repo/.git/hooks"
   cp "$HOOK_SRC" "$repo/.git/hooks/pre-commit"
+  # The hook resolves the framework via aas-resolve.sh (SCRIPT_DIR/../ = .git/).
+  # Copy it so the test is deterministic — CI does not export
+  # ANOTHER_AGENT_SKILLS_DIR, so the resolver must be found here.
+  cp "$REPO_ROOT/scripts/aas-resolve.sh" "$repo/.git/aas-resolve.sh"
   chmod +x "$repo/.git/hooks/pre-commit"
   printf '%s decision\n' "$(date +%Y-%m-%dT%H:%M:%S)" > "$repo/.git/DECISION_APPROVED"
   echo "note" > "$repo/a.txt"
