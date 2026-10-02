@@ -436,6 +436,33 @@ $ bash install.sh</code></pre>
     </div>
   </section>
 
+  <section class="philosophy" id="workflows" data-reveal aria-label="Git &amp; GitHub workflows">
+    <div class="container">
+      <p class="section__label" data-i18n="workflows.label">git &amp; github workflows</p>
+      <h2 class="section__title" data-i18n="workflows.title">Works with or without GitHub.</h2>
+      <p class="section__subtitle" data-i18n="workflows.subtitle">Four workflows. Enforcement adapts to what your project has.</p>
+      <ol class="philosophy__list">
+        <li class="philosophy__item">
+          <span class="philosophy__num">01</span>
+          <p class="philosophy__text" data-i18n="workflows.flow1">no-git — Independent or private, no VCS. init-agents still installs rules, skills, and AGENTS.md, but there are no hooks and no remote gate. Enforcement is convention-only. To enable more: run git init, then re-run init-agents (it installs the local hooks); add a GitHub remote for L2.</p>
+        </li>
+        <li class="philosophy__item">
+          <span class="philosophy__num">02</span>
+          <p class="philosophy__text" data-i18n="workflows.flow2">local-git — A private repo or a non-GitHub forge. L1 hooks are active, but there is no L2/L3. To get remote enforcement: add a GitHub remote (git remote add origin …) and re-run init-agents, then run scripts/setup-branch-protection.sh.</p>
+        </li>
+        <li class="philosophy__item">
+          <span class="philosophy__num">03</span>
+          <p class="philosophy__text" data-i18n="workflows.flow3">git + GitHub — Full L1 + L2 + L3. Run init-agents (hooks + gates.yml + setup-branch-protection.sh), push a branch and open a PR so the gates check reports once, preview with setup-branch-protection.sh --dry-run, apply it, then verify with gh api repos/OWNER/REPO/branches/main/protection.</p>
+        </li>
+        <li class="philosophy__item">
+          <span class="philosophy__num">04</span>
+          <p class="philosophy__text" data-i18n="workflows.flow4">git-later — No git now, git (and GitHub) later. The key rule: re-run init-agents after git init and after adding the remote. It detects what is now available and installs the missing layers (hooks, gates.yml).</p>
+        </li>
+      </ol>
+      <p class="section__subtitle" data-i18n="workflows.note">L1 (local hooks) is fast feedback, advisory. L2 (the remote gates required check) and L3 (CODEOWNERS) are the authority — and L2/L3 are GitHub-only.</p>
+    </div>
+  </section>
+
   <section class="philosophy" id="self-improving" data-reveal aria-label="Self-improving">
     <div class="container">
       <p class="section__label" data-i18n="selfimproving.label">08 / self-improving</p>

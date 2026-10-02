@@ -328,6 +328,24 @@ After this, a direct push to `main` is rejected and no PR can merge until
 > requiring the `gates` check. See [`BRANCH-PROTECTION.md`](BRANCH-PROTECTION.md)
 > for the full L1/L2/L3 model and the lockout guard.
 
+### No GitHub? / git later?
+
+**L2 and L3 are GitHub-only.** They exist only when the project has both a git
+repository and a GitHub remote. Without them the framework is still first-class —
+you just get fewer enforcement layers:
+
+| Workflow | What you get | How to enable more |
+|---|---|---|
+| **no-git** — independent / private, no VCS | Rules, skills, `AGENTS.md`; **convention-only** (no hooks, no remote gate) | `git init`, then **re-run `init-agents`** (installs L1 hooks); add a GitHub remote for L2 |
+| **local-git** — local git, no remote (private repo or another forge) | L1 hooks only; **no L2/L3** | `git remote add origin …`, **re-run `init-agents`**, then `scripts/setup-branch-protection.sh` |
+| **git + GitHub** — full L1 + L2 + L3 | Local hooks + required `gates` check + `CODEOWNERS` | Nothing — see the checklist above |
+| **git-later** — no git now, git (+ GitHub) later | Starts convention-only, grows as layers appear | **Re-run `init-agents` after `git init` and after adding the remote** — it detects what is now available and installs the missing layers (hooks, `gates.yml`) |
+
+The key rule for every path: **re-run `init-agents` after `git init` and after
+adding the remote.** `init-agents` installs local hooks only when `.git` exists,
+and `.github/workflows/gates.yml` only when a GitHub remote exists — so re-running
+it is how you pick up a layer you just made available.
+
 ---
 
 ## Architecture Notes

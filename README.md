@@ -62,6 +62,38 @@ Run `init-agents` in every new project — it:
 
 ---
 
+## Git & GitHub Workflows
+
+`init-agents` adapts to what your project actually has. Enforcement has three layers:
+
+- **L1 — local hooks** (`.git/hooks/*`): fast feedback, advisory. Installed only when `.git` exists.
+- **L2 — remote `gates` required check** (`.github/workflows/gates.yml` + branch protection): the authority.
+- **L3 — `CODEOWNERS`**: protects the gate config.
+
+**L2 and L3 are GitHub-only.** Without GitHub you still get skills, rules, and L1 hooks — the workflow is first-class, not degraded.
+
+### 1. no-git — independent / private, no VCS
+
+`init-agents` still installs rules, skills, and `AGENTS.md`, but there are no hooks and no remote gate. Enforcement is **convention-only**. To enable more: run `git init`, then **re-run `init-agents`** (it installs the local hooks); add a GitHub remote for L2.
+
+### 2. local-git — local git, no remote (private repo or another forge)
+
+L1 hooks are active. **There is no L2/L3.** To get remote enforcement: add a GitHub remote (`git remote add origin …`) and **re-run `init-agents`**, then run `scripts/setup-branch-protection.sh`.
+
+### 3. git + GitHub — full L1 + L2 + L3
+
+1. `init-agents` — installs the hooks, `.github/workflows/gates.yml`, and `scripts/setup-branch-protection.sh`.
+2. Commit and push a branch and open a PR so the `gates` check reports at least once.
+3. `bash scripts/setup-branch-protection.sh --dry-run` — preview (no writes).
+4. `bash scripts/setup-branch-protection.sh` — apply (needs `gh` authenticated with admin).
+5. Verify: `gh api repos/OWNER/REPO/branches/main/protection`.
+
+### 4. git-later — no git now, git (+ GitHub) later
+
+The key rule: **re-run `init-agents` after `git init` and after adding the remote.** It detects what is now available and installs the missing layers (hooks, `gates.yml`).
+
+---
+
 ## The Harness
 
 > *"A raw model is not an agent. It becomes one once a harness gives it state, tool execution, feedback loops, and enforceable constraints."*
