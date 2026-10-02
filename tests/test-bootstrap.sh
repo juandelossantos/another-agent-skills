@@ -12,6 +12,15 @@ trap 'rm -rf "$TMP"' EXIT
 fail=0
 check() { if [ "$1" = "0" ]; then echo "  ✓ $2"; else echo "  ✗ $2"; fail=1; fi; }
 
+# Portable sha256 (GNU coreutils sha256sum, or macOS/BSD shasum -a 256).
+_sha256() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{print $1}'
+  else
+    shasum -a 256 "$1" | awk '{print $1}'
+  fi
+}
+
 # ── Build a fake pinned release (local dir, zero network) ────────────────────
 REL="$TMP/releases"
 ASSET_VERSION="1.2.3"
@@ -25,7 +34,7 @@ printf '%s\n' "$ASSET_VERSION" > "$SRC/VERSION"
 printf '#!/usr/bin/env bash\necho fake-aas\n' > "$SRC/bin/aas"
 chmod +x "$SRC/bin/aas"
 tar -czf "$REL_DIR/$ASSET" -C "$SRC" .
-( cd "$REL_DIR" && sha256sum "$ASSET" > checksums.txt )
+( cd "$REL_DIR" && printf '%s  %s\n' "$(_sha256 "$ASSET")" "$ASSET" > checksums.txt )
 
 export HOME="$TMP/home"; mkdir -p "$HOME"
 export AAS_HOME="$TMP/data"
@@ -61,7 +70,7 @@ TAMPER_VERSION="1.2.4"
 TAMPER_DIR="$REL/v${TAMPER_VERSION}"
 mkdir -p "$TAMPER_DIR"
 cp "$REL_DIR/$ASSET" "$TAMPER_DIR/another-agent-skills-v${TAMPER_VERSION}.tar.gz"
-( cd "$TAMPER_DIR" && sha256sum "another-agent-skills-v${TAMPER_VERSION}.tar.gz" > checksums.txt )
+( cd "$TAMPER_DIR" && printf '%s  %s\n' "$(_sha256 "another-agent-skills-v${TAMPER_VERSION}.tar.gz")" "another-agent-skills-v${TAMPER_VERSION}.tar.gz" > checksums.txt )
 printf 'tamper-bytes' >> "$TAMPER_DIR/another-agent-skills-v${TAMPER_VERSION}.tar.gz"
 bash "$REPO_ROOT/bootstrap.sh" --version "$TAMPER_VERSION" > "$TMP/tamper.log" 2>&1
 RC=$?

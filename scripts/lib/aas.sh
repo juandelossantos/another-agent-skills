@@ -91,6 +91,18 @@ aas_sha256() { # <file>
   fi
 }
 
+# Defense-in-depth on top of the checksum: refuse a tarball whose member paths
+# are absolute or escape the extraction root. GNU/BSD tar strip these on extract,
+# but a release asset should never contain them at all.
+aas_guard_tarball() { # <tarball>
+  local tarball="$1"
+  if tar -tzf "$tarball" 2>/dev/null | grep -Eq '^/|(^|/)\.\.(/|$)'; then
+    aas_error "refusing tarball with unsafe member paths: ${tarball}"
+    return 1
+  fi
+  return 0
+}
+
 # Fail closed: a missing entry or a mismatch aborts the install.
 aas_verify_checksum() { # <tarball> <checksums-file> <asset-name>
   local tarball="$1" checksums="$2" asset="$3"
@@ -147,10 +159,22 @@ aas_link_bin() { # <version>
   local tmp="$AAS_BIN_DIR/.aas.tmp.$$"
   mkdir -p "$AAS_BIN_DIR"
   rm -f "$tmp"
-  ln -s "$target" "$tmp"
+  if ! ln -s "$target" "$tmp" 2>/dev/null; then
+    aas_error "cannot create symlink at ${link}"
+    return 1
+  fi
+  if [ ! -L "$tmp" ]; then
+    # Git Bash without symlink support silently *copies* on `ln -s`; that would
+    # break the CLI's self-resolution (it would look for the repo next to the
+    # copy). Fail clearly instead of installing a broken CLI.
+    rm -f "$tmp"
+    aas_error "symlinks unsupported at ${AAS_BIN_DIR} (on Git Bash set MSYS=winsymlinks:nativestrict)"
+    return 1
+  fi
   if mv -T "$tmp" "$link" 2>/dev/null; then
     :
   else
+    # GNU `mv -T` is unavailable (e.g. macOS): fall back to replace-in-place.
     rm -f "$link"
     mv "$tmp" "$link"
   fi
@@ -173,6 +197,26 @@ aas_ensure_path() {
     if ! grep -qF "$marker" "$f" 2>/dev/null; then
       printf '\n%s\n%s\n# <<< another-agent-skills-path\n' "$marker" "$line" >> "$f"
     fi
+  done
+}
+
+# Remove the PATH block added by aas_ensure_path (idempotent). Leaves all other
+# rc content untouched, so `aas uninstall` fully reverses `aas install`.
+aas_remove_path() {
+  local begin="# >>> another-agent-skills-path"
+  local end="# <<< another-agent-skills-path"
+  local files=() rc f tmp
+  for rc in "$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.profile"; do
+    [ -e "$rc" ] && files+=("$rc")
+  done
+  for f in "${files[@]}"; do
+    grep -qF "$begin" "$f" 2>/dev/null || continue
+    tmp="$f.aas.tmp.$$"
+    awk -v b="$begin" -v e="$end" '
+      $0 == b { skip=1; next }
+      skip && $0 == e { skip=0; next }
+      !skip
+    ' "$f" > "$tmp" && mv "$tmp" "$f"
   done
 }
 
@@ -199,6 +243,9 @@ aas_install_release() { # <version>
   if ! aas_verify_checksum "$tmp/$asset" "$tmp/checksums.txt" "$asset"; then
     rm -rf "$tmp"; return 1
   fi
+  if ! aas_guard_tarball "$tmp/$asset"; then
+    rm -rf "$tmp"; return 1
+  fi
 
   local staging="$AAS_HOME/.staging.$version.$$"
   rm -rf "$staging"
@@ -213,17 +260,28 @@ aas_install_release() { # <version>
   fi
   chmod +x "$staging/bin/aas"
 
+  # Replace the version dir atomically: move the old one aside first, then swap
+  # in the staged tree. If the swap fails, restore the old dir — never leave a
+  # half-installed version behind.
   mkdir -p "$AAS_HOME"
-  rm -rf "$install_dir"
-  mv "$staging" "$install_dir"
-  rm -rf "$tmp"
+  local old="$AAS_HOME/.old.$version.$$"
+  rm -rf "$old"
+  if [ -e "$install_dir" ] && ! mv "$install_dir" "$old"; then
+    rm -rf "$tmp" "$staging"; return 1
+  fi
+  if ! mv "$staging" "$install_dir"; then
+    aas_error "failed to activate ${install_dir}"
+    [ -e "$old" ] && mv "$old" "$install_dir"
+    rm -rf "$tmp" "$staging"; return 1
+  fi
+  rm -rf "$old" "$tmp"
 
-  aas_link_bin "$version"
+  aas_link_bin "$version" || return 1
   aas_ensure_path
   return 0
 }
 
-# Remove the symlink and the whole install root.
+# Remove the symlink, the whole install root, and the PATH block we added.
 aas_uninstall() {
   local link="$AAS_BIN_DIR/aas"
   if [ -L "$link" ] || [ -e "$link" ]; then
@@ -232,6 +290,7 @@ aas_uninstall() {
   if [ -d "$AAS_HOME" ]; then
     rm -rf "$AAS_HOME"
   fi
+  aas_remove_path
 }
 
 # ── Agent selection (P9.4) ───────────────────────────────────────────────────
@@ -241,7 +300,16 @@ aas_parse_agent_list() { # <comma-list> → normalized comma-list
   while IFS= read -r id; do
     id="$(printf '%s' "$id" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
     [ -z "$id" ] && continue
-    if ! list_agents | grep -qx "$id"; then
+    # Agent ids are plain identifiers. Reject anything else before matching so
+    # the match is literal (no `.*`/regex injection) and so a malformed id gets
+    # a clear error rather than a confusing downstream failure.
+    case "$id" in
+      *[!a-zA-Z0-9._-]*)
+        aas_error "invalid agent id: ${id} (supported: $(list_agents | paste -sd, -))"
+        return 1
+        ;;
+    esac
+    if ! list_agents | grep -qxF "$id"; then
       aas_error "unknown agent: ${id} (supported: $(list_agents | paste -sd, -))"
       return 1
     fi

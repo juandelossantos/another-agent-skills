@@ -14,6 +14,15 @@ trap 'rm -rf "$TMP"' EXIT
 fail=0
 check() { if [ "$1" = "0" ]; then echo "  ✓ $2"; else echo "  ✗ $2"; fail=1; fi; }
 
+# Portable sha256 (GNU coreutils sha256sum, or macOS/BSD shasum -a 256).
+_sha256() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{print $1}'
+  else
+    shasum -a 256 "$1" | awk '{print $1}'
+  fi
+}
+
 export HOME="$TMP/home"; mkdir -p "$HOME"
 export AAS_HOME="$TMP/data"
 export AAS_BIN_DIR="$TMP/bin"
@@ -84,7 +93,7 @@ cp "$REPO_ROOT/bin/aas" "$NEW_SRC/bin/aas"; chmod +x "$NEW_SRC/bin/aas"
 cp "$REPO_ROOT/scripts/lib/aas.sh" "$NEW_SRC/scripts/lib/aas.sh"
 cp "$REPO_ROOT/scripts/agent-detect.sh" "$NEW_SRC/scripts/agent-detect.sh"
 tar -czf "$NEW_DIR/$NEW_ASSET" -C "$NEW_SRC" .
-( cd "$NEW_DIR" && sha256sum "$NEW_ASSET" > checksums.txt )
+( cd "$NEW_DIR" && printf '%s  %s\n' "$(_sha256 "$NEW_ASSET")" "$NEW_ASSET" > checksums.txt )
 
 MOCKBIN="$TMP/mockbin"; mkdir -p "$MOCKBIN"
 printf '#!/usr/bin/env bash\necho v%s\n' "$NEW_VERSION" > "$MOCKBIN/gh"

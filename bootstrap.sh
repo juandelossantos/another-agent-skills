@@ -40,8 +40,19 @@ EOF
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --version)   REQ_VERSION="${2:-}"; shift 2 ;;
-    --version=*) REQ_VERSION="${1#*=}"; shift ;;
+    --version)
+      if [ $# -lt 2 ] || [ -z "${2:-}" ]; then
+        aas_error "--version requires a value (vX.Y.Z)"
+        exit 2
+      fi
+      REQ_VERSION="$2"; shift 2 ;;
+    --version=*)
+      REQ_VERSION="${1#*=}"
+      if [ -z "$REQ_VERSION" ]; then
+        aas_error "--version requires a value (vX.Y.Z)"
+        exit 2
+      fi
+      shift ;;
     --dry-run)   DRY_RUN=true; shift ;;
     --uninstall) UNINSTALL=true; shift ;;
     --help|-h)   usage; exit 0 ;;

@@ -60,8 +60,19 @@ cmd_install() {
   local agents_mode="auto" skip_si=false
   while [ $# -gt 0 ]; do
     case "$1" in
-      --agents)   agents_mode="${2:-}"; shift 2 ;;
-      --agents=*) agents_mode="${1#*=}"; shift ;;
+      --agents)
+        if [ $# -lt 2 ] || [ -z "${2:-}" ]; then
+          aas_error "--agents requires a value (auto|all|<comma-list>)"
+          return 2
+        fi
+        agents_mode="$2"; shift 2 ;;
+      --agents=*)
+        agents_mode="${1#*=}"
+        if [ -z "$agents_mode" ]; then
+          aas_error "--agents requires a value (auto|all|<comma-list>)"
+          return 2
+        fi
+        shift ;;
       --skip-self-improvement) skip_si=true; shift ;;
       --help|-h)  usage; return 0 ;;
       *)          aas_error "unknown install option: $1"; return 2 ;;
