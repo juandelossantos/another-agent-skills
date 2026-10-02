@@ -12,8 +12,8 @@ with `scripts/setup-branch-protection.sh`.
 | Layer | Where it lives | What it guarantees | Nature |
 |---|---|---|---|
 | **L1 — Local feedback** | `.git/hooks/*` | Fails fast, informs, leaves a trace, makes the decision point visible | Ergonomics for a cooperative agent. **Not security.** |
-| **L2 — Remote authority** | GitHub branch protection + required status checks | Nothing reaches `main` without passing the real gates | Real enforcement. Requires that the agent cannot push/merge directly. |
-| **L3 — Config integrity** | `CODEOWNERS` + required code-owner review | The agent cannot edit its own rules in the same PR that violates them | Closes the "CI is forgeable if the agent edits the workflow" hole. |
+| **L2 — Remote authority** | GitHub branch protection + required status checks | Nothing reaches `main` without passing the real gates | Real enforcement — **for anyone without admin**. A solo admin can still bypass (see the solo caveat below). |
+| **L3 — Config integrity** | `CODEOWNERS` + required code-owner review | Another code owner must approve changes to the gate config | Closes the "CI is forgeable if the agent edits the workflow" hole **only while code-owner review is enforced** — i.e. the team profile *and* a `CODEOWNERS` with ≥ 2 owners. On solo, or with a single-owner `CODEOWNERS`, it is configured but **not enforced** (the guards below explain why). |
 
 The guiding principle: **design for the cooperative agent, enforce for the
 adversarial one.** L1 is primary for cooperation; L2 + L3 are the backstop.
