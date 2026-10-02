@@ -3,7 +3,7 @@
 # dual contract, philosophy A, and the relocated source.
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ADR="$REPO_ROOT/ADRs/005-native-js-plugin-agent-discipline.md"
 
 fail=0

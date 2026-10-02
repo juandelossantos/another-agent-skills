@@ -34,7 +34,7 @@ run_suite() {
   if $SCOPE_CHANGED; then
     # Extract test filename from command
     local test_file
-    test_file=$(echo "$cmd" | grep -oP "tests/test-\w+\.sh" | head -1 || true)
+    test_file=$(echo "$cmd" | grep -oP "tests/(task/)?test-\w+\.sh" | head -1 || true)
     if [ -z "$test_file" ]; then
       # Always run non-file-specific suites (audit, init)
       true
@@ -87,10 +87,18 @@ echo "╚═══════════════════════�
 run_suite "Audit wrapper-contract" "bash tests/audit/run.sh"
 run_suite "Audit universal engine" "bash tests/audit/universal.sh"
 run_suite "Init-agents features"  "bash tests/init/run.sh"
-# Auto-discover tests/test-*.sh — no manual registration needed
+# Auto-discover tests/test-*.sh — behavioral/regression suites (persist)
 for test_file in "$REPO_ROOT"/tests/test-*.sh; do
   [ -f "$test_file" ] || continue
   name=$(basename "$test_file" .sh | sed 's/^test-//')
+  run_suite "$name" "bash '$test_file'"
+done
+# Auto-discover tests/task/*.sh — the TASK-test working set (checkpoint cadence).
+# These are content/phase tests; they still run here so coverage isn't lost,
+# but they are capped and archived per docs/TEST-CADENCE.md.
+for test_file in "$REPO_ROOT"/tests/task/test-*.sh; do
+  [ -f "$test_file" ] || continue
+  name="task/$(basename "$test_file" .sh | sed 's/^test-//')"
   run_suite "$name" "bash '$test_file'"
 done
 run_suite "Skill lint"           "bash scripts/skill-lint.sh skills/"

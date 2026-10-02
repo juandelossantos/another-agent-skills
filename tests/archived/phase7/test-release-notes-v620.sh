@@ -2,7 +2,7 @@
 # test-release-notes-v620.sh — RELEASE-NOTES.md has the v6.2.0 (Phase 7) section.
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DOC="$REPO_ROOT/RELEASE-NOTES.md"
 
 fail=0

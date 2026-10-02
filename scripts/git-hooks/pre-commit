@@ -567,16 +567,28 @@ else
   echo "  ${YELLOW}−${NC} No test command found (define in STACK_CONFIG.md or create tests/run-all.sh)"
 fi
 
-# === Test Count Gate (prevent accumulation) ===
-MAX_TESTS=64
-TEST_COUNT=$(find "${REPO_ROOT}/tests" -maxdepth 1 -name 'test-*.sh' 2>/dev/null | wc -l | tr -d ' ')
-if [[ "$TEST_COUNT" -gt "$MAX_TESTS" ]]; then
+# === Test Count Gate (TASK-test cadence) ===
+# Only the TASK-test working set in tests/task/*.sh counts against the cap.
+# Behavioral/regression tests in tests/test-*.sh persist and are NOT counted.
+# The ceiling lives in ONE place — scripts/test-cadence.conf — read here.
+MAX_TASK_TESTS=20
+CADENCE_CONF="${REPO_ROOT}/scripts/test-cadence.conf"
+if [ -f "$CADENCE_CONF" ]; then
+  # shellcheck source=/dev/null
+  . "$CADENCE_CONF"
+fi
+TASK_TEST_COUNT=$(find "${REPO_ROOT}/tests/task" -maxdepth 1 -name '*.sh' 2>/dev/null | wc -l | tr -d ' ')
+if [ "${TASK_TEST_COUNT:-0}" -ge "$MAX_TASK_TESTS" ]; then
   echo ""
   echo "  ${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
-  echo "  ${YELLOW}║  TEST COUNT WARNING                                     ║${NC}"
+  echo "  ${YELLOW}║  TASK-TEST CADENCE: CHECKPOINT DUE                      ║${NC}"
   echo "  ${YELLOW}║                                                         ║${NC}"
-  echo "  ${YELLOW}║  $TEST_COUNT test files found (max $MAX_TESTS).             ║${NC}"
-  echo "  ${YELLOW}║  Archive completed task tests to tests/archived/.        ║${NC}"
+  echo "  ${YELLOW}║  $TASK_TEST_COUNT task tests in tests/task/ (cap $MAX_TASK_TESTS).        ║${NC}"
+  echo "  ${YELLOW}║                                                         ║${NC}"
+  echo "  ${YELLOW}║  Cadence: hit $MAX_TASK_TESTS -> push + full review -> archive    ║${NC}"
+  echo "  ${YELLOW}║    git mv tests/task/<batch> tests/archived/<phase>/     ║${NC}"
+  echo "  ${YELLOW}║  then reset. Behavioral tests in tests/ are not counted. ║${NC}"
+  echo "  ${YELLOW}║  See docs/TEST-CADENCE.md.                              ║${NC}"
   echo "  ${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
 fi
 

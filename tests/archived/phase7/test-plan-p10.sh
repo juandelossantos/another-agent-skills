@@ -2,7 +2,7 @@
 # test-plan-p10.sh — PLAN.md records Phase 10 (landing/docs refresh, v6.2.0).
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLAN="$REPO_ROOT/PLAN.md"
 
 fail=0

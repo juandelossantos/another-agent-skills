@@ -2,7 +2,7 @@
 # test-plan-p72.sh — PLAN.md records the P7.2 global install work.
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLAN="$REPO_ROOT/PLAN.md"
 
 fail=0

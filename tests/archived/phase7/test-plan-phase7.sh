@@ -3,7 +3,7 @@
 # and the Phase 8 / prioritization sections.
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLAN="$REPO_ROOT/PLAN.md"
 
 if [ ! -f "$PLAN" ]; then

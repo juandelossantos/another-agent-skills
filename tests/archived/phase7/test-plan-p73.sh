@@ -2,7 +2,7 @@
 # test-plan-p73.sh — PLAN.md records P7.3 and backlog B3.
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLAN="$REPO_ROOT/PLAN.md"
 
 fail=0

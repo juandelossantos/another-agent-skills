@@ -6,7 +6,7 @@
 set -uo pipefail
 
 RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 FILE="$REPO_ROOT/docs/getting-started.html"
 
 PASSED=0; FAILED=0; TOTAL=0

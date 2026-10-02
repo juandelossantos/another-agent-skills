@@ -2,7 +2,7 @@
 # test-session-state-v7.sh — development/SESSION_STATE.md carries the current handoff.
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DOC="$REPO_ROOT/development/SESSION_STATE.md"
 
 fail=0

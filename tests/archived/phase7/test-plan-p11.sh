@@ -2,7 +2,7 @@
 # test-plan-p11.sh — PLAN.md records Phase 11 (Astro + Starlight docs site).
 set -uo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLAN="$REPO_ROOT/PLAN.md"
 
 fail=0
