@@ -429,7 +429,22 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 **Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético.
 
-**Actualización (2026-10-02):** ✅ P7 (v6.2.0) y **P8 completa** (remote enforcement live en `main`) están **hechos**. Siguiente: **Phase 10** (landing/docs refresh) → **Phase 11** (docs site Astro + Starlight), luego backlog (test scoping).
+**Actualización (2026-10-02):** ✅ P7 (v6.2.0), **P8 completa** (remote enforcement) y **P8.1** (TDD gate delivery + flujos sin git/GitHub) están **hechos**. Orden **decidido**: **Phase 9 (distribución) → Phase 10 (landing/docs + SEO/AEO/a11y) → Phase 11 (docs site)**. Ver "Orden de ejecución" abajo.
+
+---
+
+## Orden de ejecución (decidido 2026-10-02)
+
+**Phase 9 (distribución) → Phase 10 (landing/docs + descubribilidad) → Phase 11 (docs site).**
+
+**Por qué 9 antes que 10:**
+1. **Phase 9 cambia la forma de instalar.** Hoy todo dice `git clone … && bash install.sh`; Phase 9 lo cambia a bootstrap `curl` pineado + CLI `aas` + npm. La instalación es lo **primero** que lee un usuario nuevo.
+2. **Evita rework y drift.** Rediseñar la landing y reescribir los docs *antes* de 9 obligaría a re-editar el hero, la sección de instalación, el quickstart y la página de instalación. El drift de docs es el enemigo recurrente de este proyecto (Phase 4 "Docs Honesty", Phase 8.5).
+3. **El embudo manda.** Primero **hazlo fácil de instalar** (9); luego **véndelo** (10); luego **documéntalo a escala** (11, con el contenido final ya estable).
+
+**Versiones (secuenciales):** Phase 9 → `v6.3.0` · Phase 10 → `v6.4.0` · Phase 11 → `v6.5.0`.
+
+**Deuda consciente:** hasta que Phase 10/11 aterricen, algunas superficies siguen stale (`README` "What's New", refs a `6.1.0`). Se resuelven de una vez en 10/11 — no se parchean por separado (evita doble trabajo).
 
 ---
 
@@ -471,12 +486,12 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ---
 
-## Phase 10: Landing & Docs Refresh (v6.2.0)
+## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.4.0)
 
 **Branch:** `feat/phase10-landing`
-**Goal:** Landing y documentación atractivas, útiles y al día (multi-agente, v6.1.0), con diseño de calidad y mensaje de marketing.
+**Goal:** Landing, README y docs **atractivos, accesibles y descubribles** — con la historia **multi-agente + distribución (Phase 9)** ya final, diseño award-winning, SEO técnico, **AEO** (Answer Engine Optimization), accesibilidad WCAG 2.2 AA y lenguaje/keywords del sector para ser encontrados y **citados como referente** en agent skills / IA agéntica.
 
-**Why:** La landing dice *"Designed for OpenCode"* pero el framework ya es **multi-agente**; no muestra el valor real (compat v1/v2, guardrails, filosofía A) ni un "What's new". Docs ES/EN desincronizadas.
+**Why:** La landing dice *"Designed for OpenCode"* pero el framework ya es **multi-agente** y (tras Phase 9) se instala sin clonar; no muestra el valor real ni un "What's new". Y hoy **no hay `sitemap.xml`, `robots.txt`, datos estructurados ni AEO** → no nos encuentran los buscadores ni los motores de respuesta (ChatGPT, Perplexity, AI Overviews).
 
 **Bloque A — Value doc + sync (entra en v6.1.0)**
 - A1 `RELEASE-NOTES.md` v6.1.0 · A2 `README`/`PROGRESS_STATUS` · A3 i18n ES/EN (`i18n/*.json`, `docs/i18n/*.json`) · A4 refs históricas (`rules/common/context.md`, `RELEASE-NOTES.md`).
@@ -494,15 +509,27 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 **Bloque B.1 — Estilo propio de la sección `#workflows` (deuda de Phase 8.1)**
 - La sección `#workflows` de `index.html` (flujos git/GitHub) reutiliza el estilo `.philosophy` porque no existe `.workflows` en `css/style.css`. En el refresh: darle un estilo/componente propio de "flujo" y revisar responsive + i18n ES/EN.
 
-**Bloque C — Release v6.1.0 (Phase 7)**
-- C1 `VERSION` → 6.1.0 + tag + GitHub Release (value: compat v1/v2, multi-agente, filosofía A).
-- C2 push de `fix/opencode-v2-plugin-compat` + PR.
+**Bloque D — Descubribilidad: SEO + AEO + accesibilidad + award-winning**
+| # | Task | Detalle | Criterio |
+|---|---|---|---|
+| D1 | SEO técnico | `sitemap.xml` + `robots.txt`; canonical; `hreflang` EN/ES; meta/OG/Twitter por página; slugs limpios | Lighthouse SEO 100; sitemap válido |
+| D2 | Datos estructurados (schema.org, JSON-LD) | `SoftwareApplication`, `Organization`, `FAQPage`, `HowTo` (instalación), `BreadcrumbList` | Rich Results Test sin errores |
+| D3 | **AEO** (Answer Engine Optimization) | Contenido pregunta/respuesta, FAQ con respuestas directas y citables, "TL;DR" por sección, definiciones claras, datos verificables → citable por ChatGPT/Perplexity/AI Overviews; `llms.txt` | Aparece en respuestas de motores de IA (verificación manual) |
+| D4 | Keywords + lenguaje del sector | Investigación (agent skills, AI coding agent, harness, guardrails, TDD para agentes, multi-agent, OpenCode/Claude Code); mapa keyword→página; tono técnico-atractivo para devs/CTOs | Cada página tiene keyword primaria + secundarias |
+| D5 | Accesibilidad (WCAG 2.2 AA) | Contraste, foco visible, teclado, landmarks/ARIA, `prefers-reduced-motion`, texto alternativo | axe/Playwright a11y 0 violaciones |
+| D6 | Award-winning quality bar | Inspiración Awwwards/Godly/Land-book/SiteInspire; motion con propósito; tipografía; micro-interacciones | Lighthouse Performance ≥95, CWV en verde |
+| D7 | Indexación + medición | Search Console + Bing Webmaster; submit sitemap; analytics ligero (Plausible/Umami) opcional | Sitemap aceptado; indexación confirmada |
+| D8 | Referencia en el sector | Contenido citable (guías, comparativas, "state of agent skills"), OG cards, publicación (dev.to/HN/Reddit) | Backlinks + menciones |
+
+**Bloque C — Release (v6.4.0)**
+- C1 `VERSION` → 6.4.0 + tag + GitHub Release (value: multi-agente, distribución, descubribilidad).
+- C2 PR de la rama de landing.
 
 ---
 
-## Phase 11: Docs site — Astro + Starlight (v6.3.0)
+## Phase 11: Docs site — Astro + Starlight (v6.5.0)
 
-**Goal:** Migrar el sitio de documentación a Astro + Starlight: SEO por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages.
+**Goal:** Migrar el sitio de documentación a Astro + Starlight: SEO **y AEO** por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages — heredando el estándar de descubribilidad de Phase 10 (sitemap por idioma, datos estructurados, `llms.txt`, a11y WCAG 2.2 AA).
 
 **Principio de frontera (no erosionar):** el **core** (skills, rules, hooks, `install.sh`) se mantiene **sin build**. El build vive **solo en la capa de docs**; `install.sh` nunca debe requerir Node. El CI del core no corre el build de docs.
 
@@ -518,8 +545,10 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | P11.4 | i18n por rutas (`/en/`, `/es/`) — reemplaza el toggle JSON client-side | Ambas indexables |
 | P11.5 | Workflow de deploy a Pages, **separado** del CI del core | Core sin build |
 | P11.6 | Reescribir tests de docs (Playwright, i18n, nav); build fuera del pre-commit del core | Suite verde; `install.sh` sin Node |
+| P11.7 | SEO/AEO por idioma: `sitemap.xml` por locale, `hreflang`, datos estructurados, `llms.txt` | Ambas rutas indexables y citables por motores de IA |
+| P11.8 | Accesibilidad WCAG 2.2 AA en el tema Starlight (contraste, foco, teclado, motion) | axe 0 violaciones |
 
-**Costo honesto:** migración real (21 páginas + diseño custom + reescritura de tests de docs). No es un fin de semana; va **después** de v6.1.0 y Phase 10.
+**Costo honesto:** migración real (21 páginas + diseño custom + reescritura de tests de docs). No es un fin de semana; va **después** de Phase 9 y Phase 10.
 
 ---
 
