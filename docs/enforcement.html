@@ -104,8 +104,11 @@
       <li data-i18n="enforcement.incident1">INCIDENT_001: Agent committed without approval → Added visible manifest requirement</li>
       <li data-i18n="enforcement.incident2">INCIDENT_002: Agent bypassed manifest → Added time-window approval (replaced SHA256 tokens)</li>
       <li data-i18n="enforcement.incident3">INCIDENT_003: Agent generated tokens without real approval → Added mandatory manifest gate</li>
-      <li data-i18n="enforcement.incident4">INCIDENT_004: Agent committed directly to main with SKIP_TEST_RUNNER bypass → Added main branch protection + logged test bypass + commit-approval branch check</li>
+      <li data-i18n="enforcement.incident4">INCIDENT_004: Agent committed directly to main with SKIP_TEST_RUNNER bypass → Added a local Gate 1 branch check (pre-commit) + logged the test bypass. Remote branch protection came later, in Phase 8.</li>
     </ul>
+
+    <h2 data-i18n="enforcement.layersTitle">Local Feedback vs Remote Authority</h2>
+    <p data-i18n="enforcement.layersDesc" data-i18n-html>Enforcement has three layers: <strong>L1</strong> local hooks (fast feedback, not security), <strong>L2</strong> remote branch protection with the required <code>gates</code> status check (the authority), and <strong>L3</strong> <code>CODEOWNERS</code> protecting the gate configuration. If the gate that decides can be edited by the change it judges, it is not a gate. <a href="BRANCH-PROTECTION.md">Read the three-layer model →</a></p>
 
     <h2 data-i18n="enforcement.honestLimitations">Honest Limitations</h2>
     <div class="docs__callout"><div class="docs__callout-title">⚠</div><p data-i18n="enforcement.honestDesc">These gates create friction, not guarantees. The hooks enforce git operations, but cannot prevent the agent from generating tokens without presenting the manifest, interpreting ambiguous responses as approval, or pushing without asking. The human must stay alert.</p></div>
