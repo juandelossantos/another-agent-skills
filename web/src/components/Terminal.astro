@@ -1,0 +1,43 @@
+---
+import type { Dictionary } from '../i18n';
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+
+// Rendered as static text so it is fully visible with JS off / reduced motion.
+// The landing script re-types it only when motion is allowed.
+const commands = [
+  { text: dict.terminal.cmd1, soon: false },
+  { text: dict.terminal.cmd2, soon: false },
+  { text: dict.terminal.cmd3, soon: true },
+];
+---
+
+<div class="terminal" data-terminal>
+  <div class="terminal__bar">
+    <span class="terminal__dot terminal__dot--r" aria-hidden="true"></span>
+    <span class="terminal__dot terminal__dot--y" aria-hidden="true"></span>
+    <span class="terminal__dot terminal__dot--g" aria-hidden="true"></span>
+    <span class="terminal__title">{dict.hero.terminalTitle}</span>
+  </div>
+  <div class="terminal__body">
+    <div class="terminal__lines" data-terminal-lines>
+      {commands.map((cmd) => (
+        <div class="terminal__tline">
+          <span class="terminal__prompt">~ $</span>
+          <span class="terminal__typing">{cmd.text}</span>
+          {cmd.soon && <span class="terminal__soon">{dict.terminal.soon}</span>}
+        </div>
+      ))}
+    </div>
+    <div class="terminal__output" data-terminal-output>
+      <div class="terminal__out-line terminal__out-line--info">{dict.terminal.detected}</div>
+      <div class="terminal__out-line">{dict.terminal.installed}</div>
+      <div class="terminal__out-line">{dict.terminal.done}</div>
+      <div class="terminal__out-line terminal__out-line--muted">{dict.terminal.channels}</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+---
+import Stat from './Stat.astro';
+import type { Dictionary } from '../i18n';
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+
+const stops = [
+  { id: 'audit', hue: 'define', label: dict.loop.auditShort },
+  { id: 'diagnose', hue: 'plan', label: dict.loop.diagnoseShort },
+  { id: 'fix', hue: 'build', label: dict.loop.fixShort },
+  { id: 'adr', hue: 'verify', label: dict.loop.adrShort },
+  { id: 'repeat', hue: 'ship', label: dict.loop.repeatShort },
+];
+---
+
+<div class="loop__diagram">
+  <div class="loop__ring" data-loop-ring role="img" aria-label={dict.loop.ringLabel}>
+    <div class="loop__orbit" data-loop-orbit>
+      <span class="loop__run" data-loop-run aria-hidden="true"></span>
+    </div>
+    {stops.map((stop) => (
+      <span
+        class:list={['loop__stop', `loop__stop--${stop.id}`]}
+        data-hue={stop.hue}
+        data-loop-stop={stop.id}
+      >{stop.label}</span>
+    ))}
+  </div>
+  <div class="loop__stats" aria-live="polite">
+    <Stat value={12} label={dict.loop.found} attrs={{ 'data-loop-found': '' }} />
+    <Stat value={12} label={dict.loop.fixed} attrs={{ 'data-loop-fixed': '' }} />
+    <Stat value={0} label={dict.loop.regressions} attrs={{ 'data-loop-regressions': '' }} />
+  </div>
+</div>

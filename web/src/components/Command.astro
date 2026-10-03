@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  code: string;
+  /** Accessible label for the copy button (localized). */
+  copyLabel: string;
+  /** Optional visible label next to the copy icon (large variant). */
+  copyText?: string;
+  large?: boolean;
+}
+
+const { code, copyLabel, copyText, large } = Astro.props;
+---
+
+<div class:list={['command', large && 'command--lg']}>
+  <code class="command__code">{code}</code>
+  <button class="command__copy" type="button" data-action="copy" aria-label={copyLabel}>
+    <Icon name="copy" class="icon--copy" />
+    <Icon name="check" class="icon--check" />
+    {copyText && <span class="command__copy-text">{copyText}</span>}
+  </button>
+</div>

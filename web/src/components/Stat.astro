@@ -1,0 +1,15 @@
+---
+interface Props {
+  value: string | number;
+  label: string;
+  /** Extra data attributes for JS, e.g. { 'data-loop-found': '' }. */
+  attrs?: Record<string, string>;
+}
+
+const { value, label, attrs = {} } = Astro.props;
+---
+
+<div class="stat">
+  <span class="stat__value" {...attrs}>{value}</span>
+  <span class="stat__label">{label}</span>
+</div>

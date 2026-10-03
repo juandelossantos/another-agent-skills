@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { docsHref } from '../docs/paths';
+import { docSlug, type DocEntry } from '../docs/nav';
+import type { DocsDictionary } from '../i18n/docs';
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  dict: DocsDictionary;
+  prev: DocEntry | null;
+  next: DocEntry | null;
+}
+
+const { locale, dict, prev, next } = Astro.props;
+---
+
+<nav class="docs-pager" aria-label={dict.pager.label}>
+  {prev ? (
+    <a class="docs-pager__link docs-pager__link--prev" href={docsHref(locale, docSlug(prev))}>
+      <Icon name="arrow-left" />
+      <span class="docs-pager__meta">
+        <span class="docs-pager__label">{dict.pager.prev}</span>
+        <span class="docs-pager__title">{prev.data.title}</span>
+      </span>
+    </a>
+  ) : (
+    <span aria-hidden="true"></span>
+  )}
+  {next ? (
+    <a class="docs-pager__link docs-pager__link--next" href={docsHref(locale, docSlug(next))}>
+      <span class="docs-pager__meta">
+        <span class="docs-pager__label">{dict.pager.next}</span>
+        <span class="docs-pager__title">{next.data.title}</span>
+      </span>
+      <Icon name="arrow-right" />
+    </a>
+  ) : (
+    <span aria-hidden="true"></span>
+  )}
+</nav>

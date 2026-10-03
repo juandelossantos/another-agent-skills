@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+import DocsSearch from './DocsSearch.astro';
+import { SITE } from '../config';
+import type { DocsDictionary } from '../i18n/docs';
+import type { Locale } from '../i18n';
+
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  locale: Locale;
+  dict: DocsDictionary;
+  /** Landing home for this locale (logo target). */
+  homeHref: string;
+  /** The same docs page in the other locale. */
+  altHref: string;
+  altLocale: Locale;
+  themeDark: string;
+  themeLight: string;
+  breadcrumb: Crumb[];
+  searchIndexUrl: string;
+}
+
+const {
+  dict,
+  homeHref,
+  altHref,
+  altLocale,
+  themeDark,
+  themeLight,
+  breadcrumb,
+  searchIndexUrl,
+} = Astro.props;
+---
+
+<header class="header docs-header">
+  <div class="docs-header__top">
+    <nav class="header__nav" aria-label={dict.nav.label}>
+      <button
+        class="header__hamburger docs-menu-btn"
+        type="button"
+        data-action="sidebar"
+        aria-label={dict.a11y.menu}
+        aria-expanded="false"
+        aria-controls="docs-sidebar"
+      >
+        <Icon name="menu" class="icon--menu" />
+        <Icon name="close" class="icon--close" />
+      </button>
+
+      <a href={homeHref} class="header__logo" aria-label={dict.nav.home}>
+        <span class="header__logo-mark" aria-hidden="true">///</span>
+        <span class="header__logo-text">Another Agent Skills</span>
+      </a>
+
+      <DocsSearch dict={dict} indexUrl={searchIndexUrl} />
+
+      <div class="header__controls">
+        <a
+          class="header__control docs-header__github"
+          href={SITE.github}
+          target="_blank"
+          rel="noopener"
+          aria-label={dict.github}
+        >
+          <Icon name="github" />
+          <span class="header__control-text">{dict.github}</span>
+        </a>
+        <a
+          class="header__control"
+          href={altHref}
+          hreflang={altLocale}
+          lang={altLocale}
+          aria-label={altLocale === 'es' ? dict.a11y.langToEs : dict.a11y.langToEn}
+        >
+          <Icon name="languages" />
+          <span>{altLocale.toUpperCase()}</span>
+        </a>
+        <button
+          class="header__control"
+          type="button"
+          data-action="theme"
+          aria-label={dict.a11y.theme}
+          aria-pressed="false"
+          data-theme-dark={themeDark}
+          data-theme-light={themeLight}
+        >
+          <span class="header__control-icon" data-theme-icon aria-hidden="true">
+            <Icon name="moon" class="icon--moon" />
+            <Icon name="sun" class="icon--sun" />
+          </span>
+          <span class="header__control-text" data-theme-text>{themeDark}</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="docs-header__crumbs">
+    <nav class="docs-header__crumbs-inner" aria-label={dict.a11y.breadcrumb}>
+      <ol class="docs-breadcrumb">
+        {breadcrumb.map((crumb, index) => (
+          <>
+            {index > 0 && <li class="docs-breadcrumb__sep" aria-hidden="true">/</li>}
+            <li aria-current={crumb.href ? undefined : 'page'}>
+              {crumb.href ? <a href={crumb.href}>{crumb.label}</a> : crumb.label}
+            </li>
+          </>
+        ))}
+      </ol>
+    </nav>
+  </div>
+</header>

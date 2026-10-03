@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  question: string;
+  answer: string;
+  open?: boolean;
+}
+
+const { question, answer, open } = Astro.props;
+---
+
+<details class="faq-item" open={open}>
+  <summary class="faq-item__question">
+    <span>{question}</span>
+    <Icon name="plus" class="faq-item__icon" />
+  </summary>
+  <p class="faq-item__answer">{answer}</p>
+</details>

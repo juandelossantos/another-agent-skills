@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+import { SITE } from '../config';
+import type { Dictionary } from '../i18n';
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+
+const links = [
+  { href: '#flow', label: dict.nav.flow },
+  { href: '#harness', label: dict.nav.harness },
+  { href: '#enforcement', label: dict.nav.enforcement },
+  { href: '#skills', label: dict.nav.skills },
+  { href: '#workflows', label: dict.nav.workflows },
+  { href: '#faq', label: dict.nav.faq },
+];
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__links">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a href={SITE.docs} target="_blank" rel="noopener">{dict.footer.docs}</a>
+      <a href={SITE.github} target="_blank" rel="noopener">
+        <span>{dict.footer.github}</span>
+        <Icon name="external-link" />
+      </a>
+    </div>
+    <p class="footer__copy">{dict.footer.copy}</p>
+  </div>
+</footer>

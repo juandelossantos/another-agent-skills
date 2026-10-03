@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import type { Dictionary } from '../i18n';
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+
+const layers = [
+  { name: dict.harness.l1Name, desc: dict.harness.l1Desc },
+  { name: dict.harness.l2Name, desc: dict.harness.l2Desc },
+  { name: dict.harness.l3Name, desc: dict.harness.l3Desc },
+  { name: dict.harness.l4Name, desc: dict.harness.l4Desc },
+  { name: dict.harness.l5Name, desc: dict.harness.l5Desc },
+  { name: dict.harness.l6Name, desc: dict.harness.l6Desc },
+];
+---
+
+<div class="harness" data-harness data-state="static">
+  <div class="harness__rail" aria-hidden="true">
+    <span class="harness__packet" data-packet>task</span>
+  </div>
+  <ol class="harness__layers" role="list">
+    {layers.map((layer, i) => {
+      const n = i + 1;
+      const guardrails = n === 5;
+      const observability = n === 6;
+      return (
+        <li
+          class:list={['harness__layer', guardrails && 'harness__layer--guardrails']}
+          role="listitem"
+          data-layer={String(n)}
+          data-guardrails={guardrails ? true : undefined}
+          data-observability={observability ? true : undefined}
+        >
+          <span class="harness__idx" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+          <div class="harness__layer-body">
+            <h3 class="harness__layer-name">{layer.name}</h3>
+            <p class="harness__layer-desc">{layer.desc}</p>
+          </div>
+          {guardrails && <span class="harness__badge" data-block-badge>{dict.harness.blocked}</span>}
+          {observability && <span class="harness__logged" data-logged>{dict.harness.logged}</span>}
+        </li>
+      );
+    })}
+  </ol>
+</div>
+<p class="harness__blocked-note" data-blocked-note>
+  <span class="harness__blocked-code" aria-hidden="true"><Icon name="x-circle" /></span>
+  <span>{dict.harness.blockedNote}</span>
+</p>

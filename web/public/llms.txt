@@ -1,0 +1,41 @@
+# Another Agent Skills
+
+> An open-source framework of 57 composable skills and mechanical enforcement that turns AI coding agents into disciplined senior engineers. Most skill libraries sell capability; this one sells discipline you can verify.
+
+Key facts (citable):
+
+- License: MIT. No subscriptions, no paid tiers, no lock-in.
+- Skills: 57, mapped to a six-phase lifecycle (Define, Plan, Build, Verify, Review, Ship), with 74 guides and an eval for each.
+- Enforcement is three layers: L1 local git hooks (fast, advisory feedback), L2 a required remote `gates` status check the committer cannot skip, L3 CODEOWNERS review of sensitive paths. L2 and L3 require GitHub.
+- The core rule: a code change with no matching test is blocked, locally and remotely.
+- The agent never runs `git commit` or `git push`; the human does.
+- Harness: six layers around the model: instructions, tools, sandboxes, orchestration, guardrails, observability.
+- Agents: 15 detected, including OpenCode, Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Aider, Kiro, Zed. Any agent that reads AGENTS.md is supported.
+- Stacks: Node, Rust, Python, Go, Ruby, Dart, or any stack. `init-agents` writes STACK_CONFIG.md.
+- Install channels: `git clone` + `install.sh` (live), pinned `curl` bootstrap from the latest release (live), npm and Homebrew (coming soon).
+- Works offline after install; no external runtime dependencies; no trackers.
+
+Links:
+
+- Landing (EN): https://juandelossantos.github.io/another-agent-skills/
+- Landing (ES): https://juandelossantos.github.io/another-agent-skills/es/
+- Docs (EN): https://juandelossantos.github.io/another-agent-skills/docs/
+- Docs (ES): https://juandelossantos.github.io/another-agent-skills/es/docs/
+- Docs search index (EN): https://juandelossantos.github.io/another-agent-skills/docs/search.json
+- Docs search index (ES): https://juandelossantos.github.io/another-agent-skills/es/docs/search.json
+- Repository: https://github.com/juandelossantos/another-agent-skills
+- Agent adapter matrix: https://github.com/juandelossantos/another-agent-skills/blob/main/docs/AGENT-ADAPTERS.md
+- Remote enforcement evidence: https://github.com/juandelossantos/another-agent-skills/blob/main/docs/REMOTE-ENFORCEMENT-EVIDENCE.md
+- License: https://github.com/juandelossantos/another-agent-skills/blob/main/LICENSE
+
+Docs pages (EN):
+
+- Overview: https://juandelossantos.github.io/another-agent-skills/docs/
+- Getting started: https://juandelossantos.github.io/another-agent-skills/docs/getting-started/
+- Lifecycle: https://juandelossantos.github.io/another-agent-skills/docs/lifecycle/
+- Skills: https://juandelossantos.github.io/another-agent-skills/docs/skills/
+- Enforcement (L1/L2/L3): https://juandelossantos.github.io/another-agent-skills/docs/enforcement/
+- Agents: https://juandelossantos.github.io/another-agent-skills/docs/agents/
+- Distribution and upgrades: https://juandelossantos.github.io/another-agent-skills/docs/distribution/
+- Branch protection: https://juandelossantos.github.io/another-agent-skills/docs/branch-protection/
+- FAQ: https://juandelossantos.github.io/another-agent-skills/docs/faq/
