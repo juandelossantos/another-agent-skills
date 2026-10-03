@@ -101,6 +101,40 @@
   }
 
   /* =========================================================
+     Sidebar skill anchors
+     ========================================================= */
+
+  // Progressive enhancement: when a page opens at a `#skill-<name>` anchor,
+  // reveal the collapsible group that holds the link and mark it active.
+  // Without JS the groups stay native <details> and the anchor still works.
+  var skillLinks = sidebar
+    ? Array.prototype.slice.call(sidebar.querySelectorAll('[data-skill-link]'))
+    : [];
+
+  function revealSkillAnchor() {
+    if (!skillLinks.length) return;
+    var hash = window.location.hash;
+    skillLinks.forEach(function (a) {
+      a.classList.remove('is-active');
+      a.removeAttribute('aria-current');
+    });
+    if (hash.indexOf('#skill-') !== 0) return;
+    var name = hash.slice('#skill-'.length);
+    var link = null;
+    for (var i = 0; i < skillLinks.length; i += 1) {
+      if (skillLinks[i].getAttribute('data-skill-link') === name) { link = skillLinks[i]; break; }
+    }
+    if (!link) return;
+    var details = link.closest('details');
+    while (details) {
+      details.open = true;
+      details = details.parentElement ? details.parentElement.closest('details') : null;
+    }
+    link.classList.add('is-active');
+    link.setAttribute('aria-current', 'true');
+  }
+
+  /* =========================================================
      Search overlay
      ========================================================= */
 
@@ -439,6 +473,7 @@
     updateThemeLabel();
     initSearch();
     initToc();
+    revealSkillAnchor();
     decorateCodeBlocks();
     decorateTables();
 
@@ -468,6 +503,8 @@
     window.addEventListener('resize', function () {
       if (!isMobile() && sidebar && sidebar.classList.contains('is-open')) closeSidebar(true);
     });
+
+    window.addEventListener('hashchange', revealSkillAnchor);
   }
 
   if (document.readyState === 'loading') {

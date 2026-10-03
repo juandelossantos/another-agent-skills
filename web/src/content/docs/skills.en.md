@@ -1,11 +1,16 @@
 ---
 title: "Skills"
-description: "How the 57 skills are organized, how they load, and how they map to the six-phase lifecycle."
+description: "Detailed reference for the 57 skills: what each one does, when it activates, when to use it and when not to."
 lang: "en"
 order: 11
 section: "concepts"
-tldr: "57 curated skills are mapped to the lifecycle and load on demand when the agent detects a matching task. You describe what you need; you do not call skills by hand."
+tldr: "57 skills, each with a trigger and an output contract. They are indexes that load on demand; the using-agent-skills meta-skill routes a task to the right one. You describe the task, not the skill."
 ---
+
+## Index
+
+- [Foundation](#cat-foundation) · [Ideation](#cat-ideation) · [Process](#cat-process) · [Frontend](#cat-frontend) · [Backend](#cat-backend) · [Testing](#cat-testing) · [Quality](#cat-quality)
+- [Design review](#cat-design-review) · [Design skins](#cat-design-skins) · [Git](#cat-git) · [DevOps](#cat-devops) · [Metrics](#cat-metrics) · [Meta](#cat-meta)
 
 ## What a skill is
 
@@ -15,7 +20,7 @@ Skills are not a menu you order from. They load when the agent recognizes a matc
 
 ## How skills activate
 
-You describe what you need. The agent matches the task to one or more skills.
+You describe what you need. The `using-agent-skills` meta-skill routes the task to one or more skills based on their triggers.
 
 | You say | Skill that loads |
 |---|---|
@@ -30,18 +35,9 @@ You describe what you need. The agent matches the task to one or more skills.
 
 If auto-detection misses, say "load the `test-driven-development` skill" or "use TDD for this."
 
-## Categories
+## Reading the catalog
 
-| Category | Examples |
-|---|---|
-| Foundation | `engineering-fundamentals`, `context-engineering`, `user-onboarding` |
-| Frontend | `frontend-web`, `frontend-mobile`, `frontend-desktop`, `frontend-pwa` |
-| Backend | `backend-api-mastery`, `api-and-interface-design`, `cli-tools` |
-| Process | `spec-driven-development`, `planning-and-task-breakdown`, `incremental-implementation`, `multi-agent-orchestration` |
-| Quality | `code-review-and-quality`, `test-driven-development`, `security-and-hardening`, `performance-optimization`, `code-simplification` |
-| Design | `critique-skill`, `audit-skill`, `polish-skill`, `typeset-skill`, `adapt-skill`, `delight-skill` |
-| DevOps | `ci-cd-and-automation`, `shipping-and-launch`, `fullstack-shipping` |
-| Meta | `skill-creator`, `skill-improver`, `self-improvement` |
+Each entry below is generated from the skill's own `SKILL.md`. It shows the skill **name**, a one-line **what**, the **triggers** that activate it, what it is **for**, and what it is explicitly **not for**. The count is the number of deeper guides shipped with the skill; the `SKILL.md` link opens the source of truth.
 
 ## Skills by phase
 
@@ -54,10 +50,8 @@ If auto-detection misses, say "load the `test-driven-development` skill" or "use
 
 ## Meta-skills
 
-Three skills work on the framework itself. `skill-creator` generates a new skill from a workflow description, `skill-improver` reads failing eval cases and proposes improvements, and `self-improvement` runs the audit, diagnose, fix, and record loop.
+Four skills work on the framework itself. `skill-creator` generates a new skill from a workflow description, `skill-improver` reads failing eval cases and proposes improvements, `self-improvement` runs the audit, diagnose, fix, and record loop, and `customize-opencode` edits OpenCode's own configuration.
 
 ## The eval for each skill
 
 Every skill ships with an eval that checks it triggers on the right tasks and produces the expected shape. The eval gate runs on changed skills before a commit lands, so a skill that stops working is caught the same way code is.
-
-> 57 skills, 74 guides, 6 harness components, and an eval for each.

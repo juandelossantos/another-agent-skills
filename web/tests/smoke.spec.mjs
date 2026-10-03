@@ -274,6 +274,132 @@ test.describe('docs ES', () => {
 });
 
 /* ------------------------------------------------------------------ *
+ * Skills reference catalog
+ * ------------------------------------------------------------------ */
+
+test.describe('skills reference', () => {
+  test('EN renders the grouped catalog with zero console errors', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('docs/skills/');
+    await expect(page.locator('h1.docs-title')).toContainText('Skills');
+    await expect(page.locator('.skills-catalog')).toBeVisible();
+    await expect(page.locator('.skill')).toHaveCount(57);
+    await expect(page.locator('#cat-testing')).toBeVisible();
+    await expect(page.locator('.skill__source').first()).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test('ES renders the catalog in Spanish with zero console errors', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('es/docs/skills/');
+    await expect(page.locator('.skill')).toHaveCount(57);
+    await expect(page.locator('.docs-content')).toContainText('Se activa cuando');
+    expect(errors).toEqual([]);
+  });
+
+  test('the compact index links jump to the category anchors', async ({ page }) => {
+    await page.goto('docs/skills/');
+    await page.locator('a[href="#cat-testing"]').first().click();
+    await expect(page.locator('#cat-testing')).toBeInViewport();
+  });
+
+  test('search finds a skill by name and opens its anchor', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('docs/skills/');
+
+    const input = page.locator('#docs-search-input');
+    await input.click();
+    await expect(page.locator('#docs-search-panel')).toBeVisible();
+
+    await input.fill('doubt');
+    const item = page
+      .locator('[data-search-item]', { hasText: 'doubt-driven-development' })
+      .first();
+    await expect(item).toBeVisible();
+    await expect(item.locator('mark')).toBeVisible();
+
+    await item.click();
+    await expect(page).toHaveURL(/#skill-doubt-driven-development$/);
+    await expect(page.locator('#skill-doubt-driven-development')).toBeInViewport();
+    expect(errors).toEqual([]);
+  });
+
+  test('search finds a skill in ES and opens its /es anchor', async ({ page }) => {
+    await page.goto('es/docs/skills/');
+    const input = page.locator('#docs-search-input');
+    await input.click();
+    await input.fill('doubt');
+    const item = page
+      .locator('[data-search-item]', { hasText: 'doubt-driven-development' })
+      .first();
+    await expect(item).toBeVisible();
+    await item.click();
+    await expect(page).toHaveURL(/es\/docs\/skills\/#skill-doubt-driven-development$/);
+  });
+
+  test('the sidebar Skills group navigates to a skill anchor', async ({ page }) => {
+    await page.goto('docs/enforcement/');
+    // The group is collapsed by default; expand it and a category (native <details>).
+    await page.locator('[data-skills-group] > summary').click();
+    await page.locator('[data-skill-category="process"] > summary').click();
+    await page.locator('[data-skill-link="doubt-driven-development"]').click();
+    await expect(page).toHaveURL(/\/docs\/skills\/#skill-doubt-driven-development$/);
+    await expect(page.locator('#skill-doubt-driven-development')).toBeInViewport();
+  });
+
+  test('opening a skill anchor reveals and marks its sidebar link', async ({ page }) => {
+    await page.goto('docs/skills/#skill-doubt-driven-development');
+    const link = page.locator('[data-skill-link="doubt-driven-development"]');
+    // The category is collapsed in the markup; the enhancement opens it.
+    await expect(link).toBeVisible();
+    await expect(link).toHaveClass(/is-active/);
+    await expect(page.locator('#skill-doubt-driven-development')).toBeInViewport();
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * Sidebar consistency + edit link
+ * ------------------------------------------------------------------ */
+
+test.describe('sidebar consistency', () => {
+  test('all top-level sections are uniform collapsible <details>', async ({ page }) => {
+    await page.goto('docs/enforcement/');
+    const groups = page.locator('.docs-nav > details.docs-nav__group');
+    await expect(groups).toHaveCount(5);
+    // Every section is a native <details> with its own <summary> label.
+    await expect(groups.locator('> summary')).toHaveCount(5);
+    // Only the section holding the current page (Concepts) is open.
+    const open = page.locator('.docs-nav > details.docs-nav__group[open]');
+    await expect(open).toHaveCount(1);
+    await expect(open.locator('> summary')).toContainText('Concepts');
+  });
+
+  test('"Skills" appears exactly once and expands to the categories and skills', async ({ page }) => {
+    await page.goto('docs/enforcement/');
+    await expect(page.locator('.docs-nav a', { hasText: /^Skills$/ })).toHaveCount(1);
+
+    // The branch is a native <details>; the chevron summary toggles it.
+    await page.locator('[data-skills-group] > summary').click();
+    await expect(page.locator('[data-skill-category]')).toHaveCount(13);
+    await expect(page.locator('[data-skill-link]')).toHaveCount(57);
+  });
+
+  test('the edit link opens the GitHub editor for the page locale file', async ({ page }) => {
+    await page.goto('docs/skills/');
+    const en = page.locator('.docs-edit a');
+    await expect(en).toHaveAttribute('href', /\/edit\/main\/web\/src\/content\/docs\/skills\.en\.md$/);
+    await expect(en).toHaveAttribute('target', '_blank');
+    await expect(en).toHaveAttribute('rel', /noopener/);
+
+    await page.goto('es/docs/skills/');
+    await expect(page.locator('.docs-edit a')).toHaveAttribute(
+      'href',
+      /\/edit\/main\/web\/src\/content\/docs\/skills\.es\.md$/,
+    );
+  });
+});
+
+/* ------------------------------------------------------------------ *
  * Discoverability (social card + AEO search deep link)
  * ------------------------------------------------------------------ */
 

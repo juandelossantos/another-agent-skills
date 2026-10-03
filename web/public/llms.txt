@@ -6,6 +6,7 @@ Key facts (citable):
 
 - License: MIT. No subscriptions, no paid tiers, no lock-in.
 - Skills: 57, mapped to a six-phase lifecycle (Define, Plan, Build, Verify, Review, Ship), with 74 guides and an eval for each.
+- Skills reference: every skill's what, activation trigger, use and non-use, grouped by category, in EN and ES.
 - Enforcement is three layers: L1 local git hooks (fast, advisory feedback), L2 a required remote `gates` status check the committer cannot skip, L3 CODEOWNERS review of sensitive paths. L2 and L3 require GitHub.
 - The core rule: a code change with no matching test is blocked, locally and remotely.
 - The agent never runs `git commit` or `git push`; the human does.
@@ -25,6 +26,8 @@ Links:
 - Docs (ES): https://juandelossantos.github.io/another-agent-skills/es/docs/
 - Docs search index (EN): https://juandelossantos.github.io/another-agent-skills/docs/search.json
 - Docs search index (ES): https://juandelossantos.github.io/another-agent-skills/es/docs/search.json
+- Skills reference (EN): https://juandelossantos.github.io/another-agent-skills/docs/skills/
+- Skills reference (ES): https://juandelossantos.github.io/another-agent-skills/es/docs/skills/
 - Repository: https://github.com/juandelossantos/another-agent-skills
 - Agent adapter matrix: https://github.com/juandelossantos/another-agent-skills/blob/main/docs/AGENT-ADAPTERS.md
 - Remote enforcement evidence: https://github.com/juandelossantos/another-agent-skills/blob/main/docs/REMOTE-ENFORCEMENT-EVIDENCE.md

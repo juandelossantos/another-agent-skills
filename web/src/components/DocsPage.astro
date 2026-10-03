@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../layouts/DocsLayout.astro';
+import SkillsCatalog from './SkillsCatalog.astro';
 import { loadDoc, docSlug } from '../docs/nav';
 import { buildDocsJsonLd } from '../docs/seo';
 import { docsHome, docsHref } from '../docs/paths';
@@ -59,4 +60,6 @@ const jsonLd = buildDocsJsonLd({
       </div>
     </>
   )}
+
+  {slug === 'skills' && <SkillsCatalog locale={locale} />}
 </DocsLayout>

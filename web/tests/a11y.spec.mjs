@@ -44,6 +44,8 @@ const PAGES = [
   { name: 'docs ES', path: 'es/docs/enforcement/' },
   { name: 'tutorial EN', path: 'docs/first-gated-commit/' },
   { name: 'tutorial ES', path: 'es/docs/first-gated-commit/' },
+  { name: 'skills EN', path: 'docs/skills/' },
+  { name: 'skills ES', path: 'es/docs/skills/' },
 ];
 
 const THEMES = ['light', 'dark'];

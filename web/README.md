@@ -27,7 +27,8 @@ script depend on anything in here.
 cd web
 npm install          # install Astro, @astrojs/sitemap, Playwright (dev)
 npm run dev          # dev server at http://localhost:4321/another-agent-skills/
-npm run build        # static build to dist/
+npm run skills       # regenerate src/data/skills.json from ../skills/*/SKILL.md
+npm run build        # static build to dist/ (runs `skills` first)
 npm run og           # regenerate public/og.png (1200x630 social card)
 npm run preview      # serve the built dist/ (Astro 7 preview runs in the background; `npx astro preview stop` stops it)
 npm test             # build + node:test assertions against dist/
@@ -48,7 +49,8 @@ web/
 ├── astro.config.mjs        # site/base, static output, i18n (EN default + /es/), sitemap
 ├── playwright.config.mjs   # smoke + axe against `astro preview`
 ├── scripts/
-│   └── generate-og.mjs      # deterministic 1200x630 social card (`npm run og`)
+│   ├── generate-og.mjs      # deterministic 1200x630 social card (`npm run og`)
+│   └── generate-skills.mjs  # ../skills/*/SKILL.md -> src/data/skills.json (`npm run skills`)
 ├── public/
 │   ├── robots.txt          # allow + sitemap ref
 │   ├── llms.txt            # AEO: concise, citable facts + links
@@ -62,6 +64,9 @@ web/
 │   │   ├── paths.ts        # docsHome / docsHref / docsSearchIndex (base + locale aware)
 │   │   └── seo.ts          # BreadcrumbList + TechArticle JSON-LD
 │   ├── config.ts           # external links + product version
+│   ├── data/
+│   │   ├── skills.es.json   # ES translation map (input, hand-maintained)
+│   │   └── skills.json      # generated dataset (output of `npm run skills`)
 │   ├── icons.ts            # inlined Lucide paths (no CDN, no deps)
 │   ├── seo.ts              # JSON-LD graph (Organization/WebSite/SoftwareApplication/FAQPage/HowTo/BreadcrumbList)
 │   ├── styles/
@@ -95,6 +100,7 @@ web/
 └── tests/
     ├── build.test.mjs      # node:test against dist/
     ├── seo.test.mjs        # node:test: OG card, canonical/hreflang, sitemap, JSON-LD
+    ├── skills.test.mjs     # node:test: the skills dataset, ES coverage and rendered pages
     ├── a11y.spec.mjs       # Playwright + axe: 0 violations (EN/ES, light/dark, 2 viewports)
     └── smoke.spec.mjs      # Playwright smoke
 ```
@@ -155,6 +161,25 @@ tldr: "One citable line."          # optional; shown as the page TL;DR and used
                                    # as the search snippet (AEO)
 ---
 ```
+
+### Skills reference
+
+The `skills` page is the detailed catalog of all 57 skills. It is generated,
+never hand-written: `npm run skills` reads each `../skills/<name>/SKILL.md`
+(frontmatter plus the `When to Use` / `When NOT to Use` sections) and the ES
+translation map, then writes `src/data/skills.json`. The page renders that
+dataset through `components/SkillsCatalog.astro`.
+
+- Dataset entry: `{ name, title, category, tier, audience, workflow, what,
+  triggers[], whenToUse[], whenNotToUse[], guides[], guideCount, docsUrl, es }`.
+- Categories come from `AGENTS-EXTENDED.md` Rule 1; an unmapped skill falls back
+  to its `tier` and is reported by the generator.
+- ES: `src/data/skills.es.json` holds the neutral-Spanish `what`, `triggers`,
+  `whenToUse` and `whenNotToUse` for every skill. A missing translation falls
+  back to EN, is reported by the generator, and exits non-zero so it cannot ship
+  silently.
+- The generator is dependency-free and deterministic (no timestamp); the build
+  runs it before `astro build`.
 
 ### i18n rule
 

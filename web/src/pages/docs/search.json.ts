@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getDocs, docSlug } from '../../docs/nav';
 import { docsHref } from '../../docs/paths';
+import { skillSearchItems } from '../../docs/skills';
 import { docsEn } from '../../i18n/docs';
 
 /** Build-generated client-side search index for the EN docs. */
@@ -12,7 +13,10 @@ export const GET: APIRoute = async () => {
     snippet: entry.data.tldr ?? entry.data.description,
     url: docsHref('en', docSlug(entry)),
   }));
-  return new Response(JSON.stringify(items), {
+  // One entry per skill, anchored on the skills page (same dataset as the
+  // sidebar). Appended after the pages so page queries keep their order.
+  const skills = skillSearchItems('en', docsHref('en', 'skills'));
+  return new Response(JSON.stringify([...items, ...skills]), {
     headers: { 'content-type': 'application/json; charset=utf-8' },
   });
 };

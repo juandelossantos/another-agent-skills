@@ -220,6 +220,42 @@ test('docs EN page has sidebar (active item), TOC, TL;DR and search overlay', ()
   assert.match(html, /Edit this page/);
 });
 
+test('docs sidebar: every top-level section is a uniform collapsible <details>', () => {
+  const html = read('docs/enforcement/index.html');
+  const nav = html.slice(html.indexOf('<nav class="docs-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="docs-nav"')));
+  // Five non-empty sections, each a native <details> group (no plain labels).
+  const groups = [...nav.matchAll(/<details class="docs-nav__group"( open)?>/g)];
+  assert.equal(groups.length, 5, 'expected five top-level <details> groups');
+  assert.equal((nav.match(/docs-nav__section/g) ?? []).length, 0, 'no plain section labels remain');
+  // Exactly the section holding the current page (Concepts → Enforcement) is open.
+  const open = groups.filter((m) => m[1]);
+  assert.equal(open.length, 1, 'exactly one section is open');
+  assert.match(nav, /docs-nav__group-summary">[\s\S]*?<span>Concepts<\/span>/);
+});
+
+test('docs edit link opens the GitHub editor at the page locale file', () => {
+  const cases = [
+    ['docs/enforcement/index.html', 'enforcement.en.md'],
+    ['es/docs/enforcement/index.html', 'enforcement.es.md'],
+    ['docs/skills/index.html', 'skills.en.md'],
+    ['es/docs/skills/index.html', 'skills.es.md'],
+  ];
+  for (const [rel, file] of cases) {
+    const html = read(rel);
+    const m = html.match(
+      /<a href="(https:\/\/github\.com\/juandelossantos\/another-agent-skills\/edit\/main\/web\/src\/content\/docs\/[^"]+)"[^>]*target="_blank"[^>]*rel="noopener"/,
+    );
+    assert.ok(m, `${rel}: missing the edit link`);
+    assert.ok(m[1].endsWith(`/${file}`), `${rel}: edit link must point at ${file}, got ${m[1]}`);
+    assert.match(m[1], /\/edit\/main\//, `${rel}: must use the GitHub edit URL`);
+    // The referenced source file is real.
+    assert.ok(
+      existsSync(new URL(`../src/content/docs/${file}`, import.meta.url)),
+      `${rel}: ${file} does not exist in the repository`,
+    );
+  }
+});
+
 test('docs EN page has canonical, hreflang pair and BreadcrumbList JSON-LD', () => {
   const html = read('docs/enforcement/index.html');
   assert.match(html, new RegExp(`<link rel="canonical" href="${SITE}${BASE}/docs/enforcement/"`));
@@ -278,7 +314,7 @@ test('tutorials: all five exist in EN and ES with a TL;DR and a Tutorials sideba
       const html = read(rel);
       assert.match(html, /class="docs-tldr"/, `${rel} has no TL;DR`);
       assert.match(html, /docs-nav__link--active/, `${rel} has no active sidebar link`);
-      assert.match(html, /docs-nav__section">(Tutorials|Tutoriales)</, `${rel} missing the tutorials group`);
+      assert.match(html, /docs-nav__group-summary">[\s\S]*?<span>(Tutorials|Tutoriales)<\/span>/, `${rel} missing the tutorials group`);
     }
   }
 });

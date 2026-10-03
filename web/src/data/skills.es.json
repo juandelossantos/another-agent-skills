@@ -1,0 +1,856 @@
+{
+  "context-engineering": {
+    "what": "Optimiza la configuración del contexto del agente.",
+    "triggers": ["al iniciar una sesión", "la calidad de salida baja", "al cambiar de tarea"],
+    "whenToUse": [
+      "Al iniciar una nueva sesión de programación",
+      "La calidad de salida del agente está bajando",
+      "Al cambiar entre partes de un código base",
+      "Al configurar un proyecto nuevo para desarrollo asistido por IA"
+    ],
+    "whenNotToUse": [
+      "Consultas puntuales sin necesidades de contexto",
+      "Cambios triviales sin dependencias",
+      "Ya estás en una sesión activa con contexto reciente"
+    ]
+  },
+  "engineering-fundamentals": {
+    "what": "Define la filosofía de ingeniería universal para todas las skills de plataforma: descubrimiento, contratos, anti-slop y compuertas de calidad.",
+    "triggers": ["Se carga desde todas las skills de plataforma"],
+    "whenToUse": ["Se carga desde todas las skills de plataforma. Nunca se invoca directamente."],
+    "whenNotToUse": [
+      "Implementación específica de plataforma (las skills de plataforma añaden detalles a esta base)"
+    ]
+  },
+  "user-onboarding": {
+    "what": "Captura las preferencias del usuario una vez y las conserva entre proyectos. Crea un perfil de usuario para personalizar todas las skills.",
+    "triggers": ["primera sesión", "configurar preferencias"],
+    "whenToUse": [
+      "Cualquier skill arranca y no existe ~/.config/opencode/user-profile.json",
+      "user-profile.json tiene más de 90 días",
+      "El usuario dice \"configura mis preferencias\", \"recuerda mi stack\" o \"define los valores por defecto\""
+    ],
+    "whenNotToUse": [
+      "El perfil existe y tiene menos de 90 días (usa la verificación rápida)",
+      "El usuario dice \"omitir\" y el perfil existe",
+      "Modo Turbo activo con un perfil existente"
+    ]
+  },
+  "idea-refine": {
+    "what": "Refina ideas sin pulir hasta convertirlas en conceptos nítidos y accionables mediante pensamiento divergente y convergente.",
+    "triggers": ["una idea es vaga o necesita validación"],
+    "whenToUse": [
+      "La idea sigue siendo vaga o incompleta",
+      "Necesitas poner a prueba los supuestos antes de comprometerte",
+      "Quieres explorar alternativas antes de converger en una"
+    ],
+    "whenNotToUse": [
+      "Los requisitos ya están claros y documentados",
+      "Cambios triviales con alcance obvio"
+    ]
+  },
+  "interview-me": {
+    "what": "Extrae lo que el usuario realmente quiere mediante entrevistas de una pregunta a la vez.",
+    "triggers": ["una petición está poco especificada"],
+    "whenToUse": [
+      "La petición está poco especificada (\"construye X\" sin \"para quién\" ni \"por qué ahora\")",
+      "El usuario dice \"entrevístame\", \"interrógame\" o \"¿estamos seguros?\"",
+      "El agente se descubre a punto de completar en silencio requisitos ambiguos",
+      "Antes de spec-driven-development para cualquier petición no trivial"
+    ],
+    "whenNotToUse": [
+      "Los requisitos ya están claros y documentados",
+      "Tareas triviales y bien definidas (arreglo de una línea, corrección de errata)",
+      "Excepción: NOINTENT: motivo en el cuerpo del commit"
+    ]
+  },
+  "architecture-analysis": {
+    "what": "Evalúa opciones de arquitectura con 2-3 alternativas antes de construir. Cuestiona supuestos y fija las decisiones en las especificaciones.",
+    "triggers": ["stack", "arquitectura", "patrón"],
+    "whenToUse": [
+      "Proyecto no trivial (varias páginas, varios módulos, necesidades de backend)",
+      "Elegir entre frameworks, stacks o patrones",
+      "El usuario dice \"quiero X\" sin justificación",
+      "Evaluar microservicios frente a monolito, SSR frente a CSR, REST frente a GraphQL",
+      "Decisión costosa de revertir",
+      "Omite cuando: el stack está fijado en SPEC.md o es pura implementación. Ajustes puntuales. Proyectos de juguete."
+    ],
+    "whenNotToUse": [
+      "Detalles de implementación después de decidir la arquitectura",
+      "Ajustes puntuales o proyectos de juguete",
+      "Cuando el stack ya está fijado en SPEC.md"
+    ]
+  },
+  "deprecation-and-migration": {
+    "what": "Gestiona la deprecación y la migración de sistemas, APIs y funciones antiguos. Cubre estrategias de retirada, compatibilidad hacia atrás y plazos.",
+    "triggers": ["Eliminar o reemplazar un endpoint de API existente"],
+    "whenToUse": [
+      "Eliminar o reemplazar un endpoint de API existente",
+      "Migrar usuarios de una implementación a otra",
+      "Decidir si mantener o retirar código existente",
+      "Planificar transiciones compatibles hacia atrás",
+      "Una API de terceros o dependencia de la que depende tu sistema anuncia su deprecación"
+    ],
+    "whenNotToUse": [
+      "Construir funciones nuevas (usa las skills de implementación de funciones)",
+      "Despliegue (usa shipping-and-launch)"
+    ]
+  },
+  "doubt-driven-development": {
+    "what": "Revisa cada decisión no trivial con una revisión adversarial de contexto fresco.",
+    "triggers": ["importa la corrección", "las apuestas son altas", "el código no te resulta familiar"],
+    "whenToUse": [
+      "Una decisión es no trivial cuando introduce lógica ramificada, cruza un límite de módulo, afirma propiedades no verificables (seguridad de hilos, idempotencia), tiene un radio de impacto irreversible (despliegue a producción, migración de datos, cambio de API pública) o depende de contexto que el futuro lector no puede ver.",
+      "Aplícala cuando: estás a punto de tomar una decisión de arquitectura, confirmar código no trivial, afirmar un hecho no obvio o trabajar en código que no entiendes del todo."
+    ],
+    "whenNotToUse": [
+      "Operaciones mecánicas (renombrar, dar formato)",
+      "Instrucciones claras e inequívocas",
+      "Leer o resumir código existente",
+      "Cambios de una línea o puro tooling"
+    ]
+  },
+  "incremental-implementation": {
+    "what": "Construye funciones de forma incremental en porciones verticales finas.",
+    "triggers": ["tocas varios archivos o una tarea parece demasiado grande para un paso"],
+    "whenToUse": [
+      "Implementar cualquier cambio de varios archivos",
+      "Construir una función nueva a partir de un desglose de tareas",
+      "Refactorizar código existente",
+      "Cada vez que te tienta escribir más de 100 líneas antes de probar"
+    ],
+    "whenNotToUse": [
+      "Cambios de un solo archivo y una sola función cuyo alcance ya es mínimo"
+    ]
+  },
+  "multi-agent-orchestration": {
+    "what": "Orquesta varios agentes de programación con IA en modos paralelo, en pipeline o en enjambre.",
+    "triggers": ["más de 2 agentes o refactors de varios archivos"],
+    "whenToUse": [
+      "La tarea requiere más de 2 agentes (implementación en paralelo, investigación + construcción + revisión)",
+      "Refactor de varios módulos (archivos que no se solapan, módulos independientes)",
+      "Pipeline guiado por especificación con compuertas por fase (Spec → Implement → Test → Review)",
+      "Exploración competitiva (modo enjambre para decisiones de arquitectura)"
+    ],
+    "whenNotToUse": [
+      "Cambios de un solo archivo (un agente es suficiente)",
+      "Tareas donde los archivos se solapan (provoca conflictos de fusión)",
+      "CRUD simple o flujos lineales"
+    ]
+  },
+  "planning-and-task-breakdown": {
+    "what": "Descompone el trabajo en tareas pequeñas y verificables con criterios de aceptación explícitos.",
+    "triggers": ["una especificación necesita dividirse en pasos implementables"],
+    "whenToUse": [
+      "Tienes una especificación y necesitas dividirla en unidades implementables",
+      "Una tarea parece demasiado grande o vaga para empezar",
+      "El trabajo debe paralelizarse entre varios agentes o sesiones",
+      "El orden de implementación no es obvio"
+    ],
+    "whenNotToUse": [
+      "Cambios de un solo archivo con alcance obvio",
+      "La especificación ya contiene tareas bien definidas"
+    ]
+  },
+  "source-driven-development": {
+    "what": "Fundamenta cada decisión de implementación en la documentación oficial antes de escribir código.",
+    "triggers": ["construyes con cualquier framework donde importa la corrección"],
+    "whenToUse": [
+      "Usar cualquier framework, biblioteca, SDK o API",
+      "Implementar contra una interfaz documentada",
+      "Migrar entre versiones de una dependencia",
+      "Cada vez que importa la corrección del uso de una API",
+      "Usar una dependencia nueva por primera vez (verifica la superficie de la API antes de escribir código)",
+      "Actualizar una versión mayor de una dependencia (se esperan cambios incompatibles: verifica contra la documentación nueva, no contra el conocimiento antiguo)"
+    ],
+    "whenNotToUse": [
+      "Implementación pura de algoritmos o estructuras de datos",
+      "Lógica de negocio sin dependencia externa",
+      "Trabajo creativo o de diseño"
+    ]
+  },
+  "spec-driven-development": {
+    "what": "Crea especificaciones completas a partir de las peticiones del usuario mediante investigación, análisis crítico y alineación con el usuario.",
+    "triggers": ["proyecto nuevo", "función", "especificación", "plan"],
+    "whenToUse": [
+      "Empezar cualquier proyecto o función nuevos",
+      "Requisitos ambiguos o de una sola frase que necesitan aclaración",
+      "Cambios que tocan más de 3 archivos o cruzan límites de módulo",
+      "Decisiones de arquitectura o tecnología",
+      "Cualquier tarea estimada en más de 30 minutos"
+    ],
+    "whenNotToUse": [
+      "Correcciones de una línea, erratas, cambios realmente triviales (1 archivo, menos de 10 líneas, sin lógica). Para todo lo demás, ejecuta el pipeline."
+    ]
+  },
+  "frontend-desktop": {
+    "what": "Construye aplicaciones de escritorio de nivel producción con integración nativa del sistema operativo. Por defecto: Tauri v2. Adaptable: Electron, Flutter.",
+    "triggers": ["Construye cualquier aplicación de escritorio con integración nativa del sistema operativo"],
+    "whenToUse": ["Construye cualquier aplicación de escritorio con integración nativa del sistema operativo."],
+    "whenNotToUse": [
+      "Aplicaciones solo web (usa frontend-web)",
+      "Aplicaciones móviles (usa frontend-mobile)",
+      "Herramientas CLI (usa el flujo de terminal)"
+    ]
+  },
+  "frontend-mobile": {
+    "what": "Construye aplicaciones móviles de nivel producción con tokens de diseño nativos y cumplimiento de cada plataforma.",
+    "triggers": ["app móvil", "React Native", "Flutter", "iOS", "Android"],
+    "whenToUse": ["Construye, diseña o rediseña cualquier interfaz de aplicación móvil."],
+    "whenNotToUse": [
+      "Tareas solo web (usa frontend-web)",
+      "Aplicaciones web instalables (usa frontend-pwa)",
+      "Tareas solo de backend"
+    ]
+  },
+  "frontend-pwa": {
+    "what": "Construye aplicaciones web instalables y offline-first para todos los dispositivos, con migración nativa vía Capacitor.",
+    "triggers": ["PWA", "offline", "instalable", "híbrida"],
+    "whenToUse": [
+      "Aplicación web con funcionalidad sin conexión",
+      "Experiencia instalable (añadir a la pantalla de inicio)",
+      "Multi-dispositivo (teléfono, tableta, plegable, TV, escritorio)",
+      "Distribución nativa futura vía Capacitor/Ionic"
+    ],
+    "whenNotToUse": [
+      "Sitios de marketing simples sin necesidades offline (usa frontend-web)",
+      "Aplicaciones puramente nativas (usa frontend-mobile)"
+    ]
+  },
+  "frontend-ui-engineering": {
+    "what": "Construye interfaces de nivel producción con arquitectura de componentes, gestión de estado y disciplina de maquetación.",
+    "triggers": ["web", "móvil", "escritorio", "PWA"],
+    "whenToUse": [
+      "Construir cualquier componente de cara al usuario",
+      "Diseñar la arquitectura de componentes o la gestión de estado",
+      "Implementar maquetación, navegación o patrones responsivos",
+      "La referencian automáticamente las skills de plataforma"
+    ],
+    "whenNotToUse": [
+      "Trabajo específico de plataforma (usa la skill de plataforma dedicada)",
+      "Trabajo de API o backend (usa backend-api-mastery)"
+    ]
+  },
+  "frontend-web": {
+    "what": "Construye interfaces web de nivel producción.",
+    "triggers": ["sitio web", "landing page", "aplicación web", "Next"],
+    "whenToUse": ["Construye, diseña o rediseña cualquier interfaz web."],
+    "whenNotToUse": [
+      "Software solo de backend, CLI o no visual",
+      "Móvil nativo (usa frontend-mobile)",
+      "Aplicaciones instalables sin conexión (usa frontend-pwa)"
+    ]
+  },
+  "api-and-interface-design": {
+    "what": "Diseña APIs estables y límites de módulo con contratos claros.",
+    "triggers": ["diseñar endpoints REST/GraphQL o definir contratos de tipos entre módulos"],
+    "whenToUse": [
+      "Diseñar contratos de API entre frontend y backend",
+      "Definir los límites de módulos en un código base",
+      "Crear interfaces de tipos compartidas entre paquetes",
+      "Establecer protocolos de comunicación entre servicios",
+      "Añadir un endpoint público nuevo a una API existente",
+      "Cambiar un endpoint de API existente (requiere decidir el versionado)",
+      "Introducir un servicio nuevo que se comunica con servicios existentes",
+      "Dividir un monolito en microservicios (descubrimiento de límites)",
+      "Crear un SDK o biblioteca cliente para una API",
+      "Revisar una API existente en busca de problemas de compatibilidad hacia atrás",
+      "Empezar una función nueva que toca más de un módulo (primero el contrato, después el código)"
+    ],
+    "whenNotToUse": [
+      "Implementación profunda de backend (usa backend-api-mastery)",
+      "Trabajo específico de frontend (usa frontend-web, etc.)",
+      "Diseño de esquemas de base de datos",
+      "Cambios de API puramente operativos (añadir un campo a un endpoint existente, sin cambio de versionado)"
+    ]
+  },
+  "backend-api-mastery": {
+    "what": "Diseña APIs de nivel producción con una arquitectura intencional antes de escribir endpoints. Cubre protocolo, base de datos, autenticación, validación y pruebas.",
+    "triggers": ["Construir cualquier capa de API (REST, GraphQL, tRPC, WebSocket, gRPC)"],
+    "whenToUse": [
+      "Construir cualquier capa de API (REST, GraphQL, tRPC, WebSocket, gRPC)",
+      "Añadir una base de datos o capa de persistencia a un proyecto",
+      "Implementar autenticación o autorización",
+      "Diseñar el manejo de errores, la validación o el límite de peticiones",
+      "Crear modelos de datos, esquemas o migraciones",
+      "spec-driven-development (si SPEC.md indica necesidades de backend)",
+      "architecture-analysis (si se elige un backend no trivial)",
+      "frontend-web o frontend-mobile (si el frontend necesita un backend para persistir datos)"
+    ],
+    "whenNotToUse": [
+      "El proyecto es solo frontend sin persistencia (sitio estático, landing page)",
+      "El backend ya está diseñado y documentado en API-DESIGN.md",
+      "La tarea es puramente operativa (corregir un error en una API existente, añadir un campo)"
+    ]
+  },
+  "cli-tools": {
+    "what": "Construye herramientas CLI de nivel producción con análisis de argumentos, códigos de salida, salida con color, progreso y manejo de errores.",
+    "triggers": ["CLI", "terminal", "script de shell"],
+    "whenToUse": [
+      "Construir una herramienta o comando CLI nuevos",
+      "Añadir una interfaz CLI a un proyecto o servicio existente",
+      "Refactorizar scripts ad-hoc en una CLI formal (análisis de argumentos, códigos de salida, composabilidad)",
+      "Crear tooling para desarrolladores: andamios, generadores de código, linters, formateadores, herramientas de migración",
+      "Construir una herramienta de varios comandos (subcomandos estilo git: tool <sustantivo> <verbo>)",
+      "Implementar automatización que necesita códigos de salida fiables y salida canalizada (CI/CD, scripts)",
+      "El usuario dice: \"construye una CLI\", \"app de terminal\", \"herramienta de línea de comandos\", \"haz una herramienta que...\", \"crea un comando\""
+    ],
+    "whenNotToUse": [
+      "Aplicaciones con GUI (escritorio, web, móvil)",
+      "Scripts de shell puntuales y simples (usa un script de shell directamente)",
+      "Aplicaciones TUI de pantalla completa (interfaces interactivas estilo emacs, vim)"
+    ]
+  },
+  "browser-testing-with-devtools": {
+    "what": "Prueba interfaces en navegadores reales: inspecciona el DOM, captura errores de consola, analiza peticiones de red y verifica la salida visual. Las herramientas disponibles varían según la plataforma.",
+    "triggers": ["Depurar comportamiento específico del navegador"],
+    "whenToUse": [
+      "Depurar comportamiento específico del navegador",
+      "Verificar la salida visual con datos reales de ejecución",
+      "Capturar errores de consola o problemas de peticiones de red",
+      "Perfilar el rendimiento del frontend"
+    ],
+    "whenNotToUse": [
+      "Pruebas unitarias o de integración (usa test-driven-development)",
+      "Pruebas de backend",
+      "Análisis estático o linting",
+      "Entornos que no son navegador"
+    ]
+  },
+  "debugging-and-error-recovery": {
+    "what": "Depura de forma sistemática mediante análisis de causa raíz.",
+    "triggers": ["fallan las pruebas", "se rompe la compilación", "el comportamiento no coincide"],
+    "whenToUse": [
+      "Una prueba falla después de un cambio de código",
+      "La compilación se rompe o produce errores",
+      "Error en tiempo de ejecución en desarrollo o producción",
+      "El comportamiento no coincide con lo esperado",
+      "El rendimiento se degrada de forma inesperada",
+      "El usuario reporta un error"
+    ],
+    "whenNotToUse": [
+      "Revisión de código o evaluación de calidad (usa code-review-and-quality)",
+      "Construir funciones nuevas (usa las skills de implementación de funciones)",
+      "Depuración especulativa sin evidencia",
+      "Primera prueba inestable sin pasos de reproducción"
+    ]
+  },
+  "debugging-three-strikes": {
+    "what": "Detén la depuración especulativa tras 3 intentos fallidos con el mismo error. Diagnostica de forma sistemática antes de escribir código.",
+    "triggers": ["los arreglos repetidos fallan"],
+    "whenToUse": [
+      "La misma prueba falla en 3 o más commits consecutivos (disparador mecánico de STRIKES_LOG)",
+      "El mismo componente se arregló dos veces con causas raíz distintas",
+      "Etiqueta bug- repetida en el cuerpo del commit para el mismo problema",
+      "Escalado desde debugging-and-error-recovery tras varios intentos de arreglo"
+    ],
+    "whenNotToUse": [
+      "Primera aparición de un error (usa debugging-and-error-recovery)",
+      "Inestabilidad puntual de una prueba o fallo dependiente de la red",
+      "Componentes distintos que fallan de forma independiente (no es la misma causa raíz)"
+    ]
+  },
+  "test-driven-development": {
+    "what": "Escribe las pruebas primero con el ciclo RED-GREEN-REFACTOR.",
+    "triggers": ["implementar lógica", "corregir errores", "probar que el código funciona"],
+    "whenToUse": [
+      "Implementar cualquier lógica o comportamiento nuevos",
+      "Corregir cualquier error (el patrón Prove-It)",
+      "Modificar funcionalidad existente",
+      "Añadir manejo de casos límite",
+      "El usuario dice \"añade pruebas\" o \"asegúrate de que funciona\""
+    ],
+    "whenNotToUse": [
+      "Cambios puros de configuración, actualizaciones de documentación o cambios de contenido estático"
+    ]
+  },
+  "code-review-and-quality": {
+    "what": "Revisa el código en 5 ejes (corrección, legibilidad, arquitectura, seguridad, rendimiento) antes de fusionar.",
+    "triggers": ["código de cualquier autor"],
+    "whenToUse": [
+      "Antes de fusionar cualquier PR o cambio",
+      "Después de completar la implementación de una función",
+      "Cuando otro agente o modelo produjo código que necesitas evaluar",
+      "Al refactorizar código existente",
+      "Después de cualquier corrección de error (revisa tanto el arreglo como la prueba de regresión)"
+    ],
+    "whenNotToUse": [
+      "Código en curso que aún no está listo para revisión",
+      "Comentarios de diseño o visuales (usa critique-skill o polish)",
+      "Investigación de rendimiento o seguridad sin cambio de código (usa las skills dedicadas)"
+    ]
+  },
+  "code-simplification": {
+    "what": "Simplifica el código para ganar claridad sin cambiar el comportamiento.",
+    "triggers": ["refactorizar código más difícil de leer o mantener"],
+    "whenToUse": [
+      "El código es correcto pero más difícil de leer de lo necesario",
+      "Las abstracciones no justifican su complejidad",
+      "Las funciones o componentes son demasiado grandes",
+      "Hay lógica duplicada que podría unificarse",
+      "Después de que una revisión de código revele problemas de complejidad"
+    ],
+    "whenNotToUse": [
+      "El comportamiento debe cambiar (usa las skills de implementación de funciones)",
+      "Solo hay problemas de formato o linting (usa el formateador o linter)",
+      "El código ya es tan simple como puede ser"
+    ]
+  },
+  "dev-environment-audit": {
+    "what": "Audita el entorno de desarrollo (herramientas CLI, runtimes) antes de escribir código. Propone instalaciones con justificación.",
+    "triggers": ["empezar un proyecto"],
+    "whenToUse": [
+      "Empezar un proyecto nuevo (después de la especificación, antes de construir)",
+      "El usuario pregunta \"qué necesito instalar\" o \"configura el entorno\"",
+      "Antes de construir si falta docs/DEV-ENVIRONMENT.md o está desactualizado",
+      "El proyecto requiere herramientas de prueba, despliegue o diseño",
+      "La invocan: spec-driven-development Fase 7, shipping-and-launch, frontend-* (si faltan MCPs)"
+    ],
+    "whenNotToUse": [
+      "DEV-ENVIRONMENT.md reciente (menos de 7 días) con todas las herramientas verificadas (omite la auditoría)",
+      "Tarea puramente de documentación sin necesidades de tooling"
+    ]
+  },
+  "documentation-and-adrs": {
+    "what": "Documenta decisiones de arquitectura, cambios de API y funciones.",
+    "triggers": ["algo necesita un registro escrito"],
+    "whenToUse": [
+      "Tomar una decisión de arquitectura significativa",
+      "Elegir entre enfoques en competencia",
+      "Añadir o cambiar una API pública",
+      "Entregar una función que cambia el comportamiento de cara al usuario",
+      "Incorporar a nuevos miembros del equipo o agentes"
+    ],
+    "whenNotToUse": [
+      "Documentar código obvio o prototipos desechables"
+    ]
+  },
+  "observability-and-instrumentation": {
+    "what": "Instrumenta el código para que el comportamiento en producción sea visible: logging estructurado, métricas, trazas y alertas.",
+    "triggers": ["entregar funciones que necesitan evidencia"],
+    "whenToUse": [
+      "Añadir logging, métricas, trazas o alertas",
+      "Entregar funciones que se ejecutan en producción",
+      "Se reportan problemas de producción pero no puedes saber qué pasó",
+      "Configurar paneles de monitoreo",
+      "Después de un postmortem de incidente (cubrir los vacíos de observabilidad descubiertos en el análisis)",
+      "Antes de un lanzamiento público o una versión mayor (asegurar la preparación para el lanzamiento)"
+    ],
+    "whenNotToUse": [
+      "Planificación de despliegue o reversión (usa shipping-and-launch)",
+      "Trabajo previo a producción"
+    ]
+  },
+  "performance-optimization": {
+    "what": "Optimiza el rendimiento de la aplicación más allá del frontend: Core Web Vitals, tiempos de carga, respuesta del servidor, consultas de base de datos, caché y perfilado.",
+    "triggers": ["Se superan los presupuestos de rendimiento"],
+    "whenToUse": [
+      "Se superan los presupuestos de rendimiento",
+      "Hay que mejorar los Core Web Vitals",
+      "Los tiempos de carga o el Time-to-Interactive son demasiado lentos",
+      "El perfilado revela cuellos de botella de backend o infraestructura",
+      "Después de una actualización mayor de dependencias o migración de framework (riesgo de regresión)",
+      "Al prepararte para un pico de tráfico (lanzamiento, oferta, campaña)"
+    ],
+    "whenNotToUse": [
+      "Rendimiento de diseño de frontend (usa optimize-skill)",
+      "Optimización prematura sin mediciones"
+    ]
+  },
+  "project-health-check": {
+    "what": "Audita proyectos existentes antes de empezar trabajo nuevo.",
+    "triggers": ["entrar en un código base por primera vez o tras un parón"],
+    "whenToUse": [
+      "El proyecto tiene código Y no hay HEALTH-CHECK.md en los últimos 7 días.",
+      "El usuario pide una auditoría, un chequeo de salud o una revisión de deuda técnica.",
+      "Regresas tras un parón de más de 3 días.",
+      "Antes de un \"cambio significativo\" (más de 3 archivos o una función nueva)."
+    ],
+    "whenNotToUse": [
+      "Proyecto inicializado en esta sesión (ya cumple)",
+      "Arreglo de una línea en un proyecto auditado con HEALTH-CHECK.md reciente"
+    ]
+  },
+  "security-and-hardening": {
+    "what": "Refuerza el código frente a vulnerabilidades: prevención OWASP, validación de entrada, autenticación, almacenamiento de datos y seguridad de terceros.",
+    "triggers": ["Manejar entrada de usuario o subidas de archivos"],
+    "whenToUse": [
+      "Manejar entrada de usuario o subidas de archivos",
+      "Implementar autenticación o gestión de sesiones",
+      "Almacenar datos sensibles (claves, tokens, PII)",
+      "Integrar servicios de terceros",
+      "Construir cualquier función o endpoint de API de cara al público",
+      "Procesar pagos o datos financieros",
+      "Manejar subidas de archivos de fuentes no confiables"
+    ],
+    "whenNotToUse": [
+      "Accesibilidad o mecánica de validación de entrada (usa hard-skill)",
+      "Optimización de rendimiento (usa performance-optimization u optimize-skill)"
+    ]
+  },
+  "adapt-skill": {
+    "what": "Corrige problemas de maquetación responsiva, comportamiento móvil ausente, objetivos táctiles y manejo del viewport.",
+    "triggers": ["la maquetación se rompe entre breakpoints"],
+    "whenToUse": [
+      "La maquetación se rompe entre los breakpoints definidos",
+      "Lo móvil parece un añadido (pestañas, tarjetas a ancho completo, objetivos diminutos)",
+      "Las interacciones táctiles no funcionan",
+      "Desbordamiento con scroll horizontal",
+      "El usuario dice \"esto no funciona en mi teléfono\"",
+      "Después de añadir la revisión responsiva a un pipeline de entrega"
+    ],
+    "whenNotToUse": [
+      "Crear maquetaciones responsivas nuevas desde cero (usa las skills de construcción)",
+      "Animaciones (usa delight u optimize)",
+      "Escalado de tipografía (usa typeset)",
+      "Rendimiento (usa optimize)"
+    ]
+  },
+  "audit-skill": {
+    "what": "Audita el código en 5 dimensiones (accesibilidad, rendimiento, tematización, responsividad, anti-patrones) con puntuación de severidad P0-P3.",
+    "triggers": ["entregar"],
+    "whenToUse": [
+      "Antes de entregar a producción",
+      "Durante un sprint de calidad",
+      "Cuando el tech lead dice \"deberíamos revisar [accesibilidad/rendimiento]\"",
+      "Después de que una función esté funcionalmente completa pero sin revisar"
+    ],
+    "whenNotToUse": [
+      "Evaluación de calidad de diseño (usa critique-skill)",
+      "Ajustes visuales puntuales (usa directamente las skills de corrección individuales)",
+      "Funciones incompletas (la auditoría encuentra problemas que solo son trabajo sin terminar)"
+    ]
+  },
+  "clarify-skill": {
+    "what": "Reescribe textos de UX confusos para que las interfaces se expliquen por sí mismas: etiquetas, botones, errores, estados vacíos y tooltips.",
+    "triggers": ["los usuarios no entienden los campos"],
+    "whenToUse": [
+      "La redacción se siente plantillada o genérica, sin una voz deliberada",
+      "Los usuarios no entienden un campo o un flujo",
+      "Los mensajes de error culpan al usuario o no explican la solución",
+      "El texto del botón es ambiguo (\"Enviar\", \"Aceptar\", \"Haz clic aquí\")",
+      "Los estados vacíos dicen \"No hay elementos\" sin contexto",
+      "Los tooltips repiten la etiqueta",
+      "Los diálogos de confirmación no nombran las consecuencias"
+    ],
+    "whenNotToUse": [
+      "Textos de marketing o de landing page (necesitan un redactor)",
+      "Mejoras de voz o personalidad (usa delight)",
+      "Estrategia de contenido o arquitectura de la información"
+    ]
+  },
+  "critique-skill": {
+    "what": "Evalúa interfaces con una revisión de diseño en dos pasadas: puntuación, pruebas de persona, detección de AI slop, heurísticas de Nielsen y 25 anti-patrones.",
+    "triggers": ["Revisar un plan de diseño antes de escribir código (usa la Fase 0)"],
+    "whenToUse": [
+      "Revisar un plan de diseño antes de escribir código (usa la Fase 0)",
+      "La página está funcionalmente completa, antes de entregar (usa las Fases 1-3)",
+      "\"¿Se siente bien?\": necesitas una segunda opinión honesta",
+      "El usuario señala señales de IA, maquetación genérica o diseño descuidado",
+      "Antes de pasar a la fase de pulido"
+    ],
+    "whenNotToUse": [
+      "Calidad técnica o errores de implementación (usa audit-skill)",
+      "Trabajo incompleto o en borrador (primero usa shape o craft)",
+      "Ejecutar la Fase 0 sobre código construido (usa las Fases 1-3)",
+      "Ejecutar las Fases 1-3 sobre un plan sin código (usa la Fase 0)"
+    ]
+  },
+  "delight-skill": {
+    "what": "Añade microinteracciones, transiciones, estados hover y animaciones de retroalimentación.",
+    "triggers": ["la UX se siente rígida o sin vida"],
+    "whenToUse": [
+      "La interfaz se siente rígida o sin vida",
+      "No hay retroalimentación al pasar el cursor, tocar o completar una acción",
+      "El usuario dice \"haz que se sienta más receptivo\"",
+      "Las transiciones se sienten bruscas o instantáneas (sin duración)",
+      "Los estados de carga están en blanco o parpadean",
+      "Después de completar la funcionalidad, antes del pulido"
+    ],
+    "whenNotToUse": [
+      "Optimización de rendimiento (usa optimize y después delight encima)",
+      "Cambios estructurales (usa las skills de construcción)",
+      "Reemplazar estados ausentes (usa harden primero)"
+    ]
+  },
+  "hard-skill": {
+    "what": "Corrige de forma determinista problemas críticos y de alta severidad de accesibilidad, entrada y estado. Multiplataforma: web, móvil, escritorio, PWA.",
+    "triggers": ["Después de que la auditoría encuentre elementos P0/P1"],
+    "whenToUse": [
+      "Después de que la auditoría encuentre elementos P0/P1",
+      "El usuario dice \"haz que esto sea accesible\"",
+      "El usuario dice \"maneja mejor los casos límite\"",
+      "Antes de entregar a producción",
+      "Después de que un escaneo automático de accesibilidad (axe-core, Lighthouse) revele violaciones"
+    ],
+    "whenNotToUse": [
+      "Decisiones de diseño (usa polish, redesign)",
+      "Correcciones de rendimiento (usa optimize)",
+      "Reescribir textos (usa clarify)",
+      "Funciones nuevas (usa las skills de construcción)"
+    ]
+  },
+  "optimize-skill": {
+    "what": "Corrige problemas de rendimiento: tamaño del bundle, animaciones, reflows, carga diferida, optimización de imágenes y bloqueo del renderizado.",
+    "triggers": ["el perfilado revela cuellos de botella"],
+    "whenToUse": [
+      "Después de que el perfilado revele un cuello de botella específico",
+      "El usuario dice \"esta página es lenta\"",
+      "La puntuación de Lighthouse / PageSpeed está por debajo del objetivo",
+      "El usuario dice \"las animaciones se traban\" o \"el scroll se entrecorta\"",
+      "El tamaño del bundle supera el presupuesto (500 KB de JS en la ruta crítica)",
+      "Las imágenes se cargan a resolución completa en móvil"
+    ],
+    "whenNotToUse": [
+      "Optimización especulativa (mide primero)",
+      "Cambios de diseño que casualmente mejoran el rendimiento",
+      "Preoptimización durante la construcción inicial (primero construye limpio, optimiza después)"
+    ]
+  },
+  "polish-skill": {
+    "what": "Corrige problemas de detalle de diseño: espaciado, alineación, consistencia y cumplimiento de tokens.",
+    "triggers": ["la auditoría o cuando se detectan inconsistencias visuales"],
+    "whenToUse": [
+      "Después de que la auditoría encuentre problemas P1-P2 de tematización o consistencia",
+      "Cuando los componentes se ven \"mal\" pero funcionan estructuralmente",
+      "El usuario dice \"haz que esto se vea más pulido\"",
+      "Durante el QA de diseño antes de entregar",
+      "Cuando existen tokens de diseño pero no se aplican de forma consistente"
+    ],
+    "whenNotToUse": [
+      "Problemas técnicos (usa harden)",
+      "Problemas de flujo de UX (usa redesign, distill)",
+      "Rediseño estructural (usa redesign)",
+      "Reescribir textos (usa clarify)"
+    ]
+  },
+  "typeset-skill": {
+    "what": "Corrige problemas de tipografía y ritmo de lectura: tipografía, peso, tamaño, interlineado, espaciado y escala tipográfica.",
+    "triggers": ["el texto se siente apretado o inconsistente"],
+    "whenToUse": [
+      "El texto se siente apretado o demasiado aireado",
+      "Los encabezados y el cuerpo no se sienten coordinados",
+      "Los tamaños de texto no siguen una escala consistente",
+      "El interlineado es inconsistente entre textos similares",
+      "Los pesos de fuente varían sin motivo",
+      "El espaciado entre letras es aleatorio o falta",
+      "Después de cambiar la escala tipográfica o introducir una variante nueva"
+    ],
+    "whenNotToUse": [
+      "Elegir una tipografía nueva (decisión de diseño, no pulido)",
+      "Reescribir textos (usa clarify)",
+      "Problemas de color o tokens (usa polish)",
+      "Problemas de espaciado o maquetación (usa polish)"
+    ]
+  },
+  "industrial-brutalist-ui": {
+    "what": "Diseña interfaces mecánicas y crudas con estética de impresión tipográfica suiza y terminal militar: cuadrículas rígidas, escala tipográfica extrema y color utilitario.",
+    "triggers": ["el usuario elige una dirección de diseño brutalista / militar / industrial / táctica"],
+    "whenToUse": [
+      "El usuario elige una dirección de diseño brutalista / militar / industrial / táctica.",
+      "Arquitectura de interfaces web que sintetiza el diseño suizo de mediados de siglo, los manuales industriales y las terminales aeroespaciales retrofuturistas."
+    ],
+    "whenNotToUse": [
+      "Interfaces suaves, pulidas o de consumo",
+      "Interfaces que requieren esquinas redondeadas o degradados"
+    ]
+  },
+  "minimalist-ui": {
+    "what": "Diseña UI de producto editorial inspirada en Notion y Linear: paleta monocromática cálida, contraste tipográfico, cuadrículas bento planas y acentos pastel apagados.",
+    "triggers": ["UI de producto, sitios de documentación, paneles SaaS, maquetaciones editoriales"],
+    "whenToUse": [
+      "UI de producto, sitios de documentación, paneles SaaS, maquetaciones editoriales. No para marcas de consumo divertidas ni sitios de agencia experimentales."
+    ],
+    "whenNotToUse": [
+      "Estéticas industriales, brutalistas o deliberadamente crudas",
+      "Marcas de consumo divertidas o sitios de agencia experimentales"
+    ]
+  },
+  "output-skill": {
+    "what": "Evita marcadores de posición, código truncado y salidas a medio terminar del agente.",
+    "triggers": ["el agente entrega trabajo incompleto"],
+    "whenToUse": [
+      "Antes de entregar cualquier salida de código a un usuario",
+      "Después de completar una fase de implementación (antes de marcarla como terminada)",
+      "Cuando los límites de contexto obligan a respuestas truncadas",
+      "Después de cualquier generación de código que involucra varios archivos"
+    ],
+    "whenNotToUse": [
+      "Código de borrador o desechable",
+      "Salida solo exploratoria o de investigación",
+      "Salida que se eliminará o sobrescribirá de inmediato"
+    ]
+  },
+  "redesign-skill": {
+    "what": "Mejora códigos base existentes de forma sistemática: escanea la UI, diagnostica problemas en 8 categorías y corrige por orden de prioridad. Nunca rompe la funcionalidad existente.",
+    "triggers": ["mejorar el diseño visual de un código base existente"],
+    "whenToUse": [
+      "Mejorar el diseño visual de un código base existente. No para proyectos desde cero."
+    ],
+    "whenNotToUse": [
+      "Proyectos desde cero (usa las skills de construcción)",
+      "Migraciones de framework o cambios de stack",
+      "Optimización de rendimiento sin cambios visuales"
+    ]
+  },
+  "soft-premium-ui": {
+    "what": "Diseña UI pulidas, serenas y premium con contraste suave, espacio en blanco generoso, tipografías premium y movimiento con muelle.",
+    "triggers": ["el usuario elige una dirección de diseño premium / de lujo / serena"],
+    "whenToUse": [
+      "El usuario elige una dirección de diseño premium / de lujo / serena.",
+      "Construir experiencias digitales de nivel de agencia de más de 150 000 USD. Profundidad háptica, ritmo espacial cinematográfico y microinteracciones obsesivas."
+    ],
+    "whenNotToUse": [
+      "Estéticas industriales, brutalistas o mecánicas crudas",
+      "UI editoriales minimalistas o de documentación"
+    ]
+  },
+  "git-init-and-versioning": {
+    "what": "Inicializa y configura Git antes de escribir código. Decide mono-repositorio frente a multi-repositorio, crea .gitignore/.env.example y define la estrategia de ramas.",
+    "triggers": ["Después de que existan SPEC.md y DESIGN.md, antes de empezar la fase de construcción"],
+    "whenToUse": [
+      "Después de que existan SPEC.md y DESIGN.md pero antes de empezar la fase de BUILD",
+      "Cuando el usuario dice \"empieza el proyecto\", \"configura el repositorio\" o \"git init\"",
+      "Antes de npm install, create-next-app o cualquier herramienta que genere archivos"
+    ],
+    "whenNotToUse": [
+      "El proyecto ya tiene un repositorio Git con .gitignore y .env.example",
+      "La tarea es solo confirmar cambios en un repositorio existente (usa git-workflow-and-versioning)"
+    ]
+  },
+  "git-workflow-and-versioning": {
+    "what": "Gestiona las prácticas de flujo de trabajo con git: ramas, commits, resolución de conflictos y flujos paralelos.",
+    "triggers": ["hacer cualquier cambio de código"],
+    "whenToUse": [
+      "Hacer cualquier cambio de código (todo cambio pasa por git)",
+      "Confirmar, subir, fusionar o hacer rebase",
+      "Resolver conflictos de fusión",
+      "Organizar flujos de trabajo paralelos",
+      "Configurar el flujo de git de un proyecto nuevo"
+    ],
+    "whenNotToUse": [
+      "Inicialización del repositorio o configuración de .gitignore (usa git-init-and-versioning)",
+      "Despliegue o ramas y etiquetas de versión (usa fullstack-shipping)",
+      "Decisiones de revisión de código o aprobación de PR (usa code-review-and-quality)"
+    ]
+  },
+  "ci-cd-and-automation": {
+    "what": "Automatiza la configuración de pipelines de CI/CD, compuertas de calidad y despliegue.",
+    "triggers": ["configurar ejecutores de pruebas o pipelines de compilación"],
+    "whenToUse": [
+      "Configurar o modificar pipelines de CI/CD",
+      "Configurar compuertas de calidad automatizadas",
+      "Automatizar los procesos de compilación y despliegue",
+      "Añadir ejecutores de pruebas a CI"
+    ],
+    "whenNotToUse": [
+      "Estrategia completa de despliegue con monitoreo y reversión (usa fullstack-shipping)",
+      "Lista de verificación previa al despliegue"
+    ]
+  },
+  "fullstack-shipping": {
+    "what": "Construye, prueba y despliega con CI/CD, pruebas, orquestación y monitoreo de nivel producción.",
+    "triggers": ["desplegar", "entregar", "lanzar", "pipeline", "producción"],
+    "whenToUse": [
+      "Prepararte para desplegar cualquier proyecto a producción o staging",
+      "Configurar pipelines de CI/CD por primera vez",
+      "Añadir infraestructura de pruebas a un proyecto existente",
+      "Planificar una versión o un lanzamiento",
+      "Configurar monitoreo, alertas o estrategias de reversión",
+      "El usuario dice \"sal a producción\", \"entrégalo\" o \"despliega a producción\"",
+      "frontend-web o frontend-mobile Fase 7 (compuertas de QA antes de la entrega)",
+      "backend-api-mastery Fase 7 (documentación y versionado antes de la versión)",
+      "spec-driven-development Fase 8 (compuerta de implementación antes del despliegue)"
+    ],
+    "whenNotToUse": [
+      "Desarrollo local o prototipado sin intención de producción",
+      "Hotfixes donde el CI/CD ya está establecido y el arreglo es trivial",
+      "Cambios solo de documentación sin impacto en el código"
+    ]
+  },
+  "shipping-and-launch": {
+    "what": "Prepara lanzamientos a producción con listas de verificación, monitoreo, despliegue gradual y estrategias de reversión.",
+    "triggers": ["cualquier despliegue significativo"],
+    "whenToUse": [
+      "Desplegar una función a producción por primera vez",
+      "Publicar un cambio significativo para los usuarios",
+      "Migrar datos o infraestructura",
+      "Cualquier despliegue que conlleva riesgo (todos)"
+    ],
+    "whenNotToUse": [
+      "Desarrollo local o prototipado",
+      "Configuración de CI/CD previa a producción (usa ci-cd-and-automation)"
+    ]
+  },
+  "project-metrics": {
+    "what": "Registra métricas de calidad empíricas entre proyectos: tasa de compilaciones correctas, retrabajo, cobertura, tiempo de descubrimiento y tasa de aprobación de compuertas. Se ejecuta automáticamente en segundo plano.",
+    "triggers": ["Automáticamente en segundo plano tras cada acción significativa"],
+    "whenToUse": [
+      "Automáticamente en segundo plano tras cada acción significativa. No requiere invocación directa."
+    ],
+    "whenNotToUse": [
+      "Recolección manual de datos o consultas puntuales (se ejecuta automáticamente)",
+      "Invocación directa (solo como skill en segundo plano)"
+    ]
+  },
+  "customize-opencode": {
+    "what": "Edita o crea la configuración propia de OpenCode.",
+    "triggers": ["configurar OpenCode en sí mismo"],
+    "whenToUse": [
+      "Crear o editar opencode.json / opencode.jsonc",
+      "Añadir, modificar o eliminar servidores MCP",
+      "Cambiar las reglas de permisos de los agentes",
+      "Instalar o deshabilitar plugins",
+      "Editar rutas de skills o definiciones de agentes"
+    ],
+    "whenNotToUse": [
+      "El código de tu aplicación (usa la skill de plataforma adecuada)",
+      "Cualquier proyecto que no consista en configurar OpenCode en sí mismo"
+    ]
+  },
+  "self-improvement": {
+    "what": "Audita y corrige problemas del proyecto mediante un bucle de automejora: detectar, diagnosticar, proponer y ejecutar con aprobación humana. Máximo 3 iteraciones por sesión.",
+    "triggers": ["Después de una sesión en la que se hicieron varios commits"],
+    "whenToUse": [
+      "Después de una sesión en la que se hicieron varios commits",
+      "Cuando el usuario dice \"ejecuta el bucle de automejora\" o \"audita el proyecto\"",
+      "Al inicio de la sesión si audit-project.sh no se ejecutó en 7 o más días"
+    ],
+    "whenNotToUse": [
+      "Ediciones puntuales o desarrollo activo (usa las skills de implementación de funciones)",
+      "Configuración inicial de un proyecto"
+    ]
+  },
+  "skill-creator": {
+    "what": "Genera skills de agente nuevas a partir de la descripción de un flujo de trabajo: SKILL.md con frontmatter, flujo, ejemplos y casos de evaluación.",
+    "triggers": ["crear a partir de una descripción"],
+    "whenToUse": [
+      "Necesitas una skill nueva y no quieres escribir SKILL.md desde cero",
+      "Tienes una descripción clara del flujo de trabajo que la skill debe ejecutar",
+      "Quieres una skill con casos de evaluación incluidos desde el principio",
+      "Prototipado rápido de capacidades nuevas"
+    ],
+    "whenNotToUse": [
+      "Modificar una skill existente (usa skill-improver)",
+      "Tareas puntuales que no se reutilizarán como skills",
+      "Crear skills para flujos triviales (mejor escribirlas a mano)"
+    ]
+  },
+  "skill-improver": {
+    "what": "Analiza casos de evaluación fallidos y propone mejoras. Lee resultados de evaluación, identifica patrones de fallo y produce un diff. No aplica cambios automáticamente.",
+    "triggers": ["run-evals.sh muestra fallos de activación en una skill"],
+    "whenToUse": [
+      "run-evals.sh muestra fallos de activación en una skill",
+      "run-golden.sh muestra problemas de calidad de salida",
+      "run-adversarial.sh muestra vacíos de robustez",
+      "La descripción de una skill es demasiado estrecha o demasiado amplia",
+      "La cobertura de evaluación es parcial y necesita ampliarse"
+    ],
+    "whenNotToUse": [
+      "Crear una skill nueva (usa skill-creator)",
+      "La skill aún no tiene casos de evaluación (añádelos primero)",
+      "El arreglo es obvio (edita directamente el SKILL.md)",
+      "El fallo de evaluación proviene de un error en el propio caso de evaluación"
+    ]
+  }
+}

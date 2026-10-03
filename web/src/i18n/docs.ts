@@ -53,6 +53,19 @@ export const docsEn = {
     title: 'Documentation',
     browse: 'Browse the docs',
   },
+  skills: {
+    index: 'Index',
+    activatesWhen: 'Activates when',
+    useItFor: 'Use it for',
+    dontUseItFor: "Don't use it for",
+    guidesOne: 'guide',
+    guidesMany: 'guides',
+    source: 'SKILL.md',
+    sourceLabel: 'View the source SKILL.md',
+    catalogLabel: 'Skills reference',
+    sidebarGroup: 'Skills',
+    toggleLabel: 'Show the skills categories',
+  },
 } as const;
 
 export type DocsDictionary = typeof docsEn;
@@ -102,6 +115,19 @@ export const docsEs: DocsDictionary = {
   index: {
     title: 'Documentación',
     browse: 'Explorar la documentación',
+  },
+  skills: {
+    index: 'Índice',
+    activatesWhen: 'Se activa cuando',
+    useItFor: 'Úsala para',
+    dontUseItFor: 'No la uses para',
+    guidesOne: 'guía',
+    guidesMany: 'guías',
+    source: 'SKILL.md',
+    sourceLabel: 'Ver el SKILL.md de origen',
+    catalogLabel: 'Referencia de skills',
+    sidebarGroup: 'Skills',
+    toggleLabel: 'Mostrar las categorías de skills',
   },
 };
 
