@@ -76,7 +76,7 @@
       var cmd = commands[index];
       var line = document.createElement('div');
       line.className = 'terminal__tline';
-      line.innerHTML = '<span class="terminal__prompt">~ $</span><span class="terminal__typing"></span>' +
+      line.innerHTML = '<span class="terminal__prompt">~ $</span><span class="terminal__typing" tabindex="0"></span>' +
         (cmd.soon ? '<span class="terminal__soon">' + soonLabel + '</span>' : '') +
         '<span class="terminal__cursor">\u258a</span>';
       lines.appendChild(line);

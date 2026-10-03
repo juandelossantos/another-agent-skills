@@ -28,7 +28,7 @@ const commands = [
       {commands.map((cmd) => (
         <div class="terminal__tline">
           <span class="terminal__prompt">~ $</span>
-          <span class="terminal__typing">{cmd.text}</span>
+          <span class="terminal__typing" tabindex="0">{cmd.text}</span>
           {cmd.soon && <span class="terminal__soon">{dict.terminal.soon}</span>}
         </div>
       ))}

@@ -14,6 +14,8 @@ Key facts (citable):
 - Stacks: Node, Rust, Python, Go, Ruby, Dart, or any stack. `init-agents` writes STACK_CONFIG.md.
 - Install channels: `git clone` + `install.sh` (live), pinned `curl` bootstrap from the latest release (live), npm and Homebrew (coming soon).
 - Works offline after install; no external runtime dependencies; no trackers.
+- Tutorials: five bilingual walkthroughs (first gated commit, wire remote enforcement, start without git, migrate a legacy project, move to another machine).
+- Git flows: no git (convention only), local git (L1), git + GitHub (L1/L2/L3), git later (re-run `init-agents` after `git init` and after adding the remote).
 
 Links:
 
@@ -39,3 +41,31 @@ Docs pages (EN):
 - Distribution and upgrades: https://juandelossantos.github.io/another-agent-skills/docs/distribution/
 - Branch protection: https://juandelossantos.github.io/another-agent-skills/docs/branch-protection/
 - FAQ: https://juandelossantos.github.io/another-agent-skills/docs/faq/
+
+Tutorials (EN):
+
+- Your first gated commit: https://juandelossantos.github.io/another-agent-skills/docs/first-gated-commit/
+- Wire the remote enforcement: https://juandelossantos.github.io/another-agent-skills/docs/wire-remote-enforcement/
+- Start without git, add it later: https://juandelossantos.github.io/another-agent-skills/docs/no-git-and-later-git/
+- Migrate a legacy project: https://juandelossantos.github.io/another-agent-skills/docs/migrate-a-legacy-project/
+- Move to another machine: https://juandelossantos.github.io/another-agent-skills/docs/move-to-another-machine/
+
+Docs pages (ES):
+
+- Overview: https://juandelossantos.github.io/another-agent-skills/es/docs/
+- Getting started: https://juandelossantos.github.io/another-agent-skills/es/docs/getting-started/
+- Lifecycle: https://juandelossantos.github.io/another-agent-skills/es/docs/lifecycle/
+- Skills: https://juandelossantos.github.io/another-agent-skills/es/docs/skills/
+- Enforcement (L1/L2/L3): https://juandelossantos.github.io/another-agent-skills/es/docs/enforcement/
+- Agents: https://juandelossantos.github.io/another-agent-skills/es/docs/agents/
+- Distribution and upgrades: https://juandelossantos.github.io/another-agent-skills/es/docs/distribution/
+- Branch protection: https://juandelossantos.github.io/another-agent-skills/es/docs/branch-protection/
+- FAQ: https://juandelossantos.github.io/another-agent-skills/es/docs/faq/
+
+Tutorials (ES):
+
+- Your first gated commit: https://juandelossantos.github.io/another-agent-skills/es/docs/first-gated-commit/
+- Wire the remote enforcement: https://juandelossantos.github.io/another-agent-skills/es/docs/wire-remote-enforcement/
+- Start without git, add it later: https://juandelossantos.github.io/another-agent-skills/es/docs/no-git-and-later-git/
+- Migrate a legacy project: https://juandelossantos.github.io/another-agent-skills/es/docs/migrate-a-legacy-project/
+- Move to another machine: https://juandelossantos.github.io/another-agent-skills/es/docs/move-to-another-machine/

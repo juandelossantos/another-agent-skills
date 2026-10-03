@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { SITE } from '../config';
+import { docsHome } from '../docs/paths';
 import type { Dictionary, Locale } from '../i18n';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
   altLocale: Locale;
 }
 
-const { dict, altHref, altLocale } = Astro.props;
+const { locale, dict, altHref, altLocale } = Astro.props;
 
 const navItems = [
   { href: '#flow', label: dict.nav.flow },
@@ -27,7 +28,7 @@ const navItems = [
 
 <header class="header">
   <nav class="header__nav container" aria-label={dict.a11y.primaryNav}>
-    <a href="#top" class="header__logo">
+    <a href="#top" class="header__logo" aria-label={dict.a11y.home}>
       <span class="header__logo-mark" aria-hidden="true">///</span>
       <span class="header__logo-text">Another Agent Skills</span>
     </a>
@@ -35,7 +36,7 @@ const navItems = [
       {navItems.map((item) => (
         <li><a href={item.href}>{item.label}</a></li>
       ))}
-      <li><a href={SITE.docs} target="_blank" rel="noopener">{dict.nav.docs}</a></li>
+      <li><a href={docsHome(locale)}>{dict.nav.docs}</a></li>
     </ul>
     <div class="header__controls">
       <a
@@ -81,7 +82,7 @@ const navItems = [
       {navItems.map((item) => (
         <li><a href={item.href}>{item.label}</a></li>
       ))}
-      <li><a href={SITE.docs} target="_blank" rel="noopener">{dict.nav.docs}</a></li>
+      <li><a href={docsHome(locale)}>{dict.nav.docs}</a></li>
       <li>
         <a href={SITE.github} target="_blank" rel="noopener">
           <span>{dict.nav.github}</span>

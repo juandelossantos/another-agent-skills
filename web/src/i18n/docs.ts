@@ -16,6 +16,7 @@ export const docsEn = {
   },
   sections: {
     start: 'Get started',
+    tutorials: 'Tutorials',
     concepts: 'Concepts',
     reference: 'Reference',
     help: 'Help',
@@ -65,6 +66,7 @@ export const docsEs: DocsDictionary = {
   },
   sections: {
     start: 'Empezar',
+    tutorials: 'Tutoriales',
     concepts: 'Conceptos',
     reference: 'Referencia',
     help: 'Ayuda',

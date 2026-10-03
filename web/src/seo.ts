@@ -1,5 +1,5 @@
 import type { Dictionary, Locale } from './i18n';
-import { localePath } from './i18n/routes';
+import { localePath, BASE } from './i18n/routes';
 import { SITE, VERSION } from './config';
 
 const ORIGIN = 'https://juandelossantos.github.io';
@@ -40,6 +40,9 @@ export function buildJsonLd(locale: Locale, dict: Dictionary): Record<string, un
     text,
   }));
 
+  const docsSearchUrl = new URL(localePath(locale, 'docs/'), ORIGIN).href;
+  const logoUrl = new URL(`${BASE}favicon.svg`, ORIGIN).href;
+
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -48,6 +51,7 @@ export function buildJsonLd(locale: Locale, dict: Dictionary): Record<string, un
         '@id': orgId,
         name: 'Another Agent Skills',
         url: canonical,
+        logo: logoUrl,
         sameAs: [SITE.github],
         description: dict.meta.description,
       },
@@ -58,6 +62,15 @@ export function buildJsonLd(locale: Locale, dict: Dictionary): Record<string, un
         name: 'Another Agent Skills',
         inLanguage,
         publisher: { '@id': orgId },
+        // The docs overlay reads `?q=` on load, so this search action resolves.
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${docsSearchUrl}?q={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
       },
       {
         '@type': 'SoftwareApplication',

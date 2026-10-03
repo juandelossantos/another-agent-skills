@@ -39,6 +39,14 @@ No. A non-blocking drift advisory appears in `pre-commit` and `doctor` when the 
 
 L1 is local git hooks for fast, advisory feedback. L2 is a required remote `gates` check that the committer cannot skip. L3 is `CODEOWNERS` review for sensitive paths. L2 and L3 require GitHub. A code change with no matching test is blocked, locally and remotely.
 
+## Which git and GitHub setups are supported?
+
+Four flows, and the framework works in all of them. **No git:** convention only (rules, skills, `AGENTS.md`); run `git init` and re-run `init-agents` to add the local hooks. **Local git:** L1 hooks only, no remote gate. **Git and GitHub:** full L1, L2, and L3. **Git later:** the layers grow as they appear; re-run `init-agents` after `git init` and after adding the remote, because it installs each layer conditionally. Step-by-step: [Start without git, add it later](../no-git-and-later-git/) and [Wire the remote enforcement](../wire-remote-enforcement/).
+
+## Where are the step-by-step guides?
+
+The Tutorials section walks through the common jobs with copy-paste commands and the output you should see: your first gated commit, wiring the remote enforcement, starting without git, migrating a legacy project, and moving to another machine. See [Your first gated commit](../first-gated-commit/).
+
 ## Which agents does it support?
 
 Designed for OpenCode. Portable to Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Aider, Kiro, Zed, and any agent that reads `AGENTS.md`. The installer detects the agent and wires the matching skills and hooks.

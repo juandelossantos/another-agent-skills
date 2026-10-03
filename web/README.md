@@ -28,9 +28,10 @@ cd web
 npm install          # install Astro, @astrojs/sitemap, Playwright (dev)
 npm run dev          # dev server at http://localhost:4321/another-agent-skills/
 npm run build        # static build to dist/
+npm run og           # regenerate public/og.png (1200x630 social card)
 npm run preview      # serve the built dist/ (Astro 7 preview runs in the background; `npx astro preview stop` stops it)
 npm test             # build + node:test assertions against dist/
-npm run test:e2e     # build + Playwright smoke (needs browsers, see below)
+npm run test:e2e     # build + Playwright smoke + axe a11y gate (needs browsers, see below)
 npm run test:all     # both
 ```
 
@@ -45,12 +46,14 @@ npx playwright install chromium
 ```
 web/
 ├── astro.config.mjs        # site/base, static output, i18n (EN default + /es/), sitemap
-├── playwright.config.mjs   # smoke against `astro preview`
+├── playwright.config.mjs   # smoke + axe against `astro preview`
+├── scripts/
+│   └── generate-og.mjs      # deterministic 1200x630 social card (`npm run og`)
 ├── public/
 │   ├── robots.txt          # allow + sitemap ref
 │   ├── llms.txt            # AEO: concise, citable facts + links
 │   ├── favicon.svg
-│   └── og.png              # placeholder social card
+│   └── og.png              # real 1200x630 social card (regenerate: `npm run og`)
 ├── src/
 │   ├── content.config.ts   # `docs` collection: frontmatter schema + glob loader
 │   ├── content/docs/       # one Markdown file per page per locale (<slug>.en.md / <slug>.es.md)
@@ -91,6 +94,8 @@ web/
 │   │   └── es/docs/search.json.ts
 └── tests/
     ├── build.test.mjs      # node:test against dist/
+    ├── seo.test.mjs        # node:test: OG card, canonical/hreflang, sitemap, JSON-LD
+    ├── a11y.spec.mjs       # Playwright + axe: 0 violations (EN/ES, light/dark, 2 viewports)
     └── smoke.spec.mjs      # Playwright smoke
 ```
 
@@ -132,6 +137,11 @@ search, TOC, pager) is generated from the collection.
 `overview` is special: it is the docs home (`/docs/`), so it has no
 `/docs/overview/` route and it renders the browse card grid.
 
+The `tutorials` section holds the five Bloque E walkthroughs
+(`first-gated-commit`, `wire-remote-enforcement`, `no-git-and-later-git`,
+`migrate-a-legacy-project`, `move-to-another-machine`), each with copy-paste
+commands and a "what you should see" outcome.
+
 ### Frontmatter
 
 ```yaml
@@ -140,7 +150,7 @@ title: "Enforcement (L1/L2/L3)"   # page title + breadcrumb + sidebar label
 description: "One sentence used for meta description, OG/Twitter and JSON-LD."
 lang: "en"                         # "en" | "es" (must match the file suffix)
 order: 12                          # sort key within the whole docs nav
-section: "concepts"                # "start" | "concepts" | "reference" | "help"
+section: "concepts"                # "start" | "tutorials" | "concepts" | "reference" | "help"
 tldr: "One citable line."          # optional; shown as the page TL;DR and used
                                    # as the search snippet (AEO)
 ---
@@ -182,11 +192,18 @@ Newsreader (display serif) and JetBrains Mono (mono) are **self-hosted** from
 `src/styles/fonts/` (downloaded from Google Fonts, OFL licensed). No network
 request to a font CDN at runtime, and no tracker.
 
-## Known placeholders
+## Social card
 
-- `public/og.png` is a generated solid-color placeholder; replace it with a real
-  social card before launch.
-- The landing's "Docs" links still point at the repository `docs/` folder; the
-  docs site lives at `/docs/` (EN) and `/es/docs/` (ES). Pointing the landing at
-  the new routes is a follow-up, kept out of this change to avoid touching the
-  landing's approved copy.
+`public/og.png` is a real, on-brand 1200x630 card (warm background, Newsreader
+headline, burnt-orange accent, product name and thesis), generated
+deterministically by `scripts/generate-og.mjs`: headless Chromium screenshots an
+HTML card with the self-hosted fonts inlined as data URIs. Regenerate with
+`npm run og`. The landing and docs reference it with absolute URLs through
+`og:image` / `twitter:image`.
+
+## Known follow-ups
+
+- The docs site is bilingual and complete for the current pages. The landing's
+  "Docs" links now resolve to the in-site routes (`/docs/` EN, `/es/docs/` ES)
+  through `docsHome()` in `src/docs/paths.ts`, so there is no repository-folder
+  link left to migrate.

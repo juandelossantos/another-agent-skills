@@ -295,6 +295,14 @@
         openSearch();
       }
     });
+
+    // Deep link: `/docs/?q=term` opens the overlay pre-filled. This is the
+    // target of the WebSite SearchAction declared in the JSON-LD.
+    var initialQuery = new URLSearchParams(window.location.search).get('q');
+    if (initialQuery) {
+      searchInput.value = initialQuery;
+      openSearch();
+    }
   }
 
   /* =========================================================

@@ -14,6 +14,7 @@ export const en = {
   a11y: {
     skip: 'Skip to content',
     primaryNav: 'Primary',
+    home: 'Another Agent Skills home',
     langToEs: 'Switch to Spanish',
     langToEn: 'Switch to English',
     theme: 'Toggle color theme',

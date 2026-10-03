@@ -14,6 +14,7 @@ export const es: Dictionary = {
   a11y: {
     skip: 'Saltar al contenido',
     primaryNav: 'Principal',
+    home: 'Inicio de Another Agent Skills',
     langToEs: 'Cambiar a español',
     langToEn: 'Cambiar a inglés',
     theme: 'Cambiar tema de color',

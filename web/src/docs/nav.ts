@@ -10,7 +10,7 @@ import type { Locale } from '../i18n';
 
 export type DocEntry = CollectionEntry<'docs'>;
 
-export const SECTION_IDS = ['start', 'concepts', 'reference', 'help'] as const;
+export const SECTION_IDS = ['start', 'tutorials', 'concepts', 'reference', 'help'] as const;
 export type SectionId = (typeof SECTION_IDS)[number];
 
 /** `overview.en` -> `overview`; the route slug is locale-independent. */

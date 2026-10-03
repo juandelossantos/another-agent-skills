@@ -26,7 +26,7 @@ const docs = defineCollection({
     description: z.string(),
     lang: z.enum(['en', 'es']),
     order: z.number().int().nonnegative(),
-    section: z.enum(['start', 'concepts', 'reference', 'help']),
+    section: z.enum(['start', 'tutorials', 'concepts', 'reference', 'help']),
     /** One-line, citable summary shown as the page TL;DR (AEO). */
     tldr: z.string().optional(),
   }),

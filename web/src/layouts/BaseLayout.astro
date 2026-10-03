@@ -81,10 +81,14 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_US'} />
     <meta property="og:locale:alternate" content={locale === 'es' ? 'en_US' : 'es_ES'} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={description} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={description} />
 
     <!-- Theme color (both schemes) -->
     <meta name="theme-color" content="#1A1A18" media="(prefers-color-scheme: dark)" />
@@ -106,7 +110,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       <span id="top"></span>
       <slot />
     </main>
-    <Footer dict={dict} />
+    <Footer locale={locale} dict={dict} />
 
     <script>
       import '../scripts/landing.js';

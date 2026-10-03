@@ -59,6 +59,15 @@ test.describe('EN landing', () => {
     await expect(langLink).toBeVisible();
     await expect(langLink).toHaveAttribute('href', /\/another-agent-skills\/es\/$/);
   });
+
+  test('the Docs nav link resolves to the in-site docs route', async ({ page }) => {
+    await page.goto('./');
+    const docsLink = page.locator('.header__links a', { hasText: 'Docs' });
+    await expect(docsLink).toHaveAttribute('href', /\/another-agent-skills\/docs\/$/);
+    await docsLink.click();
+    await expect(page).toHaveURL(/\/another-agent-skills\/docs\/$/);
+    await expect(page.locator('h1.docs-title')).toBeVisible();
+  });
 });
 
 test.describe('ES landing', () => {
@@ -85,6 +94,12 @@ test.describe('ES landing', () => {
       return doc.scrollWidth - doc.clientWidth;
     });
     expect(overflow).toBeLessThanOrEqual(1);
+  });
+
+  test('the Docs nav link resolves to the ES in-site docs route', async ({ page }) => {
+    await page.goto('es/');
+    const docsLink = page.locator('.header__links a', { hasText: 'Docs' });
+    await expect(docsLink).toHaveAttribute('href', /\/another-agent-skills\/es\/docs\/$/);
   });
 });
 
@@ -114,6 +129,20 @@ test.describe('docs EN', () => {
     await expect(page.locator('.docs-tldr')).toBeVisible();
     await expect(page.locator('[data-toc-list]')).toBeVisible();
     await expect(page.locator('.docs-content h2').first()).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test('a Bloque E tutorial renders with commands, outcome and active nav', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('docs/first-gated-commit/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.locator('h1.docs-title')).toContainText('Your first gated commit');
+    await expect(page.locator('.docs-sidebar a[aria-current="page"]')).toContainText(
+      'Your first gated commit',
+    );
+    await expect(page.locator('.docs-tldr')).toBeVisible();
+    await expect(page.locator('.docs-content pre').first()).toBeVisible();
+    await expect(page.locator('.docs-content')).toContainText('What you should see');
     expect(errors).toEqual([]);
   });
 
@@ -210,6 +239,50 @@ test.describe('docs ES', () => {
       return doc.scrollWidth - doc.clientWidth;
     });
     expect(overflow).toBeLessThanOrEqual(1);
+  });
+
+  test('a Bloque E tutorial renders in neutral Spanish', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('es/docs/first-gated-commit/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+    await expect(page.locator('h1.docs-title')).toContainText('Tu primer commit con compuerta');
+    await expect(page.locator('.docs-content')).toContainText('Lo que deberías ver');
+    await expect(page.locator('.docs-content pre').first()).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * Discoverability (social card + AEO search deep link)
+ * ------------------------------------------------------------------ */
+
+test.describe('discoverability', () => {
+  test('the social card is served as a real PNG', async ({ page }) => {
+    const res = await page.request.get('og.png');
+    expect(res.status()).toBe(200);
+    expect(res.headers()['content-type']).toContain('image/png');
+    const body = await res.body();
+    // 1200x630 PNG signature + non-trivial size (not the old placeholder).
+    expect(body.slice(1, 4).toString('ascii')).toBe('PNG');
+    expect(body.readUInt32BE(16)).toBe(1200);
+    expect(body.readUInt32BE(20)).toBe(630);
+    expect(body.length).toBeGreaterThan(20_000);
+  });
+
+  test('og:image and twitter:image use the absolute card URL', async ({ page }) => {
+    await page.goto('./');
+    const og = await page.locator('meta[property="og:image"]').getAttribute('content');
+    const tw = await page.locator('meta[name="twitter:image"]').getAttribute('content');
+    expect(og).toMatch(/^https:\/\/juandelossantos\.github\.io\/another-agent-skills\/og\.png$/);
+    expect(tw).toBe(og);
+  });
+
+  test('the docs search deep link (?q=) opens the overlay pre-filled', async ({ page }) => {
+    await page.goto('docs/?q=branch');
+    const input = page.locator('#docs-search-input');
+    await expect(input).toHaveValue('branch');
+    await expect(page.locator('#docs-search-panel')).toBeVisible();
+    await expect(page.locator('[data-search-item]').first()).toBeVisible();
   });
 });
 

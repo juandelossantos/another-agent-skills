@@ -39,4 +39,16 @@ La idea central es simple. Una regla que vive solo en un archivo es una sugerenc
 - [Enforcement](enforcement/) muestra el modelo L1/L2/L3 con salida real.
 - [Protección de ramas](branch-protection/) activa la capa de autoridad remota.
 
+## Guías
+
+Cinco recorridos breves, cada uno con comandos listos para copiar y el resultado que deberías ver:
+
+- [Tu primer commit con compuerta](first-gated-commit/) — observa cómo la compuerta local bloquea un cambio de código sin test.
+- [Conecta el enforcement remoto](wire-remote-enforcement/) — haz que `gates` sea un check requerido.
+- [Empieza sin git y agrégalo después](no-git-and-later-git/) — haz crecer las capas a medida que aparecen.
+- [Migra un proyecto heredado](migrate-a-legacy-project/) — `aas doctor` → `--dry-run` → `--repair`.
+- [Muévete a otra máquina](move-to-another-machine/) — reinstala la misma versión y confirma.
+
+Las [Preguntas frecuentes](faq/) responden las dudas comunes de forma directa y citan los hechos.
+
 > El framework funciona sin conexión después de instalarlo, no tiene dependencias externas en tiempo de ejecución y no incluye rastreadores.

@@ -39,4 +39,16 @@ The core idea is simple. A rule that lives only in a file is a suggestion. A rul
 - [Enforcement](enforcement/) shows the L1/L2/L3 model with real output.
 - [Branch protection](branch-protection/) turns on the remote authority layer.
 
+## Guides
+
+Five short walkthroughs, each with copy-paste commands and the output you should see:
+
+- [Your first gated commit](first-gated-commit/) — watch the local gate block a code change with no test.
+- [Wire the remote enforcement](wire-remote-enforcement/) — make `gates` a required check.
+- [Start without git, add it later](no-git-and-later-git/) — grow the layers as they appear.
+- [Migrate a legacy project](migrate-a-legacy-project/) — `aas doctor` → `--dry-run` → `--repair`.
+- [Move to another machine](move-to-another-machine/) — reinstall the same version and confirm.
+
+The [FAQ](faq/) answers the common questions directly and cites the facts.
+
 > The framework works offline after install, has no external runtime dependencies, and ships no trackers.

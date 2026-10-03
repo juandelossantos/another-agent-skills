@@ -14,7 +14,7 @@ const { code, copyLabel, copyText, large } = Astro.props;
 ---
 
 <div class:list={['command', large && 'command--lg']}>
-  <code class="command__code">{code}</code>
+  <code class="command__code" tabindex="0">{code}</code>
   <button class="command__copy" type="button" data-action="copy" aria-label={copyLabel}>
     <Icon name="copy" class="icon--copy" />
     <Icon name="check" class="icon--check" />

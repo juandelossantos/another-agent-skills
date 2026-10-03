@@ -128,6 +128,11 @@ test('dist directory resolved', () => {
 const DOC_SLUGS = [
   'overview',
   'getting-started',
+  'first-gated-commit',
+  'wire-remote-enforcement',
+  'no-git-and-later-git',
+  'migrate-a-legacy-project',
+  'move-to-another-machine',
   'lifecycle',
   'skills',
   'enforcement',
@@ -135,6 +140,15 @@ const DOC_SLUGS = [
   'distribution',
   'branch-protection',
   'faq',
+];
+
+/** Bloque E tutorials: slug -> the title shown in each locale. */
+const TUTORIALS = [
+  { slug: 'first-gated-commit', en: 'Your first gated commit', es: 'Tu primer commit con compuerta' },
+  { slug: 'wire-remote-enforcement', en: 'Wire the remote enforcement', es: 'Conecta el enforcement remoto' },
+  { slug: 'no-git-and-later-git', en: 'Start without git, add it later', es: 'Empieza sin git y agrégalo después' },
+  { slug: 'migrate-a-legacy-project', en: 'Migrate a legacy project', es: 'Migra un proyecto heredado' },
+  { slug: 'move-to-another-machine', en: 'Move to another machine', es: 'Muévete a otra máquina' },
 ];
 
 /** overview is the docs home; the rest live at /docs/<slug>/. */
@@ -236,5 +250,113 @@ test('llms.txt lists the docs routes', () => {
   assert.match(txt, new RegExp(`${SITE}${BASE}/docs/`));
   assert.match(txt, new RegExp(`${SITE}${BASE}/es/docs/`));
   assert.match(txt, /Docs search index/);
+});
+
+/* ------------------------------------------------------------------ *
+ * Bloque E — tutorials, FAQ coverage and the landing Docs links
+ * ------------------------------------------------------------------ */
+
+test('tutorials: all five exist in EN and ES with a TL;DR and a Tutorials sidebar group', () => {
+  for (const t of TUTORIALS) {
+    for (const locale of ['en', 'es']) {
+      const rel = docPath(locale, t.slug);
+      assert.ok(has(rel), `missing dist/${rel}`);
+      const html = read(rel);
+      assert.match(html, /class="docs-tldr"/, `${rel} has no TL;DR`);
+      assert.match(html, /docs-nav__link--active/, `${rel} has no active sidebar link`);
+      assert.match(html, /docs-nav__section">(Tutorials|Tutoriales)</, `${rel} missing the tutorials group`);
+    }
+  }
+});
+
+test('tutorials: each has copy-paste commands and a "what you should see" outcome', () => {
+  for (const t of TUTORIALS) {
+    for (const locale of ['en', 'es']) {
+      const html = read(docPath(locale, t.slug));
+      assert.match(html, /<pre/, `${t.slug} (${locale}) has no code block`);
+      const outcome = locale === 'en' ? /What you should see/ : /Lo que deberías ver/;
+      assert.match(html, outcome, `${t.slug} (${locale}) has no outcome section`);
+    }
+  }
+});
+
+test('tutorials: each is in the search index, the sitemap and llms.txt', () => {
+  for (const locale of ['en', 'es']) {
+    const items = JSON.parse(read(locale === 'en' ? 'docs/search.json' : 'es/docs/search.json'));
+    const urls = items.map((i) => i.url);
+    for (const t of TUTORIALS) {
+      assert.ok(
+        urls.some((u) => u.endsWith(`/docs/${t.slug}/`)),
+        `${locale} search index missing ${t.slug}`,
+      );
+    }
+  }
+  const xml = read('sitemap-0.xml');
+  const txt = read('llms.txt');
+  for (const t of TUTORIALS) {
+    assert.match(xml, new RegExp(`${BASE}/docs/${t.slug}/`), `sitemap missing ${t.slug}`);
+    assert.match(xml, new RegExp(`${BASE}/es/docs/${t.slug}/`), `sitemap missing es/${t.slug}`);
+    assert.match(txt, new RegExp(`${BASE}/docs/${t.slug}/`), `llms.txt missing ${t.slug}`);
+    assert.match(txt, new RegExp(`${BASE}/es/docs/${t.slug}/`), `llms.txt missing es/${t.slug}`);
+  }
+});
+
+test('tutorials: the ES pages use neutral Spanish (no voseo)', () => {
+  for (const t of TUTORIALS) {
+    const html = read(docPath('es', t.slug));
+    assert.doesNotMatch(
+      html,
+      /tenés|podés|Cloná|ejecutá|instalá|agregá|mirá|corré|andá|hacé/i,
+      `${t.slug} uses voseo`,
+    );
+  }
+});
+
+test('FAQ answers the Bloque E questions E1-E8 in EN and ES', () => {
+  const en = read('docs/faq/index.html');
+  const es = read('es/docs/faq/index.html');
+  // E1 install once vs per project
+  assert.match(en, /per project or once/);
+  // E2 cross-platform
+  assert.match(en, /Windows, macOS, and Linux/);
+  // E3 collaborator without AAS
+  assert.match(en, /teammate clones my project/);
+  // E4 legacy migration
+  assert.match(en, /inherited or migrated a project/);
+  assert.match(en, /init-agents --repair/);
+  // E5 new machine
+  assert.match(en, /changed machines/);
+  assert.match(en, /aas install/);
+  // E6 version drift
+  assert.match(en, /new release/);
+  assert.match(en, /non-blocking drift advisory/);
+  // E7 L1/L2/L3
+  assert.match(en, /What are L1, L2, and L3/);
+  // E8 the four git flows
+  assert.match(en, /Which git and GitHub setups are supported/);
+  assert.match(en, /Git later/);
+  // ES parity on the same eight answers
+  assert.match(es, /por proyecto o una vez/);
+  assert.match(es, /Windows, macOS y Linux/);
+  assert.match(es, /no tiene el framework/);
+  assert.match(es, /proyecto que usaba el framework/);
+  assert.match(es, /Cambié de máquina/);
+  assert.match(es, /release nuevo/);
+  assert.match(es, /L1, L2 y L3/);
+  assert.match(es, /configuraciones de git y GitHub/);
+});
+
+test('landing Docs links resolve to the in-site docs routes (base + locale aware)', () => {
+  const en = read('index.html');
+  const es = read('es/index.html');
+  assert.match(en, new RegExp(`href="${BASE}/docs/"`), 'EN landing does not link to /docs/');
+  assert.match(es, new RegExp(`href="${BASE}/es/docs/"`), 'ES landing does not link to /es/docs/');
+  for (const html of [en, es]) {
+    assert.doesNotMatch(
+      html,
+      /github\.com\/juandelossantos\/another-agent-skills\/tree\/main\/docs/,
+      'landing still points at the repository docs folder',
+    );
+  }
 });
 
