@@ -1,0 +1,62 @@
+# npm-publish.yml — publish the npm wrapper (npm/) via OIDC Trusted Publishing.
+# Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
+#
+# Phase 9 / P9.5. npm retired classic publish tokens; the recommended CI path is
+# Trusted Publishing (OIDC). npm requires the package to EXIST before a trusted
+# publisher can be configured, so the FIRST publish is manual — a maintainer runs
+# it once from npm/ (e.g. `npm publish --access public` after `npm login`). Then
+# configure the trusted publisher:
+#
+#   npmjs.com → the package → Settings → Trusted Publisher → GitHub Actions
+#     Organization or user:  juandelossantos
+#     Repository:            another-agent-skills
+#     Workflow filename:     npm-publish.yml
+#     Environment:           npm-release
+#
+# After that, this workflow publishes with a short-lived OIDC token — NO stored
+# npm token. Provenance is generated automatically under OIDC (do not pass the
+# provenance flag). It publishes ONLY: no install/test/build steps run here, to
+# keep the supply-chain surface minimal. The npm-release environment can be
+# gated by required reviewers (see docs/BRANCH-PROTECTION.md).
+
+name: npm-publish
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+# Least privilege: read the repo, mint an OIDC token. No npm token secret.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Gated environment: add required reviewers in repo Settings → Environments.
+    environment: npm-release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify npm CLI supports trusted publishing (>= 11.5.1)
+        run: |
+          set -euo pipefail
+          have="$(npm --version)"
+          echo "npm ${have}"
+          oldest="$(printf '11.5.1\n%s\n' "$have" | sort -V | head -n1)"
+          if [ "$oldest" != "11.5.1" ]; then
+            echo "npm ${have} is older than 11.5.1 — trusted publishing unavailable" >&2
+            exit 1
+          fi
+
+      - name: Publish to npm (OIDC)
+        working-directory: npm
+        run: npm publish --access public

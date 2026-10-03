@@ -220,16 +220,97 @@ aas_remove_path() {
   done
 }
 
+# Read the version a release tarball declares in its own VERSION file. Used by
+# `bootstrap.sh --tarball` so the wrapper can hand over local files without
+# re-declaring the version. Members are `./VERSION` (build-release.sh tars the
+# repo root with `-C repo .`); accept the bare name too for hand-built tarballs.
+aas_version_from_tarball() { # <tarball>
+  local tarball="$1" v=""
+  v="$(tar -xzOf "$tarball" ./VERSION 2>/dev/null | head -n1 | tr -d '[:space:]')" || true
+  if [ -z "$v" ]; then
+    v="$(tar -xzOf "$tarball" VERSION 2>/dev/null | head -n1 | tr -d '[:space:]')" || true
+  fi
+  if aas_valid_version "$v"; then
+    printf '%s\n' "$v"
+    return 0
+  fi
+  return 1
+}
+
+# Extract an already-verified tarball into $AAS_HOME/<version> and link it. The
+# version directory is materialized via a staging dir + rename so a partial
+# extraction can never leave a broken install behind.
+aas_activate_release() { # <version> <tarball>
+  local version="$1" tarball="$2"
+  local asset install_dir
+  asset="$(aas_asset_name "$version")"
+  install_dir="$(aas_install_dir "$version")"
+
+  if ! aas_guard_tarball "$tarball"; then
+    return 1
+  fi
+
+  local staging="$AAS_HOME/.staging.$version.$$"
+  rm -rf "$staging"
+  mkdir -p "$staging"
+  if ! tar -xzf "$tarball" -C "$staging"; then
+    aas_error "failed to extract ${asset}"
+    rm -rf "$staging"; return 1
+  fi
+  if [ ! -f "$staging/bin/aas" ]; then
+    aas_error "release tarball is missing bin/aas at its root"
+    rm -rf "$staging"; return 1
+  fi
+  chmod +x "$staging/bin/aas"
+
+  # Replace the version dir atomically: move the old one aside first, then swap
+  # in the staged tree. If the swap fails, restore the old dir — never leave a
+  # half-installed version behind.
+  mkdir -p "$AAS_HOME"
+  local old="$AAS_HOME/.old.$version.$$"
+  rm -rf "$old"
+  if [ -e "$install_dir" ] && ! mv "$install_dir" "$old"; then
+    rm -rf "$staging"; return 1
+  fi
+  if ! mv "$staging" "$install_dir"; then
+    aas_error "failed to activate ${install_dir}"
+    [ -e "$old" ] && mv "$old" "$install_dir"
+    rm -rf "$staging"; return 1
+  fi
+  rm -rf "$old"
+
+  aas_link_bin "$version" || return 1
+  aas_ensure_path
+  return 0
+}
+
+# Install a pinned release from already-downloaded local files (used by the npm
+# wrapper via `bootstrap.sh --tarball`). The checksum is verified again here —
+# fail closed — then the shared activation path runs.
+aas_install_release_from_files() { # <version> <tarball> <checksums-file>
+  local version="$1" tarball="$2" checksums="$3" asset
+  asset="$(aas_asset_name "$version")"
+  if [ ! -f "$tarball" ]; then
+    aas_error "tarball not found: ${tarball}"
+    return 1
+  fi
+  if [ ! -f "$checksums" ]; then
+    aas_error "checksums file not found: ${checksums}"
+    return 1
+  fi
+  if ! aas_verify_checksum "$tarball" "$checksums" "$asset"; then
+    return 1
+  fi
+  aas_activate_release "$version" "$tarball"
+}
+
 # Download + verify + extract a pinned release, then point the symlink at it.
-# The version directory is materialized via a staging dir + rename so a partial
-# download can never leave a broken install behind.
 aas_install_release() { # <version>
   local version="$1"
-  local asset tarball_url checksums_url install_dir
+  local asset tarball_url checksums_url
   asset="$(aas_asset_name "$version")"
   tarball_url="$(aas_release_url "$version" "$asset")"
   checksums_url="$(aas_checksums_url "$version")"
-  install_dir="$(aas_install_dir "$version")"
 
   local tmp
   tmp="$(mktemp -d "${TMPDIR:-/tmp}/aas.XXXXXX")"
@@ -243,41 +324,10 @@ aas_install_release() { # <version>
   if ! aas_verify_checksum "$tmp/$asset" "$tmp/checksums.txt" "$asset"; then
     rm -rf "$tmp"; return 1
   fi
-  if ! aas_guard_tarball "$tmp/$asset"; then
+  if ! aas_activate_release "$version" "$tmp/$asset"; then
     rm -rf "$tmp"; return 1
   fi
-
-  local staging="$AAS_HOME/.staging.$version.$$"
-  rm -rf "$staging"
-  mkdir -p "$staging"
-  if ! tar -xzf "$tmp/$asset" -C "$staging"; then
-    aas_error "failed to extract ${asset}"
-    rm -rf "$tmp" "$staging"; return 1
-  fi
-  if [ ! -f "$staging/bin/aas" ]; then
-    aas_error "release tarball is missing bin/aas at its root"
-    rm -rf "$tmp" "$staging"; return 1
-  fi
-  chmod +x "$staging/bin/aas"
-
-  # Replace the version dir atomically: move the old one aside first, then swap
-  # in the staged tree. If the swap fails, restore the old dir — never leave a
-  # half-installed version behind.
-  mkdir -p "$AAS_HOME"
-  local old="$AAS_HOME/.old.$version.$$"
-  rm -rf "$old"
-  if [ -e "$install_dir" ] && ! mv "$install_dir" "$old"; then
-    rm -rf "$tmp" "$staging"; return 1
-  fi
-  if ! mv "$staging" "$install_dir"; then
-    aas_error "failed to activate ${install_dir}"
-    [ -e "$old" ] && mv "$old" "$install_dir"
-    rm -rf "$tmp" "$staging"; return 1
-  fi
-  rm -rf "$old" "$tmp"
-
-  aas_link_bin "$version" || return 1
-  aas_ensure_path
+  rm -rf "$tmp"
   return 0
 }
 
