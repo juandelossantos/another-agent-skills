@@ -1,0 +1,3004 @@
+{
+  "generatedFrom": "skills/*/SKILL.md",
+  "skillCount": 57,
+  "guideCount": 151,
+  "categories": [
+    {
+      "id": "foundation",
+      "en": "Foundation",
+      "es": "Fundamentos",
+      "enDesc": "Universal engineering philosophy, context setup and user preferences.",
+      "esDesc": "Filosofía de ingeniería universal, configuración de contexto y preferencias del usuario."
+    },
+    {
+      "id": "ideation",
+      "en": "Ideation",
+      "es": "Ideación",
+      "enDesc": "Refine raw ideas and extract requirements before committing to a plan.",
+      "esDesc": "Refina ideas sin pulir y extrae requisitos antes de comprometerte con un plan."
+    },
+    {
+      "id": "process",
+      "en": "Process",
+      "es": "Proceso",
+      "enDesc": "Specs, architecture, planning and the incremental build loop.",
+      "esDesc": "Especificaciones, arquitectura, planificación y el ciclo de construcción incremental."
+    },
+    {
+      "id": "frontend",
+      "en": "Frontend",
+      "es": "Frontend",
+      "enDesc": "Web, PWA, mobile, desktop and the shared UI component layer.",
+      "esDesc": "Web, PWA, móvil, escritorio y la capa compartida de componentes de UI."
+    },
+    {
+      "id": "backend",
+      "en": "Backend",
+      "es": "Backend",
+      "enDesc": "APIs, data, auth and command-line interfaces.",
+      "esDesc": "APIs, datos, autenticación e interfaces de línea de comandos."
+    },
+    {
+      "id": "testing",
+      "en": "Testing",
+      "es": "Pruebas",
+      "enDesc": "Tests first, browser verification and systematic debugging.",
+      "esDesc": "Pruebas primero, verificación en navegador y depuración sistemática."
+    },
+    {
+      "id": "quality",
+      "en": "Quality",
+      "es": "Calidad",
+      "enDesc": "Audits, review, security, performance and observability.",
+      "esDesc": "Auditorías, revisión, seguridad, rendimiento y observabilidad."
+    },
+    {
+      "id": "design-review",
+      "en": "Design review",
+      "es": "Revisión de diseño",
+      "enDesc": "Heuristic review, the audit to fix chain, and delight.",
+      "esDesc": "Revisión heurística, la cadena de auditoría a corrección y el deleite."
+    },
+    {
+      "id": "design-skins",
+      "en": "Design skins",
+      "es": "Pieles de diseño",
+      "enDesc": "Visual directions and output-enforcement skills.",
+      "esDesc": "Direcciones visuales y skills de aplicación del formato de salida."
+    },
+    {
+      "id": "git",
+      "en": "Git",
+      "es": "Git",
+      "enDesc": "Repository setup, branching and day-to-day version control.",
+      "esDesc": "Configuración del repositorio, ramas y control de versiones diario."
+    },
+    {
+      "id": "devops",
+      "en": "DevOps",
+      "es": "DevOps",
+      "enDesc": "CI/CD, deployment and production launch.",
+      "esDesc": "CI/CD, despliegue y lanzamiento a producción."
+    },
+    {
+      "id": "metrics",
+      "en": "Metrics",
+      "es": "Métricas",
+      "enDesc": "Background quality logging across projects.",
+      "esDesc": "Registro de métricas de calidad en segundo plano entre proyectos."
+    },
+    {
+      "id": "meta",
+      "en": "Meta",
+      "es": "Meta",
+      "enDesc": "Skills that work on the framework and its host agent.",
+      "esDesc": "Skills que trabajan sobre el framework y su agente anfitrión."
+    }
+  ],
+  "skills": [
+    {
+      "name": "context-engineering",
+      "title": "Context Engineering",
+      "category": "foundation",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "setup",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Optimize agent context setup.",
+      "triggers": [
+        "starting a session",
+        "output degrades",
+        "switching tasks"
+      ],
+      "whenToUse": [
+        "Starting a new coding session",
+        "Agent output quality is declining",
+        "Switching between parts of a codebase",
+        "Setting up a new project for AI-assisted development"
+      ],
+      "whenNotToUse": [
+        "One-off queries with no context needs",
+        "Trivial changes with no dependencies",
+        "Already in an active session with fresh context"
+      ],
+      "guides": [
+        "ANTI-PATTERNS-GUIDE",
+        "STRATEGIES-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/context-engineering/SKILL.md",
+      "es": {
+        "what": "Optimiza la configuración del contexto del agente.",
+        "triggers": [
+          "al iniciar una sesión",
+          "la calidad de salida baja",
+          "al cambiar de tarea"
+        ],
+        "whenToUse": [
+          "Al iniciar una nueva sesión de programación",
+          "La calidad de salida del agente está bajando",
+          "Al cambiar entre partes de un código base",
+          "Al configurar un proyecto nuevo para desarrollo asistido por IA"
+        ],
+        "whenNotToUse": [
+          "Consultas puntuales sin necesidades de contexto",
+          "Cambios triviales sin dependencias",
+          "Ya estás en una sesión activa con contexto reciente"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "engineering-fundamentals",
+      "title": "Engineering Fundamentals",
+      "category": "foundation",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": null,
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Define the universal engineering philosophy for all platform skills: discovery, contracts, anti-slop, quality gates.",
+      "triggers": [
+        "Loaded by all platform skills"
+      ],
+      "whenToUse": [
+        "Loaded by all platform skills. Never invoke directly."
+      ],
+      "whenNotToUse": [
+        "Platform-specific implementation (platform skills add details to this foundation)"
+      ],
+      "guides": [
+        "AESTHETIC-DIRECTIONS",
+        "ANTI-SLOP-CORE",
+        "DESIGN-CORE",
+        "DESIGN-MD-SCHEMA",
+        "DISCOVERY-GUIDE",
+        "Memory",
+        "PLATFORM-SKILL-TEMPLATE",
+        "PRE-FLIGHT-CORE"
+      ],
+      "guideCount": 8,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/engineering-fundamentals/SKILL.md",
+      "es": {
+        "what": "Define la filosofía de ingeniería universal para todas las skills de plataforma: descubrimiento, contratos, anti-slop y compuertas de calidad.",
+        "triggers": [
+          "Se carga desde todas las skills de plataforma"
+        ],
+        "whenToUse": [
+          "Se carga desde todas las skills de plataforma. Nunca se invoca directamente."
+        ],
+        "whenNotToUse": [
+          "Implementación específica de plataforma (las skills de plataforma añaden detalles a esta base)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "user-onboarding",
+      "title": "User Onboarding",
+      "category": "foundation",
+      "tier": "action-allowed",
+      "audience": "all-users",
+      "workflow": "discover-persist-reuse",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Capture user preferences once, persist across projects. Creates a user profile for personalization across skills.",
+      "triggers": [
+        "first session",
+        "setup preferences"
+      ],
+      "whenToUse": [
+        "Any skill starts and no ~/.config/opencode/user-profile.json",
+        "user-profile.json > 90 days old",
+        "User says \"setup preferences\", \"remember stack\", \"configure defaults\""
+      ],
+      "whenNotToUse": [
+        "Profile exists and < 90 days old (Quick Verify instead)",
+        "User says \"skip\" and profile exists",
+        "Turbo Mode active with existing profile"
+      ],
+      "guides": [
+        "ONBOARDING-QUESTIONS-GUIDE",
+        "USAGE-EXAMPLES-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/user-onboarding/SKILL.md",
+      "es": {
+        "what": "Captura las preferencias del usuario una vez y las conserva entre proyectos. Crea un perfil de usuario para personalizar todas las skills.",
+        "triggers": [
+          "primera sesión",
+          "configurar preferencias"
+        ],
+        "whenToUse": [
+          "Cualquier skill arranca y no existe ~/.config/opencode/user-profile.json",
+          "user-profile.json tiene más de 90 días",
+          "El usuario dice \"configura mis preferencias\", \"recuerda mi stack\" o \"define los valores por defecto\""
+        ],
+        "whenNotToUse": [
+          "El perfil existe y tiene menos de 90 días (usa la verificación rápida)",
+          "El usuario dice \"omitir\" y el perfil existe",
+          "Modo Turbo activo con un perfil existente"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "idea-refine",
+      "title": "Idea Refine",
+      "category": "ideation",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "ideate-converge",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Refine raw ideas into sharp, actionable concepts through divergent and convergent thinking.",
+      "triggers": [
+        "an idea is vague or needs stress-testing"
+      ],
+      "whenToUse": [
+        "Idea is still vague or incomplete",
+        "Need to stress-test assumptions before committing",
+        "Want to explore alternatives before converging on one"
+      ],
+      "whenNotToUse": [
+        "Requirements are already clear and documented",
+        "Trivial changes with obvious scope"
+      ],
+      "guides": [
+        "DIVERGENT-CONVERGENT",
+        "FACILITATION-PROMPTS"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/idea-refine/SKILL.md",
+      "es": {
+        "what": "Refina ideas sin pulir hasta convertirlas en conceptos nítidos y accionables mediante pensamiento divergente y convergente.",
+        "triggers": [
+          "una idea es vaga o necesita validación"
+        ],
+        "whenToUse": [
+          "La idea sigue siendo vaga o incompleta",
+          "Necesitas poner a prueba los supuestos antes de comprometerte",
+          "Quieres explorar alternativas antes de converger en una"
+        ],
+        "whenNotToUse": [
+          "Los requisitos ya están claros y documentados",
+          "Cambios triviales con alcance obvio"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "interview-me",
+      "title": "Interview Me",
+      "category": "ideation",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": "discover",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Extract what the user actually wants through one-question-at-a-time interviewing.",
+      "triggers": [
+        "a request is underspecified"
+      ],
+      "whenToUse": [
+        "Request is underspecified (\"build me X\" without \"for whom\" or \"why now\")",
+        "User says \"interview me\", \"grill me\", \"are we sure?\"",
+        "Agent catches itself about to silently fill in ambiguous requirements",
+        "Before spec-driven-development for any non-trivial request"
+      ],
+      "whenNotToUse": [
+        "Requirements already clear and documented",
+        "Trivial, well-defined tasks (one-line fix, typo correction)",
+        "Override: NOINTENT: reason in commit body"
+      ],
+      "guides": [
+        "INTERVIEW-PROTOCOL",
+        "MOM-TEST-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/interview-me/SKILL.md",
+      "es": {
+        "what": "Extrae lo que el usuario realmente quiere mediante entrevistas de una pregunta a la vez.",
+        "triggers": [
+          "una petición está poco especificada"
+        ],
+        "whenToUse": [
+          "La petición está poco especificada (\"construye X\" sin \"para quién\" ni \"por qué ahora\")",
+          "El usuario dice \"entrevístame\", \"interrógame\" o \"¿estamos seguros?\"",
+          "El agente se descubre a punto de completar en silencio requisitos ambiguos",
+          "Antes de spec-driven-development para cualquier petición no trivial"
+        ],
+        "whenNotToUse": [
+          "Los requisitos ya están claros y documentados",
+          "Tareas triviales y bien definidas (arreglo de una línea, corrección de errata)",
+          "Excepción: NOINTENT: motivo en el cuerpo del commit"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "architecture-analysis",
+      "title": "Architecture Analysis",
+      "category": "process",
+      "tier": "draft",
+      "audience": "engineers",
+      "workflow": "evaluate-challenge-lock",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Evaluate architecture options with 2-3 alternatives before building. Challenges assumptions, locks decisions into specs.",
+      "triggers": [
+        "stack",
+        "architecture",
+        "pattern"
+      ],
+      "whenToUse": [
+        "Non-trivial project (multi-page, multi-module, backend needs)",
+        "Choosing between frameworks, stacks, patterns",
+        "User says \"I want X\" without justification",
+        "Evaluating microservices vs monolith, SSR vs CSR, REST vs GraphQL",
+        "Decision expensive to reverse",
+        "Skip when: Stack locked in SPEC.md, pure implementation. One-off tweaks. Toy projects."
+      ],
+      "whenNotToUse": [
+        "Implementation details after architecture is decided",
+        "One-off tweaks or toy projects",
+        "When the stack is already locked in SPEC.md"
+      ],
+      "guides": [
+        "ARCHITECTURE-TEMPLATE-GUIDE",
+        "CHALLENGE-GUIDE",
+        "DISCOVERY-GUIDE"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/architecture-analysis/SKILL.md",
+      "es": {
+        "what": "Evalúa opciones de arquitectura con 2-3 alternativas antes de construir. Cuestiona supuestos y fija las decisiones en las especificaciones.",
+        "triggers": [
+          "stack",
+          "arquitectura",
+          "patrón"
+        ],
+        "whenToUse": [
+          "Proyecto no trivial (varias páginas, varios módulos, necesidades de backend)",
+          "Elegir entre frameworks, stacks o patrones",
+          "El usuario dice \"quiero X\" sin justificación",
+          "Evaluar microservicios frente a monolito, SSR frente a CSR, REST frente a GraphQL",
+          "Decisión costosa de revertir",
+          "Omite cuando: el stack está fijado en SPEC.md o es pura implementación. Ajustes puntuales. Proyectos de juguete."
+        ],
+        "whenNotToUse": [
+          "Detalles de implementación después de decidir la arquitectura",
+          "Ajustes puntuales o proyectos de juguete",
+          "Cuando el stack ya está fijado en SPEC.md"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "deprecation-and-migration",
+      "title": "Deprecation and Migration",
+      "category": "process",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "deprecate-migrate",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Manage deprecation and migration of old systems, APIs, and features. Covers sunset strategies, backward compatibility, timelines.",
+      "triggers": [
+        "Removing or replacing an existing API endpoint"
+      ],
+      "whenToUse": [
+        "Removing or replacing an existing API endpoint",
+        "Migrating users from one implementation to another",
+        "Deciding whether to maintain or sunset existing code",
+        "Planning backward-compatible transitions",
+        "A third-party API or dependency your system relies on announces deprecation"
+      ],
+      "whenNotToUse": [
+        "Building new features (use feature implementation skills)",
+        "Deployment (use shipping-and-launch)"
+      ],
+      "guides": [
+        "DEPRECATION-COMMUNICATION",
+        "MIGRATION-STRATEGIES"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/deprecation-and-migration/SKILL.md",
+      "es": {
+        "what": "Gestiona la deprecación y la migración de sistemas, APIs y funciones antiguos. Cubre estrategias de retirada, compatibilidad hacia atrás y plazos.",
+        "triggers": [
+          "Eliminar o reemplazar un endpoint de API existente"
+        ],
+        "whenToUse": [
+          "Eliminar o reemplazar un endpoint de API existente",
+          "Migrar usuarios de una implementación a otra",
+          "Decidir si mantener o retirar código existente",
+          "Planificar transiciones compatibles hacia atrás",
+          "Una API de terceros o dependencia de la que depende tu sistema anuncia su deprecación"
+        ],
+        "whenNotToUse": [
+          "Construir funciones nuevas (usa las skills de implementación de funciones)",
+          "Despliegue (usa shipping-and-launch)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "doubt-driven-development",
+      "title": "Doubt-Driven Development",
+      "category": "process",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "review",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Review every non-trivial decision with a fresh-context adversarial review.",
+      "triggers": [
+        "correctness matters",
+        "stakes are high",
+        "code is unfamiliar"
+      ],
+      "whenToUse": [
+        "A decision is non-trivial when it introduces branching logic, crosses a module boundary, asserts unverifiable properties (thread safety, idempotence), has irreversible blast radius (production deploy, data migration, public API change), or depends on context the future reader cannot see.",
+        "Apply when: about to make an architectural decision, commit non-trivial code, claim a non-obvious fact, or work in code you don't fully understand."
+      ],
+      "whenNotToUse": [
+        "Mechanical operations (renaming, formatting)",
+        "Clear, unambiguous instructions",
+        "Reading or summarizing existing code",
+        "One-line changes or pure tooling"
+      ],
+      "guides": [
+        "CROSS-MODEL-GUIDE",
+        "RATIONALIZATIONS-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/doubt-driven-development/SKILL.md",
+      "es": {
+        "what": "Revisa cada decisión no trivial con una revisión adversarial de contexto fresco.",
+        "triggers": [
+          "importa la corrección",
+          "las apuestas son altas",
+          "el código no te resulta familiar"
+        ],
+        "whenToUse": [
+          "Una decisión es no trivial cuando introduce lógica ramificada, cruza un límite de módulo, afirma propiedades no verificables (seguridad de hilos, idempotencia), tiene un radio de impacto irreversible (despliegue a producción, migración de datos, cambio de API pública) o depende de contexto que el futuro lector no puede ver.",
+          "Aplícala cuando: estás a punto de tomar una decisión de arquitectura, confirmar código no trivial, afirmar un hecho no obvio o trabajar en código que no entiendes del todo."
+        ],
+        "whenNotToUse": [
+          "Operaciones mecánicas (renombrar, dar formato)",
+          "Instrucciones claras e inequívocas",
+          "Leer o resumir código existente",
+          "Cambios de una línea o puro tooling"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "incremental-implementation",
+      "title": "Incremental Implementation",
+      "category": "process",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "build",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Build features incrementally in thin vertical slices.",
+      "triggers": [
+        "touching multiple files or when a task feels too large for one step"
+      ],
+      "whenToUse": [
+        "Implementing any multi-file change",
+        "Building a new feature from a task breakdown",
+        "Refactoring existing code",
+        "Any time you're tempted to write >100 lines before testing"
+      ],
+      "whenNotToUse": [
+        "Single-file, single-function changes where scope is already minimal"
+      ],
+      "guides": [
+        "RATIONALIZATIONS-GUIDE",
+        "SLICING-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
+      "es": {
+        "what": "Construye funciones de forma incremental en porciones verticales finas.",
+        "triggers": [
+          "tocas varios archivos o una tarea parece demasiado grande para un paso"
+        ],
+        "whenToUse": [
+          "Implementar cualquier cambio de varios archivos",
+          "Construir una función nueva a partir de un desglose de tareas",
+          "Refactorizar código existente",
+          "Cada vez que te tienta escribir más de 100 líneas antes de probar"
+        ],
+        "whenNotToUse": [
+          "Cambios de un solo archivo y una sola función cuyo alcance ya es mínimo"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "multi-agent-orchestration",
+      "title": "Multi-Agent Orchestration",
+      "category": "process",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "orchestrate-parallel",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Orchestrate multiple AI coding agents in parallel, pipeline, or swarm modes.",
+      "triggers": [
+        ">2 agents or multi-file refactors"
+      ],
+      "whenToUse": [
+        "Task requires > 2 agents (parallel implementation, research+build+review)",
+        "Multi-module refactor (non-overlapping files, independent modules)",
+        "Spec-driven pipeline with phase gates (Spec → Implement → Test → Review)",
+        "Competitive exploration (swarm mode for architecture decisions)"
+      ],
+      "whenNotToUse": [
+        "Single-file changes (one agent is sufficient)",
+        "Tasks where files overlap (causes merge conflicts)",
+        "Simple CRUD or linear workflows"
+      ],
+      "guides": [
+        "GUIDE"
+      ],
+      "guideCount": 1,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/multi-agent-orchestration/SKILL.md",
+      "es": {
+        "what": "Orquesta varios agentes de programación con IA en modos paralelo, en pipeline o en enjambre.",
+        "triggers": [
+          "más de 2 agentes o refactors de varios archivos"
+        ],
+        "whenToUse": [
+          "La tarea requiere más de 2 agentes (implementación en paralelo, investigación + construcción + revisión)",
+          "Refactor de varios módulos (archivos que no se solapan, módulos independientes)",
+          "Pipeline guiado por especificación con compuertas por fase (Spec → Implement → Test → Review)",
+          "Exploración competitiva (modo enjambre para decisiones de arquitectura)"
+        ],
+        "whenNotToUse": [
+          "Cambios de un solo archivo (un agente es suficiente)",
+          "Tareas donde los archivos se solapan (provoca conflictos de fusión)",
+          "CRUD simple o flujos lineales"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "planning-and-task-breakdown",
+      "title": "Planning and Task Breakdown",
+      "category": "process",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "plan",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Decompose work into small, verifiable tasks with explicit acceptance criteria.",
+      "triggers": [
+        "a spec needs breakdown into implementable steps"
+      ],
+      "whenToUse": [
+        "You have a spec and need to break it into implementable units",
+        "A task feels too large or vague to start",
+        "Work needs to be parallelized across multiple agents or sessions",
+        "The implementation order isn't obvious"
+      ],
+      "whenNotToUse": [
+        "Single-file changes with obvious scope",
+        "Spec already contains well-defined tasks"
+      ],
+      "guides": [
+        "PARALLELIZATION-GUIDE",
+        "TEMPLATES-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md",
+      "es": {
+        "what": "Descompone el trabajo en tareas pequeñas y verificables con criterios de aceptación explícitos.",
+        "triggers": [
+          "una especificación necesita dividirse en pasos implementables"
+        ],
+        "whenToUse": [
+          "Tienes una especificación y necesitas dividirla en unidades implementables",
+          "Una tarea parece demasiado grande o vaga para empezar",
+          "El trabajo debe paralelizarse entre varios agentes o sesiones",
+          "El orden de implementación no es obvio"
+        ],
+        "whenNotToUse": [
+          "Cambios de un solo archivo con alcance obvio",
+          "La especificación ya contiene tareas bien definidas"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "source-driven-development",
+      "title": "Source-Driven Development",
+      "category": "process",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "research-implement",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Ground every implementation decision in official documentation before writing code.",
+      "triggers": [
+        "building with any framework where correctness matters"
+      ],
+      "whenToUse": [
+        "Using any framework, library, SDK, or API",
+        "Implementing against a documented interface",
+        "Migrating between versions of a dependency",
+        "Any time correctness of API usage matters",
+        "Using a new dependency for the first time (verify API surface before writing code)",
+        "Upgrading a major version of a dependency (breaking changes expected — verify against new docs, not old knowledge)"
+      ],
+      "whenNotToUse": [
+        "Pure algorithm or data structure implementation",
+        "Business logic with no external dependency",
+        "Creative or design work"
+      ],
+      "guides": [
+        "DOC-VERIFICATION-PATTERNS",
+        "FRESHNESS-CHECKS"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/source-driven-development/SKILL.md",
+      "es": {
+        "what": "Fundamenta cada decisión de implementación en la documentación oficial antes de escribir código.",
+        "triggers": [
+          "construyes con cualquier framework donde importa la corrección"
+        ],
+        "whenToUse": [
+          "Usar cualquier framework, biblioteca, SDK o API",
+          "Implementar contra una interfaz documentada",
+          "Migrar entre versiones de una dependencia",
+          "Cada vez que importa la corrección del uso de una API",
+          "Usar una dependencia nueva por primera vez (verifica la superficie de la API antes de escribir código)",
+          "Actualizar una versión mayor de una dependencia (se esperan cambios incompatibles: verifica contra la documentación nueva, no contra el conocimiento antiguo)"
+        ],
+        "whenNotToUse": [
+          "Implementación pura de algoritmos o estructuras de datos",
+          "Lógica de negocio sin dependencia externa",
+          "Trabajo creativo o de diseño"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "spec-driven-development",
+      "title": "Spec-Driven Development",
+      "category": "process",
+      "tier": "draft",
+      "audience": "engineers",
+      "workflow": "prompt-spec-arch-tasks-code",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Create comprehensive specifications from user requests through research, critical analysis, and user alignment.",
+      "triggers": [
+        "new project",
+        "feature",
+        "spec",
+        "plan"
+      ],
+      "whenToUse": [
+        "Starting any new project or feature",
+        "Ambiguous or one-sentence requirements that need clarification",
+        "Changes touching >3 files or crossing module boundaries",
+        "Architectural or technology decisions",
+        "Any task estimated at >30 minutes"
+      ],
+      "whenNotToUse": [
+        "Single-line fixes, typo corrections, truly trivial changes (1 file, < 10 lines, no logic). For everything else, run the pipeline."
+      ],
+      "guides": [
+        "DISCOVERY-GUIDE",
+        "SPEC-FLOW",
+        "SPEC-TEMPLATE-GUIDE"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
+      "es": {
+        "what": "Crea especificaciones completas a partir de las peticiones del usuario mediante investigación, análisis crítico y alineación con el usuario.",
+        "triggers": [
+          "proyecto nuevo",
+          "función",
+          "especificación",
+          "plan"
+        ],
+        "whenToUse": [
+          "Empezar cualquier proyecto o función nuevos",
+          "Requisitos ambiguos o de una sola frase que necesitan aclaración",
+          "Cambios que tocan más de 3 archivos o cruzan límites de módulo",
+          "Decisiones de arquitectura o tecnología",
+          "Cualquier tarea estimada en más de 30 minutos"
+        ],
+        "whenNotToUse": [
+          "Correcciones de una línea, erratas, cambios realmente triviales (1 archivo, menos de 10 líneas, sin lógica). Para todo lo demás, ejecuta el pipeline."
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "frontend-desktop",
+      "title": "Frontend Desktop",
+      "category": "frontend",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": "native-desktop-build",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Build production-grade desktop apps with native OS integration. Default: Tauri v2. Adaptable: Electron, Flutter.",
+      "triggers": [
+        "Build any desktop application with native OS integration"
+      ],
+      "whenToUse": [
+        "Build any desktop application with native OS integration."
+      ],
+      "whenNotToUse": [
+        "Web-only apps (use frontend-web)",
+        "Mobile apps (use frontend-mobile)",
+        "CLI tools (use terminal workflow)"
+      ],
+      "guides": [
+        "DISCOVERY-GUIDE",
+        "EXAMPLES",
+        "PLATFORM-GUIDE"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/frontend-desktop/SKILL.md",
+      "es": {
+        "what": "Construye aplicaciones de escritorio de nivel producción con integración nativa del sistema operativo. Por defecto: Tauri v2. Adaptable: Electron, Flutter.",
+        "triggers": [
+          "Construye cualquier aplicación de escritorio con integración nativa del sistema operativo"
+        ],
+        "whenToUse": [
+          "Construye cualquier aplicación de escritorio con integración nativa del sistema operativo."
+        ],
+        "whenNotToUse": [
+          "Aplicaciones solo web (usa frontend-web)",
+          "Aplicaciones móviles (usa frontend-mobile)",
+          "Herramientas CLI (usa el flujo de terminal)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "frontend-mobile",
+      "title": "Frontend Mobile",
+      "category": "frontend",
+      "tier": "draft",
+      "audience": "mobile-developers",
+      "workflow": "design-driven-build",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Build production-grade mobile apps with native design tokens and platform compliance.",
+      "triggers": [
+        "mobile app",
+        "React Native",
+        "Flutter",
+        "iOS",
+        "Android"
+      ],
+      "whenToUse": [
+        "Build, design, or redesign any mobile app interface."
+      ],
+      "whenNotToUse": [
+        "Web-only tasks (use frontend-web)",
+        "Installable web apps (use frontend-pwa)",
+        "Backend-only tasks"
+      ],
+      "guides": [
+        "ANIMATION-GUIDE",
+        "DISCOVERY-GUIDE",
+        "EXAMPLES"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/frontend-mobile/SKILL.md",
+      "es": {
+        "what": "Construye aplicaciones móviles de nivel producción con tokens de diseño nativos y cumplimiento de cada plataforma.",
+        "triggers": [
+          "app móvil",
+          "React Native",
+          "Flutter",
+          "iOS",
+          "Android"
+        ],
+        "whenToUse": [
+          "Construye, diseña o rediseña cualquier interfaz de aplicación móvil."
+        ],
+        "whenNotToUse": [
+          "Tareas solo web (usa frontend-web)",
+          "Aplicaciones web instalables (usa frontend-pwa)",
+          "Tareas solo de backend"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "frontend-pwa",
+      "title": "Frontend PWA",
+      "category": "frontend",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": "design-driven-build",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Build installable, offline-first web apps for all devices with native migration via Capacitor.",
+      "triggers": [
+        "PWA",
+        "offline",
+        "installable",
+        "hybrid"
+      ],
+      "whenToUse": [
+        "Web app with offline functionality",
+        "Installable experience (add to homescreen)",
+        "Cross-device (phone, tablet, foldable, TV, desktop)",
+        "Future native distribution via Capacitor/Ionic"
+      ],
+      "whenNotToUse": [
+        "Simple marketing sites with no offline needs (use frontend-web)",
+        "Pure native apps (use frontend-mobile)"
+      ],
+      "guides": [
+        "DEVICE-MATRIX-GUIDE",
+        "DISCOVERY-GUIDE",
+        "EXAMPLES",
+        "PWA-ARCHITECTURE-GUIDE"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/frontend-pwa/SKILL.md",
+      "es": {
+        "what": "Construye aplicaciones web instalables y offline-first para todos los dispositivos, con migración nativa vía Capacitor.",
+        "triggers": [
+          "PWA",
+          "offline",
+          "instalable",
+          "híbrida"
+        ],
+        "whenToUse": [
+          "Aplicación web con funcionalidad sin conexión",
+          "Experiencia instalable (añadir a la pantalla de inicio)",
+          "Multi-dispositivo (teléfono, tableta, plegable, TV, escritorio)",
+          "Distribución nativa futura vía Capacitor/Ionic"
+        ],
+        "whenNotToUse": [
+          "Sitios de marketing simples sin necesidades offline (usa frontend-web)",
+          "Aplicaciones puramente nativas (usa frontend-mobile)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "frontend-ui-engineering",
+      "title": "Frontend UI Engineering",
+      "category": "frontend",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "design-build",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Build production-quality UIs with component architecture, state management, and layout discipline.",
+      "triggers": [
+        "web",
+        "mobile",
+        "desktop",
+        "PWA"
+      ],
+      "whenToUse": [
+        "Building any user-facing component",
+        "Designing component architecture or state management",
+        "Implementing layouts, navigation, or responsive patterns",
+        "Referenced automatically by platform skills"
+      ],
+      "whenNotToUse": [
+        "Platform-specific work (use the dedicated platform skill)",
+        "API or backend work (use backend-api-mastery)"
+      ],
+      "guides": [
+        "COMPONENT-ARCHITECTURE",
+        "STATE-MANAGEMENT"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/frontend-ui-engineering/SKILL.md",
+      "es": {
+        "what": "Construye interfaces de nivel producción con arquitectura de componentes, gestión de estado y disciplina de maquetación.",
+        "triggers": [
+          "web",
+          "móvil",
+          "escritorio",
+          "PWA"
+        ],
+        "whenToUse": [
+          "Construir cualquier componente de cara al usuario",
+          "Diseñar la arquitectura de componentes o la gestión de estado",
+          "Implementar maquetación, navegación o patrones responsivos",
+          "La referencian automáticamente las skills de plataforma"
+        ],
+        "whenNotToUse": [
+          "Trabajo específico de plataforma (usa la skill de plataforma dedicada)",
+          "Trabajo de API o backend (usa backend-api-mastery)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "frontend-web",
+      "title": "Frontend Web",
+      "category": "frontend",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": "design-driven-build",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Build production-grade web interfaces.",
+      "triggers": [
+        "website",
+        "landing page",
+        "web app",
+        "Next"
+      ],
+      "whenToUse": [
+        "Build, design, or redesign any web interface."
+      ],
+      "whenNotToUse": [
+        "Backend-only, CLI, non-visual software",
+        "Native mobile (use frontend-mobile)",
+        "Installable offline apps (use frontend-pwa)"
+      ],
+      "guides": [
+        "ANIMATION-GUIDE",
+        "ANTI-SLOP-GUIDE",
+        "DESIGN-GUIDE",
+        "DISCOVERY-GUIDE",
+        "EXAMPLES",
+        "IMAGE-STRATEGY",
+        "PRE-FLIGHT",
+        "REDESIGN-GUIDE"
+      ],
+      "guideCount": 8,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/frontend-web/SKILL.md",
+      "es": {
+        "what": "Construye interfaces web de nivel producción.",
+        "triggers": [
+          "sitio web",
+          "landing page",
+          "aplicación web",
+          "Next"
+        ],
+        "whenToUse": [
+          "Construye, diseña o rediseña cualquier interfaz web."
+        ],
+        "whenNotToUse": [
+          "Software solo de backend, CLI o no visual",
+          "Móvil nativo (usa frontend-mobile)",
+          "Aplicaciones instalables sin conexión (usa frontend-pwa)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "api-and-interface-design",
+      "title": "API and Interface Design",
+      "category": "backend",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "design-contract",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Design stable APIs and module boundaries with clear contracts.",
+      "triggers": [
+        "designing REST/GraphQL endpoints or defining type contracts between modules"
+      ],
+      "whenToUse": [
+        "Designing API contracts between frontend and backend",
+        "Defining module boundaries in a codebase",
+        "Creating type interfaces shared across packages",
+        "Establishing communication protocols between services",
+        "Adding a new public endpoint to an existing API",
+        "Changing an existing API endpoint (versioning decision required)",
+        "Introducing a new service that communicates with existing services",
+        "Splitting a monolith into microservices (boundary discovery)",
+        "Creating a client SDK or client library for an API",
+        "Reviewing an existing API for backward compatibility issues",
+        "Starting a new feature that touches more than one module (contract first, code second)"
+      ],
+      "whenNotToUse": [
+        "Deep backend implementation (use backend-api-mastery)",
+        "Frontend-specific work (use frontend-web, etc.)",
+        "Database schema design",
+        "Purely operational API changes (add one field to existing endpoint, no versioning change)"
+      ],
+      "guides": [
+        "CONTRACT-TEMPLATES",
+        "VERSIONING-STRATEGIES"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/api-and-interface-design/SKILL.md",
+      "es": {
+        "what": "Diseña APIs estables y límites de módulo con contratos claros.",
+        "triggers": [
+          "diseñar endpoints REST/GraphQL o definir contratos de tipos entre módulos"
+        ],
+        "whenToUse": [
+          "Diseñar contratos de API entre frontend y backend",
+          "Definir los límites de módulos en un código base",
+          "Crear interfaces de tipos compartidas entre paquetes",
+          "Establecer protocolos de comunicación entre servicios",
+          "Añadir un endpoint público nuevo a una API existente",
+          "Cambiar un endpoint de API existente (requiere decidir el versionado)",
+          "Introducir un servicio nuevo que se comunica con servicios existentes",
+          "Dividir un monolito en microservicios (descubrimiento de límites)",
+          "Crear un SDK o biblioteca cliente para una API",
+          "Revisar una API existente en busca de problemas de compatibilidad hacia atrás",
+          "Empezar una función nueva que toca más de un módulo (primero el contrato, después el código)"
+        ],
+        "whenNotToUse": [
+          "Implementación profunda de backend (usa backend-api-mastery)",
+          "Trabajo específico de frontend (usa frontend-web, etc.)",
+          "Diseño de esquemas de base de datos",
+          "Cambios de API puramente operativos (añadir un campo a un endpoint existente, sin cambio de versionado)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "backend-api-mastery",
+      "title": "Backend API Mastery",
+      "category": "backend",
+      "tier": "action-allowed",
+      "audience": "backend-engineers",
+      "workflow": "research-design-document",
+      "foundation": "engineering-fundamentals",
+      "compatibility": "all",
+      "what": "Design production-grade APIs with intentional architecture before writing endpoints. Covers protocol, database, auth, validation, testing.",
+      "triggers": [
+        "Building any API layer (REST, GraphQL, tRPC, WebSocket, gRPC)"
+      ],
+      "whenToUse": [
+        "Building any API layer (REST, GraphQL, tRPC, WebSocket, gRPC)",
+        "Adding a database or persistence layer to a project",
+        "Implementing authentication or authorization",
+        "Designing error handling, validation, or rate limiting",
+        "Creating data models, schemas, or migrations",
+        "spec-driven-development (if SPEC.md indicates backend needs)",
+        "architecture-analysis (if non-trivial backend is chosen)",
+        "frontend-web or frontend-mobile (if frontend needs a backend to persist data)"
+      ],
+      "whenNotToUse": [
+        "The project is frontend-only with no persistence (static site, landing page)",
+        "The backend is already designed and documented in API-DESIGN.md",
+        "The task is purely operational (fix a bug in existing API, add one field)"
+      ],
+      "guides": [
+        "AUTH-GUIDE",
+        "DISCOVERY-GUIDE",
+        "Memory",
+        "PROTOCOL-GUIDE",
+        "TESTING-GUIDE"
+      ],
+      "guideCount": 5,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/backend-api-mastery/SKILL.md",
+      "es": {
+        "what": "Diseña APIs de nivel producción con una arquitectura intencional antes de escribir endpoints. Cubre protocolo, base de datos, autenticación, validación y pruebas.",
+        "triggers": [
+          "Construir cualquier capa de API (REST, GraphQL, tRPC, WebSocket, gRPC)"
+        ],
+        "whenToUse": [
+          "Construir cualquier capa de API (REST, GraphQL, tRPC, WebSocket, gRPC)",
+          "Añadir una base de datos o capa de persistencia a un proyecto",
+          "Implementar autenticación o autorización",
+          "Diseñar el manejo de errores, la validación o el límite de peticiones",
+          "Crear modelos de datos, esquemas o migraciones",
+          "spec-driven-development (si SPEC.md indica necesidades de backend)",
+          "architecture-analysis (si se elige un backend no trivial)",
+          "frontend-web o frontend-mobile (si el frontend necesita un backend para persistir datos)"
+        ],
+        "whenNotToUse": [
+          "El proyecto es solo frontend sin persistencia (sitio estático, landing page)",
+          "El backend ya está diseñado y documentado en API-DESIGN.md",
+          "La tarea es puramente operativa (corregir un error en una API existente, añadir un campo)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "cli-tools",
+      "title": "CLI Tools",
+      "category": "backend",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "design-implement-document",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Build production-grade CLI tools with argument parsing, exit codes, colored output, progress, and error handling.",
+      "triggers": [
+        "CLI",
+        "terminal",
+        "shell script"
+      ],
+      "whenToUse": [
+        "Building a new CLI tool or command",
+        "Adding a CLI interface to an existing project or service",
+        "Refactoring ad-hoc scripts into a proper CLI (argument parsing, exit codes, composability)",
+        "Creating developer tooling: scaffolds, code generators, linters, formatters, migration tools",
+        "Building a multi-command tool (git-style subcommands: tool <noun> <verb>)",
+        "Implementing automation that needs reliable exit codes and piped output (CI/CD, scripts)",
+        "User says: \"build a CLI\", \"terminal app\", \"command line tool\", \"make a tool that...\", \"create a command\""
+      ],
+      "whenNotToUse": [
+        "GUI applications (desktop, web, mobile)",
+        "Simple one-off shell scripts (use a shell script directly)",
+        "Full-screen TUI applications (emacs, vim-style interactive interfaces)"
+      ],
+      "guides": [
+        "ANTI-SLOP-GUIDE",
+        "LANGUAGE-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/cli-tools/SKILL.md",
+      "es": {
+        "what": "Construye herramientas CLI de nivel producción con análisis de argumentos, códigos de salida, salida con color, progreso y manejo de errores.",
+        "triggers": [
+          "CLI",
+          "terminal",
+          "script de shell"
+        ],
+        "whenToUse": [
+          "Construir una herramienta o comando CLI nuevos",
+          "Añadir una interfaz CLI a un proyecto o servicio existente",
+          "Refactorizar scripts ad-hoc en una CLI formal (análisis de argumentos, códigos de salida, composabilidad)",
+          "Crear tooling para desarrolladores: andamios, generadores de código, linters, formateadores, herramientas de migración",
+          "Construir una herramienta de varios comandos (subcomandos estilo git: tool <sustantivo> <verbo>)",
+          "Implementar automatización que necesita códigos de salida fiables y salida canalizada (CI/CD, scripts)",
+          "El usuario dice: \"construye una CLI\", \"app de terminal\", \"herramienta de línea de comandos\", \"haz una herramienta que...\", \"crea un comando\""
+        ],
+        "whenNotToUse": [
+          "Aplicaciones con GUI (escritorio, web, móvil)",
+          "Scripts de shell puntuales y simples (usa un script de shell directamente)",
+          "Aplicaciones TUI de pantalla completa (interfaces interactivas estilo emacs, vim)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "browser-testing-with-devtools",
+      "title": "Browser Testing with DevTools",
+      "category": "testing",
+      "tier": "read-only",
+      "audience": "frontend-developers",
+      "workflow": "test-verify",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Test interfaces in real browsers: inspect DOM, capture console errors, analyze network requests, verify visual output. Available tools vary by platform.",
+      "triggers": [
+        "Debugging browser-specific behavior"
+      ],
+      "whenToUse": [
+        "Debugging browser-specific behavior",
+        "Verifying visual output with real runtime data",
+        "Capturing console errors or network request issues",
+        "Profiling frontend performance"
+      ],
+      "whenNotToUse": [
+        "Unit or integration testing (use test-driven-development)",
+        "Backend testing",
+        "Static analysis or linting",
+        "Non-browser environments"
+      ],
+      "guides": [
+        "WORKFLOW-SCENARIOS"
+      ],
+      "guideCount": 1,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/browser-testing-with-devtools/SKILL.md",
+      "es": {
+        "what": "Prueba interfaces en navegadores reales: inspecciona el DOM, captura errores de consola, analiza peticiones de red y verifica la salida visual. Las herramientas disponibles varían según la plataforma.",
+        "triggers": [
+          "Depurar comportamiento específico del navegador"
+        ],
+        "whenToUse": [
+          "Depurar comportamiento específico del navegador",
+          "Verificar la salida visual con datos reales de ejecución",
+          "Capturar errores de consola o problemas de peticiones de red",
+          "Perfilar el rendimiento del frontend"
+        ],
+        "whenNotToUse": [
+          "Pruebas unitarias o de integración (usa test-driven-development)",
+          "Pruebas de backend",
+          "Análisis estático o linting",
+          "Entornos que no son navegador"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "debugging-and-error-recovery",
+      "title": "Debugging and Error Recovery",
+      "category": "testing",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "debug-diagnose-fix",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Debug systematically using root-cause analysis.",
+      "triggers": [
+        "tests fail",
+        "builds break",
+        "behavior doesn't match"
+      ],
+      "whenToUse": [
+        "Test fails after a code change",
+        "Build breaks or produces errors",
+        "Runtime error in development or production",
+        "Behavior doesn't match expectations",
+        "Performance degrades unexpectedly",
+        "User reports a bug"
+      ],
+      "whenNotToUse": [
+        "Code review or quality assessment (use code-review-and-quality)",
+        "Building new features (use feature implementation skills)",
+        "Speculative debugging without evidence",
+        "First-time flaky test without reproduction steps"
+      ],
+      "guides": [
+        "DECISION-TREE",
+        "ERROR-PATTERNS",
+        "memory",
+        "PLATFORM-PATTERNS",
+        "TRIAGE"
+      ],
+      "guideCount": 5,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/debugging-and-error-recovery/SKILL.md",
+      "es": {
+        "what": "Depura de forma sistemática mediante análisis de causa raíz.",
+        "triggers": [
+          "fallan las pruebas",
+          "se rompe la compilación",
+          "el comportamiento no coincide"
+        ],
+        "whenToUse": [
+          "Una prueba falla después de un cambio de código",
+          "La compilación se rompe o produce errores",
+          "Error en tiempo de ejecución en desarrollo o producción",
+          "El comportamiento no coincide con lo esperado",
+          "El rendimiento se degrada de forma inesperada",
+          "El usuario reporta un error"
+        ],
+        "whenNotToUse": [
+          "Revisión de código o evaluación de calidad (usa code-review-and-quality)",
+          "Construir funciones nuevas (usa las skills de implementación de funciones)",
+          "Depuración especulativa sin evidencia",
+          "Primera prueba inestable sin pasos de reproducción"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "debugging-three-strikes",
+      "title": "3 Strikes Protocol",
+      "category": "testing",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "diagnose-stabilize",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Stop speculative debugging after 3 same-bug strikes. Diagnose systematically before writing code.",
+      "triggers": [
+        "repetitive fixes fail"
+      ],
+      "whenToUse": [
+        "Same test failing across 3+ consecutive commits (mechanical STRIKES_LOG trigger)",
+        "Same component fixed twice with different root causes",
+        "bug-tag: repeating in commit body for the same issue",
+        "Escalated from debugging-and-error-recovery after repeated fix attempts"
+      ],
+      "whenNotToUse": [
+        "First occurrence of a bug (use debugging-and-error-recovery instead)",
+        "One-off test flakiness or network-dependent failure",
+        "Different components failing independently (not the same root cause)"
+      ],
+      "guides": [],
+      "guideCount": 0,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/debugging-three-strikes/SKILL.md",
+      "es": {
+        "what": "Detén la depuración especulativa tras 3 intentos fallidos con el mismo error. Diagnostica de forma sistemática antes de escribir código.",
+        "triggers": [
+          "los arreglos repetidos fallan"
+        ],
+        "whenToUse": [
+          "La misma prueba falla en 3 o más commits consecutivos (disparador mecánico de STRIKES_LOG)",
+          "El mismo componente se arregló dos veces con causas raíz distintas",
+          "Etiqueta bug- repetida en el cuerpo del commit para el mismo problema",
+          "Escalado desde debugging-and-error-recovery tras varios intentos de arreglo"
+        ],
+        "whenNotToUse": [
+          "Primera aparición de un error (usa debugging-and-error-recovery)",
+          "Inestabilidad puntual de una prueba o fallo dependiente de la red",
+          "Componentes distintos que fallan de forma independiente (no es la misma causa raíz)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "test-driven-development",
+      "title": "Test-Driven Development",
+      "category": "testing",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "test-first",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Write tests first with RED-GREEN-REFACTOR cycle.",
+      "triggers": [
+        "implementing logic",
+        "fixing bugs",
+        "proving code works"
+      ],
+      "whenToUse": [
+        "Implementing any new logic or behavior",
+        "Fixing any bug (the Prove-It Pattern)",
+        "Modifying existing functionality",
+        "Adding edge case handling",
+        "User says \"add tests\" or \"make sure it works\""
+      ],
+      "whenNotToUse": [
+        "Pure configuration changes, documentation updates, or static content changes"
+      ],
+      "guides": [
+        "ANTI-PATTERNS",
+        "BROWSER-TESTING",
+        "PROVE-IT",
+        "TDD-CYCLE",
+        "TEST-PYRAMID",
+        "WRITING-TESTS"
+      ],
+      "guideCount": 6,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+      "es": {
+        "what": "Escribe las pruebas primero con el ciclo RED-GREEN-REFACTOR.",
+        "triggers": [
+          "implementar lógica",
+          "corregir errores",
+          "probar que el código funciona"
+        ],
+        "whenToUse": [
+          "Implementar cualquier lógica o comportamiento nuevos",
+          "Corregir cualquier error (el patrón Prove-It)",
+          "Modificar funcionalidad existente",
+          "Añadir manejo de casos límite",
+          "El usuario dice \"añade pruebas\" o \"asegúrate de que funciona\""
+        ],
+        "whenNotToUse": [
+          "Cambios puros de configuración, actualizaciones de documentación o cambios de contenido estático"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "code-review-and-quality",
+      "title": "Code Review and Quality",
+      "category": "quality",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": "review",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Review code across 5 axes (correctness, readability, architecture, security, performance) before merging.",
+      "triggers": [
+        "code from any author"
+      ],
+      "whenToUse": [
+        "Before merging any PR or change",
+        "After completing a feature implementation",
+        "When another agent or model produced code you need to evaluate",
+        "When refactoring existing code",
+        "After any bug fix (review both fix and regression test)"
+      ],
+      "whenNotToUse": [
+        "Work-in-progress code not ready for review",
+        "Design or visual feedback (use critique-skill or polish)",
+        "Performance or security investigation without code change (use dedicated skills)"
+      ],
+      "guides": [
+        "CHANGE-SIZING",
+        "FIVE-AXIS",
+        "REVIEW-PROCESS"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
+      "es": {
+        "what": "Revisa el código en 5 ejes (corrección, legibilidad, arquitectura, seguridad, rendimiento) antes de fusionar.",
+        "triggers": [
+          "código de cualquier autor"
+        ],
+        "whenToUse": [
+          "Antes de fusionar cualquier PR o cambio",
+          "Después de completar la implementación de una función",
+          "Cuando otro agente o modelo produjo código que necesitas evaluar",
+          "Al refactorizar código existente",
+          "Después de cualquier corrección de error (revisa tanto el arreglo como la prueba de regresión)"
+        ],
+        "whenNotToUse": [
+          "Código en curso que aún no está listo para revisión",
+          "Comentarios de diseño o visuales (usa critique-skill o polish)",
+          "Investigación de rendimiento o seguridad sin cambio de código (usa las skills dedicadas)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "code-simplification",
+      "title": "Code Simplification",
+      "category": "quality",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "review-simplify",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Simplify code for clarity without changing behavior.",
+      "triggers": [
+        "refactoring code that is harder to read or maintain"
+      ],
+      "whenToUse": [
+        "Code is correct but harder to read than necessary",
+        "Abstractions don't earn their complexity",
+        "Functions or components are too large",
+        "Duplicated logic could be unified",
+        "After code review reveals complexity issues"
+      ],
+      "whenNotToUse": [
+        "Behavior must change (use feature implementation skills)",
+        "Only formatting or linting issues (use formatter/linter)",
+        "The code is already as simple as it can be"
+      ],
+      "guides": [
+        "REFACTORING-PATTERNS",
+        "SIMPLIFICATION-HEURISTICS"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/code-simplification/SKILL.md",
+      "es": {
+        "what": "Simplifica el código para ganar claridad sin cambiar el comportamiento.",
+        "triggers": [
+          "refactorizar código más difícil de leer o mantener"
+        ],
+        "whenToUse": [
+          "El código es correcto pero más difícil de leer de lo necesario",
+          "Las abstracciones no justifican su complejidad",
+          "Las funciones o componentes son demasiado grandes",
+          "Hay lógica duplicada que podría unificarse",
+          "Después de que una revisión de código revele problemas de complejidad"
+        ],
+        "whenNotToUse": [
+          "El comportamiento debe cambiar (usa las skills de implementación de funciones)",
+          "Solo hay problemas de formato o linting (usa el formateador o linter)",
+          "El código ya es tan simple como puede ser"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "dev-environment-audit",
+      "title": "Dev Environment Audit",
+      "category": "quality",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "audit-gap-install-document",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Audit development environment (CLI tools, runtimes) before code. Proposes installations with justification.",
+      "triggers": [
+        "starting a project"
+      ],
+      "whenToUse": [
+        "Starting new project (after spec, before build)",
+        "User asks \"what do I need to install\" or \"setup environment\"",
+        "Before build if docs/DEV-ENVIRONMENT.md missing or outdated",
+        "Project requires testing, deployment, or design tools",
+        "Invoked by: spec-driven-development Phase 7, shipping-and-launch, frontend-* (if MCPs absent)"
+      ],
+      "whenNotToUse": [
+        "Fresh DEV-ENVIRONMENT.md (<7 days) with all tools verified (skip audit)",
+        "Pure documentation task with no tooling needs"
+      ],
+      "guides": [
+        "AUDIT-CHECKLIST-GUIDE",
+        "ENV-TEMPLATE-GUIDE",
+        "IDEAL-SETS-GUIDE",
+        "INSTALL-GUIDE"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/dev-environment-audit/SKILL.md",
+      "es": {
+        "what": "Audita el entorno de desarrollo (herramientas CLI, runtimes) antes de escribir código. Propone instalaciones con justificación.",
+        "triggers": [
+          "empezar un proyecto"
+        ],
+        "whenToUse": [
+          "Empezar un proyecto nuevo (después de la especificación, antes de construir)",
+          "El usuario pregunta \"qué necesito instalar\" o \"configura el entorno\"",
+          "Antes de construir si falta docs/DEV-ENVIRONMENT.md o está desactualizado",
+          "El proyecto requiere herramientas de prueba, despliegue o diseño",
+          "La invocan: spec-driven-development Fase 7, shipping-and-launch, frontend-* (si faltan MCPs)"
+        ],
+        "whenNotToUse": [
+          "DEV-ENVIRONMENT.md reciente (menos de 7 días) con todas las herramientas verificadas (omite la auditoría)",
+          "Tarea puramente de documentación sin necesidades de tooling"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "documentation-and-adrs",
+      "title": "Documentation and ADRs",
+      "category": "quality",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "document",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Document architectural decisions, API changes, and features.",
+      "triggers": [
+        "something needs a written record"
+      ],
+      "whenToUse": [
+        "Making a significant architectural decision",
+        "Choosing between competing approaches",
+        "Adding or changing a public API",
+        "Shipping a feature that changes user-facing behavior",
+        "Onboarding new team members or agents"
+      ],
+      "whenNotToUse": [
+        "Documenting obvious code or throwaway prototypes"
+      ],
+      "guides": [
+        "ADR-GUIDE",
+        "INLINE-DOCS",
+        "README"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/documentation-and-adrs/SKILL.md",
+      "es": {
+        "what": "Documenta decisiones de arquitectura, cambios de API y funciones.",
+        "triggers": [
+          "algo necesita un registro escrito"
+        ],
+        "whenToUse": [
+          "Tomar una decisión de arquitectura significativa",
+          "Elegir entre enfoques en competencia",
+          "Añadir o cambiar una API pública",
+          "Entregar una función que cambia el comportamiento de cara al usuario",
+          "Incorporar a nuevos miembros del equipo o agentes"
+        ],
+        "whenNotToUse": [
+          "Documentar código obvio o prototipos desechables"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "observability-and-instrumentation",
+      "title": "Observability and Instrumentation",
+      "category": "quality",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "instrument-monitor",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Instrument code so production behavior is visible: structured logging, metrics, tracing, alerting.",
+      "triggers": [
+        "shipping features that need evidence"
+      ],
+      "whenToUse": [
+        "Adding logging, metrics, tracing, or alerting",
+        "Shipping features that run in production",
+        "Production issues reported but you can't tell what happened",
+        "Setting up monitoring dashboards",
+        "After an incident postmortem (filling observability gaps discovered during analysis)",
+        "Before a public launch or major feature release (ensuring launch readiness)"
+      ],
+      "whenNotToUse": [
+        "Deployment or rollback planning (use shipping-and-launch)",
+        "Pre-production work"
+      ],
+      "guides": [
+        "METRICS-AND-TRACING",
+        "STRUCTURED-LOGGING"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/observability-and-instrumentation/SKILL.md",
+      "es": {
+        "what": "Instrumenta el código para que el comportamiento en producción sea visible: logging estructurado, métricas, trazas y alertas.",
+        "triggers": [
+          "entregar funciones que necesitan evidencia"
+        ],
+        "whenToUse": [
+          "Añadir logging, métricas, trazas o alertas",
+          "Entregar funciones que se ejecutan en producción",
+          "Se reportan problemas de producción pero no puedes saber qué pasó",
+          "Configurar paneles de monitoreo",
+          "Después de un postmortem de incidente (cubrir los vacíos de observabilidad descubiertos en el análisis)",
+          "Antes de un lanzamiento público o una versión mayor (asegurar la preparación para el lanzamiento)"
+        ],
+        "whenNotToUse": [
+          "Planificación de despliegue o reversión (usa shipping-and-launch)",
+          "Trabajo previo a producción"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "performance-optimization",
+      "title": "Performance Optimization",
+      "category": "quality",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": "profile-optimize",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Optimize application performance beyond the frontend: Core Web Vitals, load times, server response, database queries, caching, profiling.",
+      "triggers": [
+        "Performance budgets are being exceeded"
+      ],
+      "whenToUse": [
+        "Performance budgets are being exceeded",
+        "Core Web Vitals need improvement",
+        "Load times or Time-to-Interactive are too slow",
+        "Profiling reveals backend or infrastructure bottlenecks",
+        "After a major dependency upgrade or framework migration (regression risk)",
+        "Preparing for a traffic event (launch, sale, campaign)"
+      ],
+      "whenNotToUse": [
+        "Frontend design performance (use optimize-skill)",
+        "Premature optimization without measurements"
+      ],
+      "guides": [
+        "CACHING-STRATEGIES",
+        "PROFILING-WORKFLOW"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/performance-optimization/SKILL.md",
+      "es": {
+        "what": "Optimiza el rendimiento de la aplicación más allá del frontend: Core Web Vitals, tiempos de carga, respuesta del servidor, consultas de base de datos, caché y perfilado.",
+        "triggers": [
+          "Se superan los presupuestos de rendimiento"
+        ],
+        "whenToUse": [
+          "Se superan los presupuestos de rendimiento",
+          "Hay que mejorar los Core Web Vitals",
+          "Los tiempos de carga o el Time-to-Interactive son demasiado lentos",
+          "El perfilado revela cuellos de botella de backend o infraestructura",
+          "Después de una actualización mayor de dependencias o migración de framework (riesgo de regresión)",
+          "Al prepararte para un pico de tráfico (lanzamiento, oferta, campaña)"
+        ],
+        "whenNotToUse": [
+          "Rendimiento de diseño de frontend (usa optimize-skill)",
+          "Optimización prematura sin mediciones"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "project-health-check",
+      "title": "Project Health Check",
+      "category": "quality",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "audit-before-build",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Audit existing projects before new work.",
+      "triggers": [
+        "entering a codebase for the first time or after a gap"
+      ],
+      "whenToUse": [
+        "Project has code AND no HEALTH-CHECK.md within 7 days.",
+        "User asks for audit, health check, or technical debt review.",
+        "Return after gap >3 days.",
+        "Before \"significant change\" (>3 files or new feature)."
+      ],
+      "whenNotToUse": [
+        "Project initialized this session (already compliant)",
+        "Single-line fix in an audited project with recent HEALTH-CHECK.md"
+      ],
+      "guides": [
+        "AUDIT-CHECKLIST-GUIDE",
+        "REPORT-TEMPLATE-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/project-health-check/SKILL.md",
+      "es": {
+        "what": "Audita proyectos existentes antes de empezar trabajo nuevo.",
+        "triggers": [
+          "entrar en un código base por primera vez o tras un parón"
+        ],
+        "whenToUse": [
+          "El proyecto tiene código Y no hay HEALTH-CHECK.md en los últimos 7 días.",
+          "El usuario pide una auditoría, un chequeo de salud o una revisión de deuda técnica.",
+          "Regresas tras un parón de más de 3 días.",
+          "Antes de un \"cambio significativo\" (más de 3 archivos o una función nueva)."
+        ],
+        "whenNotToUse": [
+          "Proyecto inicializado en esta sesión (ya cumple)",
+          "Arreglo de una línea en un proyecto auditado con HEALTH-CHECK.md reciente"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "security-and-hardening",
+      "title": "Security and Hardening",
+      "category": "quality",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "audit-harden",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Harden code against vulnerabilities: OWASP prevention, input validation, authentication, data storage, and third-party safety.",
+      "triggers": [
+        "Handling user input or file uploads"
+      ],
+      "whenToUse": [
+        "Handling user input or file uploads",
+        "Implementing authentication or session management",
+        "Storing sensitive data (keys, tokens, PII)",
+        "Integrating with third-party services",
+        "Building any public-facing feature or API endpoint",
+        "Processing payment or financial data",
+        "Handling file uploads from untrusted sources"
+      ],
+      "whenNotToUse": [
+        "Accessibility or input validation mechanics (use hard-skill)",
+        "Performance optimization (use performance-optimization or optimize-skill)"
+      ],
+      "guides": [],
+      "guideCount": 0,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/security-and-hardening/SKILL.md",
+      "es": {
+        "what": "Refuerza el código frente a vulnerabilidades: prevención OWASP, validación de entrada, autenticación, almacenamiento de datos y seguridad de terceros.",
+        "triggers": [
+          "Manejar entrada de usuario o subidas de archivos"
+        ],
+        "whenToUse": [
+          "Manejar entrada de usuario o subidas de archivos",
+          "Implementar autenticación o gestión de sesiones",
+          "Almacenar datos sensibles (claves, tokens, PII)",
+          "Integrar servicios de terceros",
+          "Construir cualquier función o endpoint de API de cara al público",
+          "Procesar pagos o datos financieros",
+          "Manejar subidas de archivos de fuentes no confiables"
+        ],
+        "whenNotToUse": [
+          "Accesibilidad o mecánica de validación de entrada (usa hard-skill)",
+          "Optimización de rendimiento (usa performance-optimization u optimize-skill)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "adapt-skill",
+      "title": "Adapt Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": "audit-adapt",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Fix responsive layout issues, missing mobile behavior, touch targets, and viewport handling.",
+      "triggers": [
+        "layouts break between breakpoints"
+      ],
+      "whenToUse": [
+        "Layout breaks between defined breakpoints",
+        "Mobile feels like an afterthought (tabs, full-width cards, tiny targets)",
+        "Touch interactions don't work",
+        "Horizontal scroll overflow",
+        "User says \"this doesn't work on my phone\"",
+        "After adding responsive review to a shipping pipeline"
+      ],
+      "whenNotToUse": [
+        "Creating new responsive layouts from scratch (use build skills)",
+        "Animations (use delight or optimize)",
+        "Typography scaling (use typeset)",
+        "Performance (use optimize)"
+      ],
+      "guides": [
+        "BREAKPOINT-GUIDE",
+        "TOUCH-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/adapt-skill/SKILL.md",
+      "es": {
+        "what": "Corrige problemas de maquetación responsiva, comportamiento móvil ausente, objetivos táctiles y manejo del viewport.",
+        "triggers": [
+          "la maquetación se rompe entre breakpoints"
+        ],
+        "whenToUse": [
+          "La maquetación se rompe entre los breakpoints definidos",
+          "Lo móvil parece un añadido (pestañas, tarjetas a ancho completo, objetivos diminutos)",
+          "Las interacciones táctiles no funcionan",
+          "Desbordamiento con scroll horizontal",
+          "El usuario dice \"esto no funciona en mi teléfono\"",
+          "Después de añadir la revisión responsiva a un pipeline de entrega"
+        ],
+        "whenNotToUse": [
+          "Crear maquetaciones responsivas nuevas desde cero (usa las skills de construcción)",
+          "Animaciones (usa delight u optimize)",
+          "Escalado de tipografía (usa typeset)",
+          "Rendimiento (usa optimize)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "audit-skill",
+      "title": "Audit Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": "audit-fix",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Audit code across 5 dimensions (accessibility, performance, theming, responsive, anti-patterns) with P0-P3 severity scoring.",
+      "triggers": [
+        "shipping"
+      ],
+      "whenToUse": [
+        "Before shipping to production",
+        "During a quality sprint",
+        "When tech lead says \"we should look at [accessibility/performance]\"",
+        "After a feature is functionally complete but not reviewed"
+      ],
+      "whenNotToUse": [
+        "Design quality evaluation (use critique-skill)",
+        "One-off visual tweaks (use individual fix skills directly)",
+        "Incomplete features (audit finds issues that are just unfinished)"
+      ],
+      "guides": [
+        "AUDIT-CHECKLIST",
+        "AUDIT-PROTOCOL",
+        "REFERENCE",
+        "SCORING-GUIDE"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/audit-skill/SKILL.md",
+      "es": {
+        "what": "Audita el código en 5 dimensiones (accesibilidad, rendimiento, tematización, responsividad, anti-patrones) con puntuación de severidad P0-P3.",
+        "triggers": [
+          "entregar"
+        ],
+        "whenToUse": [
+          "Antes de entregar a producción",
+          "Durante un sprint de calidad",
+          "Cuando el tech lead dice \"deberíamos revisar [accesibilidad/rendimiento]\"",
+          "Después de que una función esté funcionalmente completa pero sin revisar"
+        ],
+        "whenNotToUse": [
+          "Evaluación de calidad de diseño (usa critique-skill)",
+          "Ajustes visuales puntuales (usa directamente las skills de corrección individuales)",
+          "Funciones incompletas (la auditoría encuentra problemas que solo son trabajo sin terminar)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "clarify-skill",
+      "title": "Clarify Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-designers",
+      "workflow": "evaluate-refine",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Rewrite confusing UX copy so interfaces explain themselves: labels, buttons, errors, empty states, tooltips.",
+      "triggers": [
+        "users don't understand fields"
+      ],
+      "whenToUse": [
+        "Writing feels templated or generic — no deliberate voice",
+        "Users don't understand a field or flow",
+        "Error messages blame the user or don't explain the fix",
+        "Button copy is ambiguous (\"Submit\", \"OK\", \"Click here\")",
+        "Empty states say \"No items\" with no context",
+        "Tooltips restate the label",
+        "Confirmation dialogs don't name consequences"
+      ],
+      "whenNotToUse": [
+        "Marketing or landing page copy (needs a writer)",
+        "Voice/personality upgrades (use delight)",
+        "Content strategy or information architecture"
+      ],
+      "guides": [
+        "AUDIENCE-MAP",
+        "EXAMPLES",
+        "REWRITE-WORKSHOP",
+        "VOICE-GUIDE"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/clarify-skill/SKILL.md",
+      "es": {
+        "what": "Reescribe textos de UX confusos para que las interfaces se expliquen por sí mismas: etiquetas, botones, errores, estados vacíos y tooltips.",
+        "triggers": [
+          "los usuarios no entienden los campos"
+        ],
+        "whenToUse": [
+          "La redacción se siente plantillada o genérica, sin una voz deliberada",
+          "Los usuarios no entienden un campo o un flujo",
+          "Los mensajes de error culpan al usuario o no explican la solución",
+          "El texto del botón es ambiguo (\"Enviar\", \"Aceptar\", \"Haz clic aquí\")",
+          "Los estados vacíos dicen \"No hay elementos\" sin contexto",
+          "Los tooltips repiten la etiqueta",
+          "Los diálogos de confirmación no nombran las consecuencias"
+        ],
+        "whenNotToUse": [
+          "Textos de marketing o de landing page (necesitan un redactor)",
+          "Mejoras de voz o personalidad (usa delight)",
+          "Estrategia de contenido o arquitectura de la información"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "critique-skill",
+      "title": "Critique Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-designers",
+      "workflow": "evaluate-refine",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Evaluate interfaces with two-pass design review: scoring, persona tests, AI slop detection, Nielsen heuristics, and 25 anti-patterns.",
+      "triggers": [
+        "Reviewing a design plan before any code is written (use Phase 0)"
+      ],
+      "whenToUse": [
+        "Reviewing a design plan before any code is written (use Phase 0)",
+        "Page is functionally complete, before ship (use Phase 1-3)",
+        "\"Does this feel right?\" — need an honest second opinion",
+        "User flags AI tells, generic layout, or sloppy design",
+        "Before handing off for polish pass"
+      ],
+      "whenNotToUse": [
+        "Technical quality or implementation bugs (use audit-skill)",
+        "Incomplete or draft work (use shape or craft first)",
+        "Running Phase 0 on built code (use Phase 1-3)",
+        "Running Phase 1-3 on a plan with no code (use Phase 0)"
+      ],
+      "guides": [
+        "ANTI-PATTERNS-GUIDE",
+        "PERSONAS-GUIDE",
+        "SCORING-GUIDE"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/critique-skill/SKILL.md",
+      "es": {
+        "what": "Evalúa interfaces con una revisión de diseño en dos pasadas: puntuación, pruebas de persona, detección de AI slop, heurísticas de Nielsen y 25 anti-patrones.",
+        "triggers": [
+          "Revisar un plan de diseño antes de escribir código (usa la Fase 0)"
+        ],
+        "whenToUse": [
+          "Revisar un plan de diseño antes de escribir código (usa la Fase 0)",
+          "La página está funcionalmente completa, antes de entregar (usa las Fases 1-3)",
+          "\"¿Se siente bien?\": necesitas una segunda opinión honesta",
+          "El usuario señala señales de IA, maquetación genérica o diseño descuidado",
+          "Antes de pasar a la fase de pulido"
+        ],
+        "whenNotToUse": [
+          "Calidad técnica o errores de implementación (usa audit-skill)",
+          "Trabajo incompleto o en borrador (primero usa shape o craft)",
+          "Ejecutar la Fase 0 sobre código construido (usa las Fases 1-3)",
+          "Ejecutar las Fases 1-3 sobre un plan sin código (usa la Fase 0)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "delight-skill",
+      "title": "Delight Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-designers",
+      "workflow": "evaluate-delight",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Add micro-interactions, transitions, hover states, and feedback animations.",
+      "triggers": [
+        "UX feels stiff or lifeless"
+      ],
+      "whenToUse": [
+        "Interface feels stiff or lifeless",
+        "No feedback on hover, tap, or action completion",
+        "User says \"make it feel more responsive\"",
+        "Transitions feel jarring or instant (no duration)",
+        "Loading states are blank or flicker",
+        "After functionality is complete, before polish"
+      ],
+      "whenNotToUse": [
+        "Performance optimization (use optimize — then delight on top)",
+        "Structural changes (use build skills)",
+        "Replacing missing states (use harden first)"
+      ],
+      "guides": [
+        "ANIMATIONS-GUIDE",
+        "IMPLEMENTATION-GUIDE",
+        "MOTION-SPEC",
+        "PERSONALITY-PATTERNS"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/delight-skill/SKILL.md",
+      "es": {
+        "what": "Añade microinteracciones, transiciones, estados hover y animaciones de retroalimentación.",
+        "triggers": [
+          "la UX se siente rígida o sin vida"
+        ],
+        "whenToUse": [
+          "La interfaz se siente rígida o sin vida",
+          "No hay retroalimentación al pasar el cursor, tocar o completar una acción",
+          "El usuario dice \"haz que se sienta más receptivo\"",
+          "Las transiciones se sienten bruscas o instantáneas (sin duración)",
+          "Los estados de carga están en blanco o parpadean",
+          "Después de completar la funcionalidad, antes del pulido"
+        ],
+        "whenNotToUse": [
+          "Optimización de rendimiento (usa optimize y después delight encima)",
+          "Cambios estructurales (usa las skills de construcción)",
+          "Reemplazar estados ausentes (usa harden primero)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "hard-skill",
+      "title": "Harden Skill",
+      "category": "design-review",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "audit-harden",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Fix critical and high-severity accessibility, input, and state issues deterministically. Cross-platform: web, mobile, desktop, PWA.",
+      "triggers": [
+        "After audit finds P0/P1 items"
+      ],
+      "whenToUse": [
+        "After audit finds P0/P1 items",
+        "User says \"make this accessible\"",
+        "User says \"handle edge cases better\"",
+        "Before shipping to production",
+        "After automated a11y scan (axe-core, Lighthouse) reveals violations"
+      ],
+      "whenNotToUse": [
+        "Design decisions (use polish, redesign)",
+        "Performance fixes (use optimize)",
+        "Copy rewriting (use clarify)",
+        "New features (use build skills)"
+      ],
+      "guides": [
+        "ACCESSIBILITY-FIXES-GUIDE",
+        "ARIA-REFERENCE",
+        "INPUT-ROBUSTNESS-GUIDE",
+        "STATE-MATRIX"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/hard-skill/SKILL.md",
+      "es": {
+        "what": "Corrige de forma determinista problemas críticos y de alta severidad de accesibilidad, entrada y estado. Multiplataforma: web, móvil, escritorio, PWA.",
+        "triggers": [
+          "Después de que la auditoría encuentre elementos P0/P1"
+        ],
+        "whenToUse": [
+          "Después de que la auditoría encuentre elementos P0/P1",
+          "El usuario dice \"haz que esto sea accesible\"",
+          "El usuario dice \"maneja mejor los casos límite\"",
+          "Antes de entregar a producción",
+          "Después de que un escaneo automático de accesibilidad (axe-core, Lighthouse) revele violaciones"
+        ],
+        "whenNotToUse": [
+          "Decisiones de diseño (usa polish, redesign)",
+          "Correcciones de rendimiento (usa optimize)",
+          "Reescribir textos (usa clarify)",
+          "Funciones nuevas (usa las skills de construcción)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "optimize-skill",
+      "title": "Optimize Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-engineers",
+      "workflow": "audit-optimize",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Fix performance issues: bundle size, animations, reflows, lazy loading, image optimization, render blocking.",
+      "triggers": [
+        "profiling reveals bottlenecks"
+      ],
+      "whenToUse": [
+        "After profiling reveals a specific bottleneck",
+        "User says \"this page is slow\"",
+        "Lighthouse / PageSpeed score is below target",
+        "User says \"animations jank\" or \"scrolling stutters\"",
+        "Bundle size exceeds budget (500KB critical path JS)",
+        "Images are loading at full resolution on mobile"
+      ],
+      "whenNotToUse": [
+        "Speculative optimization (measure first)",
+        "Design changes that happen to improve performance",
+        "Pre-optimization during initial build (build clean first, optimize later)"
+      ],
+      "guides": [
+        "BOTTLENECK-GUIDE",
+        "LAZY-LOADING",
+        "METRICS-GUIDE",
+        "PERF-BUDGET"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/optimize-skill/SKILL.md",
+      "es": {
+        "what": "Corrige problemas de rendimiento: tamaño del bundle, animaciones, reflows, carga diferida, optimización de imágenes y bloqueo del renderizado.",
+        "triggers": [
+          "el perfilado revela cuellos de botella"
+        ],
+        "whenToUse": [
+          "Después de que el perfilado revele un cuello de botella específico",
+          "El usuario dice \"esta página es lenta\"",
+          "La puntuación de Lighthouse / PageSpeed está por debajo del objetivo",
+          "El usuario dice \"las animaciones se traban\" o \"el scroll se entrecorta\"",
+          "El tamaño del bundle supera el presupuesto (500 KB de JS en la ruta crítica)",
+          "Las imágenes se cargan a resolución completa en móvil"
+        ],
+        "whenNotToUse": [
+          "Optimización especulativa (mide primero)",
+          "Cambios de diseño que casualmente mejoran el rendimiento",
+          "Preoptimización durante la construcción inicial (primero construye limpio, optimiza después)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "polish-skill",
+      "title": "Polish Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-designers",
+      "workflow": "audit-polish",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Fix design detail issues: spacing, alignment, consistency, token compliance.",
+      "triggers": [
+        "audit or when visual inconsistencies are spotted"
+      ],
+      "whenToUse": [
+        "After audit finds P1-P2 theming/consistency issues",
+        "When components look \"off\" but structurally work",
+        "User says \"make this look more polished\"",
+        "During design QA before shipping",
+        "When design tokens exist but aren't applied consistently"
+      ],
+      "whenNotToUse": [
+        "Technical issues (use harden)",
+        "UX flow issues (use redesign, distill)",
+        "Structural redesign (use redesign)",
+        "Copy rewriting (use clarify)"
+      ],
+      "guides": [
+        "SPACING-GUIDE",
+        "TOKEN-AUDIT-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/polish-skill/SKILL.md",
+      "es": {
+        "what": "Corrige problemas de detalle de diseño: espaciado, alineación, consistencia y cumplimiento de tokens.",
+        "triggers": [
+          "la auditoría o cuando se detectan inconsistencias visuales"
+        ],
+        "whenToUse": [
+          "Después de que la auditoría encuentre problemas P1-P2 de tematización o consistencia",
+          "Cuando los componentes se ven \"mal\" pero funcionan estructuralmente",
+          "El usuario dice \"haz que esto se vea más pulido\"",
+          "Durante el QA de diseño antes de entregar",
+          "Cuando existen tokens de diseño pero no se aplican de forma consistente"
+        ],
+        "whenNotToUse": [
+          "Problemas técnicos (usa harden)",
+          "Problemas de flujo de UX (usa redesign, distill)",
+          "Rediseño estructural (usa redesign)",
+          "Reescribir textos (usa clarify)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "typeset-skill",
+      "title": "Typeset Skill",
+      "category": "design-review",
+      "tier": "read-only",
+      "audience": "all-designers",
+      "workflow": "audit-typeset",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Fix typography and reading rhythm issues: typeface, weight, size, line-height, spacing, type ramp.",
+      "triggers": [
+        "text feels cramped or inconsistent"
+      ],
+      "whenToUse": [
+        "Text feels cramped or airy",
+        "Headings and body don't feel co-ordinated",
+        "Type sizes don't follow a consistent ramp",
+        "Line-height is inconsistent between similar texts",
+        "Font weights vary without reason",
+        "Letter-spacing is random or missing",
+        "After changing type scale or introducing a new variant"
+      ],
+      "whenNotToUse": [
+        "Choosing a new typeface (design decision, not polish)",
+        "Rewriting copy (use clarify)",
+        "Color/token issues (use polish)",
+        "Spacing/layout issues (use polish)"
+      ],
+      "guides": [
+        "RHYTHM-GUIDE",
+        "TYPE-RAMP-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/typeset-skill/SKILL.md",
+      "es": {
+        "what": "Corrige problemas de tipografía y ritmo de lectura: tipografía, peso, tamaño, interlineado, espaciado y escala tipográfica.",
+        "triggers": [
+          "el texto se siente apretado o inconsistente"
+        ],
+        "whenToUse": [
+          "El texto se siente apretado o demasiado aireado",
+          "Los encabezados y el cuerpo no se sienten coordinados",
+          "Los tamaños de texto no siguen una escala consistente",
+          "El interlineado es inconsistente entre textos similares",
+          "Los pesos de fuente varían sin motivo",
+          "El espaciado entre letras es aleatorio o falta",
+          "Después de cambiar la escala tipográfica o introducir una variante nueva"
+        ],
+        "whenNotToUse": [
+          "Elegir una tipografía nueva (decisión de diseño, no pulido)",
+          "Reescribir textos (usa clarify)",
+          "Problemas de color o tokens (usa polish)",
+          "Problemas de espaciado o maquetación (usa polish)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "industrial-brutalist-ui",
+      "title": "Industrial Brutalism & Tactical Telemetry UI",
+      "category": "design-skins",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": null,
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Design raw mechanical interfaces with Swiss typographic print and military terminal aesthetics: rigid grids, extreme type scale, utilitarian color.",
+      "triggers": [
+        "user chooses brutalist / military / industrial / tactical design direction"
+      ],
+      "whenToUse": [
+        "Use when: user chooses brutalist / military / industrial / tactical design direction.",
+        "Architect web interfaces synthesizing mid-century Swiss design, industrial manuals, and retro-futuristic aerospace terminals."
+      ],
+      "whenNotToUse": [
+        "Soft, polished, or consumer UIs",
+        "Interfaces requiring rounded corners or gradients"
+      ],
+      "guides": [],
+      "guideCount": 0,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/industrial-brutalist-ui/SKILL.md",
+      "es": {
+        "what": "Diseña interfaces mecánicas y crudas con estética de impresión tipográfica suiza y terminal militar: cuadrículas rígidas, escala tipográfica extrema y color utilitario.",
+        "triggers": [
+          "el usuario elige una dirección de diseño brutalista / militar / industrial / táctica"
+        ],
+        "whenToUse": [
+          "El usuario elige una dirección de diseño brutalista / militar / industrial / táctica.",
+          "Arquitectura de interfaces web que sintetiza el diseño suizo de mediados de siglo, los manuales industriales y las terminales aeroespaciales retrofuturistas."
+        ],
+        "whenNotToUse": [
+          "Interfaces suaves, pulidas o de consumo",
+          "Interfaces que requieren esquinas redondeadas o degradados"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "minimalist-ui",
+      "title": "Minimalist UI",
+      "category": "design-skins",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": null,
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Design editorial product UI inspired by Notion and Linear: warm monochrome palette, typographic contrast, flat bento grids, muted pastel accents.",
+      "triggers": [
+        "Product UIs, documentation sites, SaaS dashboards, editorial layouts"
+      ],
+      "whenToUse": [
+        "Product UIs, documentation sites, SaaS dashboards, editorial layouts. Not for playful consumer brands or experimental agency sites."
+      ],
+      "whenNotToUse": [
+        "Industrial, brutalist, or deliberately raw aesthetics",
+        "Playful consumer brands or experimental agency sites"
+      ],
+      "guides": [],
+      "guideCount": 0,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/minimalist-ui/SKILL.md",
+      "es": {
+        "what": "Diseña UI de producto editorial inspirada en Notion y Linear: paleta monocromática cálida, contraste tipográfico, cuadrículas bento planas y acentos pastel apagados.",
+        "triggers": [
+          "UI de producto, sitios de documentación, paneles SaaS, maquetaciones editoriales"
+        ],
+        "whenToUse": [
+          "UI de producto, sitios de documentación, paneles SaaS, maquetaciones editoriales. No para marcas de consumo divertidas ni sitios de agencia experimentales."
+        ],
+        "whenNotToUse": [
+          "Estéticas industriales, brutalistas o deliberadamente crudas",
+          "Marcas de consumo divertidas o sitios de agencia experimentales"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "output-skill",
+      "title": "Output Enforcement Skill",
+      "category": "design-skins",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "quality-enforcement",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Prevent placeholders, truncated code, and half-finished agent outputs.",
+      "triggers": [
+        "the agent ships incomplete work"
+      ],
+      "whenToUse": [
+        "Before delivering any code output to a user",
+        "After completing an implementation phase (before marking done)",
+        "When context limits force truncated responses",
+        "After any code generation that involves multiple files"
+      ],
+      "whenNotToUse": [
+        "One-off draft or throwaway code",
+        "Exploratory or research-only output",
+        "Output that will be immediately deleted or overwritten"
+      ],
+      "guides": [
+        "OUTPUT-CHECKLIST",
+        "SCOPE-MANAGEMENT"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/output-skill/SKILL.md",
+      "es": {
+        "what": "Evita marcadores de posición, código truncado y salidas a medio terminar del agente.",
+        "triggers": [
+          "el agente entrega trabajo incompleto"
+        ],
+        "whenToUse": [
+          "Antes de entregar cualquier salida de código a un usuario",
+          "Después de completar una fase de implementación (antes de marcarla como terminada)",
+          "Cuando los límites de contexto obligan a respuestas truncadas",
+          "Después de cualquier generación de código que involucra varios archivos"
+        ],
+        "whenNotToUse": [
+          "Código de borrador o desechable",
+          "Salida solo exploratoria o de investigación",
+          "Salida que se eliminará o sobrescribirá de inmediato"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "redesign-skill",
+      "title": "Redesign Skill",
+      "category": "design-skins",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": "audit-fix",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Improve existing codebases systematically: scan the UI, diagnose issues across 8 categories, fix in priority order. Never breaks existing functionality.",
+      "triggers": [
+        "upgrading visual design of existing codebase"
+      ],
+      "whenToUse": [
+        "Use when: upgrading visual design of existing codebase. Not for greenfield projects."
+      ],
+      "whenNotToUse": [
+        "Greenfield projects (use build skills instead)",
+        "Framework migrations or stack changes",
+        "Performance optimization without visual changes"
+      ],
+      "guides": [],
+      "guideCount": 0,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/redesign-skill/SKILL.md",
+      "es": {
+        "what": "Mejora códigos base existentes de forma sistemática: escanea la UI, diagnostica problemas en 8 categorías y corrige por orden de prioridad. Nunca rompe la funcionalidad existente.",
+        "triggers": [
+          "mejorar el diseño visual de un código base existente"
+        ],
+        "whenToUse": [
+          "Mejorar el diseño visual de un código base existente. No para proyectos desde cero."
+        ],
+        "whenNotToUse": [
+          "Proyectos desde cero (usa las skills de construcción)",
+          "Migraciones de framework o cambios de stack",
+          "Optimización de rendimiento sin cambios visuales"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "soft-premium-ui",
+      "title": "Soft Premium UI",
+      "category": "design-skins",
+      "tier": "draft",
+      "audience": "frontend-developers",
+      "workflow": null,
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Design polished, calm, premium UIs with soft contrast, generous whitespace, premium fonts, and spring motion.",
+      "triggers": [
+        "user chooses premium agency / luxury / calm design direction"
+      ],
+      "whenToUse": [
+        "Use when: user chooses premium agency / luxury / calm design direction.",
+        "Engineer $150k+ agency-level digital experiences. Haptic depth, cinematic spatial rhythm, obsessive micro-interactions."
+      ],
+      "whenNotToUse": [
+        "Industrial, brutalist, or raw mechanical aesthetics",
+        "Minimalist editorial or documentation UIs"
+      ],
+      "guides": [],
+      "guideCount": 0,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/soft-premium-ui/SKILL.md",
+      "es": {
+        "what": "Diseña UI pulidas, serenas y premium con contraste suave, espacio en blanco generoso, tipografías premium y movimiento con muelle.",
+        "triggers": [
+          "el usuario elige una dirección de diseño premium / de lujo / serena"
+        ],
+        "whenToUse": [
+          "El usuario elige una dirección de diseño premium / de lujo / serena.",
+          "Construir experiencias digitales de nivel de agencia de más de 150 000 USD. Profundidad háptica, ritmo espacial cinematográfico y microinteracciones obsesivas."
+        ],
+        "whenNotToUse": [
+          "Estéticas industriales, brutalistas o mecánicas crudas",
+          "UI editoriales minimalistas o de documentación"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "git-init-and-versioning",
+      "title": "Git Init & Versioning",
+      "category": "git",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "init-configure-guard",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Initialize and configure Git before writing code. Decides mono vs multi-repo, creates .gitignore/.env.example, sets branching strategy.",
+      "triggers": [
+        "After SPEC.md and DESIGN.md exist but before BUILD phase begins"
+      ],
+      "whenToUse": [
+        "After SPEC.md and DESIGN.md exist but before BUILD phase begins",
+        "When the user says \"start the project\", \"setup repo\", \"git init\"",
+        "Before npm install, create-next-app, or any tool that generates files"
+      ],
+      "whenNotToUse": [
+        "The project already has a Git repository with .gitignore and .env.example",
+        "The task is purely committing changes in an existing repo (use git-workflow-and-versioning)"
+      ],
+      "guides": [
+        "BRANCHING-GUIDE",
+        "BUILD-INTEGRATION-GUIDE",
+        "GITIGNORE-TEMPLATES",
+        "PRE_COMMIT_CHECKLIST",
+        "RELEASE-GUIDE",
+        "REPO-STRUCTURE-GUIDE"
+      ],
+      "guideCount": 6,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/git-init-and-versioning/SKILL.md",
+      "es": {
+        "what": "Inicializa y configura Git antes de escribir código. Decide mono-repositorio frente a multi-repositorio, crea .gitignore/.env.example y define la estrategia de ramas.",
+        "triggers": [
+          "Después de que existan SPEC.md y DESIGN.md, antes de empezar la fase de construcción"
+        ],
+        "whenToUse": [
+          "Después de que existan SPEC.md y DESIGN.md pero antes de empezar la fase de BUILD",
+          "Cuando el usuario dice \"empieza el proyecto\", \"configura el repositorio\" o \"git init\"",
+          "Antes de npm install, create-next-app o cualquier herramienta que genere archivos"
+        ],
+        "whenNotToUse": [
+          "El proyecto ya tiene un repositorio Git con .gitignore y .env.example",
+          "La tarea es solo confirmar cambios en un repositorio existente (usa git-workflow-and-versioning)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "git-workflow-and-versioning",
+      "title": "Git Workflow and Versioning",
+      "category": "git",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "version-control",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Manage git workflow practices: branching, committing, resolving conflicts, parallel streams.",
+      "triggers": [
+        "making any code change"
+      ],
+      "whenToUse": [
+        "Making any code change (every change flows through git)",
+        "Committing, pushing, merging, or rebasing",
+        "Resolving merge conflicts",
+        "Organizing parallel work streams",
+        "Setting up a new project's git workflow"
+      ],
+      "whenNotToUse": [
+        "Repository initialization or .gitignore setup (use git-init-and-versioning)",
+        "Deployment or release branching and tagging (use fullstack-shipping)",
+        "Code review or PR approval decisions (use code-review-and-quality)"
+      ],
+      "guides": [
+        "BRANCHING",
+        "COMMIT-PRINCIPLES",
+        "PRE-COMMIT"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/git-workflow-and-versioning/SKILL.md",
+      "es": {
+        "what": "Gestiona las prácticas de flujo de trabajo con git: ramas, commits, resolución de conflictos y flujos paralelos.",
+        "triggers": [
+          "hacer cualquier cambio de código"
+        ],
+        "whenToUse": [
+          "Hacer cualquier cambio de código (todo cambio pasa por git)",
+          "Confirmar, subir, fusionar o hacer rebase",
+          "Resolver conflictos de fusión",
+          "Organizar flujos de trabajo paralelos",
+          "Configurar el flujo de git de un proyecto nuevo"
+        ],
+        "whenNotToUse": [
+          "Inicialización del repositorio o configuración de .gitignore (usa git-init-and-versioning)",
+          "Despliegue o ramas y etiquetas de versión (usa fullstack-shipping)",
+          "Decisiones de revisión de código o aprobación de PR (usa code-review-and-quality)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "ci-cd-and-automation",
+      "title": "CI/CD and Automation",
+      "category": "devops",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "automate-deploy",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Automate CI/CD pipeline setup, quality gates, and deployment.",
+      "triggers": [
+        "configuring test runners or build pipelines"
+      ],
+      "whenToUse": [
+        "Setting up or modifying CI/CD pipelines",
+        "Configuring automated quality gates",
+        "Automating build and deployment processes",
+        "Adding test runners to CI"
+      ],
+      "whenNotToUse": [
+        "Full deployment strategy with monitoring and rollback (use fullstack-shipping)",
+        "Pre-deployment launch checklist"
+      ],
+      "guides": [
+        "PIPELINE-TEMPLATES",
+        "QUALITY-GATES"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/ci-cd-and-automation/SKILL.md",
+      "es": {
+        "what": "Automatiza la configuración de pipelines de CI/CD, compuertas de calidad y despliegue.",
+        "triggers": [
+          "configurar ejecutores de pruebas o pipelines de compilación"
+        ],
+        "whenToUse": [
+          "Configurar o modificar pipelines de CI/CD",
+          "Configurar compuertas de calidad automatizadas",
+          "Automatizar los procesos de compilación y despliegue",
+          "Añadir ejecutores de pruebas a CI"
+        ],
+        "whenNotToUse": [
+          "Estrategia completa de despliegue con monitoreo y reversión (usa fullstack-shipping)",
+          "Lista de verificación previa al despliegue"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "fullstack-shipping",
+      "title": "Fullstack Shipping",
+      "category": "devops",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "build-test-deploy-monitor",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Build, test, and deploy with production-grade CI/CD, testing, orchestration, and monitoring.",
+      "triggers": [
+        "deploy",
+        "ship",
+        "launch",
+        "pipeline",
+        "production"
+      ],
+      "whenToUse": [
+        "Preparing to deploy any project to production or staging",
+        "Setting up CI/CD pipelines for the first time",
+        "Adding testing infrastructure to an existing project",
+        "Planning a release or launch",
+        "Configuring monitoring, alerting, or rollback strategies",
+        "The user says \"go live\", \"ship it\", \"deploy to production\"",
+        "frontend-web or frontend-mobile Phase 7 (QA gates before delivery)",
+        "backend-api-mastery Phase 7 (documentation & versioning before release)",
+        "spec-driven-development Phase 8 (implement gate before deployment)"
+      ],
+      "whenNotToUse": [
+        "Local development or prototyping without production intent",
+        "Hotfixes where CI/CD is already established and the fix is trivial",
+        "Documentation-only changes with no code impact"
+      ],
+      "guides": [
+        "CICD-GUIDE",
+        "DEPLOY-GUIDE",
+        "LAUNCH-CHECKLIST-GUIDE"
+      ],
+      "guideCount": 3,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/fullstack-shipping/SKILL.md",
+      "es": {
+        "what": "Construye, prueba y despliega con CI/CD, pruebas, orquestación y monitoreo de nivel producción.",
+        "triggers": [
+          "desplegar",
+          "entregar",
+          "lanzar",
+          "pipeline",
+          "producción"
+        ],
+        "whenToUse": [
+          "Prepararte para desplegar cualquier proyecto a producción o staging",
+          "Configurar pipelines de CI/CD por primera vez",
+          "Añadir infraestructura de pruebas a un proyecto existente",
+          "Planificar una versión o un lanzamiento",
+          "Configurar monitoreo, alertas o estrategias de reversión",
+          "El usuario dice \"sal a producción\", \"entrégalo\" o \"despliega a producción\"",
+          "frontend-web o frontend-mobile Fase 7 (compuertas de QA antes de la entrega)",
+          "backend-api-mastery Fase 7 (documentación y versionado antes de la versión)",
+          "spec-driven-development Fase 8 (compuerta de implementación antes del despliegue)"
+        ],
+        "whenNotToUse": [
+          "Desarrollo local o prototipado sin intención de producción",
+          "Hotfixes donde el CI/CD ya está establecido y el arreglo es trivial",
+          "Cambios solo de documentación sin impacto en el código"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "shipping-and-launch",
+      "title": "Shipping and Launch",
+      "category": "devops",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "ship",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Prepare production launches with checklists, monitoring, staged rollout, and rollback strategies.",
+      "triggers": [
+        "any significant deployment"
+      ],
+      "whenToUse": [
+        "Deploying a feature to production for the first time",
+        "Releasing a significant change to users",
+        "Migrating data or infrastructure",
+        "Any deployment that carries risk (all of them)"
+      ],
+      "whenNotToUse": [
+        "Local development or prototyping",
+        "Pre-production CI/CD setup (use ci-cd-and-automation)"
+      ],
+      "guides": [
+        "CHECKLIST-GUIDE",
+        "ROLLBACK-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/shipping-and-launch/SKILL.md",
+      "es": {
+        "what": "Prepara lanzamientos a producción con listas de verificación, monitoreo, despliegue gradual y estrategias de reversión.",
+        "triggers": [
+          "cualquier despliegue significativo"
+        ],
+        "whenToUse": [
+          "Desplegar una función a producción por primera vez",
+          "Publicar un cambio significativo para los usuarios",
+          "Migrar datos o infraestructura",
+          "Cualquier despliegue que conlleva riesgo (todos)"
+        ],
+        "whenNotToUse": [
+          "Desarrollo local o prototipado",
+          "Configuración de CI/CD previa a producción (usa ci-cd-and-automation)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "project-metrics",
+      "title": "Project Metrics",
+      "category": "metrics",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": null,
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Log empirical quality metrics across projects: build pass rate, rework, coverage, discovery time, gate pass rate. Runs automatically in the background.",
+      "triggers": [
+        "Automatically in background after every significant action"
+      ],
+      "whenToUse": [
+        "Automatically in background after every significant action. No direct invocation needed."
+      ],
+      "whenNotToUse": [
+        "Manual data collection or ad-hoc queries (runs automatically)",
+        "Direct invocation (background skill only)"
+      ],
+      "guides": [
+        "METRICS-REFERENCE-GUIDE",
+        "REPORT-TEMPLATE-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/project-metrics/SKILL.md",
+      "es": {
+        "what": "Registra métricas de calidad empíricas entre proyectos: tasa de compilaciones correctas, retrabajo, cobertura, tiempo de descubrimiento y tasa de aprobación de compuertas. Se ejecuta automáticamente en segundo plano.",
+        "triggers": [
+          "Automáticamente en segundo plano tras cada acción significativa"
+        ],
+        "whenToUse": [
+          "Automáticamente en segundo plano tras cada acción significativa. No requiere invocación directa."
+        ],
+        "whenNotToUse": [
+          "Recolección manual de datos o consultas puntuales (se ejecuta automáticamente)",
+          "Invocación directa (solo como skill en segundo plano)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "customize-opencode",
+      "title": "Customize OpenCode",
+      "category": "meta",
+      "tier": "action-allowed",
+      "audience": "all-engineers",
+      "workflow": "configure",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Edit or create OpenCode's own configuration.",
+      "triggers": [
+        "configuring OpenCode itself"
+      ],
+      "whenToUse": [
+        "Creating or editing opencode.json / opencode.jsonc",
+        "Adding, modifying, or removing MCP servers",
+        "Changing agent permission rules",
+        "Installing or disabling plugins",
+        "Editing skill paths or agent definitions"
+      ],
+      "whenNotToUse": [
+        "Your application code (use the appropriate platform skill)",
+        "Any project that is not configuring OpenCode itself"
+      ],
+      "guides": [
+        "CONFIG-SCHEMA",
+        "PLUGIN-PATTERNS"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/customize-opencode/SKILL.md",
+      "es": {
+        "what": "Edita o crea la configuración propia de OpenCode.",
+        "triggers": [
+          "configurar OpenCode en sí mismo"
+        ],
+        "whenToUse": [
+          "Crear o editar opencode.json / opencode.jsonc",
+          "Añadir, modificar o eliminar servidores MCP",
+          "Cambiar las reglas de permisos de los agentes",
+          "Instalar o deshabilitar plugins",
+          "Editar rutas de skills o definiciones de agentes"
+        ],
+        "whenNotToUse": [
+          "El código de tu aplicación (usa la skill de plataforma adecuada)",
+          "Cualquier proyecto que no consista en configurar OpenCode en sí mismo"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "self-improvement",
+      "title": "Self-Improvement Loop",
+      "category": "meta",
+      "tier": "stable",
+      "audience": "all-engineers",
+      "workflow": "review",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Audit and fix project issues via self-improvement loop: detect, diagnose, propose, execute with human approval. Max 3 iterations per session.",
+      "triggers": [
+        "After a session when several commits have been made"
+      ],
+      "whenToUse": [
+        "After a session when several commits have been made",
+        "When user says \"run self-improvement loop\" or \"audit the project\"",
+        "At session start if audit-project.sh has not been run in 7+ days"
+      ],
+      "whenNotToUse": [
+        "One-off edits or active development (use feature implementation skills)",
+        "First-time project setup"
+      ],
+      "guides": [
+        "CONFIG-REFERENCE",
+        "EXAMPLE-NODE",
+        "EXAMPLE-PYTHON",
+        "UNIVERSAL-USAGE"
+      ],
+      "guideCount": 4,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/self-improvement/SKILL.md",
+      "es": {
+        "what": "Audita y corrige problemas del proyecto mediante un bucle de automejora: detectar, diagnosticar, proponer y ejecutar con aprobación humana. Máximo 3 iteraciones por sesión.",
+        "triggers": [
+          "Después de una sesión en la que se hicieron varios commits"
+        ],
+        "whenToUse": [
+          "Después de una sesión en la que se hicieron varios commits",
+          "Cuando el usuario dice \"ejecuta el bucle de automejora\" o \"audita el proyecto\"",
+          "Al inicio de la sesión si audit-project.sh no se ejecutó en 7 o más días"
+        ],
+        "whenNotToUse": [
+          "Ediciones puntuales o desarrollo activo (usa las skills de implementación de funciones)",
+          "Configuración inicial de un proyecto"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "skill-creator",
+      "title": "Skill Creator",
+      "category": "meta",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "create-generate",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Generate new agent skills from a workflow description: SKILL.md with frontmatter, workflow, examples, and eval cases.",
+      "triggers": [
+        "creating from a description"
+      ],
+      "whenToUse": [
+        "Need a new skill and don't want to write SKILL.md from scratch",
+        "Have a clear description of the workflow the skill should execute",
+        "Want a skill with eval cases included from the start",
+        "Rapid prototyping of new capabilities"
+      ],
+      "whenNotToUse": [
+        "Modifying an existing skill (use skill-improver)",
+        "One-off tasks that won't be reused as skills",
+        "Creating skills for trivial workflows (better to write manually)"
+      ],
+      "guides": [
+        "EVAL-CASES-GUIDE",
+        "WORKFLOW-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/skill-creator/SKILL.md",
+      "es": {
+        "what": "Genera skills de agente nuevas a partir de la descripción de un flujo de trabajo: SKILL.md con frontmatter, flujo, ejemplos y casos de evaluación.",
+        "triggers": [
+          "crear a partir de una descripción"
+        ],
+        "whenToUse": [
+          "Necesitas una skill nueva y no quieres escribir SKILL.md desde cero",
+          "Tienes una descripción clara del flujo de trabajo que la skill debe ejecutar",
+          "Quieres una skill con casos de evaluación incluidos desde el principio",
+          "Prototipado rápido de capacidades nuevas"
+        ],
+        "whenNotToUse": [
+          "Modificar una skill existente (usa skill-improver)",
+          "Tareas puntuales que no se reutilizarán como skills",
+          "Crear skills para flujos triviales (mejor escribirlas a mano)"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "skill-improver",
+      "title": "Skill Improver",
+      "category": "meta",
+      "tier": "draft",
+      "audience": "all-engineers",
+      "workflow": "analyze-improve",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Analyze failing eval cases and propose improvements. Reads eval results, identifies failure patterns, outputs a diff. Do NOT auto-apply.",
+      "triggers": [
+        "run-evals.sh shows trigger failures for a skill"
+      ],
+      "whenToUse": [
+        "run-evals.sh shows trigger failures for a skill",
+        "run-golden.sh shows output quality issues",
+        "run-adversarial.sh shows robustness gaps",
+        "A skill's description is too narrow or too broad",
+        "Eval coverage is partial and needs expansion"
+      ],
+      "whenNotToUse": [
+        "Creating a new skill (use skill-creator)",
+        "The skill has no eval cases yet (add them first)",
+        "The fix is obvious (just edit the SKILL.md)",
+        "The eval failure is from a bug in the eval case itself"
+      ],
+      "guides": [
+        "DIAGNOSIS-GUIDE",
+        "OUTPUT-GUIDE"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/skill-improver/SKILL.md",
+      "es": {
+        "what": "Analiza casos de evaluación fallidos y propone mejoras. Lee resultados de evaluación, identifica patrones de fallo y produce un diff. No aplica cambios automáticamente.",
+        "triggers": [
+          "run-evals.sh muestra fallos de activación en una skill"
+        ],
+        "whenToUse": [
+          "run-evals.sh muestra fallos de activación en una skill",
+          "run-golden.sh muestra problemas de calidad de salida",
+          "run-adversarial.sh muestra vacíos de robustez",
+          "La descripción de una skill es demasiado estrecha o demasiado amplia",
+          "La cobertura de evaluación es parcial y necesita ampliarse"
+        ],
+        "whenNotToUse": [
+          "Crear una skill nueva (usa skill-creator)",
+          "La skill aún no tiene casos de evaluación (añádelos primero)",
+          "El arreglo es obvio (edita directamente el SKILL.md)",
+          "El fallo de evaluación proviene de un error en el propio caso de evaluación"
+        ],
+        "fallback": false
+      }
+    }
+  ]
+}

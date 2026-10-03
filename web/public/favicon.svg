@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Another Agent Skills">
+  <rect width="32" height="32" rx="6" fill="#1A1A18"/>
+  <g fill="none" stroke="#E8703A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 7 5 16l5 9"/>
+    <path d="M16 7l-5 9 5 9"/>
+    <path d="M22 7l-5 9 5 9"/>
+  </g>
+</svg>

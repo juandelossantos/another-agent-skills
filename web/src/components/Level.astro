@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from '../icons';
+
+interface Props {
+  /** L1 / L2 / L3 */
+  tag: string;
+  title: string;
+  desc: string;
+  icon: IconName;
+  /** Marks the authority row (L2). */
+  authority?: boolean;
+}
+
+const { tag, title, desc, icon, authority } = Astro.props;
+---
+
+<article class:list={['level', authority && 'level--authority']} data-level={tag}>
+  <div class="level__head">
+    <span class="level__icon"><Icon name={icon} /></span>
+    <span class="level__tag">{tag}</span>
+  </div>
+  <h3 class="level__title">{title}</h3>
+  <p class="level__desc">{desc}</p>
+</article>

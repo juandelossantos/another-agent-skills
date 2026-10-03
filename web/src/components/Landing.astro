@@ -1,0 +1,283 @@
+---
+import SectionHead from './SectionHead.astro';
+import Card from './Card.astro';
+import Chip from './Chip.astro';
+import Command from './Command.astro';
+import Level from './Level.astro';
+import Step from './Step.astro';
+import FaqItem from './FaqItem.astro';
+import Terminal from './Terminal.astro';
+import LifecycleStrip from './LifecycleStrip.astro';
+import FlowDiagram from './FlowDiagram.astro';
+import HarnessDiagram from './HarnessDiagram.astro';
+import LoopDiagram from './LoopDiagram.astro';
+import Icon from './Icon.astro';
+import { SITE } from '../config';
+import type { Dictionary, Locale } from '../i18n';
+import { skillsStats } from '../docs/skills';
+
+interface Props {
+  dict: Dictionary;
+  locale: Locale;
+}
+
+const { dict, locale } = Astro.props;
+
+const phases = [
+  { hue: 'define', name: dict.flow.define.name, cmd: '/spec', exit: dict.flow.define.exit },
+  { hue: 'plan', name: dict.flow.plan.name, cmd: '/plan', exit: dict.flow.plan.exit },
+  { hue: 'build', name: dict.flow.build.name, cmd: '/build', exit: dict.flow.build.exit },
+  { hue: 'verify', name: dict.flow.verify.name, cmd: '/verify', exit: dict.flow.verify.exit },
+  { hue: 'review', name: dict.flow.review.name, cmd: '/review', exit: dict.flow.review.exit },
+  { hue: 'ship', name: dict.flow.ship.name, cmd: '/ship', exit: dict.flow.ship.exit },
+];
+
+const problemCards = [
+  { title: dict.problem.card1Title, desc: dict.problem.card1Desc },
+  { title: dict.problem.card2Title, desc: dict.problem.card2Desc },
+  { title: dict.problem.card3Title, desc: dict.problem.card3Desc },
+  { title: dict.problem.card4Title, desc: dict.problem.card4Desc },
+];
+
+const skillCards = [
+  { hue: 'define', chip: dict.flow.define.name, title: dict.skills.catFoundation, desc: dict.skills.catFoundationDesc, feature: true, list: ['spec-driven-development', 'interview-me', 'idea-refine', 'engineering-fundamentals', 'context-engineering'] },
+  { hue: 'plan', chip: dict.flow.plan.name, title: dict.skills.catProcess, list: ['planning-and-task-breakdown', 'architecture-analysis', 'doubt-driven-development', 'multi-agent-orchestration'] },
+  { hue: 'build', chip: dict.flow.build.name, title: dict.skills.catFrontend, list: ['incremental-implementation', 'test-driven-development', 'source-driven-development', 'frontend-web', 'backend-api-mastery', 'api-and-interface-design'] },
+  { hue: 'verify', chip: dict.flow.verify.name, title: dict.skills.catDebug, list: ['debugging-and-error-recovery', 'debugging-three-strikes', 'browser-testing-with-devtools', 'project-health-check'] },
+  { hue: 'review', chip: dict.flow.review.name, title: dict.skills.catQuality, list: ['code-review-and-quality', 'security-and-hardening', 'performance-optimization', 'audit-skill', 'critique-skill', 'code-simplification'] },
+  { hue: 'ship', chip: dict.flow.ship.name, title: dict.skills.catDevops, list: ['git-workflow-and-versioning', 'ci-cd-and-automation', 'shipping-and-launch', 'fullstack-shipping', 'documentation-and-adrs', 'observability-and-instrumentation'] },
+  { hue: 'review', chip: dict.skills.catDesignReview, title: dict.skills.catDesignReviewTitle, wide: true, list: ['critique-skill', 'audit-skill', 'clarify-skill', 'hard-skill', 'polish-skill', 'typeset-skill', 'adapt-skill', 'optimize-skill', 'delight-skill', 'redesign-skill'] },
+  { hue: 'plan', chip: dict.skills.catMeta, title: dict.skills.catMetaTitle, list: ['skill-creator', 'skill-improver', 'self-improvement', 'project-metrics'] },
+];
+
+const loopSteps = [
+  { id: 'audit', text: dict.loop.audit },
+  { id: 'diagnose', text: dict.loop.diagnose },
+  { id: 'fix', text: dict.loop.fix },
+  { id: 'adr', text: dict.loop.adr },
+  { id: 'repeat', text: dict.loop.repeat },
+];
+
+const faqs = [
+  { q: dict.faq.q1, a: dict.faq.a1 },
+  { q: dict.faq.q2, a: dict.faq.a2 },
+  { q: dict.faq.q3, a: dict.faq.a3 },
+  { q: dict.faq.q4, a: dict.faq.a4 },
+  { q: dict.faq.q5, a: dict.faq.a5 },
+  { q: dict.faq.q6, a: dict.faq.a6 },
+  { q: dict.faq.q7, a: dict.faq.a7 },
+];
+
+const workflows = [
+  { name: dict.workflows.w1Name, desc: dict.workflows.w1Desc, levels: ['off', 'off', 'off'], aria: dict.workflows.ariaNone, label: dict.workflows.upgrade, code1: 'git init', then: true, code2: 'init-agents', full: false },
+  { name: dict.workflows.w2Name, desc: dict.workflows.w2Desc, levels: ['on', 'off', 'off'], aria: dict.workflows.ariaL1, label: dict.workflows.upgrade, code1: 'git remote add origin <url>', then: true, code2: 'init-agents', full: false },
+  { name: dict.workflows.w3Name, desc: dict.workflows.w3Desc, levels: ['on', 'on', 'on'], aria: dict.workflows.ariaAll, label: dict.workflows.apply, code1: 'setup-branch-protection.sh --dry-run', then: false, code2: '', full: true },
+  { name: dict.workflows.w4Name, desc: dict.workflows.w4Desc, levels: ['later', 'later', 'later'], aria: dict.workflows.ariaLater, label: dict.workflows.rule, code1: 'init-agents', then: false, code2: dict.workflows.afterEach, full: false },
+];
+---
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" id="hero" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <p class="hero__tag">{dict.hero.tag}</p>
+    <h1 class="hero__title" id="hero-title">
+      <span>{dict.hero.title1}</span>
+      <span class="hero__accent">{dict.hero.title2}</span>
+    </h1>
+    <p class="hero__subtitle">
+      <span class="hero__thesis">{dict.hero.thesis}</span>
+      <span class="hero__thesis-accent">{dict.hero.thesisAccent}</span>
+    </p>
+
+    <Terminal dict={dict} />
+
+    <LifecycleStrip phases={phases.map((p) => ({ hue: p.hue, name: p.name }))} />
+
+    <div class="hero__actions">
+      <Command code={dict.hero.command} copyLabel={dict.a11y.copy} />
+    </div>
+    <p class="hero__social">{dict.hero.social}</p>
+  </div>
+</section>
+
+<!-- ============ 2. PROBLEM ============ -->
+<section class="section problem" id="problem" aria-labelledby="problem-title" data-reveal>
+  <div class="container">
+    <SectionHead title={dict.problem.title} titleId="problem-title" lede={dict.problem.tldr} />
+    <div class="problem__grid">
+      {problemCards.map((card) => (
+        <Card variant="rule" title={card.title} desc={card.desc} />
+      ))}
+    </div>
+    <blockquote class="problem__quote">
+      <p>{dict.problem.metr}</p>
+      <cite>{dict.problem.metrSource}</cite>
+    </blockquote>
+    <p class="problem__conclusion">{dict.problem.conclusion}</p>
+  </div>
+</section>
+
+<!-- ============ 3. FLOW (animated) ============ -->
+<section class="section flow-section" id="flow" aria-labelledby="flow-title" data-reveal>
+  <div class="container">
+    <SectionHead eyebrow={dict.flow.label} title={dict.flow.title} titleId="flow-title" lede={dict.flow.tldr} />
+    <FlowDiagram phases={phases} />
+    <p class="section-conclusion">{dict.flow.conclusion}</p>
+  </div>
+</section>
+
+<!-- ============ 4. HARNESS (animated) ============ -->
+<section class="section harness-section" id="harness" aria-labelledby="harness-title" data-reveal>
+  <div class="container">
+    <SectionHead eyebrow={dict.harness.label} title={dict.harness.title} titleId="harness-title" lede={dict.harness.tldr} />
+    <HarnessDiagram dict={dict} />
+    <p class="section-conclusion">{dict.harness.conclusion}</p>
+  </div>
+</section>
+
+<!-- ============ 5. THE LOOP (animated) ============ -->
+<section class="section loop-section" id="loop" aria-labelledby="loop-title" data-reveal>
+  <div class="container loop__inner">
+    <div class="loop__copy">
+      <SectionHead eyebrow={dict.loop.label} title={dict.loop.title} titleId="loop-title" lede={dict.loop.tldr} />
+      <ul class="loop__steps">
+        {loopSteps.map((step, i) => <Step index={i + 1} stepId={step.id} text={step.text} />)}
+      </ul>
+      <p class="section-conclusion">{dict.loop.conclusion}</p>
+    </div>
+    <LoopDiagram dict={dict} />
+  </div>
+</section>
+
+<!-- ============ 6. ENFORCEMENT L1/L2/L3 ============ -->
+<section class="section enforcement-section" id="enforcement" aria-labelledby="enforcement-title" data-reveal>
+  <div class="container">
+    <SectionHead eyebrow={dict.enforcement.label} title={dict.enforcement.title} titleId="enforcement-title" lede={dict.enforcement.tldr} />
+    <div class="enforcement__layout">
+      <div class="enforcement__levels">
+        <Level tag="L1" icon="shield-check" title={dict.enforcement.l1Title} desc={dict.enforcement.l1Desc} />
+        <Level tag="L2" icon="git-branch" title={dict.enforcement.l2Title} desc={dict.enforcement.l2Desc} authority />
+        <Level tag="L3" icon="users" title={dict.enforcement.l3Title} desc={dict.enforcement.l3Desc} />
+      </div>
+      <div class="enforcement__proof">
+        <div class="proof">
+          <div class="proof__head">
+            <span class="proof__dot" aria-hidden="true"></span>
+            <span class="proof__title">{dict.enforcement.proofTitle}</span>
+          </div>
+          <pre class="proof__code" tabindex="0"><code>{dict.enforcement.proofCode}</code></pre>
+          <p class="proof__note">
+            <span>{dict.enforcement.proofNote1}</span><code>gates</code><span>{dict.enforcement.proofNote2}</span>
+          </p>
+        </div>
+        <a class="section-head__link" href={SITE.evidence} target="_blank" rel="noopener">
+          <span>{dict.enforcement.evidence}</span>
+          <Icon name="arrow-right" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. COMPATIBILITY BAND ============ -->
+<section class="section compat-section" id="compat" aria-labelledby="compat-title" data-reveal>
+  <div class="container">
+    <SectionHead title={dict.compat.title} titleId="compat-title" lede={dict.compat.tldr} />
+    <ul class="compat__band" aria-label={dict.agents.ariaLabel}>
+      {dict.compat.agents.map((agent) => (
+        <li><Chip variant="agent" icon="check" label={agent} /></li>
+      ))}
+      <li><Chip variant="more" icon="more-horizontal" label={dict.compat.more} /></li>
+    </ul>
+    <p class="compat__stack">{dict.compat.stack}</p>
+    <a class="section-head__link" href={SITE.agents} target="_blank" rel="noopener">
+      <span>{dict.compat.link}</span>
+      <Icon name="arrow-right" />
+    </a>
+  </div>
+</section>
+
+<!-- ============ 8. SKILLS CATALOG ============ -->
+<section class="section skills-section" id="skills" aria-labelledby="skills-title" data-reveal>
+  <div class="container">
+    <SectionHead eyebrow={dict.skills.label} title={dict.skills.title} titleId="skills-title" lede={dict.skills.tldr} />
+    <div class="skills__grid">
+      {skillCards.map((card) => (
+        <Card
+          variant="skill"
+          hue={card.hue}
+          chip={{ label: card.chip, hue: card.hue }}
+          title={card.title}
+          desc={card.desc}
+          list={card.list}
+          feature={card.feature}
+          wide={card.wide}
+        />
+      ))}
+    </div>
+    <p class="skills__stats">{skillsStats(locale)}</p>
+    <a class="section-head__link" href={SITE.skills} target="_blank" rel="noopener">
+      <span>{dict.skills.learn}</span>
+      <Icon name="arrow-right" />
+    </a>
+  </div>
+</section>
+
+<!-- ============ 9. WORKFLOWS (own style) ============ -->
+<section class="section workflows-section" id="workflows" aria-labelledby="workflows-title" data-reveal>
+  <div class="container">
+    <SectionHead title={dict.workflows.title} titleId="workflows-title" lede={dict.workflows.tldr} />
+    <div class="workflows" role="list">
+      {workflows.map((wf) => (
+        <div class:list={['workflow', wf.full && 'workflow--full']} role="listitem">
+          <div class="workflow__head">
+            <h3 class="workflow__name">{wf.name}</h3>
+            <span class="workflow__levels" aria-label={wf.aria}>
+              {wf.levels.map((state, i) => (
+                <Chip variant="level" label={`L${i + 1}`} state={state as 'on' | 'off' | 'later'} />
+              ))}
+            </span>
+          </div>
+          <p class="workflow__desc">{wf.desc}</p>
+          <p class="workflow__upgrade">
+            <span>{wf.label}</span>
+            <code>{wf.code1}</code>
+            {wf.then && <span>{dict.workflows.thenReinit}</span>}
+            {wf.then && <code>{wf.code2}</code>}
+            {!wf.then && wf.code2 && <span>{wf.code2}</span>}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. FAQ ============ -->
+<section class="section faq-section" id="faq" aria-labelledby="faq-title" data-reveal>
+  <div class="container">
+    <SectionHead eyebrow={dict.faq.label} title={dict.faq.title} titleId="faq-title" />
+    <div class="faq__list">
+      {faqs.map((faq) => <FaqItem question={faq.q} answer={faq.a} />)}
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. FINAL CTA ============ -->
+<section class="section cta-section" id="start" aria-labelledby="cta-title" data-reveal>
+  <div class="container cta__inner">
+    <p class="section-head__eyebrow">{dict.cta.label}</p>
+    <h2 class="cta__title" id="cta-title">{dict.cta.title}</h2>
+    <p class="cta__lead">{dict.cta.lead}</p>
+
+    <Command code={dict.hero.command} copyLabel={dict.a11y.copy} copyText={dict.cta.copy} large />
+
+    <ul class="cta__channels">
+      <li class="cta__channel"><span class="cta__channel-name">git clone</span><Chip variant="status" label={dict.cta.live} /></li>
+      <li class="cta__channel"><span class="cta__channel-name">curl bootstrap</span><Chip variant="status" label={dict.cta.live} /></li>
+      <li class="cta__channel"><span class="cta__channel-name">npx @juandelossantos/another-agent-skills</span><Chip variant="status" soon label={dict.cta.soon} /></li>
+      <li class="cta__channel"><span class="cta__channel-name">brew install</span><Chip variant="status" soon label={dict.cta.soon} /></li>
+    </ul>
+
+    <p class="cta__social">{dict.cta.social}</p>
+  </div>
+</section>

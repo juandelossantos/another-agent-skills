@@ -1,0 +1,167 @@
+# deploy-web.yml — build the Astro web/ project and deploy it to GitHub Pages.
+# Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
+#
+# Boundary rule (non-negotiable): this is a SEPARATE workflow from the core CI.
+# The Astro build lives only in web/; the core (skills/, rules/, hooks/,
+# install.sh, scripts/) stays build-free and .github/workflows/gates.yml never
+# runs this build. See web/README.md.
+#
+# On every push to main (and manual dispatch), this workflow:
+#   build  → npm ci + `npm run build` in web/ → upload web/dist as the Pages artifact
+#   deploy → publish that artifact to GitHub Pages (github-pages environment)
+#   verify → curl the LIVE site and fail the run if it does not serve
+#
+# ─── Pages source requirement (one-time, manual) ────────────────────────────
+# GitHub Pages must be configured to build from GitHub Actions:
+#
+#   Settings → Pages → Build and deployment → Source: GitHub Actions
+#
+# This repo's Pages is currently `build_type: legacy` (source: main, path: /),
+# which serves the OLD static site at the repository root. Switching the source
+# to "GitHub Actions" REPLACES that legacy root site with this workflow's
+# `web/dist` output (served at https://juandelossantos.github.io/another-agent-skills/).
+#
+# `actions/configure-pages` with `enablement: true` only CREATES a Pages site
+# when one does not exist yet — it does NOT migrate an already-enabled legacy
+# site to the GitHub Actions source. So the switch above is a one-time human
+# step; until it is done, the deploy step fails loudly (and the verify job with
+# it). See web/README.md → "Deploy" and docs/DISTRIBUTION.md.
+
+name: deploy-web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: read the repo, write the Pages deployment, mint the OIDC
+# token actions/deploy-pages uses. It never requests a repository write scope —
+# this workflow never pushes back to the repository.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deployment at a time. Do NOT cancel an in-progress run: a
+# production deploy should be allowed to finish (matches the GitHub Pages
+# starter workflow).
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Build the site
+        working-directory: web
+        run: npm run build
+
+      # enablement: true creates a Pages site when none exists. It does NOT
+      # switch an existing legacy site to the GitHub Actions source — see the
+      # header comment.
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Post-deploy verification: prove the live site actually serves before the
+  # run is considered green. GitHub Pages/CDN can lag a few seconds, so retry
+  # with backoff — but ultimately FAIL LOUDLY if a URL never returns 200.
+  verify:
+    name: verify
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify the live site serves
+        env:
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+
+          # page_url is the deployed project URL, e.g.
+          #   https://juandelossantos.github.io/another-agent-skills/
+          # Fall back to the known base if the output is ever empty.
+          if [ -z "${PAGE_URL:-}" ]; then
+            PAGE_URL="https://juandelossantos.github.io/another-agent-skills/"
+          fi
+          BASE_URL="${PAGE_URL%/}/"
+
+          # Pages that must serve once the deploy lands (keep in sync with
+          # web/README.md → "Deploy"): EN landing, ES landing, docs, a tutorial,
+          # and the sitemap.
+          URLS=(
+            "${BASE_URL}"
+            "${BASE_URL}es/"
+            "${BASE_URL}docs/"
+            "${BASE_URL}docs/first-gated-commit/"
+            "${BASE_URL}sitemap-index.xml"
+          )
+
+          MAX_ATTEMPTS=6
+          SLEEP=5
+
+          for url in "${URLS[@]}"; do
+            ok=false
+            attempt=1
+            while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
+              code="$(curl -sS -L -o /dev/null -w '%{http_code}' --max-time 20 "$url" || true)"
+              if [ "$code" = "200" ]; then
+                echo "✓ HTTP ${code}  ${url}"
+                ok=true
+                break
+              fi
+              echo "… attempt ${attempt}/${MAX_ATTEMPTS}: HTTP ${code:-<error>} for ${url}"
+              sleep "$SLEEP"
+              attempt=$((attempt + 1))
+              SLEEP=$((SLEEP + 5))
+            done
+
+            if [ "$ok" != "true" ]; then
+              echo "::error::The live site did not serve ${url} (last HTTP ${code:-<error>}) after ${MAX_ATTEMPTS} attempts."
+              exit 1
+            fi
+          done
+
+          echo "All deployed URLs served HTTP 200 — deploy verified."
+          {
+            echo "### Deploy verified"
+            echo ""
+            echo "The live GitHub Pages site served HTTP 200 for:"
+            echo ""
+            for url in "${URLS[@]}"; do echo "- ${url}"; done
+          } >> "$GITHUB_STEP_SUMMARY"

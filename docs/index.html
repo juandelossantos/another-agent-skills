@@ -103,17 +103,17 @@
     <h2 data-i18n="overview.quickLinks">Quick Links</h2>
 
     <table>
-      <tr><td data-i18n="overview.version">Current version</td><td>v6.2.0</td></tr>
+      <tr><td data-i18n="overview.version">Current version</td><td>v6.3.0</td></tr>
       <tr><td data-i18n="overview.skillsCount">Skills</td><td>57</td></tr>
-      <tr><td data-i18n="overview.guidesCount">Guides</td><td>74</td></tr>
+      <tr><td data-i18n="overview.guidesCount">Guides</td><td>151</td></tr>
       <tr><td data-i18n="overview.license">License</td><td>MIT</td></tr>
     </table>
 
-    <h2 data-i18n="overview.whatsNew">What's New in v6.2.0</h2>
+    <h2 data-i18n="overview.whatsNew">What's New in v6.3.0</h2>
     <ul class="whats-new">
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Claude Code Parity</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">57 skills auto-install to ~/.claude/skills/ (auto-discovered, same as OpenCode). One command, no per-project setup. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">Enforcement Hooks, Made to Actually Work</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">commit-approval, pre-flight, and edit-guard now parse Claude Code's real hook JSON and auto-wire into .claude/settings.json via an idempotent merge that never touches your own hooks.</span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">19 New Tests</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">Hook behavior, install idempotency, and EN/ES doc parity all covered — 28/28 test suites passing.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Public Web — Landing + Docs</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">A new bilingual Astro site in <code>web/</code>: landing, docs, the full skills reference (57 skills / 151 guides), five tutorials, and an FAQ. Supersedes this legacy page. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">Distribution &amp; Upgrades</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">Pinned, attested releases; a checksum-verified <code>curl</code> bootstrap; the <code>aas</code> CLI; portable projects; npm (OIDC trusted publishing) and Homebrew. Maintainer activation steps are in <code>docs/DISTRIBUTION.md</code>.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">Remote Enforcement — Gate Integrity</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">Branch protection on <code>main</code>, a required <code>gates</code> status check, and <code>CODEOWNERS</code> review of sensitive paths — the L1/L2/L3 model. Local hooks are feedback; the remote gates are authority.</span></li>
     </ul>
 
     <h3>Previous releases</h3>

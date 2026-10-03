@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import type { DocsDictionary } from '../i18n/docs';
+
+interface Props {
+  dict: DocsDictionary;
+  /** Build-generated JSON index for this locale (already base-prefixed). */
+  indexUrl: string;
+}
+
+const { dict, indexUrl } = Astro.props;
+---
+
+<!-- A real search input. Without JS it stays a plain input; docs.js upgrades it
+     to a results overlay fed by the build-generated index. -->
+<div
+  class="docs-search"
+  data-search
+  data-search-src={indexUrl}
+  data-results-label={dict.search.results}
+  data-result-label={dict.search.result}
+>
+  <span class="docs-search__icon" aria-hidden="true"><Icon name="search" /></span>
+  <input
+    id="docs-search-input"
+    class="docs-search__input"
+    type="search"
+    data-search-input
+    placeholder={dict.search.placeholder}
+    aria-label={dict.search.label}
+    role="combobox"
+    aria-expanded="false"
+    aria-controls="docs-search-panel"
+    aria-haspopup="dialog"
+    aria-autocomplete="list"
+    autocomplete="off"
+    spellcheck="false"
+  />
+  <kbd class="docs-search__kbd" data-search-kbd aria-hidden="true">Ctrl K</kbd>
+
+  <div
+    class="docs-search__panel"
+    id="docs-search-panel"
+    role="dialog"
+    aria-modal="false"
+    aria-label={dict.search.resultsLabel}
+    hidden
+    data-search-panel
+  >
+    <div class="docs-search__meta">
+      <span class="docs-search__count" data-search-count aria-live="polite"></span>
+      <span class="docs-search__hints">{dict.search.hints}</span>
+    </div>
+    <div
+      class="docs-search__results"
+      role="listbox"
+      aria-label={dict.search.resultsLabel}
+      data-search-results
+    >
+    </div>
+    <p class="docs-search__empty" hidden data-search-empty>
+      <span>{dict.search.noResults}</span> <span data-search-query></span>
+    </p>
+  </div>
+</div>

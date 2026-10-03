@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enforcement (L1/L2/L3) - Docs mockup (Phase 10)</title>
+<meta name="description" content="Phase 10 documentation-view mockup. Enforcement L1/L2/L3: local feedback, remote authority, config integrity. A code change with no matching test is blocked.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:,">
+
+<!-- Theme + JS flag applied before paint to avoid a flash. Respects prefers-color-scheme on first load. -->
+<script>
+(function () {
+  var doc = document.documentElement;
+  doc.setAttribute('data-js', 'true');
+  var theme;
+  try { theme = localStorage.getItem('aas-theme'); } catch (e) {}
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  doc.setAttribute('data-theme', theme);
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700;6..72,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Reuse the landing design system + component layer, then the docs layout block. -->
+<link rel="stylesheet" href="css/mockup.css">
+<link rel="stylesheet" href="css/docs-mockup.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Docs", "item": "https://another-agent-skills.example/docs/" },
+    { "@type": "ListItem", "position": 2, "name": "Concepts", "item": "https://another-agent-skills.example/docs/#concepts" },
+    { "@type": "ListItem", "position": 3, "name": "Enforcement (L1/L2/L3)", "item": "https://another-agent-skills.example/docs/enforcement.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a href="#main" class="skip-link" data-i18n="a11y.skip">Skip to content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="header docs-header">
+  <div class="docs-header__top">
+    <nav class="header__nav" aria-label="Primary">
+      <button class="header__hamburger docs-menu-btn" type="button" data-action="sidebar" aria-label="Open documentation navigation" aria-expanded="false" aria-controls="docs-sidebar">
+        <svg class="icon icon--menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>
+        <svg class="icon icon--close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+
+      <a href="../../index.html" class="header__logo" aria-label="Another Agent Skills home">
+        <span class="header__logo-mark" aria-hidden="true">///</span>
+        <span class="header__logo-text">Another Agent Skills</span>
+      </a>
+
+      <!-- Search: a real input; JS upgrades it to a results overlay. Without JS it is a plain input. -->
+      <div class="docs-search" data-search>
+        <span class="docs-search__icon" aria-hidden="true">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+        <input id="docs-search-input" class="docs-search__input" type="search" data-search-input
+               placeholder="Search docs" aria-label="Search documentation"
+               role="combobox" aria-expanded="false" aria-controls="docs-search-panel" aria-haspopup="dialog"
+               aria-autocomplete="list" autocomplete="off" spellcheck="false">
+        <kbd class="docs-search__kbd" data-search-kbd aria-hidden="true">Ctrl K</kbd>
+
+        <div class="docs-search__panel" id="docs-search-panel" role="dialog" aria-modal="false" aria-label="Search results" hidden data-search-panel>
+          <div class="docs-search__meta">
+            <span class="docs-search__count" data-search-count aria-live="polite">6 results</span>
+            <span class="docs-search__hints" data-i18n="search.hints">↑↓ navigate · Enter open · Esc close</span>
+          </div>
+          <div class="docs-search__results" role="listbox" aria-label="Documentation results" data-search-results>
+            <a class="docs-search__result" role="option" id="sr-enforcement" aria-selected="true" href="../../enforcement.html" data-search-item>
+              <span class="docs-search__result-head">
+                <span class="docs-search__result-title" data-i18n="search.r1Title">Enforcement (L1/L2/L3)</span>
+                <span class="docs-search__result-section" data-i18n="search.r1Section">Concepts</span>
+              </span>
+              <span class="docs-search__result-snippet" data-i18n="search.r1Snippet">A code change with no matching test is blocked locally by L1 and remotely by the gates check.</span>
+            </a>
+            <a class="docs-search__result" role="option" id="sr-getting-started" aria-selected="false" href="../../getting-started.html" data-search-item>
+              <span class="docs-search__result-head">
+                <span class="docs-search__result-title" data-i18n="search.r2Title">Getting Started</span>
+                <span class="docs-search__result-section" data-i18n="search.r2Section">Get started</span>
+              </span>
+              <span class="docs-search__result-snippet" data-i18n="search.r2Snippet">Install with git clone or the pinned curl bootstrap, then run init-agents.</span>
+            </a>
+            <a class="docs-search__result" role="option" id="sr-branch-protection" aria-selected="false" href="../../BRANCH-PROTECTION.md" data-search-item>
+              <span class="docs-search__result-head">
+                <span class="docs-search__result-title" data-i18n="search.r3Title">Branch Protection</span>
+                <span class="docs-search__result-section" data-i18n="search.r3Section">Reference</span>
+              </span>
+              <span class="docs-search__result-snippet" data-i18n="search.r3Snippet">How the remote gates check and CODEOWNERS become the authority layer.</span>
+            </a>
+            <a class="docs-search__result" role="option" id="sr-distribution" aria-selected="false" href="../../DISTRIBUTION.md" data-search-item>
+              <span class="docs-search__result-head">
+                <span class="docs-search__result-title" data-i18n="search.r4Title">Distribution &amp; Upgrades</span>
+                <span class="docs-search__result-section" data-i18n="search.r4Section">Reference</span>
+              </span>
+              <span class="docs-search__result-snippet" data-i18n="search.r4Snippet">Channels, pinned releases, and how the upgrade command works.</span>
+            </a>
+            <a class="docs-search__result" role="option" id="sr-lifecycle" aria-selected="false" href="../../lifecycle.html" data-search-item>
+              <span class="docs-search__result-head">
+                <span class="docs-search__result-title" data-i18n="search.r5Title">Lifecycle</span>
+                <span class="docs-search__result-section" data-i18n="search.r5Section">Concepts</span>
+              </span>
+              <span class="docs-search__result-snippet" data-i18n="search.r5Snippet">Six phases: Define, Plan, Build, Verify, Review, Ship.</span>
+            </a>
+            <a class="docs-search__result" role="option" id="sr-universal-loop" aria-selected="false" href="../../universal-loop.html" data-search-item>
+              <span class="docs-search__result-head">
+                <span class="docs-search__result-title" data-i18n="search.r6Title">Universal Loop</span>
+                <span class="docs-search__result-section" data-i18n="search.r6Section">Concepts</span>
+              </span>
+              <span class="docs-search__result-snippet" data-i18n="search.r6Snippet">Audit, diagnose, fix, record an ADR, and repeat.</span>
+            </a>
+          </div>
+          <p class="docs-search__empty" hidden data-search-empty>
+            <span data-i18n="search.noResults">No results for</span> <span data-search-query></span>
+          </p>
+        </div>
+      </div>
+
+      <div class="header__controls">
+        <a class="header__control docs-header__github" href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          <span class="header__control-text" data-i18n="nav.github">GitHub</span>
+        </a>
+        <button class="header__control" type="button" data-action="lang" aria-label="Switch to Spanish">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+          <span data-lang-text>ES</span>
+        </button>
+        <button class="header__control" type="button" data-action="theme" aria-label="Toggle color theme" aria-pressed="false">
+          <span class="header__control-icon" data-theme-icon aria-hidden="true">
+            <svg class="icon icon--moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            <svg class="icon icon--sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          </span>
+          <span class="header__control-text" data-theme-text>Dark</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="docs-header__crumbs">
+    <nav class="docs-header__crumbs-inner" aria-label="Breadcrumb">
+      <ol class="docs-breadcrumb">
+        <li><a href="../../index.html" data-i18n="nav.docs">Docs</a></li>
+        <li class="docs-breadcrumb__sep" aria-hidden="true">/</li>
+        <li><a href="../../enforcement.html" data-i18n="nav.concepts">Concepts</a></li>
+        <li class="docs-breadcrumb__sep" aria-hidden="true">/</li>
+        <li aria-current="page" data-i18n="page.title">Enforcement (L1/L2/L3)</li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ SHELL ============ -->
+<div class="docs-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="docs-sidebar" id="docs-sidebar" data-sidebar aria-label="Documentation navigation">
+    <div class="docs-sidebar__head">
+      <a class="docs-sidebar__brand" href="../../index.html">
+        <span class="header__logo-mark" aria-hidden="true">///</span>
+        <span class="docs-sidebar__brand-text">Another Agent Skills</span>
+      </a>
+      <p class="docs-sidebar__sub" data-i18n="nav.docs">Docs</p>
+    </div>
+
+    <nav class="docs-nav" aria-label="Docs">
+      <p class="docs-nav__section" data-i18n="nav.getStarted">Get started</p>
+      <ul class="docs-nav__list">
+        <li><a class="docs-nav__link" href="../../docs/index.html" data-i18n="nav.overview">Overview</a></li>
+        <li><a class="docs-nav__link" href="../../getting-started.html" data-i18n="nav.gettingStarted">Getting Started</a></li>
+        <li><a class="docs-nav__link" href="../../quickstart-guide.html" data-i18n="nav.quickstart">Quick Start</a></li>
+      </ul>
+
+      <p class="docs-nav__section" data-i18n="nav.concepts">Concepts</p>
+      <ul class="docs-nav__list">
+        <li><a class="docs-nav__link" href="../../lifecycle.html" data-i18n="nav.lifecycle">Lifecycle</a></li>
+        <li><a class="docs-nav__link" href="../../skills.html" data-i18n="nav.skills">Skills</a></li>
+        <li><a class="docs-nav__link" href="../../universal-loop.html" data-i18n="nav.loop">Universal Loop</a></li>
+        <li><a class="docs-nav__link docs-nav__link--active" href="../../enforcement.html" aria-current="page" data-i18n="nav.enforcement">Enforcement</a></li>
+        <li><a class="docs-nav__link" href="../../design-review.html" data-i18n="nav.designReview">Design Review</a></li>
+      </ul>
+
+      <!-- Collapsible group: native <details>, works with JS off -->
+      <details class="docs-nav__group">
+        <summary class="docs-nav__group-summary">
+          <svg class="icon docs-nav__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          <span data-i18n="nav.reference">Reference</span>
+        </summary>
+        <ul class="docs-nav__list">
+          <li><a class="docs-nav__link" href="../../rules.html" data-i18n="nav.rules">Rules</a></li>
+          <li><a class="docs-nav__link" href="../../agents.html" data-i18n="nav.agents">Agents</a></li>
+          <li><a class="docs-nav__link" href="../../customization.html" data-i18n="nav.customization">Customization</a></li>
+          <li><a class="docs-nav__link" href="../../evaluation.html" data-i18n="nav.evaluation">Evaluation</a></li>
+          <li><a class="docs-nav__link" href="../../BRANCH-PROTECTION.md" data-i18n="nav.branch">Branch Protection</a></li>
+          <li><a class="docs-nav__link" href="../../DISTRIBUTION.md" data-i18n="nav.distribution">Distribution</a></li>
+        </ul>
+      </details>
+    </nav>
+
+    <div class="docs-sidebar__foot">
+      <span class="chip docs-version">
+        <span class="docs-version__dot" aria-hidden="true"></span>
+        <span data-i18n="version">v6.4.0</span>
+      </span>
+      <span class="docs-sidebar__foot-label" data-i18n="versionLabel">current docs</span>
+    </div>
+  </aside>
+
+  <!-- TOC: right rail on desktop, inline at the top on mobile -->
+  <aside class="docs-toc" aria-label="On this page" data-toc>
+    <p class="docs-toc__title" data-i18n="toc.title">On this page</p>
+    <nav aria-label="Table of contents">
+      <ul class="docs-toc__list" data-toc-list>
+        <li><a class="docs-toc__link" href="#layers" data-i18n="sections.layersTitle">The three layers</a></li>
+        <li><a class="docs-toc__link" href="#rule" data-i18n="sections.ruleTitle">The rule: no code without a test</a></li>
+        <li><a class="docs-toc__link" href="#blocked" data-i18n="sections.blockedTitle">A blocked commit</a></li>
+        <li><a class="docs-toc__link" href="#gates" data-i18n="sections.gatesTitle">The gates at a glance</a></li>
+        <li><a class="docs-toc__link" href="#turn-it-on" data-i18n="sections.turnOnTitle">Turn it on</a></li>
+        <li><a class="docs-toc__link" href="#limits" data-i18n="sections.limitsTitle">Honest limitations</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="docs-content" id="main" data-content>
+    <article class="docs-article">
+      <header class="docs-article__head">
+        <p class="docs-article__eyebrow" data-i18n="nav.concepts">Concepts</p>
+        <h1 class="docs-title" data-i18n="page.title">Enforcement (L1/L2/L3)</h1>
+        <p class="docs-tldr">
+          <span class="docs-tldr__label">TL;DR</span>
+          <span data-i18n="page.tldr">L1 is fast local feedback, L2 is the remote authority, L3 protects the gate config. A code change with no matching test is blocked, locally and remotely.</span>
+        </p>
+      </header>
+
+      <!-- 1. THE THREE LAYERS -->
+      <section class="docs-section" id="layers" aria-labelledby="layers-h">
+        <h2 id="layers-h" data-i18n="sections.layersTitle">The three layers</h2>
+        <p data-i18n="sections.layersIntro">Most frameworks stop at rules in a file, and a rule in a file is a suggestion. Enforcement is a mechanism: a change that breaks the process cannot reach main. Three layers answer three different questions.</p>
+
+        <div class="docs-levels">
+          <article class="level" data-level="L1">
+            <div class="level__head">
+              <span class="level__icon" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="level__tag">L1</span>
+            </div>
+            <h3 class="level__title" data-i18n="sections.l1Title">Local feedback</h3>
+            <p class="level__desc" data-i18n="sections.l1Desc">Fails fast, informs, and leaves a trace. Ergonomics for a cooperative agent. Not security.</p>
+          </article>
+
+          <article class="level level--authority" data-level="L2">
+            <div class="level__head">
+              <span class="level__icon" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+              <span class="level__tag">L2</span>
+            </div>
+            <h3 class="level__title" data-i18n="sections.l2Title">Remote authority</h3>
+            <p class="level__desc" data-i18n="sections.l2Desc">GitHub branch protection plus a required status check. Nothing reaches main without passing the gates. The committer cannot skip it.</p>
+          </article>
+
+          <article class="level" data-level="L3">
+            <div class="level__head">
+              <span class="level__icon" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+              <span class="level__tag">L3</span>
+            </div>
+            <h3 class="level__title" data-i18n="sections.l3Title">Config integrity</h3>
+            <p class="level__desc" data-i18n="sections.l3Desc">CODEOWNERS plus required code-owner review. Another owner must approve changes to the gate configuration. GitHub only.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. THE RULE -->
+      <section class="docs-section" id="rule" aria-labelledby="rule-h">
+        <h2 id="rule-h" data-i18n="sections.ruleTitle">The rule: no code without a test</h2>
+        <p data-i18n="sections.ruleBody1">The commit-msg hook (v6) runs a single TDD gate. A code file staged for commit must have a matching test file staged in the same commit. Name-pairing is checked, and at least one staged test must be new.</p>
+        <p data-i18n="sections.ruleBody2">There is no override mechanism. Pre-commit Gate 0 blocks until the decision token is fresh, but that is a prompt, not the approval authority.</p>
+
+        <div class="docs-callout" role="note">
+          <p class="docs-callout__title">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            <span data-i18n="sections.calloutTitle">Why a hook is not a gate</span>
+          </p>
+          <p class="docs-callout__body" data-i18n="sections.calloutBody">The hooks directory is writable by whoever is committing, including an agent. A single git config command silences every hook at once. That is why L1 is feedback, not authority. If the gate that decides can be edited by the change it judges, it is not a gate.</p>
+        </div>
+      </section>
+
+      <!-- 3. A BLOCKED COMMIT -->
+      <section class="docs-section" id="blocked" aria-labelledby="blocked-h">
+        <h2 id="blocked-h" data-i18n="sections.blockedTitle">A blocked commit</h2>
+        <p data-i18n="sections.blockedIntro">This is real output, not a mock. The commit stops before it exists.</p>
+
+        <figure class="codeblock" data-codeblock>
+          <figcaption class="codeblock__head">
+            <span class="codeblock__dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="codeblock__name">commit-msg v6</span>
+            <button class="command__copy codeblock__copy" type="button" data-action="copy" aria-label="Copy code">
+              <svg class="icon icon--copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <svg class="icon icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="command__copy-text" data-i18n="sections.copy">Copy</span>
+            </button>
+          </figcaption>
+          <pre class="codeblock__pre"><code>$ git commit -m "feat: add checkout"
+[commit-msg v6] scanning staged files
+[commit-msg v6] code changed: src/checkout.js
+[commit-msg v6] matching test: none
+✗ BLOCKED: every code change needs a matching test.</code></pre>
+        </figure>
+
+        <p class="docs-note">
+          <span data-i18n="sections.blockedNote1">The same check runs remotely as the required</span>
+          <code>gates</code>
+          <span data-i18n="sections.blockedNote2">status, so it cannot be bypassed by the committer.</span>
+        </p>
+      </section>
+
+      <!-- 4. THE GATES AT A GLANCE -->
+      <section class="docs-section" id="gates" aria-labelledby="gates-h">
+        <h2 id="gates-h" data-i18n="sections.gatesTitle">The gates at a glance</h2>
+        <p data-i18n="sections.gatesIntro">Each layer lives in a different place and guarantees a different thing. Local checks keep the process visible; remote checks are the authority.</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="sections.thLayer">Layer</th>
+                <th scope="col" data-i18n="sections.thWhere">Where it lives</th>
+                <th scope="col" data-i18n="sections.thGuarantee">What it guarantees</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><span class="chip chip--level" data-on>L1</span></th>
+                <td data-i18n="sections.g1Where">Working tree, .git/hooks</td>
+                <td data-i18n="sections.g1Guarantee">Fast feedback and a visible decision point. Not security.</td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="chip chip--level" data-on>L2</span></th>
+                <td data-i18n="sections.g2Where">GitHub branch protection</td>
+                <td data-i18n="sections.g2Guarantee">Nothing reaches main without passing the required gates check.</td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="chip chip--level" data-on>L3</span></th>
+                <td data-i18n="sections.g3Where">CODEOWNERS</td>
+                <td data-i18n="sections.g3Guarantee">Changes to the gate config need another owner's approval.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. TURN IT ON -->
+      <section class="docs-section" id="turn-it-on" aria-labelledby="turn-on-h">
+        <h2 id="turn-on-h" data-i18n="sections.turnOnTitle">Turn it on</h2>
+        <p data-i18n="sections.turnOnIntro">The setup script detects the repository shape and picks a safe profile. Preview first, then apply.</p>
+
+        <ol class="docs-steps">
+          <li class="step">
+            <span class="step__idx" aria-hidden="true">01</span>
+            <span class="step__text"><span data-i18n="sections.step1a">Preview the exact payload without writing anything:</span> <code>bash scripts/setup-branch-protection.sh --dry-run</code></span>
+          </li>
+          <li class="step">
+            <span class="step__idx" aria-hidden="true">02</span>
+            <span class="step__text"><span data-i18n="sections.step2a">Apply it. The script auto-detects solo versus team and refuses a configuration that could lock you out:</span> <code>bash scripts/setup-branch-protection.sh</code></span>
+          </li>
+          <li class="step">
+            <span class="step__idx" aria-hidden="true">03</span>
+            <span class="step__text"><span data-i18n="sections.step3a">Verify that the remote authority is live:</span> <code>gh api repos/OWNER/REPO/branches/main/protection</code></span>
+          </li>
+          <li class="step">
+            <span class="step__idx" aria-hidden="true">04</span>
+            <span class="step__text"><span data-i18n="sections.step4a">After git init or adding a remote, re-run the installer so the missing layers install:</span> <code>init-agents</code></span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 6. HONEST LIMITATIONS -->
+      <section class="docs-section" id="limits" aria-labelledby="limits-h">
+        <h2 id="limits-h" data-i18n="sections.limitsTitle">Honest limitations</h2>
+        <p data-i18n="sections.limitsBody">These gates create friction, not guarantees. L1 hooks can be bypassed by editing the hook or changing the hooks path. On a solo repository the admin can still bypass the remote rules by design, so the gates remain mandatory for everyone without admin rights. The human stays in the loop, and the human stays alert.</p>
+      </section>
+    </article>
+
+    <!-- PREV / NEXT + EDIT -->
+    <nav class="docs-pager" aria-label="Pagination">
+      <a class="docs-pager__link docs-pager__link--prev" href="../../universal-loop.html">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 19-7-7 7-7"/></svg>
+        <span class="docs-pager__meta">
+          <span class="docs-pager__label" data-i18n="pager.prevLabel">Previous</span>
+          <span class="docs-pager__title" data-i18n="pager.prev">Universal Loop</span>
+        </span>
+      </a>
+      <a class="docs-pager__link docs-pager__link--next" href="../../design-review.html">
+        <span class="docs-pager__meta">
+          <span class="docs-pager__label" data-i18n="pager.nextLabel">Next</span>
+          <span class="docs-pager__title" data-i18n="pager.next">Design Review</span>
+        </span>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </nav>
+
+    <p class="docs-edit">
+      <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/docs/enforcement.html" target="_blank" rel="noopener">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+        <span data-i18n="edit">Edit this page</span>
+      </a>
+    </p>
+  </main>
+</div>
+
+<!-- Mobile drawer backdrop (JS only) -->
+<div class="docs-backdrop" data-backdrop hidden></div>
+
+<script src="js/docs-mockup.js"></script>
+</body>
+</html>

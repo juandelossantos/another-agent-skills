@@ -132,6 +132,38 @@ gh attestation verify dist/another-agent-skills-vX.Y.Z.tar.gz --repo juandelossa
 
 ---
 
+## Web (landing + docs) deployment
+
+The public landing + docs live in `web/` (Astro) and ship through a **separate**
+workflow — the core `gates` CI never builds them (the core stays build-free):
+
+```
+push to main (or manual dispatch)
+      │
+      ▼
+.github/workflows/deploy-web.yml
+      ├─ build   → npm ci + npm run build in web/ → upload web/dist
+      ├─ deploy  → GitHub Pages (github-pages environment, actions/deploy-pages@v4)
+      └─ verify  → curl the LIVE site (/ , /es/ , /docs/ , a tutorial,
+                   sitemap-index.xml) and fail the run if any page is not HTTP 200
+```
+
+Pages must be set to **build from GitHub Actions**
+(Settings → Pages → Build and deployment → Source: GitHub Actions). This repo
+still uses `build_type: legacy` (source `main`, path `/`) — switching to the
+Actions source **replaces the old root site** with `web/dist`.
+`actions/configure-pages` runs with `enablement: true`, but that only creates a
+Pages site when none exists; it does **not** migrate an already-enabled legacy
+site, so the switch is a one-time maintainer step (see below).
+
+> **Security-headers gap (F5):** GitHub Pages ignores `_headers`, so the deployed
+> site has no CSP/HSTS. Decide a `<meta http-equiv="Content-Security-Policy">`
+> or a CDN proxy (e.g. Cloudflare) before hardening headers.
+
+See [`web/README.md`](../web/README.md) → "Deploy".
+
+---
+
 ## One-time manual steps (maintainer)
 
 These are **not code** and cannot be automated from the repo. They must be done
@@ -192,6 +224,19 @@ published, so future releases need no manual sync.
 Once the token is set, the optional Homebrew step in `release.yml` regenerates
 and pushes `Formula/another-agent-skills.rb` on each release.
 
+### GitHub Pages — switch the source to GitHub Actions
+
+The web deploy (`.github/workflows/deploy-web.yml`) requires Pages to build from
+**GitHub Actions**:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. That's it — the next push to `main` (or a manual `deploy-web` dispatch)
+   builds `web/`, deploys it, and the `verify` job checks the live site.
+
+This **replaces** the current legacy source (`main`, `/`). It cannot be done by
+`actions/configure-pages` when a legacy site already exists, so it is a one-time
+human step.
+
 ---
 
 ## Upgrades
@@ -214,6 +259,7 @@ then `init-agents --repair` to migrate.
 - `PLAN.md` — Phase 9 spec and task table.
 - `README.md` — Quick Start and the pinned one-liner install.
 - `.github/workflows/release.yml`, `.github/workflows/npm-publish.yml`.
+- `.github/workflows/deploy-web.yml`, `web/README.md` — the Astro landing + docs deploy.
 - `scripts/build-release.sh`, `scripts/build-brew-formula.sh`, `scripts/lib/aas.sh`.
 - `bootstrap.sh`, `bin/aas`, `npm/`.
 - `docs/BRANCH-PROTECTION.md` — GitHub Environment / required-reviewer pattern.

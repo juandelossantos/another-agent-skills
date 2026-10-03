@@ -1,0 +1,37 @@
+---
+import type { DocsDictionary } from '../i18n/docs';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  dict: DocsDictionary;
+  headings: Heading[];
+}
+
+const { dict, headings } = Astro.props;
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{toc.length > 0 && (
+  <aside class="docs-toc" aria-label={dict.toc.title} data-toc>
+    <p class="docs-toc__title">{dict.toc.title}</p>
+    <nav aria-label={dict.toc.title}>
+      <ul class="docs-toc__list" data-toc-list>
+        {toc.map((heading) => (
+          <li>
+            <a
+              class:list={['docs-toc__link', heading.depth === 3 && 'docs-toc__link--sub']}
+              href={`#${heading.slug}`}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+)}

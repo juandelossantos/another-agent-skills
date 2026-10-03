@@ -1,0 +1,39 @@
+---
+import Chip from './Chip.astro';
+
+interface Props {
+  /** `rule` = accent top rule (problem cards); `skill` = bordered, hue top border. */
+  variant?: 'rule' | 'skill';
+  hue?: string;
+  title?: string;
+  titleId?: string;
+  desc?: string;
+  /** Skill slugs rendered as inline <code> chips. */
+  list?: string[];
+  /** Optional hue chip shown above a skill title. */
+  chip?: { label: string; hue?: string };
+  feature?: boolean;
+  wide?: boolean;
+}
+
+const { variant, hue, title, titleId, desc, list, chip, feature, wide } = Astro.props;
+
+const classes = ['card'];
+if (variant) classes.push(`card--${variant}`);
+if (feature) classes.push('card--feature');
+if (wide) classes.push('card--wide');
+
+const Tag = variant === 'skill' ? 'article' : 'div';
+---
+
+<Tag class={classes.join(' ')} data-hue={hue}>
+  {chip && <Chip variant="hue" hue={chip.hue ?? hue} label={chip.label} />}
+  {title && <h3 class="card__title" id={titleId}>{title}</h3>}
+  {desc && <p class="card__desc">{desc}</p>}
+  {list && list.length > 0 && (
+    <p class="card__list">
+      {list.map((slug) => <code>{slug}</code>)}
+    </p>
+  )}
+  <slot />
+</Tag>

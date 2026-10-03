@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+
+export interface Phase {
+  hue: string;
+  name: string;
+}
+
+interface Props {
+  phases: Phase[];
+}
+
+const { phases } = Astro.props;
+---
+
+<div class="lifecycle-strip" data-lifecycle-strip>
+  {phases.map((phase, i) => (
+    <>
+      {i > 0 && (
+        <span class="lifecycle-strip__arrow" aria-hidden="true"><Icon name="arrow-right" /></span>
+      )}
+      <span class="lifecycle-strip__stage" data-hue={phase.hue}><span>{phase.name}</span></span>
+    </>
+  ))}
+</div>

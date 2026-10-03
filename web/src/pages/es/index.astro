@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Landing from '../../components/Landing.astro';
+import { es } from '../../i18n';
+import { buildJsonLd } from '../../seo';
+
+const locale = 'es' as const;
+---
+
+<BaseLayout locale={locale} dict={es} jsonLd={buildJsonLd(locale, es)}>
+  <Landing dict={es} locale={locale} />
+</BaseLayout>

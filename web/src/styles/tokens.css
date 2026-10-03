@@ -1,0 +1,94 @@
+/*
+ * Another Agent Skills — design tokens
+ * Ported from docs/mockups/phase10/css/mockup.css (approved Phase 10 mockup).
+ *
+ * Warm light/dark palettes, type scale, hue-per-phase, spacing, radii, motion.
+ * Bans honored: no purple, no gradient text, no em-dash in copy, no 3 equal
+ * cards in a row, no border-radius:999px on cards, no generic sans for headings.
+ */
+
+:root {
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 72px;
+  --space-4xl: 104px;
+
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 150ms ease;
+  --t-base: 320ms var(--ease);
+  --t-slow: 620ms var(--ease);
+
+  --max-width: 1120px;
+  --read-width: 68ch;
+
+  color-scheme: dark light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #1a1a18;
+  --bg-card: #222220;
+  --bg-code: #1e1e1c;
+  --text: #e8e6e3;
+  --text-secondary: #a8a5a0;
+  --text-muted: #8f8c86;
+  --accent: #e8703a;
+  --accent-dim: rgba(232, 112, 58, 0.12);
+  /* Text on the accent surface: the accent is bright in dark, dark in light,
+     so the page background is the correct high-contrast foreground in both. */
+  --on-accent: var(--bg);
+  --border: #2c2a28;
+  --border-light: #3a3835;
+  --green: #3cce1e;
+  --red: #e5644a;
+
+  --h-define: #e0b056;  --h-define-dim: rgba(224, 176, 86, 0.16);
+  --h-plan:   #5fbfaf;  --h-plan-dim:   rgba(95, 191, 175, 0.16);
+  --h-build:  #7fb2e0;  --h-build-dim:  rgba(127, 178, 224, 0.16);
+  --h-verify: #7cc96a;  --h-verify-dim: rgba(124, 201, 106, 0.16);
+  --h-review: #e88a72;  --h-review-dim: rgba(232, 138, 114, 0.16);
+  /* ship lightened for AA on the tinted chip (was #E0763A, 4.13:1) */
+  --h-ship:   #eb9452;  --h-ship-dim:   rgba(235, 148, 82, 0.16);
+}
+
+:root[data-theme='light'] {
+  --bg: #f2f0ed;
+  --bg-card: #f8f7f5;
+  --bg-code: #edebe7;
+  --text: #2a2826;
+  --text-secondary: #55524f;
+  --text-muted: #6a6762;
+  --accent: #a83e0c;
+  --accent-dim: rgba(168, 62, 12, 0.08);
+  --on-accent: var(--bg);
+  --border: #d9d6d1;
+  --border-light: #c7c4be;
+  --green: #167a32;
+  --red: #b23a22;
+
+  --h-define: #8a5a00;  --h-define-dim: rgba(138, 90, 0, 0.10);
+  /* plan / verify / ship darkened for AA on the tinted chip (were 4.29 / 4.40 / 4.37) */
+  --h-plan:   #0c695d;  --h-plan-dim:   rgba(12, 105, 93, 0.10);
+  --h-build:  #2a6aa8;  --h-build-dim:  rgba(42, 106, 168, 0.10);
+  --h-verify: #276d22;  --h-verify-dim: rgba(39, 109, 34, 0.10);
+  --h-review: #b0442c;  --h-review-dim: rgba(176, 68, 44, 0.10);
+  --h-ship:   #a63d0c;  --h-ship-dim:   rgba(166, 61, 12, 0.10);
+}
+
+[data-hue='define'] { --h: var(--h-define); --h-dim: var(--h-define-dim); }
+[data-hue='plan']   { --h: var(--h-plan);   --h-dim: var(--h-plan-dim); }
+[data-hue='build']  { --h: var(--h-build);  --h-dim: var(--h-build-dim); }
+[data-hue='verify'] { --h: var(--h-verify); --h-dim: var(--h-verify-dim); }
+[data-hue='review'] { --h: var(--h-review); --h-dim: var(--h-review-dim); }
+[data-hue='ship']   { --h: var(--h-ship);   --h-dim: var(--h-ship-dim); }

@@ -8,13 +8,37 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.2.0** (Phase 7 released; Phase 8 remote enforcement **live**; **Phase 9 distribution complete** — release v6.3.0 pending) |
-| Next target | **Phase 10** (landing/docs refresh) → **Phase 11** (Astro + Starlight docs site) |
+| Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **complete on `feat/phase10-landing`**) |
+| Next target | **T1** — npm + Homebrew activation (maintainer, manual) → **T2** — web + docs update once LIVE (see **Next tasks** below) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
-| Guides | 74 across all skills |
-| Tests | 91 suites passing (behavioral + task working set capped at 20) |
+| Guides | 151 across all skills |
+| Tests | 104 suites passing (core: behavioral + task working set capped at 20); web: 74 node + 85 e2e (axe 0) |
+
+---
+
+## Next tasks
+
+> Ordered. **T1** and **T2** are the remaining Phase 10 closure work (both gated on the maintainer / a live deploy). The existing backlog follows further down.
+
+### T1 — npm + Homebrew activation (maintainer, manual)
+
+The npm and Homebrew channels ship in the repo (Phase 9) but are **not yet activated**. Both are one-time manual steps; reference `docs/DISTRIBUTION.md`.
+
+- **npm first publish** — the npm account is suspended (read-only) until **2026-10-06 00:55 UTC**; after it lifts:
+  1. `npm login`, then enable **TOTP** with `npm profile enable-2fa auth-and-writes` (the passkey does not work from the CLI);
+  2. `cd npm && npm publish --access public` (the first publish creates the package);
+  3. configure the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow `npm-publish.yml`, environment `npm-release`).
+- **Homebrew tap** — create the public **`homebrew-tap`** repo (`juandelossantos/homebrew-tap`), a **fine-grained PAT** (Contents: read/write), and set the **`HOMEBREW_TAP_TOKEN`** secret (optional `HOMEBREW_TAP_REPO` variable).
+
+### T2 — Web + docs update once LIVE
+
+The Astro web (`web/`) is built but **not deployed**. After the GitHub Pages deploy is verified live:
+
+- point the **README + docs** at the live URL and drop the "not yet deployed" wording;
+- verify the live **SEO / `llms.txt` / OG** (sitemap, canonical, `hreflang`, JSON-LD, OG cards);
+- revisit the **security-headers gap**: GitHub Pages ignores `_headers` — decide between a meta-CSP and a CDN proxy.
 
 ---
 
@@ -30,6 +54,7 @@
 | **7** | **v6.2.0** | OpenCode v1/v2 & Multi-Agent: dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. |
 | **8** | **v6.2.0** | Remote Enforcement — Gate Integrity: branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity (PRs #36/#37); P8.4 closed by design (philosophy A); docs honesty — INCIDENT_004 correction + L1/L2/L3 model (PR #39); ship-to-users — `templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist (PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review — script injection, fresh-repo hook block, L3 honesty (PR #43). Merged to `main` via PRs #36–#43. |
 | **9** | **v6.3.0** | Distribution & Upgrades: pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`, `actions/attest-build-provenance`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto\|all\|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent); Homebrew formula + tap update. Merged to `main` via PRs #47–#52. |
+| **10** | **v6.3.0** | Public web — the Astro `web/` project: bilingual (EN/ES) landing + docs, a 57-skill / 151-guide reference, five tutorials, a build-generated search index + sidebar; discoverability (SEO: sitemap/robots/canonical/hreflang/OG; AEO: `llms.txt` + citable TL;DRs + JSON-LD; a11y: axe 0 across 30 pages × EN/ES × light/dark × 2 viewports; Lighthouse 100/100/100/100 desktop); 3 review iterations + an exhaustive review (docs 404 links, copy-button rejection, dead breadcrumb anchors, absolute language link, "more" chip sizing); README overhaul; v6.3.0 version sync + the real guide count (151). **Complete on `feat/phase10-landing`** (10 commits) — PR/merge/deploy pending. |
 
 ---
 
@@ -438,16 +463,16 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 **Phase 9 (distribución) → Phase 10 (landing/docs + descubribilidad) → Phase 11 (docs site).**
 
-> **Estado:** Phase 9 ✅ **COMPLETA** (PRs #47–#52). El siguiente objetivo es **Phase 10**.
+> **Estado:** Phase 9 ✅ **COMPLETA** (PRs #47–#52) y Phase 10 ✅ **SHIPPED** (v6.3.0, `feat/phase10-landing`). Phase 11 quedó **re-planteada** (el sitio Astro se entregó en Phase 10 como `web/`).
 
 **Por qué 9 antes que 10:**
 1. **Phase 9 cambia la forma de instalar.** Hoy todo dice `git clone … && bash install.sh`; Phase 9 lo cambia a bootstrap `curl` pineado + CLI `aas` + npm. La instalación es lo **primero** que lee un usuario nuevo.
 2. **Evita rework y drift.** Rediseñar la landing y reescribir los docs *antes* de 9 obligaría a re-editar el hero, la sección de instalación, el quickstart y la página de instalación. El drift de docs es el enemigo recurrente de este proyecto (Phase 4 "Docs Honesty", Phase 8.5).
 3. **El embudo manda.** Primero **hazlo fácil de instalar** (9); luego **véndelo** (10); luego **documéntalo a escala** (11, con el contenido final ya estable).
 
-**Versiones (secuenciales):** Phase 9 → `v6.3.0` · Phase 10 → `v6.4.0` · Phase 11 → `v6.5.0`.
+**Versiones:** Phase 9 → `v6.3.0` · Phase 10 → `v6.3.0` (shipped with Phase 9) · Phase 11 → re-planned, no version assigned.
 
-**Deuda consciente:** hasta que Phase 10/11 aterricen, algunas superficies siguen stale (`README` "What's New", refs a `6.1.0`). Se resuelven de una vez en 10/11 — no se parchean por separado (evita doble trabajo).
+**Deuda resuelta (v6.3.0):** las superficies stale (`README` "What's New", refs a `6.1.0`) se corrigieron en Phase 10: el `README` tiene ahora un único "What's New" (v6.3.0) y delega el histórico a `RELEASE-NOTES.md`. Phase 11 quedó re-planteada.
 
 ---
 
@@ -496,8 +521,9 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ---
 
-## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.4.0)
+## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0) — ✅ COMPLETE
 
+**Status (2026-10-03):** ✅ **COMPLETE on `feat/phase10-landing`** (10 commits) — the approved landing + docs mockups; the Astro `web/` project (landing + docs + a 57-skill bilingual reference + 5 tutorials + a build-generated search index + a sidebar); discoverability (SEO/AEO/a11y, Lighthouse 100 desktop); 3 review iterations + an exhaustive review; the README overhaul; v6.3.0 version sync + the real guide count (151). Tests: core **104 suites**; web **74 node + 85 e2e** (axe 0). **Not yet PR'd/merged/deployed** (gated — see **Next tasks**: T1 npm/Homebrew, T2 web/docs once live).
 **Branch:** `feat/phase10-landing`
 **Goal:** Landing, README y docs **atractivos, accesibles y descubribles** — con la historia **multi-agente + distribución (Phase 9)** ya final, diseño award-winning, SEO técnico, **AEO** (Answer Engine Optimization), accesibilidad WCAG 2.2 AA y lenguaje/keywords del sector para ser encontrados y **citados como referente** en agent skills / IA agéntica.
 
@@ -546,15 +572,22 @@ Todo sale de P9.7/P9.8 — documentar en landing + docs + README:
 
 Estas Q&A alimentan también **D2 (FAQPage JSON-LD)** y **D3 (AEO)** → respuestas citables por buscadores y motores de IA.
 
-**Bloque C — Release (v6.4.0)**
-- C1 `VERSION` → 6.4.0 + tag + GitHub Release (value: multi-agente, distribución, descubribilidad).
+**Bloque C — Release (v6.3.0)**
+- C1 `VERSION` → 6.3.0 + tag + GitHub Release (value: multi-agente, distribución, descubribilidad).
 - C2 PR de la rama de landing.
 
 ---
 
-## Phase 11: Docs site — Astro + Starlight (v6.5.0)
+## Phase 11: Docs site — Astro + Starlight (re-planned; superseded by Phase 10 `web/`)
 
-**Goal:** Migrar el sitio de documentación a Astro + Starlight: SEO **y AEO** por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages — heredando el estándar de descubribilidad de Phase 10 (sitemap por idioma, datos estructurados, `llms.txt`, a11y WCAG 2.2 AA).
+**Status (2026-10-03):** ⚠️ **SUPERSEDED / RE-PLANNED.** The Astro landing + docs site that this
+phase scoped was built and shipped in **Phase 10** as [`web/`](./web/) — plain Astro (content
+collections + a hand-built docs layout), not Starlight. The original Starlight migration is
+therefore superseded; its remaining intent (deploy to GitHub Pages, per-locale indexability,
+docs test parity) folds into the Phase 10 deploy that awaits approval. Scope to be re-defined
+before any version is assigned.
+
+**Original goal (for reference):** Migrar el sitio de documentación a Astro + Starlight: SEO **y AEO** por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages — heredando el estándar de descubribilidad de Phase 10 (sitemap por idioma, datos estructurados, `llms.txt`, a11y WCAG 2.2 AA).
 
 **Principio de frontera (no erosionar):** el **core** (skills, rules, hooks, `install.sh`) se mantiene **sin build**. El build vive **solo en la capa de docs**; `install.sh` nunca debe requerir Node. El CI del core no corre el build de docs.
 

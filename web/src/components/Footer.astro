@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+import { SITE } from '../config';
+import { docsHome } from '../docs/paths';
+import type { Dictionary, Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+const { locale, dict } = Astro.props;
+
+const links = [
+  { href: '#flow', label: dict.nav.flow },
+  { href: '#harness', label: dict.nav.harness },
+  { href: '#enforcement', label: dict.nav.enforcement },
+  { href: '#skills', label: dict.nav.skills },
+  { href: '#workflows', label: dict.nav.workflows },
+  { href: '#faq', label: dict.nav.faq },
+];
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__links">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a href={docsHome(locale)}>{dict.footer.docs}</a>
+      <a href={SITE.github} target="_blank" rel="noopener">
+        <span>{dict.footer.github}</span>
+        <Icon name="external-link" />
+      </a>
+    </div>
+    <p class="footer__copy">{dict.footer.copy}</p>
+  </div>
+</footer>

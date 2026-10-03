@@ -1,0 +1,32 @@
+---
+export interface FlowPhase {
+  hue: string;
+  name: string;
+  cmd: string;
+  exit: string;
+}
+
+interface Props {
+  phases: FlowPhase[];
+}
+
+const { phases } = Astro.props;
+---
+
+<div class="flow" data-flow data-state="static">
+  <ol class="flow__track" role="list">
+    {phases.map((phase, i) => (
+      <>
+        {i > 0 && (
+          <li class="flow__seg" role="presentation" aria-hidden="true"><span class="flow__seg-fill"></span></li>
+        )}
+        <li class="flow__node" role="listitem" data-phase={phase.hue} data-hue={phase.hue}>
+          <span class="flow__dot" aria-hidden="true"></span>
+          <span class="flow__name">{phase.name}</span>
+          <span class="flow__cmd"><code>{phase.cmd}</code></span>
+          <span class="flow__exit">{phase.exit}</span>
+        </li>
+      </>
+    ))}
+  </ol>
+</div>

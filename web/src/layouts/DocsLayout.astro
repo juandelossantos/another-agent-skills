@@ -1,0 +1,193 @@
+---
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/docs.css';
+// Above-the-fold fonts, preloaded so the swap happens before first paint and
+// the shell does not reflow (Lighthouse CLS).
+import monoLatin from '../styles/fonts/0a7197f9e2.woff2?url';
+import serifLatin from '../styles/fonts/f24c321523.woff2?url';
+
+import DocsHeader from '../components/DocsHeader.astro';
+import DocsSidebar from '../components/DocsSidebar.astro';
+import DocsToc from '../components/DocsToc.astro';
+import DocsPager from '../components/DocsPager.astro';
+import Icon from '../components/Icon.astro';
+
+import { getDictionary, HTML_LANG, type Locale } from '../i18n';
+import { alternateLocale, BASE, localePath } from '../i18n/routes';
+import { getDocsDictionary } from '../i18n/docs';
+import { jsonLdScript } from '../json-ld';
+import { docsHome, docsHref, docsSearchIndex } from '../docs/paths';
+import { docSlug, type DocEntry, type DocGroup } from '../docs/nav';
+import { SITE } from '../config';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  locale: Locale;
+  slug: string;
+  entry: DocEntry;
+  Content: unknown;
+  headings: Heading[];
+  groups: DocGroup[];
+  prev: DocEntry | null;
+  next: DocEntry | null;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { locale, slug, entry, Content, headings, groups, prev, next, jsonLd } = Astro.props;
+
+const dict = getDocsDictionary(locale);
+const landing = getDictionary(locale);
+const altLocale = alternateLocale(locale);
+
+const site = Astro.site ?? new URL('https://juandelossantos.github.io');
+const absolute = (path: string) => new URL(path, site).href;
+
+const pagePath = docsHref(locale, slug);
+const canonical = absolute(pagePath);
+const enHref = absolute(docsHref('en', slug));
+const esHref = absolute(docsHref('es', slug));
+const ogImage = absolute(`${BASE}og.png`);
+const altHref = docsHref(altLocale, slug);
+
+const homeHref = localePath(locale, '');
+const sectionLabel = dict.sections[entry.data.section];
+const docsRoot = docsHome(locale);
+
+const breadcrumb = [
+  { label: dict.nav.docs, href: docsRoot },
+  { label: sectionLabel, href: `${docsRoot}#${entry.data.section}` },
+  { label: entry.data.title },
+];
+
+const editUrl = `${SITE.github}/edit/main/web/src/content/docs/${slug}.${locale}.md`;
+
+const jsonLdBlocks = jsonLd ?? [];
+---
+
+<!doctype html>
+<html lang={HTML_LANG[locale]} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{entry.data.title} — Another Agent Skills</title>
+    <meta name="description" content={entry.data.description} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Apply theme + JS flag before paint (no flash). -->
+    <script is:inline>
+      (function () {
+        var doc = document.documentElement;
+        doc.setAttribute('data-js', 'true');
+        var theme;
+        try { theme = localStorage.getItem('aas-theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        doc.setAttribute('data-theme', theme);
+      })();
+    </script>
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+
+    <link rel="icon" href={`${BASE}favicon.svg`} type="image/svg+xml" />
+
+    <!-- Preload the above-the-fold fonts (Newsreader + JetBrains Mono, latin)
+         so the swap lands before first paint (reduces CLS). -->
+    <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoLatin} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Another Agent Skills" />
+    <meta property="og:title" content={entry.data.title} />
+    <meta property="og:description" content={entry.data.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:locale:alternate" content={locale === 'es' ? 'en_US' : 'es_ES'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={entry.data.description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={entry.data.title} />
+    <meta name="twitter:description" content={entry.data.description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={entry.data.description} />
+
+    <meta name="theme-color" content="#1A1A18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F2F0ED" media="(prefers-color-scheme: light)" />
+
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" is:inline set:html={jsonLdScript(block)} />
+    ))}
+  </head>
+  <body
+    data-menu-label={dict.a11y.menu}
+    data-menu-close-label={dict.a11y.menuClose}
+    data-copy-label={dict.a11y.copy}
+    data-copied-label={dict.a11y.copied}
+  >
+    <a href="#main" class="skip-link">{dict.nav.skip}</a>
+
+    <DocsHeader
+      locale={locale}
+      dict={dict}
+      homeHref={homeHref}
+      altHref={altHref}
+      altLocale={altLocale}
+      themeDark={landing.theme.dark}
+      themeLight={landing.theme.light}
+      breadcrumb={breadcrumb}
+      searchIndexUrl={docsSearchIndex(locale)}
+    />
+
+    <div class="docs-shell">
+      <DocsSidebar locale={locale} dict={dict} groups={groups} activeSlug={slug} />
+
+      <DocsToc dict={dict} headings={headings} />
+
+      <main class="docs-content" id="main">
+        <article class="docs-article">
+          <header class="docs-article__head">
+            <p class="docs-article__eyebrow">{sectionLabel}</p>
+            <h1 class="docs-title">{entry.data.title}</h1>
+            {entry.data.tldr && (
+              <p class="docs-tldr">
+                <span class="docs-tldr__label">TL;DR</span>
+                <span>{entry.data.tldr}</span>
+              </p>
+            )}
+          </header>
+
+          <Content />
+          <slot />
+        </article>
+
+        <DocsPager locale={locale} dict={dict} prev={prev} next={next} />
+
+        <p class="docs-edit">
+          <a href={editUrl} target="_blank" rel="noopener">
+            <Icon name="edit" />
+            <span>{dict.edit}</span>
+          </a>
+        </p>
+      </main>
+    </div>
+
+    <div class="docs-backdrop" data-backdrop hidden></div>
+
+    <script>
+      import '../scripts/docs.js';
+    </script>
+  </body>
+</html>

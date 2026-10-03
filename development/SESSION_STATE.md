@@ -1,11 +1,66 @@
-# Session State — Phase 9 COMPLETE: Distribution & Upgrades
+# Session State — Phase 10 COMPLETE: Public Web + v6.3.0 Release
 
-**Date:** 2026-10-02
-**Branch:** `chore/phase9-close-status` — branched from `origin/main` (Phase 9 fully merged via PRs #47–#52), NOT pushed
-**Status:** ✅ **Phase 9 COMPLETE.** Distribution is shipped: pinned/attested releases, the checksum-verified `curl` bootstrap, the `aas` CLI, portable projects, the npm wrapper, and Homebrew. Test suite: **91 suites** green. Version remains **6.2.0** (v6.3.0 release pending the maintainer's one-time npm/Homebrew steps).
+**Date:** 2026-10-03
+**Branch:** `feat/phase10-landing` — Phase 10 COMPLETE (10 commits); v6.3.0; NOT yet pushed/PR'd/merged/deployed
+**Status:** ✅ **Phase 10 COMPLETE (v6.3.0) on `feat/phase10-landing`.** The public Astro web in `web/` is shipped: a bilingual (EN/ES) landing + docs site, the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, an FAQ, a build-generated search index + sidebar, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD, hreflang, OG) and a WCAG 2.2 AA a11y gate (axe 0). The project is now **v6.3.0** (covers Phase 8 + 8.1 + 9 + 10). Test suite: core **104 suites** green + web **74 node + 85 e2e** (axe 0); Lighthouse 100/100/100/100 desktop. The PR/merge/tag/deploy and the npm/Homebrew activation are **gated** — see **Next tasks** below.
 **Plan:** `PLAN.md` — single source of truth
 
-## What Was Done (2026-10-02)
+## What Was Done (2026-10-03) — Phase 10
+
+1. **Phase 10 — public web (`web/`)**: Astro bilingual landing + docs; skills reference generated from `skills/*/SKILL.md` (`web/src/data/skills.json`, 57 skills / 151 guides); five Bloque E tutorials; FAQ; a build-generated search index + sidebar; SEO/AEO (canonical + hreflang, OG/Twitter, `sitemap-index.xml`, `robots.txt`, `llms.txt`, JSON-LD graph) and a Playwright + axe a11y gate.
+2. **Discoverability + review**: axe 0 across 30 pages × EN/ES × light/dark × 2 viewports; Lighthouse 100/100/100/100 desktop. 3 review iterations + an exhaustive review fixed the docs 404 links, the docs copy-button rejection, dead breadcrumb anchors, the absolute language link and the "more" chip sizing.
+3. **README overhaul + v6.3.0 sync**: a single "What's New in v6.3.0"; bumped `VERSION` to 6.3.0 and synchronized every current version surface (npm wrapper, `web/` footer + `config.ts`, README, `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, legacy `docs/`, mockups, `llms.txt`).
+4. **Guide count fixed**: the docs said "74 guides"; the real count is **151** (`skills/*/guides/*.md`). Adopted 151 in the core docs and made the web derive it from `web/src/data/skills.json`.
+5. **Release notes**: added the `RELEASE-NOTES.md` v6.3.0 section (Phase 8 + 8.1 + 9 + 10), honest about the pending maintainer steps and the un-deployed web.
+
+## Exact state (verified 2026-10-03)
+
+- **Branch:** `feat/phase10-landing` — **10 commits**; committed on the branch but **not pushed/PR'd/merged/deployed**.
+- **Tests:** core **104 suites passing** (`bash tests/run-all.sh`); web **74 node + 85 e2e** (axe 0).
+- **Quality:** Lighthouse **100/100/100/100** (desktop); axe **0** violations.
+- **Version:** `VERSION` = **6.3.0**; `npm/package.json` = 6.3.0.
+- Remote enforcement still live: branch protection on `main` requires the `gates` check.
+- OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
+- Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
+
+## Next tasks (resume here next session)
+
+**T1 — npm + Homebrew activation (maintainer, manual).** Reference: `docs/DISTRIBUTION.md`.
+
+```bash
+# after 2026-10-06 00:55 UTC (the npm suspension lifts)
+npm login
+npm profile enable-2fa auth-and-writes     # enable TOTP (the passkey is browser-only)
+cd npm && npm publish --access public      # first publish creates the package
+# then configure the Trusted Publisher on npmjs.com:
+#   GitHub Actions → juandelossantos / another-agent-skills / npm-publish.yml / npm-release
+```
+
+Homebrew: create the public **`homebrew-tap`** repo (`juandelossantos/homebrew-tap`), a **fine-grained PAT** (Contents: read/write), and set the **`HOMEBREW_TAP_TOKEN`** secret (optional `HOMEBREW_TAP_REPO` variable).
+
+**T2 — Web + docs update once LIVE.** After the GitHub Pages deploy is verified live: point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
+
+## Gated steps (require explicit approval — do NOT run unprompted)
+
+```bash
+# PR → merge → tag → deploy
+git push -u origin feat/phase10-landing
+gh pr create --fill
+# after review + merge:
+git tag v6.3.0 && git push origin v6.3.0   # release.yml builds/attests; npm-publish.yml (OIDC) publishes
+# GitHub Pages deploy of web/ is a separate gated step (maintainer manual)
+```
+
+## System state (verified 2026-10-03)
+
+- Phase 10 (public web) **complete on `feat/phase10-landing`**; **`VERSION` is 6.3.0** (covers Phase 8 + 8.1 + 9 + 10). npm/Homebrew activation and the web deploy await the gated steps above.
+- Remote enforcement still live: branch protection on `main` requires the `gates` check.
+- OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
+- Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
+- Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
+- Tests: **104 suites passing** (`bash tests/run-all.sh`) + web 74 node + 85 e2e.
+
+## What Was Done (2026-10-02) — Phase 9 (previous)
 
 1. **P9.1 — pinned, attested releases** (PR #50): `scripts/build-release.sh` builds `another-agent-skills-vX.Y.Z.tar.gz` + `checksums.txt`; `.github/workflows/release.yml` attests build provenance (`actions/attest-build-provenance`) and publishes the GitHub Release assets.
 2. **P9.2 — `bootstrap.sh`** (PR #49): one-line, pinned, checksum-verified install (never a mutable branch); `--version`/`--dry-run`/`--uninstall`; extracts to `$AAS_HOME/<version>` and links `~/.local/bin/aas`.
@@ -17,41 +72,7 @@
 8. **P9.6 — Homebrew** (PR #52): `scripts/build-brew-formula.sh` + an optional tap-update step in `release.yml`, gated on `HOMEBREW_TAP_TOKEN`.
 9. **This branch** refreshes `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, adds `docs/DISTRIBUTION.md`, links it from `README.md`, and adds/updates tests. Not committed, not pushed.
 
-## Pending Manual Steps (the maintainer's, not code)
-
-> Full detail: `docs/DISTRIBUTION.md`.
-
-- **npm — first publish is manual and currently BLOCKED.** The npm account `juandelossantos` is **temporarily suspended (read-only) until 2026-10-06 00:55 UTC** because a recovery code was used (the CLI 2FA challenge could not be satisfied — only a **passkey** is configured, and passkeys are browser-only). After it lifts:
-  1. `npm login`, then `npm profile enable-2fa auth-and-writes` (enable **TOTP** — the passkey does not work for the CLI); scan the QR with an authenticator app.
-  2. `cd npm && npm publish --access public` (first publish creates the package).
-  3. Configure the Trusted Publisher on npmjs.com: GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow `npm-publish.yml`, environment `npm-release`.
-  4. Optionally create the GitHub Environment `npm-release` with required reviewers.
-  - The OIDC publish syncs the npm version from `VERSION` and skips if already published, so future releases need no manual sync.
-- **Homebrew**: create `juandelossantos/homebrew-tap` (public), a fine-grained PAT (Contents: read/write), and set the `HOMEBREW_TAP_TOKEN` secret (+ optional `HOMEBREW_TAP_REPO` variable).
-
-## Next Steps (resume here next session)
-
-**Resume:**
-
-```bash
-git checkout main && git pull
-git checkout -b feat/phase10-landing
-```
-
-- **Phase 10 — landing/docs refresh (v6.4.0).** Surfaces still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent **+ distribution** value story, then sync ES/EN. Add SEO/AEO/a11y/discoverability (Bloque D) and the FAQ/user-guide block (Bloque E).
-- **Phase 11 — docs site (Astro + Starlight, v6.5.0).** SEO/AEO per language, search, sidebar/versioning, GitHub Pages; the core stays build-free.
-- **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
-
-**System state (verified 2026-10-02):**
-
-- Phase 9 merged to `main` via PRs #47–#52; `VERSION` still **6.2.0** (v6.3.0 pending the manual steps above).
-- Remote enforcement still live: branch protection on `main` requires the `gates` check.
-- OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
-- Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
-- Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
-- Tests: **91 suites passing** (`bash tests/run-all.sh`).
-
-> Below this section: the previous sessions' handoffs (Phase 8 closure, 2026-10-02, superseded above; and Claude Code Parity, 2026-08-26) — historical.
+> Below this section: the previous sessions' handoffs (Phase 9 distribution, 2026-10-02, superseded above; Phase 8 closure, 2026-10-02; and Claude Code Parity, 2026-08-26) — historical.
 
 ## What Was Done (2026-08-26)
 

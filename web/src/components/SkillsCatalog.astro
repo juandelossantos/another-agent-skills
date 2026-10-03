@@ -1,0 +1,112 @@
+---
+/*
+ * SkillsCatalog — the detailed, grouped reference rendered on the `skills`
+ * docs page. Data comes from `src/data/skills.json`, generated from the
+ * SKILL.md source of truth by `scripts/generate-skills.mjs`. Never hand-edit
+ * the dataset; edit the skills and re-run `npm run skills`.
+ */
+import { getDocsDictionary } from '../i18n/docs';
+import { SKILLS, localizeSkill, categoryLabel } from '../docs/skills';
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDocsDictionary(locale);
+
+const categories = SKILLS.categories
+  .map((category) => ({
+    ...category,
+    label: categoryLabel(category, locale),
+    desc: locale === 'es' ? category.esDesc : category.enDesc,
+    skills: SKILLS.skills.filter((skill) => skill.category === category.id),
+  }))
+  .filter((category) => category.skills.length > 0);
+---
+
+<section class="skills-catalog" aria-label={dict.skills.catalogLabel}>
+  {
+    categories.map((category) => (
+      <section class="skills-cat" id={`cat-${category.id}`} aria-labelledby={`cat-${category.id}-title`}>
+        <h2 class="skills-cat__title" id={`cat-${category.id}-title`}>
+          {category.label}
+          <span class="skills-cat__count">{category.skills.length}</span>
+        </h2>
+        <p class="skills-cat__desc">{category.desc}</p>
+
+        <ul class="skills-list">
+          {category.skills.map((skill) => {
+            const text = localizeSkill(skill, locale);
+            return (
+              <li class="skill" id={`skill-${skill.name}`}>
+                <div class="skill__head">
+                  <h3 class="skill__name">
+                    <code>{skill.name}</code>
+                  </h3>
+                  <span class="skill__tier">{skill.tier}</span>
+                </div>
+
+                <p class="skill__what">{text.what}</p>
+
+                <dl class="skill__meta">
+                  <div class="skill__row">
+                    <dt class="skill__term">{dict.skills.activatesWhen}</dt>
+                    <dd class="skill__def">
+                      <ul class="skill__chips">
+                        {text.triggers.map((trigger) => (
+                          <li class="skill__chip">{trigger}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+
+                  <div class="skill__row">
+                    <dt class="skill__term">{dict.skills.useItFor}</dt>
+                    <dd class="skill__def">
+                      <ul class="skill__list">
+                        {text.whenToUse.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+
+                  {text.whenNotToUse.length > 0 && (
+                    <div class="skill__row">
+                      <dt class="skill__term">{dict.skills.dontUseItFor}</dt>
+                      <dd class="skill__def">
+                        <ul class="skill__list skill__list--no">
+                          {text.whenNotToUse.map((item) => (
+                            <li>{item}</li>
+                          ))}
+                        </ul>
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+
+                <p class="skill__foot">
+                  <span class="skill__guides">
+                    {skill.guideCount}{' '}
+                    {skill.guideCount === 1 ? dict.skills.guidesOne : dict.skills.guidesMany}
+                  </span>
+                  <a
+                    class="skill__source"
+                    href={skill.docsUrl}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={`${dict.skills.sourceLabel}: ${skill.name}`}
+                  >
+                    {dict.skills.source}
+                  </a>
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))
+  }
+</section>

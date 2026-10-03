@@ -55,6 +55,10 @@ SKIP_PATTERNS=(
   '*.o' '*.class' '*.pyc'
   '.gitignore' '.env*'
   'SKILL.md'
+  # The web project (Astro) is a separate build for the public site + docs. It
+  # has its own test suite (web/tests: node:test + Playwright) run by its own CI,
+  # not this gate — and the core CI must never build it. Skip it here.
+  'web/*'
 )
 
 # ─── Helpers ───

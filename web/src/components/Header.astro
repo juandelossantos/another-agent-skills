@@ -1,0 +1,99 @@
+---
+import Icon from './Icon.astro';
+import { SITE } from '../config';
+import { docsHome } from '../docs/paths';
+import type { Dictionary, Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+  /** href of the same page in the other locale. */
+  altHref: string;
+  /** the other locale. */
+  altLocale: Locale;
+}
+
+const { locale, dict, altHref, altLocale } = Astro.props;
+
+const navItems = [
+  { href: '#flow', label: dict.nav.flow },
+  { href: '#harness', label: dict.nav.harness },
+  { href: '#loop', label: dict.nav.loop },
+  { href: '#enforcement', label: dict.nav.enforcement },
+  { href: '#skills', label: dict.nav.skills },
+  { href: '#workflows', label: dict.nav.workflows },
+  { href: '#faq', label: dict.nav.faq },
+];
+---
+
+<header class="header">
+  <nav class="header__nav container" aria-label={dict.a11y.primaryNav}>
+    <a href="#top" class="header__logo" aria-label={dict.a11y.home}>
+      <span class="header__logo-mark" aria-hidden="true">///</span>
+      <span class="header__logo-text">Another Agent Skills</span>
+    </a>
+    <ul class="header__links">
+      {navItems.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      <li><a href={docsHome(locale)}>{dict.nav.docs}</a></li>
+    </ul>
+    <div class="header__controls">
+      <a
+        class="header__control"
+        href={altHref}
+        hreflang={altLocale}
+        lang={altLocale}
+        aria-label={altLocale === 'es' ? dict.a11y.langToEs : dict.a11y.langToEn}
+      >
+        <Icon name="languages" />
+        <span>{altLocale.toUpperCase()}</span>
+      </a>
+      <button
+        class="header__control"
+        type="button"
+        data-action="theme"
+        aria-pressed="false"
+        data-theme-dark={dict.theme.dark}
+        data-theme-light={dict.theme.light}
+      >
+        <span class="header__control-icon" data-theme-icon aria-hidden="true">
+          <Icon name="moon" class="icon--moon" />
+          <Icon name="sun" class="icon--sun" />
+        </span>
+        <!-- The accessible name includes the visible target label, so it
+             satisfies WCAG 2.5.3 Label in Name (see the .visually-hidden note). -->
+        <span class="visually-hidden">{dict.a11y.theme}</span>
+        <span class="header__control-text" data-theme-text>
+          <span class="theme-label theme-label--dark">{dict.theme.dark}</span>
+          <span class="theme-label theme-label--light">{dict.theme.light}</span>
+        </span>
+      </button>
+      <button
+        class="header__hamburger"
+        type="button"
+        data-action="menu"
+        aria-label={dict.a11y.menu}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Icon name="menu" class="icon--menu" />
+        <Icon name="close" class="icon--close" />
+      </button>
+    </div>
+  </nav>
+  <div class="header__mobile" id="mobile-menu" data-mobile-menu aria-hidden="true">
+    <ul class="header__mobile-links">
+      {navItems.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      <li><a href={docsHome(locale)}>{dict.nav.docs}</a></li>
+      <li>
+        <a href={SITE.github} target="_blank" rel="noopener">
+          <span>{dict.nav.github}</span>
+          <Icon name="external-link" />
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>

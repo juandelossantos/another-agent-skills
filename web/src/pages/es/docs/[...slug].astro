@@ -1,0 +1,17 @@
+---
+import DocsPage from '../../../components/DocsPage.astro';
+import { getDocs, docSlug } from '../../../docs/nav';
+
+const locale = 'es' as const;
+
+export async function getStaticPaths() {
+  const docs = await getDocs('es');
+  return docs
+    .filter((entry) => docSlug(entry) !== 'overview')
+    .map((entry) => ({ params: { slug: docSlug(entry) } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<DocsPage locale={locale} slug={slug!} />

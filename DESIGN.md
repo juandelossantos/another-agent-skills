@@ -158,6 +158,101 @@ Footer (border-top, simple links)
 - Copy button: flash green 200ms, revert after 2s
 - `prefers-reduced-motion`: disable all transitions, keep nodes visible
 
+## Phase 10 — Landing Refresh (v6.3.0)
+
+**Direction: evolve the editorial-premium system above; do not replace it.** The category
+(Superpowers, `skills.addy.ie`) has converged on Geist-sans card grids — our serif + warm-dark
+editorial voice is the differentiator. Borrow the *structural* best of `skills.addy.ie`
+(lifecycle visual, phase chips, copy-command CTA, pillars, hue-per-phase) without copying its look.
+
+**The one thesis the page must land:** *Most skill libraries sell capability. We sell discipline
+you can verify.* Show the enforcement (a real blocked commit, the remote `gates` check), don't
+promise it.
+
+### Section plan (top → bottom)
+
+| # | Section | Job | Notes |
+|---|---|---|---|
+| 0 | Header | Nav + theme toggle + lang toggle | keeps current |
+| 1 | **Hero** | thesis + proof + primary CTA | **keep the terminal animation**; extend it (below) |
+| 2 | Problem | "agents default to the shortest path" | sharpen copy |
+| 3 | **Lifecycle / Flow** | the 6 phases DEFINE→SHIP, animated | new animation (see below) |
+| 4 | **Harness** | the 6 components, animated | new animation (see below) |
+| 5 | **The Loop** | self-improvement loop, animated | new animation (see below) |
+| 6 | **Enforcement (L1/L2/L3)** | the differentiator: show a blocked commit | the "wow" proof |
+| 7 | Compatibility | OpenCode · Claude Code · Cursor · Codex · Gemini · … | band of agents |
+| 8 | Skills catalog | phase-chipped cards, hue per phase | borrow structure |
+| 9 | Workflows | git/no-git/GitHub/git-later | **own style** (Phase 8.1 debt) |
+| 10 | FAQ | citable Q&A (AEO) | accordion, `FAQPage` JSON-LD |
+| 11 | Final CTA | one primary action | copy-command block |
+| 12 | Footer | links, license | |
+
+### The three animations (the visual explanation)
+
+All three are **seek-safe, CSS/JS only, no libraries**, and honor `prefers-reduced-motion`
+(static, fully-legible fallback). Each is a *diagram that develops over time*, not a one-shot entrance.
+
+1. **Flow (lifecycle)** — six phase nodes (DEFINE, PLAN, BUILD, VERIFY, REVIEW, SHIP) connected by
+   a path that **draws** as you scroll into view; each node lights up in turn with its command
+   (`/spec` … `/ship`) and a one-line "exit criteria". Hue-per-phase accent (see below).
+2. **Harness** — the 6 harness components (Instructions · Tools · Sandboxes · Orchestration ·
+   Guardrails · Observability) as a **stacked machine**: a task enters at the top and flows
+   through each layer, with the guardrails layer visibly **catching** a bad change (red → blocked).
+3. **Loop** — the self-improvement cycle (audit → diagnose → fix → ADR → repeat) as a **circular
+   orbit**; a "run" travels the ring, and a counter of "issues found → fixed" increments. Communicates
+   "the agent audits itself".
+
+### Hero evolution (keep + improve)
+
+Keep the current terminal typing animation and the lifecycle strip. Extend the terminal to show
+the **three real install channels** in sequence, then a multi-agent result:
+
+```
+~ $ git clone …/another-agent-skills && bash install.sh      # channel 1
+~ $ curl -fsSL …/releases/latest/download/bootstrap.sh | bash # channel 2 (pinned)
+~ $ npx @juandelossantos/another-agent-skills install         # channel 3
+  Detected: OpenCode · Claude Code · Cursor · Codex · Gemini
+  Installed 57 skills · wired the harness · armed the gates.
+  DONE. Run `init-agents` in any project.
+```
+
+The subtitle must stop saying "57 skills" as the headline claim and lead with the thesis.
+
+### Hue-per-phase (borrowed, adapted to our warm palette)
+
+Each lifecycle phase carries a hue used for its chip, node glow, and card accent — muted, never
+saturated, and WCAG-safe on both themes. (No purple; see bans.) Values live as `--h-<phase>` tokens.
+
+### Light & dark (first-class, eye-friendly)
+
+Both themes are equal citizens. Rules:
+- Body text ≥ 7:1 (AAA) in both; secondary ≥ 4.5:1.
+- **Soft reading:** line-height ≥ 1.7 for body, max-width ~68ch, no pure `#000`/`#fff`, low-contrast
+  hairlines, generous section padding.
+- Respect `prefers-color-scheme` on first load; the toggle persists.
+
+### Compatibility band
+
+A quiet, factual strip (not logos-we-don't-own): text chips of the agents we detect —
+OpenCode · Claude Code · Cursor · Codex · Gemini CLI · Copilot · Windsurf · Aider · … — with a
+"15 agents detected" count and a link to `docs/AGENT-ADAPTERS.md`. No third-party logos without permission.
+
+### Discoverability is a design concern (not an afterthought)
+
+- **SEO:** `sitemap.xml`, `robots.txt`, canonical, `hreflang` EN/ES, per-page meta/OG/Twitter, clean slugs.
+- **Structured data:** `SoftwareApplication`, `Organization`, `FAQPage`, `HowTo` (install), `BreadcrumbList`.
+- **AEO:** `llms.txt`; every section gets a one-line, citable **TL;DR**; FAQ answers are direct and
+  self-contained; facts (skill count, gates, license, install commands) are stated plainly.
+- **A11y:** WCAG 2.2 AA — visible focus, keyboard nav, landmarks, `aria-current`, alt text, reduced motion.
+- **Bilingual:** EN/ES parity; `lang` attributes correct per locale.
+
+### Phase 10 anti-patterns (in addition to the bans above)
+
+- ❌ Copying the Geist/Vercel look (we are editorial, not generic SaaS).
+- ❌ Animation that hides content when JS is off or `prefers-reduced-motion` is set.
+- ❌ Selling "57 skills" as the headline (the value is enforcement, not volume).
+- ❌ Promising npm/Homebrew install before those channels are live (label them "soon" honestly).
+
 ## Design Files
 
 - This file: `DESIGN.md` (design contract)

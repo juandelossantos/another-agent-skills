@@ -41,3 +41,10 @@ tests/playwright/test-results/
 
 # Another Agent Skills — local backups (framework)
 .aas/backups/
+
+# Astro web (Phase 10/11). The build lives ONLY in web/; the core stays build-free.
+web/node_modules
+web/dist
+web/.astro
+web/test-results
+web/playwright-report

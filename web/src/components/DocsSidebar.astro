@@ -1,0 +1,133 @@
+---
+import Icon from './Icon.astro';
+import { VERSION } from '../config';
+import { docsHref } from '../docs/paths';
+import type { DocEntry, DocGroup } from '../docs/nav';
+import { docSlug } from '../docs/nav';
+import { skillsSidebar } from '../docs/skills';
+import type { DocsDictionary } from '../i18n/docs';
+import type { Locale } from '../i18n';
+import { localePath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  dict: DocsDictionary;
+  groups: DocGroup[];
+  activeSlug: string;
+}
+
+const { locale, dict, groups, activeSlug } = Astro.props;
+const homeHref = localePath(locale, '');
+
+/*
+ * Every top-level section is a native <details> group, so the sidebar is
+ * uniform and works with JS off. The group holding the current page opens.
+ *
+ * The 57 skills are not a separate group: they hang off the Concepts → "Skills"
+ * item (the one place "Skills" appears). That item is an expandable link — the
+ * label navigates to the skills page, the chevron toggles the categories — built
+ * from the same dataset as the catalog and the search index.
+ */
+const skillGroups = skillsSidebar(locale);
+const skillsHref = docsHref(locale, 'skills');
+---
+
+<aside class="docs-sidebar" id="docs-sidebar" data-sidebar aria-label={dict.a11y.sidebar}>
+  <div class="docs-sidebar__head">
+    <a class="docs-sidebar__brand" href={homeHref} aria-label={dict.nav.home}>
+      <span class="header__logo-mark" aria-hidden="true">///</span>
+      <span class="docs-sidebar__brand-text">Another Agent Skills</span>
+    </a>
+    <p class="docs-sidebar__sub">{dict.nav.docs}</p>
+  </div>
+
+  <nav class="docs-nav" aria-label={dict.a11y.docsNav}>
+    {groups.map((group) => {
+      const label = dict.sections[group.id];
+      const groupActive = group.docs.some((entry) => docSlug(entry) === activeSlug);
+
+      return (
+        <details class="docs-nav__group" id={group.id} open={groupActive}>
+          <summary class="docs-nav__group-summary">
+            <Icon name="chevron-right" class="docs-nav__chevron" />
+            <span>{label}</span>
+          </summary>
+
+          <ul class="docs-nav__list">
+            {group.docs.map((entry: DocEntry) => {
+              const slug = docSlug(entry);
+              const active = slug === activeSlug;
+
+              // The Skills entry carries the 13 categories and the 57 skills.
+              if (slug === 'skills') {
+                return (
+                  <li class="docs-nav__branch">
+                    <a
+                      class:list={['docs-nav__link', 'docs-nav__link--branch', active && 'docs-nav__link--active']}
+                      href={skillsHref}
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      {entry.data.title}
+                    </a>
+
+                    <details class="docs-nav__branch-details" data-skills-group open={active}>
+                      <summary class="docs-nav__branch-summary">
+                        <span class="docs-nav__sr">{dict.skills.toggleLabel}</span>
+                        <Icon name="chevron-right" class="docs-nav__chevron" />
+                      </summary>
+
+                      <div class="docs-nav__skills">
+                        {skillGroups.map((category) => (
+                          <details class="docs-nav__cat" data-skill-category={category.id}>
+                            <summary class="docs-nav__cat-summary">
+                              <Icon name="chevron-right" class="docs-nav__cat-chevron" />
+                              <span class="docs-nav__cat-label">{category.label}</span>
+                              <span class="docs-nav__cat-count">{category.skills.length}</span>
+                            </summary>
+                            <ul class="docs-nav__list docs-nav__list--skills">
+                              {category.skills.map((skill) => (
+                                <li>
+                                  <a
+                                    class="docs-nav__link docs-nav__link--skill"
+                                    href={`${skillsHref}${skill.anchor}`}
+                                    data-skill-link={skill.name}
+                                  >
+                                    <code>{skill.name}</code>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </details>
+                        ))}
+                      </div>
+                    </details>
+                  </li>
+                );
+              }
+
+              return (
+                <li>
+                  <a
+                    class:list={['docs-nav__link', active && 'docs-nav__link--active']}
+                    href={docsHref(locale, slug)}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {entry.data.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
+      );
+    })}
+  </nav>
+
+  <div class="docs-sidebar__foot">
+    <span class="chip docs-version">
+      <span class="docs-version__dot" aria-hidden="true"></span>
+      <span>{VERSION}</span>
+    </span>
+    <span class="docs-sidebar__foot-label">{dict.versionLabel}</span>
+  </div>
+</aside>
