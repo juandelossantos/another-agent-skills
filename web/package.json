@@ -11,7 +11,7 @@
     "typecheck": "astro sync && tsc --noEmit",
     "og": "node scripts/generate-og.mjs",
     "preview": "astro preview",
-    "test": "npm run build && node --test tests/build.test.mjs tests/seo.test.mjs tests/skills.test.mjs",
+    "test": "npm run build && node --test tests/build.test.mjs tests/seo.test.mjs tests/skills.test.mjs tests/deploy-workflow.test.mjs",
     "test:e2e": "npm run build && playwright test",
     "test:all": "npm test && npm run test:e2e"
   },

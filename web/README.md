@@ -229,6 +229,49 @@ HTML card with the self-hosted fonts inlined as data URIs. Regenerate with
 `npm run og`. The landing and docs reference it with absolute URLs through
 `og:image` / `twitter:image`.
 
+## Deploy
+
+The site is published to GitHub Pages by
+[`.github/workflows/deploy-web.yml`](../.github/workflows/deploy-web.yml) — a
+workflow **separate from the core CI** (the core `gates` workflow never builds
+`web/`; see the boundary rule above).
+
+- **Trigger:** every push to `main`, plus manual `workflow_dispatch`.
+- **build** — `npm ci` + `npm run build` in `web/`, then uploads `web/dist` as
+  the Pages artifact (Node 24, npm cache keyed on `web/package-lock.json`).
+- **deploy** — publishes the artifact to the `github-pages` environment with
+  `actions/deploy-pages@v4`.
+- **verify** — a post-deploy job curls the **live** site and fails the run if a
+  page does not return `200`: the EN landing, the ES landing (`/es/`), the docs
+  (`/docs/`), a tutorial (`/docs/first-gated-commit/`) and `sitemap-index.xml`.
+  It retries with backoff (Pages/CDN lag) but ultimately fails loudly.
+
+### One-time Pages source switch (required)
+
+GitHub Pages must build from **GitHub Actions**:
+
+> **Settings → Pages → Build and deployment → Source: GitHub Actions**
+
+This repo currently uses `build_type: legacy` (source `main`, path `/`), which
+serves the OLD static site at the repository root. Switching the source to
+"GitHub Actions" **replaces that legacy root site** with the Astro `web/dist`
+output at `https://juandelossantos.github.io/another-agent-skills/`.
+
+`actions/configure-pages` is used with `enablement: true`, but that only
+**creates** a Pages site when none exists — it does **not** migrate an
+already-enabled legacy site to the Actions source. So this switch is a one-time
+human step; until it is done, the `deploy` step (and the `verify` job) fail
+loudly.
+
+### Known deploy gap (F5)
+
+GitHub Pages **ignores `_headers`**, so the `Cache-Control` directive in the
+repo-root `_headers` file does not apply to the deployed site — and there is no
+CSP or HSTS on Pages. Decide between a
+`<meta http-equiv="Content-Security-Policy">` (limited: no HSTS, no
+`frame-ancestors`) or fronting Pages with a CDN (e.g. Cloudflare) that can set
+real response headers. Tracked in `PLAN.md`.
+
 ## Known follow-ups
 
 - The docs site is bilingual and complete for the current pages. The landing's
