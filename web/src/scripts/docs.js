@@ -52,7 +52,9 @@
     var text = themeBtn.querySelector('[data-theme-text]');
     var dark = themeBtn.getAttribute('data-theme-dark') || 'Dark';
     var light = themeBtn.getAttribute('data-theme-light') || 'Light';
-    if (text) text.textContent = theme === 'dark' ? dark : light;
+    // The label names the mode you would switch TO, not the current one.
+    if (text) text.textContent = theme === 'dark' ? light : dark;
+    // aria-pressed reflects the actual current state (light theme active).
     themeBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
   }
 
@@ -111,18 +113,20 @@
   }
 
   function highlight(text, q) {
-    var safe = escapeHtml(text);
-    if (!q) return safe;
-    var lower = safe.toLowerCase();
+    // Match on the raw text and escape each slice separately, so a match can
+    // never split an HTML entity (`&amp;`) and corrupt the output.
+    var raw = String(text);
+    if (!q) return escapeHtml(raw);
+    var lower = raw.toLowerCase();
     var ql = q.toLowerCase();
     var out = '';
     var i = 0;
     while (true) {
       var j = lower.indexOf(ql, i);
-      if (j === -1) { out += safe.slice(i); break; }
-      out += safe.slice(i, j) + '<mark>' + safe.slice(j, j + ql.length) + '</mark>';
+      if (j === -1) { out += escapeHtml(raw.slice(i)); break; }
+      out += escapeHtml(raw.slice(i, j)) + '<mark>' + escapeHtml(raw.slice(j, j + ql.length)) + '</mark>';
       i = j + ql.length;
-      if (i >= safe.length) break;
+      if (i >= raw.length) break;
     }
     return out;
   }
@@ -411,6 +415,23 @@
   }
 
   /* =========================================================
+     Scroll container for wide tables (progressive enhancement)
+     ========================================================= */
+
+  function decorateTables() {
+    var tables = document.querySelectorAll('.docs-content table');
+    Array.prototype.forEach.call(tables, function (table) {
+      if (table.parentElement && table.parentElement.classList.contains('docs-table-wrap')) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'docs-table-wrap';
+      // Focusable so keyboard users can scroll a wide table (WCAG 2.1.1).
+      wrap.setAttribute('tabindex', '0');
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+  }
+
+  /* =========================================================
      Init
      ========================================================= */
 
@@ -419,6 +440,7 @@
     initSearch();
     initToc();
     decorateCodeBlocks();
+    decorateTables();
 
     document.addEventListener('click', function (e) {
       var target = e.target.closest('[data-action]');

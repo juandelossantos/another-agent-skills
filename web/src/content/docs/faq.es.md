@@ -17,7 +17,7 @@ Una vez por máquina. El instalador coloca las skills de forma global, y cualqui
 
 ## ¿Funciona en Windows, macOS y Linux?
 
-Sí. El instalador es POSIX primero y funciona en Linux y macOS. En Windows, usa Git for Windows (Git Bash); `install.ps1` ofrece paridad con Claude Code. El wrapper de npm es la ruta portable para usuarios de Node.
+Sí. El instalador es POSIX primero y funciona en Linux y macOS. En Windows, usa Git for Windows (Git Bash); `install.ps1` ofrece paridad con Claude Code. El wrapper de npm (próximamente) es la ruta portable para usuarios de Node.
 
 ## Un compañero clona mi proyecto y no tiene el framework. ¿Se rompe?
 
@@ -65,4 +65,4 @@ El Harness es todo lo que rodea al modelo y convierte la inteligencia bruta en s
 
 ## ¿Cómo lo instalo?
 
-Tres canales. Clona y ejecuta `install.sh`, o usa el bootstrap `curl` fijado del último release, o instala mediante npm. Después ejecuta `init-agents` en cualquier proyecto. Git, curl y npm están disponibles; Homebrew llegará pronto. Ver [Primeros pasos](../getting-started/).
+Clona y ejecuta `install.sh`, o usa el bootstrap `curl` fijado del último release. Git y curl están disponibles hoy; el wrapper de npm y Homebrew llegan pronto. Después ejecuta `init-agents` en cualquier proyecto. Ver [Primeros pasos](../getting-started/).

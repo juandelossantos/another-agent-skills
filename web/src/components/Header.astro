@@ -62,7 +62,10 @@ const navItems = [
           <Icon name="moon" class="icon--moon" />
           <Icon name="sun" class="icon--sun" />
         </span>
-        <span class="header__control-text" data-theme-text>{dict.theme.dark}</span>
+        <span class="header__control-text" data-theme-text>
+          <span class="theme-label theme-label--dark">{dict.theme.dark}</span>
+          <span class="theme-label theme-label--light">{dict.theme.light}</span>
+        </span>
       </button>
       <button
         class="header__hamburger"

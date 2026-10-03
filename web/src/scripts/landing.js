@@ -24,7 +24,9 @@
     var text = btn.querySelector('[data-theme-text]');
     var dark = btn.getAttribute('data-theme-dark') || 'Dark';
     var light = btn.getAttribute('data-theme-light') || 'Light';
-    if (text) text.textContent = theme === 'dark' ? dark : light;
+    // The label names the mode you would switch TO, not the current one.
+    if (text) text.textContent = theme === 'dark' ? light : dark;
+    // aria-pressed reflects the actual current state (light theme active).
     btn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
   }
 
@@ -268,9 +270,7 @@
       setTimeout(function () { btn.removeAttribute('data-copied'); }, 2000);
     }
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, done);
-    } else {
+    function fallback() {
       var ta = document.createElement('textarea');
       ta.value = text;
       ta.style.position = 'fixed';
@@ -280,6 +280,14 @@
       try { document.execCommand('copy'); } catch (e) {}
       document.body.removeChild(ta);
       done();
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      // Only show "copied" on success; on failure fall back to execCommand
+      // instead of reporting a false success.
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
     }
   }
 

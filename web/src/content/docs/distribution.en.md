@@ -1,6 +1,6 @@
 ---
 title: "Distribution and upgrades"
-description: "How Another Agent Skills reaches users: git clone, the pinned curl bootstrap, the aas CLI, npm, and Homebrew, plus how upgrades work."
+description: "How Another Agent Skills reaches users: git clone, the pinned curl bootstrap, the aas CLI, and the planned npm and Homebrew channels, plus how upgrades work."
 lang: "en"
 order: 21
 section: "reference"
@@ -18,8 +18,8 @@ Distribution is pinned to an immutable release, never a mutable branch. Every ch
 | `git clone` | Contributors | Clone the repo and run `bash install.sh` | - |
 | Pinned `curl` bootstrap | One-line install (Linux, macOS, Git Bash) | Downloads the pinned tarball, verifies the checksum, links the `aas` CLI | Fetches `main` |
 | `aas` CLI | Day-to-day use after bootstrap | `install`, `upgrade`, `doctor`, `uninstall` | Fetches `main` |
-| npm wrapper | Node-adjacent users | `npx @juandelossantos/another-agent-skills install` | Ships no payload |
-| Homebrew | macOS and Linux Homebrew users | `brew install juandelossantos/tap/another-agent-skills` | Builds from source |
+| npm wrapper (coming soon) | Node-adjacent users | `npx @juandelossantos/another-agent-skills install` | Ships no payload |
+| Homebrew (coming soon) | macOS and Linux Homebrew users | `brew install juandelossantos/tap/another-agent-skills` | Builds from source |
 
 ## Install with the bootstrap
 
@@ -40,13 +40,15 @@ aas uninstall                 # remove the CLI, install root, and PATH entry
 
 `--agents auto|all|<list>` selects which detected agents to install into. `auto` prompts only when stdin is a TTY, so CI never blocks.
 
-## npm and Homebrew
+## npm and Homebrew (coming soon)
 
 ```bash
 npx @juandelossantos/another-agent-skills install
-npx @juandelossantos/another-agent-skills install --version v6.3.0
+npx @juandelossantos/another-agent-skills install --version v6.2.0
 brew install juandelossantos/tap/another-agent-skills
 ```
+
+> Both channels are **coming soon**. Use `git clone` or the pinned `curl` bootstrap today.
 
 The npm package contains only `cli.js` and a README. It downloads the release tarball and `checksums.txt`, verifies the sha256 with `node:crypto`, and delegates to the release's own `bootstrap.sh`, so install logic lives in exactly one place. The Homebrew formula points at the same immutable tarball.
 

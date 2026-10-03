@@ -29,7 +29,7 @@ La idea central es simple. Una regla que vive solo en un archivo es una sugerenc
 | Componentes del harness | 6 |
 | Enforcement | L1 hooks locales, L2 check `gates` requerido, L3 `CODEOWNERS` |
 | Licencia | MIT |
-| Canales de instalación | `git clone`, bootstrap `curl` fijado, wrapper de npm, Homebrew |
+| Canales de instalación | `git clone` y bootstrap `curl` fijado (activos); wrapper de npm y Homebrew (próximamente) |
 | Agentes | OpenCode primero, portable a Claude Code, Cursor, Codex, Gemini CLI, Copilot y cualquier agente que lea `AGENTS.md` |
 
 ## A dónde ir ahora

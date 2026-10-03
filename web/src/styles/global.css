@@ -436,9 +436,13 @@ code { font-family: var(--font-mono); }
 .header__control-text { display: none; }
 .header__control .icon { width: 14px; height: 14px; }
 .header__control-icon { display: inline-flex; }
-/* Theme icon: one Lucide glyph per theme, chosen in CSS (no JS needed). */
-[data-theme='dark'] .icon--sun { display: none; }
-[data-theme='light'] .icon--moon { display: none; }
+/* Theme icon: show the glyph for the mode you would switch TO (no JS needed). */
+[data-theme='dark'] .icon--moon { display: none; }
+[data-theme='light'] .icon--sun { display: none; }
+/* Theme label mirrors the icon, so the pre-JS label matches the target and
+   respects the pre-paint theme (both labels are in the DOM, one is hidden). */
+[data-theme='dark'] .theme-label--dark { display: none; }
+[data-theme='light'] .theme-label--light { display: none; }
 @media (min-width: 640px) { .header__control-text { display: inline; } }
 
 .header__hamburger {

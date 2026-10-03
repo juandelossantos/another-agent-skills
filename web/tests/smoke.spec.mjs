@@ -114,6 +114,27 @@ test.describe('reduced motion', () => {
   });
 });
 
+test.describe('no JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('landing content stays visible and static', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('h1')).toContainText('Turn AI agents into');
+    await expect(page.locator('#enforcement')).toBeVisible();
+    await expect(page.locator('.flow__node').first()).toBeVisible();
+    // The terminal output is only hidden by JS; without JS it must be visible.
+    await expect(page.locator('.terminal__output')).toBeVisible();
+  });
+
+  test('docs shell stays visible and the search stays a plain input', async ({ page }) => {
+    await page.goto('docs/enforcement/');
+    await expect(page.locator('.docs-sidebar')).toBeVisible();
+    await expect(page.locator('h1.docs-title')).toContainText('Enforcement');
+    await expect(page.locator('.docs-content')).toBeVisible();
+    await expect(page.locator('#docs-search-panel')).toBeHidden();
+  });
+});
+
 /* ------------------------------------------------------------------ *
  * Docs site smoke
  * ------------------------------------------------------------------ */
@@ -285,4 +306,109 @@ test.describe('discoverability', () => {
     await expect(page.locator('[data-search-item]').first()).toBeVisible();
   });
 });
+
+/* ------------------------------------------------------------------ *
+ * Theme toggle advertises the TARGET mode (label + icon), not the
+ * current one. aria-pressed still reflects the current state.
+ * ------------------------------------------------------------------ */
+
+const THEME_CASES = [
+  { name: 'landing EN', path: './', toDark: 'Dark', toLight: 'Light' },
+  { name: 'landing ES', path: 'es/', toDark: 'Oscuro', toLight: 'Claro' },
+  { name: 'docs EN', path: 'docs/enforcement/', toDark: 'Dark', toLight: 'Light' },
+  { name: 'docs ES', path: 'es/docs/enforcement/', toDark: 'Oscuro', toLight: 'Claro' },
+];
+
+for (const c of THEME_CASES) {
+  test(`${c.name}: theme toggle names the target mode`, async ({ page }) => {
+    await page.addInitScript(() => {
+      try {
+        localStorage.setItem('aas-theme', 'light');
+      } catch {
+        /* ignore */
+      }
+    });
+    await page.goto(c.path);
+
+    const html = page.locator('html');
+    const btn = page.locator('[data-action="theme"]').first();
+    const text = btn.locator('[data-theme-text]');
+
+    // Light mode: the current state is light (aria-pressed), the label and
+    // icon advertise the target (dark).
+    await expect(html).toHaveAttribute('data-theme', 'light');
+    await expect(btn).toHaveAttribute('aria-pressed', 'true');
+    await expect(text).toHaveText(c.toDark);
+    await expect(btn.locator('.icon--moon')).toBeVisible();
+    await expect(btn.locator('.icon--sun')).toBeHidden();
+
+    // Switch to dark: the target becomes light.
+    await btn.click();
+    await expect(html).toHaveAttribute('data-theme', 'dark');
+    await expect(btn).toHaveAttribute('aria-pressed', 'false');
+    await expect(text).toHaveText(c.toLight);
+    await expect(btn.locator('.icon--sun')).toBeVisible();
+    await expect(btn.locator('.icon--moon')).toBeHidden();
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * Docs never break words mid-word; wide tables scroll instead.
+ * ------------------------------------------------------------------ */
+
+const TABLE_PAGES = [
+  { name: 'docs EN', path: 'docs/agents/' },
+  { name: 'docs ES', path: 'es/docs/agents/' },
+];
+
+for (const p of TABLE_PAGES) {
+  test(`${p.name}: no aggressive word-breaking in prose, lists, code or tables`, async ({ page }) => {
+    await page.goto(p.path);
+
+    // Nothing in the rendered docs may use the aggressive modes.
+    const aggressive = await page.evaluate(() => {
+      const bad = [];
+      document.querySelectorAll('.docs-content *').forEach((el) => {
+        const cs = getComputedStyle(el);
+        if (cs.wordBreak === 'break-all' || cs.overflowWrap === 'anywhere' || cs.hyphens === 'auto') {
+          bad.push(`${el.tagName}.${el.className} => ${cs.wordBreak} / ${cs.overflowWrap} / ${cs.hyphens}`);
+        }
+      });
+      return bad;
+    });
+    expect(aggressive).toEqual([]);
+
+    // Prose, lists, inline code and table cells break only at word boundaries.
+    const prose = await page.evaluate(() => {
+      const sel = '.docs-content p, .docs-content li, .docs-content th, .docs-content td, .docs-content code:not(pre code)';
+      return Array.from(document.querySelectorAll(sel)).map((el) => {
+        const cs = getComputedStyle(el);
+        return { tag: el.tagName, wordBreak: cs.wordBreak, overflowWrap: cs.overflowWrap };
+      });
+    });
+    expect(prose.length).toBeGreaterThan(0);
+    for (const s of prose) {
+      expect(s.wordBreak, `${s.tag} word-break`).toBe('normal');
+      expect(s.overflowWrap, `${s.tag} overflow-wrap`).toBe('break-word');
+    }
+  });
+
+  test(`${p.name}: wide tables scroll with 0 horizontal page overflow at 390px`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(p.path);
+
+    const overflow = await page.evaluate(() => {
+      const doc = document.documentElement;
+      return doc.scrollWidth - doc.clientWidth;
+    });
+    expect(overflow).toBeLessThanOrEqual(1);
+
+    // The rendered table is wrapped and scrolls horizontally rather than
+    // squeezing its columns into mid-word breaks.
+    const wrap = page.locator('.docs-table-wrap').first();
+    await expect(wrap).toBeVisible();
+    const scrolls = await wrap.evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+    expect(scrolls).toBe(true);
+  });
+}
 

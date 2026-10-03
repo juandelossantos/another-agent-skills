@@ -29,7 +29,7 @@ The core idea is simple. A rule that lives only in a file is a suggestion. A rul
 | Harness components | 6 |
 | Enforcement | L1 local hooks, L2 required `gates` check, L3 `CODEOWNERS` |
 | License | MIT |
-| Install channels | `git clone`, pinned `curl` bootstrap, npm wrapper, Homebrew |
+| Install channels | `git clone` and pinned `curl` bootstrap (live); npm wrapper and Homebrew (coming soon) |
 | Agents | OpenCode first, portable to Claude Code, Cursor, Codex, Gemini CLI, Copilot, and any agent that reads `AGENTS.md` |
 
 ## Where to go next

@@ -3,6 +3,10 @@ import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import '../styles/docs.css';
+// Above-the-fold fonts, preloaded so the swap happens before first paint and
+// the shell does not reflow (Lighthouse CLS).
+import monoLatin from '../styles/fonts/0a7197f9e2.woff2?url';
+import serifLatin from '../styles/fonts/f24c321523.woff2?url';
 
 import DocsHeader from '../components/DocsHeader.astro';
 import DocsSidebar from '../components/DocsSidebar.astro';
@@ -96,6 +100,11 @@ const jsonLdBlocks = jsonLd ?? [];
     <link rel="alternate" hreflang="x-default" href={enHref} />
 
     <link rel="icon" href={`${BASE}favicon.svg`} type="image/svg+xml" />
+
+    <!-- Preload the above-the-fold fonts (Newsreader + JetBrains Mono, latin)
+         so the swap lands before first paint (reduces CLS). -->
+    <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoLatin} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Another Agent Skills" />

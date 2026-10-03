@@ -117,6 +117,20 @@ test('built assets are served under the configured base', () => {
   assert.ok(!/href="\/_astro\//.test(html), 'asset URL missing the base prefix');
 });
 
+test('the above-the-fold fonts are preloaded (CLS guard)', () => {
+  // Without preload the web-font swap reflows the hero terminal and the
+  // landing CLS jumps from ~0.006 to ~0.185 (Lighthouse Performance < 95).
+  for (const rel of ['index.html', 'es/index.html', 'docs/enforcement/index.html']) {
+    const html = read(rel);
+    const preloads = [...html.matchAll(/<link rel="preload"[^>]*as="font"[^>]*>/g)];
+    assert.ok(preloads.length >= 2, `${rel} does not preload the critical fonts`);
+    for (const p of preloads) {
+      assert.match(p[0], /type="font\/woff2"/, `${rel} preload is not a woff2 font`);
+      assert.match(p[0], new RegExp(`${BASE}/_astro/`), `${rel} preload is missing the base prefix`);
+    }
+  }
+});
+
 test('dist directory resolved', () => {
   assert.ok(existsSync(DIST), `dist not found at ${DIST}`);
 });
@@ -344,6 +358,36 @@ test('FAQ answers the Bloque E questions E1-E8 in EN and ES', () => {
   assert.match(es, /release nuevo/);
   assert.match(es, /L1, L2 y L3/);
   assert.match(es, /configuraciones de git y GitHub/);
+});
+
+test('install channels are honest: npm and Homebrew are coming soon, not live', () => {
+  // The npm package and the Homebrew tap do not exist yet (both 404 as of
+  // 2026-10-03; npm/Homebrew activation is a manual, post-2026-10-06 step, see
+  // INTENT.md). The landing marks them "soon"; the docs must not contradict it.
+  const EN = [
+    'docs/index.html',
+    'docs/getting-started/index.html',
+    'docs/faq/index.html',
+    'docs/distribution/index.html',
+  ];
+  const ES = [
+    'es/docs/index.html',
+    'es/docs/getting-started/index.html',
+    'es/docs/faq/index.html',
+    'es/docs/distribution/index.html',
+  ];
+  for (const rel of EN) {
+    const html = read(rel);
+    assert.doesNotMatch(html, /npm (?:wrapper )?is (?:also )?available/i, `${rel} claims npm is available`);
+    assert.doesNotMatch(html, /Git, curl, and npm are available/i, `${rel} claims npm is available`);
+    assert.match(html, /coming soon/i, `${rel} does not mark npm/Homebrew as coming soon`);
+  }
+  for (const rel of ES) {
+    const html = read(rel);
+    assert.doesNotMatch(html, /wrapper de npm (?:también )?est[áa] disponible/i, `${rel} claims npm is available`);
+    assert.doesNotMatch(html, /Git, curl y npm est[áa]n disponibles/i, `${rel} claims npm is available`);
+    assert.match(html, /pronto|próximamente/i, `${rel} does not mark npm/Homebrew as coming soon`);
+  }
 });
 
 test('landing Docs links resolve to the in-site docs routes (base + locale aware)', () => {
