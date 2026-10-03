@@ -57,6 +57,24 @@ jobs:
             exit 1
           fi
 
+      - name: Sync package.json version from VERSION
+        run: |
+          set -euo pipefail
+          V="$(tr -d '[:space:]' < VERSION)"
+          node -e "const fs=require('fs');const p='npm/package.json';const j=JSON.parse(fs.readFileSync(p));j.version=process.argv[1];fs.writeFileSync(p,JSON.stringify(j,null,2)+'\n')" "$V"
+          echo "npm package version = ${V}"
+
+      - name: Skip if this version is already on npm
+        id: check
+        run: |
+          set -euo pipefail
+          V="$(node -p "require('./npm/package.json').version")"
+          if npm view "@juandelossantos/another-agent-skills@${V}" version >/dev/null 2>&1; then
+            echo "already=true" >> "$GITHUB_OUTPUT"
+            echo "@juandelossantos/another-agent-skills@${V} already exists — nothing to publish."
+          fi
+
       - name: Publish to npm (OIDC)
+        if: steps.check.outputs.already != 'true'
         working-directory: npm
         run: npm publish --access public
