@@ -205,9 +205,9 @@ function sidebarNav(rel) {
 test('sidebar: every top-level section is a uniform collapsible <details>', () => {
   for (const rel of ['docs/skills/index.html', 'es/docs/skills/index.html']) {
     const nav = sidebarNav(rel);
-    const groups = [...nav.matchAll(/<details class="docs-nav__group"( open)?>/g)];
+    const groups = [...nav.matchAll(/<details class="docs-nav__group"([^>]*)>/g)];
     assert.equal(groups.length, 5, `${rel}: expected five top-level sections`);
-    assert.equal(groups.filter((m) => m[1]).length, 1, `${rel}: exactly the active section is open`);
+    assert.equal(groups.filter((m) => /\bopen\b/.test(m[1])).length, 1, `${rel}: exactly the active section is open`);
     assert.equal((nav.match(/docs-nav__section/g) ?? []).length, 0, `${rel}: plain labels remain`);
   }
 });

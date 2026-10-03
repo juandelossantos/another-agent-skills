@@ -15,7 +15,7 @@ You do not need git to start. The framework works in a plain folder, then grows 
 
 ## Before you start
 
-- The framework installed once on your machine (see [Your first gated commit](first-gated-commit/)).
+- The framework installed once on your machine (see [Your first gated commit](../first-gated-commit/)).
 - An agent that reads `AGENTS.md`.
 
 ## 1. Start with no git (convention only)
@@ -77,7 +77,7 @@ Now the project can use the remote workflow, so the installer writes it:
       bash scripts/setup-branch-protection.sh             # apply
 ```
 
-Commit and push the workflow, then finish with [Wire the remote enforcement](wire-remote-enforcement/).
+Commit and push the workflow, then finish with [Wire the remote enforcement](../wire-remote-enforcement/).
 
 ## The re-run rule
 
@@ -85,12 +85,12 @@ Commit and push the workflow, then finish with [Wire the remote enforcement](wir
 |---|---|---|
 | No git | Convention only (rules, skills, `AGENTS.md`) | `git init`, re-run `init-agents` |
 | Local git | L1 hooks only | Add a GitHub remote, re-run `init-agents` |
-| Git + GitHub | Full L1 + L2 + L3 | See [Wire the remote enforcement](wire-remote-enforcement/) |
+| Git + GitHub | Full L1 + L2 + L3 | See [Wire the remote enforcement](../wire-remote-enforcement/) |
 | Git later | Grows as layers appear | Re-run `init-agents` after each layer |
 
 The re-run is safe and idempotent: it never duplicates its own entries and never overwrites your `AGENTS.md` rules.
 
 ## Next
 
-- [Migrate a legacy project](migrate-a-legacy-project/) if you inherited a folder that already used the framework.
+- [Migrate a legacy project](../migrate-a-legacy-project/) if you inherited a folder that already used the framework.
 - [Branch protection](../branch-protection/) has the full table of git/GitHub flows.

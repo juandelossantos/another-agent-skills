@@ -19,7 +19,7 @@ Local hooks are fast feedback, not authority: the committer can repoint or edit 
 - The `gh` CLI authenticated with **admin** rights on the repository.
 - `jq` on `PATH`.
 
-If your project is not on GitHub yet, do [Start without git, add it later](no-git-and-later-git/) first.
+If your project is not on GitHub yet, do [Start without git, add it later](../no-git-and-later-git/) first.
 
 ## 1. Commit the gates workflow
 

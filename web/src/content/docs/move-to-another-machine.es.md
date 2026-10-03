@@ -72,7 +72,7 @@ Si el framework instalado difiere de la versión fijada por el proyecto, recibes
 [aas] advisory: project pins v6.2.0, framework v6.3.0 is installed — run "aas upgrade" then "init-agents --repair" (non-blocking)
 ```
 
-Ejecuta `aas upgrade` para avanzar y después `init-agents --repair` para migrar el proyecto. Ver [Migra un proyecto heredado](migrate-a-legacy-project/).
+Ejecuta `aas upgrade` para avanzar y después `init-agents --repair` para migrar el proyecto. Ver [Migra un proyecto heredado](../migrate-a-legacy-project/).
 
 ## Si no funciona
 

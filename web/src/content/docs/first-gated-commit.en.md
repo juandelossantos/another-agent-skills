@@ -101,5 +101,5 @@ The commit is created. This is the core rule of the framework: a code change wit
 
 ## Next
 
-- [Wire the remote enforcement](wire-remote-enforcement/) so the same rule applies in CI, not just on your machine.
+- [Wire the remote enforcement](../wire-remote-enforcement/) so the same rule applies in CI, not just on your machine.
 - [Enforcement (L1/L2/L3)](../enforcement/) explains why local hooks are feedback and the remote `gates` check is the authority.

@@ -19,7 +19,7 @@ Los hooks locales son feedback rápido, no autoridad: quien hace el commit puede
 - La CLI `gh` autenticada con permisos de **administrador** en el repositorio.
 - `jq` en el `PATH`.
 
-Si tu proyecto todavía no está en GitHub, haz primero [Empieza sin git y agrégalo después](no-git-and-later-git/).
+Si tu proyecto todavía no está en GitHub, haz primero [Empieza sin git y agrégalo después](../no-git-and-later-git/).
 
 ## 1. Haz commit del workflow gates
 

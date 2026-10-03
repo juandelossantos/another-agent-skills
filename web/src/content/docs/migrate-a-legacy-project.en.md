@@ -15,7 +15,7 @@ A project that used an older framework layout may hold absolute symlinks that br
 
 ## Before you start
 
-- The framework installed once on your machine (see [Your first gated commit](first-gated-commit/)).
+- The framework installed once on your machine (see [Your first gated commit](../first-gated-commit/)).
 - The project with `AGENTS.md`, `STACK_CONFIG.md`, or framework symlinks from an older setup.
 
 ## 1. Diagnose the environment
@@ -103,5 +103,5 @@ Your team's `AGENTS.md` content is merged, never replaced: the installer backs u
 
 ## Next
 
-- [Move to another machine](move-to-another-machine/) for the same portability story across computers.
+- [Move to another machine](../move-to-another-machine/) for the same portability story across computers.
 - [Distribution and upgrades](../distribution/) documents `aas upgrade` and the drift advisory.

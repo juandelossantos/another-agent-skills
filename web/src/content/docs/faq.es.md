@@ -41,7 +41,7 @@ L1 son hooks de git locales para feedback rápido y orientativo. L2 es un check 
 
 ## ¿Qué configuraciones de git y GitHub se admiten?
 
-Cuatro flujos, y el framework funciona en todos. **Sin git:** solo convención (reglas, skills, `AGENTS.md`); ejecuta `git init` y vuelve a ejecutar `init-agents` para agregar los hooks locales. **Git local:** solo hooks de L1, sin compuerta remota. **Git y GitHub:** L1, L2 y L3 completos. **Git después:** las capas crecen a medida que aparecen; vuelve a ejecutar `init-agents` después de `git init` y después de agregar el remoto, porque instala cada capa de forma condicional. Paso a paso: [Empieza sin git y agrégalo después](../no-git-and-later-git/) y [Conecta el enforcement remoto](wire-remote-enforcement/).
+Cuatro flujos, y el framework funciona en todos. **Sin git:** solo convención (reglas, skills, `AGENTS.md`); ejecuta `git init` y vuelve a ejecutar `init-agents` para agregar los hooks locales. **Git local:** solo hooks de L1, sin compuerta remota. **Git y GitHub:** L1, L2 y L3 completos. **Git después:** las capas crecen a medida que aparecen; vuelve a ejecutar `init-agents` después de `git init` y después de agregar el remoto, porque instala cada capa de forma condicional. Paso a paso: [Empieza sin git y agrégalo después](../no-git-and-later-git/) y [Conecta el enforcement remoto](../wire-remote-enforcement/).
 
 ## ¿Dónde están las guías paso a paso?
 

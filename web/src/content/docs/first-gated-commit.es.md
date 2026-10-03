@@ -101,5 +101,5 @@ El commit se crea. Esta es la regla central del framework: un cambio de código 
 
 ## Siguiente
 
-- [Conecta el enforcement remoto](wire-remote-enforcement/) para que la misma regla se aplique en CI, no solo en tu máquina.
+- [Conecta el enforcement remoto](../wire-remote-enforcement/) para que la misma regla se aplique en CI, no solo en tu máquina.
 - [Enforcement (L1/L2/L3)](../enforcement/) explica por qué los hooks locales son feedback y el check remoto `gates` es la autoridad.

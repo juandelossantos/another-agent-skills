@@ -5,8 +5,9 @@
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { dirname, join, relative } from 'node:path';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 const read = (rel) => readFileSync(new URL(rel, new URL('../dist/', import.meta.url)), 'utf8');
@@ -224,11 +225,11 @@ test('docs sidebar: every top-level section is a uniform collapsible <details>',
   const html = read('docs/enforcement/index.html');
   const nav = html.slice(html.indexOf('<nav class="docs-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="docs-nav"')));
   // Five non-empty sections, each a native <details> group (no plain labels).
-  const groups = [...nav.matchAll(/<details class="docs-nav__group"( open)?>/g)];
+  const groups = [...nav.matchAll(/<details class="docs-nav__group"([^>]*)>/g)];
   assert.equal(groups.length, 5, 'expected five top-level <details> groups');
   assert.equal((nav.match(/docs-nav__section/g) ?? []).length, 0, 'no plain section labels remain');
   // Exactly the section holding the current page (Concepts → Enforcement) is open.
-  const open = groups.filter((m) => m[1]);
+  const open = groups.filter((m) => /\bopen\b/.test(m[1]));
   assert.equal(open.length, 1, 'exactly one section is open');
   assert.match(nav, /docs-nav__group-summary">[\s\S]*?<span>Concepts<\/span>/);
 });
@@ -464,5 +465,104 @@ test('language switch link is relative (works locally); hreflang alternates stay
     assert.match(href, new RegExp(`^${BASE}`), `${file}: header language link must be base-aware, got ${href}`);
     // The head's alternate links must remain absolute for crawlers.
     assert.match(html, /<link rel="alternate" hreflang="(en|es)" href="https:\/\/[^"]+"/, `${file}: hreflang alternates must be absolute`);
+  }
+});
+
+test('the "more" compatibility chip matches the agent chips (padding + size)', () => {
+  const css = readFileSync(fileURLToPath(new URL('../src/styles/global.css', import.meta.url)), 'utf8');
+  const block = css.match(/\.chip--more\s*\{([^}]*)\}/);
+  assert.ok(block, '.chip--more not found in global.css');
+  assert.match(block[1], /padding:\s*7px 12px/, '.chip--more must have the same padding as .chip--agent');
+  assert.match(block[1], /font-size:\s*0\.78rem/, '.chip--more must match the agent chip font-size');
+});
+
+/* ------------------------------------------------------------------ *
+ * Internal link + anchor integrity (the tutorials are nested routes, so a
+ * docs-root-relative link like `wire-remote-enforcement/` resolves to
+ * `/docs/<slug>/wire-remote-enforcement/` and 404s). Walk the built HTML the
+ * way a browser would and fail on any broken target or dead `#anchor`.
+ * ------------------------------------------------------------------ */
+
+function walkHtml(dir) {
+  const out = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walkHtml(full));
+    else if (entry.name.endsWith('.html')) out.push(full);
+  }
+  return out;
+}
+
+test('every internal link resolves and every #anchor exists in the built output', () => {
+  const files = walkHtml(DIST);
+  const html = new Map(files.map((f) => [f, readFileSync(f, 'utf8')]));
+
+  const resolvePath = (pageFile, href) => {
+    if (href.startsWith(BASE)) {
+      let rel = href.slice(BASE.length).replace(/^\/+/, '');
+      if (rel === '' || rel.endsWith('/')) rel += 'index.html';
+      return join(DIST, rel);
+    }
+    if (href.startsWith('/')) return null; // absolute but outside the base
+    const base = href.endsWith('/') ? join(dirname(pageFile), href, 'index.html') : join(dirname(pageFile), href);
+    return base;
+  };
+
+  const brokenTargets = [];
+  const brokenAnchors = [];
+  for (const [file, content] of html) {
+    const rel = relative(DIST, file).split('\\').join('/');
+    for (const m of content.matchAll(/(?:href|src)="([^"]+)"/g)) {
+      const href = m[1];
+      if (/^(https?:|mailto:|tel:|data:|javascript:)/.test(href)) continue;
+      if (href === '' || href === '#') continue;
+      if (href.startsWith('#')) {
+        const id = href.slice(1);
+        if (!content.includes(`id="${id}"`) && !content.includes(`name="${id}"`)) {
+          brokenAnchors.push(`${rel} -> ${href}`);
+        }
+        continue;
+      }
+      const [pathPart, anchor] = href.split('#');
+      const target = resolvePath(file, pathPart);
+      if (!target || !existsSync(target)) {
+        brokenTargets.push(`${rel} -> ${href}`);
+        continue;
+      }
+      if (anchor && target.endsWith('.html')) {
+        const targetHtml = html.get(target) ?? readFileSync(target, 'utf8');
+        if (!targetHtml.includes(`id="${anchor}"`) && !targetHtml.includes(`name="${anchor}"`)) {
+          brokenAnchors.push(`${rel} -> ${href}`);
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(brokenTargets, [], `broken internal link targets:\n${brokenTargets.join('\n')}`);
+  assert.deepEqual(brokenAnchors, [], `dead #anchors:\n${brokenAnchors.join('\n')}`);
+});
+
+test('every docs slug is linked from at least one other docs page (no orphan)', () => {
+  // Every tutorial is reachable by a real relative link from the docs index.
+  const index = read('docs/index.html');
+  for (const slug of DOC_SLUGS.filter((s) => s !== 'overview')) {
+    assert.match(
+      index,
+      new RegExp(`href="(?:${BASE}/)?(?:docs/)?${slug}/"`),
+      `docs index does not link to ${slug}`,
+    );
+  }
+});
+
+test('breadcrumb section anchors resolve to the sidebar groups on every docs page', () => {
+  const sections = ['start', 'tutorials', 'concepts', 'reference', 'help'];
+  for (const rel of ['docs/index.html', 'docs/enforcement/index.html', 'es/docs/enforcement/index.html']) {
+    const html = read(rel);
+    for (const section of sections) {
+      assert.ok(
+        html.includes(`id="${section}"`),
+        `${rel}: breadcrumb anchor #${section} has no target`,
+      );
+    }
   }
 });

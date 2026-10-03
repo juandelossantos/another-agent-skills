@@ -538,3 +538,27 @@ for (const p of TABLE_PAGES) {
   });
 }
 
+/* ------------------------------------------------------------------ *
+ * Code copy buttons (docs). A denied async clipboard (insecure context,
+ * permission, document not focused) must fall back to execCommand instead
+ * of raising an unhandled rejection and silently doing nothing.
+ * ------------------------------------------------------------------ */
+
+const COPY_PAGES = [
+  { name: 'docs EN', path: 'docs/enforcement/' },
+  { name: 'docs ES', path: 'es/docs/enforcement/' },
+];
+
+for (const p of COPY_PAGES) {
+  test(`${p.name}: the code copy button reports a result with zero console errors`, async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto(p.path);
+    const btn = page.locator('.docs-copy').first();
+    await expect(btn).toBeVisible();
+    await btn.click();
+    await expect(btn).toHaveAttribute('data-copied', 'true');
+    // The unhandled `writeText` rejection used to surface here.
+    expect(errors).toEqual([]);
+  });
+}
+

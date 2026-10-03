@@ -47,7 +47,7 @@ const skillsHref = docsHref(locale, 'skills');
       const groupActive = group.docs.some((entry) => docSlug(entry) === activeSlug);
 
       return (
-        <details class="docs-nav__group" open={groupActive}>
+        <details class="docs-nav__group" id={group.id} open={groupActive}>
           <summary class="docs-nav__group-summary">
             <Icon name="chevron-right" class="docs-nav__chevron" />
             <span>{label}</span>

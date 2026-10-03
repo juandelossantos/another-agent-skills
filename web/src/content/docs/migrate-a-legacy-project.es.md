@@ -15,7 +15,7 @@ Un proyecto que usó un layout antiguo del framework puede tener symlinks absolu
 
 ## Antes de empezar
 
-- El framework instalado una vez en tu máquina (ver [Tu primer commit con compuerta](first-gated-commit/)).
+- El framework instalado una vez en tu máquina (ver [Tu primer commit con compuerta](../first-gated-commit/)).
 - El proyecto con `AGENTS.md`, `STACK_CONFIG.md` o symlinks del framework de una instalación anterior.
 
 ## 1. Diagnostica el entorno
@@ -103,5 +103,5 @@ El contenido del `AGENTS.md` de tu equipo se fusiona, nunca se reemplaza: el ins
 
 ## Siguiente
 
-- [Muévete a otra máquina](move-to-another-machine/) para la misma historia de portabilidad entre computadoras.
+- [Muévete a otra máquina](../move-to-another-machine/) para la misma historia de portabilidad entre computadoras.
 - [Distribución y actualizaciones](../distribution/) documenta `aas upgrade` y el aviso de deriva.

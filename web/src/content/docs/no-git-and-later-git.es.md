@@ -15,7 +15,7 @@ No necesitas git para empezar. El framework funciona en una carpeta simple y lue
 
 ## Antes de empezar
 
-- El framework instalado una vez en tu máquina (ver [Tu primer commit con compuerta](first-gated-commit/)).
+- El framework instalado una vez en tu máquina (ver [Tu primer commit con compuerta](../first-gated-commit/)).
 - Un agente que lea `AGENTS.md`.
 
 ## 1. Empieza sin git (solo convención)
@@ -77,7 +77,7 @@ Ahora el proyecto puede usar el workflow remoto, así que el instalador lo escri
       bash scripts/setup-branch-protection.sh             # apply
 ```
 
-Haz commit y push del workflow y termina con [Conecta el enforcement remoto](wire-remote-enforcement/).
+Haz commit y push del workflow y termina con [Conecta el enforcement remoto](../wire-remote-enforcement/).
 
 ## La regla de volver a ejecutar
 
@@ -85,12 +85,12 @@ Haz commit y push del workflow y termina con [Conecta el enforcement remoto](wir
 |---|---|---|
 | Sin git | Solo convención (reglas, skills, `AGENTS.md`) | `git init`, vuelve a ejecutar `init-agents` |
 | Git local | Solo hooks de L1 | Agrega un remoto de GitHub, vuelve a ejecutar `init-agents` |
-| Git + GitHub | L1 + L2 + L3 completos | Ver [Conecta el enforcement remoto](wire-remote-enforcement/) |
+| Git + GitHub | L1 + L2 + L3 completos | Ver [Conecta el enforcement remoto](../wire-remote-enforcement/) |
 | Git después | Crece a medida que aparecen las capas | Vuelve a ejecutar `init-agents` después de cada capa |
 
 Volver a ejecutar es seguro e idempotente: nunca duplica sus propias entradas y nunca sobrescribe las reglas de tu `AGENTS.md`.
 
 ## Siguiente
 
-- [Migra un proyecto heredado](migrate-a-legacy-project/) si heredaste una carpeta que ya usaba el framework.
+- [Migra un proyecto heredado](../migrate-a-legacy-project/) si heredaste una carpeta que ya usaba el framework.
 - [Branch protection](../branch-protection/) tiene la tabla completa de flujos de git/GitHub.
