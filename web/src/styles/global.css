@@ -74,6 +74,22 @@ code { font-family: var(--font-mono); }
 }
 .skip-link:focus { top: var(--space-sm); }
 
+/* Visually hidden but exposed to assistive tech. Used to keep a control's
+   accessible name descriptive while still containing its visible text, so it
+   satisfies WCAG 2.5.3 "Label in Name". */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* =========================================================
    2b. COMPONENT LAYER
    Reusable content components. Class contract: see web/README.md.

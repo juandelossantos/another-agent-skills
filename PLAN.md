@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.2.0** (Phase 7 released; Phase 8 remote enforcement **live**; **Phase 9 distribution complete** — release v6.3.0 pending) |
-| Next target | **Phase 10** (landing/docs refresh) → **Phase 11** (Astro + Starlight docs site) |
+| Version | **6.3.0** (Phase 8 remote enforcement **live**; **Phase 9 distribution complete**; **Phase 10 public web complete** — release v6.3.0) |
+| Next target | **Phase 11** (Astro + Starlight docs site; the Phase 10 Astro site in `web/` is the base) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
-| Guides | 74 across all skills |
-| Tests | 91 suites passing (behavioral + task working set capped at 20) |
+| Guides | 151 across all skills |
+| Tests | 102 suites passing (behavioral + task working set capped at 20) |
 
 ---
 

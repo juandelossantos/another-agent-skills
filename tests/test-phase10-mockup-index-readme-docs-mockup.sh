@@ -56,7 +56,7 @@ assert "landing i18n is EN/ES" "grep -q 'en:' '$M/js/mockup.js' && grep -q 'es:'
 assert "no Argentine voseo in the mockups" "! grep -qE 'tenés|podés|Cloná|ejecutá|instalá|usá |elegí|agregá|mirá|corré|andá' '$M/js/mockup.js' '$M/js/docs-mockup.js'"
 
 # --- Footer shows the version (not the phase) ---
-assert "footer shows the current version" "grep -q 'v6\.2\.0' '$M/js/mockup.js'"
+assert "footer shows the current version" "grep -q 'v6\.3\.0' '$M/js/mockup.js'"
 assert "footer no longer says Phase 10" "! grep -q 'Phase 10 landing mockup' '$M/js/mockup.js'"
 
 # --- README documents the reusable components ---

@@ -1,11 +1,19 @@
-# Session State — Phase 9 COMPLETE: Distribution & Upgrades
+# Session State — Phase 10 COMPLETE: Public Web + v6.3.0 Release
 
-**Date:** 2026-10-02
-**Branch:** `chore/phase9-close-status` — branched from `origin/main` (Phase 9 fully merged via PRs #47–#52), NOT pushed
-**Status:** ✅ **Phase 9 COMPLETE.** Distribution is shipped: pinned/attested releases, the checksum-verified `curl` bootstrap, the `aas` CLI, portable projects, the npm wrapper, and Homebrew. Test suite: **91 suites** green. Version remains **6.2.0** (v6.3.0 release pending the maintainer's one-time npm/Homebrew steps).
+**Date:** 2026-10-03
+**Branch:** `feat/phase10-landing` — Phase 10 (Astro public web) merged; v6.3.0 version sync, NOT committed/pushed
+**Status:** ✅ **Phase 10 COMPLETE.** The public Astro web in `web/` is shipped: a bilingual (EN/ES) landing + docs site, the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, an FAQ, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD, hreflang) and a WCAG 2.2 AA a11y gate. The project is now **v6.3.0** (covers Phase 8 + 8.1 + 9 + 10). Test suite: **102 suites** green. npm/Homebrew activation and the web deploy await the maintainer's manual steps.
 **Plan:** `PLAN.md` — single source of truth
 
-## What Was Done (2026-10-02)
+## What Was Done (2026-10-03)
+
+1. **Phase 10 — public web (`web/`)**: Astro bilingual landing + docs; skills reference generated from `skills/*/SKILL.md` (`web/src/data/skills.json`, 57 skills / 151 guides); five Bloque E tutorials; FAQ; SEO/AEO (canonical + hreflang, OG/Twitter, `sitemap-index.xml`, `robots.txt`, `llms.txt`, JSON-LD graph) and a Playwright + axe a11y gate.
+2. **v6.3.0 sync**: bumped `VERSION` to 6.3.0 and synchronized every current version surface (npm wrapper, `web/` footer + `config.ts`, README, `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, legacy `docs/`, mockups, `llms.txt`).
+3. **Guide count fixed**: the docs said "74 guides"; the real count is **151** (`skills/*/guides/*.md`). Adopted 151 in the core docs and made the web derive it from `web/src/data/skills.json`.
+4. **Release notes**: added the `RELEASE-NOTES.md` v6.3.0 section (Phase 8 + 8.1 + 9 + 10), honest about the pending maintainer steps and the un-deployed web.
+5. Not committed, not pushed (no commit/push/PR per the task).
+
+## What Was Done (2026-10-02) — Phase 9 (previous)
 
 1. **P9.1 — pinned, attested releases** (PR #50): `scripts/build-release.sh` builds `another-agent-skills-vX.Y.Z.tar.gz` + `checksums.txt`; `.github/workflows/release.yml` attests build provenance (`actions/attest-build-provenance`) and publishes the GitHub Release assets.
 2. **P9.2 — `bootstrap.sh`** (PR #49): one-line, pinned, checksum-verified install (never a mutable branch); `--version`/`--dry-run`/`--uninstall`; extracts to `$AAS_HOME/<version>` and links `~/.local/bin/aas`.
@@ -35,23 +43,23 @@
 
 ```bash
 git checkout main && git pull
-git checkout -b feat/phase10-landing
+git checkout -b feat/phase11-docs-site
 ```
 
-- **Phase 10 — landing/docs refresh (v6.4.0).** Surfaces still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent **+ distribution** value story, then sync ES/EN. Add SEO/AEO/a11y/discoverability (Bloque D) and the FAQ/user-guide block (Bloque E).
-- **Phase 11 — docs site (Astro + Starlight, v6.5.0).** SEO/AEO per language, search, sidebar/versioning, GitHub Pages; the core stays build-free.
+- **Phase 11 — docs site (Astro + Starlight, v6.4.0).** SEO/AEO per language, search, sidebar/versioning, GitHub Pages; the core stays build-free. The Phase 10 Astro site in `web/` is the base.
+- **Maintainer manual steps** — activate npm (after 2026-10-06) and Homebrew, then deploy `web/` (still awaiting approval). See `docs/DISTRIBUTION.md` and the pending steps above.
 - **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
 
-**System state (verified 2026-10-02):**
+**System state (verified 2026-10-03):**
 
-- Phase 9 merged to `main` via PRs #47–#52; `VERSION` still **6.2.0** (v6.3.0 pending the manual steps above).
+- Phase 10 (public web) merged; **`VERSION` is now 6.3.0** (covers Phase 8 + 8.1 + 9 + 10). npm/Homebrew activation and the web deploy await the manual steps above.
 - Remote enforcement still live: branch protection on `main` requires the `gates` check.
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
 - Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
-- Tests: **91 suites passing** (`bash tests/run-all.sh`).
+- Tests: **102 suites passing** (`bash tests/run-all.sh`).
 
-> Below this section: the previous sessions' handoffs (Phase 8 closure, 2026-10-02, superseded above; and Claude Code Parity, 2026-08-26) — historical.
+> Below this section: the previous sessions' handoffs (Phase 9 distribution, 2026-10-02, superseded above; Phase 8 closure, 2026-10-02; and Claude Code Parity, 2026-08-26) — historical.
 
 ## What Was Done (2026-08-26)
 

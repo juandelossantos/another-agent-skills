@@ -15,8 +15,8 @@ export const es: Dictionary = {
     skip: 'Saltar al contenido',
     primaryNav: 'Principal',
     home: 'Inicio de Another Agent Skills',
-    langToEs: 'Cambiar a español',
-    langToEn: 'Cambiar a inglés',
+    langToEs: 'Cambiar a español (ES)',
+    langToEn: 'Cambiar a inglés (EN)',
     theme: 'Cambiar tema de color',
     menu: 'Menú',
     copy: 'Copiar comando de instalación',
@@ -139,7 +139,6 @@ export const es: Dictionary = {
     catProcess: 'Proceso', catFrontend: 'Construcción', catDebug: 'Verificación', catQuality: 'Revisión',
     catDevops: 'Entrega', catDesignReview: 'Design review', catDesignReviewTitle: 'Suite de design review',
     catMeta: 'Meta', catMetaTitle: 'Meta-skills',
-    stats: '57 skills · 74 guías · 6 componentes del harness · un eval para cada una',
     learn: 'Explorar el catálogo completo',
   },
   workflows: {
@@ -192,7 +191,7 @@ export const es: Dictionary = {
   },
   footer: {
     docs: 'Documentación', github: 'GitHub',
-    copy: 'v6.2.0 · Licencia MIT · Hecho por @juandelossantos',
+    copy: 'v6.3.0 · Licencia MIT · Hecho por @juandelossantos',
   },
   agents: {
     ariaLabel: 'Agentes detectados',

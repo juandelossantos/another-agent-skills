@@ -15,8 +15,9 @@ export const en = {
     skip: 'Skip to content',
     primaryNav: 'Primary',
     home: 'Another Agent Skills home',
-    langToEs: 'Switch to Spanish',
-    langToEn: 'Switch to English',
+    // Include the visible code (ES/EN) so the name satisfies WCAG 2.5.3.
+    langToEs: 'Switch to Spanish (ES)',
+    langToEn: 'Switch to English (EN)',
     theme: 'Toggle color theme',
     menu: 'Menu',
     copy: 'Copy install command',
@@ -139,7 +140,6 @@ export const en = {
     catProcess: 'Process', catFrontend: 'Build', catDebug: 'Verify', catQuality: 'Review',
     catDevops: 'Ship', catDesignReview: 'Design review', catDesignReviewTitle: 'Design review suite',
     catMeta: 'Meta', catMetaTitle: 'Meta-skills',
-    stats: '57 skills · 74 guides · 6 harness components · an eval for each',
     learn: 'Browse the full catalog',
   },
   workflows: {
@@ -191,7 +191,7 @@ export const en = {
     social: 'Open source · MIT License · Works offline · No lock-in',
   },  footer: {
     docs: 'Documentation', github: 'GitHub',
-    copy: 'v6.2.0 · MIT License · Made by @juandelossantos',
+    copy: 'v6.3.0 · MIT License · Made by @juandelossantos',
   },
   agents: {
     ariaLabel: 'Detected agents',

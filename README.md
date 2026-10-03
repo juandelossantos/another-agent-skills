@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version: v6.2.0](https://img.shields.io/badge/version-6.2.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.3.0](https://img.shields.io/badge/version-6.3.0-blue.svg)](./RELEASE-NOTES.md)
 [![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
@@ -37,7 +37,7 @@ cd another-agent-skills
 init-agents              # In any project: activates skill-driven mode
 ```
 
-**That's it.** Your AI agent now has 57 custom skills + 74 guides + 6 harness components.
+**That's it.** Your AI agent now has 57 custom skills + 151 guides + 6 harness components.
 The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
 
 > **Platform note (Phase 7):** the Phase-7 installer flags — `--skills-only`,
@@ -101,14 +101,14 @@ The key rule: **re-run `init-agents` after `git init` and after adding the remot
 
 **Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
 
-> **🧠 Latest: v6.2.0 — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — Dual-contract plugin, multi-agent detection + version-gated installs, per-agent skills and guardrails, and **philosophy A** (the agent never commits or pushes). [Release notes →](./RELEASE-NOTES.md)
+> **🧠 Latest: v6.3.0 — Remote Enforcement + Distribution + Public Web** — required remote `gates` check + `CODEOWNERS` (Phase 8), pinned/attested releases with the `curl` bootstrap, `aas` CLI, npm wrapper + OIDC, and Homebrew (Phase 9), and the new bilingual Astro landing + docs site in `web/` (Phase 10). [Release notes →](./RELEASE-NOTES.md)
 >
 > **v6.1.0 — Claude Code Parity** — 57 skills auto-install to `~/.claude/skills/`, all 3 enforcement hooks auto-wire into `.claude/settings.json`. One command, no manual setup. [Learn more →](#whats-new-in-v610--claude-code-parity)
 
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 74 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 151 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (15 gates including Gate 0, Test Runner), commit-msg v6 (TDD gate — no override) |
@@ -174,7 +174,7 @@ Most agent skill frameworks give you a library of prompts. This one gives you an
 | System | Always-loaded | Lazy loading | Guides | Context control |
 |---|---|---|---|---|
 | Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
-| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 74 guides | Auto-evict at 70% |
+| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 151 guides | Auto-evict at 70% |
 
 ---
 
@@ -433,7 +433,7 @@ If it fails, ask the user before taking any action.
 | [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
 | [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
 | [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.2.0) |
+| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.3.0) |
 | [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
 | [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |

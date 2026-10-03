@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-10-02  
-> **Current version:** 6.2.0
-> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails), **Phase 8 complete (Remote Enforcement live on `main`)** and **Phase 9 complete (Distribution & Upgrades)**; 0 errors, 2 warnings, 74 guides across 57 skills, 91 test suites green  
-> **Current plan:** `PLAN.md` — Phase 9 complete; next is Phase 10 (landing/docs refresh) and Phase 11 (docs site Astro + Starlight)
+> **Last updated:** 2026-10-03  
+> **Current version:** 6.3.0
+> **Status:** v6.3.0 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)** and **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**; 0 errors, 2 warnings, 151 guides across 57 skills, 102 test suites green  
+> **Current plan:** `PLAN.md` — Phase 10 complete; next is Phase 11 (docs site Astro + Starlight)
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
@@ -139,10 +139,11 @@
 
 ### In Progress
 
-- **Phase 10: Landing & Docs Refresh** — landing/docs still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent + distribution value story and sync ES/EN. See `PLAN.md`.
+- **Phase 11: Docs site — Astro + Starlight** — SEO per language, search, sidebar/versioning, GitHub Pages (core stays build-free). The Phase 10 Astro site in `web/` is the base. See `PLAN.md`.
 
 ### Completed
 
+- **Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0)** — the public web in `web/`: an Astro bilingual (EN/ES) landing + docs site with the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, FAQ, SEO/AEO (sitemap, robots, `llms.txt`, JSON-LD, hreflang), a WCAG 2.2 AA a11y gate, and a legacy `docs/` pointer. Merged to `main` via the `feat/phase10-landing` branch.
 - **Phase 9: Distribution & Upgrades (v6.3.0)** — pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto|all|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent); Homebrew formula + tap update. Merged to `main` via PRs #47–#52. See `docs/DISTRIBUTION.md`.
 - **Phase 8: Remote Enforcement — Gate Integrity (v6.2.0)** — **Remote enforcement is live on `main`** (merged via PRs #36–#43): branch protection (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity; P8.4 closed by design (philosophy A); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review (script injection, fresh-repo hook block, L3 honesty, PR #43).
 - **Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails (v6.2.0)** — Dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. Test cadence formalized: `tests/` behavioral (permanent), `tests/task/` capped at 20.
@@ -184,6 +185,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|
+| **6.3.0** | 2026-10-03 | **Phase 8: Remote Enforcement — Gate Integrity** — branch protection on `main` + required `gates` check + `CODEOWNERS` L3; L1/L2/L3 model; `templates/gates.yml`; remote E2E; Gate 0 → L1 prompt + GitHub Environment approval (PRs #36–#43). **Phase 9: Distribution & Upgrades** — pinned, attested releases; checksum-verified `curl` bootstrap; `aas` CLI; portable projects; npm wrapper + OIDC trusted publishing; Homebrew formula + tap (PRs #47–#52). **Phase 10: Landing & Docs Refresh + Descubribilidad** — public Astro web in `web/`: bilingual landing + docs, skills reference (57 skills / 151 guides), tutorials, SEO/AEO/a11y. npm/Homebrew activation and the web deploy await the maintainer's manual steps. |
 | **6.2.0** | 2026-10-01 | **Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — dual-contract plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, philosophy A (agent never commits/pushes, no token bypass), global install hardening. **Phase 8: Remote Enforcement — COMPLETE** — branch protection + required `gates` check + `CODEOWNERS` L3; docs honesty (INCIDENT_004 + L1/L2/L3 model); ship-to-users (`templates/gates.yml`); remote E2E; Gate 0 → L1 prompt + GitHub Environment approval. Remote enforcement **live on `main`** (PRs #36–#43). |
 | **6.0.0** | 2026-07-18 | **Phase 6: Design Skill Integrity** — Design flow redefined with mechanical gates. 17-section DESIGN.md schema, 3-mode design-gate.sh, TDD enforcement (no override), Gate 0: DECISION_APPROVED block (15 gates total), design-upgrade.sh, token-validate.sh, approval-gate.sh, direction+platform wiring, critique-skill upgrade, 43 stale refs cleaned. 3 commits, 33+24+1 files. Browser-verified EN+ES, Playwright 12/12. |
 | **5.0.0** | 2026-07-13 | **Phase 4: Docs Honesty** — 42 issues fixed across 6 groups (version truth, hook drift, i18n, nav, content gaps, polish). 86 files changed, +629/−470. Browser-verified nav chain, sidebar, theme/language toggles. 0 lint warnings. |

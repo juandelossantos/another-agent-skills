@@ -25,7 +25,7 @@ La idea central es simple. Una regla que vive solo en un archivo es una sugerenc
 | Dato | Valor |
 |---|---|
 | Skills | 57, mapeadas al ciclo de vida de seis fases |
-| Guías | 74 |
+| Guías | 151 |
 | Componentes del harness | 6 |
 | Enforcement | L1 hooks locales, L2 check `gates` requerido, L3 `CODEOWNERS` |
 | Licencia | MIT |

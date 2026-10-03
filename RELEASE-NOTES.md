@@ -1,5 +1,93 @@
 # Release Notes
 
+## 6.3.0 (2026-10-03) — Remote Enforcement, Distribution & the Public Web
+
+Covers Phase 8 (remote enforcement), 8.1 (TDD-gate delivery + git/GitHub flows),
+9 (distribution & upgrades) and 10 (the public Astro web). Phase 7 shipped as
+6.2.0; this release groups everything merged since.
+
+### New (Phase 8 — remote enforcement)
+
+- **L2 — required remote gate.** Branch protection on `main` (solo-safe, with a
+  lockout guard and a code-owner guard) plus a required `gates` status check
+  (`.github/workflows/gates.yml`) that runs `tdd-gate.sh`, `tests/run-all.sh`,
+  `skill-lint.sh` and `validate-skill-table.sh`. The committer cannot skip it.
+- **L3 — config integrity.** `CODEOWNERS` protects `.github/workflows/`,
+  `scripts/git-hooks/`, `scripts/*gate*` and `tdd-gate.sh`/`edit-guard.sh`, so a
+  PR cannot edit its own rules without review.
+- **Ship-to-users.** `templates/gates.yml` + `init-agents`/`install` wiring put
+  the remote layer in new projects; `docs/BRANCH-PROTECTION.md` and
+  `docs/REMOTE-ENFORCEMENT-EVIDENCE.md` document the model and its limits.
+- **Honest semantics.** INCIDENT_004 was corrected; the L1/L2/L3 model is
+  documented; Gate 0 is reclassified as an explicit L1 prompt, not approval.
+  P8.4 is closed by design (philosophy A: the agent never commits or pushes).
+
+### New (Phase 8.1 — TDD-gate delivery + git/GitHub flows)
+
+- The TDD gate and the git/GitHub flows are delivered to user projects and
+  documented as the four supported setups: no git, local git, git + GitHub, and
+  git later (re-run `init-agents` after `git init` and after adding the remote).
+
+### New (Phase 9 — distribution & upgrades)
+
+- **Pinned, attested releases.** `scripts/build-release.sh` +
+  `.github/workflows/release.yml` build the tarball + `checksums.txt`, attest
+  build provenance (`actions/attest-build-provenance`) and publish the assets.
+- **`bootstrap.sh`.** A one-line, pinned, checksum-verified `curl` install that
+  never fetches a mutable branch; `--version`/`--dry-run`/`--uninstall`.
+- **`aas` CLI.** `install` / `upgrade` / `doctor` / `uninstall`, resolving its
+  own path through a symlink.
+- **Portable projects.** No absolute symlinks; `.aas/config` pins the version;
+  `scripts/aas-resolve.sh` and self-resolving hook shims.
+- **Detection, guidance, legacy repair.** `init-agents --dry-run` / `--repair` /
+  `--force`, backup hygiene, and a non-blocking drift notice.
+- **npm wrapper + OIDC.** `npm/` ships no payload; `cli.js` downloads and
+  verifies the release and delegates to `bootstrap.sh`.
+  `.github/workflows/npm-publish.yml` publishes via OIDC Trusted Publishing,
+  syncs the version from `VERSION`, and skips if already published.
+- **Homebrew.** `scripts/build-brew-formula.sh` + an optional, token-gated tap
+  update in `release.yml`.
+
+### New (Phase 10 — the public web)
+
+- **`web/` — Astro landing + docs.** A bilingual (EN/ES) public site: the
+  landing, the docs (overview, getting started, lifecycle, skills, enforcement,
+  agents, distribution, branch protection, FAQ), the full skills reference
+  (57 skills / 151 guides, generated from `skills/*/SKILL.md`), and five
+  tutorials.
+- **Discoverability.** Canonical + hreflang, OG/Twitter, `sitemap-index.xml`,
+  `robots.txt`, `llms.txt`, a JSON-LD graph (Organization, WebSite,
+  SoftwareApplication, FAQPage, HowTo, BreadcrumbList, TechArticle) and a
+  Playwright + axe WCAG 2.2 AA gate.
+
+### Changed
+
+- **`VERSION` → 6.3.0**, synchronized across the npm wrapper, the `web/` footer
+  and `config.ts`, `README.md`, `PLAN.md`, `PROGRESS_STATUS.md`,
+  `HEALTH-CHECK.md`, the legacy `docs/` surfaces and `llms.txt`.
+- **Guide count corrected: 74 → 151.** The docs claimed "74 guides"; the real
+  count is 151 (`skills/*/guides/*.md`). The core docs now say 151 and the web
+  derives it from `web/src/data/skills.json` so it cannot drift again.
+- The legacy `docs/` landing now points at v6.3.0 and notes that `web/`
+  supersedes it.
+
+### Platform notes
+
+- The npm and Homebrew channels are **wired but not yet activated** — both need
+  one-time maintainer steps (the npm first publish is blocked until
+  `2026-10-06 00:55 UTC`, and requires TOTP; the tap needs
+  `HOMEBREW_TAP_TOKEN`). See `docs/DISTRIBUTION.md`.
+- The new `web/` site is **built and tested, but not deployed** — the deploy
+  awaits approval.
+
+### Tests
+
+- Core suite (102 suites) plus the `web/` build + `node --test` suite
+  (`build.test.mjs`, `seo.test.mjs`, `skills.test.mjs`) and the Playwright +
+  axe a11y gate, all green.
+
+---
+
 ## 6.2.0 (2026-10-01) — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails
 
 ### New (Phase 7)

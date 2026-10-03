@@ -28,7 +28,8 @@ cd web
 npm install          # install Astro, @astrojs/sitemap, Playwright (dev)
 npm run dev          # dev server at http://localhost:4321/another-agent-skills/
 npm run skills       # regenerate src/data/skills.json from ../skills/*/SKILL.md
-npm run build        # static build to dist/ (runs `skills` first)
+npm run build        # static build to dist/ (runs `skills` first, then type-checks)
+npm run typecheck    # astro sync + tsc --noEmit (i18n key parity, typed props)
 npm run og           # regenerate public/og.png (1200x630 social card)
 npm run preview      # serve the built dist/ (Astro 7 preview runs in the background; `npx astro preview stop` stops it)
 npm test             # build + node:test assertions against dist/
@@ -68,6 +69,7 @@ web/
 │   │   ├── skills.es.json   # ES translation map (input, hand-maintained)
 │   │   └── skills.json      # generated dataset (output of `npm run skills`)
 │   ├── icons.ts            # inlined Lucide paths (no CDN, no deps)
+│   ├── json-ld.ts          # inline JSON-LD serialization (escapes <, >, &)
 │   ├── seo.ts              # JSON-LD graph (Organization/WebSite/SoftwareApplication/FAQPage/HowTo/BreadcrumbList)
 │   ├── styles/
 │   │   ├── fonts.css       # self-hosted Newsreader + JetBrains Mono (OFL)
@@ -101,7 +103,8 @@ web/
     ├── build.test.mjs      # node:test against dist/
     ├── seo.test.mjs        # node:test: OG card, canonical/hreflang, sitemap, JSON-LD
     ├── skills.test.mjs     # node:test: the skills dataset, ES coverage and rendered pages
-    ├── a11y.spec.mjs       # Playwright + axe: 0 violations (EN/ES, light/dark, 2 viewports)
+    ├── a11y.spec.mjs       # Playwright + axe: 0 WCAG violations (EN/ES, light/dark, 2 viewports)
+    │                       #   + Label in Name (2.5.3) and landmark-unique, which the tag gate skips
     └── smoke.spec.mjs      # Playwright smoke
 ```
 

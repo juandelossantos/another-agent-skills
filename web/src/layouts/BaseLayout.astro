@@ -8,6 +8,7 @@ import monoLatin from '../styles/fonts/0a7197f9e2.woff2?url';
 import serifLatin from '../styles/fonts/f24c321523.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { jsonLdScript } from '../json-ld';
 import { HTML_LANG, type Dictionary, type Locale } from '../i18n';
 import { alternateLocale, BASE, localePath } from '../i18n/routes';
 
@@ -82,7 +83,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoLatin} as="font" type="font/woff2" crossorigin />
 
-    <!-- Open Graph / Twitter (og.png is a placeholder to be replaced with a real card) -->
+    <!-- Open Graph / Twitter (og.png is the real 1200x630 card; regenerate: `npm run og`) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Another Agent Skills" />
     <meta property="og:title" content={title} />
@@ -105,7 +106,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="theme-color" content="#F2F0ED" media="(prefers-color-scheme: light)" />
 
     {jsonLdBlocks.map((block) => (
-      <script type="application/ld+json" is:inline set:html={JSON.stringify(block)} />
+      <script type="application/ld+json" is:inline set:html={jsonLdScript(block)} />
     ))}
   </head>
   <body>

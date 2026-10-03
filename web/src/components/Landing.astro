@@ -13,13 +13,15 @@ import HarnessDiagram from './HarnessDiagram.astro';
 import LoopDiagram from './LoopDiagram.astro';
 import Icon from './Icon.astro';
 import { SITE } from '../config';
-import type { Dictionary } from '../i18n';
+import type { Dictionary, Locale } from '../i18n';
+import { skillsStats } from '../docs/skills';
 
 interface Props {
   dict: Dictionary;
+  locale: Locale;
 }
 
-const { dict } = Astro.props;
+const { dict, locale } = Astro.props;
 
 const phases = [
   { hue: 'define', name: dict.flow.define.name, cmd: '/spec', exit: dict.flow.define.exit },
@@ -213,7 +215,7 @@ const workflows = [
         />
       ))}
     </div>
-    <p class="skills__stats">{dict.skills.stats}</p>
+    <p class="skills__stats">{skillsStats(locale)}</p>
     <a class="section-head__link" href={SITE.skills} target="_blank" rel="noopener">
       <span>{dict.skills.learn}</span>
       <Icon name="arrow-right" />

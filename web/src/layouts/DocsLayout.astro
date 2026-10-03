@@ -17,6 +17,7 @@ import Icon from '../components/Icon.astro';
 import { getDictionary, HTML_LANG, type Locale } from '../i18n';
 import { alternateLocale, BASE, localePath } from '../i18n/routes';
 import { getDocsDictionary } from '../i18n/docs';
+import { jsonLdScript } from '../json-ld';
 import { docsHome, docsHref, docsSearchIndex } from '../docs/paths';
 import { docSlug, type DocEntry, type DocGroup } from '../docs/nav';
 import { SITE } from '../config';
@@ -127,7 +128,7 @@ const jsonLdBlocks = jsonLd ?? [];
     <meta name="theme-color" content="#F2F0ED" media="(prefers-color-scheme: light)" />
 
     {jsonLdBlocks.map((block) => (
-      <script type="application/ld+json" is:inline set:html={JSON.stringify(block)} />
+      <script type="application/ld+json" is:inline set:html={jsonLdScript(block)} />
     ))}
   </head>
   <body

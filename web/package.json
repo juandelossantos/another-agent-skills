@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "astro dev",
     "skills": "node scripts/generate-skills.mjs",
-    "build": "npm run skills && astro build",
+    "build": "npm run skills && astro build && tsc --noEmit",
+    "typecheck": "astro sync && tsc --noEmit",
     "og": "node scripts/generate-og.mjs",
     "preview": "astro preview",
     "test": "npm run build && node --test tests/build.test.mjs tests/seo.test.mjs tests/skills.test.mjs",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.63.0",
+    "typescript": "^5.9.3"
   }
 }

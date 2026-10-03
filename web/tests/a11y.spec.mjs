@@ -30,6 +30,32 @@ const SETTLE_CSS =
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
+/*
+ * Two rules the tag-scoped WCAG gate above silently skips, checked separately:
+ *
+ *  - `label-content-name-mismatch` (WCAG 2.5.3 Label in Name, Level A) ships in
+ *    axe as an *experimental* rule that is disabled by default, so a plain
+ *    `withTags()` run never sees it. A control whose visible text is not part
+ *    of its accessible name is a real violation (the theme toggle's visible
+ *    "Dark"/"Light" and the language link's "ES"/"EN" were exactly that).
+ *  - `landmark-unique` is a best-practice rule (not WCAG-tagged). It caught two
+ *    `<nav>` landmarks sharing the name "Documentación" on the ES docs pages.
+ *
+ * Running them by explicit rule id (not via `.options()`, which replaces the
+ * tag filter) keeps the WCAG gate intact while covering the gap.
+ */
+const EXTRA_RULES = ['label-content-name-mismatch', 'landmark-unique'];
+
+/** Pages for the extra-rule pass (EN + ES, the two shell variants). */
+const EXTRA_PAGES = [
+  { name: 'landing EN', path: './' },
+  { name: 'landing ES', path: 'es/' },
+  { name: 'docs EN', path: 'docs/enforcement/' },
+  { name: 'docs ES', path: 'es/docs/enforcement/' },
+  { name: 'skills EN', path: 'docs/skills/' },
+  { name: 'skills ES', path: 'es/docs/skills/' },
+];
+
 /** Rules disabled with a reason (keep this list empty unless justified). */
 const DISABLED_RULES = [
   // Example shape (not currently used):
@@ -95,4 +121,16 @@ for (const p of PAGES) {
       });
     }
   }
+}
+
+/* Rules the WCAG tag gate above does not run (see EXTRA_RULES). */
+for (const p of EXTRA_PAGES) {
+  test(`${p.name} · Label in Name + landmark rules · axe 0 violations`, async ({ page }) => {
+    await page.goto(p.path);
+    const results = await new AxeBuilder({ page }).withRules(EXTRA_RULES).analyze();
+    expect(
+      results.violations,
+      `extra-rule axe violations on ${p.name}:\n${formatViolations(results.violations)}`,
+    ).toEqual([]);
+  });
 }

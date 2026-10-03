@@ -35,13 +35,13 @@ assert "PLAN Phase 8 section is COMPLETE" "grep -q 'Phase 8: Remote Enforcement 
 assert "PLAN has no Phase 8 IN PROGRESS marker" "! grep -q '🔄 IN PROGRESS' '$PLAN'"
 assert "PLAN marks every P8.1–P8.9 task DONE/CLOSED" "! grep -qE 'P8\.[0-9] ⬜ PENDING' '$PLAN'"
 assert "PLAN lists Phase 8 in Completed Phases" "grep -qF '| **8** | **v6.2.0** |' '$PLAN'"
-assert "PLAN Next target is Phase 10" "grep -q 'Next target | \*\*Phase 10\*\*' '$PLAN'"
-assert "PLAN tests row says 91 suites" "grep -qF '91 suites passing' '$PLAN'"
+assert "PLAN Next target is Phase 11" "grep -q 'Next target | \*\*Phase 11\*\*' '$PLAN'"
+assert "PLAN tests row says 102 suites" "grep -qF '102 suites passing' '$PLAN'"
 
 # --- PROGRESS_STATUS.md ---
 assert "PROGRESS header says Phase 8 complete" "grep -q 'Phase 8 complete' '$PROGRESS'"
 assert "PROGRESS says remote enforcement live" "grep -qi 'Remote Enforcement live' '$PROGRESS'"
-assert "PROGRESS In Progress names Phase 10" "grep -q 'Phase 10: Landing & Docs Refresh' '$PROGRESS'"
+assert "PROGRESS In Progress moved on to Phase 11" "grep -q 'Phase 11: Docs site' '$PROGRESS'"
 assert "PROGRESS Completed lists Phase 8" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity' '$PROGRESS'"
 
 # --- HEALTH-CHECK.md ---
@@ -51,8 +51,8 @@ assert "HEALTH records remote authority (L2) ACTIVE" "grep -q 'Remote authority 
 
 # --- SESSION_STATE.md ---
 assert "SESSION_STATE retains the Phase 8 closure handoff" "grep -q 'Phase 8 closure' '$SESSION'"
-assert "SESSION_STATE names the close-status branch" "grep -q 'chore/phase9-close-status' '$SESSION'"
-assert "SESSION_STATE resume points at Phase 10" "grep -q 'git checkout -b feat/phase10-landing' '$SESSION'"
+assert "SESSION_STATE retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$SESSION'"
+assert "SESSION_STATE resume points at Phase 11" "grep -q 'git checkout -b feat/phase11-docs-site' '$SESSION'"
 
 # --- Cross-doc: no stale "in progress" claim survives ---
 assert "no status doc still calls Phase 8 in progress" "! grep -qi 'Phase 8 in progress' '$PLAN' '$PROGRESS' '$HEALTH' '$SESSION'"

@@ -34,6 +34,7 @@ const BASE = '/another-agent-skills';
 test('dataset: 57 skills across the declared categories', () => {
   assert.equal(dataset.skillCount, 57, 'skillCount must be 57');
   assert.equal(dataset.skills.length, 57, 'skills must contain 57 entries');
+  assert.equal(dataset.guideCount, 151, 'guideCount must be 151 (skills/*/guides/*.md)');
   assert.ok(dataset.categories.length >= 8, 'expected the category groups');
 
   const categoryIds = new Set(dataset.categories.map((c) => c.id));

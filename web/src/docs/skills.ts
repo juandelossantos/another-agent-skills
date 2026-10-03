@@ -128,3 +128,16 @@ export function skillSearchItems(locale: Locale, skillsHref: string): SkillSearc
     url: `${skillsHref}${skillAnchor(skill.name)}`,
   }));
 }
+
+/**
+ * The citable skills stat line, derived from the generated dataset so the guide
+ * count can never drift from `skills.json` (the single source of truth). Never
+ * hand-type the counts in the dictionaries.
+ */
+export function skillsStats(locale: Locale): string {
+  const { skillCount, guideCount } = SKILLS;
+  if (locale === 'es') {
+    return `${skillCount} skills · ${guideCount} guías · 6 componentes del harness · un eval para cada una`;
+  }
+  return `${skillCount} skills · ${guideCount} guides · 6 harness components · an eval for each`;
+}

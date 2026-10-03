@@ -9,7 +9,7 @@ import type { Locale } from './index';
 
 export const docsEn = {
   nav: {
-    label: 'Documentation',
+    label: 'Primary',
     docs: 'Docs',
     home: 'Another Agent Skills home',
     skip: 'Skip to content',
@@ -41,8 +41,9 @@ export const docsEn = {
     menu: 'Open documentation navigation',
     menuClose: 'Close documentation navigation',
     theme: 'Toggle color theme',
-    langToEs: 'Switch to Spanish',
-    langToEn: 'Switch to English',
+    // Include the visible code (ES/EN) so the name satisfies WCAG 2.5.3.
+    langToEs: 'Switch to Spanish (ES)',
+    langToEn: 'Switch to English (EN)',
     copy: 'Copy code',
     copied: 'Copied',
     breadcrumb: 'Breadcrumb',
@@ -66,13 +67,13 @@ export const docsEn = {
     sidebarGroup: 'Skills',
     toggleLabel: 'Show the skills categories',
   },
-} as const;
+};
 
 export type DocsDictionary = typeof docsEn;
 
 export const docsEs: DocsDictionary = {
   nav: {
-    label: 'Documentación',
+    label: 'Principal',
     docs: 'Documentación',
     home: 'Inicio de Another Agent Skills',
     skip: 'Saltar al contenido',
@@ -104,8 +105,8 @@ export const docsEs: DocsDictionary = {
     menu: 'Abrir la navegación de documentación',
     menuClose: 'Cerrar la navegación de documentación',
     theme: 'Cambiar tema de color',
-    langToEs: 'Cambiar a español',
-    langToEn: 'Cambiar a inglés',
+    langToEs: 'Cambiar a español (ES)',
+    langToEn: 'Cambiar a inglés (EN)',
     copy: 'Copiar código',
     copied: 'Copiado',
     breadcrumb: 'Migas de pan',

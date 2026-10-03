@@ -25,7 +25,7 @@ The core idea is simple. A rule that lives only in a file is a suggestion. A rul
 | Fact | Value |
 |---|---|
 | Skills | 57, mapped to the six-phase lifecycle |
-| Guides | 74 |
+| Guides | 151 |
 | Harness components | 6 |
 | Enforcement | L1 local hooks, L2 required `gates` check, L3 `CODEOWNERS` |
 | License | MIT |

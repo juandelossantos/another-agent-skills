@@ -130,7 +130,7 @@
         catProcess: 'Process', catFrontend: 'Build', catDebug: 'Verify', catQuality: 'Review',
         catDevops: 'Ship', catDesignReview: 'Design review', catDesignReviewTitle: 'Design review suite',
         catMeta: 'Meta', catMetaTitle: 'Meta-skills',
-        stats: '57 skills \u00b7 74 guides \u00b7 6 harness components \u00b7 an eval for each',
+        stats: '57 skills \u00b7 151 guides \u00b7 6 harness components \u00b7 an eval for each',
         learn: 'Browse the full catalog'
       },
       workflows: {
@@ -170,7 +170,7 @@
       },
       footer: {
         docs: 'Documentation', github: 'GitHub',
-        copy: 'v6.2.0 \u00b7 MIT License \u00b7 Made by @juandelossantos'
+        copy: 'v6.3.0 \u00b7 MIT License \u00b7 Made by @juandelossantos'
       }
     },
 
@@ -287,7 +287,7 @@
         catProcess: 'Proceso', catFrontend: 'Construcci\u00f3n', catDebug: 'Verificaci\u00f3n', catQuality: 'Revisi\u00f3n',
         catDevops: 'Entrega', catDesignReview: 'Design review', catDesignReviewTitle: 'Suite de design review',
         catMeta: 'Meta', catMetaTitle: 'Meta-skills',
-        stats: '57 skills \u00b7 74 gu\u00edas \u00b7 6 componentes del harness \u00b7 un eval para cada una',
+        stats: '57 skills \u00b7 151 gu\u00edas \u00b7 6 componentes del harness \u00b7 un eval para cada una',
         learn: 'Explorar el cat\u00e1logo completo'
       },
       workflows: {
@@ -327,7 +327,7 @@
       },
       footer: {
         docs: 'Documentaci\u00f3n', github: 'GitHub',
-        copy: 'v6.2.0 \u00b7 Licencia MIT \u00b7 Hecho por @juandelossantos'
+        copy: 'v6.3.0 \u00b7 Licencia MIT \u00b7 Hecho por @juandelossantos'
       }
     }
   };

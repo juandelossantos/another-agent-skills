@@ -83,7 +83,6 @@ const {
           class="header__control"
           type="button"
           data-action="theme"
-          aria-label={dict.a11y.theme}
           aria-pressed="false"
           data-theme-dark={themeDark}
           data-theme-light={themeLight}
@@ -92,6 +91,8 @@ const {
             <Icon name="moon" class="icon--moon" />
             <Icon name="sun" class="icon--sun" />
           </span>
+          <!-- Accessible name includes the visible target label (WCAG 2.5.3). -->
+          <span class="visually-hidden">{dict.a11y.theme}</span>
           <span class="header__control-text" data-theme-text>
             <span class="theme-label theme-label--dark">{themeDark}</span>
             <span class="theme-label theme-label--light">{themeLight}</span>

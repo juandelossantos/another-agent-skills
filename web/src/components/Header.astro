@@ -53,7 +53,6 @@ const navItems = [
         class="header__control"
         type="button"
         data-action="theme"
-        aria-label={dict.a11y.theme}
         aria-pressed="false"
         data-theme-dark={dict.theme.dark}
         data-theme-light={dict.theme.light}
@@ -62,6 +61,9 @@ const navItems = [
           <Icon name="moon" class="icon--moon" />
           <Icon name="sun" class="icon--sun" />
         </span>
+        <!-- The accessible name includes the visible target label, so it
+             satisfies WCAG 2.5.3 Label in Name (see the .visually-hidden note). -->
+        <span class="visually-hidden">{dict.a11y.theme}</span>
         <span class="header__control-text" data-theme-text>
           <span class="theme-label theme-label--dark">{dict.theme.dark}</span>
           <span class="theme-label theme-label--light">{dict.theme.light}</span>
