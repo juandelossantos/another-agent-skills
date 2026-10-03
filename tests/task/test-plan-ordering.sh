@@ -43,6 +43,12 @@ assert "Phase 11 is v6.5.0" "grep -q '## Phase 11: Docs site — Astro + Starlig
 assert "Phase 11 includes SEO/AEO per language" "grep -q 'SEO/AEO por idioma' '$PLAN'"
 assert "Phase 11 includes WCAG 2.2 AA in Starlight" "grep -q 'WCAG 2.2 AA en el tema Starlight' '$PLAN'"
 
+# --- Phase 9 closure ---
+assert "Phase 9 is marked COMPLETE" "grep -q '## Phase 9: Distribution & Upgrades (v6.3.0) — ✅ COMPLETE' '$PLAN'"
+assert "Phase 9 is in the Completed Phases table" "grep -qF '| **9** | **v6.3.0** |' '$PLAN'"
+assert "Phase 9 task table is ✅ DONE" "grep -qF 'P9.1 ✅ DONE' '$PLAN' && grep -qF 'P9.8** ✅ DONE' '$PLAN'"
+assert "Current Status tests count is 91" "grep -q '91 suites passing' '$PLAN'"
+
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1
