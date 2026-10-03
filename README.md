@@ -1,70 +1,173 @@
 # Another Agent Skills
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Version: v6.3.0](https://img.shields.io/badge/version-6.3.0-blue.svg)](./RELEASE-NOTES.md)
-[![Self-Improving](https://img.shields.io/badge/self--improving-✅-brightgreen)](skills/self-improvement/SKILL.md)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
-[![Status: Production](https://img.shields.io/badge/status-production-green.svg)](./PROGRESS_STATUS.md)
-[![agentskills.io compliant](https://img.shields.io/badge/agentskills.io-compliant-8A2BE2)](https://agentskills.io)
+[![Skills: 57](https://img.shields.io/badge/skills-57-blue.svg)](./docs/skills.html)
+[![Guides: 151](https://img.shields.io/badge/guides-151-blue.svg)](./docs/skills.html)
+[![Tests: 104 suites](https://img.shields.io/badge/tests-104%20suites-brightgreen.svg)](./tests/run-all.sh)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Multi-agent](https://img.shields.io/badge/multi--agent-15%20agents-8A2BE2.svg)](./docs/AGENT-ADAPTERS.md)
 
-**57 composable skills + 6 harness components that turn AI coding agents into disciplined senior engineers.**
-**No bloat. No shortcuts. Just process. Harness. Repeat.**
-**+3 meta-skills to create, improve, and harvest your own.**
+**Most skill libraries sell capability. We sell discipline you can verify.**
+
+57 composable skills and mechanical enforcement that turn AI coding agents into disciplined senior engineers. No bloat. No shortcuts. Just process. Harness. Repeat.
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
 
-> Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, Kiro, and any agent via [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
+> Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, and any agent that reads `AGENTS.md` — see [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
 
 ---
 
-## Quick Start
+## Proof, not promises
 
-### Linux / macOS
+Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline with mechanical enforcement.
+
+- **L1 — local hooks** (`.git/hooks/*`). Fast, advisory feedback. A code change with no matching test is blocked before it leaves your machine.
+- **L2 — required remote `gates` check** (`.github/workflows/gates.yml`). The TDD gate and the full test suite run as a required status check on `main`. The committer cannot skip it. **GitHub only.**
+- **L3 — `CODEOWNERS`.** The gate configuration is owned by a human, so a PR cannot edit its own rules.
+
+A real blocked commit:
+
+```text
+$ git commit -m "feat: add checkout"
+[commit-msg v6] scanning staged files
+[commit-msg v6] code changed: src/checkout.js
+[commit-msg v6] matching test: none
+✗ BLOCKED: every code change needs a matching test.
+```
+
+The same check runs remotely as the required `gates` status, so it cannot be bypassed by the committer. The agent never runs `git commit` or `git push`; the human does. See the [remote enforcement evidence](./docs/REMOTE-ENFORCEMENT-EVIDENCE.md).
+
+---
+
+## What's New in v6.3.0
+
+**Remote enforcement, distribution, and the public web.** One release covering Phase 8, 8.1, 9, and 10.
+
+- **Remote enforcement (Phase 8)** — branch protection on `main` plus a required `gates` status check (`.github/workflows/gates.yml`) and `CODEOWNERS` (L3), so a PR cannot edit its own rules without review.
+- **TDD-gate delivery + git/GitHub flows (Phase 8.1)** — the gate and the four supported setups (no git, local git, git + GitHub, git later) ship to user projects.
+- **Distribution (Phase 9)** — pinned, attested releases and a checksum-verified `curl` bootstrap; the `aas` CLI (`install` / `upgrade` / `doctor` / `uninstall`); portable projects with no absolute symlinks; an npm wrapper and a Homebrew formula.
+- **The public web (Phase 10)** — a bilingual (EN/ES) Astro landing + docs site in [`web/`](./web/): the generated skills reference (57 skills / 151 guides), five tutorials, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD) and a WCAG 2.2 AA gate.
+- **Docs honesty** — the guide count was corrected from 74 to 151, and the L1/L2/L3 model and INCIDENT_004 were corrected.
+- **Honest status** — npm and Homebrew are wired but **not yet activated** (maintainer steps), and the `web/` site is **built and tested but not yet deployed** (the deploy awaits approval).
+- **Tests** — the core suite plus the `web/` build and `node --test` suite and the Playwright + axe accessibility gate, all green.
+
+Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
+
+---
+
+## Install
+
+**Install once per machine. Use it in any project. It stays portable.** The installer detects your shell, your agent, and your stack, then wires the matching skills and hooks.
+
+### 1. Clone + installer (live)
 
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-bash install.sh          # Installs skills globally
-init-agents              # In any project: activates skill-driven mode
+bash install.sh          # installs the 57 skills globally and configures your shell
+init-agents              # in any project: activates skill-driven mode
 ```
 
-### Windows (PowerShell)
+Windows (PowerShell): `.\install.ps1`. The installer detects Zsh, Bash, Fish, or PowerShell and configures it automatically.
 
-```powershell
-git clone https://github.com/juandelossantos/another-agent-skills.git
-cd another-agent-skills
-.\install.ps1            # Installs skills globally
-init-agents              # In any project: activates skill-driven mode
-```
-
-**That's it.** Your AI agent now has 57 custom skills + 151 guides + 6 harness components.
-The installer detects your shell (Zsh, Bash, Fish, PowerShell) and configures it automatically.
-
-> **Platform note (Phase 7):** the Phase-7 installer flags — `--skills-only`,
-> `--guardrails-only`, `--plugin-only`, and multi-agent detection/version-gating
-> — are **POSIX-only** (`install.sh`). `install.ps1` provides Claude Code parity
-> (global skills + hook wiring) but not yet these flags; on Windows, run the
-> equivalent steps via the Bash installer (WSL/Git Bash) until parity lands.
-
-Run `init-agents` in every new project — it:
-- Merges AGENTS.md without overwriting existing rules
-- Links framework files (rules, scripts, SOUL.md) from global installation
-- Detects your stack and creates `STACK_CONFIG.md`
-- Installs lifecycle enforcement hook (tests, build, secrets)
-- Installs CI pipeline (reads STACK_CONFIG.md)
-- Creates `.sessionrc` for purpose-driven sessions
-
-> **Safety:** Backs up before replacing. `init-agents` merges — never overwrites.
-> **Universal:** Works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
-> **Only use Claude Code?** `bash install.sh --agent claude` installs the 57 skills to `~/.claude/skills/` (Claude Code's own global skill path — auto-discovered in every project, no `init-agents` needed) plus `CLAUDE.md` and the enforcement hooks, without setting up OpenCode at all. The plain `bash install.sh` above installs skills globally for **both** OpenCode and Claude Code every time. See [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md#claude-code) for hook wiring.
+> **Platform note:** the Phase-7 installer flags (`--skills-only`, `--guardrails-only`, `--plugin-only`, multi-agent detection and version gating) are **POSIX-only** (`install.sh`). `install.ps1` provides Claude Code parity (global skills + hook wiring) but **not yet these flags**; on Windows use the Bash installer (WSL / Git Bash) until parity lands.
 >
-> **📖 New to skills?** Read the [**Quick Start Guide →**](./docs/quickstart-guide.html) ([Markdown version](./QUICKSTART.md)) for a step-by-step walkthrough of your first session, how skills activate, and day-to-day tips.
+> **Only use Claude Code?** `bash install.sh --agent claude` installs the 57 skills to `~/.claude/skills/` (Claude Code's own global path — auto-discovered in every project, no `init-agents` needed) plus `CLAUDE.md` and the enforcement hooks, without setting up OpenCode.
+
+### 2. Pinned `curl` bootstrap (live)
+
+```bash
+curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
+aas install --agents auto     # activate in the current project
+aas doctor                    # environment report
+aas upgrade                   # self-update from the latest pinned release
+aas uninstall                 # remove the CLI, install root, and PATH entry
+```
+
+Installs a **pinned, checksum-verified** release tarball (never a mutable branch) and links the `aas` CLI. `--version vX.Y.Z` pins an exact release; `--dry-run` prints every action without writing anything. The install root is `${XDG_DATA_HOME:-$HOME/.local/share}/another-agent-skills` (override with `AAS_HOME`).
+
+### 3. npm (coming soon)
+
+```bash
+npx @juandelossantos/another-agent-skills install
+```
+
+The wrapper ships no payload; it downloads and verifies the same release. **Wired but not yet published** — the first publish is a maintainer step.
+
+### 4. Homebrew (coming soon)
+
+```bash
+brew install juandelossantos/tap/another-agent-skills
+```
+
+The formula is generated from the release. **Wired but not yet activated** — the tap is a maintainer step.
+
+All channels, the maintainer one-time setup, and the release/npm/Homebrew automation are documented in [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md). The public site and docs are built from [`web/`](./web/) (built and tested; deploy awaits approval).
+
+---
+
+## What it is: the Harness
+
+> *"A raw model is not an agent. It becomes one once a harness gives it state, tool execution, feedback loops, and enforceable constraints."*
+> — Osmani, Saboo & Kartakis, *The New SDLC With Vibe Coding*, 2026
+
+**Agent = Model + Harness.** Most agent failures blamed on "the model" are configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness.
+
+| Component | What It Is | In This Project |
+|---|---|---|
+| **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
+| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 151 guides, eval system |
+| **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
+| **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
+| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (15 gates including Gate 0 and the Test Runner), commit-msg v6 (TDD gate, no override) |
+| **6. Observability** | Evidence it works or is quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
+
+Beyond prompts, the framework also ships a portable agent identity (`SOUL.md`), the **Guardian Pattern** (a DECISION POINT before every mutation — plan approval is not commit approval), lazy context loading (**~3,870 tokens always-loaded** vs ~7,965 eager), and stack-agnostic setup (`init-agents` writes `STACK_CONFIG.md`).
+
+[**Full Harness architecture →**](./docs/HARNESS.md)
+
+---
+
+## The lifecycle
+
+Every task runs **Define → Plan → Build → Verify → Review → Ship**. No phase is optional, and each one has an exit criterion. After Verify, the design review pipeline runs critique → audit → fix → delight before shipping.
+
+```mermaid
+flowchart LR
+    DEF[Define] --> PLAN[Plan] --> BUILD[Build] --> VER[Verify] --> REV[Review] --> SHIP[Ship]
+    VER -. "trigger" .-> CQ[Critique] --> AQ[Audit] --> FX["Fix chain<br/>Clarify → Hard → Polish → Typeset → Adapt → Optimize"] --> DX[Delight] -. "polished" .-> REV
+```
+
+[**Full lifecycle docs →**](./docs/lifecycle.html) · [**Design workflow →**](./docs/DESIGN-WORKFLOW.md)
+
+---
+
+## Skills
+
+57 composable skills, each declaring its output contract (artifact, format, location, quality), when to use it, and when **not** to.
+
+| Skill | When | What It Does |
+|---|---|---|
+| `engineering-fundamentals` | Foundation | Universal engineering philosophy: discovery, contracts, anti-slop, quality gates |
+| `spec-driven-development` | New features | Research-backed specs with critical thinking |
+| `architecture-analysis` | Stack decisions | 2-3 options evaluated with trade-offs |
+| `backend-api-mastery` | API / backend | REST/GraphQL, DB, auth, testing, docs |
+| `test-driven-development` | Build | RED-GREEN-REFACTOR, enforced by the TDD gate |
+| `code-review-and-quality` | Review | Five axes: correctness, readability, architecture, security, performance |
+| `security-and-hardening` | Review | OWASP prevention, input validation, auth, data storage |
+| `debugging-three-strikes` | Stuck | Stop speculative fixes after three same-bug strikes |
+| `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
+| `fullstack-shipping` | Go-live | CI/CD, orchestration, monitoring, launch |
+| `multi-agent-orchestration` | >2 agents | Parallel / pipeline / swarm patterns |
+| `self-improvement` | Background | Detect → diagnose → fix with human approval |
+
+**Full catalog (57 skills, grouped by lifecycle phase) →** the [skills reference](./docs/skills.html) (in-repo) or the [new Astro docs](https://juandelossantos.github.io/another-agent-skills/docs/skills/) (not yet deployed) · [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md)
 
 ---
 
 ## Git & GitHub Workflows
 
-`init-agents` adapts to what your project actually has. Enforcement has three layers:
+`init-agents` adapts to what your project actually has. Enforcement has three layers, and they arrive as your project grows:
 
 - **L1 — local hooks** (`.git/hooks/*`): fast feedback, advisory. Installed only when `.git` exists.
 - **L2 — remote `gates` required check** (`.github/workflows/gates.yml` + branch protection): the authority.
@@ -92,271 +195,23 @@ L1 hooks are active. **There is no L2/L3.** To get remote enforcement: add a Git
 
 The key rule: **re-run `init-agents` after `git init` and after adding the remote.** It detects what is now available and installs the missing layers (hooks, `gates.yml`).
 
----
-
-## The Harness
-
-> *"A raw model is not an agent. It becomes one once a harness gives it state, tool execution, feedback loops, and enforceable constraints."*
-> — Osmani, Saboo & Kartakis, *The New SDLC With Vibe Coding*, 2026
-
-**Agent = Model + Harness.** Most agent failures blamed on "the model" are actually configuration failures: missing tools, vague rules, absent guardrails, noisy context. This project is a complete open-source implementation of the Harness — the mechanical infrastructure that turns raw AI intelligence into reliable output.
-
-> **🧠 Latest: v6.3.0 — Remote Enforcement + Distribution + Public Web** — required remote `gates` check + `CODEOWNERS` (Phase 8), pinned/attested releases with the `curl` bootstrap, `aas` CLI, npm wrapper + OIDC, and Homebrew (Phase 9), and the new bilingual Astro landing + docs site in `web/` (Phase 10). [Release notes →](./RELEASE-NOTES.md)
->
-> **v6.1.0 — Claude Code Parity** — 57 skills auto-install to `~/.claude/skills/`, all 3 enforcement hooks auto-wire into `.claude/settings.json`. One command, no manual setup. [Learn more →](#whats-new-in-v610--claude-code-parity)
-
-| Component | What It Is | In This Project |
-|---|---|---|
-| **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 151 guides, eval system |
-| **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
-| **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
-| **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (15 gates including Gate 0, Test Runner), commit-msg v6 (TDD gate — no override) |
-| **6. Observability** | Evidence it's working or quietly drifting | `project-metrics`, `HEALTH-CHECK.md`, `PROGRESS_STATUS.md` |
-
-[**Full Harness architecture →**](./docs/HARNESS.md)
+[**Branch protection guide →**](./docs/BRANCH-PROTECTION.md) · [**Tutorials →**](https://juandelossantos.github.io/another-agent-skills/docs/) (not yet deployed)
 
 ---
 
-## Commands
-
-After installation, these commands are available in your terminal:
-
-| Command | What It Does |
-|---|---|
-| `init-agents` | Activates skill-driven mode in any project. Merges rules, links framework files. |
-| `update-global-skills` | Pulls latest skills from upstream (`addyosmani/agent-skills`). |
-| `bash install.sh` | Full installer: 57 skills, shell config, global scripts. |
-| `bash uninstall.sh` | Removes shell config, scripts, and installed skills. |
-
-These are **project commands** you run in your terminal. They are NOT skills — skills are what the agent loads automatically when it detects a matching task.
-
-### Pinned one-liner install (Phase 9)
-
-Once a release is published, `bootstrap.sh` installs a **pinned, checksum-verified**
-tarball from GitHub Releases (never a mutable branch) and links the `aas` CLI:
+## Quick Start
 
 ```bash
-curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
-aas install --agents auto     # activate in the current project
-aas doctor                    # environment report
-aas upgrade                   # self-update from the latest pinned release
-aas uninstall                 # remove the CLI, install root, and PATH entry
+init-agents          # new or existing project: activates skill-driven mode
 ```
 
-`--version vX.Y.Z` pins an exact release; `--dry-run` prints every action without
-writing anything. The install root is `${XDG_DATA_HOME:-$HOME/.local/share}/another-agent-skills`
-(override with `AAS_HOME`); the symlink lives in `$HOME/.local/bin` (`AAS_BIN_DIR`).
+`init-agents` merges `AGENTS.md` without overwriting existing rules, links the framework files, detects your stack and creates `STACK_CONFIG.md`, installs the lifecycle enforcement hook (tests, build, secrets), installs the CI pipeline, and creates `.sessionrc` for purpose-driven sessions.
 
-**All distribution channels** — `git clone`, the pinned `curl` bootstrap, the
-`aas` CLI, npm (`npx @juandelossantos/another-agent-skills`), and Homebrew
-(`brew install juandelossantos/tap/another-agent-skills`) — plus the maintainer
-one-time setup and the release/npm/tap automation are documented in
-[**`docs/DISTRIBUTION.md`**](./docs/DISTRIBUTION.md).
+**Safety:** it backs up before replacing and merges — never overwrites. **Universal:** works with Node, Rust, Python, Go, Ruby, Dart, or any stack.
 
----
+Before editing in this repo: `bash scripts/pre-flight.sh` (checks branch, clean tree, remote state).
 
-## What Makes This Different
-
-Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline — with mechanical enforcement, not just suggestions.
-
-**Six Layers Beyond Prompts:**
-
-1. **SOUL.md — Portable Agent Identity** — Who the agent is, what it believes, and what it never does. Travels across projects and sessions.
-2. **The Harness** — 6-component architecture documented in [`docs/HARNESS.md`](./docs/HARNESS.md). Pre-commit v11 with 15 gates (including Gate 0 and Test Runner). Single-gate TDD enforcement via commit-msg v6 (no override). No other framework does this.
-3. **Guardian Pattern** — Before every mutation, the agent must present a DECISION POINT block and wait for explicit approval. Plan approval ≠ commit approval.
-4. **Context Engineering** — Lazy loading: skills are ~250-line indexes; guides load on-demand. Result: **~3,870 tokens always-loaded** (1.9% of 200K) vs ~7,965 in eager mode.
-5. **Stack-Agnostic Universal System** — `init-agents` detects your stack (Node, Rust, Python, Go, etc.) and creates `STACK_CONFIG.md` with your actual commands.
-6. **Process Discipline** — User-gated commits with mandatory manifest. PR Review Gate. 25-entry anti-rationalization table. Debug 3-strikes escalation. Mayéutic Challenge.
-
-### Context Budget
-
-| System | Always-loaded | Lazy loading | Guides | Context control |
-|---|---|---|---|---|
-| Raw SKILL.md files | ~7,965 tokens | No | Inline | None |
-| **Another Agent Skills** | **~3,870 tokens** | Yes, on-demand | 151 guides | Auto-evict at 70% |
-
----
-
-## What's New in v6.2.0 — Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails
-
-**One plugin, two OpenCode contracts; every agent detected, version-gated, and guarded — and the agent never commits or pushes.**
-
-- **Dual-contract plugin** — `agent-discipline` now serves OpenCode v2 (`setup(ctx)`) and v1 (`server()`, 1.18.29+) from one default export. Source moved to `plugins/agent-discipline/` (not auto-loaded) so a repo-local copy can't collide with the global install (`Duplicate plugin ID`).
-- **Multi-agent detection** — `scripts/agent-detect.sh` detects 15 agents via a PATH binary, a global dir, or a project file; `AAS_AGENTS` overrides. `init-agents --list-agents` / `--check-env` report the detected agents **and their versions**.
-- **Version-gated installs** — `agent_support_note()` flags unsupported versions (OpenCode v1 < 1.18.29); `install.sh` warns and installs accordingly.
-- **Skills per agent** — `install.sh --skills-only` symlinks the canonical OpenCode skills dir into each detected agent's skills dir (`~/.claude/skills`, `~/.gemini/skills`) — one source of truth; diverging dirs are quarantined outside the skills dir.
-- **Philosophy A: the agent never commits or pushes** — the OpenCode plugin and the Claude guardrail deny `git commit/push/merge/rebase/reset/…` unconditionally, with **no token bypass** (Rule 12). Closes the self-issued-token hole.
-- **Per-agent guardrails** — `install.sh --guardrails-only`: OpenCode → dual-contract plugin; Claude → hook registered in `~/.claude/settings.json` (idempotent, with backup); others skipped.
-- **Global install hardening** — `install.sh --plugin-only` does an atomic replace, drops stale v1 artifacts, quarantines legacy backups, verifies a single instance, and detects the OpenCode version.
-
-[**Full release notes →**](./RELEASE-NOTES.md)
-
-## What's New in v6.1.0 — Claude Code Parity
-
-**Claude Code gets full skill+hook parity with OpenCode — one command, zero manual setup.** Closes the skills+hooks gap inside Phase 7's Task 7.1 (the `agents/`/`commands/` mirror is still open — see `PLAN.md`).
-
-- **57 skills, auto-installed globally** — `bash install.sh` / `bash install.sh --agent claude` install every skill to `~/.claude/skills/`, Claude Code's own auto-discovery path. Manifest-tracked, idempotent, never touches skills you already have there.
-- **Enforcement hooks, made to actually work** — `commit-approval.sh`, `pre-flight.sh`, and `edit-guard.sh` now parse Claude Code's real `PreToolUse`/`PostToolUse` JSON payload and use the correct block exit code (`2`, not `1` — the old scripts would not have blocked anything even if wired). `install.sh --agent claude` merges them into `.claude/settings.json` automatically via an idempotent `jq` merge (native `ConvertTo-Json` on Windows) that never overwrites your own hooks or settings.
-- **19 new tests, 28/28 suites passing** — hook behavior (block/allow, exit codes, risky-command scoping, compound-command detection), install idempotency, and EN/ES doc parity are all covered. Two full code reviews (one before shipping, one on the GitHub PR itself) caught real bugs that would have made the hooks unusable or macOS-incompatible — see [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) for details.
-
-[**Full release notes →**](./RELEASE-NOTES.md)
-
-## What's New in v6.0.0 — Phase 6: Design Skill Integrity
-
-**Design flow redefined with mechanical gates.** The entire design process — from discovery to production — is now governed by deterministic enforcement, not agent memory.
-
-- **Design Flow Transformation** — 17-section DESIGN.md schema (`DESIGN-MD-SCHEMA.md`) serves as universal contract. `design-gate.sh` runs in 3 modes: strict (blocks on checkable violations), audit (warns), verify (pre-merge compliance).
-- **TDD Enforcement (No Override)** — commit-msg v6 blocks every code change without a matching test. No bypass. Zero override mechanism.
-- **Gate 0: DECISION_APPROVED Block** — Pre-commit now BLOCKS if no decision token exists. 15 gates total (was 14).
-- **design-upgrade.sh** — Auto-extracts design tokens from existing codebases (CSS vars, HTML, package.json). Fills gaps with 2-3 questions.
-- **token-validate.sh** — CSS drift detection against DESIGN.md tokens. Platform-specific scanners.
-- **Direction + Platform Wiring** — Direction skills (brutalist, minimalist, premium) compose with platform skills through the schema.
-- **critique-skill Upgrade** — Optional visual design pass with 5 felt dimensions for human review.
-- **43 stale refs cleaned** — All COMMIT_APPROVED references replaced.
-
-[**Full release notes →**](./RELEASE-NOTES.md)
-
-## What's New in v5.0.0 — Phase 4: Docs Honesty Complete
-
-**42 issues fixed, 86 files changed, browser-verified.** Zero stale versions, hooks, i18n gaps, or nav inconsistencies. Full nav chain rebuild across 12 pages. 56 skill page sidebars aligned. 5 empty pages filled. i18n normalized (EN+ES). Self-improvement.html rebuilt with standard template.
-
-## What's New in v4.2.0 — Phase 3: Output Contracts Complete
-
-All 57 skills now have standardized **Output Contracts** — each declares its artifact, format, location, and quality criteria. No more guessing what a skill produces. Check 16 warnings eliminated (37→0). Word count advisories resolved (4→0). Pre-flight gate added enforcing `.gitignore` and `.env.example` before edits.
-
-## What's New in v4.1.0 — Quick Start Guide & Navigation Overhaul
-
-### 📖 Quick Start Guide, Full Spanish i18n, Nav Chain Fixes
-
-v4.1.0 adds a user-facing Quick Start Guide for daily workflow, full Spanish translation of all nav elements, and a comprehensive navigation chain fix across all 13 docs pages.
-
-- **Quick Start Guide** ([`docs/quickstart-guide.html`](./docs/quickstart-guide.html), [`QUICKSTART.md`](./QUICKSTART.md)) — Step-by-step walkthrough of your first session, how skills activate, the 6 phases from your side, Guardian Pattern, common scenarios, and pro tips.
-- **Full Spanish i18n** — 60 keys translated for Quick Start Guide content. All 24 nav prev/next buttons translated in both EN/ES.
-- **Navigation chain** — All 13 docs pages fixed with correct prev/next buttons following sidebar order.
-- **TDD gate expanded** — HTML, JSON, Markdown, YAML, CSS, and more now require tests. SKIP_PATTERNS for binaries and lock files.
-
-> See the [full release history](https://github.com/juandelossantos/another-agent-skills/releases) for all versions.
-
-### Previous Releases
-
-<details>
-<summary>v3.1.1 — Test Infrastructure & TDD Enhancement</summary>
-
-- **`tests/run-all.sh`** — Unified test runner: runs 9 suites (audit, init, TDD gate, pre-commit gates, Gate 14 behavioral, sync hooks, skill lint, eval e2e).
-- **`scripts/git-hooks/pre-commit` v11** — 14 sequential gates. Gate 14 (Test Runner) runs `bash tests/run-all.sh` before every commit.
-- **`scripts/tdd-gate.sh`** — Enhanced with name-pairing check and new-test enforcement.
-- **46 total project tests** across 6 suites.
-
-</details>
-
-<details>
-<summary>v3.1.0 — TDD Enforcement Gate</summary>
-
-- **`scripts/tdd-gate.sh`** — Standalone TDD enforcement gate. Blocks commits without test files.
-- **`scripts/git-hooks/commit-msg` v4** — Single TDD gate with OVERRIDE mechanism.
-- **`scripts/init-agents.sh sync-hooks`** — New subcommand for upgrading hooks.
-
-</details>
-
----
-
-## Testing
-
-Run all test suites with a single command:
-
-```bash
-bash tests/run-all.sh
-```
-
-The test runner auto-discovers tests in `tests/test-*.sh` and runs 15 suites:
-
-| Suite | What It Tests |
-|---|---|
-| 3 audit/init suites | Audit engine + init-agents scaffolding |
-| TDD gate | Name-pairing + new-test (22 tests) |
-| Pre-commit gates | Gate numbering sequential 1-14 |
-| Gate 14 behavioral | Test Runner blocks on failure, passes on success |
-| Sync hooks | Hook installation and sync |
-| Flat files | Guide file structure compliance |
-| Guide refs | Guide reference resolution |
-| Pre-flight | Pre-flight hook behavior |
-| Skill lint (scoped) | Rule 6 compliance on changed skills only |
-| Eval e2e | End-to-end: skill-lint + evals + dashboard + regression |
-
-The test runner also runs automatically as **Pre-commit Gate 14** before every commit, scoped to changed files.
-
-### TDD Gate Rules
-
-Every commit with code changes must include a matching test file. No override mechanism exists:
-
-- **Name-pairing**: test file name must match code file name (e.g., `scripts/tdd-gate.sh` → `tests/test-tdd-gate.sh`)
-- **New-test**: at least one staged test file must be new (not previously committed)
-- **Staging-order**: test must be created before code (mtime check, TDD RED→GREEN)
-- **No override**: there is no way to bypass TDD — every change needs a test
-
-### Playwright Tests (Browser)
-
-Browser tests live in `tests/playwright/`:
-
-```bash
-cd tests/playwright
-npm install
-npx playwright install chromium
-# Run tests: npx playwright test
-```
-
-Requires the Chrome DevTools MCP server configured in your agent's `.mcp.json`.
-
----
-
-## Development Lifecycle
-
-```mermaid
-flowchart LR
-    subgraph Core["Core Lifecycle"]
-        direction LR
-        DEF --> PLAN
-        PLAN --> BUILD
-        BUILD --> VER
-        VER --> REV
-        REV --> SHIP
-    end
-    subgraph Design["Design Review Pipeline"]
-        direction LR
-        CQ[Critique] --> AQ[Audit]
-        AQ --> FX[Fix Chain<br/>Clarify → Hard → Polish → Typeset → Adapt → Optimize]
-        FX --> DX[Delight]
-    end
-    VER -. "Trigger" .-> CQ
-    DX -. "Polished" .-> REV
-```
-
-Every task starts at **Define** and moves through the pipeline. The Design Review Pipeline is triggered after Verify — it runs critique → audit → fix → delight before shipping. [**Full docs →**](./docs/lifecycle.html)
-
----
-
-## Skills at a Glance
-
-| Skill | When | What It Does |
-|---|---|---|
-| `engineering-fundamentals` | Foundation | Universal engineering philosophy: discovery, contracts, anti-slop, quality gates |
-| `backend-api-mastery` | API/backend | REST/GraphQL, DB, auth, testing, docs |
-| `spec-driven-development` | New features | Research-backed specs with critical thinking |
-| `architecture-analysis` | Stack decisions | 2-3 options evaluated with trade-offs |
-| `git-init-and-versioning` | Project setup | Git init, .gitignore, branching, pre-commit gates |
-| `fullstack-shipping` | Deploy/go-live | CI/CD, monitoring, rollback, launch checklist |
-| `project-health-check` | Existing code | Full codebase audit + drift detection |
-| `dev-environment-audit` | Before build | MCPs, CLI tools, runtime verification |
-| `user-onboarding` | First session | 30 preferences asked once, persisted forever |
-| `project-metrics` | Background | Build pass rate, rework, coverage logging |
-| `multi-agent-orchestration` | >2 agents | Parallel/pipeline/swarm patterns |
-| `cli-tools` | Build a CLI | Arg parsing, exit codes, colors, progress bars |
-| `doubt-driven-development` | High-stakes decisions | Fresh-context adversarial review |
-| `shipping-and-launch` | Deploy | Pre-launch checklist, monitoring, rollback, TOOL_GAP |
-| `context-engineering` | Session setup | Context hierarchy, packing, continuation-over-recap |
-
-**Full catalog (57 skills) →** [`docs/skills.html`](./docs/skills.html) | [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md) | [**Reference guide →**](docs/skills.html)
+**New to skills?** Read the [**Quick Start Guide →**](./docs/quickstart-guide.html) ([Markdown](./QUICKSTART.md)).
 
 ---
 
@@ -364,87 +219,70 @@ Every task starts at **Define** and moves through the pipeline. The Design Revie
 
 Another Agent Skills works with multiple AI coding agents. **Git hooks work everywhere.**
 
-| Feature | OpenCode | Claude Code | Cursor | Kiro | Any Git Agent |
-|---|---|---|---|---|---|
-| 57 skills installed globally (`bash install.sh`) | ✅ auto → `~/.config/opencode/skills/` | ✅ auto → `~/.claude/skills/` | ⚠️ manual | ⚠️ manual | ⚠️ manual |
-| Git hooks (pre-commit, commit-msg) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
-| Manifest gate (commit-approval.sh + log-test-results.sh) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
-| SOUL.md + AGENTS.md rules | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
-| Skill concepts (TOOL_GAP, severity) | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
-| i18n (EN/ES) | ✅ auto | ❌ N/A | ❌ N/A | ❌ N/A | ❌ N/A |
+| Feature | OpenCode | Claude Code | Cursor | Codex | Gemini CLI | Any git agent |
+|---|---|---|---|---|---|---|
+| 57 skills installed globally | ✅ auto → `~/.config/opencode/skills/` | ✅ auto → `~/.claude/skills/` | ⚠️ manual | ⚠️ manual | ✅ auto → `~/.gemini/skills/` | ⚠️ manual |
+| Git hooks (pre-commit, commit-msg) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
+| Manifest gate (`commit-approval.sh` + `log-test-results.sh`) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
+| `SOUL.md` + `AGENTS.md` rules | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
+| Skill concepts (TOOL_GAP, severity) | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |
+| i18n (EN/ES) | ✅ auto | ❌ N/A | ❌ N/A | ❌ N/A | ❌ N/A | ❌ N/A |
 
-**Setup per agent →** [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md)
+**Setup per agent →** [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md). The installer detects 15 agents, version-gates them, and installs the matching skills and guardrails.
 
-### Using Principles in Your Own System
+### Using the principles in your own system
 
-| Principle | How to Use |
+| Principle | How to use |
 |---|---|
 | **Harness** | Every agent feature needs a mechanical component, not just a prompt. If it can fail, it needs a gate. |
 | **TOOL_GAP** | When verification tools can't reach the world, report "ship status unknown." Never fake success. |
-| **Error Path Design** | Every tool call, gate, and loop needs a failure path designed at build time. |
-| **Continuation Over Recap** | After context loss, resume from last known state. Don't re-explain everything. |
-| **Drift Detection** | Check docs vs reality regularly. Stats, versions, features, commands, links. |
-| **Manifest Gate** | Require a written summary of changes before any commit approval. |
+| **Error path design** | Every tool call, gate, and loop needs a failure path designed at build time. |
+| **Continuation over recap** | After context loss, resume from the last known state. Don't re-explain everything. |
+| **Drift detection** | Check docs vs reality regularly: stats, versions, features, commands, links. |
+| **Manifest gate** | Require a written summary of changes before any commit approval. |
 
 ---
 
-## How to Use
+## Documentation
 
-### New Project
+The public site and docs are built from [`web/`](./web/) (Astro, bilingual EN/ES). They are **not deployed yet** — the deploy awaits approval. Until then, the in-repo sources are the docs home.
 
-```bash
-init-agents          # Creates AGENTS.md + .sessionrc with purpose
-# Then start working. The agent loads the matching skill automatically.
-```
-
-### Existing Project
-
-```bash
-init-agents          # Merges skills into existing AGENTS.md or CLAUDE.md — never overwrites
-```
-
-### Pre-Flight Check
-
-Before any edit in this repo:
-
-```bash
-bash scripts/pre-flight.sh
-```
-
-Checks: correct branch, clean working tree, remote up to date, upstream configured.
-If it fails, ask the user before taking any action.
-
----
-
-## Documentation Map
-
-| File | What It Is |
+| Source | What it is |
 |---|---|
-| [`AGENTS.md`](./AGENTS.md) | Core rules: context persistence, intent mapping, lifecycle, mutation approval |
-| [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Full anti-rationalization table, Commit Manifest Protocol, project-type matrix |
-| [`SOUL.md`](./SOUL.md) | Project identity: principles, values, what we never do |
-| [`STEERING-GUIDE.md`](./STEERING-GUIDE.md) | Canonical files and severity — what the agent must always know |
-| [`ANTI-PATTERNS.md`](./ANTI-PATTERNS.md) | Catalog of 11 agent workflow anti-patterns with code examples and mechanical fixes |
-| [`GLOSSARY.md`](./GLOSSARY.md) | A-Z glossary of 40+ framework terms with source file cross-references |
-| [`PATTERNS.md`](./PATTERNS.md) | Catalog of 8 workflow patterns with Mermaid diagrams and trade-off analysis |
+| [`web/src/content/docs/`](./web/src/content/docs/) | The new docs: overview, getting started, lifecycle, skills, enforcement, agents, distribution, branch protection, FAQ |
+| [`web/README.md`](./web/README.md) | How the Astro site is built, structured, and tested |
 | [`docs/HARNESS.md`](./docs/HARNESS.md) | Harness architecture: 6 components, Agent = Model + Harness |
-| [`docs/DESIGN-WORKFLOW.md`](./docs/DESIGN-WORKFLOW.md) | Design ecosystem map: skills, lifecycle, decision tree, review pipeline |
+| [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md) | All install channels, maintainer setup, release automation |
 | [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md) | Agent compatibility, adapter setup, per-agent configuration |
-| [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) | User's guide: first session walkthrough, common scenarios, tips |
-| [`QUICKSTART.md`](./QUICKSTART.md) | Markdown version of the Quick Start Guide |
-| [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) | Project state, roadmap, and phased completion |
-| [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) | Changelog and version history (current: v6.3.0) |
-| [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | Project health audit (57 skills, auto-generated, validated against linter) |
+| [`docs/BRANCH-PROTECTION.md`](./docs/BRANCH-PROTECTION.md) | L2/L3 setup and the honest limits of remote enforcement |
+| [`docs/quickstart-guide.html`](./docs/quickstart-guide.html) · [`QUICKSTART.md`](./QUICKSTART.md) | Your first session, how skills activate, day-to-day tips |
+| [`AGENTS.md`](./AGENTS.md) · [`AGENTS-EXTENDED.md`](./AGENTS-EXTENDED.md) | Core rules; anti-rationalization table and project-type matrix |
+| [`SOUL.md`](./SOUL.md) · [`STEERING-GUIDE.md`](./STEERING-GUIDE.md) | Project identity and the canonical files the agent must know |
+| [`GLOSSARY.md`](./GLOSSARY.md) · [`PATTERNS.md`](./PATTERNS.md) · [`ANTI-PATTERNS.md`](./ANTI-PATTERNS.md) | Terms, workflow patterns, and 11 agent anti-patterns |
+| [`PROGRESS_STATUS.md`](./PROGRESS_STATUS.md) · [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) · [`HEALTH-CHECK.md`](./HEALTH-CHECK.md) | State, changelog, health audit |
 | [`DEVELOPMENT.md`](./DEVELOPMENT.md) | Maintainer conventions and artifact rules |
-| [`STACK_CONFIG_TEMPLATE.md`](./STACK_CONFIG_TEMPLATE.md) | Stack-agnostic configuration template |
 | [ADRs/](./ADRs/) | Architecture Decision Records |
-| [`scripts/git-hooks/pre-commit`](./scripts/git-hooks/pre-commit) | Pre-commit hook v11 (15 gates including Gate 0) |
-| [`scripts/git-hooks/commit-msg`](./scripts/git-hooks/commit-msg) | Commit-msg hook v6 (TDD only — no override. User runs git commit directly) |
-| [`scripts/commit-approval.sh`](./scripts/commit-approval.sh) | Commit approval with time-window manifest gate |
-| [`install.sh`](./install.sh) | Cross-shell installer (Linux/macOS) |
-| [`install.ps1`](./install.ps1) | PowerShell installer (Windows) |
 
-**Full documentation site →** [`docs/index.html`](./docs/index.html)
+**When the site is live it will serve:** [landing](https://juandelossantos.github.io/another-agent-skills/) · [docs](https://juandelossantos.github.io/another-agent-skills/docs/) · [skills reference](https://juandelossantos.github.io/another-agent-skills/docs/skills/) · [tutorials](https://juandelossantos.github.io/another-agent-skills/docs/first-gated-commit/) · [`llms.txt`](https://juandelossantos.github.io/another-agent-skills/llms.txt).
+
+---
+
+## Testing & quality
+
+```bash
+bash tests/run-all.sh
+```
+
+The runner auto-discovers every `tests/test-*.sh` suite (behavioral and regression) plus the task working set, the audit engine, the init scaffolding, skill lint, and the eval end-to-end suite. It also runs as **Pre-commit Gate 14**, scoped to changed files.
+
+**TDD gate rules** — every commit with code changes needs a matching test, with no override:
+
+- **Name-pairing:** the test file name must match the code file name (`scripts/tdd-gate.sh` → `tests/test-tdd-gate.sh`).
+- **New-test:** at least one staged test file must be new (not in `HEAD`).
+- **Staging order:** the test must be created before the code (TDD RED → GREEN).
+- **No override:** there is no bypass.
+
+The `web/` Astro site has its own build + `node --test` suite and a Playwright + axe WCAG 2.2 AA gate, run separately — the core CI never builds it. See [`web/README.md`](./web/README.md).
 
 ---
 
@@ -454,21 +292,19 @@ Pull requests are welcome. Whether it's a new skill, a guide improvement, or a b
 
 1. Fork the repo.
 2. Add or improve a skill in `skills/`.
-3. Follow lazy loading: SKILL.md as index, `*-GUIDE.md` for details.
+3. Follow lazy loading: `SKILL.md` as the index, `*-GUIDE.md` for details.
 4. Keep it tight: no filler, no duplication, imperative voice.
 5. Test with `bash install.sh`.
 6. Open a PR.
 
-**Guides and conventions:** [`DEVELOPMENT.md`](./DEVELOPMENT.md) covers the artifact convention (`development/` is git-ignored), skill templates, and review process.
-
-**Blocked on something?** [Open an issue](https://github.com/juandelossantos/another-agent-skills/issues) — I prioritize by demand.
+**Guides and conventions:** [`DEVELOPMENT.md`](./DEVELOPMENT.md) covers the artifact convention (`development/` is git-ignored), skill templates, and the review process. **Blocked on something?** [Open an issue](https://github.com/juandelossantos/another-agent-skills/issues).
 
 ---
 
 ## Uninstall
 
 ```bash
-# Linux / macOS — removes shell config, scripts, skills, remote repo
+# Linux / macOS — removes shell config, scripts, skills, and the remote repo
 bash uninstall.sh
 
 # Windows
@@ -480,7 +316,7 @@ Does not remove your user profile (`~/.config/opencode/user-profile.json`) or th
 ## Requirements
 
 - **Git** + **Bash** (Linux/macOS) or **PowerShell** (Windows)
-- **OpenCode** recommended. Adapters available for Claude Code, Cursor, and Kiro.
+- **OpenCode** recommended. Adapters available for Claude Code, Cursor, Codex, Gemini CLI, and any agent that reads `AGENTS.md`.
 
 ---
 
@@ -490,18 +326,18 @@ Ideas borrowed from the ecosystem, adapted to fit our philosophy. We don't copy.
 
 | Source | What We Took | How We Adapted |
 |---|---|---|
-| [Singhal et al. — *Agent Skills* (Google, 2026)](https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view) | EDD (Evaluation-Driven Development), 4 failure modes, Read/Draft/Act tiers, eval toolkit (5 patterns), meta-skills, skill smells | Created v2.0.0 eval framework (`scripts/eval/`), skill tier system in frontmatter, smells detection in skill-lint.sh, 14 new skills completing the lifecycle pipeline |
-| [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 57 skills with lazy loading, guides, enforcement, and evaluation system |
-| [Osmani, Saboo & Kartakis — *The New SDLC With Vibe Coding*](https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view) (2026) | Harness engineering, factory model, agentic engineering spectrum | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added AI review checklist, expanded Memory system |
-| [github/spec-kit](https://github.com/github/spec-kit) (2026) | Structured clarification before planning, convergence checks, research artifacts, parallel task markers | Added P2 Clarification + P10 Convergence to `spec-driven-development`, `architecture/research.md` artifact, `[S]/[P]/[Pm]` markers to `planning-and-task-breakdown` |
-| [Affaan Mustafa / ECC](https://github.com/affaan-m/ECC) | Cross-platform enforcement, SOUL.md pattern, shared memory gap analysis | Created SOUL.md, mechanical enforcement, incident-driven evolution |
-| [Sub-Zero Skill](https://github.com/henchmarketing-rgb/sub-zero-skill) | TOOL_GAP verdict, fresh-context verification, drift detection | Added to SOUL.md principle 8, Rule 0h, code-review-and-quality, project-health-check, shipping-and-launch |
-| [awesome-skills/code-review-skill](https://github.com/awesome-skills/code-review-skill) | 6-level severity labels | Added to code-review-and-quality skill |
-| [Harness Books](https://github.com/wquguru/harness-books) | Error path design, continuation-over-recap, 10 principles of harness engineering | Added to engineering-fundamentals, Rule 0i, SOUL.md |
-| [Leonxlnx / taste-skill](https://github.com/Leonxlnx/taste-skill) | Design taste and anti-slop frontend | Integrated into critique-skill and design review pipeline |
-| [Paul Bakaus / impeccable.style](https://impeccable.style) | Design review pipeline inspiration | Built 9-skill pipeline: critique → audit → fix → delight |
+| [Singhal et al. — *Agent Skills* (Google, 2026)](https://drive.google.com/file/d/1Wso-CM4aAvTxFZa5wjBntKM3IVSg7PWW/view) | EDD (Evaluation-Driven Development), 4 failure modes, Read/Draft/Act tiers, eval toolkit (5 patterns), meta-skills, skill smells | Created the v2.0.0 eval framework (`scripts/eval/`), skill tier system in frontmatter, smells detection in skill-lint.sh, 14 new skills completing the lifecycle pipeline |
+| [Addy Osmani](https://github.com/addyosmani/agent-skills) | 23 upstream skills as foundation | Expanded to 57 skills with lazy loading, guides, enforcement, and evaluation |
+| [Osmani, Saboo & Kartakis — *The New SDLC With Vibe Coding*](https://drive.google.com/file/d/1wNEl8FMpTso8aXlb_joxgzparxi-0ciM/view) (2026) | Harness engineering, factory model, agentic engineering spectrum | Created `docs/HARNESS.md`, reframed enforcement as "The Harness", added the AI review checklist |
+| [github/spec-kit](https://github.com/github/spec-kit) (2026) | Structured clarification before planning, convergence checks, research artifacts, parallel task markers | Added P2 Clarification + P10 Convergence to `spec-driven-development`, the `architecture/research.md` artifact, `[S]/[P]/[Pm]` markers |
+| [Affaan Mustafa / ECC](https://github.com/affaan-m/ECC) | Cross-platform enforcement, SOUL.md pattern, shared-memory gap analysis | Created `SOUL.md`, mechanical enforcement, incident-driven evolution |
+| [Sub-Zero Skill](https://github.com/henchmarketing-rgb/sub-zero-skill) | TOOL_GAP verdict, fresh-context verification, drift detection | Added to SOUL.md principle 8, Rule 0h, `code-review-and-quality`, `project-health-check`, `shipping-and-launch` |
+| [awesome-skills/code-review-skill](https://github.com/awesome-skills/code-review-skill) | 6-level severity labels | Added to `code-review-and-quality` |
+| [Harness Books](https://github.com/wquguru/harness-books) | Error path design, continuation-over-recap, 10 principles of harness engineering | Added to `engineering-fundamentals`, Rule 0i, `SOUL.md` |
+| [Leonxlnx / taste-skill](https://github.com/Leonxlnx/taste-skill) | Design taste and anti-slop frontend | Integrated into `critique-skill` and the design review pipeline |
+| [Paul Bakaus / impeccable.style](https://impeccable.style) | Design review pipeline inspiration | Built the 9-skill pipeline: critique → audit → fix → delight |
 | [Julius Brussee / caveman](https://github.com/JuliusBrussee/caveman) | Token optimization inspiration | Lazy loading, 250-line skill indexes, 60/25/15 context budget |
-| [OpenCode team](https://opencode.ai) | Native skill framework and invocation system | Built as OpenCode-first, portable to other agents |
+| [OpenCode team](https://opencode.ai) | Native skill framework and invocation system | Built OpenCode-first, portable to other agents |
 
 ---
 

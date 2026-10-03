@@ -26,10 +26,10 @@ assert "has an 'Orden de ejecución' section" "grep -q '## Orden de ejecución' 
 assert "orders Phase 9 before Phase 10 before Phase 11" "grep -q 'Phase 9 (distribución) → Phase 10 (landing/docs + descubribilidad) → Phase 11 (docs site)' '$PLAN'"
 assert "justifies it (install story / git clone)" "grep -q 'git clone … && bash install.sh' '$PLAN'"
 assert "names the rework/drift risk" "grep -qi 'Evita rework y drift' '$PLAN'"
-assert "assigns sequential versions" "grep -q 'Phase 9 → \`v6.3.0\`' '$PLAN' && grep -q 'Phase 10 → \`v6.4.0\`' '$PLAN' && grep -q 'Phase 11 → \`v6.5.0\`' '$PLAN'"
+assert "reconciles the phase versions (10 shipped in v6.3.0; 11 re-planned)" "grep -q 'Phase 9 → \`v6.3.0\`' '$PLAN' && grep -q 'Phase 10 → \`v6.3.0\` (shipped with Phase 9)' '$PLAN' && grep -q 'Phase 11 → re-planned, no version assigned' '$PLAN'"
 
 # --- Phase 10 discoverability scope ---
-assert "Phase 10 is v6.4.0" "grep -q '## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.4.0)' '$PLAN'"
+assert "Phase 10 is v6.3.0" "grep -q '## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0)' '$PLAN'"
 assert "Phase 10 has the discoverability block" "grep -q 'Bloque D — Descubribilidad: SEO + AEO + accesibilidad + award-winning' '$PLAN'"
 assert "covers SEO technical (sitemap/robots/hreflang)" "grep -q 'sitemap.xml\` + \`robots.txt' '$PLAN'"
 assert "covers AEO + llms.txt" "grep -q 'AEO' '$PLAN' && grep -q 'llms.txt' '$PLAN'"
@@ -39,7 +39,7 @@ assert "covers keywords + sector language" "grep -q 'Keywords + lenguaje del sec
 assert "covers indexing/measurement" "grep -q 'Indexación + medición' '$PLAN'"
 
 # --- Phase 11 ---
-assert "Phase 11 is v6.5.0" "grep -q '## Phase 11: Docs site — Astro + Starlight (v6.5.0)' '$PLAN'"
+assert "Phase 11 is re-planned / superseded" "grep -q '## Phase 11: Docs site — Astro + Starlight (re-planned; superseded by Phase 10' '$PLAN'"
 assert "Phase 11 includes SEO/AEO per language" "grep -q 'SEO/AEO por idioma' '$PLAN'"
 assert "Phase 11 includes WCAG 2.2 AA in Starlight" "grep -q 'WCAG 2.2 AA en el tema Starlight' '$PLAN'"
 
@@ -47,7 +47,7 @@ assert "Phase 11 includes WCAG 2.2 AA in Starlight" "grep -q 'WCAG 2.2 AA en el 
 assert "Phase 9 is marked COMPLETE" "grep -q '## Phase 9: Distribution & Upgrades (v6.3.0) — ✅ COMPLETE' '$PLAN'"
 assert "Phase 9 is in the Completed Phases table" "grep -qF '| **9** | **v6.3.0** |' '$PLAN'"
 assert "Phase 9 task table is ✅ DONE" "grep -qF 'P9.1 ✅ DONE' '$PLAN' && grep -qF 'P9.8** ✅ DONE' '$PLAN'"
-assert "Current Status tests count is 102" "grep -q '102 suites passing' '$PLAN'"
+assert "Current Status tests count is 104" "grep -q '104 suites passing' '$PLAN'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

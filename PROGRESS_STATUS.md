@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-10-03  
 > **Current version:** 6.3.0
-> **Status:** v6.3.0 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)** and **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**; 0 errors, 2 warnings, 151 guides across 57 skills, 102 test suites green  
+> **Status:** v6.3.0 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)** and **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**; 0 errors, 2 warnings, 151 guides across 57 skills, 104 test suites green  
 > **Current plan:** `PLAN.md` — Phase 10 complete; next is Phase 11 (docs site Astro + Starlight)
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 

@@ -31,7 +31,7 @@ assert "documents the pending Homebrew step" "grep -q 'HOMEBREW_TAP_TOKEN' '$FIL
 assert "Next Steps name Phase 11" "grep -q 'Phase 11 — docs site' '$FILE'"
 assert "gives explicit resume commands" "grep -q 'Resume:' '$FILE' && grep -q 'git checkout -b feat/phase11-docs-site' '$FILE'"
 assert "records verified system state" "grep -q 'System state (verified 2026-10-03)' '$FILE'"
-assert "records 102 suites" "grep -q '102 suites passing' '$FILE'"
+assert "records 104 suites" "grep -q '104 suites passing' '$FILE'"
 assert "records the v6.3.0 version" "grep -q 'now \*\*v6.3.0' '$FILE'"
 assert "retains the historical previous handoff" "grep -q 'previous sessions. handoff' '$FILE'"
 

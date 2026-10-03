@@ -36,7 +36,7 @@ assert "PLAN has no Phase 8 IN PROGRESS marker" "! grep -q '🔄 IN PROGRESS' '$
 assert "PLAN marks every P8.1–P8.9 task DONE/CLOSED" "! grep -qE 'P8\.[0-9] ⬜ PENDING' '$PLAN'"
 assert "PLAN lists Phase 8 in Completed Phases" "grep -qF '| **8** | **v6.2.0** |' '$PLAN'"
 assert "PLAN Next target is Phase 11" "grep -q 'Next target | \*\*Phase 11\*\*' '$PLAN'"
-assert "PLAN tests row says 102 suites" "grep -qF '102 suites passing' '$PLAN'"
+assert "PLAN tests row says 104 suites" "grep -qF '104 suites passing' '$PLAN'"
 
 # --- PROGRESS_STATUS.md ---
 assert "PROGRESS header says Phase 8 complete" "grep -q 'Phase 8 complete' '$PROGRESS'"

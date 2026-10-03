@@ -158,7 +158,7 @@ Footer (border-top, simple links)
 - Copy button: flash green 200ms, revert after 2s
 - `prefers-reduced-motion`: disable all transitions, keep nodes visible
 
-## Phase 10 — Landing Refresh (v6.4.0)
+## Phase 10 — Landing Refresh (v6.3.0)
 
 **Direction: evolve the editorial-premium system above; do not replace it.** The category
 (Superpowers, `skills.addy.ie`) has converged on Geist-sans card grids — our serif + warm-dark

@@ -9,12 +9,12 @@
 | Metric | Value |
 |---|---|
 | Version | **6.3.0** (Phase 8 remote enforcement **live**; **Phase 9 distribution complete**; **Phase 10 public web complete** — release v6.3.0) |
-| Next target | **Phase 11** (Astro + Starlight docs site; the Phase 10 Astro site in `web/` is the base) |
+| Next target | **Phase 11** — re-planned (the Astro landing + docs site shipped in Phase 10 as `web/`; the original Astro + Starlight migration is superseded, scope to be re-defined) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 151 across all skills |
-| Tests | 102 suites passing (behavioral + task working set capped at 20) |
+| Tests | 104 suites passing (behavioral + task working set capped at 20) |
 
 ---
 
@@ -438,16 +438,16 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 **Phase 9 (distribución) → Phase 10 (landing/docs + descubribilidad) → Phase 11 (docs site).**
 
-> **Estado:** Phase 9 ✅ **COMPLETA** (PRs #47–#52). El siguiente objetivo es **Phase 10**.
+> **Estado:** Phase 9 ✅ **COMPLETA** (PRs #47–#52) y Phase 10 ✅ **SHIPPED** (v6.3.0, `feat/phase10-landing`). Phase 11 quedó **re-planteada** (el sitio Astro se entregó en Phase 10 como `web/`).
 
 **Por qué 9 antes que 10:**
 1. **Phase 9 cambia la forma de instalar.** Hoy todo dice `git clone … && bash install.sh`; Phase 9 lo cambia a bootstrap `curl` pineado + CLI `aas` + npm. La instalación es lo **primero** que lee un usuario nuevo.
 2. **Evita rework y drift.** Rediseñar la landing y reescribir los docs *antes* de 9 obligaría a re-editar el hero, la sección de instalación, el quickstart y la página de instalación. El drift de docs es el enemigo recurrente de este proyecto (Phase 4 "Docs Honesty", Phase 8.5).
 3. **El embudo manda.** Primero **hazlo fácil de instalar** (9); luego **véndelo** (10); luego **documéntalo a escala** (11, con el contenido final ya estable).
 
-**Versiones (secuenciales):** Phase 9 → `v6.3.0` · Phase 10 → `v6.4.0` · Phase 11 → `v6.5.0`.
+**Versiones:** Phase 9 → `v6.3.0` · Phase 10 → `v6.3.0` (shipped with Phase 9) · Phase 11 → re-planned, no version assigned.
 
-**Deuda consciente:** hasta que Phase 10/11 aterricen, algunas superficies siguen stale (`README` "What's New", refs a `6.1.0`). Se resuelven de una vez en 10/11 — no se parchean por separado (evita doble trabajo).
+**Deuda resuelta (v6.3.0):** las superficies stale (`README` "What's New", refs a `6.1.0`) se corrigieron en Phase 10: el `README` tiene ahora un único "What's New" (v6.3.0) y delega el histórico a `RELEASE-NOTES.md`. Phase 11 quedó re-planteada.
 
 ---
 
@@ -496,7 +496,7 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ---
 
-## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.4.0)
+## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0) — ✅ SHIPPED
 
 **Branch:** `feat/phase10-landing`
 **Goal:** Landing, README y docs **atractivos, accesibles y descubribles** — con la historia **multi-agente + distribución (Phase 9)** ya final, diseño award-winning, SEO técnico, **AEO** (Answer Engine Optimization), accesibilidad WCAG 2.2 AA y lenguaje/keywords del sector para ser encontrados y **citados como referente** en agent skills / IA agéntica.
@@ -546,15 +546,22 @@ Todo sale de P9.7/P9.8 — documentar en landing + docs + README:
 
 Estas Q&A alimentan también **D2 (FAQPage JSON-LD)** y **D3 (AEO)** → respuestas citables por buscadores y motores de IA.
 
-**Bloque C — Release (v6.4.0)**
-- C1 `VERSION` → 6.4.0 + tag + GitHub Release (value: multi-agente, distribución, descubribilidad).
+**Bloque C — Release (v6.3.0)**
+- C1 `VERSION` → 6.3.0 + tag + GitHub Release (value: multi-agente, distribución, descubribilidad).
 - C2 PR de la rama de landing.
 
 ---
 
-## Phase 11: Docs site — Astro + Starlight (v6.5.0)
+## Phase 11: Docs site — Astro + Starlight (re-planned; superseded by Phase 10 `web/`)
 
-**Goal:** Migrar el sitio de documentación a Astro + Starlight: SEO **y AEO** por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages — heredando el estándar de descubribilidad de Phase 10 (sitemap por idioma, datos estructurados, `llms.txt`, a11y WCAG 2.2 AA).
+**Status (2026-10-03):** ⚠️ **SUPERSEDED / RE-PLANNED.** The Astro landing + docs site that this
+phase scoped was built and shipped in **Phase 10** as [`web/`](./web/) — plain Astro (content
+collections + a hand-built docs layout), not Starlight. The original Starlight migration is
+therefore superseded; its remaining intent (deploy to GitHub Pages, per-locale indexability,
+docs test parity) folds into the Phase 10 deploy that awaits approval. Scope to be re-defined
+before any version is assigned.
+
+**Original goal (for reference):** Migrar el sitio de documentación a Astro + Starlight: SEO **y AEO** por idioma, búsqueda, sidebar y versionado, sirviendo en GitHub Pages — heredando el estándar de descubribilidad de Phase 10 (sitemap por idioma, datos estructurados, `llms.txt`, a11y WCAG 2.2 AA).
 
 **Principio de frontera (no erosionar):** el **core** (skills, rules, hooks, `install.sh`) se mantiene **sin build**. El build vive **solo en la capa de docs**; `install.sh` nunca debe requerir Node. El CI del core no corre el build de docs.
 

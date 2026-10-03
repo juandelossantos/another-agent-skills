@@ -26,9 +26,8 @@ assert "row credits Claude Code with ~/.claude/skills/ auto" "grep -q 'auto → 
 assert "Quick Start still documents --agent claude" "grep -q 'install.sh --agent claude' '$FILE'"
 assert "version badge is v6.3.0" "grep -q 'Version: v6.3.0' '$FILE'"
 assert "README states the real guide count (151)" "grep -q '151 guides' '$FILE'"
-assert "What's New in v6.1.0 section exists" "grep -q \"What's New in v6.1.0\" '$FILE'"
-assert "credits the code reviews that caught real bugs" "grep -qi 'full code reviews' '$FILE'"
-assert "reflects the final 19 new tests, 28/28 suites count" "grep -q '19 new tests, 28/28 suites' '$FILE'"
+assert "the single What's New section is v6.3.0" "grep -q \"## What's New in v6.3.0\" '$FILE'"
+assert "no older v6.1.0 What's New section remains" "! grep -q \"What's New in v6.1.0\" '$FILE'"
 assert "documents the Phase-7 flags as POSIX-only" "grep -qi 'Phase-7 installer flags' '$FILE' && grep -qi 'POSIX-only' '$FILE'"
 assert "points Windows users at install.sh for the Phase-7 flags" "grep -qi 'install.ps1.*not yet these flags\|not yet these flags' '$FILE'"
 

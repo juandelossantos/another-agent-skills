@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-03
 **Branch:** `feat/phase10-landing` — Phase 10 (Astro public web) merged; v6.3.0 version sync, NOT committed/pushed
-**Status:** ✅ **Phase 10 COMPLETE.** The public Astro web in `web/` is shipped: a bilingual (EN/ES) landing + docs site, the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, an FAQ, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD, hreflang) and a WCAG 2.2 AA a11y gate. The project is now **v6.3.0** (covers Phase 8 + 8.1 + 9 + 10). Test suite: **102 suites** green. npm/Homebrew activation and the web deploy await the maintainer's manual steps.
+**Status:** ✅ **Phase 10 COMPLETE.** The public Astro web in `web/` is shipped: a bilingual (EN/ES) landing + docs site, the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, an FAQ, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD, hreflang) and a WCAG 2.2 AA a11y gate. The project is now **v6.3.0** (covers Phase 8 + 8.1 + 9 + 10). Test suite: **104 suites** green. npm/Homebrew activation and the web deploy await the maintainer's manual steps.
 **Plan:** `PLAN.md` — single source of truth
 
 ## What Was Done (2026-10-03)
@@ -57,7 +57,7 @@ git checkout -b feat/phase11-docs-site
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
 - Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
-- Tests: **102 suites passing** (`bash tests/run-all.sh`).
+- Tests: **104 suites passing** (`bash tests/run-all.sh`).
 
 > Below this section: the previous sessions' handoffs (Phase 9 distribution, 2026-10-02, superseded above; Phase 8 closure, 2026-10-02; and Claude Code Parity, 2026-08-26) — historical.
 

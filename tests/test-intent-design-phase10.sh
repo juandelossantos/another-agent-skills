@@ -36,6 +36,7 @@ assert "records bilingual + a11y targets" "grep -q 'WCAG 2.2 AA' '$INTENT' && gr
 
 # --- DESIGN.md: the Phase 10 evolution ---
 assert "DESIGN.md has the Phase 10 section" "grep -q '## Phase 10 — Landing Refresh' '$DESIGN'"
+assert "Phase 10 label is v6.3.0 (shipped, not v6.4.0)" "grep -q '## Phase 10 — Landing Refresh (v6.3.0)' '$DESIGN' && ! grep -q '## Phase 10 — Landing Refresh (v6.4.0)' '$DESIGN'"
 assert "keeps the editorial direction" "grep -q 'evolve the editorial-premium' '$DESIGN'"
 assert "specs the three animations" "grep -q '### The three animations' '$DESIGN' && grep -q 'Flow (lifecycle)' '$DESIGN' && grep -q 'Harness' '$DESIGN' && grep -q 'Loop' '$DESIGN'"
 assert "keeps light + dark first-class" "grep -q 'Light & dark (first-class' '$DESIGN'"

@@ -34,7 +34,7 @@ assert "documents the v6.3.0 release" "grep -q 'v6.3.0 released' '$FILE'"
 assert "documents the test cadence" "grep -q 'Test cadence' '$FILE'"
 assert "lists Phase 10 as planned next" "grep -q 'Phase 10' '$FILE'"
 assert "documents Phase 9 COMPLETE" "grep -q 'Phase 9 COMPLETE' '$FILE'"
-assert "records 102 suites" "grep -q '102 suites' '$FILE'"
+assert "records 104 suites" "grep -q '104 suites' '$FILE'"
 assert "links the distribution docs" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 
 echo ""
