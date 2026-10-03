@@ -64,9 +64,13 @@ echo "╚═══════════════════════�
 # See docs/BRANCH-PROTECTION.md.
 DECISION_FILE="${REPO_ROOT}/.git/DECISION_APPROVED"
 if [[ -f "$DECISION_FILE" ]]; then
-  DECISION_TS=$(cat "$DECISION_FILE" 2>/dev/null | grep -oP '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}' | head -1 || true)
+  # Portable timestamp extraction (no GNU-only grep -P): BSD/macOS grep has
+  # no -P, and `date -d` is GNU-only — both would block every commit on macOS.
+  DECISION_TS=$(sed -n 's/.*\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\).*/\1/p' "$DECISION_FILE" 2>/dev/null | head -1 || true)
   if [[ -n "$DECISION_TS" ]]; then
-    DECISION_EPOCH=$(date -d "$DECISION_TS" +%s 2>/dev/null || echo "0")
+    DECISION_EPOCH=$(date -d "$DECISION_TS" +%s 2>/dev/null \
+                     || date -j -f "%Y-%m-%dT%H:%M:%S" "$DECISION_TS" +%s 2>/dev/null \
+                     || echo "0")
     NOW_EPOCH=$(date +%s)
     DIFF=$(( NOW_EPOCH - DECISION_EPOCH ))
     if [[ "$DIFF" -gt 600 ]]; then

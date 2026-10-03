@@ -39,7 +39,7 @@ echo "────────────────────────�
 # ── Static: the guards are present ──
 assert "Gate 3 guards the unborn HEAD" "grep -q 'git rev-parse HEAD 2>/dev/null' '$HOOK_SRC'"
 assert "Gate 3 skips when LOCAL is empty" "grep -q 'if \[ -n \"\$LOCAL\" \]' '$HOOK_SRC'"
-assert "Gate 0 timestamp pipeline is guarded" "grep -q 'grep -oP .*| head -1 || true' '$HOOK_SRC'"
+assert "Gate 0 timestamp pipeline is guarded" "grep -q 'head -1 || true' '$HOOK_SRC'"
 
 # ── Behavioral: first commit in a brand-new repo on a feature branch ──
 TMP=$(mktemp -d)

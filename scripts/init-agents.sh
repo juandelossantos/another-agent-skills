@@ -209,12 +209,42 @@ backup_file() {
     echo "$backup"
 }
 
+# Replace a symlink with a regular file that carries the resolved content, so
+# the user's content stays in the project and nothing outside is mutated. A
+# dangling symlink becomes an empty file (it had no reachable content).
+materialize_symlink_target() {
+    local target="$1"
+    [ -L "$target" ] || return 0
+    if [ "$DRY_RUN" = true ]; then
+        plan "replace symlink ${target} with a regular file"
+        return 0
+    fi
+    local resolved tmp
+    resolved="$(readlink "$target" 2>/dev/null || true)"
+    case "$resolved" in
+        /*) ;;
+        *) resolved="$(dirname "$target")/$resolved" ;;
+    esac
+    tmp="${target}.aas.tmp.$$"
+    if [ -f "$resolved" ]; then
+        cp "$resolved" "$tmp"
+    else
+        : > "$tmp"
+    fi
+    rm -f "$target"
+    mv "$tmp" "$target"
+}
+
 # Append our rules footer to existing file with delimiters
 # Never appends the full AGENTS_SOURCE — only the attribution footer.
 # The full rules are loaded dynamically by the agent framework via skills/.
 merge_into_file() {
     local target="$1"
-    
+
+    # Never `cat >>` through a symlink: that follows it and mutates the file it
+    # points at (possibly outside the project). Materialize a real project file.
+    materialize_symlink_target "$target"
+
     if has_our_rules "$target"; then
         ok "Another Agent Skills rules already present in $(basename "$target"). Skipping."
         return 0
@@ -697,17 +727,20 @@ CONFIG
 
 # Main logic
 main() {
-    # Check for updates before doing anything else
-    bash "${SCRIPT_DIR}/check-update.sh" || true
-
-    # Non-blocking drift advisory + legacy detection (P9.8).
+    # Non-blocking drift advisory + legacy detection (P9.8). Both are read-only
+    # and safe to run during a dry run.
     aas_drift_notice
     detect_legacy || true
 
+    # --dry-run must be side-effect-free: never run the updater here. It can
+    # reach the network (`git ls-remote`) and can prompt on stdin.
     if [ "$DRY_RUN" = true ]; then
         run_dry_run
         return 0
     fi
+
+    # Check for updates before doing anything else (real installs only).
+    bash "${SCRIPT_DIR}/check-update.sh" || true
 
     # Migrate a legacy project before the normal (idempotent) install.
     if [ "$REPAIR" = true ]; then
@@ -721,7 +754,9 @@ main() {
     if [[ -n "$existing_target" ]]; then
         merge_into_file "$existing_target"
     else
-        # No existing agent config → copy normally
+        # No usable agent config. Drop a dangling AGENTS.md symlink first: `cp`
+        # refuses it, and writing through it would land outside the project.
+        if [ -L "./AGENTS.md" ]; then rm -f "./AGENTS.md"; fi
         cp "$AGENTS_SOURCE" "./AGENTS.md"
         ok "Created AGENTS.md with Another Agent Skills rules"
         is_new_project=true
@@ -1082,6 +1117,13 @@ repair_legacy() {
             /*) rm -f "$p"; warn "Removed absolute symlink ${p} → ${target}" ;;
             *)  if [ ! -e "$p" ]; then rm -f "$p"; warn "Removed broken symlink ${p}"; fi ;;
         esac
+    done
+    # Agent config files must never be symlinks: the merge would write through
+    # them. Materialize the resolved content into the project (never delete it).
+    local cfg
+    for cfg in AGENTS.md CLAUDE.md .cursorrules .claude/CLAUDE.md .opencode/AGENTS.md; do
+        [ -L "$cfg" ] || continue
+        materialize_symlink_target "$cfg"
     done
     # Hook symlinks are replaced by the normal install; custom real hooks need --force.
     if [ -L "./.git/hooks/pre-commit" ]; then rm -f "./.git/hooks/pre-commit"; fi

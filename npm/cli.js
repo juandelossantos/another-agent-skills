@@ -103,6 +103,14 @@ function httpGet(url, dest) {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         res.resume();
         const next = new URL(res.headers.location, url).toString();
+        // Re-guard the redirect target: a trusted URL must not be able to
+        // bounce to a mutable ref.
+        try {
+          guardUrl(next);
+        } catch (e) {
+          reject(e);
+          return;
+        }
         httpGet(next, dest).then(resolve, reject);
         return;
       }
@@ -158,6 +166,56 @@ function verifyChecksum(tarball, checksumsFile, asset) {
     throw new Error(
       `checksum mismatch for ${asset}: expected ${expected}, got ${actual}`
     );
+  }
+}
+
+// The checksum proves the asset is authentic; it says nothing about the safety
+// of its layout. Refuse member paths that are absolute or escape the extraction
+// root, and symlink targets that resolve outside it — parity with the shell
+// `aas_guard_tarball` in scripts/lib/aas.sh.
+function guardTarball(file) {
+  let names;
+  try {
+    names = execFileSync("tar", ["-tzf", file], { encoding: "utf8" });
+  } catch (e) {
+    throw new Error(`could not read tarball ${file}: ${e.message}`);
+  }
+  for (const name of names.split(/\r?\n/)) {
+    if (/^\//.test(name) || /(^|\/)\.\.(\/|$)/.test(name)) {
+      throw new Error(`refusing tarball with unsafe member path: ${name}`);
+    }
+  }
+
+  let verbose;
+  try {
+    verbose = execFileSync("tar", ["-tvzf", file], { encoding: "utf8" });
+  } catch (e) {
+    throw new Error(`could not read tarball ${file}: ${e.message}`);
+  }
+  for (const line of verbose.split(/\r?\n/)) {
+    if (!line.startsWith("l")) continue; // symlink entries only
+    const arrow = line.indexOf(" -> ");
+    if (arrow === -1) continue;
+    const target = line.slice(arrow + 4);
+    if (target.startsWith("/")) {
+      throw new Error(`refusing tarball with absolute symlink target: ${target}`);
+    }
+    const left = line.slice(0, arrow).trim();
+    const name = left.slice(left.lastIndexOf(" ") + 1);
+    const dir = name.includes("/") ? name.replace(/\/[^/]*$/, "") : "";
+    const combined = dir ? `${dir}/${target}` : target;
+    let depth = 0;
+    for (const c of combined.split("/")) {
+      if (c === "" || c === ".") continue;
+      if (c === "..") {
+        depth -= 1;
+        if (depth < 0) {
+          throw new Error(`refusing tarball with escaping symlink target: ${target}`);
+        }
+      } else {
+        depth += 1;
+      }
+    }
   }
 }
 
@@ -237,6 +295,9 @@ async function cmdInstall(argv) {
 
     info("Verifying sha256...");
     verifyChecksum(tarball, checksumsFile, asset);
+
+    info("Checking tarball layout...");
+    guardTarball(tarball);
 
     const extractDir = path.join(tmp, "src");
     fs.mkdirSync(extractDir);

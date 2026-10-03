@@ -336,11 +336,11 @@ for cfile in "${CODE_FILES[@]}"; do
   if ! is_new_file "$cfile"; then
     continue
   fi
-  CODE_MTIME=$(stat -c '%Y' "$cfile" 2>/dev/null || echo 0)
+  CODE_MTIME=$(stat -c '%Y' "$cfile" 2>/dev/null || stat -f '%m' "$cfile" 2>/dev/null || echo 0)
   [ "$CODE_MTIME" -eq 0 ] && continue
   for tfile in "${TEST_FILES[@]}"; do
     if name_matches_code "$cfile" "$tfile"; then
-      TEST_MTIME=$(stat -c '%Y' "$tfile" 2>/dev/null || echo 0)
+      TEST_MTIME=$(stat -c '%Y' "$tfile" 2>/dev/null || stat -f '%m' "$tfile" 2>/dev/null || echo 0)
       [ "$TEST_MTIME" -eq 0 ] && continue
       if [ "$TEST_MTIME" -gt "$CODE_MTIME" ]; then
         echo "  - $tfile (mtime=$TEST_MTIME) is newer than $cfile (mtime=$CODE_MTIME)"

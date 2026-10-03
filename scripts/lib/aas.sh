@@ -53,7 +53,7 @@ aas_install_dir() { printf '%s/%s\n' "${AAS_HOME%/}" "$1"; }
 aas_guard_url() {
   local url="${1:-}"
   case "$url" in
-    */main/*|*/master/*|*refs/heads/*)
+    */main/*|*/master/*|*refs/heads/*|*/main|*/master)
       aas_error "refusing to fetch from a mutable branch: ${url}"
       return 1
       ;;
@@ -94,10 +94,42 @@ aas_sha256() { # <file>
 # Defense-in-depth on top of the checksum: refuse a tarball whose member paths
 # are absolute or escape the extraction root. GNU/BSD tar strip these on extract,
 # but a release asset should never contain them at all.
+#
+# A symlink's *name* always looks safe (`link`), so a name-only check cannot see
+# `link -> /etc/passwd` or `link -> ../../../etc`. Those are checked separately:
+# every symlink target must resolve inside the extraction root. Legitimate
+# releases do contain relative, in-root symlinks (e.g. `.opencode/skills/x ->
+# ../../skills/x`), so only escaping targets are refused.
 aas_guard_tarball() { # <tarball>
   local tarball="$1"
-  if tar -tzf "$tarball" 2>/dev/null | grep -Eq '^/|(^|/)\.\.(/|$)'; then
+  if tar -tzf "$tarball" 2>/dev/null | grep -Eq '(^|/)\.\.(/|$)|^/'; then
     aas_error "refusing tarball with unsafe member paths: ${tarball}"
+    return 1
+  fi
+  if ! tar -tvzf "$tarball" 2>/dev/null | awk '
+    /^l/ {
+      i = index($0, " -> ")
+      if (i == 0) next
+      left = substr($0, 1, i - 1)
+      tgt  = substr($0, i + 4)
+      name = left
+      sub(/.*[ \t]/, "", name)
+      if (tgt ~ /^\//) { print "absolute symlink " name " -> " tgt; bad = 1; next }
+      dir = name
+      if (dir ~ /\//) sub(/\/[^\/]*$/, "", dir); else dir = ""
+      path = (dir == "" ? tgt : dir "/" tgt)
+      depth = 0
+      n = split(path, comp, "/")
+      for (k = 1; k <= n; k++) {
+        c = comp[k]
+        if (c == "" || c == ".") continue
+        if (c == "..") { depth--; if (depth < 0) { print "escaping symlink " name " -> " tgt; bad = 1; break } }
+        else depth++
+      }
+    }
+    END { exit bad ? 1 : 0 }
+  ' 1>&2; then
+    aas_error "refusing tarball with an unsafe symlink target: ${tarball}"
     return 1
   fi
   return 0
