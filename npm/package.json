@@ -1,0 +1,24 @@
+{
+  "name": "@juandelossantos/another-agent-skills",
+  "version": "6.2.0",
+  "description": "npm wrapper for Another Agent Skills: downloads and installs the pinned, checksum-verified release. Ships no framework payload.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juandelossantos/another-agent-skills.git"
+  },
+  "homepage": "https://github.com/juandelossantos/another-agent-skills#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "aas-npm": "cli.js"
+  },
+  "files": [
+    "cli.js",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
