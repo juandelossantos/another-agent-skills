@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Another Agent Skills - Landing mockup (Phase 10)</title>
+<meta name="description" content="Phase 10 landing mockup. Most skill libraries sell capability. We sell discipline you can verify. Mechanical enforcement you can see: L1 hooks, the remote gates check, L3 review.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:,">
+
+<!-- Theme + JS flag applied before paint to avoid a flash. Respects prefers-color-scheme on first load. -->
+<script>
+(function () {
+  var doc = document.documentElement;
+  doc.setAttribute('data-js', 'true');
+  var theme;
+  try { theme = localStorage.getItem('aas-theme'); } catch (e) {}
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  doc.setAttribute('data-theme', theme);
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700;6..72,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/mockup.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Another Agent Skills?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A framework of 57 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does mechanical enforcement work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Three layers: L1 local git hooks give fast advisory feedback; L2 is a required remote gates check that cannot be skipped by the committer; L3 is CODEOWNERS review. A code change with no matching test is blocked." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a href="#main" class="skip-link" data-i18n="a11y.skip">Skip to content</a>
+
+<header class="header">
+  <nav class="header__nav container" aria-label="Primary">
+    <a href="#top" class="header__logo">
+      <span class="header__logo-mark" aria-hidden="true">///</span>
+      <span class="header__logo-text">Another Agent Skills</span>
+    </a>
+    <ul class="header__links">
+      <li><a href="#flow" data-i18n="nav.flow">Flow</a></li>
+      <li><a href="#harness" data-i18n="nav.harness">Harness</a></li>
+      <li><a href="#loop" data-i18n="nav.loop">The Loop</a></li>
+      <li><a href="#enforcement" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#workflows" data-i18n="nav.workflows">Workflows</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+      <li><a href="../../index.html" data-i18n="nav.docs">Docs</a></li>
+    </ul>
+    <div class="header__controls">
+      <button class="header__control" data-action="lang" aria-label="Cambiar idioma a español">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+        <span data-lang-text>ES</span>
+      </button>
+      <button class="header__control" data-action="theme" aria-label="Toggle color theme" aria-pressed="false">
+        <span class="header__control-icon" data-theme-icon aria-hidden="true">
+          <svg class="icon icon--moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <svg class="icon icon--sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </span>
+        <span class="header__control-text" data-theme-text>Dark</span>
+      </button>
+      <button class="header__hamburger" data-action="menu" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="icon icon--menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>
+        <svg class="icon icon--close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="header__mobile" id="mobile-menu" data-mobile-menu aria-hidden="true">
+    <ul class="header__mobile-links">
+      <li><a href="#flow" data-i18n="nav.flow">Flow</a></li>
+      <li><a href="#harness" data-i18n="nav.harness">Harness</a></li>
+      <li><a href="#loop" data-i18n="nav.loop">The Loop</a></li>
+      <li><a href="#enforcement" data-i18n="nav.enforcement">Enforcement</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#workflows" data-i18n="nav.workflows">Workflows</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+      <li><a href="../../index.html" data-i18n="nav.docs">Docs</a></li>
+      <li><a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener"><span data-i18n="nav.github">GitHub</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ============ 1. HERO ============ -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="container hero__inner">
+      <p class="hero__tag" data-i18n="hero.tag">/// system</p>
+
+      <h1 class="hero__title" id="hero-title">
+        <span data-i18n="hero.title1">Turn AI agents into</span>
+        <span class="hero__accent" data-i18n="hero.title2">disciplined senior engineers.</span>
+      </h1>
+
+      <p class="hero__subtitle">
+        <span class="hero__thesis" data-i18n="hero.thesis">Most skill libraries sell capability.</span>
+        <span class="hero__thesis-accent" data-i18n="hero.thesisAccent">We sell discipline you can verify.</span>
+      </p>
+
+      <div class="terminal" data-terminal>
+        <div class="terminal__bar">
+          <span class="terminal__dot terminal__dot--r" aria-hidden="true"></span>
+          <span class="terminal__dot terminal__dot--y" aria-hidden="true"></span>
+          <span class="terminal__dot terminal__dot--g" aria-hidden="true"></span>
+          <span class="terminal__title">install - three channels</span>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal__lines" data-terminal-lines>
+            <div class="terminal__tline">
+              <span class="terminal__prompt">~ $</span>
+              <span class="terminal__typing">git clone https://github.com/juandelossantos/another-agent-skills.git &amp;&amp; cd another-agent-skills &amp;&amp; bash install.sh</span>
+            </div>
+            <div class="terminal__tline">
+              <span class="terminal__prompt">~ $</span>
+              <span class="terminal__typing">curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash</span>
+            </div>
+            <div class="terminal__tline">
+              <span class="terminal__prompt">~ $</span>
+              <span class="terminal__typing">npx @juandelossantos/another-agent-skills install</span>
+              <span class="terminal__soon">soon</span>
+            </div>
+          </div>
+          <div class="terminal__output" data-terminal-output>
+            <div class="terminal__out-line terminal__out-line--info" data-i18n="terminal.detected">Detected: OpenCode · Claude Code · Cursor · Codex · Gemini</div>
+            <div class="terminal__out-line" data-i18n="terminal.installed">Installed 57 skills · wired the harness · armed the gates.</div>
+            <div class="terminal__out-line" data-i18n="terminal.done">DONE. Run init-agents in any project.</div>
+            <div class="terminal__out-line terminal__out-line--muted" data-i18n="terminal.channels">Channels: git and curl live · npm and brew soon.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lifecycle-strip" data-lifecycle-strip>
+        <span class="lifecycle-strip__stage" data-hue="define"><span data-i18n="flow.define.name">DEFINE</span></span>
+        <span class="lifecycle-strip__arrow" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="lifecycle-strip__stage" data-hue="plan"><span data-i18n="flow.plan.name">PLAN</span></span>
+        <span class="lifecycle-strip__arrow" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="lifecycle-strip__stage" data-hue="build"><span data-i18n="flow.build.name">BUILD</span></span>
+        <span class="lifecycle-strip__arrow" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="lifecycle-strip__stage" data-hue="verify"><span data-i18n="flow.verify.name">VERIFY</span></span>
+        <span class="lifecycle-strip__arrow" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="lifecycle-strip__stage" data-hue="review"><span data-i18n="flow.review.name">REVIEW</span></span>
+        <span class="lifecycle-strip__arrow" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="lifecycle-strip__stage" data-hue="ship"><span data-i18n="flow.ship.name">SHIP</span></span>
+      </div>
+
+      <div class="hero__actions">
+        <div class="command">
+          <code class="command__code">git clone https://github.com/juandelossantos/another-agent-skills.git &amp;&amp; bash install.sh</code>
+          <button class="command__copy" data-action="copy" aria-label="Copy install command">
+            <svg class="icon icon--copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <svg class="icon icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          </button>
+        </div>
+      </div>
+      <p class="hero__social" data-i18n="hero.social">Open source · MIT License · Works offline · No lock-in</p>
+    </div>
+  </section>
+
+  <!-- ============ 2. PROBLEM ============ -->
+  <section class="section problem" id="problem" aria-labelledby="problem-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-head__title" id="problem-title" data-i18n="problem.title">Agents default to the shortest path.</h2>
+        <p class="section-head__lede" data-i18n="problem.tldr">TL;DR: capable models still skip tests, review, and context. The gap is process, not intelligence.</p>
+      </div>
+      <div class="problem__grid">
+        <div class="card card--rule">
+          <h3 class="card__title" data-i18n="problem.card1Title">No tests before commit</h3>
+          <p class="card__desc" data-i18n="problem.card1Desc">Code that looks correct and breaks in production.</p>
+        </div>
+        <div class="card card--rule">
+          <h3 class="card__title" data-i18n="problem.card2Title">No review before push</h3>
+          <p class="card__desc" data-i18n="problem.card2Desc">Two agents overwrite each other without noticing.</p>
+        </div>
+        <div class="card card--rule">
+          <h3 class="card__title" data-i18n="problem.card3Title">Generic output only</h3>
+          <p class="card__desc" data-i18n="problem.card3Desc">The same patterns regardless of context or stack.</p>
+        </div>
+        <div class="card card--rule">
+          <h3 class="card__title" data-i18n="problem.card4Title">Failures are silent</h3>
+          <p class="card__desc" data-i18n="problem.card4Desc">Damage is discovered hours later, by a human.</p>
+        </div>
+      </div>
+      <blockquote class="problem__quote">
+        <p data-i18n="problem.metr">When developers used AI, they took 19 percent longer. They estimated AI saved them 20 percent of the time.</p>
+        <cite data-i18n="problem.metrSource">Becker et al., METR, July 2025</cite>
+      </blockquote>
+      <p class="problem__conclusion" data-i18n="problem.conclusion">The gap between capable and reliable is not intelligence. It is process.</p>
+    </div>
+  </section>
+
+  <!-- ============ 3. FLOW (animated) ============ -->
+  <section class="section flow-section" id="flow" aria-labelledby="flow-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__eyebrow" data-i18n="flow.label">01 / lifecycle</p>
+        <h2 class="section-head__title" id="flow-title" data-i18n="flow.title">Six phases. A path that draws itself.</h2>
+        <p class="section-head__lede" data-i18n="flow.tldr">TL;DR: every task runs DEFINE, PLAN, BUILD, VERIFY, REVIEW, SHIP. No phase is optional and each one has an exit criterion.</p>
+      </div>
+
+      <div class="flow" data-flow data-state="static">
+        <ol class="flow__track" role="list">
+          <li class="flow__node" role="listitem" data-phase="define" data-hue="define">
+            <span class="flow__dot" aria-hidden="true"></span>
+            <span class="flow__name" data-i18n="flow.define.name">DEFINE</span>
+            <span class="flow__cmd"><code>/spec</code></span>
+            <span class="flow__exit" data-i18n="flow.define.exit">Spec approved, scope locked</span>
+          </li>
+          <li class="flow__seg" role="presentation" aria-hidden="true"><span class="flow__seg-fill"></span></li>
+          <li class="flow__node" role="listitem" data-phase="plan" data-hue="plan">
+            <span class="flow__dot" aria-hidden="true"></span>
+            <span class="flow__name" data-i18n="flow.plan.name">PLAN</span>
+            <span class="flow__cmd"><code>/plan</code></span>
+            <span class="flow__exit" data-i18n="flow.plan.exit">Tasks small, dependencies mapped</span>
+          </li>
+          <li class="flow__seg" role="presentation" aria-hidden="true"><span class="flow__seg-fill"></span></li>
+          <li class="flow__node" role="listitem" data-phase="build" data-hue="build">
+            <span class="flow__dot" aria-hidden="true"></span>
+            <span class="flow__name" data-i18n="flow.build.name">BUILD</span>
+            <span class="flow__cmd"><code>/build</code></span>
+            <span class="flow__exit" data-i18n="flow.build.exit">One slice, tests written first</span>
+          </li>
+          <li class="flow__seg" role="presentation" aria-hidden="true"><span class="flow__seg-fill"></span></li>
+          <li class="flow__node" role="listitem" data-phase="verify" data-hue="verify">
+            <span class="flow__dot" aria-hidden="true"></span>
+            <span class="flow__name" data-i18n="flow.verify.name">VERIFY</span>
+            <span class="flow__cmd"><code>/verify</code></span>
+            <span class="flow__exit" data-i18n="flow.verify.exit">Tests pass, behavior matches spec</span>
+          </li>
+          <li class="flow__seg" role="presentation" aria-hidden="true"><span class="flow__seg-fill"></span></li>
+          <li class="flow__node" role="listitem" data-phase="review" data-hue="review">
+            <span class="flow__dot" aria-hidden="true"></span>
+            <span class="flow__name" data-i18n="flow.review.name">REVIEW</span>
+            <span class="flow__cmd"><code>/review</code></span>
+            <span class="flow__exit" data-i18n="flow.review.exit">No P0 issues, security checked</span>
+          </li>
+          <li class="flow__seg" role="presentation" aria-hidden="true"><span class="flow__seg-fill"></span></li>
+          <li class="flow__node" role="listitem" data-phase="ship" data-hue="ship">
+            <span class="flow__dot" aria-hidden="true"></span>
+            <span class="flow__name" data-i18n="flow.ship.name">SHIP</span>
+            <span class="flow__cmd"><code>/ship</code></span>
+            <span class="flow__exit" data-i18n="flow.ship.exit">Clean commit, gates green</span>
+          </li>
+        </ol>
+      </div>
+      <p class="section-conclusion" data-i18n="flow.conclusion">No phase is optional. Every step has a skill. Every skill has a gate.</p>
+    </div>
+  </section>
+
+  <!-- ============ 4. HARNESS (animated) ============ -->
+  <section class="section harness-section" id="harness" aria-labelledby="harness-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__eyebrow" data-i18n="harness.label">02 / the harness</p>
+        <h2 class="section-head__title" id="harness-title" data-i18n="harness.title">A task flows down the machine.</h2>
+        <p class="section-head__lede" data-i18n="harness.tldr">TL;DR: the Harness is six layers around the model. A bad change reaches the guardrails layer and is blocked there, then logged.</p>
+      </div>
+
+      <div class="harness" data-harness data-state="static">
+        <div class="harness__rail" aria-hidden="true">
+          <span class="harness__packet" data-packet>task</span>
+        </div>
+        <ol class="harness__layers" role="list">
+          <li class="harness__layer" role="listitem" data-layer="1">
+            <span class="harness__idx" aria-hidden="true">01</span>
+            <div class="harness__layer-body">
+              <h3 class="harness__layer-name" data-i18n="harness.l1Name">Instructions</h3>
+              <p class="harness__layer-desc" data-i18n="harness.l1Desc">Who the agent is and what it must never do.</p>
+            </div>
+          </li>
+          <li class="harness__layer" role="listitem" data-layer="2">
+            <span class="harness__idx" aria-hidden="true">02</span>
+            <div class="harness__layer-body">
+              <h3 class="harness__layer-name" data-i18n="harness.l2Name">Tools</h3>
+              <p class="harness__layer-desc" data-i18n="harness.l2Desc">Task-specific capabilities, loaded on demand.</p>
+            </div>
+          </li>
+          <li class="harness__layer" role="listitem" data-layer="3">
+            <span class="harness__idx" aria-hidden="true">03</span>
+            <div class="harness__layer-body">
+              <h3 class="harness__layer-name" data-i18n="harness.l3Name">Sandboxes</h3>
+              <p class="harness__layer-desc" data-i18n="harness.l3Desc">Where commands run, isolated from your system.</p>
+            </div>
+          </li>
+          <li class="harness__layer" role="listitem" data-layer="4">
+            <span class="harness__idx" aria-hidden="true">04</span>
+            <div class="harness__layer-body">
+              <h3 class="harness__layer-name" data-i18n="harness.l4Name">Orchestration</h3>
+              <p class="harness__layer-desc" data-i18n="harness.l4Desc">When tools fire and how agents coordinate.</p>
+            </div>
+          </li>
+          <li class="harness__layer harness__layer--guardrails" role="listitem" data-layer="5" data-guardrails>
+            <span class="harness__idx" aria-hidden="true">05</span>
+            <div class="harness__layer-body">
+              <h3 class="harness__layer-name" data-i18n="harness.l5Name">Guardrails</h3>
+              <p class="harness__layer-desc" data-i18n="harness.l5Desc">Deterministic hooks at lifecycle points.</p>
+            </div>
+            <span class="harness__badge" data-block-badge data-i18n="harness.blocked">BLOCKED</span>
+          </li>
+          <li class="harness__layer" role="listitem" data-layer="6" data-observability>
+            <span class="harness__idx" aria-hidden="true">06</span>
+            <div class="harness__layer-body">
+              <h3 class="harness__layer-name" data-i18n="harness.l6Name">Observability</h3>
+              <p class="harness__layer-desc" data-i18n="harness.l6Desc">Evidence it works or is quietly drifting.</p>
+            </div>
+            <span class="harness__logged" data-logged data-i18n="harness.logged">logged</span>
+          </li>
+        </ol>
+      </div>
+      <p class="harness__blocked-note" data-blocked-note>
+        <span class="harness__blocked-code" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></span>
+        <span data-i18n="harness.blockedNote">Blocked at Guardrails: a code change arrived without a matching test. Observability recorded it.</span>
+      </p>
+      <p class="section-conclusion" data-i18n="harness.conclusion">A rule that lives only in a file is a suggestion. A rule that lives in a layer is a gate.</p>
+    </div>
+  </section>
+
+  <!-- ============ 5. THE LOOP (animated) ============ -->
+  <section class="section loop-section" id="loop" aria-labelledby="loop-title" data-reveal>
+    <div class="container loop__inner">
+      <div class="loop__copy">
+        <div class="section-head">
+          <p class="section-head__eyebrow" data-i18n="loop.label">03 / the loop</p>
+          <h2 class="section-head__title" id="loop-title" data-i18n="loop.title">The agent that audits itself.</h2>
+          <p class="section-head__lede" data-i18n="loop.tldr">TL;DR: every session can audit, diagnose, fix, and record an ADR. Findings become fixes, and fixes become decisions on record.</p>
+        </div>
+        <ul class="loop__steps">
+          <li class="step" data-step="audit"><span class="step__idx" aria-hidden="true">01</span><span data-i18n="loop.audit">Audit: scan core files for drift</span></li>
+          <li class="step" data-step="diagnose"><span class="step__idx" aria-hidden="true">02</span><span data-i18n="loop.diagnose">Diagnose: classify the root cause</span></li>
+          <li class="step" data-step="fix"><span class="step__idx" aria-hidden="true">03</span><span data-i18n="loop.fix">Fix: propose and apply with approval</span></li>
+          <li class="step" data-step="adr"><span class="step__idx" aria-hidden="true">04</span><span data-i18n="loop.adr">ADR: record the decision</span></li>
+          <li class="step" data-step="repeat"><span class="step__idx" aria-hidden="true">05</span><span data-i18n="loop.repeat">Repeat: each run raises the floor</span></li>
+        </ul>
+        <p class="section-conclusion" data-i18n="loop.conclusion">Verification without evidence is inspection.</p>
+      </div>
+
+      <div class="loop__diagram">
+        <div class="loop__ring" data-loop-ring role="img" aria-label="Self-improvement cycle: audit, diagnose, fix, ADR, repeat">
+          <div class="loop__orbit" data-loop-orbit>
+            <span class="loop__run" data-loop-run aria-hidden="true"></span>
+          </div>
+          <span class="loop__stop loop__stop--audit" data-hue="define" data-loop-stop="audit" data-i18n="loop.auditShort">audit</span>
+          <span class="loop__stop loop__stop--diagnose" data-hue="plan" data-loop-stop="diagnose" data-i18n="loop.diagnoseShort">diagnose</span>
+          <span class="loop__stop loop__stop--fix" data-hue="build" data-loop-stop="fix" data-i18n="loop.fixShort">fix</span>
+          <span class="loop__stop loop__stop--adr" data-hue="verify" data-loop-stop="adr" data-i18n="loop.adrShort">ADR</span>
+          <span class="loop__stop loop__stop--repeat" data-hue="ship" data-loop-stop="repeat" data-i18n="loop.repeatShort">repeat</span>
+        </div>
+        <div class="loop__stats" aria-live="polite">
+          <div class="stat">
+            <span class="stat__value" data-loop-found>12</span>
+            <span class="stat__label" data-i18n="loop.found">issues found</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value" data-loop-fixed>12</span>
+            <span class="stat__label" data-i18n="loop.fixed">fixed</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value" data-loop-regressions>0</span>
+            <span class="stat__label" data-i18n="loop.regressions">regressions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. ENFORCEMENT L1/L2/L3 ============ -->
+  <section class="section enforcement-section" id="enforcement" aria-labelledby="enforcement-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__eyebrow" data-i18n="enforcement.label">04 / enforcement</p>
+        <h2 class="section-head__title" id="enforcement-title" data-i18n="enforcement.title">Show the block. Do not promise it.</h2>
+        <p class="section-head__lede" data-i18n="enforcement.tldr">TL;DR: a code change with no matching test is blocked locally by L1 and cannot be merged without the remote gates check at L2.</p>
+      </div>
+
+      <div class="enforcement__layout">
+        <div class="enforcement__levels">
+          <article class="level" data-level="L1">
+            <div class="level__head">
+              <span class="level__icon" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="level__tag">L1</span>
+            </div>
+            <h3 class="level__title" data-i18n="enforcement.l1Title">Local hooks</h3>
+            <p class="level__desc" data-i18n="enforcement.l1Desc">Fast, advisory feedback before a commit leaves your machine.</p>
+          </article>
+          <article class="level level--authority" data-level="L2">
+            <div class="level__head">
+              <span class="level__icon" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+              <span class="level__tag">L2</span>
+            </div>
+            <h3 class="level__title" data-i18n="enforcement.l2Title">Remote gates check</h3>
+            <p class="level__desc" data-i18n="enforcement.l2Desc">A required status check. The committer cannot skip it. GitHub only.</p>
+          </article>
+          <article class="level" data-level="L3">
+            <div class="level__head">
+              <span class="level__icon" aria-hidden="true"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+              <span class="level__tag">L3</span>
+            </div>
+            <h3 class="level__title" data-i18n="enforcement.l3Title">CODEOWNERS review</h3>
+            <p class="level__desc" data-i18n="enforcement.l3Desc">A human owns the sensitive paths. Review is required. GitHub only.</p>
+          </article>
+        </div>
+
+        <div class="enforcement__proof">
+          <div class="proof">
+            <div class="proof__head">
+              <span class="proof__dot" aria-hidden="true"></span>
+              <span class="proof__title" data-i18n="enforcement.proofTitle">Real output: a blocked commit</span>
+            </div>
+            <pre class="proof__code"><code>$ git commit -m "feat: add checkout"
+[commit-msg v6] scanning staged files
+[commit-msg v6] code changed: src/checkout.js
+[commit-msg v6] matching test: none
+✗ BLOCKED: every code change needs a matching test.</code></pre>
+            <p class="proof__note"><span data-i18n="enforcement.proofNote1">The same check runs remotely as the required </span><code>gates</code><span data-i18n="enforcement.proofNote2"> status, so it cannot be bypassed by the committer.</span></p>
+          </div>
+          <a class="section-head__link" href="../../REMOTE-ENFORCEMENT-EVIDENCE.md">
+            <span data-i18n="enforcement.evidence">Read the remote enforcement evidence</span>
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. COMPATIBILITY BAND ============ -->
+  <section class="section compat-section" id="compat" aria-labelledby="compat-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-head__title" id="compat-title" data-i18n="compat.title">One install. Any agent. Any stack.</h2>
+        <p class="section-head__lede" data-i18n="compat.tldr">TL;DR: the installer detects your agent and your stack, then wires the matching skills and hooks.</p>
+      </div>
+      <ul class="compat__band" aria-label="Detected agents">
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>OpenCode</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Claude Code</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Cursor</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Codex</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Gemini CLI</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>GitHub Copilot</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Windsurf</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aider</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Kiro</li>
+        <li class="chip chip--agent"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Zed</li>
+        <li class="chip chip--agent chip--more"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg><span data-i18n="compat.more">15 agents detected</span></li>
+      </ul>
+      <p class="compat__stack" data-i18n="compat.stack">Stack-agnostic: Node, Rust, Python, Go, Ruby, Dart, or any stack. init-agents writes STACK_CONFIG.md.</p>
+      <a class="section-head__link" href="../../AGENT-ADAPTERS.md">
+        <span data-i18n="compat.link">See the agent adapter matrix</span>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 8. SKILLS CATALOG ============ -->
+  <section class="section skills-section" id="skills" aria-labelledby="skills-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__eyebrow" data-i18n="skills.label">05 / skills</p>
+        <h2 class="section-head__title" id="skills-title" data-i18n="skills.title">Skills, chipped by phase.</h2>
+        <p class="section-head__lede" data-i18n="skills.tldr">TL;DR: 57 curated skills mapped to the lifecycle. Use all of them or the ones your workflow needs.</p>
+      </div>
+
+      <div class="skills__grid">
+        <article class="card card--skill card--feature" data-hue="define">
+          <span class="chip chip--hue" data-i18n="flow.define.name">DEFINE</span>
+          <h3 class="card__title" data-i18n="skills.catFoundation">Foundation</h3>
+          <p class="card__desc" data-i18n="skills.catFoundationDesc">Contracts, context, and the interview that locks scope before code.</p>
+          <p class="card__list"><code>spec-driven-development</code> <code>interview-me</code> <code>idea-refine</code> <code>engineering-fundamentals</code> <code>context-engineering</code></p>
+        </article>
+
+        <article class="card card--skill" data-hue="plan">
+          <span class="chip chip--hue" data-i18n="flow.plan.name">PLAN</span>
+          <h3 class="card__title" data-i18n="skills.catProcess">Process</h3>
+          <p class="card__list"><code>planning-and-task-breakdown</code> <code>architecture-analysis</code> <code>doubt-driven-development</code> <code>multi-agent-orchestration</code></p>
+        </article>
+
+        <article class="card card--skill" data-hue="build">
+          <span class="chip chip--hue" data-i18n="flow.build.name">BUILD</span>
+          <h3 class="card__title" data-i18n="skills.catFrontend">Build</h3>
+          <p class="card__list"><code>incremental-implementation</code> <code>test-driven-development</code> <code>source-driven-development</code> <code>frontend-web</code> <code>backend-api-mastery</code> <code>api-and-interface-design</code></p>
+        </article>
+
+        <article class="card card--skill" data-hue="verify">
+          <span class="chip chip--hue" data-i18n="flow.verify.name">VERIFY</span>
+          <h3 class="card__title" data-i18n="skills.catDebug">Verify</h3>
+          <p class="card__list"><code>debugging-and-error-recovery</code> <code>debugging-three-strikes</code> <code>browser-testing-with-devtools</code> <code>project-health-check</code></p>
+        </article>
+
+        <article class="card card--skill" data-hue="review">
+          <span class="chip chip--hue" data-i18n="flow.review.name">REVIEW</span>
+          <h3 class="card__title" data-i18n="skills.catQuality">Review</h3>
+          <p class="card__list"><code>code-review-and-quality</code> <code>security-and-hardening</code> <code>performance-optimization</code> <code>audit-skill</code> <code>critique-skill</code> <code>code-simplification</code></p>
+        </article>
+
+        <article class="card card--skill" data-hue="ship">
+          <span class="chip chip--hue" data-i18n="flow.ship.name">SHIP</span>
+          <h3 class="card__title" data-i18n="skills.catDevops">Ship</h3>
+          <p class="card__list"><code>git-workflow-and-versioning</code> <code>ci-cd-and-automation</code> <code>shipping-and-launch</code> <code>fullstack-shipping</code> <code>documentation-and-adrs</code> <code>observability-and-instrumentation</code></p>
+        </article>
+
+        <article class="card card--skill card--wide" data-hue="review">
+          <span class="chip chip--hue" data-i18n="skills.catDesignReview">Design review</span>
+          <h3 class="card__title" data-i18n="skills.catDesignReviewTitle">Design review suite</h3>
+          <p class="card__list"><code>critique-skill</code> <code>audit-skill</code> <code>clarify-skill</code> <code>hard-skill</code> <code>polish-skill</code> <code>typeset-skill</code> <code>adapt-skill</code> <code>optimize-skill</code> <code>delight-skill</code> <code>redesign-skill</code></p>
+        </article>
+
+        <article class="card card--skill" data-hue="plan">
+          <span class="chip chip--hue" data-i18n="skills.catMeta">Meta</span>
+          <h3 class="card__title" data-i18n="skills.catMetaTitle">Meta-skills</h3>
+          <p class="card__list"><code>skill-creator</code> <code>skill-improver</code> <code>self-improvement</code> <code>project-metrics</code></p>
+        </article>
+      </div>
+      <p class="skills__stats" data-i18n="skills.stats">57 skills · 74 guides · 6 harness components · an eval for each</p>
+      <a class="section-head__link" href="../../skills.html">
+        <span data-i18n="skills.learn">Browse the full catalog</span>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 9. WORKFLOWS (own style) ============ -->
+  <section class="section workflows-section" id="workflows" aria-labelledby="workflows-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-head__title" id="workflows-title" data-i18n="workflows.title">Enforcement that adapts to your project.</h2>
+        <p class="section-head__lede" data-i18n="workflows.tldr">TL;DR: with no git you get rules only. Add git for L1 hooks. Add GitHub for L2 and L3. Re-run init-agents after each change.</p>
+      </div>
+
+      <div class="workflows" role="list">
+        <div class="workflow" role="listitem">
+          <div class="workflow__head">
+            <h3 class="workflow__name" data-i18n="workflows.w1Name">No git</h3>
+            <span class="workflow__levels" aria-label="Levels active: none">
+              <span class="chip chip--level" data-off>L1</span><span class="chip chip--level" data-off>L2</span><span class="chip chip--level" data-off>L3</span>
+            </span>
+          </div>
+          <p class="workflow__desc" data-i18n="workflows.w1Desc">Independent or private, no VCS. Rules and AGENTS.md install, but there are no hooks and no remote gate. Enforcement is convention only.</p>
+          <p class="workflow__upgrade"><span data-i18n="workflows.upgrade">Upgrade:</span> <code>git init</code> <span data-i18n="workflows.thenReinit">then re-run</span> <code>init-agents</code></p>
+        </div>
+
+        <div class="workflow" role="listitem">
+          <div class="workflow__head">
+            <h3 class="workflow__name" data-i18n="workflows.w2Name">Local git</h3>
+            <span class="workflow__levels" aria-label="Levels active: L1">
+              <span class="chip chip--level" data-on>L1</span><span class="chip chip--level" data-off>L2</span><span class="chip chip--level" data-off>L3</span>
+            </span>
+          </div>
+          <p class="workflow__desc" data-i18n="workflows.w2Desc">A private repo or a non-GitHub forge. L1 hooks are active. There is no L2 or L3, so the remote authority is missing.</p>
+          <p class="workflow__upgrade"><span data-i18n="workflows.upgrade">Upgrade:</span> <code>git remote add origin &lt;url&gt;</code> <span data-i18n="workflows.thenReinit">then re-run</span> <code>init-agents</code></p>
+        </div>
+
+        <div class="workflow workflow--full" role="listitem">
+          <div class="workflow__head">
+            <h3 class="workflow__name" data-i18n="workflows.w3Name">Git + GitHub</h3>
+            <span class="workflow__levels" aria-label="Levels active: L1, L2, L3">
+              <span class="chip chip--level" data-on>L1</span><span class="chip chip--level" data-on>L2</span><span class="chip chip--level" data-on>L3</span>
+            </span>
+          </div>
+          <p class="workflow__desc" data-i18n="workflows.w3Desc">Full L1 + L2 + L3. The remote gates check is required, CODEOWNERS owns sensitive paths, and the committer cannot skip either.</p>
+          <p class="workflow__upgrade"><span data-i18n="workflows.upgrade">Apply:</span> <code>setup-branch-protection.sh --dry-run</code></p>
+        </div>
+
+        <div class="workflow" role="listitem">
+          <div class="workflow__head">
+            <h3 class="workflow__name" data-i18n="workflows.w4Name">Git later</h3>
+            <span class="workflow__levels" aria-label="Levels active: added over time">
+              <span class="chip chip--level" data-later>L1</span><span class="chip chip--level" data-later>L2</span><span class="chip chip--level" data-later>L3</span>
+            </span>
+          </div>
+          <p class="workflow__desc" data-i18n="workflows.w4Desc">No git now, git and GitHub later. The key rule: re-run init-agents after git init and after adding the remote. It detects what is now available and installs the missing layers.</p>
+          <p class="workflow__upgrade"><span data-i18n="workflows.upgrade">Rule:</span> <code>init-agents</code> <span data-i18n="workflows.afterEach">after each change</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10. FAQ ============ -->
+  <section class="section faq-section" id="faq" aria-labelledby="faq-title" data-reveal>
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__eyebrow" data-i18n="faq.label">06 / faq</p>
+        <h2 class="section-head__title" id="faq-title" data-i18n="faq.title">Questions, answered plainly.</h2>
+      </div>
+      <div class="faq__list">
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q1">What is Another Agent Skills?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a1">A framework of 57 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a six-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q2">How does mechanical enforcement work?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a2">Three layers. L1 is local git hooks for fast, advisory feedback. L2 is a required remote gates check that the committer cannot skip. L3 is CODEOWNERS review for sensitive paths. A code change with no matching test is blocked, locally and remotely.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q3">Which agents does it support?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a3">Designed for OpenCode. Portable to Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Aider, and any agent that reads AGENTS.md. The installer detects the agent and wires the matching skills and hooks.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q4">Is it free?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a4">Yes. MIT License. Open source. No subscriptions and no paid tiers. The installer, the skills, and the enforcement are all free.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q5">Can an agent still break the rules?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a5">Yes. The hooks make it harder, not impossible. An agent could misread an ambiguous approval or act outside protocol. These gates create friction, not guarantees. The human stays in the loop, and the human stays alert.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q6">What is the Harness?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a6">The Harness is everything around the model that turns raw intelligence into reliable output: instructions, tools, sandboxes, orchestration, guardrails, and observability. Agent equals Model plus Harness. Most agent failures are configuration failures.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span data-i18n="faq.q7">How do I install it?</span>
+            <svg class="icon faq-item__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </summary>
+          <p class="faq-item__answer" data-i18n="faq.a7">Three channels. Clone and run install.sh, or use the pinned curl bootstrap from the latest release, or install through npm. Then run init-agents in any project. Git and curl are live today. npm and Homebrew are coming soon.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 11. FINAL CTA ============ -->
+  <section class="section cta-section" id="start" aria-labelledby="cta-title" data-reveal>
+    <div class="container cta__inner">
+      <p class="section-head__eyebrow" data-i18n="cta.label">07 / start</p>
+      <h2 class="cta__title" id="cta-title" data-i18n="cta.title">Give your agent a gate it cannot forget.</h2>
+      <p class="cta__lead" data-i18n="cta.lead">One command. The installer detects your agent and your stack, then arms the enforcement.</p>
+
+      <div class="command command--lg">
+        <code class="command__code">git clone https://github.com/juandelossantos/another-agent-skills.git &amp;&amp; cd another-agent-skills &amp;&amp; bash install.sh</code>
+        <button class="command__copy" data-action="copy" aria-label="Copy install command">
+          <svg class="icon icon--copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="icon icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span class="command__copy-text" data-i18n="cta.copy">Copy</span>
+        </button>
+      </div>
+
+      <ul class="cta__channels">
+        <li class="cta__channel"><span class="cta__channel-name">git clone</span><span class="chip chip--status" data-i18n="cta.live">live</span></li>
+        <li class="cta__channel"><span class="cta__channel-name">curl bootstrap</span><span class="chip chip--status" data-i18n="cta.live">live</span></li>
+        <li class="cta__channel"><span class="cta__channel-name">npx @juandelossantos/another-agent-skills</span><span class="chip chip--status chip--soon" data-i18n="cta.soon">soon</span></li>
+        <li class="cta__channel"><span class="cta__channel-name">brew install</span><span class="chip chip--status chip--soon" data-i18n="cta.soon">soon</span></li>
+      </ul>
+
+      <p class="cta__social" data-i18n="cta.social">Open source · MIT License · Works offline · No lock-in</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__links">
+      <a href="#flow" data-i18n="nav.flow">Flow</a>
+      <a href="#harness" data-i18n="nav.harness">Harness</a>
+      <a href="#enforcement" data-i18n="nav.enforcement">Enforcement</a>
+      <a href="#skills" data-i18n="nav.skills">Skills</a>
+      <a href="#workflows" data-i18n="nav.workflows">Workflows</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="../../index.html" data-i18n="footer.docs">Documentation</a>
+      <a href="https://github.com/juandelossantos/another-agent-skills" target="_blank" rel="noopener"><span data-i18n="footer.github">GitHub</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+    </div>
+    <p class="footer__copy" data-i18n="footer.copy">v6.2.0 · MIT License · Made by @juandelossantos</p>
+  </div>
+</footer>
+
+<script src="js/mockup.js"></script>
+</body>
+</html>
