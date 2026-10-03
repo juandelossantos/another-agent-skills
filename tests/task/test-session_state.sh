@@ -22,14 +22,17 @@ assert() {
   fi
 }
 
-assert "handoff title is Phase 8 COMPLETE" "grep -q '# Session State — Phase 8 COMPLETE: Remote Enforcement Live' '$FILE'"
-assert "documents remote enforcement is LIVE" "grep -qi 'remote enforcement is LIVE' '$FILE'"
-assert "documents P8.1–P8.3 done" "grep -q 'P8.1–P8.3' '$FILE'"
-assert "names the working branch" "grep -q 'chore/phase8-close-status' '$FILE'"
+assert "handoff title is Phase 9 COMPLETE" "grep -q '# Session State — Phase 9 COMPLETE: Distribution & Upgrades' '$FILE'"
+assert "documents Phase 9 COMPLETE" "grep -q 'Phase 9 COMPLETE' '$FILE'"
+assert "names the merged PRs #47–#52" "grep -q 'PRs #47–#52' '$FILE'"
+assert "names the working branch" "grep -q 'chore/phase9-close-status' '$FILE'"
+assert "documents the pending npm manual step" "grep -q '2026-10-06' '$FILE' && grep -qi 'TOTP' '$FILE'"
+assert "documents the pending Homebrew step" "grep -q 'HOMEBREW_TAP_TOKEN' '$FILE'"
 assert "Next Steps name Phase 10" "grep -q 'Phase 10 — landing/docs refresh' '$FILE'"
+assert "Next Steps name Phase 11" "grep -q 'Phase 11 — docs site (Astro + Starlight' '$FILE'"
 assert "gives explicit resume commands" "grep -q 'Resume:' '$FILE' && grep -q 'git checkout -b feat/phase10-landing' '$FILE'"
 assert "records verified system state" "grep -q 'System state (verified 2026-10-02)' '$FILE'"
-assert "records 66 suites" "grep -q '66 suites passing' '$FILE'"
+assert "records 91 suites" "grep -q '91 suites passing' '$FILE'"
 assert "retains the historical previous handoff" "grep -q 'previous sessions. handoff' '$FILE'"
 
 echo ""

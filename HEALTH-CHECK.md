@@ -58,7 +58,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 ---
 
-## Landing Page & Docs: PASS (3/3)
+## Landing Page & Docs: PASS (4/4)
 
 | Check | Status | Notes |
 |---|---|---|
@@ -66,6 +66,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | Guide count | ✅ 74 guides | Distributed across 57 skills |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 | Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |
+| Distribution docs | ✅ Present | `docs/DISTRIBUTION.md` (channels + maintainer steps + automation); linked from `README.md` |
 
 ---
 
@@ -73,8 +74,9 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 1. **Phase 7 released as v6.2.0** — dual-contract OpenCode plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never runs `git commit`/`push` — no token bypass), global install hardening. See `RELEASE-NOTES.md`.
 2. **Phase 8 COMPLETE — remote enforcement live** — branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 (PRs #36/#37); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install`, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible GitHub Environment approval (PR #41); closure review (PR #43). P8.4 closed by design (philosophy A).
-3. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **66 suites** green.
-4. **Planned next** — Phase 10 (landing/docs refresh; `README.md` "What's New" still says 6.1.0) and Phase 11 (Astro + Starlight docs site).
+3. **Phase 9 COMPLETE — distribution & upgrades** — pinned, attested releases (`.github/workflows/release.yml`), checksum-verified `curl` bootstrap (`bootstrap.sh`), `aas` CLI, portable projects + legacy repair, npm wrapper + OIDC trusted publishing, Homebrew formula + tap (PRs #47–#52). Maintainer one-time npm/Homebrew steps (incl. the 2026-10-06 npm suspension + the TOTP fix) are documented in `docs/DISTRIBUTION.md`. Version remains **6.2.0** (v6.3.0 release pending).
+4. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **91 suites** green.
+5. **Planned next** — Phase 10 (landing/docs refresh; `README.md` "What's New" still says 6.1.0) and Phase 11 (Astro + Starlight docs site).
 
 ---
 
@@ -105,3 +107,4 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | 2026-10-01 | **v6.2.0 RELEASED (Phase 7)** | Dual-contract OpenCode plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, philosophy A (agent never commits/pushes — no token bypass), global install hardening. |
 | 2026-10-02 | **Phase 8 COMPLETE — remote enforcement live** | Branch protection (solo-safe + lockout/code-owner guards) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3; docs honesty (INCIDENT_004 + L1/L2/L3 model); ship-to-users (`templates/gates.yml`); remote E2E; Gate 0 → L1 prompt + GitHub Environment approval; closure review. Merged via PRs #36–#43. P8.4 closed by design (philosophy A). |
 | 2026-10-02 | Test cadence formalized | `tests/` = behavioral (permanent); `tests/task/` capped at 20 (`scripts/test-cadence.conf`); checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). |
+| 2026-10-02 | **Phase 9 COMPLETE — distribution & upgrades** | Pinned/attested releases (`release.yml`), checksum-verified `curl` bootstrap (`bootstrap.sh`), `aas` CLI, portable projects + legacy repair, npm wrapper + OIDC trusted publishing, Homebrew formula + tap (PRs #47–#52). Maintainer one-time npm/Homebrew steps in `docs/DISTRIBUTION.md` (npm first publish blocked until 2026-10-06 00:55 UTC; enable TOTP). Version remains 6.2.0 (v6.3.0 pending). |

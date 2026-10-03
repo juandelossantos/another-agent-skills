@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.2.0** (Phase 7 released; Phase 8 remote enforcement **live**) |
+| Version | **6.2.0** (Phase 7 released; Phase 8 remote enforcement **live**; **Phase 9 distribution complete** — release v6.3.0 pending) |
 | Next target | **Phase 10** (landing/docs refresh) → **Phase 11** (Astro + Starlight docs site) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 74 across all skills |
-| Tests | 66 suites passing (behavioral + task working set capped at 20) |
+| Tests | 91 suites passing (behavioral + task working set capped at 20) |
 
 ---
 
@@ -29,6 +29,7 @@
 | **6** | **v6.0.0** | Design Skill Integrity: TDD enforcement (no override), 17-section DESIGN.md schema, 3-mode design-gate, token-validate CSS drift, approval-gate prototype→approved, design dir rules, design-upgrade.sh, direction+platform skill DESIGN.md wiring, critique-skill visual dimensions, prompt drift detection. 35+ commits, 80+ files changed. |
 | **7** | **v6.2.0** | OpenCode v1/v2 & Multi-Agent: dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. |
 | **8** | **v6.2.0** | Remote Enforcement — Gate Integrity: branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity (PRs #36/#37); P8.4 closed by design (philosophy A); docs honesty — INCIDENT_004 correction + L1/L2/L3 model (PR #39); ship-to-users — `templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist (PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review — script injection, fresh-repo hook block, L3 honesty (PR #43). Merged to `main` via PRs #36–#43. |
+| **9** | **v6.3.0** | Distribution & Upgrades: pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`, `actions/attest-build-provenance`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto\|all\|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent); Homebrew formula + tap update. Merged to `main` via PRs #47–#52. |
 
 ---
 
@@ -429,13 +430,15 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 **Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético.
 
-**Actualización (2026-10-02):** ✅ P7 (v6.2.0), **P8 completa** (remote enforcement) y **P8.1** (TDD gate delivery + flujos sin git/GitHub) están **hechos**. Orden **decidido**: **Phase 9 (distribución) → Phase 10 (landing/docs + SEO/AEO/a11y) → Phase 11 (docs site)**. Ver "Orden de ejecución" abajo.
+**Actualización (2026-10-02):** ✅ P7 (v6.2.0), **P8 completa** (remote enforcement) y **Phase 9 completa** (distribución, PRs #47–#52) están **hechos**. Orden **decidido**: **Phase 9 (distribución) → Phase 10 (landing/docs + SEO/AEO/a11y) → Phase 11 (docs site)**. Con Phase 9 cerrada, el siguiente objetivo es **Phase 10**. Ver "Orden de ejecución" abajo.
 
 ---
 
 ## Orden de ejecución (decidido 2026-10-02)
 
 **Phase 9 (distribución) → Phase 10 (landing/docs + descubribilidad) → Phase 11 (docs site).**
+
+> **Estado:** Phase 9 ✅ **COMPLETA** (PRs #47–#52). El siguiente objetivo es **Phase 10**.
 
 **Por qué 9 antes que 10:**
 1. **Phase 9 cambia la forma de instalar.** Hoy todo dice `git clone … && bash install.sh`; Phase 9 lo cambia a bootstrap `curl` pineado + CLI `aas` + npm. La instalación es lo **primero** que lee un usuario nuevo.
@@ -448,9 +451,10 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 ---
 
-## Phase 9: Distribution & Upgrades (v6.3.0)
+## Phase 9: Distribution & Upgrades (v6.3.0) — ✅ COMPLETE
 
-**Branch:** `feat/phase9-distribution`
+**Status (2026-10-02):** ✅ **COMPLETE — all merged to `main` (PRs #47–#52).** P9.1 pinned/attested releases; P9.2 `bootstrap.sh`; P9.3 `bin/aas`; P9.4 agent selection; P9.7 portable projects + `scripts/aas-resolve.sh` + `.aas/config`; P9.7b shim self-resolution; P9.8 detection/guidance/legacy repair; P9.5 npm wrapper + OIDC publishing; P9.6 Homebrew. Suite **91 suites** green; version remains **6.2.0** (v6.3.0 release pending the maintainer's manual npm/Homebrew steps — see `docs/DISTRIBUTION.md`).
+**Branch:** `feat/phase9-distribution` (merged)
 **Goal:** Distribución universal sin clonar el repo, y actualización gestionada. Separar **canal** (cómo llega el código) de **experiencia** (detectar → seleccionar → instalar/actualizar por agente).
 
 **Why:** Hoy el único canal es `git clone`; `install.sh` exige el repo local; `~/.claude/skills` y `~/.gemini/skills` existen en el sistema pero **no los gestiona nadie** (drift). El proto `check-update.sh` + auto-pull en el rc no es una solución de distribución.
@@ -470,14 +474,14 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 | Task | Prioridad | Descripción | Deliverable | Criterio de aceptación |
 |---|---|---|---|---|
-| P9.1 | 🔴 P0 | Releases versionados: workflow CI que en cada tag construye el tarball de fuentes y lo adjunta con `checksums.txt` + GitHub Artifact Attestations | `.github/workflows/release.yml` | `gh release download vX` trae tarball + checksums; `gh attestation verify` OK |
-| P9.2 | 🔴 P0 | Bootstrap `curl` **pineado**: descarga el tarball del release a `~/.local/share/another-agent-skills/<version>`, verifica sha256, enlaza `~/.local/bin/aas`, añade PATH. Flags `--version`, `--dry-run`, `--uninstall` | `bootstrap.sh` + sección en README | Instalación en una línea sin git ni clone; checksum verificado; `--dry-run` no muta |
-| P9.3 | 🔴 P0 | CLI `aas` con `install`/`upgrade`/`doctor`/`uninstall`. `upgrade` = self-update atómico desde el último release (reemplaza `check-update.sh` + auto-pull del rc) | `bin/aas` | `aas upgrade` actualiza atómico y reporta versión antes/después; `aas doctor` = `--check-env` |
-| P9.4 | 🟠 P1 | Selección de agentes: `--agents auto\|all\|<lista>`; multi-select interactivo **solo si TTY**; en CI nunca bloquea (default no-interactivo). Reusa P7.5 | flags en `aas install` | TTY → prompt; no-TTY → usa detectado o `--agents`; nunca espera input en CI |
-| P9.5 | 🟡 P2 | npm wrapper sin payload: descarga+verifica el mismo release; no añade Node al core | paquete `@scope/another-agent-skills` | `npx ... install` funciona en un proyecto sin clonar; el paquete no contiene el payload |
-| P9.6 | 🟢 P3 | Homebrew tap (opcional): fórmula auto-generada apuntando al tarball del release | tap + fórmula | `brew install <tap>/another-agent-skills` |
-| **P9.7** | 🔴 P0 | **Portable / standalone / cross-platform (B')**: `init-agents` **nunca** enlaza a `$SCRIPT_DIR` (el clon); la fuente es **la instalación** (release pineado); **shims/copias** en vez de symlinks absolutos; `.aas/config` con la versión esperada; resolver cross-platform (env `ANOTHER_AGENT_SKILLS_DIR` + búsqueda en ubicaciones por-OS); `aas init` / `doctor`; `--with-skills` opcional; **POSIX-first + wrapper PS fino** (no reimplementar gates) | Cero symlinks absolutos committeados; un proyecto clonado en otra máquina funciona tras `aas install`; Windows vía Git Bash documentado |
-| **P9.8** | 🔴 P0 | **Detección + guía + adopción legacy (sin pérdida de datos)**: `init-agents --dry-run` (mostrar, no mutar), `--repair` (migrar symlinks rotos → portable, idempotente), `--force` explícito para hooks custom; aviso **no bloqueante** de drift (versión del proyecto vs máquina) en `pre-commit`/`doctor`/CI; detección **legacy** (artefactos AAS sin `.aas/config`); higiene de backups (`.aas/backups/` o gitignored + poda) | Re-ejecutar es seguro (append/skip, nunca sobrescribe); `--dry-run` no muta; `--repair` no pierde `AGENTS.md` ni docs del equipo; migra proyectos existentes |
+| P9.1 ✅ DONE | 🔴 P0 | Releases versionados: workflow CI que en cada tag construye el tarball de fuentes y lo adjunta con `checksums.txt` + GitHub Artifact Attestations | `.github/workflows/release.yml` | `gh release download vX` trae tarball + checksums; `gh attestation verify` OK |
+| P9.2 ✅ DONE | 🔴 P0 | Bootstrap `curl` **pineado**: descarga el tarball del release a `~/.local/share/another-agent-skills/<version>`, verifica sha256, enlaza `~/.local/bin/aas`, añade PATH. Flags `--version`, `--dry-run`, `--uninstall` | `bootstrap.sh` + sección en README | Instalación en una línea sin git ni clone; checksum verificado; `--dry-run` no muta |
+| P9.3 ✅ DONE | 🔴 P0 | CLI `aas` con `install`/`upgrade`/`doctor`/`uninstall`. `upgrade` = self-update atómico desde el último release (reemplaza `check-update.sh` + auto-pull del rc) | `bin/aas` | `aas upgrade` actualiza atómico y reporta versión antes/después; `aas doctor` = `--check-env` |
+| P9.4 ✅ DONE | 🟠 P1 | Selección de agentes: `--agents auto\|all\|<lista>`; multi-select interactivo **solo si TTY**; en CI nunca bloquea (default no-interactivo). Reusa P7.5 | flags en `aas install` | TTY → prompt; no-TTY → usa detectado o `--agents`; nunca espera input en CI |
+| P9.5 ✅ DONE | 🟡 P2 | npm wrapper sin payload: descarga+verifica el mismo release; no añade Node al core | paquete `@scope/another-agent-skills` | `npx ... install` funciona en un proyecto sin clonar; el paquete no contiene el payload |
+| P9.6 ✅ DONE | 🟢 P3 | Homebrew tap (opcional): fórmula auto-generada apuntando al tarball del release | tap + fórmula | `brew install <tap>/another-agent-skills` |
+| **P9.7** ✅ DONE | 🔴 P0 | **Portable / standalone / cross-platform (B')**: `init-agents` **nunca** enlaza a `$SCRIPT_DIR` (el clon); la fuente es **la instalación** (release pineado); **shims/copias** en vez de symlinks absolutos; `.aas/config` con la versión esperada; resolver cross-platform (env `ANOTHER_AGENT_SKILLS_DIR` + búsqueda en ubicaciones por-OS); `aas init` / `doctor`; `--with-skills` opcional; **POSIX-first + wrapper PS fino** (no reimplementar gates) | Cero symlinks absolutos committeados; un proyecto clonado en otra máquina funciona tras `aas install`; Windows vía Git Bash documentado |
+| **P9.8** ✅ DONE | 🔴 P0 | **Detección + guía + adopción legacy (sin pérdida de datos)**: `init-agents --dry-run` (mostrar, no mutar), `--repair` (migrar symlinks rotos → portable, idempotente), `--force` explícito para hooks custom; aviso **no bloqueante** de drift (versión del proyecto vs máquina) en `pre-commit`/`doctor`/CI; detección **legacy** (artefactos AAS sin `.aas/config`); higiene de backups (`.aas/backups/` o gitignored + poda) | Re-ejecutar es seguro (append/skip, nunca sobrescribe); `--dry-run` no muta; `--repair` no pierde `AGENTS.md` ni docs del equipo; migra proyectos existentes |
 
 **Orden recomendado dentro de Phase 9:** P9.1 → P9.2 → P9.3 → P9.4 → **P9.7 → P9.8** → P9.5 → P9.6 (la portabilidad es prerequisito conceptual de "instalar una vez, usar en cualquier proyecto").
 

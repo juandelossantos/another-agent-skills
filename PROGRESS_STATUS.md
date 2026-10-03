@@ -2,8 +2,8 @@
 
 > **Last updated:** 2026-10-02  
 > **Current version:** 6.2.0
-> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails) and **Phase 8 complete (Remote Enforcement live on `main`)**; 0 errors, 2 warnings, 74 guides across 57 skills, 66 test suites green  
-> **Current plan:** `PLAN.md` — Phase 8 complete; next is Phase 10 (landing/docs refresh) and Phase 11 (docs site Astro + Starlight)
+> **Status:** v6.2.0 released — Phase 7 complete (OpenCode v1/v2, Multi-Agent & Guardrails), **Phase 8 complete (Remote Enforcement live on `main`)** and **Phase 9 complete (Distribution & Upgrades)**; 0 errors, 2 warnings, 74 guides across 57 skills, 91 test suites green  
+> **Current plan:** `PLAN.md` — Phase 9 complete; next is Phase 10 (landing/docs refresh) and Phase 11 (docs site Astro + Starlight)
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
@@ -139,10 +139,11 @@
 
 ### In Progress
 
-- **Phase 10: Landing & Docs Refresh** — landing/docs still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent value story and sync ES/EN. See `PLAN.md`.
+- **Phase 10: Landing & Docs Refresh** — landing/docs still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent + distribution value story and sync ES/EN. See `PLAN.md`.
 
 ### Completed
 
+- **Phase 9: Distribution & Upgrades (v6.3.0)** — pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto|all|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent); Homebrew formula + tap update. Merged to `main` via PRs #47–#52. See `docs/DISTRIBUTION.md`.
 - **Phase 8: Remote Enforcement — Gate Integrity (v6.2.0)** — **Remote enforcement is live on `main`** (merged via PRs #36–#43): branch protection (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity; P8.4 closed by design (philosophy A); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review (script injection, fresh-repo hook block, L3 honesty, PR #43).
 - **Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails (v6.2.0)** — Dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. Test cadence formalized: `tests/` behavioral (permanent), `tests/task/` capped at 20.
 - **Phase 3: Output Contracts** — All 57 skills now have standardized Output Contracts declaring artifact, format, location, and quality criteria. Check 16 warnings: 37 → 0. Word count advisories resolved: 4 → 0. Guides improved: CONTRACT-TEMPLATES.md (+WebSocket, +module boundaries), VERSIONING-STRATEGIES.md (+breaking rules, +edge cases), WORKFLOW-SCENARIOS.md (+6 browser testing scenarios).
@@ -152,7 +153,6 @@
 
 ### Planned
 
-- **Phase 10: Landing & Docs Refresh** — landing/docs still say 6.1.0 in places; refresh the multi-agent value story and sync ES/EN.
 - **Phase 11: Docs site — Astro + Starlight** — SEO per language, search, sidebar/versioning, GitHub Pages (core stays build-free).
 - **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
 - Troubleshooting guide — common issues

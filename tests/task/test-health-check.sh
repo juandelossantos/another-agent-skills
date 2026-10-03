@@ -31,6 +31,9 @@ assert "records remote authority (L2) ACTIVE" "grep -q 'Remote authority (L2)' '
 assert "version header is 6.2.0" "grep -q '\*\*Version:\*\* 6.2.0' '$FILE'"
 assert "documents the test cadence" "grep -q 'Test cadence' '$FILE'"
 assert "lists Phase 10 as planned next" "grep -q 'Phase 10' '$FILE'"
+assert "documents Phase 9 COMPLETE" "grep -q 'Phase 9 COMPLETE' '$FILE'"
+assert "records 91 suites" "grep -q '91 suites' '$FILE'"
+assert "links the distribution docs" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

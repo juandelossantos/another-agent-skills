@@ -1,20 +1,33 @@
-# Session State — Phase 8 COMPLETE: Remote Enforcement Live
+# Session State — Phase 9 COMPLETE: Distribution & Upgrades
 
 **Date:** 2026-10-02
-**Branch:** `chore/phase8-close-status` — branched from `origin/main` (Phase 8 fully merged via PRs #36–#43), NOT pushed
-**Status:** ✅ **Phase 8 COMPLETE — remote enforcement is LIVE on `main`.** Branch protection requires the `gates` check; the L1/L2/L3 model is documented; the remote layer ships to user projects. Test suite: **66 suites** green. Version remains **6.2.0**.
+**Branch:** `chore/phase9-close-status` — branched from `origin/main` (Phase 9 fully merged via PRs #47–#52), NOT pushed
+**Status:** ✅ **Phase 9 COMPLETE.** Distribution is shipped: pinned/attested releases, the checksum-verified `curl` bootstrap, the `aas` CLI, portable projects, the npm wrapper, and Homebrew. Test suite: **91 suites** green. Version remains **6.2.0** (v6.3.0 release pending the maintainer's one-time npm/Homebrew steps).
 **Plan:** `PLAN.md` — single source of truth
 
 ## What Was Done (2026-10-02)
 
-1. **P8.1–P8.3 — remote authority ACTIVE** (PRs #36, #37): `.github/workflows/gates.yml` runs the real gates and is the required `gates` check; `scripts/setup-branch-protection.sh` (solo-safe + lockout guard + code-owner guard) applied branch protection to `main` (PR required, 0 approvals, no force-push/deletions, `enforce_admins: false` → no lockout); `CODEOWNERS` protects the gate config (L3).
-2. **P8.4 — closed by design** (philosophy A: the agent never commits/pushes; there is no self-issued token to close).
-3. **P8.5 — docs honesty** (PR #39): corrected the false INCIDENT_004 "Added main branch protection" claim (it was a local Gate 1 check); documented the L1/L2/L3 model in `docs/enforcement.html` + i18n EN/ES + `scripts/git-hooks/README.md`.
-4. **P8.6 — ship the remote layer** (PR #40): `templates/gates.yml` (single remote-gate workflow, job `gates`, read-only; replaced the generic `templates/ci.yml`); `scripts/init-agents.sh` installs it and links `setup-branch-protection.sh`; `install.sh` distributes it; `docs/AGENT-ADAPTERS.md` has the L2 checklist.
-5. **P8.7 — remote E2E** (PR #42): `tests/test-remote-enforcement.sh` (static + live read-only + bypass demo proving L1 fails open while L2 catches); `docs/REMOTE-ENFORCEMENT-EVIDENCE.md` with honest limitations. It surfaced a real bug — `pre-commit` blocked every commit in a fresh project without `tests/task/` (pipefail + `find` on a missing dir) — now fixed.
-6. **P8.8/P8.9 — approval semantics** (PR #41): Gate 0 reclassified from "decision approval" to an explicit **L1 prompt** (the agent writes the token; it is not the approval authority); documented the solo-compatible remote approval via a GitHub Environment with required reviewers.
-7. **Closure review** (PR #43): fixed a **script injection** in `templates/gates.yml` (`${{ }}` in `run:`), a **fresh-repo block** in `pre-commit` (unborn HEAD under `set -e`), and qualified the L2/L3 claims in `docs/BRANCH-PROTECTION.md`.
-8. **This branch** refreshes `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, and this handoff to the Phase 8-complete reality. Not committed, not pushed.
+1. **P9.1 — pinned, attested releases** (PR #50): `scripts/build-release.sh` builds `another-agent-skills-vX.Y.Z.tar.gz` + `checksums.txt`; `.github/workflows/release.yml` attests build provenance (`actions/attest-build-provenance`) and publishes the GitHub Release assets.
+2. **P9.2 — `bootstrap.sh`** (PR #49): one-line, pinned, checksum-verified install (never a mutable branch); `--version`/`--dry-run`/`--uninstall`; extracts to `$AAS_HOME/<version>` and links `~/.local/bin/aas`.
+3. **P9.3 — `bin/aas` CLI**: `install`/`upgrade`/`doctor`/`uninstall`; resolves its own real path through a symlink.
+4. **P9.4 — agent selection**: `--agents auto|all|<list>`; prompts only on a TTY, never blocks CI.
+5. **P9.7 / P9.7b — portable projects** (PRs #47/#48): no absolute symlinks; `.aas/config` pins the version; `scripts/aas-resolve.sh` resolves the framework cross-platform (`ANOTHER_AGENT_SKILLS_DIR` + per-OS install dirs); hooks are self-resolving shims.
+6. **P9.8 — detection/guidance/legacy repair**: `init-agents --dry-run` (mutates nothing), `--repair` (migrate absolute/broken symlinks without losing `AGENTS.md`/team docs), `--force` (explicit for custom hooks); backup hygiene (`.aas/backups/`, gitignored); non-blocking drift notice in `pre-commit`/`doctor`.
+7. **P9.5 — npm wrapper** (PR #51): `npm/` ships no payload; `cli.js` downloads + verifies the release and delegates to `bootstrap.sh`. `.github/workflows/npm-publish.yml` publishes via OIDC Trusted Publishing, syncs the version from `VERSION`, and skips if already published (idempotent).
+8. **P9.6 — Homebrew** (PR #52): `scripts/build-brew-formula.sh` + an optional tap-update step in `release.yml`, gated on `HOMEBREW_TAP_TOKEN`.
+9. **This branch** refreshes `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, adds `docs/DISTRIBUTION.md`, links it from `README.md`, and adds/updates tests. Not committed, not pushed.
+
+## Pending Manual Steps (the maintainer's, not code)
+
+> Full detail: `docs/DISTRIBUTION.md`.
+
+- **npm — first publish is manual and currently BLOCKED.** The npm account `juandelossantos` is **temporarily suspended (read-only) until 2026-10-06 00:55 UTC** because a recovery code was used (the CLI 2FA challenge could not be satisfied — only a **passkey** is configured, and passkeys are browser-only). After it lifts:
+  1. `npm login`, then `npm profile enable-2fa auth-and-writes` (enable **TOTP** — the passkey does not work for the CLI); scan the QR with an authenticator app.
+  2. `cd npm && npm publish --access public` (first publish creates the package).
+  3. Configure the Trusted Publisher on npmjs.com: GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow `npm-publish.yml`, environment `npm-release`.
+  4. Optionally create the GitHub Environment `npm-release` with required reviewers.
+  - The OIDC publish syncs the npm version from `VERSION` and skips if already published, so future releases need no manual sync.
+- **Homebrew**: create `juandelossantos/homebrew-tap` (public), a fine-grained PAT (Contents: read/write), and set the `HOMEBREW_TAP_TOKEN` secret (+ optional `HOMEBREW_TAP_REPO` variable).
 
 ## Next Steps (resume here next session)
 
@@ -25,19 +38,20 @@ git checkout main && git pull
 git checkout -b feat/phase10-landing
 ```
 
-- **Phase 10 — landing/docs refresh.** Surfaces still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent value story and sync ES/EN.
-- **Phase 11 — docs site (Astro + Starlight).** SEO per language, search, sidebar/versioning, GitHub Pages; the core stays build-free.
+- **Phase 10 — landing/docs refresh (v6.4.0).** Surfaces still say 6.1.0 in places (`README.md` "What's New"); refresh the multi-agent **+ distribution** value story, then sync ES/EN. Add SEO/AEO/a11y/discoverability (Bloque D) and the FAQ/user-guide block (Bloque E).
+- **Phase 11 — docs site (Astro + Starlight, v6.5.0).** SEO/AEO per language, search, sidebar/versioning, GitHub Pages; the core stays build-free.
 - **Backlog** — B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
 
 **System state (verified 2026-10-02):**
 
-- Branch protection on `main`: required check `gates`, 0 approvals, code-owner reviews off (solo profile), `enforce_admins: false` → no lockout.
+- Phase 9 merged to `main` via PRs #47–#52; `VERSION` still **6.2.0** (v6.3.0 pending the manual steps above).
+- Remote enforcement still live: branch protection on `main` requires the `gates` check.
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
 - Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
-- Tests: **66 suites passing** (`bash tests/run-all.sh`).
+- Tests: **91 suites passing** (`bash tests/run-all.sh`).
 
-> Below this section: the previous sessions' handoffs (Phase 8 kickoff, 2026-10-02, superseded above; and Claude Code Parity, 2026-08-26) — historical.
+> Below this section: the previous sessions' handoffs (Phase 8 closure, 2026-10-02, superseded above; and Claude Code Parity, 2026-08-26) — historical.
 
 ## What Was Done (2026-08-26)
 
