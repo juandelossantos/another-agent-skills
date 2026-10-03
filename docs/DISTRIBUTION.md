@@ -41,6 +41,10 @@ init-agents
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
 ```
 
+The release publishes a stable-name, **self-contained** `bootstrap.sh` asset (the
+`scripts/lib/aas.sh` distribution helper is inlined at build time), so the
+one-liner works with no local checkout and no sibling files.
+
 `bootstrap.sh --version vX.Y.Z` pins an exact release; `--dry-run` prints every
 action without writing anything; `--uninstall` removes the install root and the
 `aas` symlink. The install root is
@@ -93,7 +97,8 @@ push a v* tag
       │
       ▼
 .github/workflows/release.yml
-      ├─ scripts/build-release.sh        → another-agent-skills-vX.Y.Z.tar.gz + checksums.txt
+      ├─ scripts/build-release.sh        → another-agent-skills-vX.Y.Z.tar.gz
+      │                                    + bootstrap.sh + checksums.txt
       ├─ actions/attest-build-provenance → build attestation (gh attestation verify)
       ├─ gh release create               → publishes the GitHub Release assets
       └─ optional Homebrew step          → scripts/build-brew-formula.sh → push to the tap

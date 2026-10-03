@@ -32,6 +32,7 @@ assert "docs/DISTRIBUTION.md exists" "[ -f '$FILE' ]"
 # ── Channels ──────────────────────────────────────────────────────────────────
 assert "documents git clone (contributors)" "grep -q 'git clone' '$FILE'"
 assert "documents the pinned curl bootstrap" "grep -q 'bootstrap.sh' '$FILE'"
+assert "documents the self-contained bootstrap asset" "grep -qi 'self-contained' '$FILE'"
 assert "documents the aas CLI" "grep -q 'aas install' '$FILE'"
 assert "documents npm" "grep -q 'npm' '$FILE'"
 assert "documents Homebrew (brew install)" "grep -q 'brew install' '$FILE'"

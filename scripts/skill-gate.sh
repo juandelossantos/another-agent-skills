@@ -64,7 +64,7 @@ case "$ACTION" in
     fi
 
     # Verify marker is fresh (created this session)
-    MARKER_AGE=$(( $(date +%s) - $(stat -c %Y "$SKILL_MARKER" 2>/dev/null || echo "0") ))
+    MARKER_AGE=$(( $(date +%s) - $(stat -c %Y "$SKILL_MARKER" 2>/dev/null || stat -f %m "$SKILL_MARKER" 2>/dev/null || echo "0") ))
     if [ "$MARKER_AGE" -gt 3600 ]; then
       echo ""
       echo "  ${YELLOW}⚠ Skill marker is ${MARKER_AGE}s old (>1 hour)${NC}"

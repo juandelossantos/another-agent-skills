@@ -22,9 +22,10 @@ echo "────────────────────────�
 grep -qi 'homebrew' "$WF"; check $? "has a Homebrew step"
 grep -q 'scripts/build-brew-formula.sh' "$WF"; check $? "generates the formula via scripts/build-brew-formula.sh"
 
-# ── Token-gated (secrets are not allowed in `if:`; gate on a job-level env) ──
+# ── Token-gated (secrets are not allowed in `if:`; detect presence into an
+#    output, then gate on it — and scope the token to the steps that need it) ──
 grep -q 'HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}' "$WF"; check $? "token comes from the HOMEBREW_TAP_TOKEN secret"
-grep -qE "if:.*env\.HOMEBREW_TAP_TOKEN != ''" "$WF"; check $? "step is gated on the token being non-empty"
+grep -qE "if:.*steps\.tap\.outputs\.enabled == 'true'" "$WF"; check $? "step is gated on the detected token"
 
 # ── Skips cleanly when the token is absent (release unaffected) ──────────────
 grep -q 'HOMEBREW_TAP_TOKEN not set' "$WF"; check $? "prints a skip notice when the token is absent"
