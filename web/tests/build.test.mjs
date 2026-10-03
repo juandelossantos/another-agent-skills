@@ -451,3 +451,18 @@ test('footer shows the current version and the stats are derived from skills.jso
   assert.match(es, /57 skills · 151 guías · 6 componentes del harness/);
 });
 
+
+test('language switch link is relative (works locally); hreflang alternates stay absolute (SEO)', () => {
+  for (const file of ['index.html', 'es/index.html']) {
+    const html = read(file);
+    const anchors = html.match(/<a[^>]*class="header__control"[^>]*>/g) || [];
+    const lang = anchors.find((a) => /hreflang=/.test(a));
+    assert.ok(lang, `${file}: header language link not found`);
+    const href = (lang.match(/href="([^"]+)"/) || [])[1];
+    assert.ok(href, `${file}: header language link has no href`);
+    assert.ok(!/^https?:/.test(href), `${file}: header language link must be relative, got ${href}`);
+    assert.match(href, new RegExp(`^${BASE}`), `${file}: header language link must be base-aware, got ${href}`);
+    // The head's alternate links must remain absolute for crawlers.
+    assert.match(html, /<link rel="alternate" hreflang="(en|es)" href="https:\/\/[^"]+"/, `${file}: hreflang alternates must be absolute`);
+  }
+});

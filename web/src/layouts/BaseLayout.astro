@@ -114,7 +114,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <Header
       locale={locale}
       dict={dict}
-      altHref={absolute(localePath(altLocale, canonicalPath))}
+      altHref={localePath(altLocale, canonicalPath)}
       altLocale={altLocale}
     />
     <main id="main">
