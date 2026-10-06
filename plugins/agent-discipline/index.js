@@ -166,6 +166,13 @@ function classifySegment(segment) {
 
   if (tokens[0] === "rm" && tokens[1] === "-rf") return "warn"
   if (tokens[0] === "mv") return "warn"
+  if (tokens[0] === "gh") {
+    // Rule 12b: the mechanical PR review gate must run before a PR is
+    // created/merged. Warn (non-blocking) so the checklist is not skipped.
+    const sub = tokens.slice(1).filter((t) => !t.startsWith("-"))
+    if (sub[0] === "pr" && (sub[1] === "create" || sub[1] === "merge")) return "warn-pr"
+    return null
+  }
   return null
 }
 
@@ -190,6 +197,10 @@ function guardianMessage(command) {
   return `【GUARDIAN PATTERN ALERT】Mutation detected: "${command}". Did you present the DECISION POINT block and receive explicit approval? If NOT: STOP and wait for yes/sí/proceed.`
 }
 
+function prChecklistMessage(command) {
+  return `【RULE 12b — PR REVIEW GATE】PR flow detected: "${command}". Before creating or merging a PR, run the mechanical checklist: bash scripts/pr-review-checklist.sh <PR_NUMBER>. The agent creates/reviews; the USER merges.`
+}
+
 /**
  * Evaluate a bash command. Returns { block } to stop the tool call, { warn } to
  * surface a non-blocking reminder, or null for an ordinary command.
@@ -200,6 +211,7 @@ function evaluateBashCommand(rawCommand) {
   if (!command) return null
 
   let warned = false
+  let prFlow = false
   for (const segment of splitSegments(command)) {
     const verdict = classifySegment(segment)
     if (verdict === "block") {
@@ -208,9 +220,13 @@ function evaluateBashCommand(rawCommand) {
       }
     }
     if (verdict === "warn") warned = true
+    if (verdict === "warn-pr") {
+      warned = true
+      prFlow = true
+    }
   }
 
-  if (warned) return { warn: guardianMessage(command) }
+  if (warned) return { warn: prFlow ? prChecklistMessage(command) : guardianMessage(command) }
   return null
 }
 

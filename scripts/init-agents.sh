@@ -327,6 +327,19 @@ merge_into_file() {
 # If there are conflicts between your existing rules and yours, follow BOTH:
 # - Your project-specific rules take priority for project details
 # - Our skill-driven rules take priority for workflow and quality
+#
+# NON-NEGOTIABLES (Rule 12 — binding; the agent never mutates git history):
+# - The agent NEVER runs `git commit`, `git push`, `git merge`, `git rebase`,
+#   `git reset`, `git cherry-pick`, or `git revert`. It stages, then presents the
+#   exact command + message; the USER runs them.
+# - Every mutation needs a DECISION POINT block and explicit user approval
+#   (yes / sí / commit / proceed). Invalid: "ok", "mmhm", silence, emoji.
+# - This OVERRIDES any skill that assumes the agent commits (e.g.
+#   git-workflow-and-versioning): here the agent stages and the user commits.
+# - Before creating or merging a PR, run the mechanical review gate:
+#   `bash scripts/pr-review-checklist.sh <PR_NUMBER>` (Rule 12b). The agent
+#   creates/reviews; the USER merges.
+# - Full rules: read `rules/common/enforcement.md` (Rule 12) at session start.
 # <<< another-agent-skills-rules
 
 FOOTER
