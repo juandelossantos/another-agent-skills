@@ -715,15 +715,10 @@ CONFIG
         write_shim "$adr_dst" "scripts/generate-adr.sh" "../.aas/aas-resolve.sh"
     fi
 
-    # Determine skill install path based on agent config
-    local skill_dest_dir="skills"
-    local agent_config
-    agent_config=$(detect_target)
-    if echo "$agent_config" | grep -q '.claude/'; then
-        skill_dest_dir=".claude/skills"
-    elif echo "$agent_config" | grep -q '.opencode/'; then
-        skill_dest_dir=".opencode/skills"
-    fi
+    # Skill install path based on agent config (B9: a discoverable path, never
+    # a bare `skills/`).
+    local skill_dest_dir
+    skill_dest_dir="$(project_skills_dir)"
 
     # Copy self-improvement skill (SKILL.md + guides)
     local skill_src="${AAS_DIR}/skills/self-improvement"
@@ -1142,15 +1137,23 @@ install_framework_refs() {
 }
 
 # --with-skills: copy the framework skills into the project (self-contained).
-install_with_skills() {
-    local skill_dest_dir="skills"
+# Project-local skills dir an agent actually discovers (B9). A bare `skills/` is
+# NOT a discovery path for any agent; OpenCode reads `.opencode/skills` plus the
+# compat paths `.claude/skills` / `.agents/skills`, and Claude Code reads
+# `.claude/skills`. Default to `.claude/skills` (discovered by both).
+project_skills_dir() {
     local agent_config
-    agent_config=$(detect_target)
-    if echo "$agent_config" | grep -q '.claude/'; then
-        skill_dest_dir=".claude/skills"
-    elif echo "$agent_config" | grep -q '.opencode/'; then
-        skill_dest_dir=".opencode/skills"
-    fi
+    agent_config="$(detect_target)"
+    case "$agent_config" in
+        */.opencode/*) printf '%s' ".opencode/skills" ;;
+        */.claude/*)   printf '%s' ".claude/skills" ;;
+        *)             printf '%s' ".claude/skills" ;;
+    esac
+}
+
+install_with_skills() {
+    local skill_dest_dir
+    skill_dest_dir="$(project_skills_dir)"
     if [ "$DRY_RUN" = true ]; then
         plan "copy framework skills into ${skill_dest_dir}/ (--with-skills)"
         return 0
