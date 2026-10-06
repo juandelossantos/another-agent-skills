@@ -8,19 +8,28 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **complete on `feat/phase10-landing`**) |
-| Next target | **T1** — npm + Homebrew activation (maintainer, manual) → **T2** — web + docs update once LIVE (see **Next tasks** below) |
+| Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **SHIPPED + LIVE**) |
+| Next target | **E1** — essay review/edit → decide · **T3** — tag `v6.3.0` · **T1** — npm + Homebrew · **T2** — web + docs update (live) (see **Next tasks** below) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 151 across all skills |
-| Tests | 104 suites passing (core: behavioral + task working set capped at 20); web: 74 node + 85 e2e (axe 0) |
+| Tests | **108 suites** passing (core: behavioral + task working set capped at 20); web: **83 node + 85 e2e** (axe 0) |
+| Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
 
 ## Next tasks
 
-> Ordered. **T1** and **T2** are the remaining Phase 10 closure work (both gated on the maintainer / a live deploy). The existing backlog follows further down.
+> Ordered. **E1** (essay), **T3** (tag) and **T2** (post-live docs) close out Phase 10; **T1** (npm/Homebrew) is a one-time maintainer step. The existing backlog follows further down.
+
+### E1 — Essay: review → edit → decide
+
+A thought-leadership essay on AI-as-assistant / human-as-author is drafted in `development/launch/` (git-ignored → local only): `essay-human-in-command.en.md`, `essay-human-in-command.es.md`, `essay-hero-image-prompts.md`, `essay-references-verified.md`. The maintainer is reviewing/editing. When done, decide: **(A)** publish on the web as a bilingual essay/blog page, **(B)** track in git (`git add -f`), **(C)** adapt to LinkedIn / dev.to, or **(D)** leave as-is. Thesis grounded in Mitchell, Ghosh & Passi (2026), *AI Agents Push Humans Out of the Loop*.
+
+### T3 — Tag `v6.3.0` (gated)
+
+`main` is merged + deployed. After approval: `git tag v6.3.0 && git push origin v6.3.0` → `release.yml` builds/attests assets; `npm-publish.yml` (OIDC) publishes once npm is active.
 
 ### T1 — npm + Homebrew activation (maintainer, manual)
 
@@ -32,9 +41,9 @@ The npm and Homebrew channels ship in the repo (Phase 9) but are **not yet activ
   3. configure the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow `npm-publish.yml`, environment `npm-release`).
 - **Homebrew tap** — create the public **`homebrew-tap`** repo (`juandelossantos/homebrew-tap`), a **fine-grained PAT** (Contents: read/write), and set the **`HOMEBREW_TAP_TOKEN`** secret (optional `HOMEBREW_TAP_REPO` variable).
 
-### T2 — Web + docs update once LIVE
+### T2 — Web + docs update (the web is now LIVE)
 
-The Astro web (`web/`) is built but **not deployed**. After the GitHub Pages deploy is verified live:
+The Astro web (`web/`) is **LIVE** at https://juandelossantos.github.io/another-agent-skills/ (Pages `build_type: workflow`; `deploy-web` build → deploy → verify all green). Remaining:
 
 - point the **README + docs** at the live URL and drop the "not yet deployed" wording;
 - verify the live **SEO / `llms.txt` / OG** (sitemap, canonical, `hreflang`, JSON-LD, OG cards);
@@ -55,174 +64,6 @@ The Astro web (`web/`) is built but **not deployed**. After the GitHub Pages dep
 | **8** | **v6.2.0** | Remote Enforcement — Gate Integrity: branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity (PRs #36/#37); P8.4 closed by design (philosophy A); docs honesty — INCIDENT_004 correction + L1/L2/L3 model (PR #39); ship-to-users — `templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist (PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review — script injection, fresh-repo hook block, L3 honesty (PR #43). Merged to `main` via PRs #36–#43. |
 | **9** | **v6.3.0** | Distribution & Upgrades: pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`, `actions/attest-build-provenance`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto\|all\|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent); Homebrew formula + tap update. Merged to `main` via PRs #47–#52. |
 | **10** | **v6.3.0** | Public web — the Astro `web/` project: bilingual (EN/ES) landing + docs, a 57-skill / 151-guide reference, five tutorials, a build-generated search index + sidebar; discoverability (SEO: sitemap/robots/canonical/hreflang/OG; AEO: `llms.txt` + citable TL;DRs + JSON-LD; a11y: axe 0 across 30 pages × EN/ES × light/dark × 2 viewports; Lighthouse 100/100/100/100 desktop); 3 review iterations + an exhaustive review (docs 404 links, copy-button rejection, dead breadcrumb anchors, absolute language link, "more" chip sizing); README overhaul; v6.3.0 version sync + the real guide count (151). **Complete on `feat/phase10-landing`** (10 commits) — PR/merge/deploy pending. |
-
----
-
-## Phase 7: Cross-Platform Harness Parity (v7.0.0)
-
-**Derived from:** deep analysis of [javierpa95/harness](https://github.com/javierpa95/harness)
-**Focus fronts:** (A) Easy Dev Docs — clear, practical, discoverable docs
-**Focus fronts:** (B) SEO — landing page + docs site optimization
-
-### Task 7.1 — Claude Code `.claude/` Mirror
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Create `.claude/` directory with agents/, commands/, skills/, settings.json mirroring `.opencode/` |
-| **Files** | New: `.claude/agents/*.md` (8 agents), `.claude/commands/start.md`, `.claude/commands/end.md`, `.claude/settings.json`, `.claude/skills/handoff/SKILL.md` |
-| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` — add `.claude/` path in tables. Update `README.md` agent matrix: Claude Code → ✅ auto. Update `docs/agents.html` |
-| **Docs (B)** | Add `CLAUDE.md` to landing page FAQ. Add structured data for Claude Code integration |
-| **SEO** | New keywords: "Claude Code", "Anthropic agent", "Claude Code skills" — update meta keywords in all HTML. Add OG tags to `docs/agents.html` |
-| **Gate** | pre-commit validates `.claude/` mirrors `.opencode/agents/` |
-| **Tests** | adapter test: both `.claude/` and `.opencode/` agent counts match |
-
-### Task 7.2 — Cursor `.cursor/` Mirror
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Create `.cursor/rules/` (4 rules), `.cursor/instructions.md`. Update `.cursor-plugin/` to use `.cursor/` instead of symlinks |
-| **Files** | New: `.cursor/rules/*.md`, `.cursor/instructions.md`. Updated: `.cursor-plugin/agent-discipline/` |
-| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` Cursor section. Update `docs/getting-started.html` Cursor tab. Update `QUICKSTART.md` |
-| **Docs (B)** | Add "Cursor AI", "Cursor agent rules" keywords. Add `.cursor/rules/` path to `docs/agents.html` |
-| **SEO** | New FAQ entry: "Does this work with Cursor?" — yes, with `.cursor/rules/`. Link from FAQ → `docs/agents.html#cursor` |
-| **Gate** | pre-commit validates `.cursor/rules/` mirrors `.opencode/rules/` |
-| **Tests** | adapter test: both directories parse correctly |
-
-### Task 7.3 — Devin/Kiro Config Update
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Update `.kiro/hooks/` to match current script paths. Add `.devin/config.md` |
-| **Files** | `.kiro/hooks/agent-discipline.json`, new: `.devin/config.md` |
-| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` Devin+Kiro. Add Devin setup to `docs/getting-started.html` |
-| **Docs (B)** | New section in `docs/agents.html` for Devin Desktop workflow |
-| **SEO** | Keywords: "Devin AI", "Devin Desktop", "Kiro agent" — meta keywords |
-| **Gate** | verify `.kiro/hooks/agent-discipline.json` parses as valid JSON |
-| **Tests** | install with `bash install.sh --agent kiro`, verify hooks load |
-
-### Task 7.4 — Shared Memory System
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Create `agent-memory/` (git-tracked) with per-agent MEMORY.md files |
-| **Files** | New: `agent-memory/README.md`, `agent-memory/spec-writer/MEMORY.md`, `agent-memory/code-reviewer/MEMORY.md`, `agent-memory/docs-auditor/MEMORY.md` |
-| **Docs (A)** | New `docs/memory.html` — how per-agent memory works. Update `docs/customization.html`, `docs/getting-started.html` |
-| **Docs (B)** | "agent memory", "persistent context" keywords in meta. Link from landing page "How It Works" → `docs/memory.html` |
-| **SEO** | Dedicated memory page with structured data. Value prop: "<1% of agent frameworks have persistent memory" |
-| **Gate** | `agent-memory/README.md` exists and references all agent dirs |
-| **Tests** | memory test: create entry, verify agent can read it |
-
-### Task 7.5 — Shared Makefile Control Panel
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Create `Makefile` with targets: `make help`, `make skills`, `make gates`, `make check`, `make memory`, `make hooks`, `make health`, `make docs` |
-| **Files** | New: `Makefile`. Update: `README.md` commands table |
-| **Docs (A)** | Add `make` commands table to `README.md`. "Quick Reference" card on `docs/index.html`. Update `docs/getting-started.html` |
-| **Docs (B)** | Landing page "Quick Start": `make help` as first command. Terminal code blocks in `docs/quickstart-guide.html` |
-| **SEO** | Low direct. Medium UX (lower bounce rate). `make` code blocks for rich snippets |
-| **Gate** | `make help` exits 0 |
-| **Tests** | run all targets, verify exit codes |
-
-### Task 7.6 — Interactive `init.sh` Setup
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Interactive script: asks project name, type, stack, design system → generates STACK_CONFIG.md, selects skills, installs hooks |
-| **Files** | New: `init.sh`, `init.ps1`. Update: `install.sh` (optional delegation) |
-| **Docs (A)** | Update `docs/getting-started.html` flow: Install → init.sh → init-agents. Walkthrough in `docs/quickstart-guide.html`. Update `QUICKSTART.md` |
-| **Docs (B)** | Hero command: `bash init.sh` (more approachable). "Guided setup" as hero feature |
-| **SEO** | "interactive setup", "project scaffolding" keywords. Step-by-step CLI output rich results |
-| **Gate** | `bash init.sh --dry-run` exits 0 |
-| **Tests** | pipe answers to init.sh, verify generated files exist |
-
-### Task 7.7 — commitlint + Conventional Commits
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Add `commitlint` + Husky for THIS repo. Custom `security` commit type. Update `commit-msg` hook to validate conventional commits + TDD |
-| **Files** | New: `commitlint.config.js`. Update: `package.json`, `scripts/git-hooks/commit-msg` |
-| **Docs (A)** | Update `docs/getting-started.html` commit section. Add conventional commits to `docs/quickstart-guide.html`. Update `CONTRIBUTING.md` |
-| **Docs (B)** | Add commit format to `docs/rules.html`. Document `security` type in `docs/enforcement.html` |
-| **SEO** | "conventional commits for AI agents" long-tail content depth |
-| **Gate** | `npx commitlint --from HEAD~1 --to HEAD` passes |
-| **Tests** | good message passes, bad message fails |
-
-### Task 7.8 — Docs-Auditor Pre-Commit Gate
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Pre-commit Gate 15: if source files changed, verify corresponding docs updated. Warn-only |
-| **Files** | Update: `scripts/git-hooks/pre-commit` (add Gate 15). New: `scripts/verify-docs.sh` |
-| **Docs (A)** | Update `docs/enforcement.html` gate list (15→16). Update `i18n/en.json` + `i18n/es.json`. Update `docs/quickstart-guide.html` |
-| **Docs (B)** | Landing page hero: "15 gates" → "16 gates". Update `docs/index.html` "What's New". All gate count refs across landing, docs, i18n |
-| **SEO** | Gate count increment = content refresh across all pages (recrawl signal). Update SoftwareApplication schema |
-| **Gate** | pre-commit runs `scripts/verify-docs.sh`, warns on stale docs |
-| **Tests** | update source without updating docs → warning fires |
-
-### Task 7.9 — Dev Docs Clarity Overhaul
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Full-text search on `docs/` via client-side JS indexing. 5 concept pages (Guardian Pattern, TDD Gate, Design Gate, Skill Gate, Context Engineering). JSON-LD structured data on ALL docs pages |
-| **Files** | Update: `docs/js/docs.js`, `docs/index.html` (search). New: `docs/concepts/guardian-pattern.html`, `tdd-gate.html`, `design-gate.html`, `skill-gate.html`, `context-engineering.html`. ALL `docs/*.html` (structured data) |
-| **Docs (A)** | Consistent H1 + meta desc on all pages. Concept pages link to skills, guides, rules. "Related" sections on major pages |
-| **Docs (B)** | JSON-LD SearchAction for Sitelinks Search Box. Concept pages target distinct long-tail keywords. Bidirectional link graph: concept → skill → rule → enforcement |
-| **SEO** | HIGH — 5 topic-cluster pages interlinking with 57 skill pages. TechArticle/HowTo/FAQ schemas for rich results. Topical authority for "AI agent enforcement" |
-| **Gate** | Google Rich Results Test passes for every page. Each concept page has ≥3 internal links |
-| **Tests** | batch validate all HTML with structured data linter. 5 search queries return expected results |
-
-### Task 7.10 — SEO Infrastructure
-
-| Aspect | Scope |
-|--------|-------|
-| **What** | Auto-generated sitemap with hreflang (EN/ES). Core Web Vitals (Lighthouse 90+ all pages). Internal link audit (zero broken links) |
-| **Files** | Update: `sitemap.xml`, `robots.txt`, `css/style.css` (inline critical), all HTML (preload, lazy-load). New: `scripts/generate-sitemap.sh` |
-| **Docs (A)** | Add hreflang `<link>` tags to all pages. "Related Skills" sections for discoverability |
-| **Docs (B)** | Hreflang for bilingual SEO. CWV ranking signals. Hub pages (enforcement.html, lifecycle.html) link to all 57 skills for authority flow |
-| **SEO** | HIGH — hreflang for bilingual indexation, CWV as ranking signal, dense internal link graph for topical authority. 70+ pages with zero broken links |
-| **Gate** | Lighthouse 90+ all page types. Zero broken internal links. `scripts/generate-sitemap.sh` exits 0 |
-| **Tests** | Lighthouse CI batch audit (fail if <85). Broken link auditor on all HTML. Sitemap validates against schema |
-
----
-
-## Summary
-
-| Metric | Current | Target v7.0.0 |
-|---|---|---|
-| Platforms | 1 (OpenCode full) | 4 (OpenCode + Claude + Cursor + Devin) |
-| Attribution | In README only | Dedicated ATTRIBUTION.md + docs page |
-| Memory | Session-only | Per-agent persistent MEMORY.md |
-| Makefile | None | Full control panel (10+ targets) |
-| Interactive setup | None | `init.sh` guided CLI |
-| Docs search | None | Client-side full-text search |
-| Concept pages | 0 | 5 standalone concept pages |
-| Structured data | 1 page (landing) | All 14+ docs pages |
-| Pre-commit gates | 15 | 16 (+ Docs-Auditor) |
-| Lighthouse | ~85-95 | 90+ all pages |
-| Internal links | Manual | Auto-audited, zero broken |
-| Hreflang | None | All pages EN ↔ ES |
-| Sitemap | Static | Auto-generated from git |
-
----
-
-## Release Checklist v7.0.0
-
-- [ ] All 4 platform adapters created and tested (7.1-7.3)
-- [ ] Shared agent-memory/ with per-agent MEMORY.md (7.4)
-- [ ] Makefile with 10+ targets passing (7.5)
-- [ ] init.sh/init.ps1 interactive setup flow tested (7.6)
-- [ ] commitlint + conventional commits for this repo (7.7)
-- [ ] Docs-Auditor Gate 15 added to pre-commit (7.8)
-- [ ] 5 concept pages created with bidirectional link graph (7.9)
-- [ ] Structured data on ALL docs pages (7.9)
-- [ ] Full-text search on docs/ (7.9)
-- [ ] Sitemap auto-generated, hreflang added (7.10)
-- [ ] Lighthouse 90+ on all page types (7.10)
-- [ ] Zero broken internal links (7.10)
-- [ ] i18n EN/ES updated across all new pages
-- [ ] Version bumped to 7.0.0
-- [ ] Release notes written
 
 ---
 
@@ -452,8 +293,16 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 | 11 | Self-host Google Fonts | Backlog | 🟢 P3 | Rendimiento/privacidad; cosmético. |
 | 12 | New skill tracks (CLI, IoT, GameDev, Container) | Backlog | 🟢 P3 | Expansión; requiere validación de demanda. No urgente. |
 | 13 | Framework self-hosting: hook source integrity (B1.1–B1.5) | Backlog | 🟠 P1 | `init-agents` degrada el v11 sin avisar en el repo del framework. Barato y protege la calidad del propio proyecto. |
+| 14 | `--repair` migra legacy sin pérdida de datos (B4.1–B4.4) | Backlog | 🔴 P0 | Bug de la feature P9.8 ya shipeada: `--repair` borra `rules/common`, `SOUL.md`, `AGENTS-EXTENDED.md`, `VERSION` y 8 `scripts/*.sh` sin recrearlos. Rompe el caso real `courtside-scoreboard` y contradice el criterio de aceptación. |
+| 15 | Guardrail del plugin inerte en OpenCode v2 (B6.1–B6.6) | Backlog | 🔴 P0 | El plugin carga (`active` en `/api/plugin`) pero el hook no evalúa **nada**: filtra por `bash` y v2 usa `shell`. Es *el* guardrail (Rule 12); inerte = cero enforcement. Fix de 1 línea. |
+| 16 | Hooks locales inertes por `core.hooksPath` (B5.1–B5.4) | Backlog | 🔴 P0 | `init-agents` escribe en `.git/hooks/` pero husky/lefthook lo shadowean → ningún gate local corre (caso real `courtside-scoreboard`). |
+| 17 | Skills: descubrimiento y rutas del Protocolo (B9.1–B9.4) | Backlog | 🟠 P1 | El dir `skills/` del proyecto no es un path de descubrimiento; el Protocolo referencia `skills/using-agent-skills/SKILL.md` (inexistente) y `scripts/skill-gate.sh` (que `--repair` borra). |
+| 18 | Rule 12 no se auto-inyecta en el contexto (B7.1–B7.3) | Backlog | 🟠 P1 | Arreglo **blando** (texto): mejora el contexto pero no es enforcement. Complementa B5/B6, no los sustituye. |
+| 19 | PR review gate sin disparador (B8.1–B8.2) | Backlog | 🟡 P2 | Arreglo **blando**: encadenar el checklist mecánico al flujo de PR. |
 
-**Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético.
+**Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético. *(Histórico — ya ejecutado: P7–P10 completas.)*
+
+**Regla de secuencia (actualizada 2026-10-05, caso real `courtside-scoreboard`):** de lo **mecánico** a lo **blando**: **B6** (guardrail del plugin, 1 línea) → **B5** (hooks locales) → **B4** (`--repair` sin pérdida) → **B9/B7** (skills y reglas en contexto) → **B8** (PR gate). B6/B5/B4 son **P0** porque sin ellos no corre *nada* localmente; B7/B8/B9 son **P1–P2** porque son texto/contexto, no enforcement mecánico.
 
 **Actualización (2026-10-02):** ✅ P7 (v6.2.0), **P8 completa** (remote enforcement) y **Phase 9 completa** (distribución, PRs #47–#52) están **hechos**. Orden **decidido**: **Phase 9 (distribución) → Phase 10 (landing/docs + SEO/AEO/a11y) → Phase 11 (docs site)**. Con Phase 9 cerrada, el siguiente objetivo es **Phase 10**. Ver "Orden de ejecución" abajo.
 
@@ -523,7 +372,7 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0) — ✅ COMPLETE
 
-**Status (2026-10-03):** ✅ **COMPLETE on `feat/phase10-landing`** (10 commits) — the approved landing + docs mockups; the Astro `web/` project (landing + docs + a 57-skill bilingual reference + 5 tutorials + a build-generated search index + a sidebar); discoverability (SEO/AEO/a11y, Lighthouse 100 desktop); 3 review iterations + an exhaustive review; the README overhaul; v6.3.0 version sync + the real guide count (151). Tests: core **104 suites**; web **74 node + 85 e2e** (axe 0). **Not yet PR'd/merged/deployed** (gated — see **Next tasks**: T1 npm/Homebrew, T2 web/docs once live).
+**Status (2026-10-03):** ✅ **SHIPPED + LIVE** — merged via PR #55 (`main` `1258306`); GitHub Pages switched to `build_type: workflow`; `.github/workflows/deploy-web.yml` runs build → deploy → verify (all green); live at https://juandelossantos.github.io/another-agent-skills/. Delivered: the approved landing + docs mockups; the Astro `web/` project (landing + docs + a 57-skill bilingual reference + 5 tutorials + a build-generated search index + a sidebar); discoverability (SEO/AEO/a11y, Lighthouse 100 desktop); 3 review iterations + an exhaustive review; the README overhaul; v6.3.0 version sync + the real guide count (151). Tests: core **108 suites**; web **83 node + 85 e2e** (axe 0). Remaining closure: **E1** essay, **T3** tag `v6.3.0`, **T1** npm/Homebrew, **T2** web/docs post-live.
 **Branch:** `feat/phase10-landing`
 **Goal:** Landing, README y docs **atractivos, accesibles y descubribles** — con la historia **multi-agente + distribución (Phase 9)** ya final, diseño award-winning, SEO técnico, **AEO** (Answer Engine Optimization), accesibilidad WCAG 2.2 AA y lenguaje/keywords del sector para ser encontrados y **citados como referente** en agent skills / IA agéntica.
 
@@ -610,7 +459,189 @@ before any version is assigned.
 
 ---
 
+## Phase 12: Cross-Platform Harness Parity (v7.0.0) — PLANNED
+
+**Derived from:** deep analysis of [javierpa95/harness](https://github.com/javierpa95/harness)
+**Focus fronts:** (A) Easy Dev Docs — clear, practical, discoverable docs
+**Focus fronts:** (B) SEO — landing page + docs site optimization
+
+### Task 12.1 — Claude Code `.claude/` Mirror
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `.claude/` directory with agents/, commands/, skills/, settings.json mirroring `.opencode/` |
+| **Files** | New: `.claude/agents/*.md` (8 agents), `.claude/commands/start.md`, `.claude/commands/end.md`, `.claude/settings.json`, `.claude/skills/handoff/SKILL.md` |
+| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` — add `.claude/` path in tables. Update `README.md` agent matrix: Claude Code → ✅ auto. Update `docs/agents.html` |
+| **Docs (B)** | Add `CLAUDE.md` to landing page FAQ. Add structured data for Claude Code integration |
+| **SEO** | New keywords: "Claude Code", "Anthropic agent", "Claude Code skills" — update meta keywords in all HTML. Add OG tags to `docs/agents.html` |
+| **Gate** | pre-commit validates `.claude/` mirrors `.opencode/agents/` |
+| **Tests** | adapter test: both `.claude/` and `.opencode/` agent counts match |
+
+### Task 12.2 — Cursor `.cursor/` Mirror
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `.cursor/rules/` (4 rules), `.cursor/instructions.md`. Update `.cursor-plugin/` to use `.cursor/` instead of symlinks |
+| **Files** | New: `.cursor/rules/*.md`, `.cursor/instructions.md`. Updated: `.cursor-plugin/agent-discipline/` |
+| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` Cursor section. Update `docs/getting-started.html` Cursor tab. Update `QUICKSTART.md` |
+| **Docs (B)** | Add "Cursor AI", "Cursor agent rules" keywords. Add `.cursor/rules/` path to `docs/agents.html` |
+| **SEO** | New FAQ entry: "Does this work with Cursor?" — yes, with `.cursor/rules/`. Link from FAQ → `docs/agents.html#cursor` |
+| **Gate** | pre-commit validates `.cursor/rules/` mirrors `.opencode/rules/` |
+| **Tests** | adapter test: both directories parse correctly |
+
+### Task 12.3 — Devin/Kiro Config Update
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Update `.kiro/hooks/` to match current script paths. Add `.devin/config.md` |
+| **Files** | `.kiro/hooks/agent-discipline.json`, new: `.devin/config.md` |
+| **Docs (A)** | Update `docs/AGENT-ADAPTERS.md` Devin+Kiro. Add Devin setup to `docs/getting-started.html` |
+| **Docs (B)** | New section in `docs/agents.html` for Devin Desktop workflow |
+| **SEO** | Keywords: "Devin AI", "Devin Desktop", "Kiro agent" — meta keywords |
+| **Gate** | verify `.kiro/hooks/agent-discipline.json` parses as valid JSON |
+| **Tests** | install with `bash install.sh --agent kiro`, verify hooks load |
+
+### Task 12.4 — Shared Memory System
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `agent-memory/` (git-tracked) with per-agent MEMORY.md files |
+| **Files** | New: `agent-memory/README.md`, `agent-memory/spec-writer/MEMORY.md`, `agent-memory/code-reviewer/MEMORY.md`, `agent-memory/docs-auditor/MEMORY.md` |
+| **Docs (A)** | New `docs/memory.html` — how per-agent memory works. Update `docs/customization.html`, `docs/getting-started.html` |
+| **Docs (B)** | "agent memory", "persistent context" keywords in meta. Link from landing page "How It Works" → `docs/memory.html` |
+| **SEO** | Dedicated memory page with structured data. Value prop: "<1% of agent frameworks have persistent memory" |
+| **Gate** | `agent-memory/README.md` exists and references all agent dirs |
+| **Tests** | memory test: create entry, verify agent can read it |
+
+### Task 12.5 — Shared Makefile Control Panel
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Create `Makefile` with targets: `make help`, `make skills`, `make gates`, `make check`, `make memory`, `make hooks`, `make health`, `make docs` |
+| **Files** | New: `Makefile`. Update: `README.md` commands table |
+| **Docs (A)** | Add `make` commands table to `README.md`. "Quick Reference" card on `docs/index.html`. Update `docs/getting-started.html` |
+| **Docs (B)** | Landing page "Quick Start": `make help` as first command. Terminal code blocks in `docs/quickstart-guide.html` |
+| **SEO** | Low direct. Medium UX (lower bounce rate). `make` code blocks for rich snippets |
+| **Gate** | `make help` exits 0 |
+| **Tests** | run all targets, verify exit codes |
+
+### Task 12.6 — Interactive `init.sh` Setup
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Interactive script: asks project name, type, stack, design system → generates STACK_CONFIG.md, selects skills, installs hooks |
+| **Files** | New: `init.sh`, `init.ps1`. Update: `install.sh` (optional delegation) |
+| **Docs (A)** | Update `docs/getting-started.html` flow: Install → init.sh → init-agents. Walkthrough in `docs/quickstart-guide.html`. Update `QUICKSTART.md` |
+| **Docs (B)** | Hero command: `bash init.sh` (more approachable). "Guided setup" as hero feature |
+| **SEO** | "interactive setup", "project scaffolding" keywords. Step-by-step CLI output rich results |
+| **Gate** | `bash init.sh --dry-run` exits 0 |
+| **Tests** | pipe answers to init.sh, verify generated files exist |
+
+### Task 12.7 — commitlint + Conventional Commits
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Add `commitlint` + Husky for THIS repo. Custom `security` commit type. Update `commit-msg` hook to validate conventional commits + TDD |
+| **Files** | New: `commitlint.config.js`. Update: `package.json`, `scripts/git-hooks/commit-msg` |
+| **Docs (A)** | Update `docs/getting-started.html` commit section. Add conventional commits to `docs/quickstart-guide.html`. Update `CONTRIBUTING.md` |
+| **Docs (B)** | Add commit format to `docs/rules.html`. Document `security` type in `docs/enforcement.html` |
+| **SEO** | "conventional commits for AI agents" long-tail content depth |
+| **Gate** | `npx commitlint --from HEAD~1 --to HEAD` passes |
+| **Tests** | good message passes, bad message fails |
+
+### Task 12.8 — Docs-Auditor Pre-Commit Gate
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Pre-commit Gate 15: if source files changed, verify corresponding docs updated. Warn-only |
+| **Files** | Update: `scripts/git-hooks/pre-commit` (add Gate 15). New: `scripts/verify-docs.sh` |
+| **Docs (A)** | Update `docs/enforcement.html` gate list (15→16). Update `i18n/en.json` + `i18n/es.json`. Update `docs/quickstart-guide.html` |
+| **Docs (B)** | Landing page hero: "15 gates" → "16 gates". Update `docs/index.html` "What's New". All gate count refs across landing, docs, i18n |
+| **SEO** | Gate count increment = content refresh across all pages (recrawl signal). Update SoftwareApplication schema |
+| **Gate** | pre-commit runs `scripts/verify-docs.sh`, warns on stale docs |
+| **Tests** | update source without updating docs → warning fires |
+
+### Task 12.9 — Dev Docs Clarity Overhaul
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Full-text search on `docs/` via client-side JS indexing. 5 concept pages (Guardian Pattern, TDD Gate, Design Gate, Skill Gate, Context Engineering). JSON-LD structured data on ALL docs pages |
+| **Files** | Update: `docs/js/docs.js`, `docs/index.html` (search). New: `docs/concepts/guardian-pattern.html`, `tdd-gate.html`, `design-gate.html`, `skill-gate.html`, `context-engineering.html`. ALL `docs/*.html` (structured data) |
+| **Docs (A)** | Consistent H1 + meta desc on all pages. Concept pages link to skills, guides, rules. "Related" sections on major pages |
+| **Docs (B)** | JSON-LD SearchAction for Sitelinks Search Box. Concept pages target distinct long-tail keywords. Bidirectional link graph: concept → skill → rule → enforcement |
+| **SEO** | HIGH — 5 topic-cluster pages interlinking with 57 skill pages. TechArticle/HowTo/FAQ schemas for rich results. Topical authority for "AI agent enforcement" |
+| **Gate** | Google Rich Results Test passes for every page. Each concept page has ≥3 internal links |
+| **Tests** | batch validate all HTML with structured data linter. 5 search queries return expected results |
+
+### Task 12.10 — SEO Infrastructure
+
+| Aspect | Scope |
+|--------|-------|
+| **What** | Auto-generated sitemap with hreflang (EN/ES). Core Web Vitals (Lighthouse 90+ all pages). Internal link audit (zero broken links) |
+| **Files** | Update: `sitemap.xml`, `robots.txt`, `css/style.css` (inline critical), all HTML (preload, lazy-load). New: `scripts/generate-sitemap.sh` |
+| **Docs (A)** | Add hreflang `<link>` tags to all pages. "Related Skills" sections for discoverability |
+| **Docs (B)** | Hreflang for bilingual SEO. CWV ranking signals. Hub pages (enforcement.html, lifecycle.html) link to all 57 skills for authority flow |
+| **SEO** | HIGH — hreflang for bilingual indexation, CWV as ranking signal, dense internal link graph for topical authority. 70+ pages with zero broken links |
+| **Gate** | Lighthouse 90+ all page types. Zero broken internal links. `scripts/generate-sitemap.sh` exits 0 |
+| **Tests** | Lighthouse CI batch audit (fail if <85). Broken link auditor on all HTML. Sitemap validates against schema |
+
+---
+
+## Summary
+
+| Metric | Current | Target v7.0.0 |
+|---|---|---|
+| Platforms | 1 (OpenCode full) | 4 (OpenCode + Claude + Cursor + Devin) |
+| Attribution | In README only | Dedicated ATTRIBUTION.md + docs page |
+| Memory | Session-only | Per-agent persistent MEMORY.md |
+| Makefile | None | Full control panel (10+ targets) |
+| Interactive setup | None | `init.sh` guided CLI |
+| Docs search | None | Client-side full-text search |
+| Concept pages | 0 | 5 standalone concept pages |
+| Structured data | 1 page (landing) | All 14+ docs pages |
+| Pre-commit gates | 15 | 16 (+ Docs-Auditor) |
+| Lighthouse | ~85-95 | 90+ all pages |
+| Internal links | Manual | Auto-audited, zero broken |
+| Hreflang | None | All pages EN ↔ ES |
+| Sitemap | Static | Auto-generated from git |
+
+---
+
+## Release Checklist v7.0.0
+
+- [ ] All 4 platform adapters created and tested (12.1-12.3)
+- [ ] Shared agent-memory/ with per-agent MEMORY.md (12.4)
+- [ ] Makefile with 10+ targets passing (12.5)
+- [ ] init.sh/init.ps1 interactive setup flow tested (12.6)
+- [ ] commitlint + conventional commits for this repo (12.7)
+- [ ] Docs-Auditor Gate 15 added to pre-commit (12.8)
+- [ ] 5 concept pages created with bidirectional link graph (12.9)
+- [ ] Structured data on ALL docs pages (12.9)
+- [ ] Full-text search on docs/ (12.9)
+- [ ] Sitemap auto-generated, hreflang added (12.10)
+- [ ] Lighthouse 90+ on all page types (12.10)
+- [ ] Zero broken internal links (12.10)
+- [ ] i18n EN/ES updated across all new pages
+- [ ] Version bumped to 7.0.0
+- [ ] Release notes written
+
+---
+
 ## Backlog
+
+> **Índice.** Los hallazgos del caso real `courtside-scoreboard` (B4–B9) están priorizados en **Priorización de Pendientes**. Orden recomendado: **B6 → B5 → B4 → B9 → B7 → B8**.
+
+| ID | Tema | Prioridad | Estado |
+|---|---|---|---|
+| B1 | Framework self-hosting: hook source integrity | 🟠 P1 | Pendiente |
+| B2 | Limpieza del pre-commit v11 (drift post-v6) | 🟡 P2 | Pendiente |
+| B3 | TDD gate false-pass sin code files staged | 🟡 P2 | Pendiente |
+| B4 | `--repair` borra symlinks legacy sin recrear (pérdida de datos) | 🔴 P0 | Pendiente |
+| B5 | Hooks locales inertes por `core.hooksPath` | 🔴 P0 | Pendiente |
+| B6 | Guardrail del plugin inerte (`bash` vs `shell`) | 🔴 P0 | Pendiente |
+| B7 | Rule 12 no se auto-inyecta en el contexto | 🟠 P1 | Pendiente |
+| B8 | PR review gate sin disparador | 🟡 P2 | Pendiente |
+| B9 | Skills: descubrimiento y rutas del Protocolo | 🟠 P1 | Pendiente |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container
@@ -658,3 +689,99 @@ before any version is assigned.
 | B3.2 | `SKIP` por `no-code-files` solo si de verdad no hay code files modificados sin stagear | `code_files=none` deja de ser un falso PASS |
 
 **Evidencia (RED):** `.git/TDD_GATE_LOG` de `56453c4` → `decision=SKIP code_files=none` mientras `install.sh` estaba modificado sin stagear.
+
+### Backlog detallado — B4: `init-agents --repair` borra symlinks legacy sin recrear equivalentes (pérdida de datos)
+
+**Problema:** P9.8 fija como criterio de aceptación que `--repair` migra un proyecto legacy "sin pérdida de datos" y "sin tocar el `AGENTS.md` ni los docs del equipo" (ver §Phase 9 y el caso real `courtside-scoreboard`). La implementación **no lo cumple**: `repair_legacy()` (`scripts/init-agents.sh`) elimina los symlinks absolutos de `rules/common`, `SOUL.md`, `AGENTS-EXTENDED.md`, `VERSION` y de cada `scripts/*.sh` (`skill-gate`, `edit-guard`, `task-manifest`, `pre-flight`, `commit-approval`, `pr-review-checklist`, `design-gate`, `skill-lint`, y `setup-branch-protection`/`tdd-gate` cuando existen) y **no los recrea**. Solo se reinstalan `PATTERNS.md`/`ANTI-PATTERNS.md` (copias) y `scripts/audit-project.sh`/`generate-adr.sh` (shims portables).
+
+**Por qué importa:** el `AGENTS.md` del proyecto referencia `rules/common/` (Rules Index) y `scripts/skill-gate.sh` (protocolo de sesión de inicio) — tras `--repair` esos paths ya no existen y el equipo pierde acceso local a reglas y guardrails. Contradice el objetivo declarado ("no debería borrar nada pero sí actualizar para que funcione la nueva versión"). Además, `init-agents` **normal** (sin `--repair`) tampoco migra esos symlinks: los deja apuntando a la global vieja → estado mixto (proyecto en la versión nueva, reglas/scripts en la vieja).
+
+**Caso real / evidencia (RED, medido 2026-10-05):** en una réplica del estado legacy de `courtside-scoreboard` (16 symlinks absolutos), `init-agents --repair` imprime `Removed absolute symlink rules/common`, `SOUL.md`, `AGENTS-EXTENDED.md`, `VERSION`, `scripts/skill-gate.sh`, `scripts/edit-guard.sh`, `scripts/task-manifest.sh`, `scripts/pre-flight.sh`, `scripts/commit-approval.sh`, `scripts/pr-review-checklist.sh`, `scripts/design-gate.sh`, `scripts/skill-lint.sh` (12 en total) y **no los recrea**. El test existente `tests/test-init-agents-repair-symlink.sh` solo cubre `AGENTS.md`, no estos paths.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B4.1 | `--repair` recrea un equivalente portable de **cada** symlink legacy que elimina: `rules/common` (copia o resolución vía `.aas/`), `SOUL.md`/`AGENTS-EXTENDED.md`/`VERSION` (copia o shim), y cada `scripts/*.sh` (shim → `.aas/aas-resolve.sh`), igual que ya hace con `audit-project.sh`/`generate-adr.sh` | Tras `--repair`, todo path que el `AGENTS.md` del proyecto referencia existe y funciona |
+| B4.2 | `init-agents` **normal** (sin `--repair`) migra los symlinks absolutos legacy a la forma portable (o al menos los reporta y ofrece `--repair`), sin dejar estado mixto | Un proyecto legacy queda 100% portable con un solo `init-agents` |
+| B4.3 | `--dry-run` lista **exactamente** qué symlink se eliminará y qué se recreará (no solo el resumen) | El plan de `--repair` es auditable antes de mutar |
+| B4.4 | Test de regresión: fixture de proyecto legacy con los 16 symlinks → `init-agents --repair` → asserta que `rules/common`, `SOUL.md`, `AGENTS-EXTENDED.md`, `VERSION` y cada `scripts/*.sh` resuelven/ejecutan, y que el `AGENTS.md` del equipo se conserva | Nada referenciado por `AGENTS.md` se pierde |
+
+**Nota:** si con P9.7 las reglas son siempre globales, `rules/common` puede no necesitar copia — pero entonces el Rules Index del `AGENTS.md` debe migrarse a la ubicación global en vez de dejar el path local roto. Decidir en la revisión (¿shim/copia local, o reescribir la referencia?).
+
+**Interacción:** `--repair` borra `scripts/skill-gate.sh`, que el `AGENTS.md` referencia (ver **B9**); y los hooks que instala quedan inertes si `core.hooksPath` está seteado (ver **B5**). **B4, B5 y B9 deben resolverse juntos.**
+
+### Backlog detallado — B5: `init-agents` instala hooks en `.git/hooks/` sin detectar `core.hooksPath` (quedan inertes)
+
+**Problema:** `install_hook_shims` escribe `.git/hooks/pre-commit` y `.git/hooks/commit-msg`, pero si el proyecto tiene `core.hooksPath` configurado (husky, lefthook, etc.) git **ignora** `.git/hooks/` y esos shims nunca corren. `init-agents` no lo detecta ni avisa.
+
+**Por qué importa:** el usuario cree tener enforcement local (lifecycle + TDD) y en realidad no corre nada. Caso real `courtside-scoreboard`: `core.hooksPath=.husky/_` (husky) y sin `.husky/pre-commit` → ningún hook corre al commitear; CI (`ci.yml`) queda como único gate.
+
+**Evidencia (RED, medido 2026-10-05):** `git config core.hooksPath` → `.husky/_`; `.git/hooks/pre-commit` (AAS) existe pero git no lo ejecuta; el commit `af02237` se creó **sin** correr tests/build/TDD locales.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B5.1 | `init-agents` detecta `core.hooksPath` y, si está seteado, instala los shims en ese path (o avisa explícitamente de que los de `.git/hooks/` quedan inertes y cómo activarlos) | Tras `init-agents`, los hooks AAS efectivamente corren |
+| B5.2 | Si el proyecto usa husky/lefthook, integrar sin pisar (p.ej. `.husky/pre-commit` que delegue, o documentar el wiring) | No se rompe el hook del proyecto ni queda silencioso |
+| B5.3 | `--check-env`/`doctor` reportan el estado real de los hooks (activos/shadowed) | El diagnóstico dice si el enforcement local está activo |
+| B5.4 | Test: fixture con `core.hooksPath` apuntando a otro dir → `init-agents` avisa/instala en el path efectivo | El hook corre en el path efectivo |
+
+### Backlog detallado — B6: el plugin de guardrails (`agent-discipline`) se instala pero puede quedar inerte sin aviso
+
+**Problema:** `install.sh` copia `plugins/agent-discipline/` a `~/.config/opencode/plugins/`, pero OpenCode carga los plugins locales **al arrancar** ("Files in these directories are automatically loaded at startup" — docs/plugins). Si el plugin se instala/actualiza con OpenCode ya corriendo, queda **inerte en silencio** hasta el próximo arranque. `install.sh` imprime pasos de reinicio para Claude Code y Cursor, pero **no para OpenCode**; `aas doctor`/`--check-env` reportan el estado del plugin en disco, **no** si la sesión en curso lo cargó.
+
+**Por qué importa:** es el guardrail que bloquea `git commit/push/merge/rebase/reset/cherry-pick/revert` (Rule 12, philosophy A). Inerte = cero enforcement, y el agente commitea sin que nada lo detenga.
+
+**Evidencia (RED, medido 2026-10-05, OpenCode v2.0.23):**
+1. `opencode serve` arrancó 12:13:40; el plugin se instaló 12:57:02 → no cargado; el agente ejecutó `git commit` (`af02237` en `courtside-scoreboard`) y `git push` sin bloqueo.
+2. **Tras reiniciar OpenCode** (13:34:42), el log **sí** muestra `loading plugin … agent-discipline` (run `32ad158f`) — pero el guardrail **sigue sin disparar**: `git commit --dry-run -m "guardrail test"` **se ejecutó** (log `spawning process`) y `git branch -d <inexistente>` (comando que el plugin solo *avisa*) **no emitió ningún warn** (`[agent-discipline]`/GUARDIAN ausente en el log). Es decir: el hook `execute.before` **no se registra/no corre** en v2.0.23 — no es timing, es compatibilidad.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B6.1 | `install.sh`/`init-agents` detectan que el plugin se instaló/actualizó con OpenCode corriendo y avisan explícitamente "reinicia OpenCode para activar el guardrail" (o lo recargan) | Tras instalar, el mensaje indica cómo activarlo |
+| B6.2 | `aas doctor`/`--check-env` distinguen "instalado" de "activo en la sesión" (o marcan "requiere reinicio") | El diagnóstico no da por activo un plugin no cargado |
+| B6.3 | **Corregir el id de herramienta — causa raíz verificada (2026-10-05):** en OpenCode v2 la herramienta de shell es **`shell`**, no `bash` (doc oficial de migración: *"`bash` is now `shell`"*). El plugin filtra por `bash` en **ambos** paths (`event?.tool` v2 y `input?.tool` v1) → el hook retorna en **todos** los comandos. Fix: aceptar `shell` (v2) y `bash` (v1) en `plugins/agent-discipline/index.js`. El contrato `{ id, setup }` y `ctx.tool.hook("execute.before", …)` **sí** son correctos en 2.0.23 (los plugins `ars` y `warp` funcionan con ese contrato) — la hipótesis previa de incompatibilidad de API era **incorrecta** | El hook `execute.before` corre y bloquea `git commit`/`push`; un `git branch -d` emite el warn |
+| B6.4 | Test: plugin instalado con "sesión ya arrancada" → se emite el aviso de reinicio | Aviso cubierto por test |
+| B6.5 | **Test e2e del guardrail**: tras cargar el plugin, un `git commit`/`git push` debe quedar bloqueado (y un `git branch -d`/`rm -rf` debe avisar). Hoy no hay ningún test que pruebe que el hook dispara de verdad | El guardrail se prueba end-to-end, no solo que el plugin "cargue" |
+
+### Backlog detallado — B7: las reglas vinculantes (Rule 12) no se auto-inyectan en el contexto del agente
+
+**Problema:** el merge que hace `init-agents` en `AGENTS.md`/`CLAUDE.md` solo agrega el footer de 4 líneas (filosofía). Las reglas operativas viven en `rules/common/*.md` y el agente **debe leerlas**; nada las mete en contexto y no hay tool de "rules" (solo `read` manual). El protocolo de arranque que las lee es **texto** que el agente puede saltarse.
+
+**Por qué importa:** un agente puede leer `AGENTS.md` y **no ver** Rule 12 ("The agent NEVER runs `git commit`"). La única capa que no depende de la memoria es el enforcement mecánico — y este caso lo demostró.
+
+**Evidencia:** `grep -nE 'NEVER runs|Rule 12' AGENTS.md` en `courtside-scoreboard` solo encuentra la referencia del protocolo ("Failure is a Rule 1 + Rule 12 violation"), **no** el texto de la regla.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B7.1 | Inyectar un bloque compacto **NON-NEGOTIABLES** (mínimo Rule 12) en el footer que AAS escribe en `AGENTS.md`/`CLAUDE.md` | El texto de Rule 12 queda en el contexto auto-inyectado |
+| B7.2 | Forzar/documentar la carga de `rules/common/*.md` en el arranque (p.ej. vía `using-agent-skills` o un adapter), no por memoria | El agente no depende de recordar leerlas |
+| B7.3 | Resolver el conflicto skill-vs-regla: `git-workflow-and-versioning` asume que el agente commitea; en proyectos con Rule 12 el agente stagea y el usuario commitea | La skill no contradice la regla del proyecto |
+
+**Naturaleza:** arreglo **blando** (contexto/texto). Complementa el enforcement mecánico (B5/B6); **no lo sustituye**.
+
+### Backlog detallado — B8: el PR review gate (Rule 12b) no está encadenado al flujo
+
+**Problema:** Rule 12b exige `bash scripts/pr-review-checklist.sh <PR_NUMBER>` antes de mergear, pero **nada lo dispara** (ni el plugin, ni un hook, ni un comando). Queda a criterio del agente.
+
+**Evidencia:** en la PR #68 de `courtside-scoreboard` el agente hizo un review manual de 5 ejes y **no** corrió el checklist mecánico.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B8.1 | Encadenar el checklist al flujo de PR (p.ej. el plugin advierte al detectar `gh pr create`/`gh pr merge`, o un command/skill lo exige) | Crear/mergear una PR recuerda/ejecuta el checklist |
+| B8.2 | Marcar el gate como paso obligatorio del PR en `AGENTS.md` (no solo en `rules/`) | El gate es explícito en el contexto auto-inyectado |
+
+**Naturaleza:** arreglo **blando** (contexto/texto). Complementa el enforcement mecánico (B5/B6); **no lo sustituye**.
+
+### Backlog detallado — B9: las skills no se descubren donde el proyecto las busca
+
+**Problema:** OpenCode v2 descubre skills en `~/.config/opencode/skills`, `.opencode/skills`, y por compatibilidad `.claude/skills` y `.agents/skills`. El directorio `skills/` del proyecto (p. ej. `skills/self-improvement`) **no** es un path de descubrimiento → invisible. Además, el Protocolo de arranque del `AGENTS.md` pide leer `skills/using-agent-skills/SKILL.md` (path de proyecto que no existe) y correr `scripts/skill-gate.sh` (que `--repair` borra — ver B4).
+
+**Por qué importa:** "las skills no se ejecutan" **no** es un fallo de descubrimiento (las globales y las de `.claude/skills`/`.agents/skills` sí se descubren), sino de **ejecución forzada**: el Protocolo es texto que el agente puede saltarse y el mecanismo que lo respaldaba (hooks/plugin) está muerto por B5 + B6.
+
+**Evidencia (RED, medido 2026-10-05, `courtside-scoreboard`):** `skills/` solo contiene `self-improvement`; el `AGENTS.md` referencia `skills/using-agent-skills/SKILL.md` (inexistente) y `scripts/skill-gate.sh` (existe hoy como symlink, pero `--repair` lo elimina).
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B9.1 | `init-agents --with-skills` coloca/instala las skills en la ruta que **cada agente detectado** lee (mapa agente→ruta), o documenta explícitamente que las skills son globales y no por proyecto | Un proyecto nuevo tiene sus skills disponibles en la ruta correcta por agente |
+| B9.2 | Corregir las referencias del Protocolo de arranque: no apuntar a `skills/using-agent-skills/SKILL.md` (path de proyecto) sino al path real/global; documentar el fallback | El Protocolo apunta a paths que existen |
+| B9.3 | `--repair`/`init-agents` no dejan el Protocolo roto: si borra `scripts/skill-gate.sh`, recrea un shim portable o reescribe la referencia | Tras reparar, todo path que el `AGENTS.md` referencia existe y funciona |
+| B9.4 | Test: fixture de proyecto con `skills/` (path no descubrible) → se reporta/migra; y el Protocolo no referencia paths inexistentes | Cubierto por test |

@@ -1,29 +1,65 @@
-# Session State — Phase 10 COMPLETE: Public Web + v6.3.0 Release
+# Session State — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted
 
-**Date:** 2026-10-03
-**Branch:** `feat/phase10-landing` — Phase 10 COMPLETE (10 commits); v6.3.0; NOT yet pushed/PR'd/merged/deployed
-**Status:** ✅ **Phase 10 COMPLETE (v6.3.0) on `feat/phase10-landing`.** The public Astro web in `web/` is shipped: a bilingual (EN/ES) landing + docs site, the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, an FAQ, a build-generated search index + sidebar, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD, hreflang, OG) and a WCAG 2.2 AA a11y gate (axe 0). The project is now **v6.3.0** (covers Phase 8 + 8.1 + 9 + 10). Test suite: core **104 suites** green + web **74 node + 85 e2e** (axe 0); Lighthouse 100/100/100/100 desktop. The PR/merge/tag/deploy and the npm/Homebrew activation are **gated** — see **Next tasks** below.
+**Date:** 2026-10-05 (updated)
+**Branch:** `main` — clean; tip `1258306` (PR #55 merged). Only `main` exists locally + remotely.
+**Status:** ✅ **Phase 10 SHIPPED.** The public web is **LIVE** at https://juandelossantos.github.io/another-agent-skills/ (GitHub Pages, `build_type: workflow`); `.github/workflows/deploy-web.yml` builds → deploys → **verifies** (build ✅ / deploy ✅ / verify ✅). `v6.3.0` covers Phases 8 + 9 + 10. **Pending:** the `v6.3.0` tag (gated, T3), the npm/Homebrew activation (T1), the post-live web/docs update (T2), and the **new essay** (awaiting the maintainer's review/edit — E1).
 **Plan:** `PLAN.md` — single source of truth
+**Pending commit (STAGED, not committed):** the Phase 10 closure handoff — `PLAN.md`, this file, and the status tests (`tests/task/test-plan-session_state-live.sh` + the updated `test-session_state.sh`, `test-plan-phase10.sh`, `test-plan-ordering.sh`, `test-phase8-closure.sh`) — **plus the 2026-10-05 plan-coherence work** (below) and the new `tests/task/test-plan-backlog-coherence.sh`. Staged on branch **`chore/plan-coherence-b4-b9`** (from `main` @ `1258306`). The maintainer runs the commit (Rule 12).
 
-## What Was Done (2026-10-03) — Phase 10
+## What Was Done (2026-10-05) — Plan coherence + courtside backlog (B4–B9)
 
-1. **Phase 10 — public web (`web/`)**: Astro bilingual landing + docs; skills reference generated from `skills/*/SKILL.md` (`web/src/data/skills.json`, 57 skills / 151 guides); five Bloque E tutorials; FAQ; a build-generated search index + sidebar; SEO/AEO (canonical + hreflang, OG/Twitter, `sitemap-index.xml`, `robots.txt`, `llms.txt`, JSON-LD graph) and a Playwright + axe a11y gate.
-2. **Discoverability + review**: axe 0 across 30 pages × EN/ES × light/dark × 2 viewports; Lighthouse 100/100/100/100 desktop. 3 review iterations + an exhaustive review fixed the docs 404 links, the docs copy-button rejection, dead breadcrumb anchors, the absolute language link and the "more" chip sizing.
-3. **README overhaul + v6.3.0 sync**: a single "What's New in v6.3.0"; bumped `VERSION` to 6.3.0 and synchronized every current version surface (npm wrapper, `web/` footer + `config.ts`, README, `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, legacy `docs/`, mockups, `llms.txt`).
-4. **Guide count fixed**: the docs said "74 guides"; the real count is **151** (`skills/*/guides/*.md`). Adopted 151 in the core docs and made the web derive it from `web/src/data/skills.json`.
-5. **Release notes**: added the `RELEASE-NOTES.md` v6.3.0 section (Phase 8 + 8.1 + 9 + 10), honest about the pending maintainer steps and the un-deployed web.
+After the real-world exercise of updating the skills in **`courtside-scoreboard`**, `PLAN.md` was reorganized for coherence and the findings captured as a prioritized backlog.
+
+1. **Fixed the duplicate "Phase 7":** the planned `v7.0.0` harness phase is now **`## Phase 12: Cross-Platform Harness Parity (v7.0.0) — PLANNED`** (moved after Phase 11; tasks renumbered `12.1–12.10`). One `## Phase 7` remains — the released OpenCode v1/v2 one.
+2. **Prioritized the backlog:** added B5–B9 to `Priorización de Pendientes` + a sequence rule (**mechanical first**): **B6 → B5 → B4 → B9 → B7 → B8**.
+3. **Corrected B6.3 root cause (verified live):** the OpenCode v2 guardrail plugin **loads** (`active` in `/api/plugin`) but its `execute.before` hook **never evaluates** — it filters by `bash` and **v2 renamed the shell tool to `shell`** (migration doc: *"`bash` is now `shell`"*). Fix: accept both. The contract `{ id, setup }` and `ctx.tool.hook("execute.before", …)` **are** correct in 2.0.23.
+4. **New B9:** skills — discovery vs **forced execution**. `skills/` is not an OpenCode discovery path; the startup Protocol references a non-existent `skills/using-agent-skills/SKILL.md` and a `scripts/skill-gate.sh` that `--repair` deletes.
+5. **Backlog index** (B1–B9) + coherence notes (B4↔B5↔B9; B7/B8 are **soft** fixes).
+6. **New test** `tests/task/test-plan-backlog-coherence.sh` (22 assertions). All `PLAN.md`/`SESSION_STATE.md` content tests green; full core suite **108/109** (the 1 failure, `test-init-agents-source-shim`, is pre-existing and unrelated — `scripts/init-agents.sh` untouched).
+
+### The `courtside-scoreboard` exercise — the P0 findings
+
+| ID | Finding | Priority |
+|---|---|---|
+| **B6** | Guardrail plugin inert: v2's shell tool is `shell`, the plugin filters by `bash` | 🔴 P0 |
+| **B5** | Local hooks inert: `core.hooksPath=.husky/_` with no `.husky/pre-commit` → nothing runs | 🔴 P0 |
+| **B4** | `init-agents --repair` deletes `rules/common`, `SOUL.md`, `AGENTS-EXTENDED.md`, `VERSION` + 8 `scripts/*.sh` without recreating them | 🔴 P0 |
+| **B9** | Skills: project `skills/` not discoverable; Protocol references broken paths | 🟠 P1 |
+| **B7** | Rule 12 not auto-injected into the agent context | 🟠 P1 |
+| **B8** | PR review gate has no mechanical trigger | 🟡 P2 |
+
+**Recommended order:** **B6** (1-line fix) → **B5** → **B4** → **B9/B7** → **B8**. Full detail: `PLAN.md` → **Backlog** (B4–B9) + **Priorización de Pendientes**.
+
+## What Was Done (2026-10-03) — Phase 10 shipped + essay drafted
+
+1. **Phase 10 merged + deployed (PR #55 → `main` `1258306`, merged 2026-10-03T23:20:20Z).** GitHub Pages was switched from `legacy` (old root site) to `build_type: workflow`; the merge triggered `deploy-web` → build → deploy → verify (all ✅). The Astro web (landing + docs, EN/ES) is now live.
+2. **Deploy workflow** (`.github/workflows/deploy-web.yml`): on push to `main` (or dispatch), builds `web/` (`npm ci` + `npm run build`) and deploys `web/dist` via the official `configure-pages` / `upload-pages-artifact` / `deploy-pages` trio; least-privilege permissions + a `pages` concurrency group; a **post-deploy verify** job curls the live landing (`/`, `/es/`), `/docs/`, a tutorial and `sitemap-index.xml` and **fails loudly** if the site does not serve. Tests: `tests/test-deploy-web-workflow.sh` + `tests/test-distribution-deploy.sh` + `web/tests/deploy-workflow.test.mjs`.
+3. **Web LIVE (verified):** `/`, `/es/`, `/docs/`, `/es/docs/`, `/docs/skills/`, `/docs/first-gated-commit/`, `/sitemap-index.xml`, `/robots.txt`, `/llms.txt`, `/og.png` all return **200**; live content confirms the new hero, **151 guides**, **v6.3.0**, **15 agents detected**.
+4. **Branch cleaned:** `feat/phase10-landing` deleted locally + remotely; **only `main`** remains.
+5. **Essay drafted** (new, awaiting the maintainer's review/edit) — see **E1** and the files in `development/launch/`.
 
 ## Exact state (verified 2026-10-03)
 
-- **Branch:** `feat/phase10-landing` — **10 commits**; committed on the branch but **not pushed/PR'd/merged/deployed**.
-- **Tests:** core **104 suites passing** (`bash tests/run-all.sh`); web **74 node + 85 e2e** (axe 0).
+- **Branch:** `main` — clean; tip `1258306`; only `main` locally + remotely.
+- **Web:** LIVE at https://juandelossantos.github.io/another-agent-skills/ (Pages `build_type: workflow`, status `built`); last `deploy-web` run = **success**.
+- **Tests:** core **108 suites passing** (`bash tests/run-all.sh`); web **83 node + 85 e2e** (axe 0).
 - **Quality:** Lighthouse **100/100/100/100** (desktop); axe **0** violations.
-- **Version:** `VERSION` = **6.3.0**; `npm/package.json` = 6.3.0.
+- **Version:** `VERSION` = **6.3.0**; `npm/package.json` = 6.3.0; **no `v6.3.0` tag yet**.
 - Remote enforcement still live: branch protection on `main` requires the `gates` check.
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
 
 ## Next tasks (resume here next session)
+
+**⚠️ P0 (new, 2026-10-05) — the courtside backlog.** Before the Phase 10 closure extras below, address the real-world enforcement failures: **B6** (guardrail plugin: `bash` vs `shell`) → **B5** (`core.hooksPath`) → **B4** (`--repair` data loss). See the section above and `PLAN.md` → **Backlog**.
+
+**E1 — Essay: review → edit → decide.** Four files in `development/launch/` (the directory is **git-ignored** → local only):
+- `essay-human-in-command.en.md` — the article (EN).
+- `essay-human-in-command.es.md` — the article (ES, neutral Spanish).
+- `essay-hero-image-prompts.md` — 4 hero-image prompt variants (EN + ES) + palette.
+- `essay-references-verified.md` — APA-7 reference verification record (18 DOIs checked via Crossref, 2 arXiv, 2 other links).
+
+The maintainer is reviewing/editing these. When done, the open decision is: **(A)** publish on the web as a bilingual essay/blog page, **(B)** track them in git (`git add -f`), **(C)** adapt to LinkedIn / dev.to, or **(D)** leave as-is and move on. Thesis: *AI as assistant; the human as author, critic, and conscience* — grounded in Mitchell, Ghosh & Passi (2026), *AI Agents Push Humans Out of the Loop*.
 
 **T1 — npm + Homebrew activation (maintainer, manual).** Reference: `docs/DISTRIBUTION.md`.
 
@@ -38,27 +74,25 @@ cd npm && npm publish --access public      # first publish creates the package
 
 Homebrew: create the public **`homebrew-tap`** repo (`juandelossantos/homebrew-tap`), a **fine-grained PAT** (Contents: read/write), and set the **`HOMEBREW_TAP_TOKEN`** secret (optional `HOMEBREW_TAP_REPO` variable).
 
-**T2 — Web + docs update once LIVE.** After the GitHub Pages deploy is verified live: point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
+**T2 — Web + docs update (the web is now LIVE).** Point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
+
+**T3 — Tag `v6.3.0` (gated).** After approval: `git tag v6.3.0 && git push origin v6.3.0` → `release.yml` builds/attests assets; `npm-publish.yml` (OIDC) publishes once npm is active.
 
 ## Gated steps (require explicit approval — do NOT run unprompted)
 
 ```bash
-# PR → merge → tag → deploy
-git push -u origin feat/phase10-landing
-gh pr create --fill
-# after review + merge:
+# tag the release (main is already merged + deployed)
 git tag v6.3.0 && git push origin v6.3.0   # release.yml builds/attests; npm-publish.yml (OIDC) publishes
-# GitHub Pages deploy of web/ is a separate gated step (maintainer manual)
 ```
 
 ## System state (verified 2026-10-03)
 
-- Phase 10 (public web) **complete on `feat/phase10-landing`**; **`VERSION` is 6.3.0** (covers Phase 8 + 8.1 + 9 + 10). npm/Homebrew activation and the web deploy await the gated steps above.
+- Phase 10 (public web) **SHIPPED + LIVE**; **`VERSION` is 6.3.0** (covers Phase 8 + 8.1 + 9 + 10). The `v6.3.0` tag, the npm/Homebrew activation, and the post-live docs update remain.
 - Remote enforcement still live: branch protection on `main` requires the `gates` check.
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
 - Hooks (this repo): pre-commit **v11** (15 gates), commit-msg **v6** (TDD).
-- Tests: **104 suites passing** (`bash tests/run-all.sh`) + web 74 node + 85 e2e.
+- Tests: **108 suites passing** (`bash tests/run-all.sh`) + web **83 node + 85 e2e** (axe 0).
 
 ## What Was Done (2026-10-02) — Phase 9 (previous)
 
