@@ -61,11 +61,75 @@ SKIP_PATTERNS=(
   'web/*'
 )
 
+# ─── AAS-managed artifacts (installed/updated by init-agents) ───
+# Framework files that the user is NOT expected to author, so they never require
+# a paired test. The exemption is a UNIVERSAL DEFAULT in a consumer project; it
+# is SKIPPED in the framework repo itself, where these paths are real source and
+# must stay gated (is_framework_repo, below). Path-based: a new installed
+# artifact must be added here — or to the project's .aas/tdd-ignore.
+AAS_MANAGED_PATTERNS=(
+  '.aas/*'
+  '.husky/*'
+  '.github/workflows/gates.yml'
+  'rules/*'
+  'skills/*'
+  '.claude/skills/*'
+  '.opencode/skills/*'
+  '.agents/skills/*'
+  'ADRs/*'
+  'AGENTS.md' 'AGENTS-EXTENDED.md' 'CLAUDE.md' 'GEMINI.md'
+  'SOUL.md' 'VERSION'
+  'STACK_CONFIG.md' 'STACK_CONFIG_TEMPLATE.md'
+  'HEALTH-CHECK.md' 'PATTERNS.md' 'ANTI-PATTERNS.md'
+  '.sessionrc' '.audit-config.json'
+)
+
+# The framework repo itself — same signal as init-agents' is_framework_repo()
+# (VERSION + scripts/git-hooks/pre-commit + SOUL.md). In a consumer project those
+# first two are installed copies / absent, so this is false there.
+is_framework_repo() {
+  [ -f "${REPO_DIR}/VERSION" ] \
+    && [ -f "${REPO_DIR}/scripts/git-hooks/pre-commit" ] \
+    && [ -f "${REPO_DIR}/SOUL.md" ]
+}
+IS_FRAMEWORK_REPO=false
+if is_framework_repo; then IS_FRAMEWORK_REPO=true; fi
+
+# Glob (`*` plus literal `.`) → anchored ERE. Escapes `.` so `.aas/*` does not
+# also match `Xaas/...` (the SKIP/CODE patterns below use a looser conversion).
+aas_glob_to_regex() {
+  local g="${1//./\\.}"
+  printf '%s' "^${g//\*/.*}$"
+}
+
+# A portable AAS shim: `#!/bin/sh` + the framework delegation line. Detected by
+# CONTENT so the framework's own scripts (real source, no delegation) stay gated
+# — and, crucially, so init-agents.sh (which merely embeds the shim TEMPLATE,
+# with `\$` escapes) is NOT mistaken for a shim.
+is_aas_shim() {
+  local filepath="$1"
+  [ -f "$filepath" ] || return 1
+  [ "$(head -1 "$filepath" 2>/dev/null)" = "#!/bin/sh" ] || return 1
+  grep -q 'exec "$_AAS_ROOT/' "$filepath" 2>/dev/null
+}
+
+# Optional per-project exclusions: .aas/tdd-ignore (one glob per line; `#`
+# comments). Read once, here, so is_code_file does not re-read it per file.
+TDD_IGNORE_PATTERNS=()
+if [ -f "${REPO_DIR}/.aas/tdd-ignore" ]; then
+  while IFS= read -r _aas_pat; do
+    [ -z "$_aas_pat" ] && continue
+    case "$_aas_pat" in \#*) continue ;; esac
+    TDD_IGNORE_PATTERNS+=("$_aas_pat")
+  done < "${REPO_DIR}/.aas/tdd-ignore"
+fi
+
 # ─── Helpers ───
 
 is_code_file() {
   local file="$1"
   local filepath="${REPO_DIR}/${file}"
+  local regex
 
   # Skip known non-code patterns (binaries, lock files, etc.)
 for pattern in "${SKIP_PATTERNS[@]}"; do
@@ -75,18 +139,39 @@ for pattern in "${SKIP_PATTERNS[@]}"; do
       return 1
     fi
   else
-    # For glob patterns, use original regex matching
-    local regex="^${pattern//\*/.*}$"
+    # Anchored ERE (`.` escaped, so `*.o` matches object files only — NOT `a.go`
+    # or `logo`; the old unescaped form silently skipped Go/`.so`/`.io` sources).
+    local regex="$(aas_glob_to_regex "$pattern")"
     if [[ "$file" =~ $regex ]]; then
       return 1
     fi
   fi
 done
 
+  # ── AAS exemptions ──
+  # 1) Portable AAS shims (a consumer's scripts/*.sh delegates to the framework).
+  if is_aas_shim "$filepath"; then
+    return 1
+  fi
+  # 2) Per-project exclusions (.aas/tdd-ignore).
+  if [ "${#TDD_IGNORE_PATTERNS[@]}" -gt 0 ]; then
+    for pattern in "${TDD_IGNORE_PATTERNS[@]}"; do
+      regex="$(aas_glob_to_regex "$pattern")"
+      [[ "$file" =~ $regex ]] && return 1
+    done
+  fi
+  # 3) AAS-managed artifacts — consumer projects only (see AAS_MANAGED_PATTERNS).
+  if [ "$IS_FRAMEWORK_REPO" = false ]; then
+    for pattern in "${AAS_MANAGED_PATTERNS[@]}"; do
+      regex="$(aas_glob_to_regex "$pattern")"
+      [[ "$file" =~ $regex ]] && return 1
+    done
+  fi
+
   # Check extension-based patterns
   for pattern in "${CODE_PATTERNS[@]}"; do
-    # Convert glob to regex: * -> .* , anchor with ^ and $
-    local regex="^${pattern//\*/.*}$"
+    # Anchored ERE (`.` escaped so `*.md` does not match `Xmd`, etc.)
+    local regex="$(aas_glob_to_regex "$pattern")"
     if [[ "$file" =~ $regex ]]; then
       return 0
     fi
@@ -112,7 +197,7 @@ done
 is_test_file() {
   local file="$1"
   for pattern in "${TEST_PATTERNS[@]}"; do
-    local regex="^${pattern//\*/.*}$"
+    local regex="$(aas_glob_to_regex "$pattern")"
     if [[ "$file" =~ $regex ]]; then
       return 0
     fi
