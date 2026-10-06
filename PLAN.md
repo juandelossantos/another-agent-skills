@@ -21,7 +21,24 @@
 
 ## Next tasks
 
-> Ordered. **E1** (essay), **T3** (tag) and **T2** (post-live docs) close out Phase 10; **T1** (npm/Homebrew) is a one-time maintainer step. The existing backlog follows further down.
+> Ordered. **R1** (courtside rollout) is **FIRST, next session**; then **E1** (essay), **T3** (tag) and **T2** (post-live docs) close out Phase 10; **T1** (npm/Homebrew) is a one-time maintainer step. The existing backlog follows further down.
+
+### R1 — Courtside rollout (FIRST, next session)
+
+**Why:** the B4–B9 guardrail fixes are merged (`main` `3de9e74`, PR #56), but the real-world project **`courtside-scoreboard`** has not picked them up yet — and applying them surfaced two gaps.
+
+**Part A — make `courtside-scoreboard` take the changes.**
+- **Plugin (B6/B8):** already installed globally (`install.sh --plugin-only`) → **restart OpenCode** to activate the guardrail.
+- **Project install (B4/B5/B9):** re-run from the updated tree (dry-run already validated):
+  ```bash
+  cd <workspace>/courtside-scoreboard
+  AAS_DIR=<dev-clone> bash <dev-clone>/scripts/init-agents.sh --dry-run   # preview
+  AAS_DIR=<dev-clone> bash <dev-clone>/scripts/init-agents.sh --repair    # migrate absolute symlinks → portable copies/shims; install .husky/pre-commit|commit-msg; skills → .claude/skills
+  ```
+- **Verify:** `init-agents --check-env` (hooks-path + `hook-pre-commit` active in `.husky/`); `rules/common`, `SOUL.md`, `AGENTS-EXTENDED.md`, `VERSION`, `scripts/*.sh` are real copies/shims (**not** absolute symlinks); restart OpenCode and a `git commit`/`git push` is blocked.
+- **Channel (proper):** the fixes are on `main` but **untagged**; the designed path is **T3 (tag) → `aas upgrade` → bump `.aas/config` version** so the resolver finds the new code at the pinned install dir (today `courtside` resolves to the legacy `~/.config/opencode`).
+
+**Part B — the two gaps found while scoping it are FIXED (this branch).** A single `init-agents` run now upgrades an outdated AAS footer in place (**B10** — so Rule 12 reaches existing projects) and `--dry-run` reports the effective hooks dir (**B11**). See the **Backlog**.
 
 ### E1 — Essay: review → edit → decide
 
@@ -642,6 +659,8 @@ before any version is assigned.
 | B7 | Rule 12 no se auto-inyecta en el contexto | 🟠 P1 | Pendiente |
 | B8 | PR review gate sin disparador | 🟡 P2 | Pendiente |
 | B9 | Skills: descubrimiento y rutas del Protocolo | 🟠 P1 | Pendiente |
+| B10 | `merge_into_file` no actualiza un footer viejo (B7 no llega a proyectos existentes) | 🟠 P1 | ✅ Done |
+| B11 | `run_dry_run` reporta `.git/hooks` en vez del dir efectivo (`.husky/`) | 🟡 P2 | ✅ Done |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container
