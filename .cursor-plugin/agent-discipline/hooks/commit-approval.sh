@@ -102,16 +102,29 @@ _is_git_mutation() {
   return 1
 }
 
-_is_git_mutation "$COMMAND" || exit 0
+# `gh pr merge` is a remote merge — the agent never merges a PR (Rule 12b,
+# philosophy A). Flags-aware so `gh -R owner/repo pr merge` is caught too.
+_is_pr_merge() {
+  local cmd="$1" seg stripped
+  while IFS= read -r seg; do
+    stripped="$(_strip_prefixes "$seg")"
+    if [[ "$stripped" =~ ^gh([[:space:]]+[^[:space:]]+)*[[:space:]]+pr[[:space:]]+merge([[:space:]]|$) ]]; then
+      return 0
+    fi
+  done <<< "$(printf '%s\n' "$cmd" | sed -E 's/(&&|\|\||;|\|)/\n/g')"
+  return 1
+}
+
+{ _is_git_mutation "$COMMAND" || _is_pr_merge "$COMMAND"; } || exit 0
 
 # Unconditional deny — philosophy A. No token, no bypass.
 cat <<'JSON_EOF'
 {
   "continue": false,
   "permission": "deny",
-  "user_message": "Blocked: the agent never runs git mutations (commit/push/merge/rebase/reset/cherry-pick/revert), in any repo (Rule 12, no bypass). Present the exact command and message, then run it yourself.",
-  "agent_message": "The agent never runs git mutations (philosophy A, no bypass)."
+  "user_message": "Blocked: the agent never runs git mutations (commit/push/merge/rebase/reset/cherry-pick/revert) or merges a PR (gh pr merge), in any repo (Rule 12/12b, no bypass). Present the exact command and message, then run it yourself.",
+  "agent_message": "The agent never runs git mutations or merges a PR (philosophy A, no bypass)."
 }
 JSON_EOF
-echo "[commit-approval] BLOCKED: \"$COMMAND\" — the agent never runs git mutations (philosophy A, no bypass)." >&2
+echo "[commit-approval] BLOCKED: \"$COMMAND\" — the agent never runs git mutations or merges a PR (philosophy A, no bypass)." >&2
 exit 2

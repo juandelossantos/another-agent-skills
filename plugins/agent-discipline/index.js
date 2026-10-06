@@ -167,10 +167,15 @@ function classifySegment(segment) {
   if (tokens[0] === "rm" && tokens[1] === "-rf") return "warn"
   if (tokens[0] === "mv") return "warn"
   if (tokens[0] === "gh") {
-    // Rule 12b: the mechanical PR review gate must run before a PR is
-    // created/merged. Warn (non-blocking) so the checklist is not skipped.
-    const sub = tokens.slice(1).filter((t) => !t.startsWith("-"))
-    if (sub[0] === "pr" && (sub[1] === "create" || sub[1] === "merge")) return "warn-pr"
+    // Rule 12b: the agent never merges a PR (philosophy A — a remote merge);
+    // creating one warns so the mechanical review gate is not skipped.
+    // Flags-aware scan so `gh -R owner/repo pr merge` (a flag with a value
+    // before `pr`) is still caught, not just `gh pr merge`.
+    const args = tokens.slice(1)
+    for (let i = 0; i < args.length - 1; i++) {
+      if (args[i] === "pr" && args[i + 1] === "merge") return "block-pr"
+      if (args[i] === "pr" && args[i + 1] === "create") return "warn-pr"
+    }
     return null
   }
   return null
@@ -198,7 +203,11 @@ function guardianMessage(command) {
 }
 
 function prChecklistMessage(command) {
-  return `【RULE 12b — PR REVIEW GATE】PR flow detected: "${command}". Before creating or merging a PR, run the mechanical checklist: bash scripts/pr-review-checklist.sh <PR_NUMBER>. The agent creates/reviews; the USER merges.`
+  return `【RULE 12b — PR REVIEW GATE】PR flow detected: "${command}". Before creating a PR, run the mechanical checklist: bash scripts/pr-review-checklist.sh <PR_NUMBER>. The agent creates/reviews; the USER merges.`
+}
+
+function prMergeMessage(command) {
+  return `The agent never merges a PR ("${command}"). Run the mechanical checklist (bash scripts/pr-review-checklist.sh <PR_NUMBER>), present the exact command, then let the USER merge (Rule 12b).`
 }
 
 /**
@@ -219,6 +228,7 @@ function evaluateBashCommand(rawCommand) {
         block: `The agent never runs "${command}". Present the exact command and message, then let the user run it (Rule 12).`,
       }
     }
+    if (verdict === "block-pr") return { block: prMergeMessage(command) }
     if (verdict === "warn") warned = true
     if (verdict === "warn-pr") {
       warned = true

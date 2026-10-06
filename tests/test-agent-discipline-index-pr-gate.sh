@@ -41,21 +41,27 @@ const ctx = {
 await plugin.setup(ctx)
 const v2 = (tool, command) => { try { executeBefore({ tool, input: { command } }); return "allowed" } catch { return "blocked" } }
 
+const v2err = (tool, command) => { try { executeBefore({ tool, input: { command } }); return "" } catch (e) { return String(e && e.message) } }
+
 check("git commit is still blocked", v2("shell", "git commit -m x") === "blocked")
 check("gh pr create is allowed (warn, not block)", v2("shell", "gh pr create --base main") === "allowed")
-check("gh pr merge is allowed (warn, not block)", v2("shell", "gh pr merge 42 --squash") === "allowed")
+check("gh pr merge is blocked (Rule 12b — the agent never merges)", v2("shell", "gh pr merge 42 --squash") === "blocked")
+check("gh -R <repo> pr merge is blocked (flags-aware)", v2("shell", "gh -R owner/repo pr merge 42") === "blocked")
 check("gh pr view is allowed (no warn)", v2("shell", "gh pr view 42") === "allowed")
+check("gh pr merge block message names the PR merge rule", /never merges a PR/.test(v2err("shell", "gh pr merge 42")))
 
-const warns = []
-const orig = console.warn
-console.warn = (m) => { warns.push(String(m)) }
-v2("shell", "gh pr create --base main")
-v2("shell", "gh pr merge 42 --squash")
-console.warn = orig
-check("gh pr create emits the Rule 12b reminder",
-  warns.some((w) => w.includes("RULE 12b") && w.includes("pr-review-checklist")))
-check("gh pr merge emits the Rule 12b reminder",
-  warns.some((w) => w.includes("RULE 12b") && w.includes("pr-review-checklist")))
+const capture = (cmd) => {
+  const w = []
+  const o = console.warn
+  console.warn = (m) => { w.push(String(m)) }
+  v2("shell", cmd)
+  console.warn = o
+  return w
+}
+const w1 = capture("gh pr create --base main")
+const w3 = capture("gh -R owner/repo pr create --base main")
+check("gh pr create emits the Rule 12b reminder", w1.some((w) => w.includes("RULE 12b") && w.includes("pr-review-checklist")))
+check("gh -R <repo> pr create emits the reminder", w3.some((w) => w.includes("RULE 12b")))
 process.exit(failed)
 JS
 node_rc=$?

@@ -84,6 +84,9 @@ const BYPASS_CASES = [
   ["(git commit -m x)", "C2 subshell"],
   ["{ git commit -m x; }", "C2 brace group"],
   ["cd x && (git commit -m x)", "C2 compound + subshell"],
+  // Rule 12b — the agent never merges a PR.
+  ["gh pr merge 42", "gh pr merge"],
+  ["gh -R owner/repo pr merge 42 --squash", "gh pr merge flags-aware"],
 ]
 const ALLOWED_CASES = [
   ["git status", "status"],
@@ -102,6 +105,9 @@ const ALLOWED_CASES = [
   ["nice -n 5 make", "nice -n <value> non-git"],
   ["env -i git status", "env -i git status"],
   ["sudo -n git status", "sudo -n git status"],
+  // `gh pr create` warns (non-blocking); `gh pr view` is ordinary.
+  ["gh pr create --base main", "gh pr create (warn, allowed)"],
+  ["gh pr view 42", "gh pr view"],
 ]
 
 for (const [cmd, label] of BYPASS_CASES) {

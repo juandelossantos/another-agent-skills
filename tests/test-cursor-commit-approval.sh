@@ -56,6 +56,11 @@ allow '{"command":"sudo -n ls"}' "sudo -n non-git"
 allow '{"command":"command ls"}' "command non-git"
 allow '{"command":"time ls -la"}' "time non-git"
 allow '{"command":"env -i git status"}' "env -i git status"
+# Rule 12b — a PR merge is a remote merge the agent must never run.
+deny '{"command":"gh pr merge 42"}' "gh pr merge (Rule 12b)"
+deny '{"command":"gh -R owner/repo pr merge 42"}' "gh pr merge flags-aware"
+allow '{"command":"gh pr create --base main"}' "gh pr create (only merge is gated)"
+allow '{"command":"gh pr view 42"}' "gh pr view"
 
 # No bypass: a COMMIT_APPROVED file must NOT let a commit through.
 TMP="$(mktemp -d)"

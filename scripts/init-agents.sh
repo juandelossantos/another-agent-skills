@@ -29,6 +29,12 @@ AAS_CONFIG_DIR="./.aas"
 AAS_BACKUP_DIR="${AAS_CONFIG_DIR}/backups"
 BACKUP_KEEP=5
 
+# Single source of truth for the legacy project references (B4/B5): the docs and
+# helper scripts a legacy project may symlink to the dev clone. Shared by
+# repair_legacy, install_legacy_equivalents and run_dry_run so they can't drift.
+AAS_LEGACY_DOCS="rules/common SOUL.md AGENTS-EXTENDED.md VERSION"
+AAS_LEGACY_SCRIPTS="skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh"
+
 # Shared agent detection (detect_agents / list_agents)
 # shellcheck source=agent-detect.sh
 source "${SCRIPT_DIR}/agent-detect.sh"
@@ -71,6 +77,12 @@ effective_hooks_dir() {
 resolver_rel_for() {
     local dir depth rel i
     dir="$(dirname "$1")"
+    # An absolute hooks dir (core.hooksPath outside the project) has no relative
+    # path to the project's .aas/ — return empty; the shim falls back to env /
+    # `aas --dir` / the source-tree walk.
+    case "$dir" in
+        /*) printf '%s' ""; return 0 ;;
+    esac
     depth="$(printf '%s' "$dir" | sed 's|^\./||' | awk -F/ '{print NF}')"
     rel=""
     i=0
@@ -336,9 +348,9 @@ merge_into_file() {
 #   (yes / sí / commit / proceed). Invalid: "ok", "mmhm", silence, emoji.
 # - This OVERRIDES any skill that assumes the agent commits (e.g.
 #   git-workflow-and-versioning): here the agent stages and the user commits.
-# - Before creating or merging a PR, run the mechanical review gate:
-#   `bash scripts/pr-review-checklist.sh <PR_NUMBER>` (Rule 12b). The agent
-#   creates/reviews; the USER merges.
+# - The agent never merges a PR (`gh pr merge` is blocked). Before creating a PR,
+#   run the mechanical review gate: `bash scripts/pr-review-checklist.sh <PR_NUMBER>`
+#   (Rule 12b). The agent creates/reviews; the USER merges.
 # - Full rules: read `rules/common/enforcement.md` (Rule 12) at session start.
 # <<< another-agent-skills-rules
 
@@ -1010,6 +1022,14 @@ detect_legacy() {
 #   resolver_rel    path from the shim's dir to .aas/aas-resolve.sh
 write_shim() {
     local shim="$1" delegate="$2" resolver_rel="$3"
+    # `delegate`/`resolver_rel` are interpolated into an executable shim, so they
+    # must be trusted (never user input). Reject shell metacharacters that would
+    # turn the generated `exec`/source lines into an injection sink.
+    case "${delegate}${resolver_rel}" in
+        *'$'*|*'`'*|*';'*|*'&'*|*'|'*|*' '*)
+            warn "write_shim: refusing untrusted delegate/resolver (${delegate})"
+            return 1 ;;
+    esac
     if [ "$DRY_RUN" = true ]; then
         plan "install portable shim ${shim} → \$AAS_DIR/${delegate}"
         return 0
@@ -1087,6 +1107,9 @@ install_hook_shims() {
     # INERT. Install into the effective dir so the AAS hooks actually run (B5).
     hooks_dir="$(effective_hooks_dir)"
     warn "core.hooksPath=${hp} detected — .git/hooks/* is ignored by git."
+    case "$hooks_dir" in
+        /*) warn "core.hooksPath is absolute (${hooks_dir}) — AAS hooks go OUTSIDE this project; the portable resolver falls back to env / 'aas --dir'." ;;
+    esac
     warn "Installing the AAS hooks into ${hooks_dir}/ so they actually run."
     install_one_hook_shim "${hooks_dir}/pre-commit" "scripts/git-hooks/pre-commit" "$force"
     install_one_hook_shim "${hooks_dir}/commit-msg" "scripts/git-hooks/commit-msg" "$force"
@@ -1186,20 +1209,10 @@ install_with_skills() {
 # then recreates the portable form. Team docs and custom files are untouched.
 repair_legacy() {
     log "Repairing legacy project (non-destructive)..."
-    local paths=(
-        "rules/common"
-        "SOUL.md"
-        "AGENTS-EXTENDED.md"
-        "VERSION"
-        "PATTERNS.md"
-        "ANTI-PATTERNS.md"
-        "scripts/audit-project.sh"
-        "scripts/generate-adr.sh"
-    )
+    local paths=( $AAS_LEGACY_DOCS PATTERNS.md ANTI-PATTERNS.md \
+                  scripts/audit-project.sh scripts/generate-adr.sh )
     local s
-    for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-             commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
-             setup-branch-protection.sh tdd-gate.sh; do
+    for s in $AAS_LEGACY_SCRIPTS; do
         paths+=("scripts/${s}")
     done
     local p target
@@ -1250,7 +1263,11 @@ install_doc_copy() {
         return 0
     fi
     mkdir -p "$(dirname "$rel")"
-    cp -r "$src" "$rel" 2>/dev/null && ok "Installed ${rel} (portable copy)"
+    if cp -r "$src" "$rel" 2>/dev/null; then
+        ok "Installed ${rel} (portable copy)"
+    else
+        warn "Could not install ${rel} (portable copy)"
+    fi
 }
 
 # Write a portable shim at scripts/<name>.sh delegating to $AAS_DIR/<delegate>.
@@ -1271,14 +1288,12 @@ install_script_shim() {
 install_legacy_equivalents() {
     # Docs referenced by the AGENTS.md Rules Index / identity footer.
     local doc
-    for doc in rules/common SOUL.md AGENTS-EXTENDED.md VERSION; do
+    for doc in $AAS_LEGACY_DOCS; do
         install_doc_copy "$doc"
     done
     # Legacy helper scripts referenced by the AGENTS.md startup Protocol.
     local s
-    for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-             commit-approval.sh pr-review-checklist.sh design-gate.sh \
-             skill-lint.sh setup-branch-protection.sh tdd-gate.sh; do
+    for s in $AAS_LEGACY_SCRIPTS; do
         install_script_shim "scripts/${s}" "scripts/${s}"
     done
 }
@@ -1316,7 +1331,7 @@ run_dry_run() {
     fi
     # Legacy references (B4): list exactly what would be removed and recreated.
     local _legacy_doc
-    for _legacy_doc in rules/common SOUL.md AGENTS-EXTENDED.md VERSION PATTERNS.md ANTI-PATTERNS.md; do
+    for _legacy_doc in $AAS_LEGACY_DOCS PATTERNS.md ANTI-PATTERNS.md; do
         if [ -L "$_legacy_doc" ]; then
             plan "remove legacy symlink ${_legacy_doc} → recreate as a portable copy"
         elif [ ! -e "$_legacy_doc" ]; then
@@ -1324,9 +1339,7 @@ run_dry_run() {
         fi
     done
     local _legacy_s
-    for _legacy_s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-             commit-approval.sh pr-review-checklist.sh design-gate.sh \
-             skill-lint.sh setup-branch-protection.sh tdd-gate.sh; do
+    for _legacy_s in $AAS_LEGACY_SCRIPTS; do
         if [ -L "scripts/${_legacy_s}" ]; then
             plan "remove legacy symlink scripts/${_legacy_s} → recreate as a portable shim"
         elif [ ! -e "scripts/${_legacy_s}" ]; then

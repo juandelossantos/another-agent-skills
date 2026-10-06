@@ -28,4 +28,13 @@ OUT="$(run_hook '{"tool_input":{"command":"git status"}}')"
 OUT="$(run_hook '{"tool_input":{"command":"git commit-graph write"}}')"
 [ -z "$OUT" ]; check $? "does not match git commit-graph"
 
+OUT="$(run_hook '{"tool_input":{"command":"gh pr merge 42"}}')"
+echo "$OUT" | grep -q '"permissionDecision": "deny"'; check $? "denies gh pr merge (Rule 12b)"
+
+OUT="$(run_hook '{"tool_input":{"command":"gh -R owner/repo pr merge 42"}}')"
+echo "$OUT" | grep -q '"permissionDecision": "deny"'; check $? "denies gh pr merge with flags"
+
+OUT="$(run_hook '{"tool_input":{"command":"gh pr create --base main"}}')"
+[ -z "$OUT" ]; check $? "allows gh pr create (only merge is gated)"
+
 exit "$fail"

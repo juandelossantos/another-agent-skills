@@ -48,6 +48,12 @@ assert_bool "compound command: 'git status; git commit -m x' is still detected" 
 assert_bool "env-var prefix: 'FOO=bar git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'FOO=bar git commit -m x')"
 assert_bool "env command prefix: 'env FOO=bar git commit -m x' is still detected" "true" "$(check is_git_mutation_command 'env FOO=bar git commit -m x')"
 
+# Rule 12b — a PR merge is a remote merge the agent must never run.
+assert_bool "is_pr_merge_command: 'gh pr merge 42'" "true" "$(check is_pr_merge_command 'gh pr merge 42')"
+assert_bool "is_pr_merge_command: 'gh -R owner/repo pr merge 42' (flags-aware)" "true" "$(check is_pr_merge_command 'gh -R owner/repo pr merge 42')"
+assert_bool "is_pr_merge_command: 'gh pr create' is NOT a merge" "false" "$(check is_pr_merge_command 'gh pr create --base main')"
+assert_bool "is_pr_merge_command: 'gh pr view 42' is NOT a merge" "false" "$(check is_pr_merge_command 'gh pr view 42')"
+
 # Stale-reference regression: the shared classifier mirrors the OpenCode plugin
 # at plugins/agent-discipline/index.js, not the deleted src/lib.ts path.
 TOTAL=$((TOTAL + 1))

@@ -46,6 +46,9 @@ _any_segment_matches() {
 GIT_MUTATION_RE='^git[[:space:]]+(commit|push|merge|rebase|reset|cherry-pick|revert)([[:space:]]|$)'
 RM_MV_RE='^rm[[:space:]]+-rf([[:space:]]|$)|^mv[[:space:]]+'
 GIT_DIRTY_TREE_RE='^git[[:space:]]+(push|merge|rebase|reset|cherry-pick|revert)([[:space:]]|$)'
+# `gh pr merge` is a remote merge — the agent never merges a PR (Rule 12b,
+# philosophy A). Flags-aware so `gh -R owner/repo pr merge` is caught too.
+GH_PR_MERGE_RE='^gh([[:space:]]+[^[:space:]]+)*[[:space:]]+pr[[:space:]]+merge([[:space:]]|$)'
 
 # Commands that mutate git history/remote state and that the agent must never
 # run (philosophy A — the user runs them; no token bypass).
@@ -53,6 +56,11 @@ GIT_DIRTY_TREE_RE='^git[[:space:]]+(push|merge|rebase|reset|cherry-pick|revert)(
 # is_dirty_tree_risky_command) — committing requires staged (dirty) changes.
 is_git_mutation_command() {
   _any_segment_matches "$1" "$GIT_MUTATION_RE"
+}
+
+# A PR merge (`gh pr merge`) — the agent never merges; the USER does (Rule 12b).
+is_pr_merge_command() {
+  _any_segment_matches "$1" "$GH_PR_MERGE_RE"
 }
 
 # Commands risky enough to check git/filesystem state before running.

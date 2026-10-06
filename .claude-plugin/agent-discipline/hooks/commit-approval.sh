@@ -42,6 +42,7 @@ COMMAND="$(trim_leading_whitespace "$COMMAND")"
 GIT_MUTATION_WITH_FLAGS_RE='\bgit\b([[:space:]]+-[A-Za-z0-9-]+([[:space:]]+[^[:space:]]+)?)*[[:space:]]+(commit|push|merge|rebase|reset|cherry-pick|revert)([[:space:]]|$)'
 
 if ! is_git_mutation_command "$COMMAND" \
+  && ! is_pr_merge_command "$COMMAND" \
   && ! printf '%s\n' "$COMMAND" | grep -qE "$GIT_MUTATION_WITH_FLAGS_RE"; then
   exit 0
 fi
@@ -52,9 +53,9 @@ cat <<'JSON_EOF'
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
     "permissionDecision": "deny",
-    "permissionDecisionReason": "The agent never runs git mutations (commit/push/merge/rebase/reset/cherry-pick/revert), in any repo (Rule 12, no bypass). Present the exact command and message, then let the user run it."
+    "permissionDecisionReason": "The agent never runs git mutations (commit/push/merge/rebase/reset/cherry-pick/revert) or merges a PR (gh pr merge), in any repo (Rule 12/12b, no bypass). Present the exact command and message, then let the user run it."
   }
 }
 JSON_EOF
-echo "[commit-approval] BLOCKED: \"$COMMAND\" — the agent never runs git mutations (philosophy A, no bypass)." >&2
+echo "[commit-approval] BLOCKED: \"$COMMAND\" — the agent never runs git mutations or merges a PR (philosophy A, no bypass)." >&2
 exit 2
