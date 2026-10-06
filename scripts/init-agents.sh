@@ -768,6 +768,12 @@ CONFIG
         fi
     done
 
+    # Recreate the portable equivalents of the legacy project references (B4):
+    # rules/common, SOUL.md, AGENTS-EXTENDED.md, VERSION (copies) and the legacy
+    # scripts/*.sh (portable shims). Runs on every install, so a legacy absolute
+    # symlink is migrated — and after --repair removes it, it is recreated.
+    install_legacy_equivalents
+
     # Create ADRs/ directory
     if [ "$DRY_RUN" = true ]; then
         [ -d "ADRs" ] || plan "create ADRs/ directory"
@@ -1203,6 +1209,64 @@ repair_legacy() {
 }
 
 # --dry-run: print exactly what would change and mutate nothing.
+# ── B4: portable equivalents for the legacy project references ──────────────
+# A legacy project may have ABSOLUTE symlinks (to the dev clone) for
+# rules/common, SOUL.md, AGENTS-EXTENDED.md, VERSION and scripts/*.sh. --repair
+# removes them; these recreate a portable equivalent so nothing the AGENTS.md
+# references is lost. Docs are copied; scripts become portable shims.
+
+# Copy a framework doc into the project (never overwrite real local content).
+install_doc_copy() {
+    local rel="$1"
+    local src="${AAS_DIR}/${rel}"
+    [ -e "$src" ] || return 0
+    if [ -L "$rel" ]; then
+        local target; target="$(readlink "$rel" 2>/dev/null || true)"
+        case "$target" in
+            /*) [ "$DRY_RUN" = true ] || rm -f "$rel" ;;
+            *)  [ -e "$rel" ] && return 0 || { [ "$DRY_RUN" = true ] || rm -f "$rel"; } ;;
+        esac
+    elif [ -e "$rel" ]; then
+        return 0   # real local content — never overwrite the team's file
+    fi
+    if [ "$DRY_RUN" = true ]; then
+        plan "install ${rel} (portable copy from the framework)"
+        return 0
+    fi
+    mkdir -p "$(dirname "$rel")"
+    cp -r "$src" "$rel" 2>/dev/null && ok "Installed ${rel} (portable copy)"
+}
+
+# Write a portable shim at scripts/<name>.sh delegating to $AAS_DIR/<delegate>.
+install_script_shim() {
+    local dst="$1" delegate="$2"
+    if [ -L "$dst" ]; then
+        local target; target="$(readlink "$dst" 2>/dev/null || true)"
+        case "$target" in
+            /*) [ "$DRY_RUN" = true ] || rm -f "$dst" ;;
+            *)  [ -e "$dst" ] && return 0 || { [ "$DRY_RUN" = true ] || rm -f "$dst"; } ;;
+        esac
+    elif [ -e "$dst" ]; then
+        return 0   # a real local script — preserve it
+    fi
+    write_shim "$dst" "$delegate" "$(resolver_rel_for "$dst")"
+}
+
+install_legacy_equivalents() {
+    # Docs referenced by the AGENTS.md Rules Index / identity footer.
+    local doc
+    for doc in rules/common SOUL.md AGENTS-EXTENDED.md VERSION; do
+        install_doc_copy "$doc"
+    done
+    # Legacy helper scripts referenced by the AGENTS.md startup Protocol.
+    local s
+    for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
+             commit-approval.sh pr-review-checklist.sh design-gate.sh \
+             skill-lint.sh setup-branch-protection.sh tdd-gate.sh; do
+        install_script_shim "scripts/${s}" "scripts/${s}"
+    done
+}
+
 run_dry_run() {
     log "DRY RUN — no changes will be made."
     local target
@@ -1234,6 +1298,25 @@ run_dry_run() {
     if [ "$WITH_SKILLS" == true ]; then
         plan "copy framework skills into the project (--with-skills)"
     fi
+    # Legacy references (B4): list exactly what would be removed and recreated.
+    local _legacy_doc
+    for _legacy_doc in rules/common SOUL.md AGENTS-EXTENDED.md VERSION PATTERNS.md ANTI-PATTERNS.md; do
+        if [ -L "$_legacy_doc" ]; then
+            plan "remove legacy symlink ${_legacy_doc} → recreate as a portable copy"
+        elif [ ! -e "$_legacy_doc" ]; then
+            plan "install ${_legacy_doc} (portable copy)"
+        fi
+    done
+    local _legacy_s
+    for _legacy_s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
+             commit-approval.sh pr-review-checklist.sh design-gate.sh \
+             skill-lint.sh setup-branch-protection.sh tdd-gate.sh; do
+        if [ -L "scripts/${_legacy_s}" ]; then
+            plan "remove legacy symlink scripts/${_legacy_s} → recreate as a portable shim"
+        elif [ ! -e "scripts/${_legacy_s}" ]; then
+            plan "install scripts/${_legacy_s} (portable shim)"
+        fi
+    done
     ensure_gitignore
     log "Dry run complete — nothing changed."
 }
