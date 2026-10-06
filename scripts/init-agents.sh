@@ -45,6 +45,39 @@ ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 plan() { echo -e "${CYAN}[dry-run]${NC} would $*"; }
 
+# The directory git actually executes hooks from: `core.hooksPath` when set,
+# else `.git/hooks`. When core.hooksPath is set (husky/lefthook/custom),
+# `.git/hooks/*` is IGNORED by git — hooks installed there never run (B5).
+effective_hooks_dir() {
+    local hp
+    hp="$(git config core.hooksPath 2>/dev/null || true)"
+    if [ -z "$hp" ]; then
+        printf '%s' "./.git/hooks"
+        return 0
+    fi
+    # husky v9 sets core.hooksPath=.husky/_ (its generated dir). The user-managed
+    # hooks live in .husky/ — that is where a delegating hook must be written.
+    case "$hp" in
+        .husky/_|*/.husky/_) printf '%s' "./.husky"; return 0 ;;
+    esac
+    case "$hp" in
+        /*) printf '%s' "$hp" ;;
+        *)  printf '%s' "./$hp" ;;
+    esac
+}
+
+# Relative path from a hook file's directory up to .aas/aas-resolve.sh, used by
+# the portable shim's fallback resolver (best-effort; the shim also walks up).
+resolver_rel_for() {
+    local dir depth rel i
+    dir="$(dirname "$1")"
+    depth="$(printf '%s' "$dir" | sed 's|^\./||' | awk -F/ '{print NF}')"
+    rel=""
+    i=0
+    while [ "$i" -lt "$depth" ]; do rel="../${rel}"; i=$((i + 1)); done
+    printf '%s' "${rel}.aas/aas-resolve.sh"
+}
+
 # Portable: check if two paths resolve to the same filesystem entry
 # Uses cd+pwd -P instead of readlink -f for macOS compatibility
 _same_path() {
@@ -157,6 +190,31 @@ if [ "$SUBCOMMAND" = "check-env" ]; then
   if [ "${DUPLICATES}" -gt 1 ]; then
     echo "agent-discipline-duplicates=${DUPLICATES}"
     warn "${DUPLICATES} agent-discipline dirs found — only one should load. Fix: bash install.sh --plugin-only"
+  fi
+
+  # Local hook enforcement state (B5): is the effective hook dir the default, or
+  # is core.hooksPath (husky/lefthook) shadowing `.git/hooks/*` so it is inert?
+  if [ -d "./.git" ]; then
+    HP="$(git config core.hooksPath 2>/dev/null || true)"
+    HOOKS_DIR="$(effective_hooks_dir)"
+    if [ -z "$HP" ]; then
+      echo "hooks-path=(default .git/hooks)"
+    else
+      echo "hooks-path=${HP}"
+    fi
+    if [ -f "${HOOKS_DIR}/pre-commit" ]; then
+      echo "hook-pre-commit=${HOOKS_DIR}/pre-commit (active)"
+    else
+      echo "hook-pre-commit=missing (${HOOKS_DIR})"
+      warn "No AAS pre-commit in the effective hooks dir — local enforcement is OFF."
+    fi
+    if [ -f "${HOOKS_DIR}/commit-msg" ]; then
+      echo "hook-commit-msg=${HOOKS_DIR}/commit-msg (active)"
+    else
+      echo "hook-commit-msg=missing (${HOOKS_DIR})"
+    fi
+  else
+    echo "hooks-path=no-git-repo"
   fi
 
   exit 0
@@ -829,16 +887,17 @@ show_next_steps() {
     [[ -f "./STACK_CONFIG.md" ]] && echo "    ✓ STACK_CONFIG.md — ${stack}"
     [[ -f "./.sessionrc" ]] && echo "    ✓ .sessionrc — purpose-driven sessions"
     [[ -f "./.github/workflows/gates.yml" ]] && echo "    ✓ .github/workflows/gates.yml — remote gate (required check)"
-    [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ pre-commit hook — lifecycle enforcement"
-    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — TDD gate (v6)"
+    local hooks_dir; hooks_dir="$(effective_hooks_dir)"
+    [[ -f "${hooks_dir}/pre-commit" ]] && echo "    ✓ ${hooks_dir}/pre-commit — lifecycle enforcement"
+    [[ -f "${hooks_dir}/commit-msg" ]] && echo "    ✓ ${hooks_dir}/commit-msg — TDD gate (v6)"
     echo ""
 
     # --- FRAMEWORK (resolved from the machine install; nothing duplicated) ---
     echo "  FRAMEWORK (resolved, not duplicated):"
     echo "    ✓ .aas/config — pins the framework version"
     echo "    ✓ .aas/aas-resolve.sh — portable resolver"
-    [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ .git/hooks/pre-commit — portable shim → \$AAS_DIR"
-    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ .git/hooks/commit-msg — portable shim → \$AAS_DIR"
+    [[ -f "${hooks_dir}/pre-commit" ]] && echo "    ✓ ${hooks_dir}/pre-commit — portable shim → \$AAS_DIR"
+    [[ -f "${hooks_dir}/commit-msg" ]] && echo "    ✓ ${hooks_dir}/commit-msg — portable shim → \$AAS_DIR"
     if [ -n "${AAS_DIR:-}" ]; then
         echo "    ✓ framework root: ${AAS_DIR}"
     fi
@@ -994,7 +1053,7 @@ install_one_hook_shim() {
             return 0
         fi
     fi
-    write_shim "$dst" "$delegate" "../../.aas/aas-resolve.sh"
+    write_shim "$dst" "$delegate" "$(resolver_rel_for "$dst")"
 }
 
 install_hook_shims() {
@@ -1003,8 +1062,20 @@ install_hook_shims() {
         log "No .git directory. Skipping hook shims."
         return 0
     fi
-    install_one_hook_shim "./.git/hooks/pre-commit" "scripts/git-hooks/pre-commit" "$force"
-    install_one_hook_shim "./.git/hooks/commit-msg" "scripts/git-hooks/commit-msg" "$force"
+    local hp hooks_dir
+    hp="$(git config core.hooksPath 2>/dev/null || true)"
+    if [ -z "$hp" ]; then
+        install_one_hook_shim "./.git/hooks/pre-commit" "scripts/git-hooks/pre-commit" "$force"
+        install_one_hook_shim "./.git/hooks/commit-msg" "scripts/git-hooks/commit-msg" "$force"
+        return 0
+    fi
+    # core.hooksPath is set (husky/lefthook/custom) → `.git/hooks/*` would be
+    # INERT. Install into the effective dir so the AAS hooks actually run (B5).
+    hooks_dir="$(effective_hooks_dir)"
+    warn "core.hooksPath=${hp} detected — .git/hooks/* is ignored by git."
+    warn "Installing the AAS hooks into ${hooks_dir}/ so they actually run."
+    install_one_hook_shim "${hooks_dir}/pre-commit" "scripts/git-hooks/pre-commit" "$force"
+    install_one_hook_shim "${hooks_dir}/commit-msg" "scripts/git-hooks/commit-msg" "$force"
 }
 
 write_aas_config() {
