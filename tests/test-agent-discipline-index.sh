@@ -46,14 +46,17 @@ check("v1 exposes experimental.session.compacting", typeof hooks["experimental.s
 // ── Philosophy A: mutations are always blocked ──
 const dir = process.env.TEST_REPO
 process.chdir(dir)
-const run = async (command) => {
+const runV1Tool = async (tool, command) => {
   try {
-    await hooks["tool.execute.before"]({ tool: "bash" }, { args: { command } })
+    await hooks["tool.execute.before"]({ tool }, { args: { command } })
     return "allowed"
   } catch {
     return "blocked"
   }
 }
+const run = (command) => runV1Tool("bash", command)
+check("v1 enforces on `bash`", (await run("git commit -m x")) === "blocked")
+check("v1 also enforces on `shell` (dual-id back-compat)", (await runV1Tool("shell", "git commit -m x")) === "blocked")
 
 // Bypass shapes flagged by review: prefixes, separators, flags, double space.
 const BYPASS_CASES = [
@@ -133,10 +136,16 @@ check("v2 setup registers tool.execute.before", calls.includes("tool:execute.bef
 check("v2 setup registers session.compaction", calls.includes("session:compaction"))
 check("v2 setup returns a cleanup function", typeof cleanup === "function")
 
-const runV2 = (command) => {
-  try { v2ExecuteBefore({ tool: "bash", input: { command } }); return "allowed" }
+const runV2Tool = (tool, command) => {
+  try { v2ExecuteBefore({ tool, input: { command } }); return "allowed" }
   catch { return "blocked" }
 }
+// OpenCode v2 renamed the shell tool `bash` → `shell`. The plugin must enforce
+// on the real v2 id AND stay back-compatible with the v1 id (B6 regression).
+const runV2 = (command) => runV2Tool("shell", command)
+check("v2 enforces on the real v2 tool id (`shell`)", runV2("git commit -m x") === "blocked")
+check("v2 still enforces on the legacy id (`bash`)", runV2Tool("bash", "git commit -m x") === "blocked")
+check("v2 ignores a non-shell tool (`read`)", runV2Tool("read", "git commit -m x") === "allowed")
 for (const [cmd, label] of BYPASS_CASES) {
   check(`v2 blocks git mutation (${label}): ${cmd}`, runV2(cmd) === "blocked")
 }

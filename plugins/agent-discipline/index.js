@@ -21,6 +21,7 @@
  *   - anti-slop: re-inject reminders into the compaction context.
  *
  * v1 → v2 mapping (verified against the migration guide):
+ *   shell tool id              → v1 `bash` → v2 `shell` (both accepted)
  *   tool.execute.before        → ctx.tool.hook("execute.before", …)
  *   experimental.session.compacting → ctx.session.hook("compaction", …)
  *   event                      → ctx.event.subscribe({ signal })
@@ -29,6 +30,11 @@
 import * as fs from "node:fs"
 
 const LINE_COUNT_THRESHOLD_PERCENT = 20
+
+// The shell tool id changed across OpenCode versions: v1 uses `bash`, v2 uses
+// `shell` ("bash is now shell" — opencode.ai/v2/docs/build/plugins/migrate-v1).
+// Accept both so one dual-contract plugin enforces under either loader.
+const SHELL_TOOL_IDS = new Set(["shell", "bash"])
 
 // Git subcommands the agent must NEVER run. The user runs them (philosophy A).
 const GIT_BLOCKED_SUBCOMMANDS = new Set([
@@ -244,7 +250,7 @@ const definition = {
 
     // 1) Enforcement: block git mutations; warn on other mutations (Rule 12).
     await ctx.tool.hook("execute.before", (event) => {
-      if (event?.tool !== "bash") return
+      if (!SHELL_TOOL_IDS.has(event?.tool)) return
       const result = evaluateBashCommand(event?.input?.command)
       if (!result) return
       if (result.block) throw new Error(`[agent-discipline] ${result.block}`)
@@ -301,7 +307,7 @@ export default {
   async server() {
     return {
       "tool.execute.before": async (input, output) => {
-        if (input?.tool !== "bash") return
+        if (!SHELL_TOOL_IDS.has(input?.tool)) return
         const result = evaluateBashCommand(output?.args?.command)
         if (!result) return
         if (result.block) throw new Error(`[agent-discipline] ${result.block}`)
