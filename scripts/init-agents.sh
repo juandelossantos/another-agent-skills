@@ -305,34 +305,10 @@ materialize_symlink_target() {
     mv "$tmp" "$target"
 }
 
-# Append our rules footer to existing file with delimiters
-# Never appends the full AGENTS_SOURCE — only the attribution footer.
-# The full rules are loaded dynamically by the agent framework via skills/.
-merge_into_file() {
-    local target="$1"
-
-    # Never `cat >>` through a symlink: that follows it and mutates the file it
-    # points at (possibly outside the project). Materialize a real project file.
-    materialize_symlink_target "$target"
-
-    if has_our_rules "$target"; then
-        ok "Another Agent Skills rules already present in $(basename "$target"). Skipping."
-        return 0
-    fi
-
-    if [ "$DRY_RUN" = true ]; then
-        plan "back up $(basename "$target") and append the AAS rules footer"
-        return 0
-    fi
-
-    local backup
-    backup=$(backup_file "$target")
-    warn "Found existing $(basename "$target"). Making backup: $(basename "$backup")"
-    
-    cat >> "$target" << 'FOOTER'
-
----
-
+# The canonical AAS rules footer (between the delimiters). Single source so the
+# append path and the in-place upgrade path (B10) cannot drift.
+aas_footer_block() {
+    cat << 'FOOTER'
 # >>> another-agent-skills-rules
 # The following rules are from Another Agent Skills (github.com/juandelossantos/another-agent-skills)
 # These rules ADD TO your existing workflow, they do not replace it.
@@ -353,9 +329,78 @@ merge_into_file() {
 #   (Rule 12b). The agent creates/reviews; the USER merges.
 # - Full rules: read `rules/common/enforcement.md` (Rule 12) at session start.
 # <<< another-agent-skills-rules
-
 FOOTER
-    
+}
+
+# Replace the lines between the delimiters in $1 with the current footer block.
+# Everything outside the delimiters (the team's own content) is preserved.
+upgrade_footer_in_place() {
+    local target="$1" block tmp
+    block="$(mktemp)"
+    tmp="$(mktemp)"
+    aas_footer_block > "$block"
+    awk -v b="$DELIMITER_BEGIN" -v e="$DELIMITER_END" -v bf="$block" '
+        BEGIN { while ((getline l < bf) > 0) blk = blk l "\n" }
+        $0 == b { printf "%s", blk; skip = 1; next }
+        skip { if ($0 == e) skip = 0; next }
+        { print }
+    ' "$target" > "$tmp"
+    # `cat >` (not `mv`) so the target keeps its inode + mode; a mktemp file is 600.
+    cat "$tmp" > "$target"
+    rm -f "$tmp" "$block"
+}
+
+# Merge our rules footer into an existing file (with delimiters). Never appends
+# the full AGENTS_SOURCE — only the attribution footer. If a footer is already
+# present but OUTDATED (e.g. initialized before the Rule 12 NON-NEGOTIABLES
+# block), it is upgraded in place (B10) so a single `init-agents` run brings an
+# existing project up to date.
+merge_into_file() {
+    local target="$1"
+
+    # Never `cat >>` through a symlink: that follows it and mutates the file it
+    # points at (possibly outside the project). Materialize a real project file.
+    materialize_symlink_target "$target"
+
+    if has_our_rules "$target"; then
+        if grep -q 'NON-NEGOTIABLES' "$target"; then
+            ok "Another Agent Skills rules already present and current in $(basename "$target"). Skipping."
+            return 0
+        fi
+        # A malformed footer (begin delimiter without an end) must never be
+        # rewritten — the awk splice would drop everything after the begin.
+        if ! grep -qF "$DELIMITER_END" "$target"; then
+            warn "$(basename "$target") has an AAS footer but no '${DELIMITER_END}' — leaving it unchanged (fix it manually)."
+            return 0
+        fi
+        # Footer present but outdated (pre-B7): upgrade it in place (B10).
+        if [ "$DRY_RUN" = true ]; then
+            plan "upgrade the outdated AAS rules footer in $(basename "$target") (add the Rule 12 NON-NEGOTIABLES)"
+            return 0
+        fi
+        local backup
+        backup=$(backup_file "$target")
+        upgrade_footer_in_place "$target"
+        ok "Upgraded the AAS rules footer in $(basename "$target") (Rule 12 NON-NEGOTIABLES)"
+        log "Your original content is preserved. Backup: $(basename "$backup")"
+        return 0
+    fi
+
+    if [ "$DRY_RUN" = true ]; then
+        plan "back up $(basename "$target") and append the AAS rules footer"
+        return 0
+    fi
+
+    local backup
+    backup=$(backup_file "$target")
+    warn "Found existing $(basename "$target"). Making backup: $(basename "$backup")"
+    {
+        echo ""
+        echo "---"
+        echo ""
+        aas_footer_block
+        echo ""
+    } >> "$target"
     ok "Merged Another Agent Skills rules into $(basename "$target")"
     log "Your original content is preserved. Backup: $(basename "$backup")"
 }
@@ -1304,7 +1349,11 @@ run_dry_run() {
     target="$(detect_target)"
     if [ -n "$target" ]; then
         if has_our_rules "$target"; then
-            plan "leave $(basename "$target") (AAS rules already present)"
+            if grep -q 'NON-NEGOTIABLES' "$target"; then
+                plan "leave $(basename "$target") (AAS rules already present and current)"
+            else
+                plan "upgrade the outdated AAS rules footer in $(basename "$target") (add the Rule 12 NON-NEGOTIABLES)"
+            fi
         else
             plan "back up $(basename "$target") and append the AAS rules footer"
         fi
@@ -1312,7 +1361,8 @@ run_dry_run() {
         plan "create AGENTS.md"
     fi
     if [ -d "./.git" ]; then
-        plan "install portable hook shims (.git/hooks/pre-commit, commit-msg)"
+        local hooks_dir; hooks_dir="$(effective_hooks_dir)"
+        plan "install portable hook shims (${hooks_dir}/pre-commit, commit-msg)"
     else
         plan "skip hook shims (no .git directory)"
     fi
