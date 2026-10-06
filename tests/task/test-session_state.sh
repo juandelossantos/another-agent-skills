@@ -22,21 +22,21 @@ assert() {
   fi
 }
 
-assert "handoff title is Phase 10 COMPLETE" "grep -q '# Session State — Phase 10 COMPLETE: Public Web + v6.3.0 Release' '$FILE'"
-assert "documents Phase 10 COMPLETE" "grep -q 'Phase 10 COMPLETE' '$FILE'"
+assert "handoff title is Phase 10 SHIPPED (web LIVE)" "grep -q '# Session State — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted' '$FILE'"
+assert "documents Phase 10 SHIPPED" "grep -q 'Phase 10 SHIPPED' '$FILE'"
 assert "retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$FILE'"
 assert "names the merged Phase 9 PRs" "grep -q 'PRs #47' '$FILE'"
 assert "documents the pending npm manual step" "grep -q '2026-10-06' '$FILE' && grep -qi 'TOTP' '$FILE'"
 assert "documents the pending Homebrew step" "grep -q 'HOMEBREW_TAP_TOKEN' '$FILE'"
 assert "Next tasks name T1 (npm + Homebrew)" "grep -q 'T1 — npm + Homebrew activation (maintainer, manual)' '$FILE'"
-assert "Next tasks name T2 (web + docs once LIVE)" "grep -q 'T2 — Web + docs update once LIVE' '$FILE'"
+assert "Next tasks name T2 (web + docs now LIVE)" "grep -q 'T2 — Web + docs update (the web is now LIVE)' '$FILE'"
 assert "T2 covers the security-headers gap" "grep -q 'security-headers gap' '$FILE'"
 assert "gives the T1 resume command (npm publish)" "grep -q 'npm publish --access public' '$FILE'"
-assert "documents the gated PR → merge → tag → deploy steps" "grep -q 'Gated steps' '$FILE' && grep -q 'git push -u origin feat/phase10-landing' '$FILE' && grep -q 'git tag v6.3.0' '$FILE'"
+assert "documents the gated tag step" "grep -q 'Gated steps' '$FILE' && grep -q 'git tag v6.3.0' '$FILE'"
 assert "records verified system state" "grep -q 'System state (verified 2026-10-03)' '$FILE'"
-assert "records 104 suites" "grep -q '104 suites passing' '$FILE'"
-assert "records the web suite" "grep -q '74 node + 85 e2e' '$FILE'"
-assert "records the v6.3.0 version" "grep -q 'now \*\*v6.3.0' '$FILE'"
+assert "records 108 suites" "grep -q '108 suites passing' '$FILE'"
+assert "records the web suite" "grep -q '83 node + 85 e2e' '$FILE'"
+assert "records the v6.3.0 scope" "grep -q 'covers Phases 8 + 9 + 10' '$FILE'"
 assert "retains the historical previous handoff" "grep -q 'previous sessions. handoff' '$FILE'"
 
 echo ""

@@ -31,8 +31,8 @@ t_default_creates_all_7() {
   local missing=0
   [ -f "$tmp/.audit-config.json" ] || { echo "  missing .audit-config.json"; missing=1; }
   [ -f "$tmp/scripts/audit-project.sh" ] || { echo "  missing scripts/audit-project.sh"; missing=1; }
-  [ -d "$tmp/skills/self-improvement" ] || { echo "  missing skills/self-improvement/"; missing=1; }
-  [ -f "$tmp/skills/self-improvement/SKILL.md" ] || { echo "  missing skills/self-improvement/SKILL.md"; missing=1; }
+  [ -d "$tmp/.claude/skills/self-improvement" ] || { echo "  missing .claude/skills/self-improvement/"; missing=1; }
+  [ -f "$tmp/.claude/skills/self-improvement/SKILL.md" ] || { echo "  missing .claude/skills/self-improvement/SKILL.md"; missing=1; }
   [ -f "$tmp/PATTERNS.md" ] || { echo "  missing PATTERNS.md"; missing=1; }
   [ -f "$tmp/ANTI-PATTERNS.md" ] || { echo "  missing ANTI-PATTERNS.md"; missing=1; }
   [ -d "$tmp/ADRs" ] || { echo "  missing ADRs/"; missing=1; }
@@ -50,7 +50,7 @@ t_skip_no_artifacts() {
   local found=0
   [ -f "$tmp/.audit-config.json" ] && found=$((found + 1))
   [ -f "$tmp/scripts/audit-project.sh" ] && found=$((found + 1))
-  [ -d "$tmp/skills/self-improvement" ] && found=$((found + 1))
+  [ -d "$tmp/.claude/skills/self-improvement" ] && found=$((found + 1))
   [ -f "$tmp/PATTERNS.md" ] && found=$((found + 1))
   [ -f "$tmp/ANTI-PATTERNS.md" ] && found=$((found + 1))
   [ -d "$tmp/ADRs" ] && found=$((found + 1))

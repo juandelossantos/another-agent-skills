@@ -150,7 +150,7 @@ assert "legacy guidance recommends --dry-run then --repair" "grep -q -- '--dry-r
 # ── G. --with-skills copies skills for a self-contained project ──────────────
 P6="$(make_proj "$TMP/p6")"
 ( cd "$P6" && AAS_DIR="$FW" bash "$INIT" --with-skills --skip-self-improvement >/dev/null 2>&1 )
-assert "--with-skills copies extra skills" "[ -f '$P6/skills/extra-one/SKILL.md' ] && [ -f '$P6/skills/extra-two/SKILL.md' ]"
+assert "--with-skills copies extra skills (discoverable path)" "[ -f '$P6/.claude/skills/extra-one/SKILL.md' ] && [ -f '$P6/.claude/skills/extra-two/SKILL.md' ]"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

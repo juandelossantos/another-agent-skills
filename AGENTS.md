@@ -17,7 +17,7 @@
 1. Read AGENTS.md Rules 0 through 12
 2. Check Git state: `git status && git fetch --dry-run && git branch --show-current`
 3. **Skill Discovery (MANDATORY):**
-   - Load `using-agent-skills` skill (OpenCode: `skill()` tool) or read `skills/using-agent-skills/SKILL.md` directly (other agents)
+   - Load the `using-agent-skills` skill with your agent's skill mechanism (OpenCode: the `skill` tool). If your agent reads files directly, skills live in its discovery path — global `~/.config/opencode/skills/`, `~/.claude/skills/`, `~/.agents/skills/`, or project `.opencode/skills/`, `.claude/skills/`, `.agents/skills/` (a bare `skills/` is not discovered)
    - Identify which skill applies to the current task
    - Load the applicable skill
    - Run `bash scripts/skill-gate.sh mark <skill-name>` to register consultation

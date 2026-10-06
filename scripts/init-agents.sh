@@ -29,6 +29,12 @@ AAS_CONFIG_DIR="./.aas"
 AAS_BACKUP_DIR="${AAS_CONFIG_DIR}/backups"
 BACKUP_KEEP=5
 
+# Single source of truth for the legacy project references (B4/B5): the docs and
+# helper scripts a legacy project may symlink to the dev clone. Shared by
+# repair_legacy, install_legacy_equivalents and run_dry_run so they can't drift.
+AAS_LEGACY_DOCS="rules/common SOUL.md AGENTS-EXTENDED.md VERSION"
+AAS_LEGACY_SCRIPTS="skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh"
+
 # Shared agent detection (detect_agents / list_agents)
 # shellcheck source=agent-detect.sh
 source "${SCRIPT_DIR}/agent-detect.sh"
@@ -44,6 +50,45 @@ log() { echo -e "${BLUE}[init-agents]${NC} $*"; }
 ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 plan() { echo -e "${CYAN}[dry-run]${NC} would $*"; }
+
+# The directory git actually executes hooks from: `core.hooksPath` when set,
+# else `.git/hooks`. When core.hooksPath is set (husky/lefthook/custom),
+# `.git/hooks/*` is IGNORED by git — hooks installed there never run (B5).
+effective_hooks_dir() {
+    local hp
+    hp="$(git config core.hooksPath 2>/dev/null || true)"
+    if [ -z "$hp" ]; then
+        printf '%s' "./.git/hooks"
+        return 0
+    fi
+    # husky v9 sets core.hooksPath=.husky/_ (its generated dir). The user-managed
+    # hooks live in .husky/ — that is where a delegating hook must be written.
+    case "$hp" in
+        .husky/_|*/.husky/_) printf '%s' "./.husky"; return 0 ;;
+    esac
+    case "$hp" in
+        /*) printf '%s' "$hp" ;;
+        *)  printf '%s' "./$hp" ;;
+    esac
+}
+
+# Relative path from a hook file's directory up to .aas/aas-resolve.sh, used by
+# the portable shim's fallback resolver (best-effort; the shim also walks up).
+resolver_rel_for() {
+    local dir depth rel i
+    dir="$(dirname "$1")"
+    # An absolute hooks dir (core.hooksPath outside the project) has no relative
+    # path to the project's .aas/ — return empty; the shim falls back to env /
+    # `aas --dir` / the source-tree walk.
+    case "$dir" in
+        /*) printf '%s' ""; return 0 ;;
+    esac
+    depth="$(printf '%s' "$dir" | sed 's|^\./||' | awk -F/ '{print NF}')"
+    rel=""
+    i=0
+    while [ "$i" -lt "$depth" ]; do rel="../${rel}"; i=$((i + 1)); done
+    printf '%s' "${rel}.aas/aas-resolve.sh"
+}
 
 # Portable: check if two paths resolve to the same filesystem entry
 # Uses cd+pwd -P instead of readlink -f for macOS compatibility
@@ -159,6 +204,31 @@ if [ "$SUBCOMMAND" = "check-env" ]; then
     warn "${DUPLICATES} agent-discipline dirs found — only one should load. Fix: bash install.sh --plugin-only"
   fi
 
+  # Local hook enforcement state (B5): is the effective hook dir the default, or
+  # is core.hooksPath (husky/lefthook) shadowing `.git/hooks/*` so it is inert?
+  if [ -d "./.git" ]; then
+    HP="$(git config core.hooksPath 2>/dev/null || true)"
+    HOOKS_DIR="$(effective_hooks_dir)"
+    if [ -z "$HP" ]; then
+      echo "hooks-path=(default .git/hooks)"
+    else
+      echo "hooks-path=${HP}"
+    fi
+    if [ -f "${HOOKS_DIR}/pre-commit" ]; then
+      echo "hook-pre-commit=${HOOKS_DIR}/pre-commit (active)"
+    else
+      echo "hook-pre-commit=missing (${HOOKS_DIR})"
+      warn "No AAS pre-commit in the effective hooks dir — local enforcement is OFF."
+    fi
+    if [ -f "${HOOKS_DIR}/commit-msg" ]; then
+      echo "hook-commit-msg=${HOOKS_DIR}/commit-msg (active)"
+    else
+      echo "hook-commit-msg=missing (${HOOKS_DIR})"
+    fi
+  else
+    echo "hooks-path=no-git-repo"
+  fi
+
   exit 0
 fi
 
@@ -269,6 +339,19 @@ merge_into_file() {
 # If there are conflicts between your existing rules and yours, follow BOTH:
 # - Your project-specific rules take priority for project details
 # - Our skill-driven rules take priority for workflow and quality
+#
+# NON-NEGOTIABLES (Rule 12 — binding; the agent never mutates git history):
+# - The agent NEVER runs `git commit`, `git push`, `git merge`, `git rebase`,
+#   `git reset`, `git cherry-pick`, or `git revert`. It stages, then presents the
+#   exact command + message; the USER runs them.
+# - Every mutation needs a DECISION POINT block and explicit user approval
+#   (yes / sí / commit / proceed). Invalid: "ok", "mmhm", silence, emoji.
+# - This OVERRIDES any skill that assumes the agent commits (e.g.
+#   git-workflow-and-versioning): here the agent stages and the user commits.
+# - The agent never merges a PR (`gh pr merge` is blocked). Before creating a PR,
+#   run the mechanical review gate: `bash scripts/pr-review-checklist.sh <PR_NUMBER>`
+#   (Rule 12b). The agent creates/reviews; the USER merges.
+# - Full rules: read `rules/common/enforcement.md` (Rule 12) at session start.
 # <<< another-agent-skills-rules
 
 FOOTER
@@ -657,15 +740,10 @@ CONFIG
         write_shim "$adr_dst" "scripts/generate-adr.sh" "../.aas/aas-resolve.sh"
     fi
 
-    # Determine skill install path based on agent config
-    local skill_dest_dir="skills"
-    local agent_config
-    agent_config=$(detect_target)
-    if echo "$agent_config" | grep -q '.claude/'; then
-        skill_dest_dir=".claude/skills"
-    elif echo "$agent_config" | grep -q '.opencode/'; then
-        skill_dest_dir=".opencode/skills"
-    fi
+    # Skill install path based on agent config (B9: a discoverable path, never
+    # a bare `skills/`).
+    local skill_dest_dir
+    skill_dest_dir="$(project_skills_dir)"
 
     # Copy self-improvement skill (SKILL.md + guides)
     local skill_src="${AAS_DIR}/skills/self-improvement"
@@ -709,6 +787,12 @@ CONFIG
             fi
         fi
     done
+
+    # Recreate the portable equivalents of the legacy project references (B4):
+    # rules/common, SOUL.md, AGENTS-EXTENDED.md, VERSION (copies) and the legacy
+    # scripts/*.sh (portable shims). Runs on every install, so a legacy absolute
+    # symlink is migrated — and after --repair removes it, it is recreated.
+    install_legacy_equivalents
 
     # Create ADRs/ directory
     if [ "$DRY_RUN" = true ]; then
@@ -829,16 +913,17 @@ show_next_steps() {
     [[ -f "./STACK_CONFIG.md" ]] && echo "    ✓ STACK_CONFIG.md — ${stack}"
     [[ -f "./.sessionrc" ]] && echo "    ✓ .sessionrc — purpose-driven sessions"
     [[ -f "./.github/workflows/gates.yml" ]] && echo "    ✓ .github/workflows/gates.yml — remote gate (required check)"
-    [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ pre-commit hook — lifecycle enforcement"
-    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ commit-msg hook — TDD gate (v6)"
+    local hooks_dir; hooks_dir="$(effective_hooks_dir)"
+    [[ -f "${hooks_dir}/pre-commit" ]] && echo "    ✓ ${hooks_dir}/pre-commit — lifecycle enforcement"
+    [[ -f "${hooks_dir}/commit-msg" ]] && echo "    ✓ ${hooks_dir}/commit-msg — TDD gate (v6)"
     echo ""
 
     # --- FRAMEWORK (resolved from the machine install; nothing duplicated) ---
     echo "  FRAMEWORK (resolved, not duplicated):"
     echo "    ✓ .aas/config — pins the framework version"
     echo "    ✓ .aas/aas-resolve.sh — portable resolver"
-    [[ -f "./.git/hooks/pre-commit" ]] && echo "    ✓ .git/hooks/pre-commit — portable shim → \$AAS_DIR"
-    [[ -f "./.git/hooks/commit-msg" ]] && echo "    ✓ .git/hooks/commit-msg — portable shim → \$AAS_DIR"
+    [[ -f "${hooks_dir}/pre-commit" ]] && echo "    ✓ ${hooks_dir}/pre-commit — portable shim → \$AAS_DIR"
+    [[ -f "${hooks_dir}/commit-msg" ]] && echo "    ✓ ${hooks_dir}/commit-msg — portable shim → \$AAS_DIR"
     if [ -n "${AAS_DIR:-}" ]; then
         echo "    ✓ framework root: ${AAS_DIR}"
     fi
@@ -937,6 +1022,14 @@ detect_legacy() {
 #   resolver_rel    path from the shim's dir to .aas/aas-resolve.sh
 write_shim() {
     local shim="$1" delegate="$2" resolver_rel="$3"
+    # `delegate`/`resolver_rel` are interpolated into an executable shim, so they
+    # must be trusted (never user input). Reject shell metacharacters that would
+    # turn the generated `exec`/source lines into an injection sink.
+    case "${delegate}${resolver_rel}" in
+        *'$'*|*'`'*|*';'*|*'&'*|*'|'*|*' '*)
+            warn "write_shim: refusing untrusted delegate/resolver (${delegate})"
+            return 1 ;;
+    esac
     if [ "$DRY_RUN" = true ]; then
         plan "install portable shim ${shim} → \$AAS_DIR/${delegate}"
         return 0
@@ -994,7 +1087,7 @@ install_one_hook_shim() {
             return 0
         fi
     fi
-    write_shim "$dst" "$delegate" "../../.aas/aas-resolve.sh"
+    write_shim "$dst" "$delegate" "$(resolver_rel_for "$dst")"
 }
 
 install_hook_shims() {
@@ -1003,8 +1096,23 @@ install_hook_shims() {
         log "No .git directory. Skipping hook shims."
         return 0
     fi
-    install_one_hook_shim "./.git/hooks/pre-commit" "scripts/git-hooks/pre-commit" "$force"
-    install_one_hook_shim "./.git/hooks/commit-msg" "scripts/git-hooks/commit-msg" "$force"
+    local hp hooks_dir
+    hp="$(git config core.hooksPath 2>/dev/null || true)"
+    if [ -z "$hp" ]; then
+        install_one_hook_shim "./.git/hooks/pre-commit" "scripts/git-hooks/pre-commit" "$force"
+        install_one_hook_shim "./.git/hooks/commit-msg" "scripts/git-hooks/commit-msg" "$force"
+        return 0
+    fi
+    # core.hooksPath is set (husky/lefthook/custom) → `.git/hooks/*` would be
+    # INERT. Install into the effective dir so the AAS hooks actually run (B5).
+    hooks_dir="$(effective_hooks_dir)"
+    warn "core.hooksPath=${hp} detected — .git/hooks/* is ignored by git."
+    case "$hooks_dir" in
+        /*) warn "core.hooksPath is absolute (${hooks_dir}) — AAS hooks go OUTSIDE this project; the portable resolver falls back to env / 'aas --dir'." ;;
+    esac
+    warn "Installing the AAS hooks into ${hooks_dir}/ so they actually run."
+    install_one_hook_shim "${hooks_dir}/pre-commit" "scripts/git-hooks/pre-commit" "$force"
+    install_one_hook_shim "${hooks_dir}/commit-msg" "scripts/git-hooks/commit-msg" "$force"
 }
 
 write_aas_config() {
@@ -1065,15 +1173,23 @@ install_framework_refs() {
 }
 
 # --with-skills: copy the framework skills into the project (self-contained).
-install_with_skills() {
-    local skill_dest_dir="skills"
+# Project-local skills dir an agent actually discovers (B9). A bare `skills/` is
+# NOT a discovery path for any agent; OpenCode reads `.opencode/skills` plus the
+# compat paths `.claude/skills` / `.agents/skills`, and Claude Code reads
+# `.claude/skills`. Default to `.claude/skills` (discovered by both).
+project_skills_dir() {
     local agent_config
-    agent_config=$(detect_target)
-    if echo "$agent_config" | grep -q '.claude/'; then
-        skill_dest_dir=".claude/skills"
-    elif echo "$agent_config" | grep -q '.opencode/'; then
-        skill_dest_dir=".opencode/skills"
-    fi
+    agent_config="$(detect_target)"
+    case "$agent_config" in
+        */.opencode/*) printf '%s' ".opencode/skills" ;;
+        */.claude/*)   printf '%s' ".claude/skills" ;;
+        *)             printf '%s' ".claude/skills" ;;
+    esac
+}
+
+install_with_skills() {
+    local skill_dest_dir
+    skill_dest_dir="$(project_skills_dir)"
     if [ "$DRY_RUN" = true ]; then
         plan "copy framework skills into ${skill_dest_dir}/ (--with-skills)"
         return 0
@@ -1093,20 +1209,10 @@ install_with_skills() {
 # then recreates the portable form. Team docs and custom files are untouched.
 repair_legacy() {
     log "Repairing legacy project (non-destructive)..."
-    local paths=(
-        "rules/common"
-        "SOUL.md"
-        "AGENTS-EXTENDED.md"
-        "VERSION"
-        "PATTERNS.md"
-        "ANTI-PATTERNS.md"
-        "scripts/audit-project.sh"
-        "scripts/generate-adr.sh"
-    )
+    local paths=( $AAS_LEGACY_DOCS PATTERNS.md ANTI-PATTERNS.md \
+                  scripts/audit-project.sh scripts/generate-adr.sh )
     local s
-    for s in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-             commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
-             setup-branch-protection.sh tdd-gate.sh; do
+    for s in $AAS_LEGACY_SCRIPTS; do
         paths+=("scripts/${s}")
     done
     local p target
@@ -1132,6 +1238,66 @@ repair_legacy() {
 }
 
 # --dry-run: print exactly what would change and mutate nothing.
+# ── B4: portable equivalents for the legacy project references ──────────────
+# A legacy project may have ABSOLUTE symlinks (to the dev clone) for
+# rules/common, SOUL.md, AGENTS-EXTENDED.md, VERSION and scripts/*.sh. --repair
+# removes them; these recreate a portable equivalent so nothing the AGENTS.md
+# references is lost. Docs are copied; scripts become portable shims.
+
+# Copy a framework doc into the project (never overwrite real local content).
+install_doc_copy() {
+    local rel="$1"
+    local src="${AAS_DIR}/${rel}"
+    [ -e "$src" ] || return 0
+    if [ -L "$rel" ]; then
+        local target; target="$(readlink "$rel" 2>/dev/null || true)"
+        case "$target" in
+            /*) [ "$DRY_RUN" = true ] || rm -f "$rel" ;;
+            *)  [ -e "$rel" ] && return 0 || { [ "$DRY_RUN" = true ] || rm -f "$rel"; } ;;
+        esac
+    elif [ -e "$rel" ]; then
+        return 0   # real local content — never overwrite the team's file
+    fi
+    if [ "$DRY_RUN" = true ]; then
+        plan "install ${rel} (portable copy from the framework)"
+        return 0
+    fi
+    mkdir -p "$(dirname "$rel")"
+    if cp -r "$src" "$rel" 2>/dev/null; then
+        ok "Installed ${rel} (portable copy)"
+    else
+        warn "Could not install ${rel} (portable copy)"
+    fi
+}
+
+# Write a portable shim at scripts/<name>.sh delegating to $AAS_DIR/<delegate>.
+install_script_shim() {
+    local dst="$1" delegate="$2"
+    if [ -L "$dst" ]; then
+        local target; target="$(readlink "$dst" 2>/dev/null || true)"
+        case "$target" in
+            /*) [ "$DRY_RUN" = true ] || rm -f "$dst" ;;
+            *)  [ -e "$dst" ] && return 0 || { [ "$DRY_RUN" = true ] || rm -f "$dst"; } ;;
+        esac
+    elif [ -e "$dst" ]; then
+        return 0   # a real local script — preserve it
+    fi
+    write_shim "$dst" "$delegate" "$(resolver_rel_for "$dst")"
+}
+
+install_legacy_equivalents() {
+    # Docs referenced by the AGENTS.md Rules Index / identity footer.
+    local doc
+    for doc in $AAS_LEGACY_DOCS; do
+        install_doc_copy "$doc"
+    done
+    # Legacy helper scripts referenced by the AGENTS.md startup Protocol.
+    local s
+    for s in $AAS_LEGACY_SCRIPTS; do
+        install_script_shim "scripts/${s}" "scripts/${s}"
+    done
+}
+
 run_dry_run() {
     log "DRY RUN — no changes will be made."
     local target
@@ -1163,6 +1329,23 @@ run_dry_run() {
     if [ "$WITH_SKILLS" == true ]; then
         plan "copy framework skills into the project (--with-skills)"
     fi
+    # Legacy references (B4): list exactly what would be removed and recreated.
+    local _legacy_doc
+    for _legacy_doc in $AAS_LEGACY_DOCS PATTERNS.md ANTI-PATTERNS.md; do
+        if [ -L "$_legacy_doc" ]; then
+            plan "remove legacy symlink ${_legacy_doc} → recreate as a portable copy"
+        elif [ ! -e "$_legacy_doc" ]; then
+            plan "install ${_legacy_doc} (portable copy)"
+        fi
+    done
+    local _legacy_s
+    for _legacy_s in $AAS_LEGACY_SCRIPTS; do
+        if [ -L "scripts/${_legacy_s}" ]; then
+            plan "remove legacy symlink scripts/${_legacy_s} → recreate as a portable shim"
+        elif [ ! -e "scripts/${_legacy_s}" ]; then
+            plan "install scripts/${_legacy_s} (portable shim)"
+        fi
+    done
     ensure_gitignore
     log "Dry run complete — nothing changed."
 }

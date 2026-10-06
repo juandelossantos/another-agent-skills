@@ -21,6 +21,7 @@
  *   - anti-slop: re-inject reminders into the compaction context.
  *
  * v1 → v2 mapping (verified against the migration guide):
+ *   shell tool id              → v1 `bash` → v2 `shell` (both accepted)
  *   tool.execute.before        → ctx.tool.hook("execute.before", …)
  *   experimental.session.compacting → ctx.session.hook("compaction", …)
  *   event                      → ctx.event.subscribe({ signal })
@@ -29,6 +30,11 @@
 import * as fs from "node:fs"
 
 const LINE_COUNT_THRESHOLD_PERCENT = 20
+
+// The shell tool id changed across OpenCode versions: v1 uses `bash`, v2 uses
+// `shell` ("bash is now shell" — opencode.ai/v2/docs/build/plugins/migrate-v1).
+// Accept both so one dual-contract plugin enforces under either loader.
+const SHELL_TOOL_IDS = new Set(["shell", "bash"])
 
 // Git subcommands the agent must NEVER run. The user runs them (philosophy A).
 const GIT_BLOCKED_SUBCOMMANDS = new Set([
@@ -160,6 +166,18 @@ function classifySegment(segment) {
 
   if (tokens[0] === "rm" && tokens[1] === "-rf") return "warn"
   if (tokens[0] === "mv") return "warn"
+  if (tokens[0] === "gh") {
+    // Rule 12b: the agent never merges a PR (philosophy A — a remote merge);
+    // creating one warns so the mechanical review gate is not skipped.
+    // Flags-aware scan so `gh -R owner/repo pr merge` (a flag with a value
+    // before `pr`) is still caught, not just `gh pr merge`.
+    const args = tokens.slice(1)
+    for (let i = 0; i < args.length - 1; i++) {
+      if (args[i] === "pr" && args[i + 1] === "merge") return "block-pr"
+      if (args[i] === "pr" && args[i + 1] === "create") return "warn-pr"
+    }
+    return null
+  }
   return null
 }
 
@@ -184,6 +202,14 @@ function guardianMessage(command) {
   return `【GUARDIAN PATTERN ALERT】Mutation detected: "${command}". Did you present the DECISION POINT block and receive explicit approval? If NOT: STOP and wait for yes/sí/proceed.`
 }
 
+function prChecklistMessage(command) {
+  return `【RULE 12b — PR REVIEW GATE】PR flow detected: "${command}". Before creating a PR, run the mechanical checklist: bash scripts/pr-review-checklist.sh <PR_NUMBER>. The agent creates/reviews; the USER merges.`
+}
+
+function prMergeMessage(command) {
+  return `The agent never merges a PR ("${command}"). Run the mechanical checklist (bash scripts/pr-review-checklist.sh <PR_NUMBER>), present the exact command, then let the USER merge (Rule 12b).`
+}
+
 /**
  * Evaluate a bash command. Returns { block } to stop the tool call, { warn } to
  * surface a non-blocking reminder, or null for an ordinary command.
@@ -194,6 +220,7 @@ function evaluateBashCommand(rawCommand) {
   if (!command) return null
 
   let warned = false
+  let prFlow = false
   for (const segment of splitSegments(command)) {
     const verdict = classifySegment(segment)
     if (verdict === "block") {
@@ -201,10 +228,15 @@ function evaluateBashCommand(rawCommand) {
         block: `The agent never runs "${command}". Present the exact command and message, then let the user run it (Rule 12).`,
       }
     }
+    if (verdict === "block-pr") return { block: prMergeMessage(command) }
     if (verdict === "warn") warned = true
+    if (verdict === "warn-pr") {
+      warned = true
+      prFlow = true
+    }
   }
 
-  if (warned) return { warn: guardianMessage(command) }
+  if (warned) return { warn: prFlow ? prChecklistMessage(command) : guardianMessage(command) }
   return null
 }
 
@@ -244,7 +276,7 @@ const definition = {
 
     // 1) Enforcement: block git mutations; warn on other mutations (Rule 12).
     await ctx.tool.hook("execute.before", (event) => {
-      if (event?.tool !== "bash") return
+      if (!SHELL_TOOL_IDS.has(event?.tool)) return
       const result = evaluateBashCommand(event?.input?.command)
       if (!result) return
       if (result.block) throw new Error(`[agent-discipline] ${result.block}`)
@@ -301,7 +333,7 @@ export default {
   async server() {
     return {
       "tool.execute.before": async (input, output) => {
-        if (input?.tool !== "bash") return
+        if (!SHELL_TOOL_IDS.has(input?.tool)) return
         const result = evaluateBashCommand(output?.args?.command)
         if (!result) return
         if (result.block) throw new Error(`[agent-discipline] ${result.block}`)

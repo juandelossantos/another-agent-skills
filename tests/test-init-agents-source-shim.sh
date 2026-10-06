@@ -53,7 +53,9 @@ PLAIN=$(mktemp -d)
   git init -q
   bash "$INIT" sync-hooks >/dev/null 2>&1
 ) >/dev/null 2>&1
-( cd "$PLAIN" && env -u ANOTHER_AGENT_SKILLS_DIR -u AAS_DIR bash .git/hooks/pre-commit ) >/dev/null 2>&1
+# Isolate HOME too: a machine that happens to have a global AAS install must not
+# make the resolver find a framework. This case simulates a teammate with none.
+( cd "$PLAIN" && env -u ANOTHER_AGENT_SKILLS_DIR -u AAS_DIR HOME="$PLAIN" bash .git/hooks/pre-commit ) >/dev/null 2>&1
 assert "plain repo without AAS: shim exits 0 (never blocks)" "[ $? -eq 0 ]"
 rm -rf "$PLAIN"
 
