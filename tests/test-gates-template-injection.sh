@@ -51,8 +51,10 @@ assert "all four command steps use the env pattern (template)" \
   "[ \"\$(grep -c 'GATES_CMD: \${{ steps.stack.outputs' '$TEMPLATE')\" -eq 4 ]"
 
 # Robustness: a missing STACK_CONFIG row must not abort the step silently.
+# The parser is now the `read_cmd()` helper (B12: prefer the exact `| <field> |`
+# row, else the first `| <field> … |` row) with `|| true` guards on its greps.
 assert "STACK_CONFIG parsing survives an absent row (template)" \
-  "[ \"\$(grep -cE 'sed .*head -1 \\|\\| true' '$TEMPLATE')\" -ge 4 ]"
+  "[ \"\$(grep -cE 'head -1 \\|\\| true' '$TEMPLATE')\" -ge 2 ] && grep -q 'read_cmd()' '$TEMPLATE'"
 
 # The repo's own workflow runs fixed scripts, so it must have no sink either.
 assert "no \${{ }} interpolation into run: (repo workflow)" \

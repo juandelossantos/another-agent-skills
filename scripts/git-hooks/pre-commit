@@ -581,11 +581,15 @@ echo "╔═══════════════════════�
 echo "║  TEST RUNNER                               ║"
 echo "╚════════════════════════════════════════════╝"
 
-# Read test command from STACK_CONFIG.md (portable — works in any project)
+# Read test command from STACK_CONFIG.md (portable — works in any project).
+# Single source: scripts/stack-config-cmd.sh (B12) — resolves the EXACT `| Test |`
+# row or the first `| Test … |` row, strips backticks, and never returns a
+# non-test command. The old parser took the line AFTER the last Test row → it
+# ran lint and reported "All tests passed" → a FALSE PASS.
 STACK_CONFIG="${REPO_ROOT}/STACK_CONFIG.md"
 TEST_CMD=""
 if [ -f "$STACK_CONFIG" ]; then
-  TEST_CMD=$(grep -A1 '^| Test' "$STACK_CONFIG" 2>/dev/null | tail -1 | awk -F'|' '{print $3}' | sed 's/^ *//;s/ *$//' 2>/dev/null || echo "")
+  TEST_CMD="$(bash "${AAS_SCRIPTS}/stack-config-cmd.sh" Test "$STACK_CONFIG" 2>/dev/null || true)"
 fi
 # Fallback to project-specific runner
 if [ -z "$TEST_CMD" ]; then
