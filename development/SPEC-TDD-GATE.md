@@ -159,3 +159,41 @@ After implementation, verify:
 6. `bash scripts/tdd-gate.sh` with pre-existing test only → exit 1
 7. `bash tests/test-tdd-gate.sh` → all tests pass
 8. `bash tests/test-pre-commit-gate-14.sh` → all tests pass
+
+---
+
+## Phase 13 — Type-aware verification (PLANNED)
+
+> Status: PLANNED · Date: 2026-10-06 · Plan: `PLAN.md` → `## Phase 13: Type-aware verification gate`
+
+### The drift this fixes
+
+This spec (v1.1.0) says docs (`*.md`, `*.txt`, `*.adoc`) and config (`*.json`, `*.yaml`, `*.toml`) are **SKIP — not code files** (see *Edge Cases*). The implementation **diverged**: `scripts/tdd-gate.sh` lists `*.md`, `*.json`, `*.yaml`, `*.yml`, `*.html`, `*.txt` in `CODE_PATTERNS`, so a docs-only commit is **BLOCKED** and the only offered fix is a name-matched test (`tests/test-PLAN.sh`) that verifies nothing.
+
+### The redesign (verify by TYPE, not by NAME)
+
+The gate stops equating *"verified"* with *"a staged test whose NAME matches"* and instead **dispatches per artifact type**:
+
+| Artifact | Verification |
+|---|---|
+| Code (`.ts/.js/.py/.go/…`) | paired test (as today) **+ the test must actually run / be non-empty** |
+| Documentation (`.md`) | **docs-honesty** validator (cited paths/commands exist; links resolve) |
+| Config (`package.json`, `tsconfig`, `jest.config`, `.aas/config`…) | **config-consistency** validator (valid schema; each `script` → existing file/command) |
+| Shims / `.sh` | **integration test** (spawn + assert) |
+
+**Principle:** docs and planning are **product** and **must be verified** — not exempted. (Real bugs were dishonest docs: the startup Protocol citing a non-existent path; the Gate 11 remedy citing a non-installed script.)
+
+### Open mechanisms (define before implementing)
+
+1. **Integration-test detection** for shims (name convention vs annotation vs manifest).
+2. **Closing the code empty-test hole** (run the test, or require a non-empty assertion).
+3. **Config catalog** + per-config rules.
+4. **Reuse** the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`).
+
+### Acceptance (see `PLAN.md` P13.1–P13.9)
+
+Code without test → BLOCK · docs without validator → BLOCK (ask for the validator) · docs with validator OK → PASS · config inconsistent → BLOCK · shim without integration → BLOCK · code with an empty test → BLOCK. `.aas/tdd-ignore` remains a conscious, audited override.
+
+### Docs to update (EN/ES) with the implementation
+
+`README.md` §TDD gate rules · `docs/enforcement.html` · `web/src/content/docs/enforcement.{en,es}.md` · `i18n/{en,es}.json` · `docs/i18n/{en,es}.json`.

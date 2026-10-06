@@ -1,10 +1,31 @@
 # Session State — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted
 
-**Date:** 2026-10-05 (updated)
-**Branch:** `main` — clean; tip `1258306` (PR #55 merged). Only `main` exists locally + remotely.
+**Date:** 2026-10-06 (updated)
+**Branch:** `main` — tip `2afa8e4` (PRs **#56–#58** merged). The pending docs work is on branch **`docs/plan-b12-b17`**.
 **Status:** ✅ **Phase 10 SHIPPED.** The public web is **LIVE** at https://juandelossantos.github.io/another-agent-skills/ (GitHub Pages, `build_type: workflow`); `.github/workflows/deploy-web.yml` builds → deploys → **verifies** (build ✅ / deploy ✅ / verify ✅). `v6.3.0` covers Phases 8 + 9 + 10. **Pending:** the `v6.3.0` tag (gated, T3), the npm/Homebrew activation (T1), the post-live web/docs update (T2), and the **new essay** (awaiting the maintainer's review/edit — E1).
 **Plan:** `PLAN.md` — single source of truth
-**Pending commit (STAGED, not committed):** the Phase 10 closure handoff — `PLAN.md`, this file, and the status tests (`tests/task/test-plan-session_state-live.sh` + the updated `test-session_state.sh`, `test-plan-phase10.sh`, `test-plan-ordering.sh`, `test-phase8-closure.sh`) — **plus the 2026-10-05 plan-coherence work** (below) and the new `tests/task/test-plan-backlog-coherence.sh`. Staged on branch **`chore/plan-coherence-b4-b9`** (from `main` @ `1258306`). The maintainer runs the commit (Rule 12).
+**Pending commit (STAGED, not committed):** the **B12–B17 batch adjustment** — `PLAN.md` (index + prioritization + corrected B13 evidence + reformulated B17) and `development/SESSION_STATE.md`, with the new `tests/task/test-plan-lote-b12-b17.sh` and the updated `tests/task/test-session_state.sh`. Staged on branch **`docs/plan-b12-b17`** (from `main` @ `2afa8e4`). The maintainer runs the commit (Rule 12).
+
+## What Was Done (2026-10-06) — B4–B11 shipped + TDD gate fix (PRs #56–#58)
+
+The courtside-scoreboard P0 backlog (B4–B9) **shipped**, plus B10/B11 and the TDD-gate adoption blocker:
+
+| PR | What | Commit |
+|---|---|---|
+| **#56** | Plan coherence (Phase 12) + **B4** (`--repair` no data loss) · **B5** (hooks in the effective dir) · **B6** (guardrail v2 `bash`→`shell`) · **B9** (skills discovery) · **B7** (Rule 12 footer) · **B8** (`gh pr merge` blocked) | `3de9e74` |
+| **#57** | **B10** (footer upgrade in place — one `init-agents` run brings an existing project up to date) · **B11** (dry-run effective hooks dir) | `695a72f` |
+| **#58** | TDD gate: **exempt AAS-managed artifacts in consumers**, keep the framework rigorous (`is_framework_repo` + content-based shim detection); fixed the pre-existing `*.o` over-match (`a.go`/`logo` were ungated) | `2afa8e4` |
+
+All merged to `main`; `gates`/`quality`/`CI`/`deploy-web` green. **B6 confirmed live** (the guardrail blocked the agent's `git commit`/`git push`).
+
+**New backlog lote (B12–B17)** — rollout findings, prioritized in `PLAN.md`:
+
+- **B12** 🔴 P0 — Gate 14 runs **lint, not tests** (`grep -A1 '^| Test' | tail -1`) → **false PASS**.
+- **B14** 🟠 P1 — `generate-health-check.sh` dies silently (no boundary header) → Gate 11 with no fix path.
+- **B17** 🟠 P1 — the TDD gate treats `*.md` as code → docs-only commits need a test/bypass → fix via the **consumer/framework** pattern.
+- **B13** 🟠 P1 — `skill-lint` only strips double quotes (real bug; **scoped** to the linted dir).
+- **B15** 🟡 P2 — Gate 11 points to `scripts/generate-health-check.sh`, not installed in the project.
+- **B16** 🟡 P2 — `--repair` leaves the legacy `skills/` duplicated with `.claude/skills/`.
 
 ## What Was Done (2026-10-05) — Plan coherence + courtside backlog (B4–B9)
 
@@ -51,7 +72,11 @@ After the real-world exercise of updating the skills in **`courtside-scoreboard`
 
 ## Next tasks (resume here next session)
 
-**⚠️ P0 (new, 2026-10-05) — the courtside backlog.** Before the Phase 10 closure extras below, address the real-world enforcement failures: **B6** (guardrail plugin: `bash` vs `shell`) → **B5** (`core.hooksPath`) → **B4** (`--repair` data loss). See the section above and `PLAN.md` → **Backlog**.
+**⚠️ FIRST (next session) — the B12–B17 lote + the courtside rollout.** The B4–B11 backlog is **done** (PRs #56–#58). Next:
+
+1. **Fix B12** (🔴 P0 — Gate 14 false PASS: parse the exact `| Test |` cell, strip backticks, single-source the parser with `gates.yml`).
+2. Then **B14/B17** (adoption) → **B13/B15/B16** (robustness/cleanup). See `PLAN.md` → **Backlog** (B12–B17) + **Priorización**.
+3. **Courtside rollout:** branch `chore/aas-portable-refs` (rollout already applied + verified) → commit + push + PR; restart OpenCode and confirm the guardrail blocks `git commit`/`git push`/`gh pr merge`.
 
 **E1 — Essay: review → edit → decide.** Four files in `development/launch/` (the directory is **git-ignored** → local only):
 - `essay-human-in-command.en.md` — the article (EN).

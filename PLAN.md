@@ -316,6 +316,12 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 | 17 | Skills: descubrimiento y rutas del Protocolo (B9.1–B9.4) | Backlog | 🟠 P1 | El dir `skills/` del proyecto no es un path de descubrimiento; el Protocolo referencia `skills/using-agent-skills/SKILL.md` (inexistente) y `scripts/skill-gate.sh` (que `--repair` borra). |
 | 18 | Rule 12 no se auto-inyecta en el contexto (B7.1–B7.3) | Backlog | 🟠 P1 | Arreglo **blando** (texto): mejora el contexto pero no es enforcement. Complementa B5/B6, no los sustituye. |
 | 19 | PR review gate sin disparador (B8.1–B8.2) | Backlog | 🟡 P2 | Arreglo **blando**: encadenar el checklist mecánico al flujo de PR. |
+| 20 | Gate 14 corre lint en vez de tests (B12.1–B12.5) | Backlog | 🔴 P0 | **Falso PASS**: el gate *cree* correr los tests y corre otro comando. El patrón "enforcement inexistente" que el proyecto combate. |
+| 21 | `generate-health-check.sh` falla en silencio (B14.1–B14.4) | Backlog | 🟠 P1 | Herramienta de remediación rota → el Gate 11 queda sin salida. |
+| 22 | **Phase 13** — TDD gate verifica por nombre, no por tipo (ex-B17) | Phase 13 | 🔴 P0 | Rediseño a **verificación por tipo** (código→test · docs→honesty · config→esquema · shim→integración); los docs son producto y se verifican. |
+| 23 | `skill-lint` no pela comillas simples (B13.1–B13.2) | Backlog | 🟠 P1 | Falso error de lint; alcance acotado al dir que lintea. Barato. |
+| 24 | Gate 11 apunta a un script no instalado (B15.1–B15.3) | Backlog | 🟡 P2 | Instrucción de remediación no ejecutable. |
+| 25 | `--repair` deja `skills/` legacy duplicado (B16.1–B16.3) | Backlog | 🟡 P2 | Duplicación/drift (limpieza). |
 
 **Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético. *(Histórico — ya ejecutado: P7–P10 completas.)*
 
@@ -644,9 +650,49 @@ before any version is assigned.
 
 ---
 
+## Phase 13: Type-aware verification gate — PLANNED
+
+**Status:** 📋 **PLANNED** — promoted from **B17** (rollout finding, 2026-10-06). Spec: `development/SPEC-TDD-GATE.md` (Phase 13 section).
+**Goal:** replace the TDD gate's *name-pairing* proxy with **verification by artifact type** — each artifact is verified with the tool that actually fits it, and **nothing passes unverified**.
+
+**Why:** `tdd-gate.sh` equates *"verified"* with *"a staged test file whose NAME matches"*. That proxy works for **code** (the test exercises behavior) but breaks for docs/config/shim — and is gameable even for code (an empty `test-foo.sh` passes; the gate never runs it). Real bugs were *dishonest docs* (the startup Protocol citing a non-existent `skills/using-agent-skills/SKILL.md`; the Gate 11 remedy citing a script that is not installed) — proof that docs can and must be verified.
+
+**Principle (non-negotiable):** documentation and planning **are product** and **must be verified**. This phase does **not** exempt docs; it verifies each type with its own tool.
+
+**Taxonomy — artifact → verification:**
+
+| Artifact | Verification |
+|---|---|
+| Code (`.ts/.js/.py/.go/…`) | paired test (as today) **+ the test must actually run / be non-empty** |
+| Documentation (`.md`) | **docs-honesty** validator (cited paths/commands exist; links resolve) |
+| Config (`package.json`, `tsconfig`, `jest.config`, `.aas/config`…) | **config-consistency** validator (valid schema; each `script` → existing file/command) |
+| Shims / `.sh` | **integration test** (spawn + assert) |
+
+**Mechanisms to define (the open questions):** how the gate **detects an integration test** for a shim; how the code case **closes the empty-test hole**; the **config catalog** + per-config rules; and **reuse** of the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`) — do not rebuild.
+
+### Tasks
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| P13.1 | Taxonomía en el gate: despachar a la verificación correcta **por tipo** (consumer + framework) | Cada tipo se verifica con su herramienta, no con un test nominal |
+| P13.2 | **docs-honesty** validator (paths/comandos citados existen, links resuelven), reusando `audit-*.sh`; en el framework repo lo cubren los `test-plan-*`/`test-readme-*` | Un doc que cita un path inexistente **falla** |
+| P13.3 | **config-consistency** validator (`package.json` JSON válido; cada script → archivo/comando existe) | `db:sync` apuntando a un script borrado **falla** |
+| P13.4 | Shims `.sh` → exigir **test de integración** (mecanismo definido) | Un shim sin integración no pasa |
+| P13.5 | **Cerrar el empty-test de código**: la verificación de código exige un test que corra / no sea vacío | Un `test-foo.sh` vacío **no** pasa |
+| P13.6 | Si un tipo **no** tiene validador → el gate **exige crear el validador** (nunca silent pass) | No hay forma de pasar sin verificación real |
+| P13.7 | `.aas/tdd-ignore` sigue como override **consciente y auditado** por proyecto | Escape explícito, no silencioso |
+| P13.8 | Tests del propio gate (matriz): código sin test→BLOCK · docs sin validador→BLOCK · docs con validador OK→PASS · config inconsistente→BLOCK · shim sin integración→BLOCK · código con empty test→BLOCK | Matriz cubierta |
+| P13.9 | **Docs EN/ES** al comportamiento type-aware: `README.md` §TDD gate rules, `docs/enforcement.html`, `web/src/content/docs/enforcement.{en,es}.md`, `i18n/{en,es}.json`, `docs/i18n/{en,es}.json` | Docs describen el gate type-aware (EN+ES) |
+
+**Relación:** complementa **B12** (Gate 14 parse — the other gate defect) y **B3** (false-pass). **Owner: AAS.** Once merged, the courtside DB-hygiene PR passes with **real** verification (shim integration + config-consistency), without `--no-verify`.
+
+---
+
 ## Backlog
 
 > **Índice.** Los hallazgos del caso real `courtside-scoreboard` (B4–B9) están priorizados en **Priorización de Pendientes**. Orden recomendado: **B6 → B5 → B4 → B9 → B7 → B8**.
+>
+> **Lote B12–B17** (hallazgos del rollout de courtside, 2026-10-06): **B12 es NEXT** (🔴 P0 — falso PASS del Gate 14: un gate que *cree* correr los tests y corre otro comando; fix de 1 parser). Luego **Phase 13** — el rediseño **type-aware** promovido desde **B17** (verificar por **tipo**: código→test · docs→honesty · config→esquema · shim→integración; **los docs son producto y se verifican**, no se eximen). Después: **B14** (health generator roto), **B13/B15/B16** (robustez/limpieza). El bloqueante de adopción "el TDD gate exige test a artefactos administrados por AAS" ya se resolvió en **PR #58** (`AAS_MANAGED_PATTERNS` + `.aas/tdd-ignore`).
 
 | ID | Tema | Prioridad | Estado |
 |---|---|---|---|
@@ -661,6 +707,12 @@ before any version is assigned.
 | B9 | Skills: descubrimiento y rutas del Protocolo | 🟠 P1 | Pendiente |
 | B10 | `merge_into_file` no actualiza un footer viejo (B7 no llega a proyectos existentes) | 🟠 P1 | ✅ Done |
 | B11 | `run_dry_run` reporta `.git/hooks` en vez del dir efectivo (`.husky/`) | 🟡 P2 | ✅ Done |
+| B12 | Gate 14 resuelve el comando equivocado con `STACK_CONFIG.md` multi-fila (corre lint, no tests) | 🔴 P0 | Pendiente |
+| B13 | `skill-lint` no soporta descripciones entre comillas simples | 🟠 P1 | Pendiente |
+| B14 | `generate-health-check.sh` falla en silencio y exige una sección de frontera que un proyecto real no tiene | 🟠 P1 | Pendiente |
+| B15 | El mensaje del Gate 11 apunta a un script que no se instala en el proyecto | 🟡 P2 | Pendiente |
+| B16 | `--repair` deja el `skills/` legacy duplicado con `.claude/skills/` | 🟡 P2 | Pendiente |
+| B17 | El TDD gate verifica por **NOMBRE**, no por **TIPO** → **promovido a Phase 13** | 🔴 P0 | → Phase 13 |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container
@@ -804,3 +856,138 @@ before any version is assigned.
 | B9.2 | Corregir las referencias del Protocolo de arranque: no apuntar a `skills/using-agent-skills/SKILL.md` (path de proyecto) sino al path real/global; documentar el fallback | El Protocolo apunta a paths que existen |
 | B9.3 | `--repair`/`init-agents` no dejan el Protocolo roto: si borra `scripts/skill-gate.sh`, recrea un shim portable o reescribe la referencia | Tras reparar, todo path que el `AGENTS.md` referencia existe y funciona |
 | B9.4 | Test: fixture de proyecto con `skills/` (path no descubrible) → se reporta/migra; y el Protocolo no referencia paths inexistentes | Cubierto por test |
+
+---
+
+### Lote B12–B17 — Hallazgos del rollout de `courtside-scoreboard` (2026-10-06)
+
+> Contexto: el rollout de AAS en courtside (PR #58 arregló el bloqueante de adopción: el TDD gate exigía test a los artefactos que instala AAS). Los 6 items siguientes son hallazgos **del mismo rollout** que quedaron sin resolver y **no bloquean courtside** (ya tiene workarounds locales), pero son deuda real del framework.
+
+### Backlog detallado — B12: el Gate 14 (test runner) resuelve el comando equivocado con `STACK_CONFIG.md` multi-fila
+
+**Prioridad:** 🔴 P0 · **Naturaleza:** bug de enforcement (falso PASS).
+
+**Problema:** `scripts/git-hooks/pre-commit` (Gate 14) extrae el comando de test así:
+
+```bash
+TEST_CMD=$(grep -A1 '^| Test' "$STACK_CONFIG" 2>/dev/null | tail -1 | awk -F'|' '{print $3}' | sed 's/^ *//;s/ *$//' 2>/dev/null || echo "")
+```
+
+Con una tabla que tiene **varias** filas `| Test … |` (p. ej. `| Test (all) |`, `| Test (shared) |`, `| Test (server) |`, `| Test (client) |`), `grep -A1` emite cada coincidencia + la línea siguiente; `tail -1` toma la línea **posterior a la última fila `Test`** (en courtside: la fila `| Lint |`). Resultado: el gate ejecuta `bash -c "\`npm run lint\`"` — corre **lint**, no los tests (y con backticks, que disparan command-substitution).
+
+**Por qué importa:** el Gate 14 **cree haber corrido los tests y no los corre** (falso PASS). Es el mismo patrón "doc/gate que promete enforcement inexistente" que el proyecto combate. En courtside, donde `npm test` puede fallar por umbrales de coverage, un falso PASS es serio.
+
+**Evidencia (RED, 2026-10-06, `courtside-scoreboard`):**
+
+```bash
+$ grep -A1 '^| Test' STACK_CONFIG.md | tail -1 | awk -F'|' '{print $3}' | sed 's/^ *//;s/ *$//'
+`npm run lint`
+```
+
+El pre-commit imprime `Running test suite...` y luego `npm notice run … lint` + `✓ All tests passed`.
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B12.1 | Parseo robusto: coincidir con la celda **exacta** `\| Test \|`, o la primera fila que empiece por `Test` si no existe la exacta; **nunca** `grep -A1 … \| tail -1` | Con tabla multi-fila, `TEST_CMD` es el comando de test, no el de Lint |
+| B12.2 | Pelar backticks igual que `gates.yml` (`sed 's/.*`\([^`]*\)`.*/\1/'`) — sin dejar command-substitution | El comando se ejecuta literal |
+| B12.3 | Si no hay comando de test claro → skip **explícito** (o fail claro), nunca correr un comando que no sea test | Un `STACK_CONFIG.md` sin `\| Test \|` no corre lint disfrazado |
+| B12.4 | **Single source:** el parse vive en un lugar y lo comparten `pre-commit` y `gates.yml` (hoy divergen) | Un solo parser; un test lo prueba |
+| B12.5 | Test: fixture con tabla multi-fila → asserta el comando resuelto (el de test) y que el gate no ejecuta un no-test | Cubierto por test |
+
+### Backlog detallado — B13: `skill-lint` no soporta descripciones entre comillas simples
+
+**Prioridad:** 🟠 P1 · **Naturaleza:** falso error que bloquea commits.
+
+**Problema:** `scripts/skill-lint.sh` extrae la descripción del frontmatter con `sed 's/^description: *//; s/^"//; s/"$//; s/^> //'` — solo pela comillas **dobles**. Un `SKILL.md` con `description: 'Audit …'` (comilla simple, YAML válido) deja el primer token como `'Audit` y falla la regla "Description does not start with a strong verb".
+
+**Por qué importa:** un falso error de lint en cualquier skill con comilla simple hace fallar `skill-lint` (Gate 12) y, con el marker de health, el Gate 11 → bloquea commits del proyecto. **Alcance acotado:** `skill-lint` lintea `skills/` por defecto, así que solo muerde si la skill con `'` vive ahí (o si el proyecto apunta el linter a `.agents/skills/`). En courtside la única con `'` es **`.agents/skills/vercel-optimize`** (dir que el linter **no** recorre por defecto) → **no** fue la causa del bloqueo del rollout; ese fue el TDD gate exigiendo test a los artefactos AAS (**PR #58**).
+
+**Evidencia (RED, 2026-10-06):**
+
+```bash
+$ grep -n 'desc=' scripts/skill-lint.sh
+  desc=$(... | sed 's/^description: *//; s/^"//; s/"$//; s/^> //' ...)   # solo pela "
+$ grep -rn "^description: '" <proyecto>/skills .agents/skills        # courtside
+  .agents/skills/vercel-optimize/SKILL.md:3:description: 'Use for Vercel …'
+$ printf "description: 'Audit x'\n" | grep "^description:" | sed 's/^description: *//; s/^"//; s/"$//'
+  'Audit x'        # ← primer token = 'Audit → falla "strong verb"
+```
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B13.1 | Pelar comillas simples **y** dobles (y `>` de block scalar) antes de evaluar el primer token | `'Audit …'` y `"Audit …"` pasan |
+| B13.2 | Test: SKILL.md con `description:` en comilla simple y en doble → ambos conformes | Ambos formatos cubiertos |
+
+### Backlog detallado — B14: `generate-health-check.sh` falla en silencio y exige una frontera que un proyecto real no tiene
+
+**Prioridad:** 🟠 P1 · **Naturaleza:** herramienta de remediación rota.
+
+**Problema:** `scripts/generate-health-check.sh --apply` necesita una frontera `^## (Mechanical Enforcement|Steering File|Landing Page)` para reemplazar el encabezado. Si el `HEALTH-CHECK.md` del proyecto no la tiene (courtside tiene secciones propias: Summary, Plan, Stack, Lint…), `STEERING_LINE=$(grep -n "…" "$HEALTH_FILE" | head -1 | cut -d: -f1)` falla y, por `set -euo pipefail`, el script sale 1 **sin imprimir el `FAIL`** (muere antes del `if [ -z "$STEERING_LINE" ]`).
+
+**Por qué importa:** el usuario **no puede regenerar** el health check para satisfacer el Gate 11; el mensaje de remediación es inservible y el fallo es invisible (no hay output). Además, el validador espera filas en un formato (`Errors (Check 14) | **N**`, `Warnings | **N**`) que el archivo del proyecto no tiene → mismatch perpetuo.
+
+**Evidencia (RED, 2026-10-06, courtside):**
+
+```bash
+$ bash scripts/generate-health-check.sh --apply
+# (sin salida) exit 1
+$ grep -nE '^## ' HEALTH-CHECK.md   # ninguna de las 3 fronteras existe
+```
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B14.1 | Guardar el `grep` con `\|\| true` y manejar "sin frontera": insertar la sección generada tras el `## Summary` existente, o crearla | `--apply` funciona en un `HEALTH-CHECK.md` sin headers AAS |
+| B14.2 | Nunca morir en silencio: imprimir siempre el motivo del fallo | El fallo es visible |
+| B14.3 | Alinear generador ⇄ validador (mismo formato de campos) y documentar el esquema esperado | `--apply` produce un archivo que `validate-health-check.sh` acepta |
+| B14.4 | Test: fixture de `HEALTH-CHECK.md` sin frontera → `--apply` regenera y el validador pasa | Cubierto por test |
+
+### Backlog detallado — B15: el mensaje del Gate 11 apunta a un script que no se instala en el proyecto
+
+**Prioridad:** 🟡 P2 · **Naturaleza:** instrucción de remediación no ejecutable.
+
+**Problema:** el Gate 11 imprime `Run: bash scripts/generate-health-check.sh`, pero `init-agents`/`--repair` **no** copia ese script al proyecto (solo existe en `$AAS_DIR/scripts`). El hook usa `validate-health-check.sh` desde el framework, pero el generador no queda disponible localmente. Igual para cualquier otro script referenciado solo en el mensaje.
+
+**Por qué importa:** el usuario recibe una instrucción que no puede ejecutar (path inexistente).
+
+**Evidencia (RED, 2026-10-06):**
+
+```bash
+$ ls scripts/generate-health-check.sh        # en courtside → no existe
+$ ls $AAS_DIR/scripts/generate-health-check.sh  # en el framework → existe
+```
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B15.1 | Que el Gate 11 apunte a `$AAS_DIR/scripts/generate-health-check.sh` en el mensaje, o que `init-agents` instale un shim portable `scripts/generate-health-check.sh` (+ `validate-health-check.sh`) | La instrucción es ejecutable en el proyecto |
+| B15.2 | Auditar otros mensajes de gates que referencian `scripts/…` no instalados | Ningún gate sugiere un path inexistente |
+| B15.3 | Test: en un proyecto, el comando sugerido por Gate 11 existe y ejecuta | Cubierto por test |
+
+### Backlog detallado — B16: `--repair` deja el `skills/` legacy duplicado con `.claude/skills/`
+
+**Prioridad:** 🟡 P2 · **Naturaleza:** duplicación/drift (limpieza).
+
+**Problema:** el proyecto traía `skills/self-improvement/` (legacy) y `--repair` instala **además** `.claude/skills/self-improvement/` (ruta descubrible, ver B9). Quedan **dos copias** del mismo skill; la legacy con formato viejo. `skill-lint` lintéa por default `SKILLS_DIR=skills` (la legacy), no la descubrible.
+
+**Por qué importa:** duplicación + drift (la copia vieja se queda atrás y su lint puede fallar — ver B13). B9 resuelve el **descubrimiento**; esto es la **limpieza** de la copia vieja.
+
+**Evidencia (RED, 2026-10-06, courtside):**
+
+```bash
+$ ls -d skills/self-improvement .claude/skills/self-improvement
+skills/self-improvement  .claude/skills/self-improvement
+$ grep -n 'SKILLS_DIR=' scripts/skill-lint.sh
+SKILLS_DIR="${1:-skills}"
+```
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| B16.1 | `--repair` detecta un `skills/<x>` legacy duplicado de `.claude/skills/<x>` y lo migra/elimina (**con backup**, sin pérdida) o lo reporta | Sin duplicación tras `--repair` |
+| B16.2 | `skill-lint` corre sobre el dir de **descubrimiento** (o sobre ambos), no solo `skills/` | El lint cubre donde realmente viven las skills |
+| B16.3 | Test: fixture con `skills/<x>` legacy + `.claude/skills/<x>` → `--repair` → sin duplicado | Cubierto por test |
+
+**Relación:** B16 + B9 (descubrimiento) + B13/B14/B15 (health/lint) son del mismo *lote de adopción* → resolver juntos.
+
+
+### Backlog detallado — B17 → doblado en **Phase 13**
+
+**B17** (el TDD gate verifica por **nombre**, no por **tipo**) se **promovió a `## Phase 13: Type-aware verification gate`** (arriba) — el rediseño es de alcance de fase, no un item suelto. Ver esa sección para el principio, la taxonomía, los mecanismos abiertos y las tasks **P13.1–P13.9**.
