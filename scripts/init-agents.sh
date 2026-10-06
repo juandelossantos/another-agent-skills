@@ -345,8 +345,9 @@ upgrade_footer_in_place() {
         skip { if ($0 == e) skip = 0; next }
         { print }
     ' "$target" > "$tmp"
-    mv "$tmp" "$target"
-    rm -f "$block"
+    # `cat >` (not `mv`) so the target keeps its inode + mode; a mktemp file is 600.
+    cat "$tmp" > "$target"
+    rm -f "$tmp" "$block"
 }
 
 # Merge our rules footer into an existing file (with delimiters). Never appends
@@ -364,6 +365,12 @@ merge_into_file() {
     if has_our_rules "$target"; then
         if grep -q 'NON-NEGOTIABLES' "$target"; then
             ok "Another Agent Skills rules already present and current in $(basename "$target"). Skipping."
+            return 0
+        fi
+        # A malformed footer (begin delimiter without an end) must never be
+        # rewritten — the awk splice would drop everything after the begin.
+        if ! grep -qF "$DELIMITER_END" "$target"; then
+            warn "$(basename "$target") has an AAS footer but no '${DELIMITER_END}' — leaving it unchanged (fix it manually)."
             return 0
         fi
         # Footer present but outdated (pre-B7): upgrade it in place (B10).
