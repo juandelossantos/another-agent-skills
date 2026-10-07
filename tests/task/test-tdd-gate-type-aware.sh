@@ -11,8 +11,8 @@ GATE="$REPO_ROOT/scripts/tdd-gate.sh"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
 PASSED=0; FAILED=0; TOTAL=0
-pass() { echo -e "  ${GREEN}✓${NC} $1"; PASSED=$((PASSED + 1)); }
-fail() { echo -e "  ${RED}✗${NC} $1"; FAILED=$((FAILED + 1)); }
+pass() { echo -e "  ${GREEN}✓${NC} $1"; PASSED=$((PASSED + 1)); TOTAL=$((TOTAL + 1)); }
+fail() { echo -e "  ${RED}✗${NC} $1"; FAILED=$((FAILED + 1)); TOTAL=$((TOTAL + 1)); }
 assert() { TOTAL=$((TOTAL + 1)); if eval "$2"; then pass "$1"; else fail "$1"; fi; }
 
 consumer() {
@@ -28,6 +28,11 @@ expect() { [ "$(gate_exit)" = "$1" ] && pass "$2" || fail "$2 (expected exit $1)
 consumer
 printf '# PLAN\n' > PLAN.md; git add -A
 expect 0 "docs-only (PLAN.md) → not blocked"
+
+# ── docs + broken internal link → BLOCK (Phase 13 S2: docs-honesty) ──
+consumer
+mkdir -p docs; printf '# Doc\n\nSee [x](./nope.md).\n' > docs/broken.md; git add -A
+expect 1 "docs with a broken internal link → BLOCK (S2)"
 
 # ── config-only → NOT code ──
 consumer

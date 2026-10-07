@@ -19,6 +19,9 @@ GATE_LOG="${REPO_ROOT}/.git/TDD_GATE_LOG"
 # Determine the repo root from current directory (for temp repo support)
 REPO_DIR=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 
+# Directory of THIS script (framework scripts/, even when invoked via a consumer shim).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Without a git work tree there is nothing to gate. Skip cleanly and, crucially,
 # do NOT create a stray .git/ directory (log_gate writes into $GATE_LOG).
 if ! git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -331,12 +334,28 @@ while IFS= read -r file; do
   fi
 done <<< "$STAGED_FILES"
 
-# No code files staged → SKIP. docs/config are NOT code: their own validators
-# (docs-honesty S2 / config-consistency S3) verify them; until then a non-blocking
-# note — never a paired test.
+# No code files staged. docs/config are NOT code: they are verified by their own
+# validators (Phase 13 S2/S3) — never by a name-matched test.
 if [[ ${#CODE_FILES[@]} -eq 0 ]]; then
-  if [[ ${#DOC_FILES[@]} -gt 0 || ${#CONFIG_FILES[@]} -gt 0 ]]; then
-    echo "TDD gate: docs/config staged — verified by their own validators (Phase 13 S2/S3); non-blocking for now."
+  # S2: docs-honesty — a broken internal link is a BLOCK; cited paths and
+  # placeholders are advisory (see the validator's header).
+  if [[ ${#DOC_FILES[@]} -gt 0 ]]; then
+    _dh_out="$(bash "$SCRIPT_DIR/validate-docs-honesty.sh" --root "$REPO_DIR" "${DOC_FILES[@]}" 2>&1)"; _dh_rc=$?
+    if [ "$_dh_rc" -ne 0 ]; then
+      echo ""
+      echo "╔══════════════════════════════════════════════════╗"
+      echo "║  TDD GATE: docs-honesty failed                  ║"
+      echo "╚══════════════════════════════════════════════════╝"
+      echo ""
+      echo "$_dh_out"
+      echo ""
+      log_gate "BLOCK" "none" "${TEST_FILES[*]:-none}" "docs-dishonest"
+      exit 1
+    fi
+  fi
+  # S3 (pending): config-consistency validator.
+  if [[ ${#CONFIG_FILES[@]} -gt 0 ]]; then
+    echo "TDD gate: config staged — verified by config-consistency (Phase 13 S3); non-blocking for now."
   fi
   log_gate "SKIP" "none" "${TEST_FILES[*]:-none}" "no-code-files"
   exit 0

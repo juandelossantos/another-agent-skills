@@ -177,7 +177,7 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 | Artifact | Verification |
 |---|---|
 | Code (`.ts/.js/.py/.go/…`) | paired test (as today) **+ the test must actually run / be non-empty** |
-| Documentation (`.md`) | **docs-honesty** validator (cited paths/commands exist; links resolve) |
+| Documentation (`.md`) | **docs-honesty** validator (`validate-docs-honesty.sh`): broken internal `.md` links **BLOCK**; cited paths + placeholders are advisory (WARN) |
 | Config (`package.json`, `tsconfig`, `jest.config`, `.aas/config`…) | **config-consistency** validator (valid schema; each `script` → existing file/command) |
 | Shims / `.sh` | **integration test** (spawn + assert) |
 
@@ -189,6 +189,17 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 2. **Closing the code empty-test hole** (run the test, or require a non-empty assertion).
 3. **Config catalog** + per-config rules.
 4. **Reuse** the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`).
+
+### Calibration (S1–S2, measured on this repo)
+
+A blanket *"every cited path must exist"* is too noisy here (~180 findings — most are
+paths that describe **other** projects' layouts or future artifacts). So the gate:
+
+- **S1** classifies by TYPE: `code` keeps name-pairing **+ a non-empty check** (a paired
+  but empty test BLOCKS); `docs`/`config` are no longer treated as code.
+- **S2** runs `validate-docs-honesty.sh` on staged docs: broken internal `.md` links
+  **BLOCK** (resolved doc-relative, fence- and inline-code-aware); cited paths and
+  placeholders are **advisory** (WARN). `--strict` promotes cited paths to a failure.
 
 ### Acceptance (see `PLAN.md` P13.1–P13.9)
 

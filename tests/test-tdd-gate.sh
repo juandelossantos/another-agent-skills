@@ -275,9 +275,9 @@ git -C "$REPO" add .
 ACTUAL=$?
 assert_exit "HTML file with test → PASS" 0 "$ACTUAL"
 
-# ─── Test 20: JSON file without test → BLOCK ───
+# ─── Test 20: JSON file → config, not code (S1: SKIP) ───
 echo ""
-echo "Test 20: JSON file without test (expect BLOCK)"
+echo "Test 20: JSON file (expect SKIP — config, not code)"
 REPO=$(setup_repo 20)
 echo '{"key": "value"}' > "$REPO/config.json"
 git -C "$REPO" add config.json
@@ -285,9 +285,9 @@ git -C "$REPO" add config.json
 ACTUAL=$?
 assert_exit "JSON file → config, not code (S1: SKIP)" 0 "$ACTUAL"
 
-# ─── Test 21: Markdown file without test → BLOCK ───
+# ─── Test 21: Markdown file → docs, not code (S1: SKIP) ───
 echo ""
-echo "Test 21: Markdown file without test (expect BLOCK)"
+echo "Test 21: Markdown file (expect SKIP — docs, not code)"
 REPO=$(setup_repo 21)
 echo "# Title" > "$REPO/README.md"
 git -C "$REPO" add README.md
