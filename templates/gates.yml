@@ -60,11 +60,13 @@ jobs:
           # `| Test (all) |`); strip backticks. `|| true` keeps `set -e` (the
           # Actions default shell) from aborting when a row is absent.
           read_cmd() {
-            local field="$1" row
+            local field="$1" row cmd
             row="$(grep -E "^\| ${field} \|" STACK_CONFIG.md | head -1 || true)"
             [ -z "$row" ] && row="$(grep -E "^\| ${field}[[:space:]]" STACK_CONFIG.md | head -1 || true)"
             [ -n "$row" ] || return 0
-            printf '%s' "$row" | sed -n 's/.*`\([^`]*\)`.*/\1/p'
+            cmd="$(printf '%s' "$row" | sed -n 's/.*`\([^`]*\)`.*/\1/p')"
+            [ -z "$cmd" ] && cmd="$(printf '%s' "$row" | awk -F'|' '{print $3}' | sed 's/^ *//;s/ *$//')"
+            printf '%s' "$cmd"
           }
           TEST_CMD="$(read_cmd Test)"
           LINT_CMD="$(read_cmd Lint)"
