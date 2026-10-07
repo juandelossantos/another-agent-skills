@@ -78,7 +78,7 @@ jobs:
         run: |
           set -euo pipefail
           gh release create "$TAG" \
-            "dist/another-agent-skills-${TAG#v}.tar.gz" \
+            "dist/another-agent-skills-${TAG}.tar.gz" \
             dist/checksums.txt \
             dist/bootstrap.sh \
             --title "$TAG" \
