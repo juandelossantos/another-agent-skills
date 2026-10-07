@@ -6,13 +6,6 @@
 # assets. bootstrap.sh installs from exactly these assets (pinned tag,
 # sha256-verified) — never from `main`.
 #
-# After the release is published, an OPTIONAL step regenerates the Homebrew
-# formula (scripts/build-brew-formula.sh) and pushes it to the tap repo. It is
-# gated on the HOMEBREW_TAP_TOKEN secret: when the secret is absent the step is
-# skipped and the release is unaffected. The tap repo defaults to
-# juandelossantos/homebrew-tap and can be overridden with the
-# HOMEBREW_TAP_REPO repository variable.
-#
 # Asset naming is the single source of truth in scripts/lib/aas.sh
 # (aas_asset_name): another-agent-skills-v<version>.tar.gz + checksums.txt.
 
@@ -84,58 +77,3 @@ jobs:
             --title "$TAG" \
             --generate-notes
 
-      # The optional tap token is exposed only to the steps that need it — not
-      # to every step in the job (least privilege). Secrets cannot be referenced
-      # in `if:`, so presence is detected into a step output first.
-      - name: Detect optional Homebrew token
-        id: tap
-        env:
-          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-        run: |
-          set -euo pipefail
-          if [ -n "${HOMEBREW_TAP_TOKEN:-}" ]; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "enabled=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      # Optional: keep the Homebrew tap in sync with the release. Skipped (and
-      # the release still succeeds) when HOMEBREW_TAP_TOKEN is not configured.
-      - name: Update Homebrew tap (optional)
-        if: steps.tap.outputs.enabled == 'true'
-        env:
-          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          HOMEBREW_TAP_REPO: ${{ vars.HOMEBREW_TAP_REPO }}
-          TAG: ${{ steps.tag.outputs.tag }}
-        run: |
-          set -euo pipefail
-          if [ -z "${HOMEBREW_TAP_TOKEN:-}" ]; then
-            echo "HOMEBREW_TAP_TOKEN not set — skipping Homebrew tap update (release unaffected)."
-            exit 0
-          fi
-          TAP_REPO="${HOMEBREW_TAP_REPO:-juandelossantos/homebrew-tap}"
-          bash scripts/build-brew-formula.sh "$TAG" dist dist
-          git clone "https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/${TAP_REPO}.git" tap
-          mkdir -p tap/Formula
-          cp dist/another-agent-skills.rb tap/Formula/another-agent-skills.rb
-          cd tap
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Formula/another-agent-skills.rb
-          if git diff --cached --quiet; then
-            echo "Homebrew formula already up to date — nothing to push."
-            exit 0
-          fi
-          git commit -m "another-agent-skills ${TAG}"
-          git push origin HEAD
-
-  # Chain the npm publish here. A release created by GITHUB_TOKEN does NOT trigger
-  # other workflows (`release: published` never fires for it), so npm-publish.yml
-  # would never run on its own. Calling it directly makes the npm channel
-  # deterministic. Staged publishing still requires a maintainer's 2FA approval.
-  publish-npm:
-    needs: release
-    uses: ./.github/workflows/npm-publish.yml
-    permissions:
-      contents: read
-      id-token: write

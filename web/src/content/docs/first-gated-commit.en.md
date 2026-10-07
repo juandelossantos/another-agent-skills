@@ -35,7 +35,7 @@ The pinned release bootstrap is the one-line path and verifies a checksum before
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
 ```
 
-> The npm wrapper and Homebrew formula are **coming soon**. Use `git clone` or the pinned `curl` bootstrap today.
+> Use `git clone`, the pinned `curl` bootstrap, or `npm` today.
 
 ## 2. Activate it in a project
 

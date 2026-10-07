@@ -172,7 +172,7 @@ export const en = {
     q6: 'What is the Harness?',
     a6: 'The Harness is everything around the model that turns raw intelligence into reliable output: instructions, tools, sandboxes, orchestration, guardrails, and observability. Agent equals Model plus Harness. Most agent failures are configuration failures.',
     q7: 'How do I install it?',
-    a7: 'Three channels. Clone and run install.sh, or use the pinned curl bootstrap from the latest release, or install through npm. Then run init-agents in any project. Git and curl are live today. npm and Homebrew are coming soon.',
+    a7: 'Three channels. Clone and run install.sh, or use the pinned curl bootstrap from the latest release, or install through npm. Then run init-agents in any project. All three are live today.',
   },
   howTo: {
     name: 'Install Another Agent Skills',

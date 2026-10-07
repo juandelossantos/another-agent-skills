@@ -41,7 +41,7 @@ assert "PLAN tests row says 108 suites" "grep -qF '108 suites' '$PLAN'"
 # --- PROGRESS_STATUS.md ---
 assert "PROGRESS header says Phase 8 complete" "grep -q 'Phase 8 complete' '$PROGRESS'"
 assert "PROGRESS says remote enforcement live" "grep -qi 'Remote Enforcement live' '$PROGRESS'"
-assert "PROGRESS In Progress moved on to T1 (npm + Homebrew)" "grep -q 'T1 — npm + Homebrew activation' '$PROGRESS'"
+assert "PROGRESS records T1 (npm activation done)" "grep -q 'T1 — npm activation (DONE)' '$PROGRESS'"
 assert "PROGRESS Completed lists Phase 8" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity' '$PROGRESS'"
 
 # --- HEALTH-CHECK.md ---
@@ -52,7 +52,7 @@ assert "HEALTH records remote authority (L2) ACTIVE" "grep -q 'Remote authority 
 # --- SESSION_STATE.md ---
 assert "SESSION_STATE retains the Phase 8 closure handoff" "grep -q 'Phase 8 closure' '$SESSION'"
 assert "SESSION_STATE retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$SESSION'"
-assert "SESSION_STATE gated steps point at the v6.3.0 tag" "grep -q 'git tag v6.3.0' '$SESSION'"
+assert "SESSION_STATE gated steps use a tag" "grep -q 'git tag vX.Y.Z' '$SESSION'"
 
 # --- Cross-doc: no stale "in progress" claim survives ---
 assert "no status doc still calls Phase 8 in progress" "! grep -qi 'Phase 8 in progress' '$PLAN' '$PROGRESS' '$HEALTH' '$SESSION'"

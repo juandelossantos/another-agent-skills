@@ -20,7 +20,7 @@ assert() {
 
 assert "has the R1 first-task section" "grep -q '### R1 — Courtside rollout' '$PLAN'"
 assert "R1 is marked FIRST, next session" "grep -q 'FIRST, next session' '$PLAN'"
-assert "the Next tasks intro points at R1 first" "grep -q '\*\*R1\*\* (courtside rollout) is \*\*FIRST' '$PLAN'"
+assert "the Next tasks intro points at E1 + T2" "grep -q '\*\*E1\*\* (essay) and \*\*T2\*\* (post-live docs)' '$PLAN'"
 assert "R1 documents the courtside install (init-agents --repair)" "grep -q 'init-agents.sh --repair' '$PLAN'"
 assert "R1 documents the plugin restart step" "grep -q 'restart OpenCode' '$PLAN'"
 assert "R1 documents the release→upgrade channel" "grep -q 'aas upgrade' '$PLAN'"

@@ -30,7 +30,7 @@ assert() {
 # --- PLAN: Phase 10 complete + the next tasks ---
 assert "PLAN marks Phase 10 COMPLETE" "grep -q 'Phase 10.*✅ COMPLETE\|Phase 10:.*COMPLETE' '$PLAN'"
 assert "PLAN has a Next tasks section" "grep -qi '## Next tasks' '$PLAN'"
-assert "PLAN records T1 (npm + Homebrew)" "grep -q 'T1' '$PLAN' && grep -qi 'Homebrew' '$PLAN' && grep -qi 'npm' '$PLAN'"
+assert "PLAN records T1 (npm, Homebrew not planned)" "grep -q 'T1' '$PLAN' && grep -qi 'npm' '$PLAN' && grep -qi 'not planned' '$PLAN'"
 assert "PLAN records the npm suspension window" "grep -q '2026-10-06' '$PLAN'"
 assert "PLAN records T2 (web + docs once live)" "grep -q 'T2' '$PLAN' && grep -qi 'once.*live\|LIVE' '$PLAN'"
 assert "PLAN mentions the security-headers gap" "grep -qi 'security.headers\|_headers\|CSP' '$PLAN'"

@@ -4,7 +4,7 @@ description: "Instala Another Agent Skills, ejecuta init-agents y observa cómo 
 lang: "es"
 order: 2
 section: "start"
-tldr: "Instala con git clone o el bootstrap curl fijado (npm y Homebrew llegan pronto); ejecuta init-agents en cualquier proyecto; el instalador detecta tu agente y tu stack y conecta las skills y los hooks correspondientes."
+tldr: "Instala con git clone o el bootstrap curl fijado (o npm); ejecuta init-agents en cualquier proyecto; el instalador detecta tu agente y tu stack y conecta las skills y los hooks correspondientes."
 ---
 
 ## Requisitos
@@ -37,7 +37,7 @@ O usa el bootstrap del release fijado, que descarga el release etiquetado, verif
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
 ```
 
-El wrapper de npm y Homebrew llegan pronto. El wrapper de npm no incluye payload propio:
+El wrapper de npm no incluye payload propio:
 
 ```bash
 npx @juandelossantos/another-agent-skills install

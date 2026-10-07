@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # test-readme-v630.sh — README.md is the v6.3.0 front door: exactly one What's
-# New section (v6.3.0 only), the thesis + proof, the four install channels (with
-# the honest "coming soon" for npm/Homebrew), and links to the new Astro docs.
+# New section (v6.3.0 only), the thesis + proof, the three install channels (npm
+# now live; Homebrew not planned), and links to the new Astro docs.
 #
 # Name matches the changed file README.md so the TDD gate pairs them.
 
@@ -68,8 +68,8 @@ assert "channel 1: git clone + install.sh" "grep -q 'git clone https://github.co
 assert "channel 2: pinned curl bootstrap" "grep -q 'releases/latest/download/bootstrap.sh' '$FILE'"
 assert "channel 2: checksum-verified" "grep -qi 'checksum-verified' '$FILE'"
 assert "channel 3: npx (coming soon)" "grep -q 'npx @juandelossantos/another-agent-skills' '$FILE'"
-assert "channel 4: brew (coming soon)" "grep -q 'brew install juandelossantos/tap/another-agent-skills' '$FILE'"
-assert "npm and brew are labelled 'coming soon' honestly" "[ \"\$(grep -ci 'coming soon' '$FILE')\" -ge 2 ]"
+assert "no brew channel (Homebrew not planned)" "! grep -q 'brew install juandelossantos/tap' '$FILE'"
+assert "npm is live (no 'coming soon')" "[ \"\$(grep -ci 'coming soon' '$FILE')\" -eq 0 ] && grep -q 'npm (live)' '$FILE'"
 assert "links to docs/DISTRIBUTION.md" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 assert "references the web/ project" "grep -q 'web/' '$FILE'"
 
@@ -81,7 +81,7 @@ assert "links the new docs home" "grep -q 'https://juandelossantos.github.io/ano
 assert "links the new skills reference" "grep -q '/docs/skills/' '$FILE'"
 assert "links a tutorial" "grep -q 'first-gated-commit' '$FILE'"
 assert "links llms.txt" "grep -q 'llms.txt' '$FILE'"
-assert "marks the site as not yet deployed" "grep -qi 'not yet deployed\|not deployed' '$FILE'"
+assert "points at the live site" "grep -q 'juandelossantos.github.io/another-agent-skills/' '$FILE'"
 
 # ─── Multi-agent compatibility (kept, refreshed) ───
 echo ""

@@ -45,10 +45,10 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 
 - **Remote enforcement (Phase 8)** — branch protection on `main` plus a required `gates` status check (`.github/workflows/gates.yml`) and `CODEOWNERS` (L3), so a PR cannot edit its own rules without review.
 - **TDD-gate delivery + git/GitHub flows (Phase 8.1)** — the gate and the four supported setups (no git, local git, git + GitHub, git later) ship to user projects.
-- **Distribution (Phase 9)** — pinned, attested releases and a checksum-verified `curl` bootstrap; the `aas` CLI (`install` / `upgrade` / `doctor` / `uninstall`); portable projects with no absolute symlinks; an npm wrapper and a Homebrew formula.
+- **Distribution (Phase 9)** — pinned, attested releases and a checksum-verified `curl` bootstrap; the `aas` CLI (`install` / `upgrade` / `doctor` / `uninstall`); portable projects with no absolute symlinks; an npm wrapper (live) with OIDC trusted publishing.
 - **The public web (Phase 10)** — a bilingual (EN/ES) Astro landing + docs site in [`web/`](./web/): the generated skills reference (57 skills / 151 guides), five tutorials, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD) and a WCAG 2.2 AA gate.
 - **Docs honesty** — the guide count was corrected from 74 to 151, and the L1/L2/L3 model and INCIDENT_004 were corrected.
-- **Honest status** — npm and Homebrew are wired but **not yet activated** (maintainer steps), and the `web/` site is **built and tested but not yet deployed** (the deploy awaits approval).
+- **Honest status** — **npm is live** (`@juandelossantos/another-agent-skills`) and the `web/` site is **live** at <https://juandelossantos.github.io/another-agent-skills/>. Homebrew is **not planned** (see [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md)).
 - **Tests** — the core suite plus the `web/` build and `node --test` suite and the Playwright + axe accessibility gate, all green.
 
 Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
@@ -86,23 +86,15 @@ aas uninstall                 # remove the CLI, install root, and PATH entry
 
 Installs a **pinned, checksum-verified** release tarball (never a mutable branch) and links the `aas` CLI. `--version vX.Y.Z` pins an exact release; `--dry-run` prints every action without writing anything. The install root is `${XDG_DATA_HOME:-$HOME/.local/share}/another-agent-skills` (override with `AAS_HOME`).
 
-### 3. npm (coming soon)
+### 3. npm (live)
 
 ```bash
 npx @juandelossantos/another-agent-skills install
 ```
 
-The wrapper ships no payload; it downloads and verifies the same release. **Wired but not yet published** — the first publish is a maintainer step.
+The wrapper ships no payload; it downloads and verifies the same release. Published via OIDC trusted publishing (no stored token).
 
-### 4. Homebrew (coming soon)
-
-```bash
-brew install juandelossantos/tap/another-agent-skills
-```
-
-The formula is generated from the release. **Wired but not yet activated** — the tap is a maintainer step.
-
-All channels, the maintainer one-time setup, and the release/npm/Homebrew automation are documented in [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md). The public site and docs are built from [`web/`](./web/) (built and tested; deploy awaits approval).
+All channels, the maintainer one-time setup, and the release/npm automation are documented in [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md). The public site and docs are built from [`web/`](./web/) and are **live** at <https://juandelossantos.github.io/another-agent-skills/>.
 
 ---
 
@@ -161,7 +153,7 @@ flowchart LR
 | `multi-agent-orchestration` | >2 agents | Parallel / pipeline / swarm patterns |
 | `self-improvement` | Background | Detect → diagnose → fix with human approval |
 
-**Full catalog (57 skills, grouped by lifecycle phase) →** the [skills reference](./docs/skills.html) (in-repo) or the [new Astro docs](https://juandelossantos.github.io/another-agent-skills/docs/skills/) (not yet deployed) · [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md)
+**Full catalog (57 skills, grouped by lifecycle phase) →** the [skills reference](./docs/skills.html) (in-repo) or the [new Astro docs](https://juandelossantos.github.io/another-agent-skills/docs/skills/) (live) · [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md)
 
 ---
 
@@ -195,7 +187,7 @@ L1 hooks are active. **There is no L2/L3.** To get remote enforcement: add a Git
 
 The key rule: **re-run `init-agents` after `git init` and after adding the remote.** It detects what is now available and installs the missing layers (hooks, `gates.yml`).
 
-[**Branch protection guide →**](./docs/BRANCH-PROTECTION.md) · [**Tutorials →**](https://juandelossantos.github.io/another-agent-skills/docs/) (not yet deployed)
+[**Branch protection guide →**](./docs/BRANCH-PROTECTION.md) · [**Tutorials →**](https://juandelossantos.github.io/another-agent-skills/docs/) (live)
 
 ---
 
@@ -245,7 +237,7 @@ Another Agent Skills works with multiple AI coding agents. **Git hooks work ever
 
 ## Documentation
 
-The public site and docs are built from [`web/`](./web/) (Astro, bilingual EN/ES). They are **not deployed yet** — the deploy awaits approval. Until then, the in-repo sources are the docs home.
+The public site and docs are built from [`web/`](./web/) (Astro, bilingual EN/ES). They are **live** at <https://juandelossantos.github.io/another-agent-skills/>.
 
 | Source | What it is |
 |---|---|

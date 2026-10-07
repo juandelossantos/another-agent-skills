@@ -36,8 +36,8 @@ assert "HARNESS.md no longer says 74 guides" "! grep -q '74 guides' '$REPO_ROOT/
 assert "docs/skills.html states 151" "grep -q '151' '$REPO_ROOT/docs/skills.html'"
 assert "README states 151 guides" "grep -q '151 guides' '$REPO_ROOT/README.md'"
 
-# --- Homebrew + npm derive the version (no hardcoded 6.2.0 in the release paths) ---
-assert "build-brew-formula takes a version argument" "grep -q 'VERSION=\"\${TAG#v}\"\|version' '$REPO_ROOT/scripts/build-brew-formula.sh'"
+# --- npm derives the version (no hardcoded 6.2.0 in the release paths) ---
+assert "build-brew-formula was removed (Homebrew dropped)" "[ ! -e '$REPO_ROOT/scripts/build-brew-formula.sh' ]"
 assert "npm publish workflow syncs from VERSION" "grep -q 'VERSION' '$REPO_ROOT/.github/workflows/npm-publish.yml'"
 
 echo ""

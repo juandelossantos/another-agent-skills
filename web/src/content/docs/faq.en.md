@@ -17,7 +17,7 @@ Once per machine. The installer places the skills globally, and any project can 
 
 ## Does it work on Windows, macOS, and Linux?
 
-Yes. The installer is POSIX-first and works on Linux and macOS. On Windows, use Git for Windows (Git Bash); `install.ps1` provides Claude Code parity. The npm wrapper (coming soon) is the portable path for Node users.
+Yes. The installer is POSIX-first and works on Linux and macOS. On Windows, use Git for Windows (Git Bash); `install.ps1` provides Claude Code parity. The npm wrapper is the portable path for Node users.
 
 ## A teammate clones my project and does not have the framework. Does it break?
 
@@ -65,4 +65,4 @@ The Harness is everything around the model that turns raw intelligence into reli
 
 ## How do I install it?
 
-Clone and run `install.sh`, or use the pinned `curl` bootstrap from the latest release. Git and curl are available today; the npm wrapper and Homebrew are coming soon. Then run `init-agents` in any project. See [Getting started](../getting-started/).
+Clone and run `install.sh`, or use the pinned `curl` bootstrap from the latest release. Git, curl and npm are available today. Then run `init-agents` in any project. See [Getting started](../getting-started/).

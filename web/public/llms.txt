@@ -13,7 +13,7 @@ Key facts (citable):
 - Harness: six layers around the model: instructions, tools, sandboxes, orchestration, guardrails, observability.
 - Agents: 15 detected, including OpenCode, Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Aider, Kiro, Zed. Any agent that reads AGENTS.md is supported.
 - Stacks: Node, Rust, Python, Go, Ruby, Dart, or any stack. `init-agents` writes STACK_CONFIG.md.
-- Install channels: `git clone` + `install.sh` (live), pinned `curl` bootstrap from the latest release (live), npm and Homebrew (coming soon).
+- Install channels: `git clone` + `install.sh` (live), pinned `curl` bootstrap from the latest release (live), npm (live).
 - Works offline after install; no external runtime dependencies; no trackers.
 - Tutorials: five bilingual walkthroughs (first gated commit, wire remote enforcement, start without git, migrate a legacy project, move to another machine).
 - Git flows: no git (convention only), local git (L1), git + GitHub (L1/L2/L3), git later (re-run `init-agents` after `git init` and after adding the remote).

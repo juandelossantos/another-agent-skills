@@ -35,7 +35,7 @@ El bootstrap del release fijado es la ruta de una sola línea y verifica un chec
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
 ```
 
-> El wrapper de npm y la fórmula de Homebrew llegan **pronto**. Hoy usa `git clone` o el bootstrap `curl` fijado.
+> Hoy usa `git clone`, el bootstrap `curl` fijado, o `npm`.
 
 ## 2. Actívalo en un proyecto
 
