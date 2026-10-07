@@ -56,6 +56,10 @@ assert_exit() {
   fi
 }
 
+# S1 (Phase 13): a paired test must be NON-EMPTY (assert on behavior) — write a
+# real one, since an empty `touch`ed test now BLOCKS.
+wt() { for f in "$@"; do printf 'assert "x"\n' > "$f"; done; }
+
 echo -e "${YELLOW}TDD Gate Test Suite${NC}"
 echo "──────────────────────────────────"
 
@@ -73,7 +77,7 @@ assert_exit "Code-only staged → BLOCK" 1 "$ACTUAL"
 echo ""
 echo "Test 2: Code + test staged (expect PASS)"
 REPO=$(setup_repo 2)
-touch "$REPO/foo.js" "$REPO/foo.test.js"
+touch "$REPO/foo.js"; wt "$REPO/foo.test.js"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -103,7 +107,7 @@ assert_exit "OVERRIDE in message → BLOCK" 1 "$ACTUAL"
 echo ""
 echo "Test 5: Test in tests/ directory (expect PASS)"
 REPO=$(setup_repo 5)
-touch "$REPO/tests/test_app.py"
+wt "$REPO/tests/test_app.py"
 touch "$REPO/app.py"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
@@ -114,7 +118,7 @@ assert_exit "Test in tests/ dir → PASS" 0 "$ACTUAL"
 echo ""
 echo "Test 6: test_ prefix (expect PASS)"
 REPO=$(setup_repo 6)
-touch "$REPO/main.go" "$REPO/test_main.go"
+touch "$REPO/main.go"; wt "$REPO/test_main.go"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -124,7 +128,7 @@ assert_exit "test_ prefix → PASS" 0 "$ACTUAL"
 echo ""
 echo "Test 7: _spec suffix (expect PASS)"
 REPO=$(setup_repo 7)
-touch "$REPO/handler.rb" "$REPO/handler_spec.rb"
+touch "$REPO/handler.rb"; wt "$REPO/handler_spec.rb"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -157,7 +161,7 @@ echo ""
 echo "Test 10: Extensionless script with shebang, with test (expect PASS)"
 REPO=$(setup_repo 10)
 mkdir -p "$REPO/scripts/git-hooks" "$REPO/tests"
-touch "$REPO/tests/test_pre-commit.sh"
+wt "$REPO/tests/test_pre-commit.sh"
 printf '#!/usr/bin/env bash\necho hello\n' > "$REPO/scripts/git-hooks/pre-commit"
 chmod +x "$REPO/scripts/git-hooks/pre-commit"
 git -C "$REPO" add .
@@ -191,7 +195,7 @@ echo ""
 echo "Test 13: Pre-existing test only, no new test file (expect BLOCK)"
 REPO=$(setup_repo 13)
 # Create and commit a test file that matches the code we'll add
-touch "$REPO/test_code.py"
+wt "$REPO/test_code.py"
 git -C "$REPO" add test_code.py
 git -C "$REPO" commit -q -m "add existing test"
 # Now add code file + modify existing test (no new test file)
@@ -211,7 +215,7 @@ touch "$REPO/test_legacy.py"
 git -C "$REPO" add test_legacy.py
 git -C "$REPO" commit -q -m "add legacy test"
 # Now add code + new matching test + modify legacy test
-touch "$REPO/new_code.py" "$REPO/tests/test_new_code.py"
+touch "$REPO/new_code.py"; wt "$REPO/tests/test_new_code.py"
 echo "# modified" >> "$REPO/test_legacy.py"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
@@ -223,7 +227,7 @@ echo ""
 echo "Test 15: Code before test (expect BLOCK)"
 REPO=$(setup_repo 15)
 touch -t 202607011000 "$REPO/foo.py"
-touch -t 202607011001 "$REPO/test_foo.py"
+wt "$REPO/test_foo.py"; touch -t 202607011001 "$REPO/test_foo.py"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -233,7 +237,7 @@ assert_exit "Code before test → BLOCK (code mtime older)" 1 "$ACTUAL"
 echo ""
 echo "Test 16: Test before code (expect PASS)"
 REPO=$(setup_repo 16)
-touch -t 202607011000 "$REPO/test_bar.py"
+wt "$REPO/test_bar.py"; touch -t 202607011000 "$REPO/test_bar.py"
 touch -t 202607011001 "$REPO/bar.py"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
@@ -244,7 +248,7 @@ assert_exit "Test before code → PASS (correct TDD)" 0 "$ACTUAL"
 echo ""
 echo "Test 17: Same timestamp (expect PASS)"
 REPO=$(setup_repo 17)
-touch -t 202607011000 "$REPO/baz.js" "$REPO/test_baz.js"
+touch -t 202607011000 "$REPO/baz.js"; wt "$REPO/test_baz.js"; touch -t 202607011000 "$REPO/test_baz.js"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
@@ -264,7 +268,7 @@ assert_exit "HTML file without test → BLOCK" 1 "$ACTUAL"
 echo ""
 echo "Test 19: HTML file with test (expect PASS)"
 REPO=$(setup_repo 19)
-touch "$REPO/tests/test_index.html"
+wt "$REPO/tests/test_index.html"
 echo "<html><body>Hello</body></html>" > "$REPO/index.html"
 git -C "$REPO" add .
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
@@ -279,7 +283,7 @@ echo '{"key": "value"}' > "$REPO/config.json"
 git -C "$REPO" add config.json
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
-assert_exit "JSON file without test → BLOCK" 1 "$ACTUAL"
+assert_exit "JSON file → config, not code (S1: SKIP)" 0 "$ACTUAL"
 
 # ─── Test 21: Markdown file without test → BLOCK ───
 echo ""
@@ -289,7 +293,7 @@ echo "# Title" > "$REPO/README.md"
 git -C "$REPO" add README.md
 (cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
 ACTUAL=$?
-assert_exit "Markdown file without test → BLOCK" 1 "$ACTUAL"
+assert_exit "Markdown file → docs, not code (S1: SKIP)" 0 "$ACTUAL"
 
 # ─── Test 22: JSON + MD with test files → PASS ───
 echo ""

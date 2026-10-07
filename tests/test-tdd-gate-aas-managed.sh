@@ -73,8 +73,12 @@ expect 1 "consumer: lib/a.go still blocks"
 
 # ── Framework repo: AAS-managed paths are SOURCE → still gated ──
 framework
+mkdir -p scripts; echo 'echo hi' > scripts/foo.sh; git add -A
+expect 1 "framework: a code file (scripts/foo.sh) still blocks (source)"
+
+framework
 mkdir -p rules/common; echo x > rules/common/b.md; git add -A
-expect 1 "framework: rules/*.md still blocks (source)"
+expect 0 "framework: rules/*.md is docs (S1: not code) → SKIP"
 
 framework
 mkdir -p scripts
