@@ -405,6 +405,11 @@ if [[ ${#CODE_FILES[@]} -eq 0 ]]; then
       exit 1
     fi
   fi
+  # A verified shim is a PASS — it WAS verified (by its integration test).
+  if [[ ${#SHIM_FILES[@]} -gt 0 ]]; then
+    log_gate "PASS" "none" "${TEST_FILES[*]:-none}" "no"
+    exit 0
+  fi
   log_gate "SKIP" "none" "${TEST_FILES[*]:-none}" "no-code-files"
   exit 0
 fi

@@ -190,7 +190,7 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 3. **Config catalog** + per-config rules.
 4. **Reuse** the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`).
 
-### Calibration (S1–S4, measured on this repo)
+### Calibration (S1–S5, measured on this repo)
 
 A blanket *"every cited path must exist"* is too noisy here (~180 findings — most are
 paths that describe **other** projects' layouts or future artifacts). So the gate:
@@ -206,6 +206,9 @@ paths that describe **other** projects' layouts or future artifacts). So the gat
 - **S4** verifies shims: a staged AAS shim (`#!/bin/sh` + `exec "$_AAS_ROOT/…"`) needs a
   name-paired staged test that **invokes** it; a nominal/empty test **BLOCKS**. Installed
   AAS-managed shims (`.husky/*`) stay exempt (AAS-managed precedence).
+- **S5** locks the whole contract in one matrix test (`test-tdd-gate-matrix.sh`): each row
+  asserts the exit code **and** the gate's recorded decision + reason, so a wrong BLOCK
+  reason fails too. A verified shim records `PASS` (not a bare SKIP).
 
 ### Acceptance (see `PLAN.md` P13.1–P13.9)
 
