@@ -353,9 +353,21 @@ if [[ ${#CODE_FILES[@]} -eq 0 ]]; then
       exit 1
     fi
   fi
-  # S3 (pending): config-consistency validator.
+  # S3: config-consistency — invalid syntax or a script referencing a missing
+  # local file is a BLOCK.
   if [[ ${#CONFIG_FILES[@]} -gt 0 ]]; then
-    echo "TDD gate: config staged — verified by config-consistency (Phase 13 S3); non-blocking for now."
+    _cc_out="$(bash "$SCRIPT_DIR/validate-config-consistency.sh" --root "$REPO_DIR" "${CONFIG_FILES[@]}" 2>&1)"; _cc_rc=$?
+    if [ "$_cc_rc" -ne 0 ]; then
+      echo ""
+      echo "╔══════════════════════════════════════════════════╗"
+      echo "║  TDD GATE: config-consistency failed            ║"
+      echo "╚══════════════════════════════════════════════════╝"
+      echo ""
+      echo "$_cc_out"
+      echo ""
+      log_gate "BLOCK" "none" "${TEST_FILES[*]:-none}" "config-inconsistent"
+      exit 1
+    fi
   fi
   log_gate "SKIP" "none" "${TEST_FILES[*]:-none}" "no-code-files"
   exit 0

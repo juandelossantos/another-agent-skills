@@ -34,10 +34,15 @@ consumer
 mkdir -p docs; printf '# Doc\n\nSee [x](./nope.md).\n' > docs/broken.md; git add -A
 expect 1 "docs with a broken internal link → BLOCK (S2)"
 
-# ── config-only → NOT code ──
+# ── config-only → NOT code (S1: warn, not block) ──
 consumer
 printf '{}\n' > package.json; git add -A
-expect 0 "config-only (package.json) → not blocked"
+expect 0 "config-only (valid package.json) → not blocked"
+
+# ── config + invalid JSON → BLOCK (Phase 13 S3: config-consistency) ──
+consumer
+printf '{"a": 1,,}\n' > package.json; git add -A
+expect 1 "config with invalid JSON → BLOCK (S3)"
 
 # ── code-only → BLOCK (no test) ──
 consumer
