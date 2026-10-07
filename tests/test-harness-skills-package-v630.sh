@@ -25,7 +25,7 @@ assert() {
 }
 
 # --- VERSION is the release ---
-assert "VERSION is 6.3.0" "[ '$VERSION' = '6.3.0' ]"
+assert "VERSION is 6.3.1" "[ '$VERSION' = '6.3.1' ]"
 
 # --- npm tracks VERSION (the OIDC workflow also syncs it, but the repo stays in sync) ---
 assert "npm/package.json version == VERSION" "[ \"\$(node -p \"require('$REPO_ROOT/npm/package.json').version\")\" = '$VERSION' ]"

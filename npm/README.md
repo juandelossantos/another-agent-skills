@@ -13,7 +13,7 @@ a pinned, checksum-verified GitHub Release tarball.
 npx @juandelossantos/another-agent-skills install
 
 # Pin a specific release
-npx @juandelossantos/another-agent-skills install --version v6.3.0
+npx @juandelossantos/another-agent-skills install --version v6.3.1
 
 # See what would happen without downloading or writing
 npx @juandelossantos/another-agent-skills install --dry-run

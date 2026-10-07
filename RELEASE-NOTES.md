@@ -1,5 +1,29 @@
 # Release Notes
 
+## 6.3.1 (2026-10-07) — release pipeline + npm channel fixes
+
+A patch release fixing the release pipeline and the npm channel.
+
+### Fixed
+
+- **Release asset name.** `release.yml` expected
+  `another-agent-skills-<ver>.tar.gz`, but `build-release.sh` produces
+  `another-agent-skills-v<ver>.tar.gz` (the canonical name, per `aas_asset_name`).
+  The mismatch made `gh release create` fail (`no matches found`) — the v6.3.0
+  release never published. Fixed to `${TAG}`.
+- **npm publish never ran.** `npm-publish.yml` triggered on `release: published`,
+  but a release created by `GITHUB_TOKEN` does not trigger other workflows. It is
+  now called directly by `release.yml` (`workflow_call`) — deterministic.
+- **PR review checklist ignored `.sh` code (B18).** It classified code by a
+  narrow list (`.ts/.js/.py/.go/.java`), so a `.sh`-only PR reported "No code
+  files changed" (a false OK). Now it detects code by type.
+
+### Changed
+
+- npm publishing is **staged** (`npm stage publish`; "Allow npm publish"
+  unchecked): the CI submits, a maintainer approves with 2FA. The first CI
+  publish validates the trusted publisher.
+
 ## 6.3.0 (2026-10-03) — Remote Enforcement, Distribution & the Public Web
 
 Covers Phase 8 (remote enforcement), 8.1 (TDD-gate delivery + git/GitHub flows),
