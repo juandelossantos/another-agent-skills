@@ -40,9 +40,10 @@ assert "records the v6.3.0 scope" "grep -q 'covers Phases 8 + 9 + 10' '$FILE'"
 assert "retains the historical previous handoff" "grep -q 'previous sessions. handoff' '$FILE'"
 
 # --- 2026-10-06 handoff: B4–B11 shipped + the B12–B17 next task ---
-assert "records the B4–B11 PRs (#56–#58)" "grep -q 'PRs \*\*#56–#58\*\*' '$FILE'"
+assert "records the PRs (#56–#59)" "grep -q 'PRs \*\*#56–#59\*\*' '$FILE'"
 assert "records the B12–B17 lote" "grep -q 'B12–B17' '$FILE'"
 assert "records B12 as the first next task" "grep -q 'Fix B12' '$FILE'"
+assert "records B17 → Phase 13" "grep -q 'B17.*Phase 13' '$FILE'"
 assert "records the courtside rollout branch" "grep -q 'chore/aas-portable-refs' '$FILE'"
 
 echo ""

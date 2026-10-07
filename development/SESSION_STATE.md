@@ -1,10 +1,10 @@
 # Session State — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted
 
 **Date:** 2026-10-06 (updated)
-**Branch:** `main` — tip `2afa8e4` (PRs **#56–#58** merged). The pending docs work is on branch **`docs/plan-b12-b17`**.
+**Branch:** `main` — tip `30c2e80` (PRs **#56–#59** merged). The pending follow-up is on branch **`docs/plan-followup-sequence`**.
 **Status:** ✅ **Phase 10 SHIPPED.** The public web is **LIVE** at https://juandelossantos.github.io/another-agent-skills/ (GitHub Pages, `build_type: workflow`); `.github/workflows/deploy-web.yml` builds → deploys → **verifies** (build ✅ / deploy ✅ / verify ✅). `v6.3.0` covers Phases 8 + 9 + 10. **Pending:** the `v6.3.0` tag (gated, T3), the npm/Homebrew activation (T1), the post-live web/docs update (T2), and the **new essay** (awaiting the maintainer's review/edit — E1).
 **Plan:** `PLAN.md` — single source of truth
-**Pending commit (STAGED, not committed):** the **B12–B17 batch adjustment** — `PLAN.md` (index + prioritization + corrected B13 evidence + reformulated B17) and `development/SESSION_STATE.md`, with the new `tests/task/test-plan-lote-b12-b17.sh` and the updated `tests/task/test-session_state.sh`. Staged on branch **`docs/plan-b12-b17`** (from `main` @ `2afa8e4`). The maintainer runs the commit (Rule 12).
+**Pending commit (STAGED, not committed):** the **sequence-rule follow-up** — `PLAN.md` (a new *Regla de secuencia (2026-10-06)* for the B12–B17 lote + Phase 13) and `development/SESSION_STATE.md`, with the updated `tests/task/test-session_state.sh`. Staged on branch **`docs/plan-followup-sequence`** (from `main` @ `30c2e80`). The maintainer runs the commit (Rule 12).
 
 ## What Was Done (2026-10-06) — B4–B11 shipped + TDD gate fix (PRs #56–#58)
 
@@ -15,6 +15,7 @@ The courtside-scoreboard P0 backlog (B4–B9) **shipped**, plus B10/B11 and the 
 | **#56** | Plan coherence (Phase 12) + **B4** (`--repair` no data loss) · **B5** (hooks in the effective dir) · **B6** (guardrail v2 `bash`→`shell`) · **B9** (skills discovery) · **B7** (Rule 12 footer) · **B8** (`gh pr merge` blocked) | `3de9e74` |
 | **#57** | **B10** (footer upgrade in place — one `init-agents` run brings an existing project up to date) · **B11** (dry-run effective hooks dir) | `695a72f` |
 | **#58** | TDD gate: **exempt AAS-managed artifacts in consumers**, keep the framework rigorous (`is_framework_repo` + content-based shim detection); fixed the pre-existing `*.o` over-match (`a.go`/`logo` were ungated) | `2afa8e4` |
+| **#59** | **B17 → Phase 13** (type-aware verification gate) + sync the prioritization table; **B12 = NEXT**; extended `SPEC-TDD-GATE.md` (documented the SPEC-vs-code drift) | `30c2e80` |
 
 All merged to `main`; `gates`/`quality`/`CI`/`deploy-web` green. **B6 confirmed live** (the guardrail blocked the agent's `git commit`/`git push`).
 
@@ -22,7 +23,7 @@ All merged to `main`; `gates`/`quality`/`CI`/`deploy-web` green. **B6 confirmed 
 
 - **B12** 🔴 P0 — Gate 14 runs **lint, not tests** (`grep -A1 '^| Test' | tail -1`) → **false PASS**.
 - **B14** 🟠 P1 — `generate-health-check.sh` dies silently (no boundary header) → Gate 11 with no fix path.
-- **B17** 🟠 P1 — the TDD gate treats `*.md` as code → docs-only commits need a test/bypass → fix via the **consumer/framework** pattern.
+- **B17** 🔴 P0 → **Phase 13** (PR #59) — the TDD gate verifies by **name, not type**; redesign to **type-aware verification** (code→test · docs→honesty · config→schema · shim→integration). Spec: `development/SPEC-TDD-GATE.md`.
 - **B13** 🟠 P1 — `skill-lint` only strips double quotes (real bug; **scoped** to the linted dir).
 - **B15** 🟡 P2 — Gate 11 points to `scripts/generate-health-check.sh`, not installed in the project.
 - **B16** 🟡 P2 — `--repair` leaves the legacy `skills/` duplicated with `.claude/skills/`.

@@ -327,6 +327,8 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 **Regla de secuencia (actualizada 2026-10-05, caso real `courtside-scoreboard`):** de lo **mecánico** a lo **blando**: **B6** (guardrail del plugin, 1 línea) → **B5** (hooks locales) → **B4** (`--repair` sin pérdida) → **B9/B7** (skills y reglas en contexto) → **B8** (PR gate). B6/B5/B4 son **P0** porque sin ellos no corre *nada* localmente; B7/B8/B9 son **P1–P2** porque son texto/contexto, no enforcement mecánico.
 
+**Regla de secuencia (actualizada 2026-10-06, lote B12–B17 + Phase 13):** de lo **concreto** a lo **estructural**: **B12** (falso PASS del Gate 14 — fix de 1 parser que elimina un PASS falso **hoy**) → **Phase 13** (rediseño **type-aware** del gate: verificación por tipo) → **B14** (health generator roto; traba la adopción) → **B13/B15/B16** (robustez/limpieza). **B12 primero** por barato + alta severidad; **Phase 13** es el rediseño de alcance de fase (spec en `development/SPEC-TDD-GATE.md`).
+
 **Actualización (2026-10-02):** ✅ P7 (v6.2.0), **P8 completa** (remote enforcement) y **Phase 9 completa** (distribución, PRs #47–#52) están **hechos**. Orden **decidido**: **Phase 9 (distribución) → Phase 10 (landing/docs + SEO/AEO/a11y) → Phase 11 (docs site)**. Con Phase 9 cerrada, el siguiente objetivo es **Phase 10**. Ver "Orden de ejecución" abajo.
 
 ---
