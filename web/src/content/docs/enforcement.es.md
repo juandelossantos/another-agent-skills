@@ -23,9 +23,9 @@ Protección de ramas de GitHub más un status check requerido. Nada llega a `mai
 
 `CODEOWNERS` más revisión requerida de un code owner. Otro owner debe aprobar los cambios en la configuración de las puertas. Solo GitHub.
 
-## La regla: sin código sin test
+## La regla: nada pasa sin verificación
 
-El hook `commit-msg` (v6) ejecuta una única puerta TDD. Un archivo de código en stage debe tener un archivo de test correspondiente en el mismo commit. Se verifica el emparejamiento por nombre y al menos un test en stage debe ser nuevo.
+El hook `commit-msg` (v6) ejecuta una única puerta TDD que verifica cada artefacto en stage **por tipo**. El código necesita un test emparejado por nombre, no vacío y nuevo, creado antes que el código. Los docs pasan por el validador de honestidad de docs (un enlace interno roto bloquea). La config pasa por el validador de consistencia de config (sintaxis inválida, o un script de `package.json` que apunta a un archivo inexistente, bloquea). Los shims necesitan un test emparejado que realmente los invoque.
 
 No existe ningún mecanismo de override. La puerta 0 de pre-commit bloquea hasta que el token de decisión esté vigente, pero eso es un aviso, no la autoridad de aprobación.
 

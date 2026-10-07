@@ -275,12 +275,13 @@ bash tests/run-all.sh
 
 The runner auto-discovers every `tests/test-*.sh` suite (behavioral and regression) plus the task working set, the audit engine, the init scaffolding, skill lint, and the eval end-to-end suite. It also runs as **Pre-commit Gate 14**, scoped to changed files.
 
-**TDD gate rules** — every commit with code changes needs a matching test, with no override:
+**TDD gate rules** — the gate verifies each staged artifact **by type**, with no override:
 
-- **Name-pairing:** the test file name must match the code file name (`scripts/tdd-gate.sh` → `tests/test-tdd-gate.sh`).
-- **New-test:** at least one staged test file must be new (not in `HEAD`).
-- **Staging order:** the test must be created before the code (TDD RED → GREEN).
-- **No override:** there is no bypass.
+- **Code** (`scripts/*.sh`, `src/*.ts`, …): a **name-paired** test (`scripts/tdd-gate.sh` → `tests/test-tdd-gate.sh`), **non-empty** (it must assert on behavior, not just exist), **new** (not in `HEAD`), and created **before** the code (staging order, RED → GREEN).
+- **Docs** (`.md`): the **docs-honesty** validator — a broken internal link **blocks**; cited paths and placeholders are advisory.
+- **Config** (`.json`/`.yaml`/`.toml`): the **config-consistency** validator — invalid syntax, or a `package.json` script pointing at a missing file, **blocks**.
+- **Shims** (`.sh` delegating to the framework): a name-paired test that actually **invokes** the shim (installed `.husky/*` shims stay exempt).
+- **No override:** there is no bypass; `.aas/tdd-ignore` is the only conscious, per-project escape.
 
 The `web/` Astro site has its own build + `node --test` suite and a Playwright + axe WCAG 2.2 AA gate, run separately — the core CI never builds it. See [`web/README.md`](./web/README.md).
 

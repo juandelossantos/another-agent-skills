@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # test-tdd-gate-aas-managed.sh — the TDD gate exempts AAS-managed artifacts in a
-# CONSUMER project (installed copies / shims) but stays RIGOROUS in the framework
-# repo (there those paths are source). Also: shim detection is content-based and
-# must NOT mistake a file that merely embeds the shim template (init-agents.sh).
+# CONSUMER project (installed copies) but stays RIGOROUS in the framework repo
+# (there those paths are source). Shim detection is content-based and must NOT
+# mistake a file that merely embeds the shim template (init-agents.sh). A real
+# shim is a separate TYPE — it needs an integration test (Phase 13 S4).
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -52,7 +53,7 @@ consumer
 mkdir -p scripts
 printf '#!/bin/sh\n_AAS_WALK=x\nexec "$_AAS_ROOT/scripts/skill-gate.sh" "$@"\n' > scripts/skill-gate.sh
 git add -A
-expect 0 "consumer: portable shim scripts/*.sh exempt (by content)"
+expect 1 "consumer: portable shim scripts/*.sh → BLOCK (needs integration, S4)"
 
 consumer
 mkdir -p .aas docs; printf 'docs/*\n' > .aas/tdd-ignore; echo '# d' > docs/g.md; git add -A
@@ -73,8 +74,12 @@ expect 1 "consumer: lib/a.go still blocks"
 
 # ── Framework repo: AAS-managed paths are SOURCE → still gated ──
 framework
+mkdir -p scripts; echo 'echo hi' > scripts/foo.sh; git add -A
+expect 1 "framework: a code file (scripts/foo.sh) still blocks (source)"
+
+framework
 mkdir -p rules/common; echo x > rules/common/b.md; git add -A
-expect 1 "framework: rules/*.md still blocks (source)"
+expect 0 "framework: rules/*.md is docs (S1: not code) → SKIP"
 
 framework
 mkdir -p scripts
@@ -82,12 +87,12 @@ printf '#!/usr/bin/env bash\n# embeds the shim template\n_AAS_WALK=x\nexec "\\$_
 git add -A
 expect 1 "framework: template-embedding file (init-agents.sh-like) still blocks"
 
-# ── Framework repo: a REAL shim is exempt (content-based, universal) ──
+# ── A real shim needs an integration test (content-based, universal — S4) ──
 framework
 mkdir -p scripts
 printf '#!/bin/sh\nexec "$_AAS_ROOT/scripts/x.sh" "$@"\n' > scripts/a-shim.sh
 git add -A
-expect 0 "framework: a real portable shim is exempt"
+expect 1 "framework: a real portable shim → BLOCK (needs integration, S4)"
 
 echo ""
 [ "$FAIL" -eq 0 ] && echo "Results: ALL PASS" || echo "Results: FAILURES"

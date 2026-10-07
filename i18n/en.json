@@ -59,7 +59,7 @@
     "level2Title": "02: Tools & Sandboxes",
     "level2Desc": "Task-specific capabilities loaded on demand. 57 skills, 151 guides, eval system, terminal, CI.",
     "level3Title": "03: Orchestration & Guardrails",
-    "level3Desc": "When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v11 (15 gates including Gate 0, Test Runner), commit-msg v6 (TDD gate — no override).",
+    "level3Desc": "When tools fire, how agents coordinate, and deterministic hooks at lifecycle points. Pre-commit v11 (15 gates including Gate 0, Test Runner), commit-msg v6 (type-aware TDD gate — no override).",
     "incidentRef": "It broke its own rules three times in two days. Then it built a harness that made breaking them impossible.",
     "conclusion": "It learns from its own failures. Faster than competitors ship features.",
     "statsLabel": "Harness components",

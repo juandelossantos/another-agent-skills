@@ -19,6 +19,9 @@ GATE_LOG="${REPO_ROOT}/.git/TDD_GATE_LOG"
 # Determine the repo root from current directory (for temp repo support)
 REPO_DIR=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 
+# Directory of THIS script (framework scripts/, even when invoked via a consumer shim).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Without a git work tree there is nothing to gate. Skip cleanly and, crucially,
 # do NOT create a stray .git/ directory (log_gate writes into $GATE_LOG).
 if ! git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -28,16 +31,23 @@ fi
 
 # ─── File Patterns ───
 
+# ── Phase 13 (S1): classify by TYPE, not by name ──
+# code = has behavior to test (paired test). docs/config have their OWN
+# validators (docs-honesty S2 / config-consistency S3) — they are NOT code.
 CODE_PATTERNS=(
   '*.js' '*.ts' '*.jsx' '*.tsx' '*.mjs' '*.cjs'
   '*.py' '*.rs' '*.go' '*.rb' '*.dart' '*.swift'
   '*.kt' '*.kts' '*.java' '*.c' '*.cpp' '*.h' '*.hpp'
   '*.sh' '*.bash'
   '*.html' '*.htm'
-  '*.json' '*.md' '*.markdown' '*.yaml' '*.yml'
   '*.css' '*.scss' '*.less'
-  '*.toml' '*.xml' '*.svg' '*.txt' '*.csv'
 )
+
+# Documentation — verified by the docs-honesty validator (S2), not a paired test.
+DOC_PATTERNS=( '*.md' '*.markdown' '*.txt' '*.adoc' )
+
+# Config — verified by the config-consistency validator (S3).
+CONFIG_PATTERNS=( '*.json' '*.yaml' '*.yml' '*.toml' '*.xml' '*.svg' '*.csv' )
 
 TEST_PATTERNS=(
   '*.test.*' '*.spec.*'
@@ -126,73 +136,76 @@ fi
 
 # ─── Helpers ───
 
-is_code_file() {
+# Classify a staged file by TYPE (Phase 13 S1). Prints `code`, `docs`, `config`,
+# or nothing (other / AAS-exempt). The AAS exemptions (PR #58) and `.aas/tdd-ignore`
+# apply to EVERY type — a `rules/*.md` is not a docs file to verify either.
+classify_file() {
   local file="$1"
   local filepath="${REPO_DIR}/${file}"
-  local regex
+  local regex pattern
 
   # Skip known non-code patterns (binaries, lock files, etc.)
-for pattern in "${SKIP_PATTERNS[@]}"; do
-  # For simple filename patterns (no glob), check basename
-  if [[ "$pattern" != *'*'* ]]; then
-    if [[ "$(basename "$file")" == "$pattern" ]]; then
-      return 1
-    fi
-  else
-    # Anchored ERE (`.` escaped, so `*.o` matches object files only — NOT `a.go`
-    # or `logo`; the old unescaped form silently skipped Go/`.so`/`.io` sources).
-    local regex="$(aas_glob_to_regex "$pattern")"
-    if [[ "$file" =~ $regex ]]; then
-      return 1
-    fi
-  fi
-done
-
-  # ── AAS exemptions ──
-  # 1) Portable AAS shims (a consumer's scripts/*.sh delegates to the framework).
-  if is_aas_shim "$filepath"; then
-    return 1
-  fi
-  # 2) Per-project exclusions (.aas/tdd-ignore).
-  if [ "${#TDD_IGNORE_PATTERNS[@]}" -gt 0 ]; then
-    for pattern in "${TDD_IGNORE_PATTERNS[@]}"; do
+  for pattern in "${SKIP_PATTERNS[@]}"; do
+    if [[ "$pattern" != *'*'* ]]; then
+      [[ "$(basename "$file")" == "$pattern" ]] && return 0
+    else
+      # Anchored ERE (`.` escaped, so `*.o` matches object files only — NOT `a.go`
+      # or `logo`; the old unescaped form silently skipped Go/`.so`/`.io` sources).
       regex="$(aas_glob_to_regex "$pattern")"
-      [[ "$file" =~ $regex ]] && return 1
-    done
-  fi
-  # 3) AAS-managed artifacts — consumer projects only (see AAS_MANAGED_PATTERNS).
-  if [ "$IS_FRAMEWORK_REPO" = false ]; then
-    for pattern in "${AAS_MANAGED_PATTERNS[@]}"; do
-      regex="$(aas_glob_to_regex "$pattern")"
-      [[ "$file" =~ $regex ]] && return 1
-    done
-  fi
-
-  # Check extension-based patterns
-  for pattern in "${CODE_PATTERNS[@]}"; do
-    # Anchored ERE (`.` escaped so `*.md` does not match `Xmd`, etc.)
-    local regex="$(aas_glob_to_regex "$pattern")"
-    if [[ "$file" =~ $regex ]]; then
-      return 0
+      [[ "$file" =~ $regex ]] && return 0
     fi
   done
 
-  # Check if file is in scripts/git-hooks/ directory (extensionless shell scripts)
-  if [[ "$file" =~ ^scripts/git-hooks/ ]]; then
-    return 0
+  # ── AAS exemptions (apply to every type) ──
+  # 1) Per-project exclusions (.aas/tdd-ignore).
+  if [ "${#TDD_IGNORE_PATTERNS[@]}" -gt 0 ]; then
+    for pattern in "${TDD_IGNORE_PATTERNS[@]}"; do
+      regex="$(aas_glob_to_regex "$pattern")"
+      [[ "$file" =~ $regex ]] && return 0
+    done
   fi
+  # 2) AAS-managed artifacts — consumer projects only (see AAS_MANAGED_PATTERNS).
+  if [ "$IS_FRAMEWORK_REPO" = false ]; then
+    for pattern in "${AAS_MANAGED_PATTERNS[@]}"; do
+      regex="$(aas_glob_to_regex "$pattern")"
+      [[ "$file" =~ $regex ]] && return 0
+    done
+  fi
+  # 3) Portable AAS shims (a consumer's OWN scripts/*.sh delegating to the
+  #    framework) — NOT exempt: a separate TYPE verified by an integration test
+  #    (Phase 13 S4). Checked AFTER AAS-managed so an installed `.husky/*` shim
+  #    stays exempt.
+  is_aas_shim "$filepath" && { echo shim; return 0; }
 
-  # Check if file has a shebang (#!/usr/bin/env bash, #!/bin/bash, #!/bin/sh, etc.)
+  # ── Type (docs/config before code, so a `.md` is never "code") ──
+  # Documentation-site pages: docs/**/*.html are documentation, not code.
+  [[ "$file" =~ ^docs/.*\.html?$ ]] && { echo docs; return 0; }
+  for pattern in "${DOC_PATTERNS[@]}"; do
+    regex="$(aas_glob_to_regex "$pattern")"
+    [[ "$file" =~ $regex ]] && { echo docs; return 0; }
+  done
+  for pattern in "${CONFIG_PATTERNS[@]}"; do
+    regex="$(aas_glob_to_regex "$pattern")"
+    [[ "$file" =~ $regex ]] && { echo config; return 0; }
+  done
+  for pattern in "${CODE_PATTERNS[@]}"; do
+    regex="$(aas_glob_to_regex "$pattern")"
+    [[ "$file" =~ $regex ]] && { echo code; return 0; }
+  done
+
+  # Extensionless shell scripts: scripts/git-hooks/ or a shebang.
+  [[ "$file" =~ ^scripts/git-hooks/ ]] && { echo code; return 0; }
   if [[ -f "$filepath" ]]; then
     local first_line
     first_line=$(head -1 "$filepath" 2>/dev/null || true)
     if [[ "$first_line" =~ ^\#\!/(usr/bin/env\ )?(bin/|usr/bin/)?(bash|sh|zsh|dash|ksh|fish|python|python3|ruby|node|perl|php)(\ |$) ]]; then
-      return 0
+      echo code; return 0
     fi
   fi
-
-  return 1
+  return 0
 }
+
+is_code_file() { [ "$(classify_file "$1")" = "code" ]; }
 
 is_test_file() {
   local file="$1"
@@ -311,16 +324,94 @@ fi
 CODE_FILES=()
 TEST_FILES=()
 
+DOC_FILES=()
+CONFIG_FILES=()
+SHIM_FILES=()
+
 while IFS= read -r file; do
   if is_test_file "$file"; then
     TEST_FILES+=("$file")
-  elif is_code_file "$file"; then
-    CODE_FILES+=("$file")
+  else
+    case "$(classify_file "$file")" in
+      code)   CODE_FILES+=("$file") ;;
+      docs)   DOC_FILES+=("$file") ;;
+      config) CONFIG_FILES+=("$file") ;;
+      shim)   SHIM_FILES+=("$file") ;;
+    esac
   fi
 done <<< "$STAGED_FILES"
 
-# No code files staged → SKIP
+# ─── Shim Integration Check (Phase 13 S4) ───
+# An AAS shim is not silently exempt: a staged shim needs a name-paired staged
+# test that actually INVOKES it (integration) — not a nominal, empty file.
+if [[ ${#SHIM_FILES[@]} -gt 0 ]]; then
+  SHIMS_WITHOUT=()
+  for _shim in "${SHIM_FILES[@]}"; do
+    _found=false
+    for _t in "${TEST_FILES[@]}"; do
+      if name_matches_code "$_shim" "$_t" && grep -qF "$(basename "$_shim")" "${REPO_DIR}/${_t}" 2>/dev/null; then
+        _found=true; break
+      fi
+    done
+    $_found || SHIMS_WITHOUT+=("$_shim")
+  done
+  if [[ ${#SHIMS_WITHOUT[@]} -gt 0 ]]; then
+    echo ""
+    echo "╔══════════════════════════════════════════════════╗"
+    echo "║  TDD GATE: shim without integration test         ║"
+    echo "╚══════════════════════════════════════════════════╝"
+    echo ""
+    echo "Shims staged without a name-paired test that invokes them:"
+    for _s in "${SHIMS_WITHOUT[@]}"; do echo "  - $_s"; done
+    echo ""
+    echo "Expected: a staged test named for the shim that runs it, e.g."
+    echo "  bash scripts/<name>.sh   (or ./scripts/<name>.sh)"
+    echo ""
+    log_gate "BLOCK" "none" "${TEST_FILES[*]:-none}" "shim-no-integration"
+    exit 1
+  fi
+fi
+
+# No code files staged. docs/config are NOT code: they are verified by their own
+# validators (Phase 13 S2/S3) — never by a name-matched test.
 if [[ ${#CODE_FILES[@]} -eq 0 ]]; then
+  # S2: docs-honesty — a broken internal link is a BLOCK; cited paths and
+  # placeholders are advisory (see the validator's header).
+  if [[ ${#DOC_FILES[@]} -gt 0 ]]; then
+    _dh_out="$(bash "$SCRIPT_DIR/validate-docs-honesty.sh" --root "$REPO_DIR" "${DOC_FILES[@]}" 2>&1)"; _dh_rc=$?
+    if [ "$_dh_rc" -ne 0 ]; then
+      echo ""
+      echo "╔══════════════════════════════════════════════════╗"
+      echo "║  TDD GATE: docs-honesty failed                  ║"
+      echo "╚══════════════════════════════════════════════════╝"
+      echo ""
+      echo "$_dh_out"
+      echo ""
+      log_gate "BLOCK" "none" "${TEST_FILES[*]:-none}" "docs-dishonest"
+      exit 1
+    fi
+  fi
+  # S3: config-consistency — invalid syntax or a script referencing a missing
+  # local file is a BLOCK.
+  if [[ ${#CONFIG_FILES[@]} -gt 0 ]]; then
+    _cc_out="$(bash "$SCRIPT_DIR/validate-config-consistency.sh" --root "$REPO_DIR" "${CONFIG_FILES[@]}" 2>&1)"; _cc_rc=$?
+    if [ "$_cc_rc" -ne 0 ]; then
+      echo ""
+      echo "╔══════════════════════════════════════════════════╗"
+      echo "║  TDD GATE: config-consistency failed            ║"
+      echo "╚══════════════════════════════════════════════════╝"
+      echo ""
+      echo "$_cc_out"
+      echo ""
+      log_gate "BLOCK" "none" "${TEST_FILES[*]:-none}" "config-inconsistent"
+      exit 1
+    fi
+  fi
+  # A verified shim is a PASS — it WAS verified (by its integration test).
+  if [[ ${#SHIM_FILES[@]} -gt 0 ]]; then
+    log_gate "PASS" "none" "${TEST_FILES[*]:-none}" "no"
+    exit 0
+  fi
   log_gate "SKIP" "none" "${TEST_FILES[*]:-none}" "no-code-files"
   exit 0
 fi
@@ -382,6 +473,42 @@ if [[ ${#MISMATCHED[@]} -gt 0 ]]; then
   echo "  1. Stage a correctly-named test: git add tests/test_<code_name>.sh"
   echo ""
   log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "name-mismatch"
+  exit 1
+fi
+
+# ─── Non-Empty Check (Phase 13 S1) ───
+# A paired test must assert on behavior — not just exist. An empty `test-foo.sh`
+# (or one that only sources/echoes) is the anti-pattern the TDD skill forbids.
+ASSERTION_RE='assert|check|expect|should|it\(|test\(|\.toBe|\.toEqual|verify'
+EMPTY_TESTS=()
+for cfile in "${CODE_FILES[@]}"; do
+  FOUND_REAL=false
+  for tfile in "${TEST_FILES[@]}"; do
+    if name_matches_code "$cfile" "$tfile"; then
+      if grep -qE "$ASSERTION_RE" "${REPO_DIR}/${tfile}" 2>/dev/null \
+         || grep -qF "$(basename "$cfile")" "${REPO_DIR}/${tfile}" 2>/dev/null; then
+        FOUND_REAL=true
+        break
+      fi
+    fi
+  done
+  $FOUND_REAL || EMPTY_TESTS+=("$cfile")
+done
+
+if [[ ${#EMPTY_TESTS[@]} -gt 0 ]]; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════╗"
+  echo "║  TDD GATE: Empty test (no assertion)            ║"
+  echo "╚══════════════════════════════════════════════════╝"
+  echo ""
+  echo "Code files whose paired test asserts nothing:"
+  for f in "${EMPTY_TESTS[@]}"; do
+    echo "  - $f"
+  done
+  echo ""
+  echo "A test must assert on behavior (assert/check/expect) or invoke the code."
+  echo ""
+  log_gate "BLOCK" "${CODE_FILES[*]}" "${TEST_FILES[*]}" "empty-test"
   exit 1
 fi
 

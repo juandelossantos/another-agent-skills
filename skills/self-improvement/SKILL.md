@@ -19,8 +19,8 @@ Closed-loop quality pipeline. The agent audits itself, diagnoses issues, propose
 
 ## References
 
-- [PATTERNS.md](./PATTERNS.md) — Pattern selection guide (created by `init-agents --with-self-improvement`)
-- [ANTI-PATTERNS.md](./ANTI-PATTERNS.md) — Anti-pattern classification (created by `init-agents`)
+- `PATTERNS.md` — Pattern selection guide (created by `init-agents --with-self-improvement`)
+- `ANTI-PATTERNS.md` — Anti-pattern classification (created by `init-agents`)
 - [audit-project.sh](./scripts/audit-project.sh) — Issue detector (universal-audit.sh wrapper, created by `init-agents`)
 - [generate-adr.sh](./scripts/generate-adr.sh) — ADR generator (created by `init-agents`)
 
@@ -36,7 +36,7 @@ For each FAIL, classify by type (check types are defined in `.audit-config.json`
 - `length` — File exceeds configured `max_file_length`
 - `placeholder` — TODO:/FIXME:/lorem ipsum in content (outside code blocks)
 
-Consult [PATTERNS.md](./PATTERNS.md) to determine which workflow pattern applies. Consult [ANTI-PATTERNS.md](./ANTI-PATTERNS.md) to identify the anti-pattern being fixed.
+Consult `PATTERNS.md` to determine which workflow pattern applies. Consult `ANTI-PATTERNS.md` to identify the anti-pattern being fixed.
 
 ### Step 3: Propose
 Present a DECISION POINT to the user:

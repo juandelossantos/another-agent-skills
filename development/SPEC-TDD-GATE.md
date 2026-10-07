@@ -162,9 +162,9 @@ After implementation, verify:
 
 ---
 
-## Phase 13 — Type-aware verification (PLANNED)
+## Phase 13 — Type-aware verification (IMPLEMENTED)
 
-> Status: PLANNED · Date: 2026-10-06 · Plan: `PLAN.md` → `## Phase 13: Type-aware verification gate`
+> Status: IMPLEMENTED (S1–S6) · Date: 2026-10-06 · Plan: `PLAN.md` → `## Phase 13: Type-aware verification gate`
 
 ### The drift this fixes
 
@@ -177,9 +177,9 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 | Artifact | Verification |
 |---|---|
 | Code (`.ts/.js/.py/.go/…`) | paired test (as today) **+ the test must actually run / be non-empty** |
-| Documentation (`.md`) | **docs-honesty** validator (cited paths/commands exist; links resolve) |
-| Config (`package.json`, `tsconfig`, `jest.config`, `.aas/config`…) | **config-consistency** validator (valid schema; each `script` → existing file/command) |
-| Shims / `.sh` | **integration test** (spawn + assert) |
+| Documentation (`.md`) | **docs-honesty** validator (`validate-docs-honesty.sh`): broken internal `.md` links **BLOCK**; cited paths + placeholders are advisory (WARN) |
+| Config (`.json`/`.yaml`/`.toml`) | **config-consistency** validator (`validate-config-consistency.sh`): valid syntax (JSON via `jq`, YAML via ruby/pyyaml, TOML via `tomllib`) + every local file a `package.json` script references exists |
+| Shims (`.sh` delegating to the framework) | **integration test**: a name-paired staged test that **invokes** the shim (`bash scripts/<name>.sh`); an installed AAS-managed shim (`.husky/*`) stays exempt |
 
 **Principle:** docs and planning are **product** and **must be verified** — not exempted. (Real bugs were dishonest docs: the startup Protocol citing a non-existent path; the Gate 11 remedy citing a non-installed script.)
 
@@ -190,10 +190,33 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 3. **Config catalog** + per-config rules.
 4. **Reuse** the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`).
 
+### Calibration (S1–S6, measured on this repo)
+
+A blanket *"every cited path must exist"* is too noisy here (~180 findings — most are
+paths that describe **other** projects' layouts or future artifacts). So the gate:
+
+- **S1** classifies by TYPE: `code` keeps name-pairing **+ a non-empty check** (a paired
+  but empty test BLOCKS); `docs`/`config` are no longer treated as code.
+- **S2** runs `validate-docs-honesty.sh` on staged docs: broken internal `.md` links
+  **BLOCK** (resolved doc-relative, fence- and inline-code-aware); cited paths and
+  placeholders are **advisory** (WARN). `--strict` promotes cited paths to a failure.
+- **S3** runs `validate-config-consistency.sh` on staged config: invalid JSON/YAML/TOML
+  syntax or a `package.json` script referencing a missing local file **BLOCK** (parsers
+  degrade gracefully when unavailable — a skip, never a false failure).
+- **S4** verifies shims: a staged AAS shim (`#!/bin/sh` + `exec "$_AAS_ROOT/…"`) needs a
+  name-paired staged test that **invokes** it; a nominal/empty test **BLOCKS**. Installed
+  AAS-managed shims (`.husky/*`) stay exempt (AAS-managed precedence).
+- **S5** locks the whole contract in one matrix test (`test-tdd-gate-matrix.sh`): each row
+  asserts the exit code **and** the gate's recorded decision + reason, so a wrong BLOCK
+  reason fails too. A verified shim records `PASS` (not a bare SKIP).
+- **S6** documents the type-aware gate (EN + ES): `README.md` §TDD gate rules,
+  `docs/enforcement.html` + `docs/i18n/*`, `web/src/content/docs/enforcement.{en,es}.md`,
+  `i18n/*`.
+
 ### Acceptance (see `PLAN.md` P13.1–P13.9)
 
 Code without test → BLOCK · docs without validator → BLOCK (ask for the validator) · docs with validator OK → PASS · config inconsistent → BLOCK · shim without integration → BLOCK · code with an empty test → BLOCK. `.aas/tdd-ignore` remains a conscious, audited override.
 
-### Docs to update (EN/ES) with the implementation
+### Docs to update (EN/ES) — done in S6
 
-`README.md` §TDD gate rules · `docs/enforcement.html` · `web/src/content/docs/enforcement.{en,es}.md` · `i18n/{en,es}.json` · `docs/i18n/{en,es}.json`.
+Done in S6 (EN + ES): `README.md` §TDD gate rules · `docs/enforcement.html` · `web/src/content/docs/enforcement.{en,es}.md` · `i18n/{en,es}.json` · `docs/i18n/{en,es}.json`.
