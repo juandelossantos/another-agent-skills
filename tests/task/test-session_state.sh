@@ -22,7 +22,7 @@ assert() {
   fi
 }
 
-assert "handoff title is Phase 10 SHIPPED (web LIVE)" "grep -q '# Session State — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted' '$FILE'"
+assert "handoff title is Phase 13 SHIPPED (type-aware TDD gate)" "grep -q '# Session State — Phase 13 SHIPPED (type-aware TDD gate) · next: B18 + B14 + courtside' '$FILE'"
 assert "documents Phase 10 SHIPPED" "grep -q 'Phase 10 SHIPPED' '$FILE'"
 assert "retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$FILE'"
 assert "names the merged Phase 9 PRs" "grep -q 'PRs #47' '$FILE'"
@@ -36,11 +36,13 @@ assert "documents the gated tag step" "grep -q 'Gated steps' '$FILE' && grep -q 
 assert "records verified system state" "grep -q 'System state (verified 2026-10-03)' '$FILE'"
 assert "records 108 suites" "grep -q '108 suites passing' '$FILE'"
 assert "records the web suite" "grep -q '83 node + 85 e2e' '$FILE'"
-assert "records the v6.3.0 scope" "grep -q 'covers Phases 8 + 9 + 10' '$FILE'"
+assert "records Phase 13 SHIPPED (type-aware TDD gate)" "grep -q 'Phase 13 SHIPPED' '$FILE'"
+assert "records B18 (the PR checklist does not detect .sh code)" "grep -q 'B18' '$FILE'"
+assert "records the courtside block (code name-pairing)" "grep -q 'dbSyncCli.ts' '$FILE' && grep -q 'db-sync.sh' '$FILE'"
 assert "retains the historical previous handoff" "grep -q 'previous sessions. handoff' '$FILE'"
 
 # --- 2026-10-06 handoff: B4–B11 shipped + the B12–B17 next task ---
-assert "records the PRs (#56–#59)" "grep -q 'PRs \*\*#56–#59\*\*' '$FILE'"
+assert "records the PRs (#56–#58)" "grep -q 'PRs #56–#58' '$FILE'"
 assert "records the B12–B17 lote" "grep -q 'B12–B17' '$FILE'"
 assert "records B12 as the first next task" "grep -q 'Fix B12' '$FILE'"
 assert "records B17 → Phase 13" "grep -q 'B17.*Phase 13' '$FILE'"

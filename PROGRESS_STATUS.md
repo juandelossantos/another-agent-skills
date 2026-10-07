@@ -1,8 +1,8 @@
 # Project Progress Status
 
-> **Last updated:** 2026-10-03  
+> **Last updated:** 2026-10-06  
 > **Current version:** 6.3.0
-> **Status:** v6.3.0 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)** and **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**. Phase 10 is complete on `feat/phase10-landing` (10 commits) — **pending PR/merge/deploy**; npm/Homebrew activation pending. 0 errors, 2 warnings, 151 guides across 57 skills, 104 test suites green (+ web: 74 node + 85 e2e, axe 0)  
+> **Status:** v6.3.0 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)** and **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, plus **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**. Phase 10 is complete on `feat/phase10-landing` (10 commits) — **pending PR/merge/deploy**; npm/Homebrew activation pending. 0 errors, 2 warnings, 151 guides across 57 skills, 104 test suites green (+ web: 74 node + 85 e2e, axe 0)  
 > **Current plan:** `PLAN.md` — Phase 10 complete; next tasks are **T1** (npm + Homebrew activation, maintainer/manual) and **T2** (web + docs update once LIVE)
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
