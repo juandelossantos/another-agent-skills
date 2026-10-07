@@ -131,8 +131,12 @@ HAS_CODE=0
 HAS_TESTS=0
 for file in $PR_FILES; do
     case "$file" in
-        *.ts|*.js|*.py|*.go|*.java) HAS_CODE=1 ;;
-        *_test.go|*_test.ts|*.spec.ts|*.test.ts|test_*.py|tests/*.py) HAS_TESTS=1 ;;
+        # Code by TYPE, not a narrow list (B18: a .sh-only PR was reported as
+        # "No code files changed"). Mirrors the TDD gate's CODE_PATTERNS.
+        *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs|*.py|*.go|*.java|*.rb|*.rs|*.php|*.sh|*.bash|*.swift|*.kt|*.kts|*.c|*.cc|*.cpp|*.h|*.hpp|*.cs|*.dart|*.scala|*.ex|*.exs|*.lua|*.pl|*.r|*.vue|*.svelte|*.astro|*.html|*.css|*.scss|*.less) HAS_CODE=1 ;;
+    esac
+    case "$file" in
+        *_test.go|*_test.ts|*.spec.ts|*.test.ts|*.spec.js|*.test.js|test_*.py|tests/*|*/tests/*|*_spec.rb|*.spec.*|*.test.*) HAS_TESTS=1 ;;
     esac
 done
 if [ "$HAS_CODE" -eq 1 ]; then

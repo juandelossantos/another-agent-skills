@@ -128,3 +128,14 @@ jobs:
           fi
           git commit -m "another-agent-skills ${TAG}"
           git push origin HEAD
+
+  # Chain the npm publish here. A release created by GITHUB_TOKEN does NOT trigger
+  # other workflows (`release: published` never fires for it), so npm-publish.yml
+  # would never run on its own. Calling it directly makes the npm channel
+  # deterministic. Staged publishing still requires a maintainer's 2FA approval.
+  publish-npm:
+    needs: release
+    uses: ./.github/workflows/npm-publish.yml
+    permissions:
+      contents: read
+      id-token: write

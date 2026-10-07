@@ -38,7 +38,7 @@ assert "names the next task T1 (npm + Homebrew)" "grep -q 'T1 — npm + Homebrew
 assert "names the next task T2 (web + docs once LIVE)" "grep -q 'T2 — web + docs update once LIVE' '$FILE'"
 assert "T2 covers the security-headers gap" "grep -q 'security-headers gap' '$FILE'"
 assert "documents Phase 9 COMPLETE" "grep -q 'Phase 9 COMPLETE' '$FILE'"
-assert "records 104 suites" "grep -q '104 suites' '$FILE'"
+assert "records 133 suites" "grep -q '133 suites' '$FILE'"
 assert "links the distribution docs" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 
 echo ""

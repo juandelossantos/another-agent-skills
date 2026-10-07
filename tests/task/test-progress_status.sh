@@ -45,7 +45,7 @@ assert "Completed lists Phase 9" "grep -q 'Phase 9: Distribution & Upgrades' '$F
 assert "Completed lists Phase 8" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity' '$FILE'"
 assert "Completed lists Phase 7 v6.2.0" "grep -q 'Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails (v6.2.0)' '$FILE'"
 assert "Version History has a 6.2.0 row" "grep -qF '| **6.2.0** | 2026-10-01 |' '$FILE'"
-assert "records the real suite count (104)" "grep -q '104 test suites green' '$FILE'"
+assert "records the real suite count (133)" "grep -q '133 test suites green' '$FILE'"
 assert "records the web suite (74 node + 85 e2e)" "grep -q '74 node + 85 e2e' '$FILE'"
 
 echo ""

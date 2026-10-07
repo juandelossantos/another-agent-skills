@@ -722,12 +722,12 @@ before any version is assigned.
 | B1 | Framework self-hosting: hook source integrity | 🟠 P1 | Pendiente |
 | B2 | Limpieza del pre-commit v11 (drift post-v6) | 🟡 P2 | Pendiente |
 | B3 | TDD gate false-pass sin code files staged | 🟡 P2 | Pendiente |
-| B4 | `--repair` borra symlinks legacy sin recrear (pérdida de datos) | 🔴 P0 | Pendiente |
-| B5 | Hooks locales inertes por `core.hooksPath` | 🔴 P0 | Pendiente |
-| B6 | Guardrail del plugin inerte (`bash` vs `shell`) | 🔴 P0 | Pendiente |
-| B7 | Rule 12 no se auto-inyecta en el contexto | 🟠 P1 | Pendiente |
-| B8 | PR review gate sin disparador | 🟡 P2 | Pendiente |
-| B9 | Skills: descubrimiento y rutas del Protocolo | 🟠 P1 | Pendiente |
+| B4 | `--repair` borra symlinks legacy sin recrear (pérdida de datos) | 🔴 P0 | ✅ Done (PR #56) |
+| B5 | Hooks locales inertes por `core.hooksPath` | 🔴 P0 | ✅ Done (PR #56) |
+| B6 | Guardrail del plugin inerte (`bash` vs `shell`) | 🔴 P0 | ✅ Done (PR #56) |
+| B7 | Rule 12 no se auto-inyecta en el contexto | 🟠 P1 | ✅ Done (PR #56) |
+| B8 | PR review gate sin disparador | 🟡 P2 | ✅ Done (PR #56) |
+| B9 | Skills: descubrimiento y rutas del Protocolo | 🟠 P1 | ✅ Done (PR #56) |
 | B10 | `merge_into_file` no actualiza un footer viejo (B7 no llega a proyectos existentes) | 🟠 P1 | ✅ Done |
 | B11 | `run_dry_run` reporta `.git/hooks` en vez del dir efectivo (`.husky/`) | 🟡 P2 | ✅ Done |
 | B12 | Gate 14 resuelve el comando equivocado con `STACK_CONFIG.md` multi-fila (corre lint, no tests) | 🔴 P0 | ✅ Done (PR #60) |
