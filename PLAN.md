@@ -322,6 +322,8 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 | 23 | `skill-lint` no pela comillas simples (B13.1–B13.2) | Backlog | 🟠 P1 | Falso error de lint; alcance acotado al dir que lintea. Barato. |
 | 24 | Gate 11 apunta a un script no instalado (B15.1–B15.3) | Backlog | 🟡 P2 | Instrucción de remediación no ejecutable. |
 | 25 | `--repair` deja `skills/` legacy duplicado (B16.1–B16.3) | Backlog | 🟡 P2 | Duplicación/drift (limpieza). |
+| 26 | `pr-review-checklist` no detecta código `.sh`/`.mjs` (B18) | Backlog | 🟠 P1 | El checklist reporta "No code files changed" en un PR de código `.sh` — **falso OK**; el mismo patrón que Phase 13 corrige. Detectado en el review de PR #61. |
+| 27 | Nits de Phase 13 (B19) | Backlog | 🟡 P2 | `is_code_file()` muerto, mensaje críptico si falta un validador, lógica de fences duplicada. |
 
 **Regla de secuencia:** P7 primero (impacto usuario) → P8.1–P8.3 en paralelo (infra, barato) → P8.4–P8.6 → backlog alineado (test scoping) → cosmético. *(Histórico — ya ejecutado: P7–P10 completas.)*
 
@@ -688,6 +690,25 @@ before any version is assigned.
 
 **Relación:** complementa **B12** (Gate 14 parse — the other gate defect) y **B3** (false-pass). **Owner: AAS.** Once merged, the courtside DB-hygiene PR passes with **real** verification (shim integration + config-consistency), without `--no-verify`.
 
+### Closeout (S1–S6) — 2026-10-06
+
+**DONE — PR #61** (`feat/phase13-type-aware-verification`, 6 commits, 132/132, CI `gates`+`quality` verdes, `pr-review-checklist` 13✓/1⚠/0✗):
+
+| Slice | Entrega |
+|---|---|
+| **S1** | taxonomía por tipo + **empty-test** cerrado (un test pareado vacío → BLOCK) |
+| **S2** | **docs-honesty** (`validate-docs-honesty.sh`): links internos rotos → BLOCK; rutas citadas/placeholders → WARN (`--strict` promueve) |
+| **S3** | **config-consistency** (`validate-config-consistency.sh`): JSON/YAML/TOML inválido o `package.json` script → fichero inexistente → BLOCK |
+| **S4** | **shim integration**: un shim AAS necesita test pareado que lo **invoque** (`.husky/*` sigue exento) |
+| **S5** | **matriz de aceptación** (`test-tdd-gate-matrix.sh`, 14 filas: exit + decisión + razón) |
+| **S6** | docs EN/ES (README, `enforcement.html`, `enforcement.{en,es}.md`, i18n) |
+
+**Calibración medida:** "toda ruta citada debe existir" daba ~180 falsos positivos (rutas de **otros** proyectos / futuras) → se dejó **advisory**; los **links internos rotos** (robustos) son el BLOCK. Ver `development/SPEC-TDD-GATE.md` §Calibration.
+
+**Review de #61 — hallazgos abiertos:** **B18** (el checklist no detecta código `.sh` → falso OK) y **B19** (nits). **0 findings bloqueantes**; `shellcheck` no disponible (TOOL_GAP).
+
+**Estado de courtside (no bloqueado por Phase 13):** su PR `chore/db-sync-norm` bloquea en **name-pairing de CÓDIGO** — `packages/server/src/dbSyncCli.ts` y `scripts/db-sync.sh` (`#!/usr/bin/env sh`, no un shim AAS) sin test pareado. `config-consistency` sobre su `package.json` → **PASS**. Opciones: test para ambos, o `.aas/tdd-ignore` consciente.
+
 ---
 
 ## Backlog
@@ -709,12 +730,14 @@ before any version is assigned.
 | B9 | Skills: descubrimiento y rutas del Protocolo | 🟠 P1 | Pendiente |
 | B10 | `merge_into_file` no actualiza un footer viejo (B7 no llega a proyectos existentes) | 🟠 P1 | ✅ Done |
 | B11 | `run_dry_run` reporta `.git/hooks` en vez del dir efectivo (`.husky/`) | 🟡 P2 | ✅ Done |
-| B12 | Gate 14 resuelve el comando equivocado con `STACK_CONFIG.md` multi-fila (corre lint, no tests) | 🔴 P0 | Pendiente |
+| B12 | Gate 14 resuelve el comando equivocado con `STACK_CONFIG.md` multi-fila (corre lint, no tests) | 🔴 P0 | ✅ Done (PR #60) |
 | B13 | `skill-lint` no soporta descripciones entre comillas simples | 🟠 P1 | Pendiente |
 | B14 | `generate-health-check.sh` falla en silencio y exige una sección de frontera que un proyecto real no tiene | 🟠 P1 | Pendiente |
 | B15 | El mensaje del Gate 11 apunta a un script que no se instala en el proyecto | 🟡 P2 | Pendiente |
 | B16 | `--repair` deja el `skills/` legacy duplicado con `.claude/skills/` | 🟡 P2 | Pendiente |
-| B17 | El TDD gate verifica por **NOMBRE**, no por **TIPO** → **promovido a Phase 13** | 🔴 P0 | → Phase 13 |
+| B17 | El TDD gate verifica por **NOMBRE**, no por **TIPO** → **promovido a Phase 13** | 🔴 P0 | ✅ Done (Phase 13, PR #61) |
+| B18 | `pr-review-checklist.sh` detecta código solo por `.ts/.js/.py/.go/.java` → un PR solo-`.sh` reporta "No code files changed" (falso OK) | 🟠 P1 | Pendiente |
+| B19 | Phase 13 nits: `is_code_file()` muerto en `tdd-gate.sh`; mensaje críptico si falta un validador; lógica de fences duplicada en los dos validadores | 🟡 P2 | Pendiente |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container

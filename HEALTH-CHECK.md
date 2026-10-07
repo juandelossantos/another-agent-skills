@@ -1,6 +1,6 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-10-03
+**Date:** 2026-10-06
 **Version:** 6.3.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
@@ -34,7 +34,7 @@
 | Check | Status | Notes |
 |---|---|---|
 | Pre-commit hook | ✅ v11 (15 gates including Gate 0) | Executable (755) |
-| commit-msg hook | ✅ v6 | Single-gate TDD enforcement (name-pairing + new-test, no override) |
+| commit-msg hook | ✅ v6 | Type-aware TDD gate (code: name-pairing + non-empty + new · docs: docs-honesty · config: config-consistency · shims: integration; no override) |
 | commit-approval.sh | ✅ | READ-ONLY manifest preview (philosophy A: the agent never runs `git commit`) |
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
