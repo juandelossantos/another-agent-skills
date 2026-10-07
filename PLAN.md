@@ -9,7 +9,7 @@
 | Metric | Value |
 |---|---|
 | Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **SHIPPED + LIVE**) |
-| Next target | **E1** — essay review/edit → decide · **T3** — tag `v6.3.0` · **T1** — npm + Homebrew · **T2** — web + docs update (live) (see **Next tasks** below) |
+| Next target | **E1** — essay review/edit → decide · **T2** — web + docs update (live) (see **Next tasks** below) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
@@ -21,7 +21,7 @@
 
 ## Next tasks
 
-> Ordered. **R1** (courtside rollout) is **FIRST, next session**; then **E1** (essay), **T3** (tag) and **T2** (post-live docs) close out Phase 10; **T1** (npm/Homebrew) is a one-time maintainer step. The existing backlog follows further down.
+> Ordered. **E1** (essay) and **T2** (post-live docs) close out Phase 10; **T1** (npm) is **DONE** and Homebrew is **not planned**. The existing backlog follows further down.
 
 ### R1 — Courtside rollout (FIRST, next session)
 
@@ -48,15 +48,12 @@ A thought-leadership essay on AI-as-assistant / human-as-author is drafted in `d
 
 `main` is merged + deployed. After approval: `git tag v6.3.0 && git push origin v6.3.0` → `release.yml` builds/attests assets; `npm-publish.yml` (OIDC) publishes once npm is active.
 
-### T1 — npm + Homebrew activation (maintainer, manual)
+### T1 — npm activation (DONE) · Homebrew (not planned)
 
-The npm and Homebrew channels ship in the repo (Phase 9) but are **not yet activated**. Both are one-time manual steps; reference `docs/DISTRIBUTION.md`.
+The npm wrapper ships in the repo (Phase 9) and is now **live** (`@juandelossantos/another-agent-skills@6.3.1`, OIDC trusted publishing, staged approvals). See `docs/DISTRIBUTION.md`.
 
-- **npm first publish** — the npm account is suspended (read-only) until **2026-10-06 00:55 UTC**; after it lifts:
-  1. `npm login`, then enable **TOTP** with `npm profile enable-2fa auth-and-writes` (the passkey does not work from the CLI);
-  2. `cd npm && npm publish --access public` (the first publish creates the package);
-  3. configure the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow `npm-publish.yml`, environment `npm-release`).
-- **Homebrew tap** — create the public **`homebrew-tap`** repo (`juandelossantos/homebrew-tap`), a **fine-grained PAT** (Contents: read/write), and set the **`HOMEBREW_TAP_TOKEN`** secret (optional `HOMEBREW_TAP_REPO` variable).
+- **npm — DONE.** First publish (`npm login` + TOTP + `npm publish`) + the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow **`release.yml`** — the publish is chained via `workflow_call`, so npm validates the calling workflow — environment `npm-release`, "Allow npm publish" **unchecked** = staged). `v6.3.1` published via CI.
+- **Homebrew — NOT PLANNED.** Dropped: it would add a separate `homebrew-tap` repo + a PAT secret, while `git clone`, the pinned `curl` bootstrap and npm already cover Linux/macOS/Windows.
 
 ### T2 — Web + docs update (the web is now LIVE)
 
@@ -79,7 +76,7 @@ The Astro web (`web/`) is **LIVE** at https://juandelossantos.github.io/another-
 | **6** | **v6.0.0** | Design Skill Integrity: TDD enforcement (no override), 17-section DESIGN.md schema, 3-mode design-gate, token-validate CSS drift, approval-gate prototype→approved, design dir rules, design-upgrade.sh, direction+platform skill DESIGN.md wiring, critique-skill visual dimensions, prompt drift detection. 35+ commits, 80+ files changed. |
 | **7** | **v6.2.0** | OpenCode v1/v2 & Multi-Agent: dual-contract plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (agent never commits/pushes — no token bypass), global install hardening (`--plugin-only`/`--skills-only`/`--guardrails-only`). Merged to `main` via PR #35. |
 | **8** | **v6.2.0** | Remote Enforcement — Gate Integrity: branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 config integrity (PRs #36/#37); P8.4 closed by design (philosophy A); docs honesty — INCIDENT_004 correction + L1/L2/L3 model (PR #39); ship-to-users — `templates/gates.yml` + `init-agents`/`install` wiring + L2 checklist (PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible remote approval via GitHub Environment (PR #41); closure review — script injection, fresh-repo hook block, L3 honesty (PR #43). Merged to `main` via PRs #36–#43. |
-| **9** | **v6.3.0** | Distribution & Upgrades: pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`, `actions/attest-build-provenance`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto\|all\|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent); Homebrew formula + tap update. Merged to `main` via PRs #47–#52. |
+| **9** | **v6.3.0** | Distribution & Upgrades: pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`, `actions/attest-build-provenance`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto\|all\|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent). Merged to `main` via PRs #47–#52. |
 | **10** | **v6.3.0** | Public web — the Astro `web/` project: bilingual (EN/ES) landing + docs, a 57-skill / 151-guide reference, five tutorials, a build-generated search index + sidebar; discoverability (SEO: sitemap/robots/canonical/hreflang/OG; AEO: `llms.txt` + citable TL;DRs + JSON-LD; a11y: axe 0 across 30 pages × EN/ES × light/dark × 2 viewports; Lighthouse 100/100/100/100 desktop); 3 review iterations + an exhaustive review (docs 404 links, copy-button rejection, dead breadcrumb anchors, absolute language link, "more" chip sizing); README overhaul; v6.3.0 version sync + the real guide count (151). **Complete on `feat/phase10-landing`** (10 commits) — PR/merge/deploy pending. |
 
 ---
@@ -354,7 +351,7 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 
 ## Phase 9: Distribution & Upgrades (v6.3.0) — ✅ COMPLETE
 
-**Status (2026-10-02):** ✅ **COMPLETE — all merged to `main` (PRs #47–#52).** P9.1 pinned/attested releases; P9.2 `bootstrap.sh`; P9.3 `bin/aas`; P9.4 agent selection; P9.7 portable projects + `scripts/aas-resolve.sh` + `.aas/config`; P9.7b shim self-resolution; P9.8 detection/guidance/legacy repair; P9.5 npm wrapper + OIDC publishing; P9.6 Homebrew. Suite **91 suites** green; version remains **6.2.0** (v6.3.0 release pending the maintainer's manual npm/Homebrew steps — see `docs/DISTRIBUTION.md`).
+**Status (2026-10-02):** ✅ **COMPLETE — all merged to `main` (PRs #47–#52).** P9.1 pinned/attested releases; P9.2 `bootstrap.sh`; P9.3 `bin/aas`; P9.4 agent selection; P9.7 portable projects + `scripts/aas-resolve.sh` + `.aas/config`; P9.7b shim self-resolution; P9.8 detection/guidance/legacy repair; P9.5 npm wrapper + OIDC publishing; P9.6 Homebrew (**dropped — not planned**). Suite **91 suites** green; version remains **6.2.0** (v6.3.0 release pending the maintainer's manual npm step — see `docs/DISTRIBUTION.md`).
 **Branch:** `feat/phase9-distribution` (merged)
 **Goal:** Distribución universal sin clonar el repo, y actualización gestionada. Separar **canal** (cómo llega el código) de **experiencia** (detectar → seleccionar → instalar/actualizar por agente).
 
@@ -380,7 +377,7 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 | P9.3 ✅ DONE | 🔴 P0 | CLI `aas` con `install`/`upgrade`/`doctor`/`uninstall`. `upgrade` = self-update atómico desde el último release (reemplaza `check-update.sh` + auto-pull del rc) | `bin/aas` | `aas upgrade` actualiza atómico y reporta versión antes/después; `aas doctor` = `--check-env` |
 | P9.4 ✅ DONE | 🟠 P1 | Selección de agentes: `--agents auto\|all\|<lista>`; multi-select interactivo **solo si TTY**; en CI nunca bloquea (default no-interactivo). Reusa P7.5 | flags en `aas install` | TTY → prompt; no-TTY → usa detectado o `--agents`; nunca espera input en CI |
 | P9.5 ✅ DONE | 🟡 P2 | npm wrapper sin payload: descarga+verifica el mismo release; no añade Node al core | paquete `@scope/another-agent-skills` | `npx ... install` funciona en un proyecto sin clonar; el paquete no contiene el payload |
-| P9.6 ✅ DONE | 🟢 P3 | Homebrew tap (opcional): fórmula auto-generada apuntando al tarball del release | tap + fórmula | `brew install <tap>/another-agent-skills` |
+| P9.6 ❌ DROPPED | 🟢 P3 | Homebrew tap — **not planned** (a separate repo + PAT secret for a channel npm/curl already cover) | — | — |
 | **P9.7** ✅ DONE | 🔴 P0 | **Portable / standalone / cross-platform (B')**: `init-agents` **nunca** enlaza a `$SCRIPT_DIR` (el clon); la fuente es **la instalación** (release pineado); **shims/copias** en vez de symlinks absolutos; `.aas/config` con la versión esperada; resolver cross-platform (env `ANOTHER_AGENT_SKILLS_DIR` + búsqueda en ubicaciones por-OS); `aas init` / `doctor`; `--with-skills` opcional; **POSIX-first + wrapper PS fino** (no reimplementar gates) | Cero symlinks absolutos committeados; un proyecto clonado en otra máquina funciona tras `aas install`; Windows vía Git Bash documentado |
 | **P9.8** ✅ DONE | 🔴 P0 | **Detección + guía + adopción legacy (sin pérdida de datos)**: `init-agents --dry-run` (mostrar, no mutar), `--repair` (migrar symlinks rotos → portable, idempotente), `--force` explícito para hooks custom; aviso **no bloqueante** de drift (versión del proyecto vs máquina) en `pre-commit`/`doctor`/CI; detección **legacy** (artefactos AAS sin `.aas/config`); higiene de backups (`.aas/backups/` o gitignored + poda) | Re-ejecutar es seguro (append/skip, nunca sobrescribe); `--dry-run` no muta; `--repair` no pierde `AGENTS.md` ni docs del equipo; migra proyectos existentes |
 
@@ -399,7 +396,7 @@ Principio: **nunca** `curl` de `main` (mutable). Release pineado + verificación
 
 ## Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0) — ✅ COMPLETE
 
-**Status (2026-10-03):** ✅ **SHIPPED + LIVE** — merged via PR #55 (`main` `1258306`); GitHub Pages switched to `build_type: workflow`; `.github/workflows/deploy-web.yml` runs build → deploy → verify (all green); live at https://juandelossantos.github.io/another-agent-skills/. Delivered: the approved landing + docs mockups; the Astro `web/` project (landing + docs + a 57-skill bilingual reference + 5 tutorials + a build-generated search index + a sidebar); discoverability (SEO/AEO/a11y, Lighthouse 100 desktop); 3 review iterations + an exhaustive review; the README overhaul; v6.3.0 version sync + the real guide count (151). Tests: core **108 suites**; web **83 node + 85 e2e** (axe 0). Remaining closure: **E1** essay, **T3** tag `v6.3.0`, **T1** npm/Homebrew, **T2** web/docs post-live.
+**Status (2026-10-03):** ✅ **SHIPPED + LIVE** — merged via PR #55 (`main` `1258306`); GitHub Pages switched to `build_type: workflow`; `.github/workflows/deploy-web.yml` runs build → deploy → verify (all green); live at https://juandelossantos.github.io/another-agent-skills/. Delivered: the approved landing + docs mockups; the Astro `web/` project (landing + docs + a 57-skill bilingual reference + 5 tutorials + a build-generated search index + a sidebar); discoverability (SEO/AEO/a11y, Lighthouse 100 desktop); 3 review iterations + an exhaustive review; the README overhaul; v6.3.0 version sync + the real guide count (151). Tests: core **108 suites**; web **83 node + 85 e2e** (axe 0). Remaining closure: **E1** essay, **T2** web/docs post-live. (**T3** tag `v6.3.0`/`v6.3.1` and **T1** npm are **DONE**; Homebrew is **not planned**.)
 **Branch:** `feat/phase10-landing`
 **Goal:** Landing, README y docs **atractivos, accesibles y descubribles** — con la historia **multi-agente + distribución (Phase 9)** ya final, diseño award-winning, SEO técnico, **AEO** (Answer Engine Optimization), accesibilidad WCAG 2.2 AA y lenguaje/keywords del sector para ser encontrados y **citados como referente** en agent skills / IA agéntica.
 

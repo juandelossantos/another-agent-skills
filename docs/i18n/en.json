@@ -100,7 +100,7 @@
     "whatsNewItem1": "Public Web — Landing + Docs",
     "whatsNewDesc1": "A new bilingual Astro site in web/: landing, docs, the full skills reference (57 skills / 151 guides), five tutorials, and an FAQ. Supersedes this legacy page.",
     "whatsNewItem2": "Distribution & Upgrades",
-    "whatsNewDesc2": "Pinned, attested releases; a checksum-verified curl bootstrap; the aas CLI; portable projects; npm (OIDC trusted publishing) and Homebrew. Maintainer activation steps are in docs/DISTRIBUTION.md.",
+    "whatsNewDesc2": "Pinned, attested releases; a checksum-verified curl bootstrap; the aas CLI; portable projects; npm (OIDC trusted publishing, live). See docs/DISTRIBUTION.md.",
     "whatsNewItem3": "Remote Enforcement — Gate Integrity",
     "whatsNewDesc3": "Branch protection on main, a required gates status check, and CODEOWNERS review of sensitive paths — the L1/L2/L3 model. Local hooks are feedback; the remote gates are authority.",
     "whatsNewItem4": "Dual-Contract OpenCode Plugin (v1 + v2)",

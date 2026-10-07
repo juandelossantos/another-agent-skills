@@ -32,7 +32,7 @@ Para fijar una versión exacta:
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash -s -- --version v6.2.0
 ```
 
-> npm y Homebrew llegan **pronto**. Hoy usa el bootstrap `curl` fijado o `git clone`.
+> Hoy usa `npm`, el bootstrap `curl` fijado, o `git clone`.
 
 ## 2. Activa el framework en el proyecto
 

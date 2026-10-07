@@ -1,6 +1,6 @@
 ---
 title: "Distribución y actualizaciones"
-description: "Cómo llega Another Agent Skills a los usuarios: git clone, el bootstrap curl fijado, la CLI aas y los canales planificados npm y Homebrew, además de cómo funcionan las actualizaciones."
+description: "Cómo llega Another Agent Skills a los usuarios: git clone, el bootstrap curl fijado, la CLI aas y el wrapper de npm, además de cómo funcionan las actualizaciones."
 lang: "es"
 order: 21
 section: "reference"
@@ -18,8 +18,7 @@ La distribución está fijada a un release inmutable, nunca a una rama mutable. 
 | `git clone` | Contribuidores | Clona el repositorio y ejecuta `bash install.sh` | - |
 | Bootstrap `curl` fijado | Instalación en una línea (Linux, macOS, Git Bash) | Descarga el tarball fijado, verifica el checksum, enlaza la CLI `aas` | Descarga `main` |
 | CLI `aas` | Uso diario tras el bootstrap | `install`, `upgrade`, `doctor`, `uninstall` | Descarga `main` |
-| Wrapper de npm (próximamente) | Usuarios de Node | `npx @juandelossantos/another-agent-skills install` | No incluye payload |
-| Homebrew (próximamente) | Usuarios de Homebrew en macOS y Linux | `brew install juandelossantos/tap/another-agent-skills` | No compila desde el código |
+| Wrapper de npm | Usuarios de Node | `npx @juandelossantos/another-agent-skills install` | No incluye payload |
 
 ## Instalar con el bootstrap
 
@@ -40,17 +39,16 @@ aas uninstall                 # eliminar la CLI, la raíz de instalación y la e
 
 `--agents auto|all|<list>` selecciona en qué agentes detectados instalar. `auto` solo pregunta cuando stdin es una TTY, así que CI nunca se bloquea.
 
-## npm y Homebrew (próximamente)
+## npm
 
 ```bash
 npx @juandelossantos/another-agent-skills install
-npx @juandelossantos/another-agent-skills install --version v6.2.0
-brew install juandelossantos/tap/another-agent-skills
+npx @juandelossantos/another-agent-skills install --version v6.3.1
 ```
 
-> Ambos canales llegan **pronto**. Hoy usa `git clone` o el bootstrap `curl` fijado.
+El paquete de npm contiene solo `cli.js` y un README. Descarga el tarball del release y `checksums.txt`, verifica el sha256 con `node:crypto` y delega en el `bootstrap.sh` del propio release, así que la lógica de instalación vive en un único lugar. Se publica con OIDC trusted publishing (sin token almacenado).
 
-El paquete de npm contiene solo `cli.js` y un README. Descarga el tarball del release y `checksums.txt`, verifica el sha256 con `node:crypto` y delega en el `bootstrap.sh` del propio release, así que la lógica de instalación vive en un único lugar. La fórmula de Homebrew apunta al mismo tarball inmutable.
+> Homebrew **no está planificado**: añadiría un repo tap separado + un secret PAT, mientras que `git clone`, el bootstrap `curl` fijado y npm ya cubren Linux, macOS y Windows.
 
 ## Automatización del release
 

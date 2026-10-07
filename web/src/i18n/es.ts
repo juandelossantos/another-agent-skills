@@ -171,7 +171,7 @@ export const es: Dictionary = {
     q6: '¿Qué es el Harness?',
     a6: 'El Harness es todo lo que rodea al modelo y convierte inteligencia cruda en output confiable: instrucciones, herramientas, sandboxes, orquestación, guardrails y observabilidad. Agente es igual a Modelo más Harness. La mayoría de los fallos de agentes son fallos de configuración.',
     q7: '¿Cómo lo instalo?',
-    a7: 'Tres canales. Clona y ejecuta install.sh, o usa el bootstrap curl pineado del último release, o instala vía npm. Después ejecuta init-agents en cualquier proyecto. Git y curl están activos hoy. npm y Homebrew llegan pronto.',
+    a7: 'Tres canales. Clona y ejecuta install.sh, o usa el bootstrap curl pineado del último release, o instala vía npm. Después ejecuta init-agents en cualquier proyecto. Los tres están activos hoy.',
   },
   howTo: {
     name: 'Instalar Another Agent Skills',

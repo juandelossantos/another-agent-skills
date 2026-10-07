@@ -5,8 +5,8 @@
 # `TAG="${{ github.event.inputs.tag }}"` is expanded by the runner BEFORE bash
 # parses it, so a value like `"; rm -rf / #` executes. The tag (workflow_dispatch
 # input or a ref name) must arrive via `env:` and be referenced as `$TAG`.
-# Likewise the optional Homebrew token must be scoped to the steps that need it,
-# not exposed to every step in the job.
+# Homebrew was dropped (not planned), so release.yml must carry no Homebrew
+# surface at all.
 #
 # Static analysis + Ruby YAML parse — no network, no CI.
 set -uo pipefail
@@ -41,23 +41,9 @@ ruby -ryaml -e '
 grep -qE 'INPUT_TAG: \$\{\{ github\.event\.inputs\.tag \}\}' "$WF"; check $? "workflow_dispatch tag passed via env"
 grep -qE 'REF_NAME: \$\{\{ github\.ref_name \}\}' "$WF"; check $? "ref_name passed via env"
 
-# ── Homebrew token is NOT job-level (least privilege) ────────────────────────
-ruby -ryaml -e '
-  doc = YAML.load_file(ARGV[0])
-  job_env = doc.dig("jobs", "release", "env") || {}
-  exit(job_env.key?("HOMEBREW_TAP_TOKEN") ? 1 : 0)
-' "$WF" 2>/dev/null; check $? "HOMEBREW_TAP_TOKEN is not exposed at job level"
-
-# ── Token is scoped to the Homebrew step (and a presence-detection step) ─────
-ruby -ryaml -e '
-  doc = YAML.load_file(ARGV[0])
-  steps = doc.dig("jobs", "release", "steps") || []
-  with = steps.select { |s| (s["env"] || {}).key?("HOMEBREW_TAP_TOKEN") }
-  exit(with.length >= 1 && with.length < steps.length ? 0 : 1)
-' "$WF" 2>/dev/null; check $? "HOMEBREW_TAP_TOKEN is scoped to specific step(s)"
-
-# ── The Homebrew step is still gated on token presence ───────────────────────
-grep -qE "if:.*steps\.tap\.outputs\.enabled == 'true'" "$WF"; check $? "Homebrew step gated on the detected token"
+# ── No Homebrew surface remains (dropped — not planned) ──────────────────────
+! grep -qi 'HOMEBREW_TAP' "$WF"; check $? "release.yml has no HOMEBREW_TAP secret"
+! grep -qi 'Homebrew' "$WF"; check $? "release.yml has no Homebrew step"
 
 echo ""
 [ "$fail" -gt 0 ] && { echo "  $fail failed"; exit 1; }

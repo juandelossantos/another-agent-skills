@@ -38,7 +38,7 @@ verify.* The landing must **show** the enforcement (not promise it).
 - **Bilingual:** EN + ES in parity (i18n JSON), every visible string keyed.
 - **Process:** design → **mockup in `docs/`** → review (`critique-skill`) → **explicit approval** → develop.
   Commits + push to `feat/phase10-landing`; **PR only when ready to launch**.
-- **Budget/time:** no external services required; manual npm/Homebrew steps remain the maintainer's.
+- **Budget/time:** no external services required; the manual npm step remains the maintainer's.
 - **Accessibility:** WCAG 2.2 AA is a gate, not a nice-to-have.
 
 ## 4. Success metrics (measurable)
@@ -62,7 +62,7 @@ canonical/hreflang/meta/OG), structured data, AEO (`llms.txt`, FAQ), WCAG 2.2 AA
 `#workflows` own style (Phase 8.1 debt), README + value-doc sync.
 
 **Out:** Astro/Starlight migration (Phase 11), a blog, analytics accounts (optional, deferred),
-npm/Homebrew activation (manual, post-2026-10-06), any core change to skills/hooks/`install.sh`.
+npm activation (done), any core change to skills/hooks/`install.sh`.
 
 ---
 

@@ -251,7 +251,7 @@ OpenCode · Claude Code · Cursor · Codex · Gemini CLI · Copilot · Windsurf 
 - ❌ Copying the Geist/Vercel look (we are editorial, not generic SaaS).
 - ❌ Animation that hides content when JS is off or `prefers-reduced-motion` is set.
 - ❌ Selling "57 skills" as the headline (the value is enforcement, not volume).
-- ❌ Promising npm/Homebrew install before those channels are live (label them "soon" honestly).
+- ❌ Promising an install channel before it is live (label it "soon" honestly; npm is now live).
 
 ## Design Files
 

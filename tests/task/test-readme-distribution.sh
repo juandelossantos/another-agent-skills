@@ -31,7 +31,7 @@ assert "states the install is checksum-verified" "grep -qi 'checksum-verified' '
 assert "documents --dry-run" "grep -q -- '--dry-run' '$FILE'"
 assert "links to docs/DISTRIBUTION.md" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 assert "mentions the npm channel" "grep -q 'npx @juandelossantos/another-agent-skills' '$FILE'"
-assert "mentions the Homebrew channel" "grep -q 'brew install juandelossantos/tap/another-agent-skills' '$FILE'"
+assert "no Homebrew channel (not planned)" "! grep -q 'brew install juandelossantos/tap' '$FILE'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

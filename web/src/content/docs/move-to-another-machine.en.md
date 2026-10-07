@@ -32,7 +32,7 @@ To pin an exact version:
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash -s -- --version v6.2.0
 ```
 
-> npm and Homebrew are **coming soon**. Use the pinned `curl` bootstrap or `git clone` today.
+> Use `npm`, the pinned `curl` bootstrap, or `git clone` today.
 
 ## 2. Activate the framework in the project
 

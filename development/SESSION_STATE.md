@@ -97,33 +97,33 @@ After the real-world exercise of updating the skills in **`courtside-scoreboard`
 
 The maintainer is reviewing/editing these. When done, the open decision is: **(A)** publish on the web as a bilingual essay/blog page, **(B)** track them in git (`git add -f`), **(C)** adapt to LinkedIn / dev.to, or **(D)** leave as-is and move on. Thesis: *AI as assistant; the human as author, critic, and conscience* — grounded in Mitchell, Ghosh & Passi (2026), *AI Agents Push Humans Out of the Loop*.
 
-**T1 — npm + Homebrew activation (maintainer, manual).** Reference: `docs/DISTRIBUTION.md`.
+**T1 — npm activation (DONE) · Homebrew (not planned).** Reference: `docs/DISTRIBUTION.md`.
 
 ```bash
-# after 2026-10-06 00:55 UTC (the npm suspension lifts)
 npm login
-npm profile enable-2fa auth-and-writes     # enable TOTP (the passkey is browser-only)
-cd npm && npm publish --access public      # first publish creates the package
-# then configure the Trusted Publisher on npmjs.com:
-#   GitHub Actions → juandelossantos / another-agent-skills / npm-publish.yml / npm-release
+npm profile enable-2fa auth-and-writes     # TOTP (the passkey is browser-only)
+cd npm && npm publish --access public      # first publish (done: 6.3.0)
+# Trusted Publisher on npmjs.com:
+#   GitHub Actions → juandelossantos / another-agent-skills / release.yml / npm-release
+#   ("Allow npm publish" UNCHECKED = staged; the publish is chained via workflow_call)
 ```
 
-Homebrew: create the public **`homebrew-tap`** repo (`juandelossantos/homebrew-tap`), a **fine-grained PAT** (Contents: read/write), and set the **`HOMEBREW_TAP_TOKEN`** secret (optional `HOMEBREW_TAP_REPO` variable).
+The `v6.3.1` CI publish (staged + approved) validated the Trusted Publisher. **Homebrew is not planned** — dropped: a separate repo + PAT secret for a channel npm/curl already cover.
 
 **T2 — Web + docs update (the web is now LIVE).** Point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
 
-**T3 — Tag `v6.3.0` (gated).** After approval: `git tag v6.3.0 && git push origin v6.3.0` → `release.yml` builds/attests assets; `npm-publish.yml` (OIDC) publishes once npm is active.
+**T3 — Tag `v6.3.0` (DONE).** Shipped: `v6.3.0` + `v6.3.1` tagged; `release.yml` builds/attests assets; the npm publish is chained (staged) and `6.3.1` is live.
 
 ## Gated steps (require explicit approval — do NOT run unprompted)
 
 ```bash
-# tag the release (main is already merged + deployed)
-git tag v6.3.0 && git push origin v6.3.0   # release.yml builds/attests; npm-publish.yml (OIDC) publishes
+# tag a release (main is already merged + deployed)
+git tag vX.Y.Z && git push origin vX.Y.Z   # release.yml builds/attests; chains the npm stage publish
 ```
 
 ## System state (verified 2026-10-03)
 
-- Phase 10 (public web) **SHIPPED + LIVE**; **`VERSION` is 6.3.0** (covers Phase 8 + 8.1 + 9 + 10). The `v6.3.0` tag, the npm/Homebrew activation, and the post-live docs update remain.
+- Phase 10 (public web) **SHIPPED + LIVE**; **`VERSION` is 6.3.1** (covers Phase 8 + 8.1 + 9 + 10 + the 6.3.1 pipeline fixes). The `v6.3.0`/`v6.3.1` tags, the npm activation (**done**), and the post-live docs update remain/remained. Homebrew is **not planned**.
 - Remote enforcement still live: branch protection on `main` requires the `gates` check.
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.
@@ -139,7 +139,7 @@ git tag v6.3.0 && git push origin v6.3.0   # release.yml builds/attests; npm-pub
 5. **P9.7 / P9.7b — portable projects** (PRs #47/#48): no absolute symlinks; `.aas/config` pins the version; `scripts/aas-resolve.sh` resolves the framework cross-platform (`ANOTHER_AGENT_SKILLS_DIR` + per-OS install dirs); hooks are self-resolving shims.
 6. **P9.8 — detection/guidance/legacy repair**: `init-agents --dry-run` (mutates nothing), `--repair` (migrate absolute/broken symlinks without losing `AGENTS.md`/team docs), `--force` (explicit for custom hooks); backup hygiene (`.aas/backups/`, gitignored); non-blocking drift notice in `pre-commit`/`doctor`.
 7. **P9.5 — npm wrapper** (PR #51): `npm/` ships no payload; `cli.js` downloads + verifies the release and delegates to `bootstrap.sh`. `.github/workflows/npm-publish.yml` publishes via OIDC Trusted Publishing, syncs the version from `VERSION`, and skips if already published (idempotent).
-8. **P9.6 — Homebrew** (PR #52): `scripts/build-brew-formula.sh` + an optional tap-update step in `release.yml`, gated on `HOMEBREW_TAP_TOKEN`.
+8. **P9.6 — Homebrew** (PR #52): `scripts/build-brew-formula.sh` + an optional tap-update step in `release.yml`, gated on `HOMEBREW_TAP_TOKEN`. **Dropped in 6.3.1** (not planned).
 9. **This branch** refreshes `PLAN.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, adds `docs/DISTRIBUTION.md`, links it from `README.md`, and adds/updates tests. Not committed, not pushed.
 
 > Below this section: the previous sessions' handoffs (Phase 9 distribution, 2026-10-02, superseded above; Phase 8 closure, 2026-10-02; and Claude Code Parity, 2026-08-26) — historical.

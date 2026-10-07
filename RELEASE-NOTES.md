@@ -69,8 +69,9 @@ Covers Phase 8 (remote enforcement), 8.1 (TDD-gate delivery + git/GitHub flows),
   verifies the release and delegates to `bootstrap.sh`.
   `.github/workflows/npm-publish.yml` publishes via OIDC Trusted Publishing,
   syncs the version from `VERSION`, and skips if already published.
-- **Homebrew.** `scripts/build-brew-formula.sh` + an optional, token-gated tap
-  update in `release.yml`.
+- **Homebrew (later dropped).** `scripts/build-brew-formula.sh` + an optional,
+  token-gated tap update in `release.yml` — **removed in 6.3.1**: not planned
+  (a separate repo + PAT secret for a channel npm/curl already cover).
 
 ### New (Phase 10 — the public web)
 
@@ -97,12 +98,10 @@ Covers Phase 8 (remote enforcement), 8.1 (TDD-gate delivery + git/GitHub flows),
 
 ### Platform notes
 
-- The npm and Homebrew channels are **wired but not yet activated** — both need
-  one-time maintainer steps (the npm first publish is blocked until
-  `2026-10-06 00:55 UTC`, and requires TOTP; the tap needs
-  `HOMEBREW_TAP_TOKEN`). See `docs/DISTRIBUTION.md`.
-- The new `web/` site is **built and tested, but not deployed** — the deploy
-  awaits approval.
+- The npm channel is **live** (`@juandelossantos/another-agent-skills@6.3.1`,
+  OIDC trusted publishing, staged approvals). Homebrew is **not planned**.
+  See `docs/DISTRIBUTION.md`.
+- The new `web/` site is **live** at <https://juandelossantos.github.io/another-agent-skills/>.
 
 ### Tests
 

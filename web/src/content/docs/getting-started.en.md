@@ -4,7 +4,7 @@ description: "Install Another Agent Skills, run init-agents, and see the local g
 lang: "en"
 order: 2
 section: "start"
-tldr: "Install with git clone or the pinned curl bootstrap (npm and Homebrew are coming soon); run init-agents in any project; the installer detects your agent and stack and wires the matching skills and hooks."
+tldr: "Install with git clone or the pinned curl bootstrap (or npm); run init-agents in any project; the installer detects your agent and stack and wires the matching skills and hooks."
 ---
 
 ## Prerequisites
@@ -37,7 +37,7 @@ Or use the pinned release bootstrap, which downloads the tagged release, verifie
 curl -fsSL https://github.com/juandelossantos/another-agent-skills/releases/latest/download/bootstrap.sh | bash
 ```
 
-The npm wrapper and Homebrew are coming soon. The npm wrapper ships no payload of its own:
+The npm wrapper ships no payload of its own:
 
 ```bash
 npx @juandelossantos/another-agent-skills install

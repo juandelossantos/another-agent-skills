@@ -100,7 +100,7 @@
     "whatsNewItem1": "Web pública — Landing + Docs",
     "whatsNewDesc1": "Un sitio Astro bilingüe en web/: landing, docs, la referencia completa de skills (57 skills / 151 guías), cinco tutoriales y una FAQ. Reemplaza esta página heredada.",
     "whatsNewItem2": "Distribución y Actualizaciones",
-    "whatsNewDesc2": "Releases pineados y atestiguados; un bootstrap curl verificado por checksum; la CLI aas; proyectos portables; npm (OIDC trusted publishing) y Homebrew. Los pasos de activación del mantenedor están en docs/DISTRIBUTION.md.",
+    "whatsNewDesc2": "Releases pineados y atestiguados; un bootstrap curl verificado por checksum; la CLI aas; proyectos portables; npm (OIDC trusted publishing, activo). Ver docs/DISTRIBUTION.md.",
     "whatsNewItem3": "Enforcement Remoto — Integridad de Puertas",
     "whatsNewDesc3": "Protección de rama en main, un check requerido gates y revisión CODEOWNERS de rutas sensibles — el modelo L1/L2/L3. Los hooks locales son feedback; las puertas remotas son la autoridad.",
     "whatsNewItem4": "Plugin OpenCode de Contrato Dual (v1 + v2)",
