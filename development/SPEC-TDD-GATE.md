@@ -162,9 +162,9 @@ After implementation, verify:
 
 ---
 
-## Phase 13 — Type-aware verification (PLANNED)
+## Phase 13 — Type-aware verification (IMPLEMENTED)
 
-> Status: PLANNED · Date: 2026-10-06 · Plan: `PLAN.md` → `## Phase 13: Type-aware verification gate`
+> Status: IMPLEMENTED (S1–S6) · Date: 2026-10-06 · Plan: `PLAN.md` → `## Phase 13: Type-aware verification gate`
 
 ### The drift this fixes
 
@@ -190,7 +190,7 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 3. **Config catalog** + per-config rules.
 4. **Reuse** the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`).
 
-### Calibration (S1–S5, measured on this repo)
+### Calibration (S1–S6, measured on this repo)
 
 A blanket *"every cited path must exist"* is too noisy here (~180 findings — most are
 paths that describe **other** projects' layouts or future artifacts). So the gate:
@@ -209,11 +209,14 @@ paths that describe **other** projects' layouts or future artifacts). So the gat
 - **S5** locks the whole contract in one matrix test (`test-tdd-gate-matrix.sh`): each row
   asserts the exit code **and** the gate's recorded decision + reason, so a wrong BLOCK
   reason fails too. A verified shim records `PASS` (not a bare SKIP).
+- **S6** documents the type-aware gate (EN + ES): `README.md` §TDD gate rules,
+  `docs/enforcement.html` + `docs/i18n/*`, `web/src/content/docs/enforcement.{en,es}.md`,
+  `i18n/*`.
 
 ### Acceptance (see `PLAN.md` P13.1–P13.9)
 
 Code without test → BLOCK · docs without validator → BLOCK (ask for the validator) · docs with validator OK → PASS · config inconsistent → BLOCK · shim without integration → BLOCK · code with an empty test → BLOCK. `.aas/tdd-ignore` remains a conscious, audited override.
 
-### Docs to update (EN/ES) with the implementation
+### Docs to update (EN/ES) — done in S6
 
-`README.md` §TDD gate rules · `docs/enforcement.html` · `web/src/content/docs/enforcement.{en,es}.md` · `i18n/{en,es}.json` · `docs/i18n/{en,es}.json`.
+Done in S6 (EN + ES): `README.md` §TDD gate rules · `docs/enforcement.html` · `web/src/content/docs/enforcement.{en,es}.md` · `i18n/{en,es}.json` · `docs/i18n/{en,es}.json`.

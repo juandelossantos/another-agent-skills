@@ -59,7 +59,7 @@
     <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
 
     <h2 data-i18n="enforcement.level3">Level 3: TDD Enforcement</h2>
-    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v6) runs a single TDD gate — code files need matching test files. No override mechanism exists. Pre-commit Gate 0 checks .git/DECISION_APPROVED and blocks if it is missing or stale — but that is L1 feedback, not the approval authority: the agent writes the token, and the user running <code>git commit</code> is the approval.</p>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v6) runs a single TDD gate that verifies each staged artifact by type: code needs a name-paired, non-empty, new test; docs and config run their own validators (a broken link or invalid config blocks); shims need a test that invokes them. No override mechanism exists. Pre-commit Gate 0 checks .git/DECISION_APPROVED and blocks if it is missing or stale — but that is L1 feedback, not the approval authority: the agent writes the token, and the user running <code>git commit</code> is the approval.</p>
 
     <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v11)</h2>
     <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 15 checks before every commit:</p>
@@ -84,7 +84,7 @@
     <h3 data-i18n="enforcement.commitMsgTitle">Commit-Msg Gate (v6)</h3>
     <p data-i18n="enforcement.commitMsgDesc">The commit-msg hook runs 1 gate (TDD enforcement) after the commit message is written:</p>
     <ul>
-      <li data-i18n="enforcement.cmsgGate4">TDD gate — code files must have test files staged. Name-pairing check (test name matches code) + new-test enforcement (at least one staged test is new).</li>
+      <li data-i18n="enforcement.cmsgGate4">TDD gate — verifies each staged artifact by type: code (name-paired, non-empty, new test), docs (docs-honesty), config (config-consistency), shims (integration test).</li>
     </ul>
 
     <h2 data-i18n="enforcement.harnessTitle">The Harness Architecture</h2>

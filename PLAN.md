@@ -652,9 +652,9 @@ before any version is assigned.
 
 ---
 
-## Phase 13: Type-aware verification gate — PLANNED
+## Phase 13: Type-aware verification gate — DONE
 
-**Status:** 📋 **PLANNED** — promoted from **B17** (rollout finding, 2026-10-06). Spec: `development/SPEC-TDD-GATE.md` (Phase 13 section).
+**Status:** ✅ **IMPLEMENTED** (S1–S6, 2026-10-06) — promoted from **B17** (rollout finding). Spec: `development/SPEC-TDD-GATE.md` (Phase 13 section).
 **Goal:** replace the TDD gate's *name-pairing* proxy with **verification by artifact type** — each artifact is verified with the tool that actually fits it, and **nothing passes unverified**.
 
 **Why:** `tdd-gate.sh` equates *"verified"* with *"a staged test file whose NAME matches"*. That proxy works for **code** (the test exercises behavior) but breaks for docs/config/shim — and is gameable even for code (an empty `test-foo.sh` passes; the gate never runs it). Real bugs were *dishonest docs* (the startup Protocol citing a non-existent `skills/using-agent-skills/SKILL.md`; the Gate 11 remedy citing a script that is not installed) — proof that docs can and must be verified.

@@ -59,7 +59,7 @@
     "level2Title": "02: Herramientas y Sandboxes",
     "level2Desc": "Capacidades específicas cargadas bajo demanda. 57 skills, 151 guías, sistema de eval, terminal, CI.",
     "level3Title": "03: Orquestación y Guardrails",
-    "level3Desc": "Cuándo se activa cada herramienta, cómo se coordinan, y hooks deterministas. Pre-commit v11 (15 puertas incluyendo Gate 0, Test Runner), commit-msg v6 (puerta TDD — sin override).",
+    "level3Desc": "Cuándo se activa cada herramienta, cómo se coordinan, y hooks deterministas. Pre-commit v11 (15 puertas incluyendo Gate 0, Test Runner), commit-msg v6 (puerta TDD type-aware — sin override).",
     "incidentRef": "Rompió sus propias reglas tres veces en dos días. Después construyó un harness que las hizo imposibles de romper.",
     "conclusion": "Aprende de sus propios fallos. Más rápido que la competencia lanza features.",
     "statsLabel": "Componentes del harness",

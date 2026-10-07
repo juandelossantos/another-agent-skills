@@ -98,6 +98,10 @@ check 0 PASS no "shim + paired invoking test → PASS"
 consumer
 check 0 SKIP no-staged-files "nothing staged → SKIP (no-staged-files)"
 
+# ── 14. docs-site html → SKIP (docs, not code) ──
+consumer; mkdir -p docs; printf '<html></html>\n' > docs/page.html; git add -A
+check 0 SKIP no-code-files "docs-site html → SKIP (docs, not code)"
+
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1

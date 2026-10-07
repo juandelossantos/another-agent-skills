@@ -178,6 +178,8 @@ classify_file() {
   is_aas_shim "$filepath" && { echo shim; return 0; }
 
   # ── Type (docs/config before code, so a `.md` is never "code") ──
+  # Documentation-site pages: docs/**/*.html are documentation, not code.
+  [[ "$file" =~ ^docs/.*\.html?$ ]] && { echo docs; return 0; }
   for pattern in "${DOC_PATTERNS[@]}"; do
     regex="$(aas_glob_to_regex "$pattern")"
     [[ "$file" =~ $regex ]] && { echo docs; return 0; }

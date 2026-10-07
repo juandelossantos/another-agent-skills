@@ -23,9 +23,9 @@ GitHub branch protection plus a required status check. Nothing reaches `main` wi
 
 `CODEOWNERS` plus required code-owner review. Another owner must approve changes to the gate configuration. GitHub only.
 
-## The rule: no code without a test
+## The rule: nothing passes unverified
 
-The `commit-msg` hook (v6) runs a single TDD gate. A code file staged for commit must have a matching test file staged in the same commit. Name-pairing is checked, and at least one staged test must be new.
+The `commit-msg` hook (v6) runs a single TDD gate that verifies each staged artifact **by type**. Code needs a name-paired, non-empty, new test created before it. Docs run the docs-honesty validator (a broken internal link blocks). Config runs the config-consistency validator (invalid syntax, or a `package.json` script pointing at a missing file, blocks). Shims need a name-paired test that actually invokes them.
 
 There is no override mechanism. Pre-commit Gate 0 blocks until the decision token is fresh, but that is a prompt, not the approval authority.
 
