@@ -12,6 +12,11 @@ trap 'rm -rf "$TMP"' EXIT
 fail=0
 check() { if [ "$1" = "0" ]; then echo "  ✓ $2"; else echo "  ✗ $2"; fail=1; fi; }
 
+# ── 0. The usage example tracks VERSION ──────────────────────────────────────
+REPO_VERSION="$(tr -d '[:space:]' < "$REPO_ROOT/VERSION")"
+grep -q -- "--version v${REPO_VERSION}" "$REPO_ROOT/bootstrap.sh"
+check $? "usage example uses the current VERSION (v${REPO_VERSION})"
+
 # Portable sha256 (GNU coreutils sha256sum, or macOS/BSD shasum -a 256).
 _sha256() {
   if command -v sha256sum >/dev/null 2>&1; then

@@ -1,6 +1,6 @@
 # Another Agent Skills
 
-[![Version: v6.3.0](https://img.shields.io/badge/version-6.3.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.3.1](https://img.shields.io/badge/version-6.3.1-blue.svg)](./RELEASE-NOTES.md)
 [![Skills: 57](https://img.shields.io/badge/skills-57-blue.svg)](./docs/skills.html)
 [![Guides: 151](https://img.shields.io/badge/guides-151-blue.svg)](./docs/skills.html)
 [![Tests: 104 suites](https://img.shields.io/badge/tests-104%20suites-brightgreen.svg)](./tests/run-all.sh)

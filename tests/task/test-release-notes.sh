@@ -23,14 +23,14 @@ assert() {
 }
 
 assert "has a 6.1.0 heading" "grep -q '^## 6.1.0' '$FILE'"
-assert "6.3.0 is the topmost (most recent) entry" "[ \"\$(grep -n '^## ' '$FILE' | head -1 | cut -d: -f2-)\" = '## 6.3.0 (2026-10-03) — Remote Enforcement, Distribution & the Public Web' ]"
+assert "6.3.1 is the topmost (most recent) entry" "[ \"\$(grep -n '^## ' '$FILE' | head -1 | cut -d: -f2-)\" = '## 6.3.1 (2026-10-07) — release pipeline + npm channel fixes' ]"
 assert "the top section covers Phase 8/8.1/9/10" "grep -q 'Phase 8 — remote enforcement' '$FILE' && grep -q 'Phase 8.1' '$FILE' && grep -q 'Phase 9 — distribution' '$FILE' && grep -q 'Phase 10 — the public web' '$FILE'"
 assert "the top section is honest about the pending npm/Homebrew steps" "grep -qi 'not yet activated' '$FILE' && grep -q 'HOMEBREW_TAP_TOKEN' '$FILE'"
 assert "the top section is honest about the un-deployed web" "grep -qi 'not deployed' '$FILE'"
 assert "documents the pre-flight.sh commit-blocking bug" "grep -qi 'blocked every normal commit' '$FILE'"
 assert "documents the commit-approval.sh retired-token bug" "grep -q 'retired token file' '$FILE'"
-assert "VERSION matches the top RELEASE-NOTES entry" "[ \"\$(cat '$REPO_ROOT/VERSION')\" = '6.3.0' ]"
-assert "npm/package.json version is 6.3.0 (kept in sync with VERSION)" "grep -q '\"version\": \"6.3.0\"' '$REPO_ROOT/npm/package.json'"
+assert "VERSION matches the top RELEASE-NOTES entry" "[ \"\$(cat '$REPO_ROOT/VERSION')\" = '6.3.1' ]"
+assert "npm/package.json version is 6.3.1 (kept in sync with VERSION)" "grep -q '\"version\": \"6.3.1\"' '$REPO_ROOT/npm/package.json'"
 assert "documents the second (GitHub PR) review round's macOS date bug" "grep -qi 'GNU-only .date -d.' '$FILE'"
 assert "documents the CI failure this review caught" "grep -qi 'CI failure this review caught' '$FILE'"
 assert "documents the absolute-symlink root cause found after fixing the review's findings" "grep -qi 'absolute, machine-specific path' '$FILE'"
