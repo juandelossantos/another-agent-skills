@@ -157,22 +157,25 @@ classify_file() {
   done
 
   # ── AAS exemptions (apply to every type) ──
-  # 1) Portable AAS shims (a consumer's scripts/*.sh delegates to the framework).
-  is_aas_shim "$filepath" && return 0
-  # 2) Per-project exclusions (.aas/tdd-ignore).
+  # 1) Per-project exclusions (.aas/tdd-ignore).
   if [ "${#TDD_IGNORE_PATTERNS[@]}" -gt 0 ]; then
     for pattern in "${TDD_IGNORE_PATTERNS[@]}"; do
       regex="$(aas_glob_to_regex "$pattern")"
       [[ "$file" =~ $regex ]] && return 0
     done
   fi
-  # 3) AAS-managed artifacts — consumer projects only (see AAS_MANAGED_PATTERNS).
+  # 2) AAS-managed artifacts — consumer projects only (see AAS_MANAGED_PATTERNS).
   if [ "$IS_FRAMEWORK_REPO" = false ]; then
     for pattern in "${AAS_MANAGED_PATTERNS[@]}"; do
       regex="$(aas_glob_to_regex "$pattern")"
       [[ "$file" =~ $regex ]] && return 0
     done
   fi
+  # 3) Portable AAS shims (a consumer's OWN scripts/*.sh delegating to the
+  #    framework) — NOT exempt: a separate TYPE verified by an integration test
+  #    (Phase 13 S4). Checked AFTER AAS-managed so an installed `.husky/*` shim
+  #    stays exempt.
+  is_aas_shim "$filepath" && { echo shim; return 0; }
 
   # ── Type (docs/config before code, so a `.md` is never "code") ──
   for pattern in "${DOC_PATTERNS[@]}"; do
@@ -321,6 +324,7 @@ TEST_FILES=()
 
 DOC_FILES=()
 CONFIG_FILES=()
+SHIM_FILES=()
 
 while IFS= read -r file; do
   if is_test_file "$file"; then
@@ -330,9 +334,41 @@ while IFS= read -r file; do
       code)   CODE_FILES+=("$file") ;;
       docs)   DOC_FILES+=("$file") ;;
       config) CONFIG_FILES+=("$file") ;;
+      shim)   SHIM_FILES+=("$file") ;;
     esac
   fi
 done <<< "$STAGED_FILES"
+
+# ─── Shim Integration Check (Phase 13 S4) ───
+# An AAS shim is not silently exempt: a staged shim needs a name-paired staged
+# test that actually INVOKES it (integration) — not a nominal, empty file.
+if [[ ${#SHIM_FILES[@]} -gt 0 ]]; then
+  SHIMS_WITHOUT=()
+  for _shim in "${SHIM_FILES[@]}"; do
+    _found=false
+    for _t in "${TEST_FILES[@]}"; do
+      if name_matches_code "$_shim" "$_t" && grep -qF "$(basename "$_shim")" "${REPO_DIR}/${_t}" 2>/dev/null; then
+        _found=true; break
+      fi
+    done
+    $_found || SHIMS_WITHOUT+=("$_shim")
+  done
+  if [[ ${#SHIMS_WITHOUT[@]} -gt 0 ]]; then
+    echo ""
+    echo "╔══════════════════════════════════════════════════╗"
+    echo "║  TDD GATE: shim without integration test         ║"
+    echo "╚══════════════════════════════════════════════════╝"
+    echo ""
+    echo "Shims staged without a name-paired test that invokes them:"
+    for _s in "${SHIMS_WITHOUT[@]}"; do echo "  - $_s"; done
+    echo ""
+    echo "Expected: a staged test named for the shim that runs it, e.g."
+    echo "  bash scripts/<name>.sh   (or ./scripts/<name>.sh)"
+    echo ""
+    log_gate "BLOCK" "none" "${TEST_FILES[*]:-none}" "shim-no-integration"
+    exit 1
+  fi
+fi
 
 # No code files staged. docs/config are NOT code: they are verified by their own
 # validators (Phase 13 S2/S3) — never by a name-matched test.

@@ -179,7 +179,7 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 | Code (`.ts/.js/.py/.go/…`) | paired test (as today) **+ the test must actually run / be non-empty** |
 | Documentation (`.md`) | **docs-honesty** validator (`validate-docs-honesty.sh`): broken internal `.md` links **BLOCK**; cited paths + placeholders are advisory (WARN) |
 | Config (`.json`/`.yaml`/`.toml`) | **config-consistency** validator (`validate-config-consistency.sh`): valid syntax (JSON via `jq`, YAML via ruby/pyyaml, TOML via `tomllib`) + every local file a `package.json` script references exists |
-| Shims / `.sh` | **integration test** (spawn + assert) |
+| Shims (`.sh` delegating to the framework) | **integration test**: a name-paired staged test that **invokes** the shim (`bash scripts/<name>.sh`); an installed AAS-managed shim (`.husky/*`) stays exempt |
 
 **Principle:** docs and planning are **product** and **must be verified** — not exempted. (Real bugs were dishonest docs: the startup Protocol citing a non-existent path; the Gate 11 remedy citing a non-installed script.)
 
@@ -190,7 +190,7 @@ The gate stops equating *"verified"* with *"a staged test whose NAME matches"* a
 3. **Config catalog** + per-config rules.
 4. **Reuse** the existing validators (`audit-markdown.sh`, `audit-project.sh`/`universal-audit.sh`, `validate-health-check.sh`, `validate-release-notes.sh`, `validate-skill-table.sh`, `skill-lint.sh`).
 
-### Calibration (S1–S3, measured on this repo)
+### Calibration (S1–S4, measured on this repo)
 
 A blanket *"every cited path must exist"* is too noisy here (~180 findings — most are
 paths that describe **other** projects' layouts or future artifacts). So the gate:
@@ -203,6 +203,9 @@ paths that describe **other** projects' layouts or future artifacts). So the gat
 - **S3** runs `validate-config-consistency.sh` on staged config: invalid JSON/YAML/TOML
   syntax or a `package.json` script referencing a missing local file **BLOCK** (parsers
   degrade gracefully when unavailable — a skip, never a false failure).
+- **S4** verifies shims: a staged AAS shim (`#!/bin/sh` + `exec "$_AAS_ROOT/…"`) needs a
+  name-paired staged test that **invokes** it; a nominal/empty test **BLOCKS**. Installed
+  AAS-managed shims (`.husky/*`) stay exempt (AAS-managed precedence).
 
 ### Acceptance (see `PLAN.md` P13.1–P13.9)
 
