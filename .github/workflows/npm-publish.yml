@@ -18,6 +18,12 @@
 # provenance flag). It publishes ONLY: no install/test/build steps run here, to
 # keep the supply-chain surface minimal. The npm-release environment can be
 # gated by required reviewers (see docs/BRANCH-PROTECTION.md).
+#
+# Publishing is STAGED: this workflow runs `npm stage publish` (never a direct
+# `npm publish`). The trusted publisher has "Allow npm publish" UNCHECKED, so a
+# direct publish is rejected by design. After the CI stages the package, a
+# maintainer reviews and approves it with 2FA (npmjs.com → Staged Packages →
+# Approve) before it goes live. Staged publishing needs npm >= 11.15.0.
 
 name: npm-publish
 
@@ -46,14 +52,14 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Verify npm CLI supports trusted publishing (>= 11.5.1)
+      - name: Verify npm CLI supports staged publishing (>= 11.15.0)
         run: |
           set -euo pipefail
           have="$(npm --version)"
           echo "npm ${have}"
-          oldest="$(printf '11.5.1\n%s\n' "$have" | sort -V | head -n1)"
-          if [ "$oldest" != "11.5.1" ]; then
-            echo "npm ${have} is older than 11.5.1 — trusted publishing unavailable" >&2
+          oldest="$(printf '11.15.0\n%s\n' "$have" | sort -V | head -n1)"
+          if [ "$oldest" != "11.15.0" ]; then
+            echo "npm ${have} is older than 11.15.0 — staged publishing unavailable" >&2
             exit 1
           fi
 
@@ -74,7 +80,8 @@ jobs:
             echo "@juandelossantos/another-agent-skills@${V} already exists — nothing to publish."
           fi
 
-      - name: Publish to npm (OIDC)
+      # Staged: submit to the staging area (a maintainer approves with 2FA).
+      - name: Stage the package for review (OIDC)
         if: steps.check.outputs.already != 'true'
         working-directory: npm
-        run: npm publish --access public
+        run: npm stage publish

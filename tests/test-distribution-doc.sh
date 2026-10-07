@@ -2,7 +2,8 @@
 # test-distribution-doc.sh — behavioral guard for docs/DISTRIBUTION.md (Phase 9).
 #
 # The distribution channels, the maintainer one-time manual steps (npm +
-# Homebrew, including the 2026-10-06 suspension note and the TOTP requirement)
+# Homebrew, including the lifted-suspension note, the TOTP requirement and the
+# staged-publishing flow (npm stage publish; "Allow npm publish" unchecked)),
 # and the release/npm/Homebrew automation must stay documented and linked from
 # the README. This protects the shipped Phase 9 distribution story from silent
 # drift — the failure mode this project keeps correcting (Phase 4, Phase 8.5).
@@ -42,8 +43,10 @@ assert "states it never fetches from a mutable branch" "grep -qi 'mutable branch
 assert "documents the manual first npm publish" "grep -qi 'first publish' '$FILE'"
 assert "documents the Trusted Publisher setup" "grep -q 'Trusted Publisher' '$FILE'"
 assert "names the npm-release environment" "grep -q 'npm-release' '$FILE'"
-assert "records the 2026-10-06 suspension window" "grep -q '2026-10-06' '$FILE'"
+assert "records the suspension lifted (2026-10-07)" "grep -q '2026-10-07' '$FILE' && grep -qi 'suspension lifted' '$FILE'"
 assert "requires TOTP for the CLI (passkey is browser-only)" "grep -qi 'TOTP' '$FILE'"
+assert "documents STAGED publishing (npm stage publish)" "grep -q 'npm stage publish' '$FILE'"
+assert "says to leave 'Allow npm publish' unchecked" "grep -q 'Allow npm publish.*UNCHECKED' '$FILE'"
 
 # ── Maintainer manual steps — Homebrew ────────────────────────────────────────
 assert "documents creating the homebrew-tap repo" "grep -q 'homebrew-tap' '$FILE'"

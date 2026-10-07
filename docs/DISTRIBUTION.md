@@ -175,12 +175,11 @@ npm retired classic publish tokens; the recommended CI path is **Trusted
 Publishing (OIDC)**. npm requires the package to **exist** before a trusted
 publisher can be configured, so the **first publish is manual**.
 
-> **Status (2026-10-02): BLOCKED until `2026-10-06 00:55 UTC`.** The npm account
-> `juandelossantos` is temporarily **suspended (read-only)** because a recovery
-> code was used: the CLI 2FA challenge could not be satisfied — only a **passkey**
-> is configured, and passkeys are **browser-only**, not usable from the npm CLI.
-> After the suspension lifts, follow the steps below (the TOTP fix is what
-> prevents the CLI challenge from failing again).
+> **Status (2026-10-07): the suspension lifted.** The npm account
+> `juandelossantos` was temporarily **suspended (read-only)** after a recovery
+> code was used (the CLI 2FA challenge failed — only a **passkey** was
+> configured, and passkeys are browser-only). It is now unblocked: TOTP
+> (`auth-and-writes`) is enabled and the first publish (**6.3.0**) is live.
 
 1. Log in and enable **TOTP** (not a passkey — the passkey does not work for the
    npm CLI):
@@ -204,13 +203,19 @@ publisher can be configured, so the **first publish is manual**.
    - Repository: `another-agent-skills`
    - Workflow filename: `npm-publish.yml`
    - Environment: `npm-release`
+   - Allowed actions: leave **"Allow npm publish" UNCHECKED**. Publishing is
+     **staged** — the CI submits with `npm stage publish` and a maintainer
+     approves with 2FA before the version goes live (npm's secure default).
 4. Optionally create the GitHub **Environment** `npm-release` with required
    reviewers (see `docs/BRANCH-PROTECTION.md` for the solo-maintainer pattern).
 
-After this, `npm-publish.yml` publishes with a short-lived OIDC token — **no
+After this, `npm-publish.yml` **stages** with a short-lived OIDC token — **no
 stored npm token** — and provenance is generated automatically. The workflow
 syncs the npm version from `VERSION` and skips if the version is already
-published, so future releases need no manual sync.
+published. A maintainer then approves the staged version with 2FA
+(npmjs.com → **Staged Packages** → **Approve**); until then it is not public.
+The first CI publish also **validates** the trusted-publisher configuration
+(npm requires one publish to validate it).
 
 ### Homebrew — tap repo + token
 
