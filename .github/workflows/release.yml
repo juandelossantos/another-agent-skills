@@ -70,10 +70,21 @@ jobs:
           TAG: ${{ steps.tag.outputs.tag }}
         run: |
           set -euo pipefail
-          gh release create "$TAG" \
-            "dist/another-agent-skills-${TAG}.tar.gz" \
-            dist/checksums.txt \
-            dist/bootstrap.sh \
-            --title "$TAG" \
-            --generate-notes
+          # Idempotent: a re-run (or a tag whose release already exists) must not
+          # fail with "a release with the same tag name already exists" — replace
+          # the assets instead of creating a second release.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              "dist/another-agent-skills-${TAG}.tar.gz" \
+              dist/checksums.txt \
+              dist/bootstrap.sh \
+              --clobber
+          else
+            gh release create "$TAG" \
+              "dist/another-agent-skills-${TAG}.tar.gz" \
+              dist/checksums.txt \
+              dist/bootstrap.sh \
+              --title "$TAG" \
+              --generate-notes
+          fi
 
