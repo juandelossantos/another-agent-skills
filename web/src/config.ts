@@ -15,4 +15,4 @@ export const SITE = {
 } as const;
 
 /** The current product version shown in the footer (not a build id). */
-export const VERSION = 'v6.3.0';
+export const VERSION = 'v6.3.1';
