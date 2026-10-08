@@ -51,6 +51,9 @@ jobs:
       - name: Progress skill-table validation
         run: bash scripts/validate-skill-table.sh
 
+      - name: Gate-remedy paths installed (B15 guard)
+        run: bash scripts/check-gate-remedies.sh
+
       - name: Shell syntax check (scripts + hooks)
         run: |
           set -uo pipefail

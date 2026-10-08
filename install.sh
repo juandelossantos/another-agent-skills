@@ -431,11 +431,16 @@ install_global_framework() {
     cp -r "${SCRIPT_DIR}/rules/common/"* "${global_dir}/rules/common/"
     ok "Installed rules/common/ → ${global_dir}/rules/common/"
 
-    # scripts/ (enforcement scripts only)
+    # scripts/ (enforcement scripts + the validators the gates reference as
+    # remediation — keep in sync with AAS_LEGACY_SCRIPTS + AAS_VALIDATOR_SCRIPTS
+    # + the audit/ADR helpers in scripts/init-agents.sh, so a project shim that
+    # delegates here always resolves; B21).
     mkdir -p "${global_dir}/scripts"
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
                   commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
-                  setup-branch-protection.sh tdd-gate.sh; do
+                  setup-branch-protection.sh tdd-gate.sh \
+                  audit-project.sh generate-adr.sh \
+                  validate-skill-table.sh validate-health-check.sh generate-health-check.sh; do
         if [[ -f "${SCRIPT_DIR}/scripts/${script}" ]]; then
             cp "${SCRIPT_DIR}/scripts/${script}" "${global_dir}/scripts/"
             chmod +x "${global_dir}/scripts/${script}"
