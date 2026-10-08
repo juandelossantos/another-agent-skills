@@ -9,7 +9,7 @@
 | Metric | Value |
 |---|---|
 | Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **SHIPPED + LIVE**) |
-| Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B15/B16/B19/B20** (see **Next tasks** below) |
+| Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B16/B19/B20** (see **Next tasks** below) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
@@ -314,10 +314,10 @@ Orden propuesto, con justificación. "Prioridad" = urgencia × impacto × coste.
 | 18 | Rule 12 no se auto-inyecta en el contexto (B7.1–B7.3) | Backlog | 🟠 P1 | Arreglo **blando** (texto): mejora el contexto pero no es enforcement. Complementa B5/B6, no los sustituye. |
 | 19 | PR review gate sin disparador (B8.1–B8.2) | Backlog | 🟡 P2 | Arreglo **blando**: encadenar el checklist mecánico al flujo de PR. |
 | 20 | Gate 14 corre lint en vez de tests (B12.1–B12.5) | Backlog | 🔴 P0 | **Falso PASS**: el gate *cree* correr los tests y corre otro comando. El patrón "enforcement inexistente" que el proyecto combate. |
-| 21 | `generate-health-check.sh` falla en silencio (B14.1–B14.4) | Backlog | 🟠 P1 | Herramienta de remediación rota → el Gate 11 queda sin salida. |
+| 21 | `generate-health-check.sh` falla en silencio (B14.1–B14.4) | ✅ Done | 🟠 P1 | Herramienta de remediación rota → el Gate 11 queda sin salida. ✅ **Done** (B14+B15). |
 | 22 | **Phase 13** — TDD gate verifica por nombre, no por tipo (ex-B17) | Phase 13 | 🔴 P0 | Rediseño a **verificación por tipo** (código→test · docs→honesty · config→esquema · shim→integración); los docs son producto y se verifican. |
 | 23 | `skill-lint` no pela comillas simples (B13.1–B13.2) | Backlog | 🟠 P1 | Falso error de lint; alcance acotado al dir que lintea. Barato. |
-| 24 | Gate 11 apunta a un script no instalado (B15.1–B15.3) | Backlog | 🟡 P2 | Instrucción de remediación no ejecutable. |
+| 24 | Gate 11 apunta a un script no instalado (B15.1–B15.3) | ✅ Done | 🟡 P2 | Instrucción de remediación no ejecutable. ✅ **Done** (B14+B15). |
 | 25 | `--repair` deja `skills/` legacy duplicado (B16.1–B16.3) | Backlog | 🟡 P2 | Duplicación/drift (limpieza). |
 | 26 | `pr-review-checklist` no detecta código `.sh`/`.mjs` (B18) | Backlog | 🟠 P1 | El checklist reporta "No code files changed" en un PR de código `.sh` — **falso OK**; el mismo patrón que Phase 13 corrige. Detectado en el review de PR #61. |
 | 27 | Nits de Phase 13 (B19) | Backlog | 🟡 P2 | `is_code_file()` muerto, mensaje críptico si falta un validador, lógica de fences duplicada. |
@@ -744,12 +744,13 @@ before any version is assigned.
 | B11 | `run_dry_run` reporta `.git/hooks` en vez del dir efectivo (`.husky/`) | 🟡 P2 | ✅ Done |
 | B12 | Gate 14 resuelve el comando equivocado con `STACK_CONFIG.md` multi-fila (corre lint, no tests) | 🔴 P0 | ✅ Done (PR #60) |
 | B13 | `skill-lint` no soporta descripciones entre comillas simples | 🟠 P1 | Pendiente |
-| B14 | `generate-health-check.sh` falla en silencio y exige una sección de frontera que un proyecto real no tiene | 🟠 P1 | Pendiente |
-| B15 | El mensaje del Gate 11 apunta a un script que no se instala en el proyecto | 🟡 P2 | Pendiente |
+| B14 | `generate-health-check.sh` falla en silencio y exige una sección de frontera que un proyecto real no tiene | 🟠 P1 | ✅ Done (B14+B15) |
+| B15 | El mensaje del Gate 11 apunta a un script que no se instala en el proyecto | 🟡 P2 | ✅ Done (B14+B15) |
 | B16 | `--repair` deja el `skills/` legacy duplicado con `.claude/skills/` | 🟡 P2 | Pendiente |
 | B17 | El TDD gate verifica por **NOMBRE**, no por **TIPO** → **promovido a Phase 13** | 🔴 P0 | ✅ Done (Phase 13, PR #61) |
 | B18 | `pr-review-checklist.sh` detecta código solo por `.ts/.js/.py/.go/.java` → un PR solo-`.sh` reporta "No code files changed" (falso OK) | 🟠 P1 | Pendiente |
 | B19 | Phase 13 nits: `is_code_file()` muerto en `tdd-gate.sh`; mensaje críptico si falta un validador; lógica de fences duplicada en los dos validadores | 🟡 P2 | Pendiente |
+| B21 | El `install_global_framework` de `install.sh` copia solo los 10 scripts legacy al dir global (`~/.config/opencode`, fallback de `$AAS_DIR`): faltan `audit-project.sh`, `generate-adr.sh` y los 3 validadores → en ese fallback los shims del proyecto no resuelven | 🟡 P2 | Pendiente |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container
@@ -959,6 +960,8 @@ $ printf "description: 'Audit x'\n" | grep "^description:" | sed 's/^description
 
 **Prioridad:** 🟠 P1 · **Naturaleza:** herramienta de remediación rota.
 
+**Estado:** ✅ **Done.** `--apply` ya no muere en silencio (el `grep` de frontera va con `|| true` y también se guardan `ls`/`find` de `skills/`); cuando no hay headers AAS preserva desde la primera sección propia del proyecto (`## Plan`, `## Stack`, …). El formato generado sigue el esquema que `validate-health-check.sh` espera (documentado en la cabecera del script). Tests: `tests/test-generate-health-check.sh`.
+
 **Problema:** `scripts/generate-health-check.sh --apply` necesita una frontera `^## (Mechanical Enforcement|Steering File|Landing Page)` para reemplazar el encabezado. Si el `HEALTH-CHECK.md` del proyecto no la tiene (courtside tiene secciones propias: Summary, Plan, Stack, Lint…), `STEERING_LINE=$(grep -n "…" "$HEALTH_FILE" | head -1 | cut -d: -f1)` falla y, por `set -euo pipefail`, el script sale 1 **sin imprimir el `FAIL`** (muere antes del `if [ -z "$STEERING_LINE" ]`).
 
 **Por qué importa:** el usuario **no puede regenerar** el health check para satisfacer el Gate 11; el mensaje de remediación es inservible y el fallo es invisible (no hay output). Además, el validador espera filas en un formato (`Errors (Check 14) | **N**`, `Warnings | **N**`) que el archivo del proyecto no tiene → mismatch perpetuo.
@@ -981,6 +984,8 @@ $ grep -nE '^## ' HEALTH-CHECK.md   # ninguna de las 3 fronteras existe
 ### Backlog detallado — B15: el mensaje del Gate 11 apunta a un script que no se instala en el proyecto
 
 **Prioridad:** 🟡 P2 · **Naturaleza:** instrucción de remediación no ejecutable.
+
+**Estado:** ✅ **Done.** `init-agents` (install / `--repair` / `--dry-run`) instala los tres validadores como shims portables (`validate-skill-table.sh`, `validate-health-check.sh`, `generate-health-check.sh`), así que el comando prometido por el Gate 11 y por `STEERING-GUIDE.md` es ejecutable en el proyecto. Auditoría B15.2: los únicos `scripts/…` en mensajes son esos tres + `setup-branch-protection.sh` (ya shimeado). Tests: `tests/test-init-agents-validators.sh`.
 
 **Problema:** el Gate 11 imprime `Run: bash scripts/generate-health-check.sh`, pero `init-agents`/`--repair` **no** copia ese script al proyecto (solo existe en `$AAS_DIR/scripts`). El hook usa `validate-health-check.sh` desde el framework, pero el generador no queda disponible localmente. Igual para cualquier otro script referenciado solo en el mensaje.
 

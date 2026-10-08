@@ -4,8 +4,15 @@
 #   bash scripts/generate-health-check.sh --check   # Verify sync (exit 1 if stale)
 #   bash scripts/generate-health-check.sh --apply   # Regenerate factual sections
 #
-# Only overwrites the Summary + Foundational sections.
-# Preserves: Steering File Integrity, Mechanical Enforcement, Landing Page, Warnings, Decision Log.
+# Only overwrites the factual header region (metadata + Summary + Foundational).
+# Preserves every other section: Steering File Integrity, Mechanical Enforcement,
+# Landing Page, Warnings, Decision Log — and, in a project file without the AAS
+# headers, the project's own "## " sections (Plan, Stack, Lint, ...).
+#
+# Expected field schema (shared with validate-health-check.sh):
+#   | Errors (Check 14) | **N** (guide violations) |
+#   | Warnings | **N** |
+#   | Overall | **<emoji> HEALTHY|DEGRADED|CRITICAL** |
 
 set -euo pipefail
 
@@ -20,8 +27,8 @@ LINT_OUTPUT=$(bash scripts/skill-lint.sh 2>&1) || true
 LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+error)' | head -1 || echo "0")
 LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+warning)' | head -1 || echo "0")
 VERSION=$(cat VERSION 2>/dev/null || echo "unknown")
-SKILL_COUNT=$(ls -d skills/*/ 2>/dev/null | wc -l)
-GUIDE_COUNT=$(find skills/ -maxdepth 2 -type f \( -iname '*guide*' -o -iname '*checklist*' -o -iname '*examples*' -o -iname '*memory*' \) ! -path "*/evals/*" 2>/dev/null | wc -l)
+SKILL_COUNT=$(ls -d skills/*/ 2>/dev/null | wc -l || true)
+GUIDE_COUNT=$(find skills/ -maxdepth 2 -type f \( -iname '*guide*' -o -iname '*checklist*' -o -iname '*examples*' -o -iname '*memory*' \) ! -path "*/evals/*" 2>/dev/null | wc -l || true)
 
 # Determine status
 if [ "$LINT_ERRORS" -gt 0 ]; then
@@ -37,7 +44,9 @@ fi
 
 # Check table validation
 TABLE_RESULT=$(bash scripts/validate-skill-table.sh 2>&1) || true
-TABLE_PASS=$(echo "$TABLE_RESULT" | grep -c "PASS:" || echo "0")
+# `grep -c` prints "0" AND exits 1 on no match, so `|| echo "0"` would append a
+# second line ("0\n0") and break the later `[ "$TABLE_PASS" -gt 0 ]`. Use `|| true`.
+TABLE_PASS=$(echo "$TABLE_RESULT" | grep -c "PASS:" || true)
 
 # Generate factual section
 generate_section() {
@@ -77,10 +86,9 @@ EOF
 
 if [ "$MODE" == "--check" ]; then
   # Compare current HEALTH-CHECK.md header against generated
-  CURRENT_VERSION=$(grep -oP '\*\*Date:\*\*.*' "$HEALTH_FILE" | head -1 || echo "")
   GENERATED=$(generate_section)
-  EXPECTED_ERRORS=$(echo "$GENERATED" | grep -oP '(?<=Errors \(Check 14\) \| \*\*)\d+' | head -1)
-  EXPECTED_WARNINGS=$(echo "$GENERATED" | grep -oP '(?<=Warnings \| \*\*)\d+' | head -1)
+  EXPECTED_ERRORS=$(echo "$GENERATED" | grep -oP '(?<=Errors \(Check 14\) \| \*\*)\d+' | head -1 || true)
+  EXPECTED_WARNINGS=$(echo "$GENERATED" | grep -oP '(?<=Warnings \| \*\*)\d+' | head -1 || true)
 
   # Parse current file
   CURRENT_ERRORS=$(grep -oP '(?<=Errors \(Check 14\) \| \*\*)\d+' "$HEALTH_FILE" | head -1 || echo "unknown")
@@ -103,21 +111,34 @@ if [ "$MODE" == "--check" ]; then
   exit 0
 
 elif [ "$MODE" == "--apply" ]; then
-  # We need to replace the top section of HEALTH-CHECK.md (Date through Foundational)
-  # Find the line where Steering File Integrity section starts
-  STEERING_LINE=$(grep -n "^## Mechanical Enforcement\|^## Steering File\|^## Landing Page" "$HEALTH_FILE" | head -1 | cut -d: -f1)
-  if [ -z "$STEERING_LINE" ]; then
-    echo "FAIL: Could not find section boundary in $HEALTH_FILE"
-    exit 1
+  # Regenerate the factual header region: the metadata block (Date/Version/
+  # Auditor/Status) plus the "## Summary" and "## Foundational: key checks"
+  # tables. Everything from the first PRESERVED section onward is kept verbatim.
+  #
+  # Preserved anchor (the tail we keep), in order of preference:
+  #   1) the AAS section boundary (a framework-managed HEALTH-CHECK.md), else
+  #   2) the first "## " section this generator does NOT own (a project's own
+  #      sections: Plan, Stack, Lint, ...), else
+  #   3) nothing — the file is only the factual block.
+  # Located with `|| true` so a missing boundary never aborts the script under
+  # `set -euo pipefail` (the old silent-death bug: it exited before printing FAIL).
+  PRESERVE_LINE=$(grep -nE '^## (Mechanical Enforcement|Steering File|Landing Page)' "$HEALTH_FILE" | head -1 | cut -d: -f1 || true)
+  if [ -z "$PRESERVE_LINE" ]; then
+    PRESERVE_LINE=$(grep -nE '^## ' "$HEALTH_FILE" \
+      | grep -vE '^[0-9]+:## (Summary|Foundational)' \
+      | head -1 | cut -d: -f1 || true)
   fi
 
-  # Build new content: generated section + everything from Steering onwards
+  # Build new content: header + generated section + everything from the anchor on.
   HEADER=$(head -1 "$HEALTH_FILE")
-  REST=$(tail -n +"$STEERING_LINE" "$HEALTH_FILE")
+  REST=""
+  if [ -n "$PRESERVE_LINE" ]; then
+    REST=$(tail -n +"$PRESERVE_LINE" "$HEALTH_FILE")
+  fi
   {
     echo "$HEADER"
     generate_section
-    echo "$REST"
+    if [ -n "$REST" ]; then echo "$REST"; fi
   } > "${HEALTH_FILE}.tmp"
   mv "${HEALTH_FILE}.tmp" "$HEALTH_FILE"
   echo "HEALTH-CHECK.md updated."

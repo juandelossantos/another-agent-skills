@@ -35,6 +35,13 @@ BACKUP_KEEP=5
 AAS_LEGACY_DOCS="rules/common SOUL.md AGENTS-EXTENDED.md VERSION"
 AAS_LEGACY_SCRIPTS="skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh"
 
+# Validators the gates reference as remediation (B15): the pre-commit Gate 11 and
+# STEERING-GUIDE tell the user to run `bash scripts/validate-skill-table.sh` and
+# `bash scripts/generate-health-check.sh`, and the generator calls
+# `scripts/validate-skill-table.sh`. They must therefore exist in the project as
+# portable shims — otherwise the promised command is not executable.
+AAS_VALIDATOR_SCRIPTS="validate-skill-table.sh validate-health-check.sh generate-health-check.sh"
+
 # Shared agent detection (detect_agents / list_agents)
 # shellcheck source=agent-detect.sh
 source "${SCRIPT_DIR}/agent-detect.sh"
@@ -1257,7 +1264,7 @@ repair_legacy() {
     local paths=( $AAS_LEGACY_DOCS PATTERNS.md ANTI-PATTERNS.md \
                   scripts/audit-project.sh scripts/generate-adr.sh )
     local s
-    for s in $AAS_LEGACY_SCRIPTS; do
+    for s in $AAS_LEGACY_SCRIPTS $AAS_VALIDATOR_SCRIPTS; do
         paths+=("scripts/${s}")
     done
     local p target
@@ -1341,6 +1348,11 @@ install_legacy_equivalents() {
     for s in $AAS_LEGACY_SCRIPTS; do
         install_script_shim "scripts/${s}" "scripts/${s}"
     done
+    # Validators the gates reference as remediation (B15): install them so the
+    # promised `bash scripts/<validator>.sh` command is executable in the project.
+    for s in $AAS_VALIDATOR_SCRIPTS; do
+        install_script_shim "scripts/${s}" "scripts/${s}"
+    done
 }
 
 run_dry_run() {
@@ -1389,7 +1401,7 @@ run_dry_run() {
         fi
     done
     local _legacy_s
-    for _legacy_s in $AAS_LEGACY_SCRIPTS; do
+    for _legacy_s in $AAS_LEGACY_SCRIPTS $AAS_VALIDATOR_SCRIPTS; do
         if [ -L "scripts/${_legacy_s}" ]; then
             plan "remove legacy symlink scripts/${_legacy_s} → recreate as a portable shim"
         elif [ ! -e "scripts/${_legacy_s}" ]; then
