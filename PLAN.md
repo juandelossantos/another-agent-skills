@@ -9,7 +9,7 @@
 | Metric | Value |
 |---|---|
 | Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **SHIPPED + LIVE**) |
-| Next target | **E1** — essay review/edit → decide · **T2** — web + docs update (live) (see **Next tasks** below) |
+| Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B15/B16/B19/B20** (see **Next tasks** below) |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
@@ -705,6 +705,21 @@ before any version is assigned.
 **Review de #61 — hallazgos abiertos:** **B18** (el checklist no detecta código `.sh` → falso OK) y **B19** (nits). **0 findings bloqueantes**; `shellcheck` no disponible (TOOL_GAP).
 
 **Estado de courtside (no bloqueado por Phase 13):** su PR `chore/db-sync-norm` bloquea en **name-pairing de CÓDIGO** — `packages/server/src/dbSyncCli.ts` y `scripts/db-sync.sh` (`#!/usr/bin/env sh`, no un shim AAS) sin test pareado. `config-consistency` sobre su `package.json` → **PASS**. Opciones: test para ambos, o `.aas/tdd-ignore` consciente.
+
+---
+
+## Phase 14: Distribution closeout — DONE
+
+**Status:** ✅ **IMPLEMENTED** (S1–S4, 2026-10-08) — the distribution story now matches reality, and "all channels agree" is **executable**, not a promise.
+
+| Slice | Entrega |
+|---|---|
+| **S1** | **Homebrew removed** everywhere: `scripts/build-brew-formula.sh` + its 2 tests deleted, the optional tap step removed from `release.yml`, and every doc/web/i18n/tracking surface says Homebrew is **NOT PLANNED**. |
+| **S2** | **npm documented as live** (`@juandelossantos/another-agent-skills@6.3.1`, OIDC staged) and the web as **live** — dropped "coming soon" / "not yet deployed". |
+| **S3** | **`scripts/check-channel-consistency.sh`** — verifies `VERSION` agrees with `npm/package.json`, the README badge, `docs/index.html`, `bootstrap.sh` and the web footer (`config.ts` + `i18n` EN/ES); `--online` also compares the npm registry and the release tag. It caught **real drift**: `web/src/config.ts`, the i18n footers, the web test and an example doc were still `v6.3.0`. |
+| **S4** | **Release idempotency** — `release.yml` guards with `gh release view` → `gh release upload --clobber` when the release exists, so re-running no longer fails with "already exists". |
+
+**PRs:** #66 (S1+S2) · #67 (S4) · #68 (S3). **Tests:** 135 suites.
 
 ---
 

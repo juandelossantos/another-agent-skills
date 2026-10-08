@@ -1,17 +1,15 @@
-# Session State — Phase 13 SHIPPED (type-aware TDD gate) · next: B18 + B14 + courtside
+# Session State — Phase 14 SHIPPED (distribution closeout) · next: T2 + backlog
 
-**Date:** 2026-10-06 (updated)
-**Branch:** `chore/phase13-closeout` (this handoff). **Phase 13 = PR #61** (`feat/phase13-type-aware-verification`, 6 commits) — **ready to merge** (`mergeStateStatus: CLEAN`; the guardrail blocks the agent's `gh pr merge`).
-**Status:** ✅ **Phase 13 SHIPPED (S1–S6, 132/132, CI `gates`+`quality` green, checklist 13✓/1⚠/0✗).** The TDD gate now verifies **by type**: code (name-paired + non-empty + new) · docs (docs-honesty) · config (config-consistency) · shims (integration). **Open from the review:** **B18** (the PR checklist doesn't detect `.sh` code → false OK) + **B19** (Phase 13 nits). **courtside is NOT unblocked by Phase 13** — its `chore/db-sync-norm` PR blocks on **code name-pairing** (`dbSyncCli.ts` + `scripts/db-sync.sh`); its `package.json` passes config-consistency.
+**Date:** 2026-10-08 (updated)
+**Branch:** `chore/phase14-s3-channel-consistency` (this handoff — Phase 14 closeout, PR #68).
+**Status:** ✅ **Phase 14 SHIPPED (S1–S4, 135/135, CI green).** Homebrew **removed** (not planned) · npm + web documented **live** · `scripts/check-channel-consistency.sh` (VERSION ↔ npm/badge/docs/bootstrap/web footer) · release **idempotency**. PRs **#66** (S1+S2) · **#67** (S4) · **#68** (S3). Phase 13 shipped earlier (PR #61); **npm `6.3.1` is live.**
 **Plan:** `PLAN.md` — single source of truth
 
 ## Next Session (resume here)
 
-1. **Merge PR #61** (the maintainer runs it — Rule 12b): `gh pr merge 61 --merge`.
-2. **B18** 🟠 P1 — `pr-review-checklist.sh` detects code only by `.ts/.js/.py/.go/.java`; a `.sh`-only PR reports "No code files changed" (**false OK**). Fix + test. (Same "verify by type, not name" pattern Phase 13 fixed.)
-3. **B14** 🟠 P1 — `generate-health-check.sh` dies silently → Gate 11 has no fix path (the biggest adoption blocker).
-4. **courtside** — test `packages/server/src/dbSyncCli.ts` + `scripts/db-sync.sh`, or a conscious `.aas/tdd-ignore`; then commit `chore/db-sync-norm`.
-5. Then **B13/B15/B16** + **B19**.
+1. **T2** — web + docs update (live): verify the live SEO/`llms.txt`/OG; revisit the **security-headers gap**.
+2. **Backlog** — **B13** (`skill-lint` single quotes) · **B15** (Gate 11 remedy) · **B16** (legacy `skills/`) · **B19** (Phase 13 nits) · **B20** (S4 shim risk for a consumer's `scripts/*`).
+3. **E1** — essay review/edit → decide.
 
 ## Historical handoff — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted
 **Pending commit (STAGED, not committed):** the **sequence-rule follow-up** — `PLAN.md` (a new *Regla de secuencia (2026-10-06)* for the B12–B17 lote + Phase 13) and `development/SESSION_STATE.md`, with the updated `tests/task/test-session_state.sh`. Staged on branch **`docs/plan-followup-sequence`** (from `main` @ `30c2e80`). The maintainer runs the commit (Rule 12).
