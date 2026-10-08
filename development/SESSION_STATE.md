@@ -1,8 +1,8 @@
-# Session State — Phase 14 SHIPPED (distribution closeout) · next: T2 + backlog
+# Session State — v6.3.2 release (B14/B15/B21) · next: T2 + backlog
 
 **Date:** 2026-10-08 (updated)
-**Branch:** `chore/phase14-s3-channel-consistency` (this handoff — Phase 14 closeout, PR #68).
-**Status:** ✅ **Phase 14 SHIPPED (S1–S4, 135/135, CI green).** Homebrew **removed** (not planned) · npm + web documented **live** · `scripts/check-channel-consistency.sh` (VERSION ↔ npm/badge/docs/bootstrap/web footer) · release **idempotency**. PRs **#66** (S1+S2) · **#67** (S4) · **#68** (S3). Phase 13 shipped earlier (PR #61); **npm `6.3.1` is live.**
+**Branch:** `release/v6.3.2` (this handoff — the B14/B15/B21 fixes shipped via PR #69).
+**Status:** ✅ **PR #69 MERGED (B14/B15/B21, 139/139, CI green).** Gate 11 / `STEERING-GUIDE.md` remediation is now executable in a real project; `generate-health-check.sh` works without AAS headers; `install.sh`'s global dir is complete; `scripts/check-gate-remedies.sh` guards the class. **Releasing v6.3.2** (npm via the release workflow). Prior: Phase 14 SHIPPED (PRs #66/#67/#68), Phase 13 (PR #61).
 **Plan:** `PLAN.md` — single source of truth
 
 ## Next Session (resume here)
@@ -121,7 +121,7 @@ git tag vX.Y.Z && git push origin vX.Y.Z   # release.yml builds/attests; chains 
 
 ## System state (verified 2026-10-03)
 
-- Phase 10 (public web) **SHIPPED + LIVE**; **`VERSION` is 6.3.1** (covers Phase 8 + 8.1 + 9 + 10 + the 6.3.1 pipeline fixes). The `v6.3.0`/`v6.3.1` tags, the npm activation (**done**), and the post-live docs update remain/remained. Homebrew is **not planned**.
+- Phase 10 (public web) **SHIPPED + LIVE**; **`VERSION` is 6.3.2** (covers Phase 8 + 8.1 + 9 + 10 + the 6.3.1 pipeline fixes + the 6.3.2 B14/B15/B21 remediation fixes). The `v6.3.2` tag, the npm publish (**via the release workflow**), and the post-live docs update remain/remained. Homebrew is **not planned**.
 - Remote enforcement still live: branch protection on `main` requires the `gates` check.
 - OpenCode `2.0.20`: global plugin `agent-discipline` = dual-contract **deny** (philosophy A), single active instance.
 - Skills: canonical `~/.config/opencode/skills`; `~/.claude/skills` and `~/.gemini/skills` symlink to it.

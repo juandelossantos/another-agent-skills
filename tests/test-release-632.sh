@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-release-631.sh — version consistency for 6.3.1: VERSION, the npm package,
+# test-release-631.sh — version consistency for 6.3.2: VERSION, the npm package,
 # the RELEASE-NOTES top entry and the "current version" docs must all agree.
 set -uo pipefail
 
@@ -17,12 +17,12 @@ assert() {
   fi
 }
 
-assert "VERSION is 6.3.1" "[ '$V' = '6.3.1' ]"
+assert "VERSION is 6.3.2" "[ '$V' = '6.3.2' ]"
 assert "npm/package.json mirrors VERSION" "[ \"\$(node -p \"require('$REPO_ROOT/npm/package.json').version\")\" = '$V' ]"
-assert "RELEASE-NOTES top entry is 6.3.1" "[ \"\$(grep -m1 '^## ' '$REPO_ROOT/RELEASE-NOTES.md' | cut -d' ' -f2)\" = '$V' ]"
-assert "README badge is v6.3.1" "grep -q 'Version: v6.3.1' '$REPO_ROOT/README.md'"
-assert "PROGRESS_STATUS current version is 6.3.1" "grep -qF 'Current version:** 6.3.1' '$REPO_ROOT/PROGRESS_STATUS.md'"
-assert "HEALTH-CHECK version is 6.3.1" "grep -qF '**Version:** 6.3.1' '$REPO_ROOT/HEALTH-CHECK.md'"
+assert "RELEASE-NOTES top entry is 6.3.2" "[ \"\$(grep -m1 '^## ' '$REPO_ROOT/RELEASE-NOTES.md' | cut -d' ' -f2)\" = '$V' ]"
+assert "README badge is v6.3.2" "grep -q 'Version: v6.3.2' '$REPO_ROOT/README.md'"
+assert "PROGRESS_STATUS current version is 6.3.2" "grep -qF 'Current version:** 6.3.2' '$REPO_ROOT/PROGRESS_STATUS.md'"
+assert "HEALTH-CHECK version is 6.3.2" "grep -qF '**Version:** 6.3.2' '$REPO_ROOT/HEALTH-CHECK.md'"
 assert "bootstrap.sh usage example tracks VERSION" "grep -q -- '--version v${V}' '$REPO_ROOT/bootstrap.sh'"
 
 echo ""

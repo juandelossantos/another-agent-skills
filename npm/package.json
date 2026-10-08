@@ -1,6 +1,6 @@
 {
   "name": "@juandelossantos/another-agent-skills",
-  "version": "6.3.1",
+  "version": "6.3.2",
   "description": "npm wrapper for Another Agent Skills: downloads and installs the pinned, checksum-verified release. Ships no framework payload.",
   "license": "MIT",
   "repository": {

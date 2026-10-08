@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-10-06
-**Version:** 6.3.1
+**Version:** 6.3.2
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -25,7 +25,7 @@
 | SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 6.3.1 | Consistent |
+| VERSION | ✅ 6.3.2 | Consistent |
 | Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v6.3.1 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.3.1 |
+| Version references | ✅ v6.3.2 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.3.2 |
 | Guide count | ✅ 151 guides | `skills/*/guides/*.md`; the web derives it from `web/src/data/skills.json` |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 | Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |
@@ -75,7 +75,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 1. **v6.3.0 released — Phase 8 + 8.1 + 9 + 10** — remote enforcement (required `gates` check + `CODEOWNERS`), distribution (pinned/attested releases, checksum-verified `curl` bootstrap, `aas` CLI, npm wrapper + OIDC), and the public Astro web in `web/` (bilingual landing + docs, skills reference, tutorials, SEO/AEO/a11y). See `RELEASE-NOTES.md`.
 2. **Phase 10 COMPLETE — public web** — `web/`: Astro bilingual (EN/ES) landing + docs, skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, FAQ, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD, hreflang) and a WCAG 2.2 AA a11y gate (axe 0 across 30 pages × EN/ES × light/dark × 2 viewports; Lighthouse 100/100/100/100 desktop). Complete on `feat/phase10-landing` (10 commits); **not yet PR'd/merged/deployed**.
-3. **T1 — npm activation (DONE)** — first publish + Trusted Publisher (workflow `release.yml`, environment `npm-release`, staged); `@juandelossantos/another-agent-skills@6.3.1` is live. **Homebrew is not planned.** See `docs/DISTRIBUTION.md`.
+3. **T1 — npm activation (DONE)** — first publish + Trusted Publisher (workflow `release.yml`, environment `npm-release`, staged); `@juandelossantos/another-agent-skills@6.3.2` is live. **Homebrew is not planned.** See `docs/DISTRIBUTION.md`.
 4. **Next task T2 — web + docs update once LIVE** — after the Pages deploy is verified live: point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
 5. **Phase 9 COMPLETE — distribution & upgrades** — pinned, attested releases (`.github/workflows/release.yml`), checksum-verified `curl` bootstrap (`bootstrap.sh`), `aas` CLI, portable projects + legacy repair, npm wrapper + OIDC trusted publishing (PRs #47–#52). The maintainer one-time npm steps (incl. the 2026-10-06 npm suspension + the TOTP fix) are documented in `docs/DISTRIBUTION.md`.
 6. **Phase 8 COMPLETE — remote enforcement live** — branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 (PRs #36/#37); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install`, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible GitHub Environment approval (PR #41); closure review (PR #43). P8.4 closed by design (philosophy A).

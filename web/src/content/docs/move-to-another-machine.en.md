@@ -69,7 +69,7 @@ The project is ready. The committed files (`.aas/config`, `AGENTS.md`, `STACK_CO
 If the installed framework differs from the project's pinned version, you get a **non-blocking** advisory:
 
 ```text
-[aas] advisory: project pins v6.2.0, framework v6.3.1 is installed — run "aas upgrade" then "init-agents --repair" (non-blocking)
+[aas] advisory: project pins v6.2.0, framework v6.3.2 is installed — run "aas upgrade" then "init-agents --repair" (non-blocking)
 ```
 
 Run `aas upgrade` to move forward, then `init-agents --repair` to migrate the project. See [Migrate a legacy project](../migrate-a-legacy-project/).

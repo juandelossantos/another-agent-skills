@@ -10,6 +10,7 @@ set -uo pipefail
 RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; NC=$'\033[0m'
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 M="$REPO_ROOT/docs/mockups/phase10"
+V="$(tr -d '[:space:]' < "$REPO_ROOT/VERSION")"
 
 PASSED=0; FAILED=0; TOTAL=0
 assert() {
@@ -55,8 +56,9 @@ assert "docs uses inlined Lucide icons" "grep -q 'viewBox=\"0 0 24 24\"' '$M/doc
 assert "landing i18n is EN/ES" "grep -q 'en:' '$M/js/mockup.js' && grep -q 'es:' '$M/js/mockup.js'"
 assert "no Argentine voseo in the mockups" "! grep -qE 'tenés|podés|Cloná|ejecutá|instalá|usá |elegí|agregá|mirá|corré|andá' '$M/js/mockup.js' '$M/js/docs-mockup.js'"
 
-# --- Footer shows the version (not the phase) ---
-assert "footer shows the current version" "grep -q 'v6\.3\.0' '$M/js/mockup.js'"
+# --- Footer shows the current version (not the phase) ---
+assert "landing footer shows the current version v$V" "grep -q \"v$V\" '$M/js/mockup.js'"
+assert "docs mockup chip shows the current version v$V" "grep -q \"v$V\" '$M/js/docs-mockup.js'"
 assert "footer no longer says Phase 10" "! grep -q 'Phase 10 landing mockup' '$M/js/mockup.js'"
 
 # --- README documents the reusable components ---
