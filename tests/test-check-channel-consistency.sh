@@ -17,7 +17,7 @@ fail() { echo -e "  ${RED}✗${NC} $1"; FAILED=$((FAILED + 1)); TOTAL=$((TOTAL +
 # Build a fixture repo where every surface is at $1.
 fixture() {
   local v="$1" r="$TMP/repo"
-  rm -rf "$r"; mkdir -p "$r/npm" "$r/docs" "$r/web/src" "$r/web/src/i18n"
+  rm -rf "$r"; mkdir -p "$r/npm" "$r/docs/mockups/phase10/js" "$r/web/src" "$r/web/src/i18n"
   printf '%s\n' "$v" > "$r/VERSION"
   printf '{\n  "version": "%s"\n}\n' "$v" > "$r/npm/package.json"
   printf '[![Version: v%s](https://img.shields.io/badge/version-%s-blue.svg)](./RELEASE-NOTES.md)\n' "$v" "$v" > "$r/README.md"
@@ -26,6 +26,8 @@ fixture() {
   printf "export const VERSION = 'v%s';\n" "$v" > "$r/web/src/config.ts"
   printf "    copy: 'v%s · MIT License · Made by x',\n" "$v" > "$r/web/src/i18n/en.ts"
   printf "    copy: 'v%s · Licencia MIT · Hecho por x',\n" "$v" > "$r/web/src/i18n/es.ts"
+  printf "        copy: 'v%s · MIT License',\n" "$v" > "$r/docs/mockups/phase10/js/mockup.js"
+  printf "      version: 'v%s',\n" "$v" > "$r/docs/mockups/phase10/js/docs-mockup.js"
   echo "$r"
 }
 run() { ( bash "$CHECK" --root "$1" >/dev/null 2>&1 ); echo $?; }

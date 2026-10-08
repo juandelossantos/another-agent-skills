@@ -1,5 +1,40 @@
 # Release Notes
 
+## 6.3.2 (2026-10-08) — the remediation path actually works
+
+A patch release that makes the gates' own remediation instructions executable in
+a real project, and adds a guard so the failure class cannot come back.
+
+### Fixed
+
+- **`generate-health-check.sh --apply` (B14).** It aborted silently (exit 1, no
+  output) on any `HEALTH-CHECK.md` without the AAS section headers — i.e. every
+  real project — because the boundary `grep` failed under `set -euo pipefail`.
+  Now it preserves from the first project-owned section (`## Plan`, `## Stack`,
+  …) and keeps non-owned prose (notes/blockquotes) inside the regenerated region.
+  Two more silent-death paths were guarded (`ls`/`find` of `skills/`, and
+  `grep -c "PASS:" || echo 0` which produced `0\n0`).
+- **Gate 11 remediation was not executable (B15).** The pre-commit and
+  `STEERING-GUIDE.md` tell the user to run `bash scripts/validate-skill-table.sh`
+  and `bash scripts/generate-health-check.sh`, but `init-agents` never installed
+  them. They are now installed as portable shims on `install` / `--repair` /
+  `--dry-run` (`AAS_VALIDATOR_SCRIPTS`).
+- **`install.sh` global dir was incomplete (B21).** `install_global_framework`
+  copied only the 10 legacy scripts to the `~/.config/opencode` fallback; it now
+  copies the audit/ADR helpers and the 3 validators too.
+
+### New
+
+- **Gate-remedy guard.** `scripts/check-gate-remedies.sh` verifies every
+  `scripts/*.sh` a gate message tells the user to run is installed by
+  `init-agents`. Wired into `gates.yml` and `tests/run-all.sh`.
+
+### Tests
+
+- `tests/test-generate-health-check.sh` (18), `tests/test-init-agents-validators.sh`
+  (16), `tests/test-install-global-validators.sh` (10),
+  `tests/test-check-gate-remedies.sh` (5). Suite **139/139**.
+
 ## 6.3.1 (2026-10-07) — release pipeline + npm channel fixes
 
 A patch release fixing the release pipeline and the npm channel.

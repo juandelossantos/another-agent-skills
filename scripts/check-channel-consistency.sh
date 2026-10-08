@@ -3,8 +3,8 @@
 # with VERSION. Turns "all channels agree" from a promise into a check.
 #
 # Local surfaces (always): npm/package.json · README badge · docs/index.html ·
-# bootstrap.sh example · web footer config. With --online it also compares the
-# npm registry and the GitHub release tag.
+# bootstrap.sh example · web footer config · the design mockup footers. With
+# --online it also compares the npm registry and the GitHub release tag.
 #
 # Usage: bash scripts/check-channel-consistency.sh [--root DIR] [--online]
 # Exit codes: 0 = consistent, 1 = a surface disagrees
@@ -47,6 +47,8 @@ contains "bootstrap.sh"      "--version v$V"         "bootstrap.sh example = v$V
 contains "web/src/config.ts" "VERSION = 'v$V'"       "web footer config = v$V"
 contains "web/src/i18n/en.ts" "v$V · MIT License"     "web footer (EN) = v$V"
 contains "web/src/i18n/es.ts" "v$V · Licencia MIT"    "web footer (ES) = v$V"
+contains "docs/mockups/phase10/js/mockup.js"     "v$V" "mockup landing footer = v$V"
+contains "docs/mockups/phase10/js/docs-mockup.js" "v$V" "mockup docs chip = v$V"
 
 if [ "$ONLINE" = "1" ]; then
   if command -v npm >/dev/null 2>&1; then
