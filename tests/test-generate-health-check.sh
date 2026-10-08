@@ -120,6 +120,16 @@ assert "FAILing table validator: no integer error" "! grep -q 'integer expected'
 assert "FAILing table validator: reported as FAIL" "grep -q 'validate-skill-table | 🔴 FAIL' '$T/HEALTH-CHECK.md'"
 rm -rf "$T"
 
+# ── Case 6: a project note inside the regenerated region is preserved ──
+N="$(mkproject_fixture)"
+awk '{ if ($0 == "## Plan" && !seen) { print "> Project debt note — MUST KEEP NOTE"; seen=1 } print }' \
+  "$N/HEALTH-CHECK.md" > "$N/hc.tmp" && mv "$N/hc.tmp" "$N/HEALTH-CHECK.md"
+assert "fixture has the note before regeneration" "grep -q 'MUST KEEP NOTE' '$N/HEALTH-CHECK.md'"
+( cd "$N" && bash "$GEN" --apply >/dev/null 2>&1 )
+assert "project note preserved across --apply" "grep -q 'MUST KEEP NOTE' '$N/HEALTH-CHECK.md'"
+assert "project section still preserved" "grep -q '^## Plan' '$N/HEALTH-CHECK.md'"
+rm -rf "$N"
+
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1

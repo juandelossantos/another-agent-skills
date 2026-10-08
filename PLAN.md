@@ -750,7 +750,7 @@ before any version is assigned.
 | B17 | El TDD gate verifica por **NOMBRE**, no por **TIPO** → **promovido a Phase 13** | 🔴 P0 | ✅ Done (Phase 13, PR #61) |
 | B18 | `pr-review-checklist.sh` detecta código solo por `.ts/.js/.py/.go/.java` → un PR solo-`.sh` reporta "No code files changed" (falso OK) | 🟠 P1 | Pendiente |
 | B19 | Phase 13 nits: `is_code_file()` muerto en `tdd-gate.sh`; mensaje críptico si falta un validador; lógica de fences duplicada en los dos validadores | 🟡 P2 | Pendiente |
-| B21 | El `install_global_framework` de `install.sh` copia solo los 10 scripts legacy al dir global (`~/.config/opencode`, fallback de `$AAS_DIR`): faltan `audit-project.sh`, `generate-adr.sh` y los 3 validadores → en ese fallback los shims del proyecto no resuelven | 🟡 P2 | Pendiente |
+| B21 | El `install_global_framework` de `install.sh` copia solo los 10 scripts legacy al dir global (`~/.config/opencode`, fallback de `$AAS_DIR`): faltan `audit-project.sh`, `generate-adr.sh` y los 3 validadores → en ese fallback los shims del proyecto no resuelven | 🟡 P2 | ✅ Done (B14+B15) |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container
@@ -960,7 +960,7 @@ $ printf "description: 'Audit x'\n" | grep "^description:" | sed 's/^description
 
 **Prioridad:** 🟠 P1 · **Naturaleza:** herramienta de remediación rota.
 
-**Estado:** ✅ **Done.** `--apply` ya no muere en silencio (el `grep` de frontera va con `|| true` y también se guardan `ls`/`find` de `skills/`); cuando no hay headers AAS preserva desde la primera sección propia del proyecto (`## Plan`, `## Stack`, …). El formato generado sigue el esquema que `validate-health-check.sh` espera (documentado en la cabecera del script). Tests: `tests/test-generate-health-check.sh`.
+**Estado:** ✅ **Done.** `--apply` ya no muere en silencio (el `grep` de frontera va con `|| true` y también se guardan `ls`/`find` de `skills/` y `grep -c … || echo 0`); cuando no hay headers AAS preserva desde la primera sección propia del proyecto (`## Plan`, `## Stack`, …) y **preserva la prosa no poseída** dentro de la región (notas/blockquotes, p.ej. el `> Deuda…` de courtside). El formato generado sigue el esquema que `validate-health-check.sh` espera (documentado en la cabecera del script). Tests: `tests/test-generate-health-check.sh`.
 
 **Problema:** `scripts/generate-health-check.sh --apply` necesita una frontera `^## (Mechanical Enforcement|Steering File|Landing Page)` para reemplazar el encabezado. Si el `HEALTH-CHECK.md` del proyecto no la tiene (courtside tiene secciones propias: Summary, Plan, Stack, Lint…), `STEERING_LINE=$(grep -n "…" "$HEALTH_FILE" | head -1 | cut -d: -f1)` falla y, por `set -euo pipefail`, el script sale 1 **sin imprimir el `FAIL`** (muere antes del `if [ -z "$STEERING_LINE" ]`).
 
@@ -985,7 +985,7 @@ $ grep -nE '^## ' HEALTH-CHECK.md   # ninguna de las 3 fronteras existe
 
 **Prioridad:** 🟡 P2 · **Naturaleza:** instrucción de remediación no ejecutable.
 
-**Estado:** ✅ **Done.** `init-agents` (install / `--repair` / `--dry-run`) instala los tres validadores como shims portables (`validate-skill-table.sh`, `validate-health-check.sh`, `generate-health-check.sh`), así que el comando prometido por el Gate 11 y por `STEERING-GUIDE.md` es ejecutable en el proyecto. Auditoría B15.2: los únicos `scripts/…` en mensajes son esos tres + `setup-branch-protection.sh` (ya shimeado). Tests: `tests/test-init-agents-validators.sh`.
+**Estado:** ✅ **Done.** `init-agents` (install / `--repair` / `--dry-run`) instala los tres validadores como shims portables (`validate-skill-table.sh`, `validate-health-check.sh`, `generate-health-check.sh`), así que el comando prometido por el Gate 11 y por `STEERING-GUIDE.md` es ejecutable en el proyecto. Auditoría B15.2: los únicos `scripts/…` en mensajes son esos tres + `setup-branch-protection.sh` (ya shimeado). Tests: `tests/test-init-agents-validators.sh`. **Guard preventivo:** `scripts/check-gate-remedies.sh` (+ `tests/test-check-gate-remedies.sh`, + step en `gates.yml`) verifica que todo `scripts/*.sh` que un mensaje de gate manda ejecutar esté instalado — caza esta clase automáticamente.
 
 **Problema:** el Gate 11 imprime `Run: bash scripts/generate-health-check.sh`, pero `init-agents`/`--repair` **no** copia ese script al proyecto (solo existe en `$AAS_DIR/scripts`). El hook usa `validate-health-check.sh` desde el framework, pero el generador no queda disponible localmente. Igual para cualquier otro script referenciado solo en el mensaje.
 

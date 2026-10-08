@@ -7,7 +7,8 @@
 # Only overwrites the factual header region (metadata + Summary + Foundational).
 # Preserves every other section: Steering File Integrity, Mechanical Enforcement,
 # Landing Page, Warnings, Decision Log — and, in a project file without the AAS
-# headers, the project's own "## " sections (Plan, Stack, Lint, ...).
+# headers, the project's own "## " sections (Plan, Stack, Lint, ...). Non-owned
+# prose inside the region (notes, blockquotes) is preserved too.
 #
 # Expected field schema (shared with validate-health-check.sh):
 #   | Errors (Check 14) | **N** (guide violations) |
@@ -129,15 +130,26 @@ elif [ "$MODE" == "--apply" ]; then
       | head -1 | cut -d: -f1 || true)
   fi
 
-  # Build new content: header + generated section + everything from the anchor on.
+  # Build new content: header + generated section + any non-owned prose kept from
+  # the regenerated region (a project note/blockquote between the Summary table
+  # and the next section, e.g. courtside's "> Deuda ...") + everything from the
+  # anchor on. Owned lines dropped from the region: metadata keys, markdown table
+  # rows, the Summary/Foundational headings, rules and blank lines.
   HEADER=$(head -1 "$HEALTH_FILE")
+  KEPT=""
   REST=""
+  if [ -n "$PRESERVE_LINE" ] && [ "$PRESERVE_LINE" -gt 2 ]; then
+    KEPT=$(sed -n "2,$((PRESERVE_LINE - 1))p" "$HEALTH_FILE" \
+      | grep -vE '^[[:space:]]*$|^\*\*[^*]+:\*\*|^[[:space:]]*\|' \
+      | grep -vE '^[[:space:]]*## (Summary|Foundational)|^[[:space:]]*---[[:space:]]*$' || true)
+  fi
   if [ -n "$PRESERVE_LINE" ]; then
     REST=$(tail -n +"$PRESERVE_LINE" "$HEALTH_FILE")
   fi
   {
     echo "$HEADER"
     generate_section
+    if [ -n "$KEPT" ]; then echo "$KEPT"; echo ""; fi
     if [ -n "$REST" ]; then echo "$REST"; fi
   } > "${HEALTH_FILE}.tmp"
   mv "${HEALTH_FILE}.tmp" "$HEALTH_FILE"
