@@ -191,7 +191,7 @@ export const en = {
     social: 'Open source · MIT License · Works offline · No lock-in',
   },  footer: {
     docs: 'Documentation', github: 'GitHub',
-    copy: 'v6.3.0 · MIT License · Made by @juandelossantos',
+    copy: 'v6.3.1 · MIT License · Made by @juandelossantos',
   },
   agents: {
     ariaLabel: 'Detected agents',

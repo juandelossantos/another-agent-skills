@@ -22,7 +22,7 @@ assert() {
   fi
 }
 
-assert "handoff title is Phase 13 SHIPPED (type-aware TDD gate)" "grep -q '# Session State — Phase 13 SHIPPED (type-aware TDD gate) · next: B18 + B14 + courtside' '$FILE'"
+assert "handoff title is Phase 14 SHIPPED (distribution closeout)" "grep -q '# Session State — Phase 14 SHIPPED (distribution closeout) · next: T2 + backlog' '$FILE'"
 assert "documents Phase 10 SHIPPED" "grep -q 'Phase 10 SHIPPED' '$FILE'"
 assert "retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$FILE'"
 assert "names the merged Phase 9 PRs" "grep -q 'PRs #47' '$FILE'"
@@ -36,9 +36,9 @@ assert "documents the gated tag step" "grep -q 'Gated steps' '$FILE' && grep -q 
 assert "records verified system state" "grep -q 'System state (verified 2026-10-03)' '$FILE'"
 assert "records 108 suites" "grep -q '108 suites passing' '$FILE'"
 assert "records the web suite" "grep -q '83 node + 85 e2e' '$FILE'"
-assert "records Phase 13 SHIPPED (type-aware TDD gate)" "grep -q 'Phase 13 SHIPPED' '$FILE'"
-assert "records B18 (the PR checklist does not detect .sh code)" "grep -q 'B18' '$FILE'"
-assert "records the courtside block (code name-pairing)" "grep -q 'dbSyncCli.ts' '$FILE' && grep -q 'db-sync.sh' '$FILE'"
+assert "records Phase 14 SHIPPED (distribution closeout)" "grep -q 'Phase 14 SHIPPED' '$FILE'"
+assert "records the open backlog (B13..B20)" "grep -q 'B13' '$FILE' && grep -q 'B20' '$FILE'"
+assert "records the T2 next step (security-headers)" "grep -q 'T2' '$FILE' && grep -q 'security-headers gap' '$FILE'"
 assert "retains the historical previous handoff" "grep -q 'previous sessions. handoff' '$FILE'"
 
 # --- 2026-10-06 handoff: B4–B11 shipped + the B12–B17 next task ---
