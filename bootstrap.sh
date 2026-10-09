@@ -3,7 +3,7 @@
 # Another Agent Skills (Phase 9, P9.2).
 #
 #   curl -fsSL <release>/bootstrap.sh | bash
-#   bash bootstrap.sh --version v6.3.2
+#   bash bootstrap.sh --version v6.4.0
 #   bash bootstrap.sh --dry-run
 #   bash bootstrap.sh --uninstall
 #   bash bootstrap.sh --tarball <path> --checksums <path>

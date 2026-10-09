@@ -70,7 +70,7 @@ Try these:
 
 ### Intentional differences from the landing
 
-- The sidebar **version chip** (`v6.3.2 · current docs`) is a docs version
+- The sidebar **version chip** (`v6.4.0 · current docs`) is a docs version
   indicator, not the landing "version footer" anti-pattern the bans call out.
 - Relative links use `../../` and resolve when the mockup is opened from the
   repository. When previewing over a static server, serve from the **repo root**

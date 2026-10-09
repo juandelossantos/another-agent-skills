@@ -8,7 +8,7 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.3.2** — through Phase 14 (distribution closeout) + the **B14/B15/B21** remediation fixes; npm (`@juandelossantos/another-agent-skills`) and the web are **live** |
+| Version | **6.4.0** — the /gate wedge skill (58th) + npm-first onboarding; npm and the web are **live** (distribution closeout) + the **B14/B15/B21** remediation fixes; npm (`@juandelossantos/another-agent-skills`) and the web are **live** |
 | Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B16/B19/B20** (see **Next tasks** below). *Current focus: **MKT** — see below.* |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
@@ -69,7 +69,7 @@ A thought-leadership essay on AI-as-assistant / human-as-author is drafted in `d
 
 ### T1 — npm activation (DONE) · Homebrew (not planned)
 
-The npm wrapper ships in the repo (Phase 9) and is now **live** (`@juandelossantos/another-agent-skills@6.3.2`, OIDC trusted publishing, staged approvals). See `docs/DISTRIBUTION.md`.
+The npm wrapper ships in the repo (Phase 9) and is now **live** (`@juandelossantos/another-agent-skills@6.4.0`, OIDC trusted publishing, staged approvals). See `docs/DISTRIBUTION.md`.
 
 - **npm — DONE.** First publish (`npm login` + TOTP + `npm publish`) + the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow **`release.yml`** — the publish is chained via `workflow_call`, so npm validates the calling workflow — environment `npm-release`, "Allow npm publish" **unchecked** = staged). `v6.3.1` and `v6.3.2` published via CI. **Chain fix (v6.3.2):** the `publish-npm` job that chains `npm-publish.yml` was accidentally dropped from `release.yml` in #66 → v6.3.2 first missed npm; restored in #71 and guarded by `tests/test-release-npm-chain.sh`.
 - **Homebrew — NOT PLANNED.** Dropped: it would add a separate `homebrew-tap` repo + a PAT secret, while `git clone`, the pinned `curl` bootstrap and npm already cover Linux/macOS/Windows.

@@ -43,7 +43,7 @@ aas uninstall                 # eliminar la CLI, la raíz de instalación y la e
 
 ```bash
 npx @juandelossantos/another-agent-skills install
-npx @juandelossantos/another-agent-skills install --version v6.3.2
+npx @juandelossantos/another-agent-skills install --version v6.4.0
 ```
 
 El paquete de npm contiene solo `cli.js` y un README. Descarga el tarball del release y `checksums.txt`, verifica el sha256 con `node:crypto` y delega en el `bootstrap.sh` del propio release, así que la lógica de instalación vive en un único lugar. Se publica con OIDC trusted publishing (sin token almacenado).

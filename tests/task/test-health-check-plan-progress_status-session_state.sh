@@ -36,11 +36,11 @@ assert "PLAN records T2 (web + docs once live)" "grep -q 'T2' '$PLAN' && grep -q
 assert "PLAN mentions the security-headers gap" "grep -qi 'security.headers\|_headers\|CSP' '$PLAN'"
 
 # --- PROGRESS: header + the next tasks ---
-assert "PROGRESS header is 6.3.2" "grep -qE 'Current version:\*\* 6\.3\.2|Current version: 6\.3\.2' '$PROG'"
+assert "PROGRESS header is 6.4.0" "grep -qE 'Current version:\*\* 6\.4\.0|Current version: 6\.4\.0' '$PROG'"
 assert "PROGRESS In Progress points at T1/T2" "grep -q 'T1' '$PROG' && grep -q 'T2' '$PROG'"
 
 # --- HEALTH: regenerated + the recommendations ---
-assert "HEALTH header is 6.3.2" "grep -q '6.3.2' '$HEALTH'"
+assert "HEALTH header is 6.4.0" "grep -q '6.4.0' '$HEALTH'"
 assert "HEALTH recommends T1/T2" "grep -q 'T1' '$HEALTH' && grep -q 'T2' '$HEALTH'"
 
 # --- SESSION_STATE: the handoff ---

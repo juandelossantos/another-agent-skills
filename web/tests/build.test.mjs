@@ -434,7 +434,7 @@ test('FAQ answers the Bloque E questions E1-E8 in EN and ES', () => {
 });
 
 test('install channels are honest: npm is live and Homebrew is not named', () => {
-  // npm shipped live in v6.3.2; Homebrew was dropped and is not named anywhere
+  // npm shipped live in v6.4.0; Homebrew was dropped and is not named anywhere
   // in the user-facing distribution docs.
   const dist = read('docs/distribution/index.html');
   assert.match(dist, /npm/i, 'EN distribution page must mention npm');
@@ -462,8 +462,8 @@ test('footer shows the current version and the stats are derived from skills.jso
   const en = read('index.html');
   const es = read('es/index.html');
   // The footer version comes from src/config.ts (VERSION).
-  assert.match(en, /v6\.3\.2 · MIT License/);
-  assert.match(es, /v6\.3\.2 · Licencia MIT/);
+  assert.match(en, /v6\.4\.0 · MIT License/);
+  assert.match(es, /v6\.4\.0 · Licencia MIT/);
   // The skills stat line is derived from the generated dataset — never hand-typed.
   assert.match(en, /58 skills · 153 guides · 6 harness components/);
   assert.match(es, /58 skills · 153 guías · 6 componentes del harness/);

@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-10-06
-**Version:** 6.3.2
+**Version:** 6.4.0
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -25,7 +25,7 @@
 | SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 6.3.2 | Consistent |
+| VERSION | ✅ 6.4.0 | Consistent |
 | Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v6.3.2 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.3.2 |
+| Version references | ✅ v6.4.0 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.4.0 |
 | Guide count | ✅ 153 guides | `skills/*/guides/*.md`; the web derives it from `web/src/data/skills.json` |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 | Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |

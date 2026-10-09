@@ -19,6 +19,9 @@ check $? "usage example uses the current VERSION (v${REPO_VERSION})"
 # The header usage line specifically (the one a reader copy-pastes first).
 grep -q -- "#   bash bootstrap.sh --version v${REPO_VERSION}" "$REPO_ROOT/bootstrap.sh"
 check $? "header usage line pins v${REPO_VERSION}"
+# Guard against a stale pinned example left behind in a comment.
+! grep -qE -- "--version v6\.[0-3]\." "$REPO_ROOT/bootstrap.sh"
+check $? "no stale --version example in bootstrap.sh"
 
 # Portable sha256 (GNU coreutils sha256sum, or macOS/BSD shasum -a 256).
 _sha256() {

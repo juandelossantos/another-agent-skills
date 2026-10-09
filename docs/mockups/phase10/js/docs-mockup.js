@@ -37,7 +37,7 @@
         reference: 'Reference', rules: 'Rules', agents: 'Agents', customization: 'Customization',
         evaluation: 'Evaluation', branch: 'Branch Protection', distribution: 'Distribution'
       },
-      version: 'v6.3.2',
+      version: 'v6.4.0',
       versionLabel: 'current docs',
       search: {
         placeholder: 'Search docs',
@@ -124,7 +124,7 @@
         reference: 'Referencia', rules: 'Reglas', agents: 'Agentes', customization: 'Personalizaci\u00f3n',
         evaluation: 'Evaluaci\u00f3n', branch: 'Protecci\u00f3n de ramas', distribution: 'Distribuci\u00f3n'
       },
-      version: 'v6.3.2',
+      version: 'v6.4.0',
       versionLabel: 'docs actuales',
       search: {
         placeholder: 'Buscar en la documentaci\u00f3n',
