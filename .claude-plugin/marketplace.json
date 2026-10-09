@@ -1,6 +1,6 @@
 {
   "name": "another-agent-skills",
-  "description": "Mechanical enforcement (TDD + commit gates) plus 57 skills for AI coding agents. Agent = Model + Harness.",
+  "description": "Mechanical enforcement (TDD + commit gates) plus 58 skills for AI coding agents. Agent = Model + Harness.",
   "owner": {
     "name": "Juan de los Santos"
   },

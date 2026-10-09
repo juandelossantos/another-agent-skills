@@ -105,7 +105,7 @@ const html = `<!doctype html>
     <div>
       <div class="rule"></div>
       <div class="bottom">
-        <p class="facts">57 skills · L1/L2/L3 mechanical enforcement · 15 agents</p>
+        <p class="facts">58 skills · L1/L2/L3 mechanical enforcement · 15 agents</p>
         <span class="url">another-agent-skills</span>
       </div>
     </div>

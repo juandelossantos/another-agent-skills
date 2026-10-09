@@ -23,7 +23,7 @@ const homeHref = localePath(locale, '');
  * Every top-level section is a native <details> group, so the sidebar is
  * uniform and works with JS off. The group holding the current page opens.
  *
- * The 57 skills are not a separate group: they hang off the Concepts → "Skills"
+ * The 58 skills are not a separate group: they hang off the Concepts → "Skills"
  * item (the one place "Skills" appears). That item is an expandable link — the
  * label navigates to the skills page, the chevron toggles the categories — built
  * from the same dataset as the catalog and the search index.
@@ -58,7 +58,7 @@ const skillsHref = docsHref(locale, 'skills');
               const slug = docSlug(entry);
               const active = slug === activeSlug;
 
-              // The Skills entry carries the 13 categories and the 57 skills.
+              // The Skills entry carries the 13 categories and the 58 skills.
               if (slug === 'skills') {
                 return (
                   <li class="docs-nav__branch">

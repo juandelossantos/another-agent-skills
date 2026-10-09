@@ -1,7 +1,7 @@
 {
   "generatedFrom": "skills/*/SKILL.md",
-  "skillCount": 57,
-  "guideCount": 151,
+  "skillCount": 58,
+  "guideCount": 153,
   "categories": [
     {
       "id": "foundation",
@@ -2710,6 +2710,57 @@
           "Desarrollo local o prototipado sin intención de producción",
           "Hotfixes donde el CI/CD ya está establecido y el arreglo es trivial",
           "Cambios solo de documentación sin impacto en el código"
+        ],
+        "fallback": false
+      }
+    },
+    {
+      "name": "gate",
+      "title": "Gate",
+      "category": "devops",
+      "tier": "action-allowed",
+      "audience": "engineers",
+      "workflow": "enforce",
+      "foundation": null,
+      "compatibility": "all",
+      "what": "Instrument a repo with mechanical gates so an agent cannot commit untested code. Installs local hooks, a TDD gate, and a required CI check, then proves the gate fires.",
+      "triggers": [
+        "A user says their AI agent ships untested, unreviewed, or broken code"
+      ],
+      "whenToUse": [
+        "A user says their AI agent ships untested, unreviewed, or broken code.",
+        "They want a TDD gate, a pre-commit gate, or a required CI status check.",
+        "They ask to \"add enforcement\", \"block bad commits\", or \"make the agent prove it works\".",
+        "A repo has prompts (CLAUDE.md, .cursorrules, AGENTS.md) but no mechanical enforcement."
+      ],
+      "whenNotToUse": [
+        "The repo already has active gates — verify first (see *Verification*).",
+        "Non-git projects: no VCS means no hooks; enforcement is convention-only.",
+        "One-off scripts where a gate is pure noise."
+      ],
+      "guides": [
+        "VERIFY-ENFORCEMENT",
+        "WIRE-THE-GATES"
+      ],
+      "guideCount": 2,
+      "docsUrl": "https://github.com/juandelossantos/another-agent-skills/blob/main/skills/gate/SKILL.md",
+      "es": {
+        "what": "Instrumenta un repo con puertas mecánicas para que un agente no pueda commitear código sin tests. Instala hooks locales, una puerta TDD y un check de CI requerido, y prueba que la puerta se dispara.",
+        "triggers": [
+          "el agente de IA envía código sin tests o sin revisión",
+          "se piden puertas, enforcement o un check de CI requerido",
+          "un repo tiene prompts pero sin enforcement mecánico"
+        ],
+        "whenToUse": [
+          "El usuario dice que su agente de IA envía código sin tests o sin revisión",
+          "Quieren una puerta TDD, una puerta pre-commit o un check de CI requerido",
+          "Piden 'agregar enforcement', 'bloquear commits malos' o 'hacer que el agente lo pruebe'",
+          "Un repo tiene prompts (CLAUDE.md, .cursorrules, AGENTS.md) pero sin enforcement mecánico"
+        ],
+        "whenNotToUse": [
+          "El repo ya tiene puertas activas (verifícalo primero)",
+          "Proyectos que no usan git (sin VCS no hay hooks)",
+          "Scripts de una sola vez donde una puerta es puro ruido"
         ],
         "fallback": false
       }

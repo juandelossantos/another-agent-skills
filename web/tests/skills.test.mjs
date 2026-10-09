@@ -2,10 +2,10 @@
  * Skills reference assertions.
  *
  * Two layers:
- *  - the generated dataset (`src/data/skills.json`) must cover all 57 skills,
+ *  - the generated dataset (`src/data/skills.json`) must cover all 58 skills,
  *    each with a `what`, at least one trigger, a `whenToUse`, and a complete,
  *    non-fallback ES translation;
- *  - the built pages (`dist/docs/skills/` + ES) must render the 57 skills,
+ *  - the built pages (`dist/docs/skills/` + ES) must render the 58 skills,
  *    the category index anchors, a TL;DR, and be discoverable (sitemap,
  *    search index, llms.txt).
  *
@@ -31,10 +31,10 @@ const BASE = '/another-agent-skills';
  * Dataset
  * ------------------------------------------------------------------ */
 
-test('dataset: 57 skills across the declared categories', () => {
-  assert.equal(dataset.skillCount, 57, 'skillCount must be 57');
-  assert.equal(dataset.skills.length, 57, 'skills must contain 57 entries');
-  assert.equal(dataset.guideCount, 151, 'guideCount must be 151 (skills/*/guides/*.md)');
+test('dataset: 58 skills across the declared categories', () => {
+  assert.equal(dataset.skillCount, 58, 'skillCount must be 58');
+  assert.equal(dataset.skills.length, 58, 'skills must contain 58 entries');
+  assert.equal(dataset.guideCount, 153, 'guideCount must be 153 (skills/*/guides/*.md)');
   assert.ok(dataset.categories.length >= 8, 'expected the category groups');
 
   const categoryIds = new Set(dataset.categories.map((c) => c.id));
@@ -111,9 +111,9 @@ test('pages: the skills reference is built in EN and ES', () => {
   }
 });
 
-test('pages: EN renders all 57 skills and the 13 category sections', () => {
+test('pages: EN renders all 58 skills and the 13 category sections', () => {
   const html = read('docs/skills/index.html');
-  assert.equal((html.match(/id="skill-/g) ?? []).length, 57, 'expected 57 rendered skills');
+  assert.equal((html.match(/id="skill-/g) ?? []).length, 58, 'expected 57 rendered skills');
   assert.equal(
     (html.match(/class="skills-cat"/g) ?? []).length,
     dataset.categories.length,
@@ -135,10 +135,10 @@ test('pages: EN renders all 57 skills and the 13 category sections', () => {
   assert.match(html, /blob\/main\/skills\/test-driven-development\/SKILL\.md/);
 });
 
-test('pages: ES renders all 57 skills with the Spanish copy', () => {
+test('pages: ES renders all 58 skills with the Spanish copy', () => {
   const html = read('es/docs/skills/index.html');
   assert.match(html, /<html lang="es"/);
-  assert.equal((html.match(/id="skill-/g) ?? []).length, 57, 'expected 57 rendered skills');
+  assert.equal((html.match(/id="skill-/g) ?? []).length, 58, 'expected 57 rendered skills');
   assert.match(html, /Se activa cuando/);
   assert.match(html, /Úsala para/);
   assert.match(html, /No la uses para/);
@@ -226,17 +226,17 @@ test('sidebar: "Skills" appears exactly once, under Concepts, with its categorie
       `${rel}: Skills is not an expandable branch`,
     );
     assert.equal((nav.match(/data-skill-category="/g) ?? []).length, dataset.categories.length);
-    assert.equal((nav.match(/data-skill-link="/g) ?? []).length, 57);
+    assert.equal((nav.match(/data-skill-link="/g) ?? []).length, 58);
   }
 });
 
-test('sidebar: EN exposes the 57 skill links as base-aware anchors', () => {
+test('sidebar: EN exposes the 58 skill links as base-aware anchors', () => {
   const html = read('docs/skills/index.html');
-  // The collapsible Skills branch, its 13 category sub-groups and 57 links.
+  // The collapsible Skills branch, its 13 category sub-groups and 58 links.
   assert.match(html, /data-skills-group/, 'missing the Skills sidebar branch');
   assert.match(html, /docs-nav__branch-details/, 'Skills branch is not marked');
   assert.equal((html.match(/data-skill-category="/g) ?? []).length, dataset.categories.length);
-  assert.equal((html.match(/data-skill-link="/g) ?? []).length, 57);
+  assert.equal((html.match(/data-skill-link="/g) ?? []).length, 58);
   for (const skill of dataset.skills) {
     assert.ok(
       html.includes(`href="${skillHref('en', skill.name)}"`),
@@ -245,9 +245,9 @@ test('sidebar: EN exposes the 57 skill links as base-aware anchors', () => {
   }
 });
 
-test('sidebar: ES exposes the 57 skill links under /es, base-aware', () => {
+test('sidebar: ES exposes the 58 skill links under /es, base-aware', () => {
   const html = read('es/docs/skills/index.html');
-  assert.equal((html.match(/data-skill-link="/g) ?? []).length, 57);
+  assert.equal((html.match(/data-skill-link="/g) ?? []).length, 58);
   for (const skill of dataset.skills) {
     assert.ok(
       html.includes(`href="${skillHref('es', skill.name)}"`),
@@ -261,7 +261,7 @@ test('sidebar: ES exposes the 57 skill links under /es, base-aware', () => {
 test('sidebar: the skills group is global and native (works with JS off)', () => {
   // Rendered on every docs page, not just the skills page.
   const html = read('docs/enforcement/index.html');
-  assert.equal((html.match(/data-skill-link="/g) ?? []).length, 57);
+  assert.equal((html.match(/data-skill-link="/g) ?? []).length, 58);
   // Native <details>/<summary> — no JS required to expand.
   assert.match(html, /<details[^>]*data-skills-group/);
   assert.match(html, /docs-nav__cat-summary/);
@@ -271,12 +271,12 @@ test('sidebar: the skills group is global and native (works with JS off)', () =>
  * Search index (one entry per skill, anchored on the skills page)
  * ------------------------------------------------------------------ */
 
-test('search index: EN+ES index each of the 57 skills with its anchor', () => {
+test('search index: EN+ES index each of the 58 skills with its anchor', () => {
   for (const locale of ['en', 'es']) {
     const rel = locale === 'en' ? 'docs/search.json' : 'es/docs/search.json';
     const items = JSON.parse(read(rel));
     const skills = items.filter((item) => item.url.includes('#skill-'));
-    assert.equal(skills.length, 57, `${rel} should index 57 skills`);
+    assert.equal(skills.length, 58, `${rel} should index 58 skills`);
     for (const skill of dataset.skills) {
       const item = skills.find((i) => i.url === skillHref(locale, skill.name));
       assert.ok(item, `${rel} missing ${skill.name}`);

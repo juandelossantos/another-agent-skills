@@ -46,13 +46,48 @@ test('EN landing renders the hero, terminal channels and lifecycle', () => {
 
 test('EN landing has all sections and the L1/L2/L3 proof', () => {
   const html = read('index.html');
-  for (const id of ['problem', 'flow', 'harness', 'loop', 'enforcement', 'compat', 'skills', 'workflows', 'faq', 'start']) {
+  for (const id of ['step-1', 'problem', 'flow', 'harness', 'loop', 'enforcement', 'compat', 'skills', 'workflows', 'faq', 'start']) {
     assert.match(html, new RegExp(`id="${id}"`), `missing section #${id}`);
   }
   assert.match(html, /BLOCKED: every code change needs a matching test/);
   assert.match(html, /Local hooks/);
   assert.match(html, /Remote gates check/);
   assert.match(html, /CODEOWNERS review/);
+});
+
+test('EN landing: the /gate Step 1 section (entry point) renders', () => {
+  const html = read('index.html');
+  assert.match(html, /id="step-1"/);
+  assert.match(html, /Step 1/);
+  assert.match(html, /Wire the gates with \/gate/);
+  assert.match(html, /skills\/gate\/SKILL\.md/);
+});
+
+test('ES landing: la sección Paso 1 (/gate) se renderiza', () => {
+  const html = read('es/index.html');
+  assert.match(html, /id="step-1"/);
+  assert.match(html, /Paso 1/);
+  assert.match(html, /Conecta las puertas con \/gate/);
+  assert.match(html, /skills\/gate\/SKILL\.md/);
+});
+
+test('the /gate Step 1 section shows how gate works, not the npm command', () => {
+  const html = read('index.html');
+  const section = (html.match(/<section[^>]*id="step-1"[\s\S]*?<\/section>/) || [''])[0];
+  assert.ok(section.length > 0, 'step-1 section not found');
+  // It must NOT repeat the npm install command (already in the hero terminal).
+  assert.doesNotMatch(section, /npx @juandelossantos\/another-agent-skills install/, 'Step 1 must not repeat the npm install command');
+  // It must show how gate works in the agent: the /gate invocation and the gate firing.
+  assert.match(section, /\/gate/, 'Step 1 must show the /gate invocation');
+  assert.match(section, /BLOCKED/, 'Step 1 must show the gate firing');
+});
+
+test('the hero terminal marks three distinct channels and recommends npm', () => {
+  const html = read('index.html');
+  assert.match(html, /data-channel="git"/);
+  assert.match(html, /data-channel="curl"/);
+  assert.match(html, /data-channel="npm"/);
+  assert.match(html, /data-recommended="true"/);
 });
 
 test('EN head has canonical, hreflang EN/ES/x-default and OG/Twitter', () => {
@@ -99,7 +134,7 @@ test('robots.txt allows crawling and points at the sitemap', () => {
 
 test('llms.txt exposes citable facts and links (AEO)', () => {
   const txt = read('llms.txt');
-  assert.match(txt, /57 composable skills/);
+  assert.match(txt, /58 composable skills/);
   assert.match(txt, /MIT/);
   assert.match(txt, /L1/);
   assert.match(txt, /gates/);
@@ -397,34 +432,15 @@ test('FAQ answers the Bloque E questions E1-E8 in EN and ES', () => {
   assert.match(es, /configuraciones de git y GitHub/);
 });
 
-test('install channels are honest: npm and Homebrew are coming soon, not live', () => {
-  // The npm package and the Homebrew tap do not exist yet (both 404 as of
-  // 2026-10-03; npm/Homebrew activation is a manual, post-2026-10-06 step, see
-  // INTENT.md). The landing marks them "soon"; the docs must not contradict it.
-  const EN = [
-    'docs/index.html',
-    'docs/getting-started/index.html',
-    'docs/faq/index.html',
-    'docs/distribution/index.html',
-  ];
-  const ES = [
-    'es/docs/index.html',
-    'es/docs/getting-started/index.html',
-    'es/docs/faq/index.html',
-    'es/docs/distribution/index.html',
-  ];
-  for (const rel of EN) {
-    const html = read(rel);
-    assert.doesNotMatch(html, /npm (?:wrapper )?is (?:also )?available/i, `${rel} claims npm is available`);
-    assert.doesNotMatch(html, /Git, curl, and npm are available/i, `${rel} claims npm is available`);
-    assert.match(html, /coming soon/i, `${rel} does not mark npm/Homebrew as coming soon`);
-  }
-  for (const rel of ES) {
-    const html = read(rel);
-    assert.doesNotMatch(html, /wrapper de npm (?:también )?est[áa] disponible/i, `${rel} claims npm is available`);
-    assert.doesNotMatch(html, /Git, curl y npm est[áa]n disponibles/i, `${rel} claims npm is available`);
-    assert.match(html, /pronto|próximamente/i, `${rel} does not mark npm/Homebrew as coming soon`);
-  }
+test('install channels are honest: npm is live and Homebrew is not named', () => {
+  // npm shipped live in v6.3.2; Homebrew was dropped and is not named anywhere
+  // in the user-facing distribution docs.
+  const dist = read('docs/distribution/index.html');
+  assert.match(dist, /npm/i, 'EN distribution page must mention npm');
+  assert.doesNotMatch(dist, /homebrew/i, 'EN distribution page must not name Homebrew');
+  const distEs = read('es/docs/distribution/index.html');
+  assert.match(distEs, /npm/i, 'ES distribution page must mention npm');
+  assert.doesNotMatch(distEs, /homebrew/i, 'ES distribution page must not name Homebrew');
 });
 
 test('landing Docs links resolve to the in-site docs routes (base + locale aware)', () => {
@@ -445,11 +461,11 @@ test('footer shows the current version and the stats are derived from skills.jso
   const en = read('index.html');
   const es = read('es/index.html');
   // The footer version comes from src/config.ts (VERSION).
-  assert.match(en, /v6\.3\.1 · MIT License/);
-  assert.match(es, /v6\.3\.1 · Licencia MIT/);
+  assert.match(en, /v6\.3\.2 · MIT License/);
+  assert.match(es, /v6\.3\.2 · Licencia MIT/);
   // The skills stat line is derived from the generated dataset — never hand-typed.
-  assert.match(en, /57 skills · 151 guides · 6 harness components/);
-  assert.match(es, /57 skills · 151 guías · 6 componentes del harness/);
+  assert.match(en, /58 skills · 153 guides · 6 harness components/);
+  assert.match(es, /58 skills · 153 guías · 6 componentes del harness/);
 });
 
 

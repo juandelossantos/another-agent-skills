@@ -22,7 +22,7 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| SKILL.md files | ✅ 57 on disk | All ≤ 250 lines |
+| SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
 | VERSION | ✅ 6.3.2 | Consistent |
@@ -39,7 +39,7 @@
 | log-test-results.sh | ✅ | Logs test results to .git/TEST_LOG |
 | task-manifest.sh | ✅ | Executable |
 | validate-skill-table.sh | ✅ | PASS on good table, FAIL on bad table |
-| Skill lint | 🟡 0 errors, 2 warnings | All 57 skills within contract; 2 advisories |
+| Skill lint | 🟡 0 errors, 2 warnings | All 58 skills within contract; 2 advisories |
 
 ---
 
@@ -50,7 +50,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | File | Severity | Status | Notes |
 |---|---|---|---|
 | `STACK_CONFIG.md` | 🔴 BLOCKING | ✅ Present | Meta-project (shell + markdown) |
-| `SPEC.md` | 🟡 HIGH | ✅ Present | "57 skills", up to date |
+| `SPEC.md` | 🟡 HIGH | ✅ Present | "58 skills", up to date |
 | `HEALTH-CHECK.md` | 🟡 HIGH | ✅ Present | This file |
 | `PROGRESS_STATUS.md` | 🟡 HIGH | ✅ Present | Validated by pre-commit v11 gate |
 | `design/DESIGN-LOCK.md` | 🔵 MEDIUM | ✅ Absent (acceptable) | Landing page is the spec |
@@ -63,7 +63,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | Check | Status | Notes |
 |---|---|---|
 | Version references | ✅ v6.3.2 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.3.2 |
-| Guide count | ✅ 151 guides | `skills/*/guides/*.md`; the web derives it from `web/src/data/skills.json` |
+| Guide count | ✅ 153 guides | `skills/*/guides/*.md`; the web derives it from `web/src/data/skills.json` |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 | Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |
 | Distribution docs | ✅ Present | `docs/DISTRIBUTION.md` (channels + maintainer steps + automation); linked from `README.md` |
@@ -80,7 +80,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 5. **Phase 9 COMPLETE — distribution & upgrades** — pinned, attested releases (`.github/workflows/release.yml`), checksum-verified `curl` bootstrap (`bootstrap.sh`), `aas` CLI, portable projects + legacy repair, npm wrapper + OIDC trusted publishing (PRs #47–#52). The maintainer one-time npm steps (incl. the 2026-10-06 npm suspension + the TOTP fix) are documented in `docs/DISTRIBUTION.md`.
 6. **Phase 8 COMPLETE — remote enforcement live** — branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 (PRs #36/#37); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install`, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible GitHub Environment approval (PR #41); closure review (PR #43). P8.4 closed by design (philosophy A).
 7. **Phase 7 released as v6.2.0** — dual-contract OpenCode plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never runs `git commit`/`push` — no token bypass), global install hardening. See `RELEASE-NOTES.md`.
-8. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **141 suites** green (+ web: 74 node + 85 e2e, axe 0).
+8. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **142 suites** green (+ web: 74 node + 85 e2e, axe 0).
 9. **Backlog (after T1/T2)** — Phase 11 (Astro + Starlight docs site) is re-planned/superseded by the Phase 10 `web/`; B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
 
 ---

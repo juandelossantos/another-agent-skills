@@ -1,4 +1,23 @@
 {
+  "gate": {
+    "what": "Instrumenta un repo con puertas mecánicas para que un agente no pueda commitear código sin tests. Instala hooks locales, una puerta TDD y un check de CI requerido, y prueba que la puerta se dispara.",
+    "triggers": [
+      "el agente de IA envía código sin tests o sin revisión",
+      "se piden puertas, enforcement o un check de CI requerido",
+      "un repo tiene prompts pero sin enforcement mecánico"
+    ],
+    "whenToUse": [
+      "El usuario dice que su agente de IA envía código sin tests o sin revisión",
+      "Quieren una puerta TDD, una puerta pre-commit o un check de CI requerido",
+      "Piden 'agregar enforcement', 'bloquear commits malos' o 'hacer que el agente lo pruebe'",
+      "Un repo tiene prompts (CLAUDE.md, .cursorrules, AGENTS.md) pero sin enforcement mecánico"
+    ],
+    "whenNotToUse": [
+      "El repo ya tiene puertas activas (verifícalo primero)",
+      "Proyectos que no usan git (sin VCS no hay hooks)",
+      "Scripts de una sola vez donde una puerta es puro ruido"
+    ]
+  },
   "context-engineering": {
     "what": "Optimiza la configuración del contexto del agente.",
     "triggers": ["al iniciar una sesión", "la calidad de salida baja", "al cambiar de tarea"],

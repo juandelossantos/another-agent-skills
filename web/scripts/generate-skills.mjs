@@ -96,6 +96,7 @@ const CATEGORY_OF = {
   'redesign-skill': 'design-skins',
   'git-init-and-versioning': 'git',
   'git-workflow-and-versioning': 'git',
+  'gate': 'devops',
   'ci-cd-and-automation': 'devops',
   'shipping-and-launch': 'devops',
   'fullstack-shipping': 'devops',

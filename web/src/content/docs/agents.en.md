@@ -31,7 +31,7 @@ init-agents
 
 ### Claude Code
 
-Full parity: the 57 skills install to `~/.claude/skills/` (auto-discovered in every project) and the enforcement hooks wire themselves into `.claude/settings.json`. To also load `SOUL.md` and `AGENTS.md` rules, copy the key principles into your `CLAUDE.md`; that part stays manual.
+Full parity: the 58 skills install to `~/.claude/skills/` (auto-discovered in every project) and the enforcement hooks wire themselves into `.claude/settings.json`. To also load `SOUL.md` and `AGENTS.md` rules, copy the key principles into your `CLAUDE.md`; that part stays manual.
 
 ```bash
 bash install.sh --agent claude

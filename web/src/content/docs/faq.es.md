@@ -9,7 +9,7 @@ tldr: "Respuestas breves y citables: una instalación por máquina, POSIX primer
 
 ## ¿Qué es Another Agent Skills?
 
-Un framework de 57 skills componibles que convierten a los agentes de codificación con IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Las skills siguen un ciclo de vida de seis fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.
+Un framework de 58 skills componibles que convierten a los agentes de codificación con IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Las skills siguen un ciclo de vida de seis fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.
 
 ## ¿Se instala por proyecto o una vez?
 

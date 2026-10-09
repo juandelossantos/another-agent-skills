@@ -9,7 +9,7 @@ export const en = {
   meta: {
     title: 'Another Agent Skills — Turn AI agents into disciplined senior engineers',
     description:
-      'Most skill libraries sell capability. We sell discipline you can verify. 57 composable skills and mechanical enforcement for AI coding agents: local hooks, a required remote gates check, and CODEOWNERS review.',
+      'Most skill libraries sell capability. We sell discipline you can verify. 58 composable skills and mechanical enforcement for AI coding agents: local hooks, a required remote gates check, and CODEOWNERS review.',
   },
   a11y: {
     skip: 'Skip to content',
@@ -42,7 +42,18 @@ export const en = {
     thesisAccent: 'We sell discipline you can verify.',
     social: 'Open source · MIT License · Works offline · No lock-in',
     terminalTitle: 'install - three channels',
-    command: 'git clone https://github.com/juandelossantos/another-agent-skills.git && bash install.sh',
+    command: 'npx @juandelossantos/another-agent-skills install',
+  },
+  step1: {
+    label: 'Step 1 — start here',
+    title: 'Wire the gates with /gate',
+    lede: 'One skill. It detects your stack, installs the local hooks, the TDD gate and the required CI check, then proves the first gate actually fires. Everything else builds on this.',
+    demo: `> /gate
+
+  Detecting  · VCS: git · stack: Node · hooksPath: unset
+  Wiring     · L1 local hooks · L2 required gates check · L3 CODEOWNERS
+  Proving    · git commit → ✗ BLOCKED: every code change needs a matching test`,
+    learn: 'See the /gate skill',
   },
   terminal: {
     cmd1: 'git clone https://github.com/juandelossantos/another-agent-skills.git && cd another-agent-skills && bash install.sh',
@@ -50,9 +61,11 @@ export const en = {
     cmd3: 'npx @juandelossantos/another-agent-skills install',
     soon: 'soon',
     detected: 'Detected: OpenCode · Claude Code · Cursor · Codex · Gemini',
-    installed: 'Installed 57 skills · wired the harness · armed the gates.',
+    installed: 'Installed 58 skills · wired the harness · armed the gates.',
     done: 'DONE. Run init-agents in any project.',
-    channels: 'Channels: git and curl live · npm and brew soon.',
+    channels: 'Channels: git, curl and npm — all live.',
+    pickOne: 'Pick one — all three install the same framework.',
+    recommended: 'recommended',
   },
   problem: {
     title: 'Agents default to the shortest path.',
@@ -134,7 +147,7 @@ export const en = {
   skills: {
     label: '05 / skills',
     title: 'Skills, chipped by phase.',
-    tldr: 'TL;DR: 57 curated skills mapped to the lifecycle. Use all of them or the ones your workflow needs.',
+    tldr: 'TL;DR: 58 curated skills mapped to the lifecycle. Use all of them or the ones your workflow needs.',
     catFoundation: 'Foundation',
     catFoundationDesc: 'Contracts, context, and the interview that locks scope before code.',
     catProcess: 'Process', catFrontend: 'Build', catDebug: 'Verify', catQuality: 'Review',
@@ -160,7 +173,7 @@ export const en = {
     label: '06 / faq',
     title: 'Questions, answered plainly.',
     q1: 'What is Another Agent Skills?',
-    a1: 'A framework of 57 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a six-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.',
+    a1: 'A framework of 58 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a six-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.',
     q2: 'How does mechanical enforcement work?',
     a2: 'Three layers. L1 is local git hooks for fast, advisory feedback. L2 is a required remote gates check that the committer cannot skip. L3 is CODEOWNERS review for sensitive paths. A code change with no matching test is blocked, locally and remotely.',
     q3: 'Which agents does it support?',

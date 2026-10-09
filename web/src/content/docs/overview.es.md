@@ -1,15 +1,17 @@
 ---
 title: "Resumen"
-description: "Qué es Another Agent Skills: 57 skills componibles y enforcement mecánico que convierte a los agentes de IA en ingenieros senior disciplinados."
+description: "Qué es Another Agent Skills: 58 skills componibles y enforcement mecánico que convierte a los agentes de IA en ingenieros senior disciplinados."
 lang: "es"
 order: 1
 section: "start"
-tldr: "Another Agent Skills es un framework de 57 skills componibles más enforcement mecánico (L1 hooks locales, L2 el check remoto gates requerido, L3 revisión con CODEOWNERS) que convierte a los agentes de IA en ingenieros senior disciplinados."
+tldr: "Another Agent Skills es un framework de 58 skills componibles más enforcement mecánico (L1 hooks locales, L2 el check remoto gates requerido, L3 revisión con CODEOWNERS) que convierte a los agentes de IA en ingenieros senior disciplinados."
 ---
 
 ## Qué es
 
-Another Agent Skills es un framework de 57 skills componibles que convierten a los agentes de codificación con IA en ingenieros senior disciplinados. La mayoría de las librerías de skills venden capacidad. Esta vende disciplina que puedes verificar: cada tarea sigue un ciclo de vida de seis fases, y las partes que importan están respaldadas por mecanismos, no por prompts.
+Another Agent Skills es un framework de 58 skills componibles que convierten a los agentes de codificación con IA en ingenieros senior disciplinados. La mayoría de las librerías de skills venden capacidad. Esta vende disciplina que puedes verificar: cada tarea sigue un ciclo de vida de seis fases, y las partes que importan están respaldadas por mecanismos, no por prompts.
+
+**Empieza por [`/gate`](skills/).** La skill de entrada detecta tu stack, conecta los hooks locales, la puerta TDD y el check de CI requerido, y prueba que la primera puerta se dispara de verdad.
 
 La idea central es simple. Una regla que vive solo en un archivo es una sugerencia. Una regla que vive en una capa es una puerta. El framework incluye las capas: hooks de git locales para feedback rápido, un check remoto `gates` requerido como autoridad, y revisión con `CODEOWNERS` para la configuración de las puertas.
 

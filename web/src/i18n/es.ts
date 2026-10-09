@@ -9,7 +9,7 @@ export const es: Dictionary = {
   meta: {
     title: 'Another Agent Skills — Convierte agentes de IA en ingenieros senior disciplinados',
     description:
-      'La mayoría de librerías de skills venden capacidad. Nosotros vendemos disciplina que puedes verificar. 57 skills componibles y enforcement mecánico para agentes de IA: hooks locales, un check remoto gates requerido y review de CODEOWNERS.',
+      'La mayoría de librerías de skills venden capacidad. Nosotros vendemos disciplina que puedes verificar. 58 skills componibles y enforcement mecánico para agentes de IA: hooks locales, un check remoto gates requerido y review de CODEOWNERS.',
   },
   a11y: {
     skip: 'Saltar al contenido',
@@ -41,7 +41,18 @@ export const es: Dictionary = {
     thesisAccent: 'Nosotros vendemos disciplina que puedes verificar.',
     social: 'Open source · Licencia MIT · Funciona offline · Sin lock-in',
     terminalTitle: 'instalación - tres canales',
-    command: 'git clone https://github.com/juandelossantos/another-agent-skills.git && bash install.sh',
+    command: 'npx @juandelossantos/another-agent-skills install',
+  },
+  step1: {
+    label: 'Paso 1 — empieza aquí',
+    title: 'Conecta las puertas con /gate',
+    lede: 'Una skill. Detecta tu stack, instala los hooks locales, la puerta TDD y el check de CI requerido, y prueba que la primera puerta se dispara de verdad. Todo lo demás se apoya en esto.',
+    demo: `> /gate
+
+  Detectando  · VCS: git · stack: Node · hooksPath: sin definir
+  Conectando  · L1 hooks locales · L2 check remoto gates requerido · L3 CODEOWNERS
+  Probando    · git commit → ✗ BLOQUEADO: cada cambio de código necesita un test`,
+    learn: 'Ver la skill /gate',
   },
   terminal: {
     cmd1: 'git clone https://github.com/juandelossantos/another-agent-skills.git && cd another-agent-skills && bash install.sh',
@@ -49,9 +60,11 @@ export const es: Dictionary = {
     cmd3: 'npx @juandelossantos/another-agent-skills install',
     soon: 'pronto',
     detected: 'Detectado: OpenCode · Claude Code · Cursor · Codex · Gemini',
-    installed: '57 skills instaladas · harness conectado · puertas armadas.',
+    installed: '58 skills instaladas · harness conectado · puertas armadas.',
     done: 'LISTO. Ejecuta init-agents en cualquier proyecto.',
-    channels: 'Canales: git y curl activos · npm y brew pronto.',
+    channels: 'Canales: git, curl y npm — todos activos.',
+    pickOne: 'Elige uno — los tres instalan el mismo framework.',
+    recommended: 'recomendado',
   },
   problem: {
     title: 'Los agentes eligen el camino más corto.',
@@ -133,7 +146,7 @@ export const es: Dictionary = {
   skills: {
     label: '05 / skills',
     title: 'Skills, etiquetadas por fase.',
-    tldr: 'TL;DR: 57 skills curadas, mapeadas al ciclo de vida. Usa todas o solo las que tu flujo necesita.',
+    tldr: 'TL;DR: 58 skills curadas, mapeadas al ciclo de vida. Usa todas o solo las que tu flujo necesita.',
     catFoundation: 'Fundamentos',
     catFoundationDesc: 'Contratos, contexto y la entrevista que bloquea el alcance antes del código.',
     catProcess: 'Proceso', catFrontend: 'Construcción', catDebug: 'Verificación', catQuality: 'Revisión',
@@ -159,7 +172,7 @@ export const es: Dictionary = {
     label: '06 / faq',
     title: 'Preguntas, respondidas sin vueltas.',
     q1: '¿Qué es Another Agent Skills?',
-    a1: 'Un framework de 57 skills compuestos que convierten agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Las skills siguen un ciclo de seis fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.',
+    a1: 'Un framework de 58 skills compuestos que convierten agentes de IA en ingenieros senior disciplinados. Agrega enforcement mecánico, no solo prompts. Las skills siguen un ciclo de seis fases: Definir, Planear, Construir, Verificar, Revisar, Entregar.',
     q2: '¿Cómo funciona el enforcement mecánico?',
     a2: 'Tres capas. L1 son hooks de git locales para feedback rápido y advisory. L2 es un check remoto gates requerido que el committer no puede saltar. L3 es review de CODEOWNERS para rutas sensibles. Un cambio de código sin test que lo cubra se bloquea, local y remotamente.',
     q3: '¿Qué agentes soporta?',

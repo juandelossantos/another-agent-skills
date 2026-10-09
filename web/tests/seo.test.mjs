@@ -252,7 +252,7 @@ test('llms.txt lists the key landing + docs pages in EN and ES with citable fact
     assert.match(txt, new RegExp(url.replace(/[.]/g, '\\.')), `llms.txt missing ${url}`);
   }
   // citable facts
-  assert.match(txt, /57/);
+  assert.match(txt, /58/);
   assert.match(txt, /MIT/);
   assert.match(txt, /L1/);
   assert.match(txt, /gates/);

@@ -100,6 +100,23 @@ const workflows = [
   </div>
 </section>
 
+<!-- ============ 1.5 STEP 1 — /gate (the entry point) ============ -->
+<section class="section step1-section" id="step-1" aria-labelledby="step1-title" data-reveal>
+  <div class="container">
+    <SectionHead
+      eyebrow={dict.step1.label}
+      title={dict.step1.title}
+      titleId="step1-title"
+      lede={dict.step1.lede}
+    />
+    <pre class="step1__demo" tabindex="0"><code>{dict.step1.demo}</code></pre>
+    <a class="section-head__link" href={SITE.gate} target="_blank" rel="noopener">
+      <span>{dict.step1.learn}</span>
+      <Icon name="arrow-right" />
+    </a>
+  </div>
+</section>
+
 <!-- ============ 2. PROBLEM ============ -->
 <section class="section problem" id="problem" aria-labelledby="problem-title" data-reveal>
   <div class="container">

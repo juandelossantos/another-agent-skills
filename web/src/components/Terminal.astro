@@ -10,9 +10,9 @@ const { dict } = Astro.props;
 // Rendered as static text so it is fully visible with JS off / reduced motion.
 // The landing script re-types it only when motion is allowed.
 const commands = [
-  { text: dict.terminal.cmd1, soon: false },
-  { text: dict.terminal.cmd2, soon: false },
-  { text: dict.terminal.cmd3, soon: true },
+  { channel: 'git', text: dict.terminal.cmd1, recommended: false },
+  { channel: 'curl', text: dict.terminal.cmd2, recommended: false },
+  { channel: 'npm', text: dict.terminal.cmd3, recommended: true },
 ];
 ---
 
@@ -24,12 +24,14 @@ const commands = [
     <span class="terminal__title">{dict.hero.terminalTitle}</span>
   </div>
   <div class="terminal__body">
+    <div class="terminal__hint">{dict.terminal.pickOne}</div>
     <div class="terminal__lines" data-terminal-lines>
       {commands.map((cmd) => (
-        <div class="terminal__tline">
+        <div class="terminal__tline" data-channel={cmd.channel} data-recommended={cmd.recommended ? 'true' : undefined}>
+          <span class="terminal__chan">{cmd.channel}</span>
           <span class="terminal__prompt">~ $</span>
           <span class="terminal__typing" tabindex="0">{cmd.text}</span>
-          {cmd.soon && <span class="terminal__soon">{dict.terminal.soon}</span>}
+          {cmd.recommended && <span class="terminal__rec">{dict.terminal.recommended}</span>}
         </div>
       ))}
     </div>

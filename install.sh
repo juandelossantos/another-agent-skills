@@ -16,7 +16,7 @@ set -euo pipefail
 #   bash install.sh --agent cursor         # Install Cursor adapter
 #   bash install.sh --agent all            # Install all adapters
 #
-# The 57 custom skills in skills/ are installed globally for BOTH OpenCode
+# The 58 custom skills in skills/ are installed globally for BOTH OpenCode
 # (~/.config/opencode/skills/, or $AGENT_SKILLS_DIR/skills/) and Claude Code
 # (~/.claude/skills/, or $CLAUDE_SKILLS_DIR) every run — no per-project setup
 # needed. Claude Code auto-discovers skills from ~/.claude/skills/.
@@ -938,7 +938,7 @@ install_agent_adapter() {
         *)
             echo "${AGENT_USAGE}"
             echo ""
-            echo "  claude   Install 57 skills → ~/.claude/skills/ + CLAUDE.md + .claude-plugin/ (Claude Code adapter)"
+            echo "  claude   Install 58 skills → ~/.claude/skills/ + CLAUDE.md + .claude-plugin/ (Claude Code adapter)"
             echo "  cursor   Install .cursorrules + .cursor-plugin/ (Cursor adapter)"
             echo "  kiro     Install .kiro/hooks/ (Kiro adapter)"
             echo "  all      Install all adapters"

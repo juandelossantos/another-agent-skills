@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-You installed 57 skills and ran `init-agents`. Now what? This guide shows you how to work with your agent effectively using the skills you have.
+You installed 58 skills and ran `init-agents`. Now what? This guide shows you how to work with your agent effectively using the skills you have.
 
 > **Full interactive version:** [`docs/quickstart-guide.html`](docs/quickstart-guide.html)
 
