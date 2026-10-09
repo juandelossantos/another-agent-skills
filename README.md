@@ -1,9 +1,10 @@
 # Another Agent Skills
 
+[![skills.sh](https://skills.sh/b/juandelossantos/another-agent-skills)](https://skills.sh/juandelossantos/another-agent-skills)
 [![Version: v6.3.2](https://img.shields.io/badge/version-6.3.2-blue.svg)](./RELEASE-NOTES.md)
 [![Skills: 57](https://img.shields.io/badge/skills-57-blue.svg)](./docs/skills.html)
 [![Guides: 151](https://img.shields.io/badge/guides-151-blue.svg)](./docs/skills.html)
-[![Tests: 104 suites](https://img.shields.io/badge/tests-104%20suites-brightgreen.svg)](./tests/run-all.sh)
+[![Tests: 141 suites](https://img.shields.io/badge/tests-141%20suites-brightgreen.svg)](./tests/run-all.sh)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Multi-agent](https://img.shields.io/badge/multi--agent-15%20agents-8A2BE2.svg)](./docs/AGENT-ADAPTERS.md)
 
@@ -57,7 +58,13 @@ Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub 
 
 ## Install
 
-**Install once per machine. Use it in any project. It stays portable.** The installer detects your shell, your agent, and your stack, then wires the matching skills and hooks.
+**Fastest path — the ecosystem CLI.** Install the 57 skills into your agent with no clone:
+
+```bash
+npx skills add juandelossantos/another-agent-skills
+```
+
+**Full harness — install once per machine, use it in any project.** The installer detects your shell, your agent, and your stack, then wires the matching skills **and the mechanical gates** (local hooks, the TDD gate, and CI). The `npx` path above installs the skills; the harness adds the enforcement that can't be forgotten.
 
 ### 1. Clone + installer (live)
 

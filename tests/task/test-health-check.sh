@@ -38,7 +38,7 @@ assert "records T1 (npm activation done)" "grep -q 'T1 — npm activation (DONE)
 assert "names the next task T2 (web + docs once LIVE)" "grep -q 'T2 — web + docs update once LIVE' '$FILE'"
 assert "T2 covers the security-headers gap" "grep -q 'security-headers gap' '$FILE'"
 assert "documents Phase 9 COMPLETE" "grep -q 'Phase 9 COMPLETE' '$FILE'"
-assert "records 135 suites" "grep -q '135 suites' '$FILE'"
+assert "records 141 suites" "grep -q '141 suites' '$FILE'"
 assert "links the distribution docs" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 
 echo ""

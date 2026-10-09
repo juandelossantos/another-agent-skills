@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.3.0** — Phase 8 (remote enforcement **live**) + 8.1 (TDD gate + git/GitHub flows) + 9 (distribution) + 10 (public web, **SHIPPED + LIVE**) |
-| Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B16/B19/B20** (see **Next tasks** below) |
+| Version | **6.3.2** — through Phase 14 (distribution closeout) + the **B14/B15/B21** remediation fixes; npm (`@juandelossantos/another-agent-skills`) and the web are **live** |
+| Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B16/B19/B20** (see **Next tasks** below). *Current focus: **MKT** — see below.* |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 151 across all skills |
-| Tests | **108 suites** passing (core: behavioral + task working set capped at 20); web: **83 node + 85 e2e** (axe 0) |
+| Tests | **141 suites** passing (core: behavioral + task working set capped at 20); web: **83 node + 85 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
@@ -22,6 +22,25 @@
 ## Next tasks
 
 > Ordered. **E1** (essay) and **T2** (post-live docs) close out Phase 10; **T1** (npm) is **DONE** and Homebrew is **not planned**. The existing backlog follows further down.
+
+### MKT — Visibility & distribution (CURRENT FOCUS)
+
+The active focus is **visibility and usage**, not new features. An ordered plan runs in waves (first **be findable**, then **be shareable**, then **compound**):
+
+| Wave | Scope | State |
+|---|---|---|
+| W0 | Instrument (metrics + baseline) | ✅ `development/metrics.sh` |
+| W1 | Rail (npx skills path, `marketplace.json`, directories, awesome-lists) | 🟡 1/3 |
+| W2 | Wedge — new `/gate` skill | ⬜ |
+| W3 | Owned content (essay + cadence) | ⬜ |
+| W4 | Amplify (HN, community, podcasts) | ⬜ |
+| W5 | Long tail (`/vs`, programmatic SEO) | ⬜ |
+
+- **In-repo change so far:** `.claude-plugin/marketplace.json` (validated with `claude plugin validate`; additive).
+- **Local artifacts (git-ignored):** `development/MARKETING-PLAN.md` (plan + status board §0), `development/distribution-pack.md`, `development/metrics.sh`.
+- **Non-regression contract:** no marketing change ships without `tests/run-all.sh` green + `validate-skill-table` + docs-honesty. **No skill renames.**
+- **Paused:** the dev track below stays paused until the W2–W4 visibility push lands.
+- **Open reference:** "item 6.2.3" (no match in the repo) — clarify before acting.
 
 ### R1 — Courtside rollout (FIRST, next session)
 
@@ -50,9 +69,9 @@ A thought-leadership essay on AI-as-assistant / human-as-author is drafted in `d
 
 ### T1 — npm activation (DONE) · Homebrew (not planned)
 
-The npm wrapper ships in the repo (Phase 9) and is now **live** (`@juandelossantos/another-agent-skills@6.3.1`, OIDC trusted publishing, staged approvals). See `docs/DISTRIBUTION.md`.
+The npm wrapper ships in the repo (Phase 9) and is now **live** (`@juandelossantos/another-agent-skills@6.3.2`, OIDC trusted publishing, staged approvals). See `docs/DISTRIBUTION.md`.
 
-- **npm — DONE.** First publish (`npm login` + TOTP + `npm publish`) + the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow **`release.yml`** — the publish is chained via `workflow_call`, so npm validates the calling workflow — environment `npm-release`, "Allow npm publish" **unchecked** = staged). `v6.3.1` published via CI.
+- **npm — DONE.** First publish (`npm login` + TOTP + `npm publish`) + the **Trusted Publisher** (GitHub Actions → user `juandelossantos`, repo `another-agent-skills`, workflow **`release.yml`** — the publish is chained via `workflow_call`, so npm validates the calling workflow — environment `npm-release`, "Allow npm publish" **unchecked** = staged). `v6.3.1` and `v6.3.2` published via CI. **Chain fix (v6.3.2):** the `publish-npm` job that chains `npm-publish.yml` was accidentally dropped from `release.yml` in #66 → v6.3.2 first missed npm; restored in #71 and guarded by `tests/test-release-npm-chain.sh`.
 - **Homebrew — NOT PLANNED.** Dropped: it would add a separate `homebrew-tap` repo + a PAT secret, while `git clone`, the pinned `curl` bootstrap and npm already cover Linux/macOS/Windows.
 
 ### T2 — Web + docs update (the web is now LIVE)
