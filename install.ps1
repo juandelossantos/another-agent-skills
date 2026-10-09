@@ -9,7 +9,7 @@
 #   .\install.ps1 -Agent cursor             # Cursor adapter only
 #   .\install.ps1 -Agent all                # All adapters
 #
-# The 57 custom skills in skills/ are installed globally for BOTH OpenCode
+# The 58 custom skills in skills/ are installed globally for BOTH OpenCode
 # (~/.config/opencode/skills/) and Claude Code (~/.claude/skills/, or
 # $env:CLAUDE_SKILLS_DIR) every run — no per-project setup needed.
 # ==============================================================================

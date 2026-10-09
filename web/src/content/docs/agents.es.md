@@ -31,7 +31,7 @@ init-agents
 
 ### Claude Code
 
-Paridad completa: las 57 skills se instalan en `~/.claude/skills/` (se detectan automáticamente en cada proyecto) y los hooks de enforcement se conectan solos en `.claude/settings.json`. Para cargar también las reglas de `SOUL.md` y `AGENTS.md`, copia los principios clave en tu `CLAUDE.md`; esa parte sigue siendo manual.
+Paridad completa: las 58 skills se instalan en `~/.claude/skills/` (se detectan automáticamente en cada proyecto) y los hooks de enforcement se conectan solos en `.claude/settings.json`. Para cargar también las reglas de `SOUL.md` y `AGENTS.md`, copia los principios clave en tu `CLAUDE.md`; esa parte sigue siendo manual.
 
 ```bash
 bash install.sh --agent claude

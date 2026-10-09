@@ -11,6 +11,7 @@ export const SITE = {
   agents: `${GITHUB}/blob/main/docs/AGENT-ADAPTERS.md`,
   evidence: `${GITHUB}/blob/main/docs/REMOTE-ENFORCEMENT-EVIDENCE.md`,
   skills: `${GITHUB}/blob/main/docs/skills.html`,
+  gate: `${GITHUB}/blob/main/skills/gate/SKILL.md`,
   license: `${GITHUB}/blob/main/LICENSE`,
 } as const;
 

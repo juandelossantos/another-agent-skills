@@ -37,7 +37,7 @@ assert "documents the pinned curl bootstrap" "grep -q 'bootstrap.sh' '$FILE'"
 assert "documents the self-contained bootstrap asset" "grep -qi 'self-contained' '$FILE'"
 assert "documents the aas CLI" "grep -q 'aas install' '$FILE'"
 assert "documents npm" "grep -q 'npm' '$FILE'"
-assert "documents Homebrew as not planned" "grep -qi 'Homebrew is not planned' '$FILE'"
+assert "does not name Homebrew (dropped)" "! grep -qi 'homebrew' '$FILE'"
 assert "states it never fetches from a mutable branch" "grep -qi 'mutable branch' '$FILE'"
 
 # ── Maintainer manual steps — npm ─────────────────────────────────────────────
@@ -50,7 +50,7 @@ assert "documents STAGED publishing (npm stage publish)" "grep -q 'npm stage pub
 assert "says to leave 'Allow npm publish' unchecked" "grep -q 'Allow npm publish.*UNCHECKED' '$FILE'"
 
 # ── Homebrew is not planned ───────────────────────────────────────────────────
-assert "states Homebrew is not planned" "grep -qi 'Homebrew is not planned' '$FILE'"
+assert "no homebrew-tap mention" "! grep -qi 'homebrew-tap' '$FILE'"
 assert "no HOMEBREW_TAP_TOKEN instructions" "! grep -q 'HOMEBREW_TAP_TOKEN' '$FILE'"
 
 # ── Automation ────────────────────────────────────────────────────────────────

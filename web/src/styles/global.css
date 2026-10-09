@@ -559,7 +559,7 @@ code { font-family: var(--font-mono); }
 
 /* Terminal (design accent) */
 .terminal {
-  max-width: 720px;
+  max-width: 100%;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   background: var(--bg-code);
@@ -590,7 +590,7 @@ code { font-family: var(--font-mono); }
   letter-spacing: 0.04em;
 }
 .terminal__body {
-  padding: var(--space-md);
+  padding: var(--space-lg) var(--space-md) var(--space-md);
   font-size: 0.78rem;
   line-height: 1.85;
 }
@@ -611,13 +611,63 @@ code { font-family: var(--font-mono); }
 .terminal__cursor { color: var(--accent); animation: blink 0.9s step-end infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
-.terminal__output { margin-top: var(--space-sm); }
+.terminal__output { margin-top: var(--space-md); }
 .terminal__out-line { color: var(--green); }
 .terminal__out-line--info { color: var(--text-secondary); }
 .terminal__out-line--muted { color: var(--text-muted); }
 .terminal__out-line::before { content: "\2713 "; }
 .terminal__out-line--info::before { content: "\2192 "; }
 .terminal__out-line--muted::before { content: "  "; }
+
+/* Terminal — install channels (three distinct options, npm recommended) */
+.terminal__hint {
+  margin-bottom: var(--space-sm);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+.terminal__chan {
+  flex-shrink: 0;
+  align-self: center;
+  min-width: 3.4em;
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.terminal__rec {
+  flex-shrink: 0;
+  align-self: center;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border-light));
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+}
+
+/* Step 1 — how /gate works in the agent (a terminal-style transcript) */
+.step1__demo {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: var(--bg-code);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  overflow-x: auto;
+  white-space: pre;
+}
+.step1__note {
+  margin-top: var(--space-md);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
 
 /* Lifecycle strip */
 .lifecycle-strip {

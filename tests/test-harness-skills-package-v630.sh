@@ -30,11 +30,11 @@ assert "VERSION is 6.3.2" "[ '$VERSION' = '6.3.2' ]"
 # --- npm tracks VERSION (the OIDC workflow also syncs it, but the repo stays in sync) ---
 assert "npm/package.json version == VERSION" "[ \"\$(node -p \"require('$REPO_ROOT/npm/package.json').version\")\" = '$VERSION' ]"
 
-# --- The guide count is the real one (151), not the stale 74 ---
-assert "HARNESS.md states 151 guides" "grep -q '151 guides' '$REPO_ROOT/docs/HARNESS.md'"
+# --- The guide count is the real one (153), not the stale 74 ---
+assert "HARNESS.md states 153 guides" "grep -q '153 guides' '$REPO_ROOT/docs/HARNESS.md'"
 assert "HARNESS.md no longer says 74 guides" "! grep -q '74 guides' '$REPO_ROOT/docs/HARNESS.md'"
-assert "docs/skills.html states 151" "grep -q '151' '$REPO_ROOT/docs/skills.html'"
-assert "README states 151 guides" "grep -q '151 guides' '$REPO_ROOT/README.md'"
+assert "docs/skills.html states 153" "grep -q '153' '$REPO_ROOT/docs/skills.html'"
+assert "README states 153 guides" "grep -q '153 guides' '$REPO_ROOT/README.md'"
 
 # --- npm derives the version (no hardcoded 6.2.0 in the release paths) ---
 assert "build-brew-formula was removed (Homebrew dropped)" "[ ! -e '$REPO_ROOT/scripts/build-brew-formula.sh' ]"

@@ -48,8 +48,6 @@ npx @juandelossantos/another-agent-skills install --version v6.3.2
 
 The npm package contains only `cli.js` and a README. It downloads the release tarball and `checksums.txt`, verifies the sha256 with `node:crypto`, and delegates to the release's own `bootstrap.sh`, so install logic lives in exactly one place. It is published via OIDC trusted publishing (no stored token).
 
-> Homebrew is **not planned**: it would add a separate tap repo + a PAT secret, while `git clone`, the pinned `curl` bootstrap and npm already cover Linux, macOS and Windows.
-
 ## Release automation
 
 Pushing a `v*` tag triggers a workflow that builds the tarball plus `checksums.txt`, attests build provenance, and publishes the GitHub Release. A second workflow syncs the npm version from `VERSION`, skips if that version already exists, and publishes through OIDC Trusted Publishing with no stored token. Verify a release locally:

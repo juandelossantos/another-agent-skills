@@ -1,11 +1,11 @@
 # Another Agent Skills
 
-> An open-source framework of 57 composable skills and mechanical enforcement that turns AI coding agents into disciplined senior engineers. Most skill libraries sell capability; this one sells discipline you can verify.
+> An open-source framework of 58 composable skills and mechanical enforcement that turns AI coding agents into disciplined senior engineers. Most skill libraries sell capability; this one sells discipline you can verify.
 
 Key facts (citable):
 
 - License: MIT. No subscriptions, no paid tiers, no lock-in.
-- Skills: 57, mapped to a six-phase lifecycle (Define, Plan, Build, Verify, Review, Ship), with 151 guides and an eval for each.
+- Skills: 58, mapped to a six-phase lifecycle (Define, Plan, Build, Verify, Review, Ship), with 153 guides and an eval for each.
 - Skills reference: every skill's what, activation trigger, use and non-use, grouped by category, in EN and ES.
 - Enforcement is three layers: L1 local git hooks (fast, advisory feedback), L2 a required remote `gates` status check the committer cannot skip, L3 CODEOWNERS review of sensitive paths. L2 and L3 require GitHub.
 - The core rule: a code change with no matching test is blocked, locally and remotely.

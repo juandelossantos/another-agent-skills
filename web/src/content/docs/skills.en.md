@@ -1,10 +1,10 @@
 ---
 title: "Skills"
-description: "Detailed reference for the 57 skills: what each one does, when it activates, when to use it and when not to."
+description: "Detailed reference for the 58 skills: what each one does, when it activates, when to use it and when not to."
 lang: "en"
 order: 11
 section: "concepts"
-tldr: "57 skills, each with a trigger and an output contract. They are indexes that load on demand; the using-agent-skills meta-skill routes a task to the right one. You describe the task, not the skill."
+tldr: "58 skills, each with a trigger and an output contract. They are indexes that load on demand; the using-agent-skills meta-skill routes a task to the right one. You describe the task, not the skill."
 ---
 
 ## Index

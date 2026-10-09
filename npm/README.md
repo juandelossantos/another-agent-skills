@@ -3,13 +3,15 @@
 > **Most skill libraries sell capability. We sell discipline you can verify.**
 
 Turn AI coding agents into **disciplined senior engineers** — with mechanical
-enforcement, not suggestions. 57 composable skills and 15 gates that make an
+enforcement, not suggestions. 58 composable skills and 15 gates that make an
 agent **Define → Plan → Build → Verify → Review → Ship**, every time.
 
 This npm package is the **installer** for
 [Another Agent Skills](https://github.com/juandelossantos/another-agent-skills).
 It ships no framework payload: it downloads, verifies, and installs a **pinned
 release**.
+
+**Start with [`/gate`](https://github.com/juandelossantos/another-agent-skills/blob/main/skills/gate/SKILL.md)** — the entry-point skill wires the enforcement (local hooks, the TDD gate, the required CI check) into any repo and proves the first gate fires.
 
 ## Why
 
@@ -79,7 +81,7 @@ Linux, macOS, and Git Bash on Windows).
 
 ## What's inside the framework
 
-- **57 skills + 151 guides**, lazy-loaded (~3,870 always-loaded tokens vs ~7,965
+- **58 skills + 153 guides**, lazy-loaded (~3,870 always-loaded tokens vs ~7,965
   eager). *We make the instruction manual thinner, not the agent dumber.*
 - **Mechanical enforcement, three layers:** L1 local hooks (`.git/hooks/*`), L2 a
   **required remote `gates` status check** on `main`, L3 `CODEOWNERS` so a PR

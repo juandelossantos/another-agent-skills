@@ -2,17 +2,19 @@
 
 [![skills.sh](https://skills.sh/b/juandelossantos/another-agent-skills)](https://skills.sh/juandelossantos/another-agent-skills)
 [![Version: v6.3.2](https://img.shields.io/badge/version-6.3.2-blue.svg)](./RELEASE-NOTES.md)
-[![Skills: 57](https://img.shields.io/badge/skills-57-blue.svg)](./docs/skills.html)
-[![Guides: 151](https://img.shields.io/badge/guides-151-blue.svg)](./docs/skills.html)
-[![Tests: 141 suites](https://img.shields.io/badge/tests-141%20suites-brightgreen.svg)](./tests/run-all.sh)
+[![Skills: 58](https://img.shields.io/badge/skills-58-blue.svg)](./docs/skills.html)
+[![Guides: 153](https://img.shields.io/badge/guides-153-blue.svg)](./docs/skills.html)
+[![Tests: 142 suites](https://img.shields.io/badge/tests-142%20suites-brightgreen.svg)](./tests/run-all.sh)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Multi-agent](https://img.shields.io/badge/multi--agent-15%20agents-8A2BE2.svg)](./docs/AGENT-ADAPTERS.md)
 
 **Most skill libraries sell capability. We sell discipline you can verify.**
 
-57 composable skills and mechanical enforcement that turn AI coding agents into disciplined senior engineers. No bloat. No shortcuts. Just process. Harness. Repeat.
+58 composable skills and mechanical enforcement that turn AI coding agents into disciplined senior engineers. No bloat. No shortcuts. Just process. Harness. Repeat.
 
 Define → Plan → Build → Verify → Review → Ship. Every time.
+
+**Start with [`/gate`](./skills/gate/SKILL.md).** The entry-point skill wires the enforcement into any repo — local hooks, a TDD gate, and a required CI check — then proves the first gate actually fires. Install it with `npx @juandelossantos/another-agent-skills install`.
 
 > Designed for [**OpenCode**](https://opencode.ai) first. Portable to Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, and any agent that reads `AGENTS.md` — see [`docs/AGENT-ADAPTERS.md`](./docs/AGENT-ADAPTERS.md).
 
@@ -47,9 +49,9 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 - **Remote enforcement (Phase 8)** — branch protection on `main` plus a required `gates` status check (`.github/workflows/gates.yml`) and `CODEOWNERS` (L3), so a PR cannot edit its own rules without review.
 - **TDD-gate delivery + git/GitHub flows (Phase 8.1)** — the gate and the four supported setups (no git, local git, git + GitHub, git later) ship to user projects.
 - **Distribution (Phase 9)** — pinned, attested releases and a checksum-verified `curl` bootstrap; the `aas` CLI (`install` / `upgrade` / `doctor` / `uninstall`); portable projects with no absolute symlinks; an npm wrapper (live) with OIDC trusted publishing.
-- **The public web (Phase 10)** — a bilingual (EN/ES) Astro landing + docs site in [`web/`](./web/): the generated skills reference (57 skills / 151 guides), five tutorials, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD) and a WCAG 2.2 AA gate.
+- **The public web (Phase 10)** — a bilingual (EN/ES) Astro landing + docs site in [`web/`](./web/): the generated skills reference (58 skills / 153 guides), five tutorials, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD) and a WCAG 2.2 AA gate.
 - **Docs honesty** — the guide count was corrected from 74 to 151, and the L1/L2/L3 model and INCIDENT_004 were corrected.
-- **Honest status** — **npm is live** (`@juandelossantos/another-agent-skills`) and the `web/` site is **live** at <https://juandelossantos.github.io/another-agent-skills/>. Homebrew is **not planned** (see [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md)).
+- **Honest status** — **npm is live** (`@juandelossantos/another-agent-skills`) and the `web/` site is **live** at <https://juandelossantos.github.io/another-agent-skills/>.
 - **Tests** — the core suite plus the `web/` build and `node --test` suite and the Playwright + axe accessibility gate, all green.
 
 Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
@@ -58,20 +60,26 @@ Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub 
 
 ## Install
 
-**Fastest path — the ecosystem CLI.** Install the 57 skills into your agent with no clone:
+**Recommended — the npm channel.** One command installs the full harness: the 58 skills **and** the mechanical gates (local hooks, the TDD gate, and the required CI check).
+
+```bash
+npx @juandelossantos/another-agent-skills install
+```
+
+**Skills only — the ecosystem CLI.** Installs just the skills into your agent, no harness, no clone:
 
 ```bash
 npx skills add juandelossantos/another-agent-skills
 ```
 
-**Full harness — install once per machine, use it in any project.** The installer detects your shell, your agent, and your stack, then wires the matching skills **and the mechanical gates** (local hooks, the TDD gate, and CI). The `npx` path above installs the skills; the harness adds the enforcement that can't be forgotten.
+**Install once per machine, use it in any project.** The harness is portable (no absolute symlinks) and the installer detects your shell, your agent, and your stack, then wires the matching skills and gates.
 
 ### 1. Clone + installer (live)
 
 ```bash
 git clone https://github.com/juandelossantos/another-agent-skills.git
 cd another-agent-skills
-bash install.sh          # installs the 57 skills globally and configures your shell
+bash install.sh          # installs the 58 skills globally and configures your shell
 init-agents              # in any project: activates skill-driven mode
 ```
 
@@ -79,7 +87,7 @@ Windows (PowerShell): `.\install.ps1`. The installer detects Zsh, Bash, Fish, or
 
 > **Platform note:** the Phase-7 installer flags (`--skills-only`, `--guardrails-only`, `--plugin-only`, multi-agent detection and version gating) are **POSIX-only** (`install.sh`). `install.ps1` provides Claude Code parity (global skills + hook wiring) but **not yet these flags**; on Windows use the Bash installer (WSL / Git Bash) until parity lands.
 >
-> **Only use Claude Code?** `bash install.sh --agent claude` installs the 57 skills to `~/.claude/skills/` (Claude Code's own global path — auto-discovered in every project, no `init-agents` needed) plus `CLAUDE.md` and the enforcement hooks, without setting up OpenCode.
+> **Only use Claude Code?** `bash install.sh --agent claude` installs the 58 skills to `~/.claude/skills/` (Claude Code's own global path — auto-discovered in every project, no `init-agents` needed) plus `CLAUDE.md` and the enforcement hooks, without setting up OpenCode.
 
 ### 2. Pinned `curl` bootstrap (live)
 
@@ -115,7 +123,7 @@ All channels, the maintainer one-time setup, and the release/npm automation are 
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `SOUL.md`, `STEERING-GUIDE.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 151 guides, eval system |
+| **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 153 guides, eval system |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI |
 | **4. Orchestration** | When each tool fires and how agents coordinate | `skill-gate.sh`, `init-agents.sh`, multi-agent skill |
 | **5. Guardrails & Hooks** | Deterministic enforcement at lifecycle points | Pre-commit v11 (15 gates including Gate 0 and the Test Runner), commit-msg v6 (TDD gate, no override) |
@@ -143,10 +151,11 @@ flowchart LR
 
 ## Skills
 
-57 composable skills, each declaring its output contract (artifact, format, location, quality), when to use it, and when **not** to.
+58 composable skills, each declaring its output contract (artifact, format, location, quality), when to use it, and when **not** to.
 
 | Skill | When | What It Does |
 |---|---|---|
+| `gate` | **Enforcement** | Wire mechanical gates (local hooks + TDD gate + required CI check) into any repo; prove the first gate fires |
 | `engineering-fundamentals` | Foundation | Universal engineering philosophy: discovery, contracts, anti-slop, quality gates |
 | `spec-driven-development` | New features | Research-backed specs with critical thinking |
 | `architecture-analysis` | Stack decisions | 2-3 options evaluated with trade-offs |
@@ -160,7 +169,7 @@ flowchart LR
 | `multi-agent-orchestration` | >2 agents | Parallel / pipeline / swarm patterns |
 | `self-improvement` | Background | Detect → diagnose → fix with human approval |
 
-**Full catalog (57 skills, grouped by lifecycle phase) →** the [skills reference](./docs/skills.html) (in-repo) or the [new Astro docs](https://juandelossantos.github.io/another-agent-skills/docs/skills/) (live) · [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md)
+**Full catalog (58 skills, grouped by lifecycle phase) →** the [skills reference](./docs/skills.html) (in-repo) or the [new Astro docs](https://juandelossantos.github.io/another-agent-skills/docs/skills/) (live) · [**Meta-Skills Guide →**](./docs/META-SKILLS-GUIDE.md)
 
 ---
 
@@ -220,7 +229,7 @@ Another Agent Skills works with multiple AI coding agents. **Git hooks work ever
 
 | Feature | OpenCode | Claude Code | Cursor | Codex | Gemini CLI | Any git agent |
 |---|---|---|---|---|---|---|
-| 57 skills installed globally | ✅ auto → `~/.config/opencode/skills/` | ✅ auto → `~/.claude/skills/` | ⚠️ manual | ⚠️ manual | ✅ auto → `~/.gemini/skills/` | ⚠️ manual |
+| 58 skills installed globally | ✅ auto → `~/.config/opencode/skills/` | ✅ auto → `~/.claude/skills/` | ⚠️ manual | ⚠️ manual | ✅ auto → `~/.gemini/skills/` | ⚠️ manual |
 | Git hooks (pre-commit, commit-msg) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | Manifest gate (`commit-approval.sh` + `log-test-results.sh`) | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto | ✅ auto |
 | `SOUL.md` + `AGENTS.md` rules | ✅ auto | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual | ⚠️ manual |

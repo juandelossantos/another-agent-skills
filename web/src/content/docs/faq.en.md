@@ -9,7 +9,7 @@ tldr: "Short, citable answers: one install per machine, POSIX-first with Windows
 
 ## What is Another Agent Skills?
 
-A framework of 57 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a six-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.
+A framework of 58 composable skills that turn AI coding agents into disciplined senior engineers. It adds mechanical enforcement, not just prompts. Skills follow a six-phase lifecycle: Define, Plan, Build, Verify, Review, Ship.
 
 ## Do I install it per project or once?
 

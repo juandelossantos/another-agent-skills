@@ -1,10 +1,10 @@
 ---
 title: "Skills"
-description: "Referencia detallada de las 57 skills: qué hace cada una, cuándo se activa, cuándo usarla y cuándo no."
+description: "Referencia detallada de las 58 skills: qué hace cada una, cuándo se activa, cuándo usarla y cuándo no."
 lang: "es"
 order: 11
 section: "concepts"
-tldr: "57 skills, cada una con un disparador y un contrato de salida. Son índices que se cargan bajo demanda; la meta-skill using-agent-skills enruta cada tarea a la correcta. Tú describes la tarea, no la skill."
+tldr: "58 skills, cada una con un disparador y un contrato de salida. Son índices que se cargan bajo demanda; la meta-skill using-agent-skills enruta cada tarea a la correcta. Tú describes la tarea, no la skill."
 ---
 
 ## Índice

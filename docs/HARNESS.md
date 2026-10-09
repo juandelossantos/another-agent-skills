@@ -18,7 +18,7 @@ This project is a complete open-source Harness.
 | Component | What It Is | In This Project |
 |---|---|---|
 | **1. Instructions & Rules** | Who the agent is, what it cares about, what it must never do | `AGENTS.md`, `AGENTS-EXTENDED.md`, `SOUL.md`, `STEERING-GUIDE.md`, `STACK_CONFIG.md` |
-| **2. Tools** | Task-specific capabilities loaded on demand | 57 skills in `skills/`, 151 guides, MCP servers, shell scripts |
+| **2. Tools** | Task-specific capabilities loaded on demand | 58 skills in `skills/`, 153 guides, MCP servers, shell scripts |
 | **3. Sandboxes & Execution** | Where the agent's code actually runs | Terminal, git workspace, CI environment, Docker |
 | **4. Orchestration** | When each tool fires, how agents coordinate | `skill-gate.sh`, `init-agents.sh`, `multi-agent-orchestration` skill, `.sessionrc` |
 | **5. Guardrails & Hooks** | Deterministic code at lifecycle points — things the agent should never forget but often does | `pre-commit` hook v11 (15 gates, Test Runner), `commit-msg` hook v6 (TDD gate, no override), `edit-guard.sh`, `task-manifest.sh` |
@@ -73,7 +73,7 @@ The harness ensures safe behavior in production:
 |---|---|---|
 | Intent specification | Casual prompts | Formal specs, AGENTS.md, STEERING-GUIDE.md |
 | Verification | "Does it seem to work?" | Automated gates, time-window approval, validate-skill-table.sh |
-| Codebase understanding | Minimal | 57 skills with lazy-loaded guides |
+| Codebase understanding | Minimal | 58 skills with lazy-loaded guides |
 | Error handling | Copy-paste errors back to AI | Pre-commit blocks, edit-guard integrity checks |
 | Appropriate scope | Prototypes, scripts | Production systems, team-scale |
 | Risk profile | High | Low — systematic verification at every stage |

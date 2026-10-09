@@ -112,6 +112,19 @@ test.describe('reduced motion', () => {
     await expect(page.locator('.flow__node').first()).toBeVisible();
     await expect(page.locator('.harness__blocked-note')).toBeVisible();
   });
+
+  test('the hero terminal commands fit without horizontal scroll at desktop width', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('./');
+    // With reduced motion the terminal renders fully typed (static), so every
+    // command line must fit its box — no inner horizontal scrollbar.
+    const overflowing = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.terminal__typing'))
+        .filter((el) => el.scrollWidth > el.clientWidth + 1)
+        .map((el) => el.textContent.trim()),
+    );
+    expect(overflowing).toEqual([]);
+  });
 });
 
 test.describe('no JavaScript', () => {
@@ -283,7 +296,7 @@ test.describe('skills reference', () => {
     await page.goto('docs/skills/');
     await expect(page.locator('h1.docs-title')).toContainText('Skills');
     await expect(page.locator('.skills-catalog')).toBeVisible();
-    await expect(page.locator('.skill')).toHaveCount(57);
+    await expect(page.locator('.skill')).toHaveCount(58);
     await expect(page.locator('#cat-testing')).toBeVisible();
     await expect(page.locator('.skill__source').first()).toBeVisible();
     expect(errors).toEqual([]);
@@ -292,7 +305,7 @@ test.describe('skills reference', () => {
   test('ES renders the catalog in Spanish with zero console errors', async ({ page }) => {
     const errors = collectErrors(page);
     await page.goto('es/docs/skills/');
-    await expect(page.locator('.skill')).toHaveCount(57);
+    await expect(page.locator('.skill')).toHaveCount(58);
     await expect(page.locator('.docs-content')).toContainText('Se activa cuando');
     expect(errors).toEqual([]);
   });
@@ -381,7 +394,7 @@ test.describe('sidebar consistency', () => {
     // The branch is a native <details>; the chevron summary toggles it.
     await page.locator('[data-skills-group] > summary').click();
     await expect(page.locator('[data-skill-category]')).toHaveCount(13);
-    await expect(page.locator('[data-skill-link]')).toHaveCount(57);
+    await expect(page.locator('[data-skill-link]')).toHaveCount(58);
   });
 
   test('the edit link opens the GitHub editor for the page locale file', async ({ page }) => {

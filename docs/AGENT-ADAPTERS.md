@@ -51,7 +51,7 @@ plugins/agent-discipline/
 
 ## Claude Code
 
-### Global Skills (all 57 skills, every project, one install)
+### Global Skills (all 58 skills, every project, one install)
 
 Claude Code auto-discovers skills from `~/.claude/skills/<name>/SKILL.md` — no per-project copy needed, unlike the OpenCode-only global path (`~/.config/opencode/skills/`).
 

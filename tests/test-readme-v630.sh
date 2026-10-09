@@ -56,8 +56,8 @@ assert "states the agent never commits or pushes" "grep -q 'never runs \`git com
 echo ""
 echo "Group 3 — Badges"
 assert "version badge is v6.3.2" "grep -q 'Version: v6.3.2' '$FILE'"
-assert "skills badge is 57" "grep -q 'Skills: 57' '$FILE'"
-assert "guides badge is 151" "grep -q 'Guides: 151' '$FILE'"
+assert "skills badge is 58" "grep -q 'Skills: 58' '$FILE'"
+assert "guides badge is 153" "grep -q 'Guides: 153' '$FILE'"
 assert "license badge is MIT" "grep -q 'License: MIT' '$FILE'"
 assert "multi-agent badge present" "grep -q 'Multi-agent' '$FILE'"
 

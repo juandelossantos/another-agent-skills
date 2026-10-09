@@ -90,6 +90,11 @@ CLOSE_BRACES=$(grep -o '}' "$PS1" | wc -l)
 assert "braces balanced ($OPEN_BRACES open / $CLOSE_BRACES close)" "[ '$OPEN_BRACES' -eq '$CLOSE_BRACES' ]"
 
 echo ""
+echo "Test: static — the advertised skill count is current"
+assert "install.sh advertises 58 skills, not 57" "grep -q 'The 58 custom skills' '$REPO_ROOT/install.sh' && ! grep -q '57 custom skills' '$REPO_ROOT/install.sh'"
+assert "install.ps1 advertises 58 skills, not 57" "grep -q 'The 58 custom skills' '$REPO_ROOT/install.ps1' && ! grep -q '57 custom skills' '$REPO_ROOT/install.ps1'"
+
+echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
 [ "$FAILED" -gt 0 ] && exit 1
 exit 0

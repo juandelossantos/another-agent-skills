@@ -88,7 +88,7 @@ another-agent-skills/
 │   ├── philosophy.html      # SOUL.md principles
 │   ├── getting-started.html # Installation + first project
 │   ├── lifecycle.html       # 6-phase dev flow
-│   ├── skills.html          # Browse all 57 skills
+│   ├── skills.html          # Browse all 58 skills
 │   ├── enforcement.html     # The Harness architecture
 │   ├── design-review.html   # Design review pipeline
 │   ├── rules.html           # AGENTS.md rules reference

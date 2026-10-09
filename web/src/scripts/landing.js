@@ -55,12 +55,17 @@
     // then re-type them for the animation.
     var commands = Array.prototype.map.call(lines.querySelectorAll('.terminal__tline'), function (line) {
       var typing = line.querySelector('.terminal__typing');
-      return { text: typing ? typing.textContent : '', soon: !!line.querySelector('.terminal__soon') };
+      var chan = line.querySelector('.terminal__chan');
+      return {
+        text: typing ? typing.textContent : '',
+        channel: chan ? chan.textContent : '',
+        recommended: line.getAttribute('data-recommended') === 'true'
+      };
     });
     if (!commands.length) return;
 
     var outLines = output.querySelectorAll('.terminal__out-line');
-    var soonLabel = (terminal.querySelector('.terminal__soon') || {}).textContent || 'soon';
+    var recLabel = (terminal.querySelector('.terminal__rec') || {}).textContent || 'recommended';
 
     function showOutput() {
       output.hidden = false;
@@ -78,8 +83,9 @@
       var cmd = commands[index];
       var line = document.createElement('div');
       line.className = 'terminal__tline';
-      line.innerHTML = '<span class="terminal__prompt">~ $</span><span class="terminal__typing" tabindex="0"></span>' +
-        (cmd.soon ? '<span class="terminal__soon">' + soonLabel + '</span>' : '') +
+      line.innerHTML = (cmd.channel ? '<span class="terminal__chan">' + cmd.channel + '</span>' : '') +
+        '<span class="terminal__prompt">~ $</span><span class="terminal__typing" tabindex="0"></span>' +
+        (cmd.recommended ? '<span class="terminal__rec">' + recLabel + '</span>' : '') +
         '<span class="terminal__cursor">\u258a</span>';
       lines.appendChild(line);
 

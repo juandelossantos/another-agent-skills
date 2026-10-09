@@ -29,7 +29,7 @@ assert "no longer says Phase 8 in progress" "! grep -q 'Phase 8 in progress' '$F
 assert "documents remote enforcement live" "grep -qi 'remote enforcement live' '$FILE'"
 assert "records remote authority (L2) ACTIVE" "grep -q 'Remote authority (L2)' '$FILE' && grep -q 'branch protection on .main.' '$FILE'"
 assert "version header is 6.3.2" "grep -q '\*\*Version:\*\* 6.3.2' '$FILE'"
-assert "records the real guide count (151)" "grep -q '151 guides' '$FILE'"
+assert "records the real guide count (153)" "grep -q '153 guides' '$FILE'"
 assert "documents the v6.3.0 release" "grep -q 'v6.3.0 released' '$FILE'"
 assert "documents the test cadence" "grep -q 'Test cadence' '$FILE'"
 assert "documents Phase 10 COMPLETE" "grep -q 'Phase 10 COMPLETE' '$FILE'"
@@ -38,7 +38,7 @@ assert "records T1 (npm activation done)" "grep -q 'T1 — npm activation (DONE)
 assert "names the next task T2 (web + docs once LIVE)" "grep -q 'T2 — web + docs update once LIVE' '$FILE'"
 assert "T2 covers the security-headers gap" "grep -q 'security-headers gap' '$FILE'"
 assert "documents Phase 9 COMPLETE" "grep -q 'Phase 9 COMPLETE' '$FILE'"
-assert "records 141 suites" "grep -q '141 suites' '$FILE'"
+assert "records 142 suites" "grep -q '142 suites' '$FILE'"
 assert "links the distribution docs" "grep -q 'docs/DISTRIBUTION.md' '$FILE'"
 
 echo ""

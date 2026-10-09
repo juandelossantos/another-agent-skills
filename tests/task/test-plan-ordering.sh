@@ -47,7 +47,7 @@ assert "Phase 11 includes WCAG 2.2 AA in Starlight" "grep -q 'WCAG 2.2 AA en el 
 assert "Phase 9 is marked COMPLETE" "grep -q '## Phase 9: Distribution & Upgrades (v6.3.0) — ✅ COMPLETE' '$PLAN'"
 assert "Phase 9 is in the Completed Phases table" "grep -qF '| **9** | **v6.3.0** |' '$PLAN'"
 assert "Phase 9 task table is ✅ DONE" "grep -qF 'P9.1 ✅ DONE' '$PLAN' && grep -qF 'P9.8** ✅ DONE' '$PLAN'"
-assert "Current Status tests count is 141" "grep -q '141 suites' '$PLAN'"
+assert "Current Status tests count is 142" "grep -q '142 suites' '$PLAN'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

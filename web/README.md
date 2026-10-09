@@ -167,7 +167,7 @@ tldr: "One citable line."          # optional; shown as the page TL;DR and used
 
 ### Skills reference
 
-The `skills` page is the detailed catalog of all 57 skills. It is generated,
+The `skills` page is the detailed catalog of all 58 skills. It is generated,
 never hand-written: `npm run skills` reads each `../skills/<name>/SKILL.md`
 (frontmatter plus the `When to Use` / `When NOT to Use` sections) and the ES
 translation map, then writes `src/data/skills.json`. The page renders that

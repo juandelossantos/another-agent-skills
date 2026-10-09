@@ -76,10 +76,6 @@ downloads `another-agent-skills-vX.Y.Z.tar.gz` + `checksums.txt`, verifies the
 sha256 with `node:crypto`, extracts to a temp dir, and delegates to the
 release's own `bootstrap.sh` — install logic lives in exactly one place.
 
-> **Homebrew is not planned.** It was scoped in Phase 9 (P9.6) but dropped: it
-> would add a separate `homebrew-tap` repo + a PAT secret, while `git clone`,
-> the pinned `curl` bootstrap and npm already cover Linux/macOS/Windows.
-
 ---
 
 ## Release automation (what runs without a human)

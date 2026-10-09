@@ -48,8 +48,6 @@ npx @juandelossantos/another-agent-skills install --version v6.3.2
 
 El paquete de npm contiene solo `cli.js` y un README. Descarga el tarball del release y `checksums.txt`, verifica el sha256 con `node:crypto` y delega en el `bootstrap.sh` del propio release, así que la lógica de instalación vive en un único lugar. Se publica con OIDC trusted publishing (sin token almacenado).
 
-> Homebrew **no está planificado**: añadiría un repo tap separado + un secret PAT, mientras que `git clone`, el bootstrap `curl` fijado y npm ya cubren Linux, macOS y Windows.
-
 ## Automatización del release
 
 Empujar un tag `v*` dispara un flujo que construye el tarball más `checksums.txt`, atestigua la procedencia del build y publica el GitHub Release. Un segundo flujo sincroniza la versión de npm desde `VERSION`, omite el paso si esa versión ya existe y publica mediante OIDC Trusted Publishing sin token almacenado. Verifica un release localmente:

@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-10-06  
 > **Current version:** 6.3.2
-> **Status:** v6.3.2 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)** and **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)**. **npm published (6.3.2)**; Homebrew **not planned**. 0 errors, 2 warnings, 151 guides across 57 skills, 141 test suites green (+ web: 74 node + 85 e2e, axe 0)  
+> **Status:** v6.3.2 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)** and **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)**. **npm published (6.3.2)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 142 test suites green (+ web: 74 node + 85 e2e, axe 0)  
 > **Current plan:** `PLAN.md` — **Phase 14 complete**; next: **T2** (web + docs update live), **E1** (essay), and the backlog **B13/B15/B16/B19/B20**.
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
@@ -19,7 +19,7 @@
 
 
 
-### 57 Custom Skills
+### 58 Custom Skills
 
 | Skill | Lines | Guides | Description |
 |---|---|---|---|
@@ -51,6 +51,7 @@
 | `frontend-ui-engineering` | 123 | 2 | Build production-quality UIs with component architecture, state management, and  |
 | `frontend-web` | 250 | 8 | Build production-grade web interfaces. Triggers: website, landing page, web app, |
 | `fullstack-shipping` | 185 | 3 | Build, test, and deploy with production-grade CI/CD, testing, orchestration, and |
+| `gate` | 136 | 2 |  |
 | `git-init-and-versioning` | 250 | 6 | Initialize and configure Git before writing code. Decides mono vs multi-repo, cr |
 | `git-workflow-and-versioning` | 193 | 3 | Manage git workflow practices: branching, committing, resolving conflicts, paral |
 | `hard-skill` | 157 | 4 | Fix critical and high-severity accessibility, input, and state issues determinis |
@@ -131,7 +132,7 @@
 | `frontend-desktop` | 251 | 236 | **-6%** |
 | `backend-api-mastery` | 316 | 195 | **-38%** |
 
-**All 57 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
+**All 58 skills ≤ 250 lines. Total context saved: ~1,700 lines.**
 
 ---
 
