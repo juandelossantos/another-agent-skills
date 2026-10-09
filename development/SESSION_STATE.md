@@ -1,14 +1,14 @@
-# Session State — v6.3.2 release (B14/B15/B21) · next: T2 + backlog
+# Session State — v6.3.2 SHIPPED + LIVE on npm · next: T2 + backlog
 
-**Date:** 2026-10-08 (updated)
-**Branch:** `release/v6.3.2` (this handoff — the B14/B15/B21 fixes shipped via PR #69).
-**Status:** ✅ **PR #69 MERGED (B14/B15/B21, 139/139, CI green).** Gate 11 / `STEERING-GUIDE.md` remediation is now executable in a real project; `generate-health-check.sh` works without AAS headers; `install.sh`'s global dir is complete; `scripts/check-gate-remedies.sh` guards the class. **Releasing v6.3.2** (npm via the release workflow). Prior: Phase 14 SHIPPED (PRs #66/#67/#68), Phase 13 (PR #61).
+**Date:** 2026-10-09 (updated)
+**Branch:** `main` (v6.3.2 merged; this handoff on `chore/handoff-v6.3.2`).
+**Status:** ✅ **v6.3.2 SHIPPED + LIVE.** npm `@juandelossantos/another-agent-skills@6.3.2` (`latest`), the GitHub Release `v6.3.2`, and **every version surface agree (11/11 `--online`)**. Ships the **B14/B15/B21** remediation fixes (PR #69: the gates' own remediation is now executable in a real project), a rewritten **selling npm README**, and version-consistency everywhere (mockups unified + S3 now checks **10 local surfaces**). Plus the **npm-publish chain fix (PR #71)**: `release.yml` chains `npm-publish.yml` via `workflow_call` — the `publish-npm` job was **dropped by accident in #66**, which is why v6.3.2 first missed npm; now guarded by `tests/test-release-npm-chain.sh`. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
 **Plan:** `PLAN.md` — single source of truth
 
 ## Next Session (resume here)
 
 1. **T2** — web + docs update (live): verify the live SEO/`llms.txt`/OG; revisit the **security-headers gap**.
-2. **Backlog** — **B13** (`skill-lint` single quotes) · **B15** (Gate 11 remedy) · **B16** (legacy `skills/`) · **B19** (Phase 13 nits) · **B20** (S4 shim risk for a consumer's `scripts/*`).
+2. **Backlog** — **B13** (`skill-lint` single quotes) · **B16** (legacy `skills/`) · **B19** (Phase 13 nits) · **B20** (S4 shim risk for a consumer's `scripts/*`). *(B14/B15/B21 ✅ done in v6.3.2; B18 ✅ done in #64.)*
 3. **E1** — essay review/edit → decide.
 
 ## Historical handoff — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted
