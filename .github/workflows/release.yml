@@ -88,3 +88,18 @@ jobs:
               --generate-notes
           fi
 
+  # Chain the npm publish here. A release created by GITHUB_TOKEN does NOT trigger
+  # other workflows (`release: published` never fires for it), so npm-publish.yml
+  # would never run on its own. Calling it directly makes the npm channel
+  # deterministic. Staged publishing still requires a maintainer's 2FA approval.
+  #
+  # DO NOT remove this job: it is the ONLY automatic path to npm. It was dropped
+  # by accident in #66 (which broke the 6.3.2 publish); tests/test-release-npm-chain.sh
+  # now guards it.
+  publish-npm:
+    needs: release
+    uses: ./.github/workflows/npm-publish.yml
+    permissions:
+      contents: read
+      id-token: write
+
