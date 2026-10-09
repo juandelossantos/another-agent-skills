@@ -662,6 +662,12 @@ code { font-family: var(--font-mono); }
   overflow-x: auto;
   white-space: pre;
 }
+.step1__note {
+  margin-top: var(--space-md);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
 
 /* Lifecycle strip */
 .lifecycle-strip {

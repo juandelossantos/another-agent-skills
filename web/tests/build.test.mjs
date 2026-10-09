@@ -59,7 +59,7 @@ test('EN landing: the /gate Step 1 section (entry point) renders', () => {
   const html = read('index.html');
   assert.match(html, /id="step-1"/);
   assert.match(html, /Step 1/);
-  assert.match(html, /Wire the gates with \/gate/);
+  assert.match(html, /Wire the gates with the \/gate skill/);
   assert.match(html, /skills\/gate\/SKILL\.md/);
 });
 
@@ -67,7 +67,7 @@ test('ES landing: la sección Paso 1 (/gate) se renderiza', () => {
   const html = read('es/index.html');
   assert.match(html, /id="step-1"/);
   assert.match(html, /Paso 1/);
-  assert.match(html, /Conecta las puertas con \/gate/);
+  assert.match(html, /Conecta las puertas con la skill \/gate/);
   assert.match(html, /skills\/gate\/SKILL\.md/);
 });
 
@@ -80,6 +80,7 @@ test('the /gate Step 1 section shows how gate works, not the npm command', () =>
   // It must show how gate works in the agent: the /gate invocation and the gate firing.
   assert.match(section, /\/gate/, 'Step 1 must show the /gate invocation');
   assert.match(section, /BLOCKED/, 'Step 1 must show the gate firing');
+  assert.match(section, /any git-based agent/, 'Step 1 must state the enforcement is agent-agnostic');
 });
 
 test('the hero terminal marks three distinct channels and recommends npm', () => {

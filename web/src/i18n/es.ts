@@ -45,13 +45,14 @@ export const es: Dictionary = {
   },
   step1: {
     label: 'Paso 1 — empieza aquí',
-    title: 'Conecta las puertas con /gate',
+    title: 'Conecta las puertas con la skill /gate',
     lede: 'Una skill. Detecta tu stack, instala los hooks locales, la puerta TDD y el check de CI requerido, y prueba que la primera puerta se dispara de verdad. Todo lo demás se apoya en esto.',
     demo: `> /gate
 
   Detectando  · VCS: git · stack: Node · hooksPath: sin definir
   Conectando  · L1 hooks locales · L2 check remoto gates requerido · L3 CODEOWNERS
   Probando    · git commit → ✗ BLOQUEADO: cada cambio de código necesita un test`,
+    agents: 'El enforcement funciona con cualquier agente basado en git — OpenCode, Claude Code, Cursor, Codex, Gemini CLI, y cualquier agente que lea AGENTS.md.',
     learn: 'Ver la skill /gate',
   },
   terminal: {

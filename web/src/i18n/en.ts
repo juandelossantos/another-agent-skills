@@ -46,13 +46,14 @@ export const en = {
   },
   step1: {
     label: 'Step 1 — start here',
-    title: 'Wire the gates with /gate',
+    title: 'Wire the gates with the /gate skill',
     lede: 'One skill. It detects your stack, installs the local hooks, the TDD gate and the required CI check, then proves the first gate actually fires. Everything else builds on this.',
     demo: `> /gate
 
   Detecting  · VCS: git · stack: Node · hooksPath: unset
   Wiring     · L1 local hooks · L2 required gates check · L3 CODEOWNERS
   Proving    · git commit → ✗ BLOCKED: every code change needs a matching test`,
+    agents: 'Enforcement works with any git-based agent — OpenCode, Claude Code, Cursor, Codex, Gemini CLI, and any agent that reads AGENTS.md.',
     learn: 'See the /gate skill',
   },
   terminal: {
