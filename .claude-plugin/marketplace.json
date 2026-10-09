@@ -1,0 +1,14 @@
+{
+  "name": "another-agent-skills",
+  "description": "Mechanical enforcement (TDD + commit gates) plus 57 skills for AI coding agents. Agent = Model + Harness.",
+  "owner": {
+    "name": "Juan de los Santos"
+  },
+  "plugins": [
+    {
+      "name": "agent-discipline",
+      "source": "./.claude-plugin/agent-discipline",
+      "description": "Guardrails: blocks undisciplined git commit/push and guards edits. Mechanical enforcement that can't be forgotten."
+    }
+  ]
+}
