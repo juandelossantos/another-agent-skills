@@ -1,8 +1,8 @@
 # Project Progress Status
 
 > **Last updated:** 2026-10-06  
-> **Current version:** 6.3.2
-> **Status:** v6.3.2 released — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)** and **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)**. **npm published (6.3.2)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 142 test suites green (+ web: 74 node + 85 e2e, axe 0)  
+> **Current version:** 6.4.0
+> **Status:** v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)** and **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)**. **npm published (6.4.0)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 142 test suites green (+ web: 74 node + 85 e2e, axe 0)  
 > **Current plan:** `PLAN.md` — **Phase 14 complete**; next: **T2** (web + docs update live), **E1** (essay), and the backlog **B13/B15/B16/B19/B20**.
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
@@ -140,7 +140,7 @@
 
 ### In Progress
 
-- **T1 — npm activation (DONE)** — first publish + Trusted Publisher (workflow **`release.yml`** — the publish is chained via `workflow_call` — environment `npm-release`, staged). `@juandelossantos/another-agent-skills@6.3.2` is **live**. **Homebrew is not planned.** See `docs/DISTRIBUTION.md`.
+- **T1 — npm activation (DONE)** — first publish + Trusted Publisher (workflow **`release.yml`** — the publish is chained via `workflow_call` — environment `npm-release`, staged). `@juandelossantos/another-agent-skills@6.4.0` is **live**. **Homebrew is not planned.** See `docs/DISTRIBUTION.md`.
 - **T2 — Web + docs update once LIVE** — after the Pages deploy is verified live: point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the security-headers gap (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
 
 ### Completed

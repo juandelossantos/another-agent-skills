@@ -22,7 +22,7 @@ assert() {
   fi
 }
 
-assert "handoff title is v6.3.2 SHIPPED + LIVE on npm" "grep -q '# Session State — v6.3.2 SHIPPED + LIVE on npm · next: T2 + backlog' '$FILE'"
+assert "handoff title is the v6.4.0 release" "grep -q '# Session State — v6.4.0 release (the /gate wedge skill) · next: tag + W3' '$FILE'"
 assert "documents Phase 10 SHIPPED" "grep -q 'Phase 10 SHIPPED' '$FILE'"
 assert "retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$FILE'"
 assert "names the merged Phase 9 PRs" "grep -q 'PRs #47' '$FILE'"

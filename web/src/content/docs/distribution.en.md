@@ -43,7 +43,7 @@ aas uninstall                 # remove the CLI, install root, and PATH entry
 
 ```bash
 npx @juandelossantos/another-agent-skills install
-npx @juandelossantos/another-agent-skills install --version v6.3.2
+npx @juandelossantos/another-agent-skills install --version v6.4.0
 ```
 
 The npm package contains only `cli.js` and a README. It downloads the release tarball and `checksums.txt`, verifies the sha256 with `node:crypto`, and delegates to the release's own `bootstrap.sh`, so install logic lives in exactly one place. It is published via OIDC trusted publishing (no stored token).

@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![skills.sh](https://skills.sh/b/juandelossantos/another-agent-skills)](https://skills.sh/juandelossantos/another-agent-skills)
-[![Version: v6.3.2](https://img.shields.io/badge/version-6.3.2-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.4.0](https://img.shields.io/badge/version-6.4.0-blue.svg)](./RELEASE-NOTES.md)
 [![Skills: 58](https://img.shields.io/badge/skills-58-blue.svg)](./docs/skills.html)
 [![Guides: 153](https://img.shields.io/badge/guides-153-blue.svg)](./docs/skills.html)
 [![Tests: 142 suites](https://img.shields.io/badge/tests-142%20suites-brightgreen.svg)](./tests/run-all.sh)

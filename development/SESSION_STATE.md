@@ -1,4 +1,4 @@
-# Session State — v6.3.2 SHIPPED + LIVE on npm · next: T2 + backlog
+# Session State — v6.4.0 release (the /gate wedge skill) · next: tag + W3
 
 **Date:** 2026-10-09 (updated)
 **Branch:** `main` (v6.3.2 merged; this handoff on `chore/handoff-v6.3.2`).

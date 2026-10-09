@@ -170,7 +170,7 @@
       },
       footer: {
         docs: 'Documentation', github: 'GitHub',
-        copy: 'v6.3.2 \u00b7 MIT License \u00b7 Made by @juandelossantos'
+        copy: 'v6.4.0 \u00b7 MIT License \u00b7 Made by @juandelossantos'
       }
     },
 
@@ -327,7 +327,7 @@
       },
       footer: {
         docs: 'Documentaci\u00f3n', github: 'GitHub',
-        copy: 'v6.3.2 \u00b7 Licencia MIT \u00b7 Hecho por @juandelossantos'
+        copy: 'v6.4.0 \u00b7 Licencia MIT \u00b7 Hecho por @juandelossantos'
       }
     }
   };

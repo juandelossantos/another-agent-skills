@@ -1,5 +1,12 @@
 # Release Notes
 
+## 6.4.0 (2026-10-09) — the /gate wedge skill + npm-first onboarding
+
+- **New skill: `/gate`** (58th) — wires mechanical enforcement (local hooks, a TDD gate, a required CI check) into any repo and **proves** the first gate fires.
+- **Landing:** a "Step 1 — /gate" section (EN/ES) and an npm-first hero with three labeled install channels (npm recommended); the Step 1 transcript shows how `/gate` works in the agent.
+- **Homebrew dropped** from every public surface (web + docs + README).
+- **Counts synced:** 58 skills · 153 guides · 142 test suites.
+
 ## 6.3.2 (2026-10-08) — the remediation path actually works
 
 A patch release that makes the gates' own remediation instructions executable in

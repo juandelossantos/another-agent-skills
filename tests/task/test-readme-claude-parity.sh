@@ -24,7 +24,7 @@ assert() {
 assert "compatibility table has a global-skills row" "grep -q '58 skills installed globally' '$FILE'"
 assert "row credits Claude Code with ~/.claude/skills/ auto" "grep -q 'auto → \`~/.claude/skills/\`' '$FILE'"
 assert "Quick Start still documents --agent claude" "grep -q 'install.sh --agent claude' '$FILE'"
-assert "version badge is v6.3.2" "grep -q 'Version: v6.3.2' '$FILE'"
+assert "version badge is v6.4.0" "grep -q 'Version: v6.4.0' '$FILE'"
 assert "README states the real guide count (153)" "grep -q '153 guides' '$FILE'"
 assert "the single What's New section is v6.3.0" "grep -q \"## What's New in v6.3.0\" '$FILE'"
 assert "no older v6.1.0 What's New section remains" "! grep -q \"What's New in v6.1.0\" '$FILE'"

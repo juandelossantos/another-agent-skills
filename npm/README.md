@@ -49,7 +49,7 @@ aas upgrade                  # self-update from the latest pinned release
 npx @juandelossantos/another-agent-skills install
 
 # Pin a specific release
-npx @juandelossantos/another-agent-skills install --version v6.3.2
+npx @juandelossantos/another-agent-skills install --version v6.4.0
 
 # See what would happen without downloading or writing anything
 npx @juandelossantos/another-agent-skills install --dry-run
