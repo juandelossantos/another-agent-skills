@@ -14,7 +14,7 @@
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 57 with contracts, When to Use, When NOT to Use |
 | Guides | 151 across all skills |
-| Tests | **108 suites** passing (core: behavioral + task working set capped at 20); web: **83 node + 85 e2e** (axe 0) |
+| Tests | **141 suites** passing (core: behavioral + task working set capped at 20); web: **83 node + 85 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
