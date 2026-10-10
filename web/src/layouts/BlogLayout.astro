@@ -9,6 +9,8 @@ import { getBlogDictionary } from '../i18n/blog';
 import { blogHref, blogHome, blogRss } from '../blog/paths';
 import { buildBlogIndexJsonLd } from '../blog/seo';
 import { formatDate, heroImage, postSlug, readingMinutes } from '../blog/nav';
+import { absoluteUrl } from '../site';
+import { localePath } from '../i18n/routes';
 import type { Locale } from '../i18n';
 import type { PostEntry } from '../blog/nav';
 
@@ -24,10 +26,8 @@ const rss = blogRss(locale);
 
 const [featured, ...rest] = posts;
 
-const ORIGIN = 'https://juandelossantos.github.io';
-const abs = (path: string) => new URL(path, ORIGIN).href;
-const homeUrl = abs(locale === 'es' ? '/another-agent-skills/es/' : '/another-agent-skills/');
-const blogUrl = abs(blogHome(locale));
+const homeUrl = absoluteUrl(localePath(locale));
+const blogUrl = absoluteUrl(blogHome(locale));
 
 const jsonLd = buildBlogIndexJsonLd({
   locale,
@@ -49,6 +49,7 @@ const featuredHref = featured ? blogHref(locale, postSlug(featured)) : '';
   canonicalPath="blog/"
   jsonLd={jsonLd}
   rssHref={rss}
+  rssTitle={`Another Agent Skills — ${blog.index.title}`}
 >
   <div class="blog">
     <div class="blog-index__inner">

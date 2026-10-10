@@ -6,9 +6,9 @@
  * plus a Home > Blog > Post breadcrumb. Both are localized.
  */
 import type { Locale } from '../i18n';
+import { absoluteUrl } from '../site';
 
-const ORIGIN = 'https://juandelossantos.github.io';
-const WEBSITE = new URL('/', ORIGIN).href;
+const WEBSITE = absoluteUrl('/');
 
 export interface BlogIndexSeoInput {
   locale: Locale;

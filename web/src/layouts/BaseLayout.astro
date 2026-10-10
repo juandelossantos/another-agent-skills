@@ -11,6 +11,7 @@ import Footer from '../components/Footer.astro';
 import { jsonLdScript } from '../json-ld';
 import { HTML_LANG, type Dictionary, type Locale } from '../i18n';
 import { alternateLocale, BASE, localePath } from '../i18n/routes';
+import { SITE_ORIGIN } from '../site';
 
 interface Props {
   locale: Locale;
@@ -28,6 +29,8 @@ interface Props {
   ogImageAlt?: string;
   /** When set, advertise an RSS feed via `<link rel="alternate">`. */
   rssHref?: string;
+  /** Title for the RSS `<link rel="alternate">` (localized by the caller). */
+  rssTitle?: string;
   /** Open Graph object type (defaults to `website`; posts use `article`). */
   ogType?: string;
   /** Article metadata for Open Graph (posts only). */
@@ -52,11 +55,12 @@ const {
   ogImageHeight = 630,
   ogImageAlt,
   rssHref,
+  rssTitle = 'Another Agent Skills',
   ogType = 'website',
   article,
 } = Astro.props;
 
-const site = Astro.site ?? new URL('https://juandelossantos.github.io');
+const site = Astro.site ?? new URL(SITE_ORIGIN);
 const altLocale = alternateLocale(locale);
 
 const absolute = (path: string) => new URL(path, site).href;
@@ -99,7 +103,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <link rel="alternate" hreflang="es" href={esHref} />
     <link rel="alternate" hreflang="x-default" href={enHref} />
     {rssHref && (
-      <link rel="alternate" type="application/rss+xml" title="Another Agent Skills — Writing" href={rssHref} />
+      <link rel="alternate" type="application/rss+xml" title={rssTitle} href={rssHref} />
     )}
 
     <!-- Icons -->
@@ -156,6 +160,10 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     </main>
     <Footer locale={locale} dict={dict} />
 
+    <!-- Shared progressive-enhancement chrome (theme toggle, mobile menu) plus
+         the landing-only section animations — every section guard early-returns,
+         so it is safe (and needed for the chrome) on the blog/docs pages that
+         reuse this layout. -->
     <script>
       import '../scripts/landing.js';
     </script>

@@ -24,8 +24,6 @@ export const blogEn = {
   },
   post: {
     back: 'All writing',
-    published: 'Published',
-    updated: 'Updated',
     minRead: 'min read',
     tags: 'Tags',
     toc: 'On this article',
@@ -37,8 +35,6 @@ export const blogEn = {
     shareEmail: 'Email',
     copyLink: 'Copy link',
     copied: 'Copied',
-    prev: 'Newer',
-    next: 'Older',
   },
 };
 
@@ -58,8 +54,6 @@ export const blogEs: BlogDictionary = {
   },
   post: {
     back: 'Todos los artículos',
-    published: 'Publicado',
-    updated: 'Actualizado',
     minRead: 'min de lectura',
     tags: 'Etiquetas',
     toc: 'En este artículo',
@@ -71,8 +65,6 @@ export const blogEs: BlogDictionary = {
     shareEmail: 'Correo',
     copyLink: 'Copiar enlace',
     copied: 'Copiado',
-    prev: 'Más reciente',
-    next: 'Más antiguo',
   },
 };
 

@@ -2,9 +2,9 @@ import type { APIRoute } from 'astro';
 import { getPosts, postSlug } from '../../blog/nav';
 import { blogHref, blogHome, blogRss } from '../../blog/paths';
 import { getBlogDictionary } from '../../i18n/blog';
+import { absoluteUrl } from '../../site';
 
-const ORIGIN = 'https://juandelossantos.github.io';
-const abs = (path: string) => new URL(path, ORIGIN).href;
+const abs = absoluteUrl;
 
 function escapeXml(value: string): string {
   return value

@@ -46,10 +46,14 @@ export function heroImage(entry: PostEntry): ImageMetadata {
   return mod.default;
 }
 
+/** Word count of a post body (whitespace-delimited). */
+export function wordCount(entry: PostEntry): number {
+  return entry.body?.trim().split(/\s+/).length ?? 0;
+}
+
 /** A rough reading time (words / 200), never below one minute. */
 export function readingMinutes(entry: PostEntry): number {
-  const words = entry.body?.trim().split(/\s+/).length ?? 0;
-  return Math.max(1, Math.round(words / 200));
+  return Math.max(1, Math.round(wordCount(entry) / 200));
 }
 
 /** A stable, timezone-safe date label for the post meta line. */
@@ -66,24 +70,15 @@ export interface LoadedPost {
   entry: PostEntry;
   Content: Awaited<ReturnType<typeof render>>['Content'];
   headings: Awaited<ReturnType<typeof render>>['headings'];
-  prev: PostEntry | null;
-  next: PostEntry | null;
 }
 
-/** Resolve a post, its rendered body, and the newer/older neighbours. */
+/** Resolve a post and its rendered body. */
 export async function loadPost(locale: Locale, slug: string): Promise<LoadedPost> {
   const posts = await getPosts(locale);
-  const index = posts.findIndex((entry) => postSlug(entry) === slug);
-  if (index === -1) {
+  const entry = posts.find((e) => postSlug(e) === slug);
+  if (!entry) {
     throw new Error(`blog: no "${slug}" post for locale "${locale}"`);
   }
-  const entry = posts[index];
   const { Content, headings } = await render(entry);
-  return {
-    entry,
-    Content,
-    headings,
-    prev: index > 0 ? posts[index - 1] : null,
-    next: index < posts.length - 1 ? posts[index + 1] : null,
-  };
+  return { entry, Content, headings };
 }

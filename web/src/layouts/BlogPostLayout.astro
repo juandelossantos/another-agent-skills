@@ -9,7 +9,9 @@ import { getDictionary } from '../i18n';
 import { getBlogDictionary } from '../i18n/blog';
 import { blogHref, blogHome, blogRss } from '../blog/paths';
 import { buildBlogPostJsonLd } from '../blog/seo';
-import { formatDate, heroImage, loadPost, readingMinutes } from '../blog/nav';
+import { formatDate, heroImage, loadPost, readingMinutes, wordCount } from '../blog/nav';
+import { absoluteUrl } from '../site';
+import { localePath } from '../i18n/routes';
 import type { Locale } from '../i18n';
 
 interface Props {
@@ -25,13 +27,11 @@ const { entry, Content, headings } = await loadPost(locale, slug);
 const image = heroImage(entry);
 const date = formatDate(entry.data.date, locale);
 const minutes = readingMinutes(entry);
-const wordCount = entry.body?.trim().split(/\s+/).length ?? 0;
+const words = wordCount(entry);
 
-const ORIGIN = 'https://juandelossantos.github.io';
-const abs = (path: string) => new URL(path, ORIGIN).href;
-const homeUrl = abs(locale === 'es' ? '/another-agent-skills/es/' : '/another-agent-skills/');
-const blogUrl = abs(blogHome(locale));
-const pageUrl = abs(blogHref(locale, slug));
+const homeUrl = absoluteUrl(localePath(locale));
+const blogUrl = absoluteUrl(blogHome(locale));
+const pageUrl = absoluteUrl(blogHref(locale, slug));
 
 // A per-post 1200x630 social card, cropped from the cover. JPEG (not WebP) so
 // every social crawler accepts it; the site card is PNG for the same reason.
@@ -43,7 +43,7 @@ const og = await getImage({
   format: 'jpeg',
   quality: 80,
 });
-const ogUrl = abs(og.src);
+const ogUrl = absoluteUrl(og.src);
 
 // A monogram for the byline avatar (no external image, no extra request).
 const initials = entry.data.author.name
@@ -70,7 +70,7 @@ const jsonLd = buildBlogPostJsonLd({
   blogUrl,
   blogName: blog.index.title,
   pageUrl,
-  wordCount,
+  wordCount: words,
   readingMinutes: minutes,
   keywords: entry.data.tags,
   articleSection: entry.data.tags[0] ?? blog.index.title,
@@ -85,6 +85,7 @@ const jsonLd = buildBlogPostJsonLd({
   canonicalPath={`blog/${slug}/`}
   jsonLd={jsonLd}
   rssHref={blogRss(locale)}
+  rssTitle={`Another Agent Skills — ${blog.index.title}`}
   ogType="article"
   ogImage={ogUrl}
   ogImageWidth={1200}
@@ -138,7 +139,7 @@ const jsonLd = buildBlogPostJsonLd({
                 )}
                 {entry.data.author.role && <span> · {entry.data.author.role}</span>}
                 <span class="blog-post__sep" aria-hidden="true"> · </span>
-                <time datetime={entry.data.date.toISOString().slice(0, 10)}>{date}</time>
+                <time datetime={isoDate.slice(0, 10)}>{date}</time>
                 <span class="blog-post__sep" aria-hidden="true"> · </span>
                 <span>{minutes} {blog.post.minRead}</span>
               </span>
