@@ -575,3 +575,89 @@ for (const p of COPY_PAGES) {
   });
 }
 
+/* ------------------------------------------------------------------ *
+ * Blog (index + article, EN + ES)
+ * ------------------------------------------------------------------ */
+
+test.describe('blog', () => {
+  test('EN index renders the publication home and links to the featured post', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('blog/');
+    await expect(page.locator('h1.blog-index__title')).toBeVisible();
+    await expect(page.locator('.blog-featured')).toBeVisible();
+    await expect(page.locator('.blog-index__rss')).toBeVisible();
+    await page.locator('.blog-featured__title a').click();
+    await expect(page).toHaveURL(/\/another-agent-skills\/blog\/the-human-in-command\/$/);
+    await expect(page.locator('h1.blog-post__title')).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test('EN post renders the cover+title hero, byline, TOC, share and prose', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('blog/the-human-in-command/');
+    await expect(page.locator('h1.blog-post__title')).toContainText('The human defines');
+    await expect(page.locator('.blog-post__hero img')).toBeVisible();
+    await expect(page.locator('.blog-post__byline')).toContainText('David Emilio Sierra Puentes');
+    await expect(page.locator('.blog-post__tldr')).toBeVisible();
+    await expect(page.locator('.blog-toc')).toBeVisible();
+    await expect(page.locator('.blog-post__share, .blog-share').first()).toBeVisible();
+    await expect(page.locator('.blog-prose h2').first()).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test('the share "copy link" button reports a result', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('blog/the-human-in-command/');
+    const btn = page.locator('[data-share-copy]').first();
+    await expect(btn).toBeVisible();
+    await btn.click();
+    await expect(btn).toHaveAttribute('data-copied', 'true');
+    expect(errors).toEqual([]);
+  });
+
+  test('the table of contents links jump to a section', async ({ page }) => {
+    await page.goto('blog/the-human-in-command/');
+    const first = page.locator('.blog-toc__item a').first();
+    const href = await first.getAttribute('href');
+    await first.click();
+    await expect(page.locator(`.blog-prose ${href}`)).toBeInViewport();
+  });
+
+  test('no horizontal overflow at 390px (index + post)', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const path of ['blog/', 'blog/the-human-in-command/']) {
+      await page.goto(path);
+      const overflow = await page.evaluate(() => {
+        const doc = document.documentElement;
+        return doc.scrollWidth - doc.clientWidth;
+      });
+      expect(overflow, `${path} overflows`).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test('ES index + post render in Spanish', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto('es/blog/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+    await page.goto('es/blog/the-human-in-command/');
+    await expect(page.locator('h1.blog-post__title')).toContainText('El humano define');
+    await expect(page.locator('.blog-post__byline')).toContainText('David Emilio Sierra Puentes');
+    expect(errors).toEqual([]);
+  });
+
+  test('the language link on a post points to the ES post', async ({ page }) => {
+    await page.goto('blog/the-human-in-command/');
+    const langLink = page.locator('a.header__control[hreflang="es"]');
+    await expect(langLink).toHaveAttribute(
+      'href',
+      /\/another-agent-skills\/es\/blog\/the-human-in-command\/$/,
+    );
+  });
+
+  test('the landing nav works from the blog (anchor returns to the landing)', async ({ page }) => {
+    await page.goto('blog/');
+    const flow = page.locator('.header__links a', { hasText: /^Flow$/ });
+    await expect(flow).toHaveAttribute('href', /\/another-agent-skills\/#flow$/);
+  });
+});
+

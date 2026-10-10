@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import { blogHref } from '../blog/paths';
+import { formatDate, heroImage, postSlug, readingMinutes, type PostEntry } from '../blog/nav';
+import { getBlogDictionary } from '../i18n/blog';
+import type { Locale } from '../i18n';
+
+interface Props {
+  entry: PostEntry;
+  locale: Locale;
+}
+
+const { entry, locale } = Astro.props;
+const dict = getBlogDictionary(locale);
+const image = heroImage(entry);
+const href = blogHref(locale, postSlug(entry));
+const date = formatDate(entry.data.date, locale);
+const minutes = readingMinutes(entry);
+---
+
+<article class="blog-row">
+  <a class="blog-row__media" href={href} tabindex="-1" aria-hidden="true">
+    <Image
+      src={image}
+      alt=""
+      width={320}
+      height={180}
+      format="webp"
+      quality={72}
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+  <div class="blog-row__body">
+    <p class="blog-row__meta">
+      <time datetime={entry.data.date.toISOString().slice(0, 10)}>{date}</time>
+      <span aria-hidden="true"> · </span>
+      <span>{minutes} {dict.index.minRead}</span>
+    </p>
+    <h3 class="blog-row__title">
+      <a href={href}>{entry.data.title}</a>
+    </h3>
+    <p class="blog-row__desc">{entry.data.description}</p>
+  </div>
+</article>

@@ -14,7 +14,7 @@
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 58 with contracts, When to Use, When NOT to Use |
 | Guides | 153 across all skills |
-| Tests | **142 suites** passing (core: behavioral + task working set capped at 20); web: **83 node + 85 e2e** (axe 0) |
+| Tests | **142 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
@@ -31,12 +31,12 @@ The active focus is **visibility and usage**, not new features. An ordered plan 
 |---|---|---|
 | W0 | Instrument (metrics + baseline) | ✅ `development/metrics.sh` |
 | W1 | Rail (npx skills path, `marketplace.json`, directories, awesome-lists) | 🟡 1/3 |
-| W2 | Wedge — new `/gate` skill | ⬜ |
-| W3 | Owned content (essay + cadence) | ⬜ |
+| W2 | Wedge — new `/gate` skill | ✅ shipped in v6.4.0 (PR #73) |
+| W3 | Owned content (essay + cadence) | 🟡 essay published as a bilingual blog (`/blog/`, EN/ES); the 4 channel adaptations (dev.to, LinkedIn, X, blog) still pending |
 | W4 | Amplify (HN, community, podcasts) | ⬜ |
 | W5 | Long tail (`/vs`, programmatic SEO) | ⬜ |
 
-- **In-repo change so far:** `.claude-plugin/marketplace.json` (validated with `claude plugin validate`; additive).
+- **In-repo change so far:** `.claude-plugin/marketplace.json` (validated with `claude plugin validate`; additive) and the **blog** section in `web/` (`/blog/` + `/es/blog/`, RSS, share options, article SEO/AEO, a11y gate).
 - **Local artifacts (git-ignored):** `development/MARKETING-PLAN.md` (plan + status board §0), `development/distribution-pack.md`, `development/metrics.sh`.
 - **Non-regression contract:** no marketing change ships without `tests/run-all.sh` green + `validate-skill-table` + docs-honesty. **No skill renames.**
 - **Paused:** the dev track below stays paused until the W2–W4 visibility push lands.

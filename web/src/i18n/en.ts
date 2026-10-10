@@ -31,6 +31,7 @@ export const en = {
     skills: 'Skills',
     workflows: 'Workflows',
     faq: 'FAQ',
+    blog: 'Blog',
     docs: 'Docs',
     github: 'GitHub',
   },

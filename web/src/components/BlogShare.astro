@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+import { getBlogDictionary } from '../i18n/blog';
+import type { Locale } from '../i18n';
+
+interface Props {
+  /** Absolute URL of the post. */
+  url: string;
+  /** Post title (used as the share text / email subject). */
+  title: string;
+  locale: Locale;
+  /** Compact variant (under the byline): no "Share" heading. */
+  compact?: boolean;
+}
+
+const { url, title, locale, compact = false } = Astro.props;
+const dict = getBlogDictionary(locale);
+const enc = encodeURIComponent;
+
+const links = [
+  {
+    id: 'x',
+    label: dict.post.shareX,
+    href: `https://twitter.com/intent/tweet?text=${enc(title)}&url=${enc(url)}`,
+  },
+  {
+    id: 'linkedin',
+    label: dict.post.shareLinkedIn,
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`,
+  },
+  {
+    id: 'hn',
+    label: dict.post.shareHN,
+    href: `https://news.ycombinator.com/submitlink?u=${enc(url)}&t=${enc(title)}`,
+  },
+  {
+    id: 'email',
+    label: dict.post.shareEmail,
+    href: `mailto:?subject=${enc(title)}&body=${enc(url)}`,
+  },
+];
+---
+
+<div class:list={['blog-share', compact && 'blog-share--compact']}>
+  {!compact && (
+    <p class="blog-share__heading">
+      <Icon name="share-2" />
+      <span>{dict.post.share}</span>
+    </p>
+  )}
+  <ul class="blog-share__list">
+    {links.map((link) => (
+      <li>
+        <a
+          class="blog-share__item"
+          href={link.href}
+          target="_blank"
+          rel="noopener"
+          data-share={link.id}
+        >{link.label}</a>
+      </li>
+    ))}
+    <li>
+      <button
+        class="blog-share__item blog-share__copy"
+        type="button"
+        data-share-copy
+        data-copied-label={dict.post.copied}
+      >
+        <Icon name="link" />
+        <span data-share-label>{dict.post.copyLink}</span>
+      </button>
+    </li>
+  </ul>
+</div>

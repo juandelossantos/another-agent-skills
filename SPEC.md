@@ -156,7 +156,8 @@ another-agent-skills/
 
 ## Boundaries
 
-- **Out of scope**: Blog, changelog page, interactive demo, user accounts, analytics, testimonials
+- **In scope (added)**: Blog — a bilingual index (`/blog/`) plus an article layout, backed by a `blog` content collection in `web/`. First post: the "human in command" essay. See `web/README.md` ("Blog structure").
+- **Out of scope**: changelog page, interactive demo, user accounts, analytics, testimonials
 - **Phase 2 (future)**: Live playground, search for docs, video walkthrough, community showcase
 - **Won't do**: Third-party dependencies, JS framework, server-side rendering, CMS
 

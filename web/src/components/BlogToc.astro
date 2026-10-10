@@ -1,0 +1,32 @@
+---
+import { getBlogDictionary } from '../i18n/blog';
+import type { Locale } from '../i18n';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  locale: Locale;
+}
+
+const { headings, locale } = Astro.props;
+const dict = getBlogDictionary(locale);
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length >= 3 && (
+  <nav class="blog-toc" aria-label={dict.post.toc}>
+    <p class="blog-toc__title">{dict.post.toc}</p>
+    <ol class="blog-toc__list">
+      {items.map((h) => (
+        <li class:list={['blog-toc__item', h.depth === 3 && 'blog-toc__item--sub']}>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

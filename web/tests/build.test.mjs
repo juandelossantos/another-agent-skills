@@ -583,3 +583,86 @@ test('breadcrumb section anchors resolve to the sidebar groups on every docs pag
     }
   }
 });
+
+/* ------------------------------------------------------------------ *
+ * Blog (index + article, EN + ES). A blog is a landing section: same
+ * shell, its own collection, hero image and author block.
+ * ------------------------------------------------------------------ */
+
+const BLOG_POSTS = [
+  { slug: 'the-human-in-command', date: '2026-10-09' },
+];
+
+const blogPath = (locale, slug) =>
+  locale === 'en' ? `blog/${slug}/index.html` : `es/blog/${slug}/index.html`;
+
+test('blog: the index and every post are built in EN and ES', () => {
+  for (const rel of ['blog/index.html', 'es/blog/index.html']) {
+    assert.ok(has(rel), `missing dist/${rel}`);
+  }
+  for (const post of BLOG_POSTS) {
+    for (const locale of ['en', 'es']) {
+      const rel = blogPath(locale, post.slug);
+      assert.ok(has(rel), `missing dist/${rel}`);
+    }
+  }
+});
+
+test('blog index is a publication home: header, featured post and an RSS link', () => {
+  const html = read('blog/index.html');
+  assert.match(html, /class="blog-index"/);
+  assert.match(html, /class="blog-index__title"/);
+  assert.match(html, /class="blog-featured"/);
+  assert.match(html, /class="blog-featured__title"/);
+  assert.match(html, /href="\/another-agent-skills\/blog\/the-human-in-command\/"/);
+  assert.match(html, /application\/rss\+xml/);
+});
+
+test('blog post renders the hero (cover + title in one block), byline, share, TOC and prose', () => {
+  const html = read(blogPath('en', 'the-human-in-command'));
+  // one hero block holds the cover and the title
+  assert.match(html, /class="blog-post__hero"/);
+  assert.match(html, /class="blog-post__cover"/);
+  assert.match(html, /class="blog-post__title"/);
+  assert.match(html, /class="blog-post__byline"/);
+  assert.match(html, /David Emilio Sierra Puentes/);
+  assert.match(html, /juandelossantos/);
+  // share options
+  assert.match(html, /class="blog-share\b/);
+  assert.match(html, /twitter\.com\/intent\/tweet/);
+  assert.match(html, /linkedin\.com\/sharing\/share-offsite/);
+  assert.match(html, /news\.ycombinator\.com\/submitlink/);
+  assert.match(html, /data-share-copy/);
+  // AEO + navigation aids
+  assert.match(html, /class="blog-post__tldr"/);
+  assert.match(html, /class="blog-toc"/);
+  assert.match(html, /data-reading-progress/);
+  // body
+  assert.match(html, /class="blog-prose"/);
+  assert.match(html, /The gate that wasn/);
+  assert.match(html, /<time datetime="2026-10-09"/);
+  // The cover is optimized (WebP) by astro:assets.
+  assert.match(html, /\.webp/);
+});
+
+test('blog post ES renders in Spanish with neutral Spanish (no voseo)', () => {
+  const html = read(blogPath('es', 'the-human-in-command'));
+  assert.match(html, /<html lang="es"/);
+  assert.match(html, /class="blog-post__byline"/);
+  assert.match(html, /El gate que no era un gate/);
+  assert.doesNotMatch(html, /tenés|podés|Cloná|ejecutá|instalá|agregá|mirá|corré|andá|hacé/i);
+});
+
+test('blog ES uses "Artículos" (not "Escritos")', () => {
+  const index = read('es/blog/index.html');
+  assert.match(index, /Artículos/);
+  assert.doesNotMatch(index, /Escritos/);
+  const post = read(blogPath('es', 'the-human-in-command'));
+  assert.match(post, /Todos los artículos/);
+  assert.doesNotMatch(post, /Escritos/);
+});
+
+test('the landing header and footer link to the blog (EN + ES, base aware)', () => {
+  assert.match(read('index.html'), /href="\/another-agent-skills\/blog\/"/);
+  assert.match(read('es/index.html'), /href="\/another-agent-skills\/es\/blog\/"/);
+});
