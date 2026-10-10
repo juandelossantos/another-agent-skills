@@ -2,6 +2,8 @@
 import Icon from './Icon.astro';
 import { SITE } from '../config';
 import { docsHome } from '../docs/paths';
+import { blogHome } from '../blog/paths';
+import { localePath } from '../i18n/routes';
 import type { Dictionary, Locale } from '../i18n';
 
 interface Props {
@@ -15,14 +17,17 @@ interface Props {
 
 const { locale, dict, altHref, altLocale } = Astro.props;
 
+// Anchors resolve against the landing home so the nav works from any page that
+// reuses this header (the blog included), not only from the landing itself.
+const home = localePath(locale);
 const navItems = [
-  { href: '#flow', label: dict.nav.flow },
-  { href: '#harness', label: dict.nav.harness },
-  { href: '#loop', label: dict.nav.loop },
-  { href: '#enforcement', label: dict.nav.enforcement },
-  { href: '#skills', label: dict.nav.skills },
-  { href: '#workflows', label: dict.nav.workflows },
-  { href: '#faq', label: dict.nav.faq },
+  { href: `${home}#flow`, label: dict.nav.flow },
+  { href: `${home}#harness`, label: dict.nav.harness },
+  { href: `${home}#loop`, label: dict.nav.loop },
+  { href: `${home}#enforcement`, label: dict.nav.enforcement },
+  { href: `${home}#skills`, label: dict.nav.skills },
+  { href: `${home}#workflows`, label: dict.nav.workflows },
+  { href: `${home}#faq`, label: dict.nav.faq },
 ];
 ---
 
@@ -36,6 +41,7 @@ const navItems = [
       {navItems.map((item) => (
         <li><a href={item.href}>{item.label}</a></li>
       ))}
+      <li><a href={blogHome(locale)}>{dict.nav.blog}</a></li>
       <li><a href={docsHome(locale)}>{dict.nav.docs}</a></li>
     </ul>
     <div class="header__controls">
@@ -87,6 +93,7 @@ const navItems = [
       {navItems.map((item) => (
         <li><a href={item.href}>{item.label}</a></li>
       ))}
+      <li><a href={blogHome(locale)}>{dict.nav.blog}</a></li>
       <li><a href={docsHome(locale)}>{dict.nav.docs}</a></li>
       <li>
         <a href={SITE.github} target="_blank" rel="noopener">

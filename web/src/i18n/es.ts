@@ -30,6 +30,7 @@ export const es: Dictionary = {
     skills: 'Skills',
     workflows: 'Flujos',
     faq: 'FAQ',
+    blog: 'Blog',
     docs: 'Docs',
     github: 'GitHub',
   },

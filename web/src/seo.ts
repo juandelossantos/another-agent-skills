@@ -1,8 +1,7 @@
 import type { Dictionary, Locale } from './i18n';
 import { localePath, BASE } from './i18n/routes';
 import { SITE, VERSION } from './config';
-
-const ORIGIN = 'https://juandelossantos.github.io';
+import { absoluteUrl } from './site';
 
 /**
  * A schema.org JSON-LD graph for the landing: Organization, WebSite,
@@ -10,7 +9,7 @@ const ORIGIN = 'https://juandelossantos.github.io';
  * Localized per locale.
  */
 export function buildJsonLd(locale: Locale, dict: Dictionary): Record<string, unknown> {
-  const canonical = new URL(localePath(locale), ORIGIN).href;
+  const canonical = absoluteUrl(localePath(locale));
   const orgId = `${canonical}#organization`;
   const websiteId = `${canonical}#website`;
   const inLanguage = locale === 'es' ? 'es' : 'en';
@@ -40,8 +39,8 @@ export function buildJsonLd(locale: Locale, dict: Dictionary): Record<string, un
     text,
   }));
 
-  const docsSearchUrl = new URL(localePath(locale, 'docs/'), ORIGIN).href;
-  const logoUrl = new URL(`${BASE}favicon.svg`, ORIGIN).href;
+  const docsSearchUrl = absoluteUrl(localePath(locale, 'docs/'));
+  const logoUrl = absoluteUrl(`${BASE}favicon.svg`);
 
   return {
     '@context': 'https://schema.org',

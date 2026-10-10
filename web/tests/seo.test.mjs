@@ -296,3 +296,155 @@ test('every docs page renders a citable TL;DR', () => {
     }
   }
 });
+
+/* ------------------------------------------------------------------ *
+ * Blog (index + article): head, structured data, sitemap, llms.txt
+ * ------------------------------------------------------------------ */
+
+const BLOG_PAGES = [
+  {
+    rel: 'blog/index.html',
+    locale: 'en',
+    en: `${SITE}${BASE}/blog/`,
+    es: `${SITE}${BASE}/es/blog/`,
+  },
+  {
+    rel: 'es/blog/index.html',
+    locale: 'es',
+    en: `${SITE}${BASE}/blog/`,
+    es: `${SITE}${BASE}/es/blog/`,
+  },
+  {
+    rel: 'blog/the-human-in-command/index.html',
+    locale: 'en',
+    en: `${SITE}${BASE}/blog/the-human-in-command/`,
+    es: `${SITE}${BASE}/es/blog/the-human-in-command/`,
+  },
+  {
+    rel: 'es/blog/the-human-in-command/index.html',
+    locale: 'es',
+    en: `${SITE}${BASE}/blog/the-human-in-command/`,
+    es: `${SITE}${BASE}/es/blog/the-human-in-command/`,
+  },
+];
+
+for (const page of BLOG_PAGES) {
+  test(`${page.rel}: canonical + hreflang (en/es/x-default) are correct`, () => {
+    const html = read(page.rel);
+    const canonical = page.locale === 'en' ? page.en : page.es;
+    assert.match(html, new RegExp(`<link rel="canonical" href="${canonical}"`));
+    assert.equal(linkHref(html, 'alternate', 'en'), page.en);
+    assert.equal(linkHref(html, 'alternate', 'es'), page.es);
+    assert.equal(linkHref(html, 'alternate', 'x-default'), page.en);
+    assert.match(html, /property="og:title"/);
+    assert.match(html, /name="twitter:card"/);
+  });
+}
+
+test('blog index JSON-LD is valid and has Blog + BreadcrumbList', () => {
+  const nodes = nodesOf(jsonLdBlocks(read('blog/index.html')));
+  const blog = byType(nodes, 'Blog')[0];
+  assert.ok(blog, 'missing Blog');
+  for (const field of ['name', 'description', 'url', 'inLanguage']) {
+    assert.ok(blog[field], `Blog.${field}`);
+  }
+  const crumbs = byType(nodes, 'BreadcrumbList')[0];
+  assert.ok(crumbs, 'missing BreadcrumbList');
+  assert.ok(crumbs.itemListElement.length >= 2, 'breadcrumb needs Home > Blog');
+});
+
+test('blog post JSON-LD is valid and has BlogPosting + BreadcrumbList + Person author', () => {
+  for (const rel of ['blog/the-human-in-command/index.html', 'es/blog/the-human-in-command/index.html']) {
+    const nodes = nodesOf(jsonLdBlocks(read(rel)));
+    const post = byType(nodes, 'BlogPosting')[0];
+    assert.ok(post, `${rel}: missing BlogPosting`);
+    for (const field of ['headline', 'description', 'datePublished', 'inLanguage', 'url', 'author', 'publisher', 'isPartOf']) {
+      assert.ok(post[field], `${rel}: BlogPosting.${field}`);
+    }
+    assert.equal(post.author['@type'], 'Person');
+    assert.ok(post.author.name, `${rel}: BlogPosting.author.name`);
+    assert.match(post.url, /\/blog\/the-human-in-command\/$/);
+    const crumbs = byType(nodes, 'BreadcrumbList')[0];
+    assert.ok(crumbs, `${rel}: missing BreadcrumbList`);
+    assert.ok(crumbs.itemListElement.length >= 3, `${rel}: breadcrumb needs Home > Blog > Post`);
+  }
+});
+
+test('blog post uses a per-post 1200x630 social card, not the site og.png', () => {
+  for (const rel of ['blog/the-human-in-command/index.html', 'es/blog/the-human-in-command/index.html']) {
+    const html = read(rel);
+    const m = html.match(/<meta property="og:image" content="([^"]+)"/);
+    assert.ok(m, `${rel}: missing og:image`);
+    assert.match(m[1], /\/_astro\/[^"]+\.jpeg$/, `${rel}: og:image must be the generated card`);
+    assert.doesNotMatch(m[1], /\/og\.png$/, `${rel}: og:image must not be the site card`);
+    assert.match(html, /property="og:image:width" content="1200"/);
+    assert.match(html, /property="og:image:height" content="630"/);
+    assert.match(html, /property="og:image:alt"/);
+    assert.match(html, /name="twitter:image"/);
+  }
+});
+
+test('blog post carries article Open Graph metadata + meta author', () => {
+  for (const rel of ['blog/the-human-in-command/index.html', 'es/blog/the-human-in-command/index.html']) {
+    const html = read(rel);
+    assert.match(html, /property="og:type" content="article"/);
+    assert.match(html, /property="article:published_time"/);
+    assert.match(html, /property="article:modified_time"/);
+    assert.match(html, /property="article:author"/);
+    assert.match(html, /property="article:tag"/);
+    assert.match(html, /name="author"/);
+  }
+});
+
+test('blog post JSON-LD carries wordCount, timeRequired, keywords and articleSection', () => {
+  const nodes = nodesOf(jsonLdBlocks(read('blog/the-human-in-command/index.html')));
+  const post = byType(nodes, 'BlogPosting')[0];
+  assert.ok(post, 'missing BlogPosting');
+  assert.ok(post.wordCount > 0, 'BlogPosting.wordCount');
+  assert.match(String(post.timeRequired), /^PT\d+M$/, 'BlogPosting.timeRequired must be an ISO 8601 duration');
+  assert.ok(Array.isArray(post.keywords) && post.keywords.length > 0, 'BlogPosting.keywords');
+  assert.ok(post.articleSection, 'BlogPosting.articleSection');
+});
+
+test('blog RSS feed is well-formed and lists the post (EN + ES)', () => {
+  for (const rel of ['blog/rss.xml', 'es/blog/rss.xml']) {
+    const xml = read(rel);
+    assert.match(xml, /^<\?xml/, `${rel}: missing XML declaration`);
+    assert.match(xml, /<rss[^>]*version="2\.0"/, `${rel}: not RSS 2.0`);
+    assert.match(xml, /<channel>/, `${rel}: missing <channel>`);
+    assert.match(xml, /<item>/, `${rel}: no items`);
+    assert.match(xml, /blog\/the-human-in-command\//, `${rel}: post link missing`);
+    assert.match(xml, /<pubDate>/, `${rel}: missing pubDate`);
+  }
+});
+
+test('blog pages advertise the RSS feed via <link rel="alternate">', () => {
+  for (const rel of ['blog/index.html', 'blog/the-human-in-command/index.html']) {
+    const html = read(rel);
+    assert.match(html, /<link rel="alternate" type="application\/rss\+xml"[^>]*href="[^"]*blog\/rss\.xml"/);
+  }
+});
+
+test('sitemap includes the blog routes in EN and ES', () => {
+  const xml = read('sitemap-0.xml');
+  for (const url of [
+    `${SITE}${BASE}/blog/`,
+    `${SITE}${BASE}/blog/the-human-in-command/`,
+    `${SITE}${BASE}/es/blog/`,
+    `${SITE}${BASE}/es/blog/the-human-in-command/`,
+  ]) {
+    assert.match(xml, new RegExp(`<loc>${url.replace(/[.]/g, '\\.')}</loc>`), `sitemap missing ${url}`);
+  }
+});
+
+test('llms.txt lists the blog routes', () => {
+  const txt = read('llms.txt');
+  for (const url of [
+    `${SITE}${BASE}/blog/`,
+    `${SITE}${BASE}/blog/the-human-in-command/`,
+    `${SITE}${BASE}/es/blog/`,
+    `${SITE}${BASE}/es/blog/the-human-in-command/`,
+  ]) {
+    assert.match(txt, new RegExp(url.replace(/[.]/g, '\\.')), `llms.txt missing ${url}`);
+  }
+});

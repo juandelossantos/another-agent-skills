@@ -54,6 +54,8 @@ const EXTRA_PAGES = [
   { name: 'docs ES', path: 'es/docs/enforcement/' },
   { name: 'skills EN', path: 'docs/skills/' },
   { name: 'skills ES', path: 'es/docs/skills/' },
+  { name: 'blog EN', path: 'blog/' },
+  { name: 'blog ES', path: 'es/blog/' },
 ];
 
 /** Rules disabled with a reason (keep this list empty unless justified). */
@@ -72,6 +74,10 @@ const PAGES = [
   { name: 'tutorial ES', path: 'es/docs/first-gated-commit/' },
   { name: 'skills EN', path: 'docs/skills/' },
   { name: 'skills ES', path: 'es/docs/skills/' },
+  { name: 'blog EN', path: 'blog/' },
+  { name: 'blog post EN', path: 'blog/the-human-in-command/' },
+  { name: 'blog ES', path: 'es/blog/' },
+  { name: 'blog post ES', path: 'es/blog/the-human-in-command/' },
 ];
 
 const THEMES = ['light', 'dark'];

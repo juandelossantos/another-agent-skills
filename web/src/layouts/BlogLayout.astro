@@ -1,0 +1,120 @@
+---
+import '../styles/blog.css';
+import BaseLayout from './BaseLayout.astro';
+import { Image } from 'astro:assets';
+import Icon from '../components/Icon.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getDictionary } from '../i18n';
+import { getBlogDictionary } from '../i18n/blog';
+import { blogHref, blogHome, blogRss } from '../blog/paths';
+import { buildBlogIndexJsonLd } from '../blog/seo';
+import { formatDate, heroImage, postSlug, readingMinutes } from '../blog/nav';
+import { absoluteUrl } from '../site';
+import { localePath } from '../i18n/routes';
+import type { Locale } from '../i18n';
+import type { PostEntry } from '../blog/nav';
+
+interface Props {
+  locale: Locale;
+  posts: PostEntry[];
+}
+
+const { locale, posts } = Astro.props;
+const dict = getDictionary(locale);
+const blog = getBlogDictionary(locale);
+const rss = blogRss(locale);
+
+const [featured, ...rest] = posts;
+
+const homeUrl = absoluteUrl(localePath(locale));
+const blogUrl = absoluteUrl(blogHome(locale));
+
+const jsonLd = buildBlogIndexJsonLd({
+  locale,
+  title: blog.index.title,
+  description: blog.index.lede,
+  homeUrl,
+  blogUrl,
+});
+
+const featuredImage = featured ? heroImage(featured) : null;
+const featuredHref = featured ? blogHref(locale, postSlug(featured)) : '';
+---
+
+<BaseLayout
+  locale={locale}
+  dict={dict}
+  title={`${blog.index.title} — Another Agent Skills`}
+  description={blog.index.lede}
+  canonicalPath="blog/"
+  jsonLd={jsonLd}
+  rssHref={rss}
+  rssTitle={`Another Agent Skills — ${blog.index.title}`}
+>
+  <div class="blog">
+    <div class="blog-index__inner">
+      <header class="blog-index">
+        <p class="blog-index__eyebrow">{blog.index.eyebrow}</p>
+        <h1 class="blog-index__title">{blog.index.title}</h1>
+        <p class="blog-index__lede">{blog.index.lede}</p>
+        <a class="blog-index__rss" href={rss}>
+          <Icon name="rss" />
+          <span>{blog.index.subscribe}</span>
+        </a>
+      </header>
+
+      {featured ? (
+        <article class="blog-featured">
+          <div class="blog-featured__cover">
+            <Image
+              src={featuredImage!}
+              alt={featured.data.imageAlt}
+              layout="constrained"
+              widths={[640, 960, 1280, 1672]}
+              sizes="(max-width: 1120px) 100vw, 1120px"
+              format="webp"
+              quality={80}
+              loading="eager"
+            />
+          </div>
+          <div class="blog-featured__body">
+            <p class="blog-featured__meta">
+              <span class="blog-featured__tag">{blog.index.featured}</span>
+              <time datetime={featured.data.date.toISOString().slice(0, 10)}>
+                {formatDate(featured.data.date, locale)}
+              </time>
+              <span aria-hidden="true"> · </span>
+              <span>{readingMinutes(featured)} {blog.index.minRead}</span>
+            </p>
+            <h2 class="blog-featured__title">
+              <a href={featuredHref}>{featured.data.title}</a>
+            </h2>
+            <p class="blog-featured__subtitle">{featured.data.subtitle ?? featured.data.description}</p>
+            <p class="blog-featured__author">
+              <span>{featured.data.author.name}</span>
+              <span class="blog-featured__read">
+                <span>{blog.index.read}</span>
+                <Icon name="arrow-right" />
+              </span>
+            </p>
+          </div>
+        </article>
+      ) : (
+        <p class="blog-empty">{blog.index.empty}</p>
+      )}
+
+      {rest.length > 0 && (
+        <section class="blog-list-section" aria-labelledby="blog-latest">
+          <h2 class="blog-list__title" id="blog-latest">{blog.index.latest}</h2>
+          <ul class="blog-list">
+            {rest.map((entry) => (
+              <li>
+                <BlogCard entry={entry} locale={locale} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </div>
+</BaseLayout>

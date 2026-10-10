@@ -1,0 +1,9 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { getPosts } from '../../blog/nav';
+
+const locale = 'en' as const;
+const posts = await getPosts(locale);
+---
+
+<BlogLayout locale={locale} posts={posts} />

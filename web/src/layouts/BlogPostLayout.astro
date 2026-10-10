@@ -1,0 +1,188 @@
+---
+import '../styles/blog.css';
+import BaseLayout from './BaseLayout.astro';
+import { getImage, Image } from 'astro:assets';
+import Icon from '../components/Icon.astro';
+import BlogShare from '../components/BlogShare.astro';
+import BlogToc from '../components/BlogToc.astro';
+import { getDictionary } from '../i18n';
+import { getBlogDictionary } from '../i18n/blog';
+import { blogHref, blogHome, blogRss } from '../blog/paths';
+import { buildBlogPostJsonLd } from '../blog/seo';
+import { formatDate, heroImage, loadPost, readingMinutes, wordCount } from '../blog/nav';
+import { absoluteUrl } from '../site';
+import { localePath } from '../i18n/routes';
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const dict = getDictionary(locale);
+const blog = getBlogDictionary(locale);
+const { entry, Content, headings } = await loadPost(locale, slug);
+
+const image = heroImage(entry);
+const date = formatDate(entry.data.date, locale);
+const minutes = readingMinutes(entry);
+const words = wordCount(entry);
+
+const homeUrl = absoluteUrl(localePath(locale));
+const blogUrl = absoluteUrl(blogHome(locale));
+const pageUrl = absoluteUrl(blogHref(locale, slug));
+
+// A per-post 1200x630 social card, cropped from the cover. JPEG (not WebP) so
+// every social crawler accepts it; the site card is PNG for the same reason.
+const og = await getImage({
+  src: image,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpeg',
+  quality: 80,
+});
+const ogUrl = absoluteUrl(og.src);
+
+// A monogram for the byline avatar (no external image, no extra request).
+const initials = entry.data.author.name
+  .split(/\s+/)
+  .map((part) => part[0])
+  .filter(Boolean)
+  .slice(0, 2)
+  .join('')
+  .toUpperCase();
+
+const isoDate = entry.data.date.toISOString();
+const isoModified = (entry.data.updated ?? entry.data.date).toISOString();
+
+const jsonLd = buildBlogPostJsonLd({
+  locale,
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: isoDate,
+  dateModified: isoModified,
+  authorName: entry.data.author.name,
+  authorUrl: entry.data.author.url,
+  imageUrl: ogUrl,
+  homeUrl,
+  blogUrl,
+  blogName: blog.index.title,
+  pageUrl,
+  wordCount: words,
+  readingMinutes: minutes,
+  keywords: entry.data.tags,
+  articleSection: entry.data.tags[0] ?? blog.index.title,
+});
+---
+
+<BaseLayout
+  locale={locale}
+  dict={dict}
+  title={`${entry.data.title} — Another Agent Skills`}
+  description={entry.data.description}
+  canonicalPath={`blog/${slug}/`}
+  jsonLd={jsonLd}
+  rssHref={blogRss(locale)}
+  rssTitle={`Another Agent Skills — ${blog.index.title}`}
+  ogType="article"
+  ogImage={ogUrl}
+  ogImageWidth={1200}
+  ogImageHeight={630}
+  ogImageAlt={entry.data.imageAlt}
+  article={{
+    publishedTime: isoDate,
+    modifiedTime: isoModified,
+    authorName: entry.data.author.name,
+    authorUrl: entry.data.author.url,
+    tags: entry.data.tags,
+  }}
+>
+  <div class="blog-progress" data-reading-progress aria-hidden="true"></div>
+
+  <div class="blog">
+    <article class="blog-post__inner">
+      <a class="blog-post__back" href={blogHome(locale)}>
+        <Icon name="arrow-left" />
+        <span>{blog.post.back}</span>
+      </a>
+
+      <header class="blog-post__hero">
+        <div class="blog-post__cover">
+          <Image
+            src={image}
+            alt={entry.data.imageAlt}
+            layout="constrained"
+            widths={[640, 960, 1280, 1672]}
+            sizes="(max-width: 1120px) 100vw, 1120px"
+            format="webp"
+            quality={82}
+            loading="eager"
+          />
+        </div>
+        <div class="blog-post__head">
+          <h1 class="blog-post__title">{entry.data.title}</h1>
+          {entry.data.subtitle && <p class="blog-post__subtitle">{entry.data.subtitle}</p>}
+        </div>
+      </header>
+
+      <div class="blog-post__column">
+        <div class="blog-post__meta-row">
+          <div class="blog-post__byline">
+            <span class="blog-post__avatar" aria-hidden="true">{initials}</span>
+            <span class="blog-post__byline-text">
+              <span class="blog-post__author-name">{entry.data.author.name}</span>
+              <span class="blog-post__byline-meta">
+                {entry.data.author.handle && entry.data.author.url && (
+                  <a href={entry.data.author.url} target="_blank" rel="noopener">{entry.data.author.handle}</a>
+                )}
+                {entry.data.author.role && <span> · {entry.data.author.role}</span>}
+                <span class="blog-post__sep" aria-hidden="true"> · </span>
+                <time datetime={isoDate.slice(0, 10)}>{date}</time>
+                <span class="blog-post__sep" aria-hidden="true"> · </span>
+                <span>{minutes} {blog.post.minRead}</span>
+              </span>
+            </span>
+          </div>
+
+          <BlogShare url={pageUrl} title={entry.data.title} locale={locale} compact />
+        </div>
+
+        {entry.data.tldr && (
+          <aside class="blog-post__tldr">
+            <span class="blog-post__tldr-label">{blog.post.summary}</span>
+            <span>{entry.data.tldr}</span>
+          </aside>
+        )}
+
+        <BlogToc headings={headings} locale={locale} />
+
+        <div class="blog-prose">
+          <Content />
+        </div>
+
+        <footer class="blog-post__foot">
+          {entry.data.tags.length > 0 ? (
+            <ul class="blog-tags" aria-label={blog.post.tags}>
+              {entry.data.tags.map((tag) => <li class="blog-tags__item">{tag}</li>)}
+            </ul>
+          ) : (
+            <span />
+          )}
+          <div class="blog-post__foot-right">
+            <a class="blog-post__back" href={blogHome(locale)}>
+              <Icon name="arrow-left" />
+              <span>{blog.post.back}</span>
+            </a>
+            <BlogShare url={pageUrl} title={entry.data.title} locale={locale} />
+          </div>
+        </footer>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    import '../scripts/blog.js';
+  </script>
+</BaseLayout>

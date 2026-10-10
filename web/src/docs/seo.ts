@@ -6,8 +6,7 @@
  * citable TL;DR/description and the locale.
  */
 import type { Locale } from '../i18n';
-
-const ORIGIN = 'https://juandelossantos.github.io';
+import { absoluteUrl } from '../site';
 
 export interface DocsSeoInput {
   locale: Locale;
@@ -41,7 +40,7 @@ export function buildDocsJsonLd(input: DocsSeoInput): Record<string, unknown>[] 
       isPartOf: {
         '@type': 'WebSite',
         name: 'Another Agent Skills',
-        url: new URL('/', ORIGIN).href,
+        url: absoluteUrl('/'),
       },
       about: 'AI coding agent skills and mechanical enforcement',
     },

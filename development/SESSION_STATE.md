@@ -1,15 +1,18 @@
-# Session State — v6.4.0 release (the /gate wedge skill) · next: tag + W3
+# Session State — blog shipped (W2/W3) · next: the 4 channel adaptations + T2
 
-**Date:** 2026-10-09 (updated)
-**Branch:** `main` (v6.3.2 merged; this handoff on `chore/handoff-v6.3.2`).
-**Status:** ✅ **v6.3.2 SHIPPED + LIVE.** npm `@juandelossantos/another-agent-skills@6.3.2` (`latest`), the GitHub Release `v6.3.2`, and **every version surface agree (11/11 `--online`)**. Ships the **B14/B15/B21** remediation fixes (PR #69: the gates' own remediation is now executable in a real project), a rewritten **selling npm README**, and version-consistency everywhere (mockups unified + S3 now checks **10 local surfaces**). Plus the **npm-publish chain fix (PR #71)**: `release.yml` chains `npm-publish.yml` via `workflow_call` — the `publish-npm` job was **dropped by accident in #66**, which is why v6.3.2 first missed npm; now guarded by `tests/test-release-npm-chain.sh`. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
+**Date:** 2026-10-10 (updated)
+**Branch:** `main` (v6.4.0 merged + tagged; the blog work is **uncommitted** — see "Next Session").
+**Status:** ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **142 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
 **Plan:** `PLAN.md` — single source of truth
 
 ## Next Session (resume here)
 
-1. **T2** — web + docs update (live): verify the live SEO/`llms.txt`/OG; revisit the **security-headers gap**.
-2. **Backlog** — **B13** (`skill-lint` single quotes) · **B16** (legacy `skills/`) · **B19** (Phase 13 nits) · **B20** (S4 shim risk for a consumer's `scripts/*`). *(B14/B15/B21 ✅ done in v6.3.2; B18 ✅ done in #64.)*
-3. **E1** — essay review/edit → decide.
+1. **Commit the blog** — the blog work is **uncommitted** in `web/` (plus `SPEC.md`, `web/README.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, `PLAN.md`, `tests/task/test-progress_status.sh`). The maintainer commits (Rule 12 / philosophy A); a single `feat(web): bilingual blog` commit is enough — no version bump required. Non-regression contract: `tests/run-all.sh` (142 suites) + the web suite (`cd web && npm run test:all` → 106 node + 112 e2e).
+2. **W3 — the 4 channel adaptations** (from the essay v2, EN + ES): dev.to (practical + the gate code), LinkedIn (native, 1st person, no link in the body), X (thread with the incident hook), and the blog (already live). Then publish + UTM links (A3), then **W4** (HN/community).
+3. **W1.2/W1.3 — directories + awesome-lists** (human-driven, using `development/distribution-pack.md`).
+4. **T2** — web + docs update (live): verify the live SEO/`llms.txt`/OG; revisit the **security-headers gap**.
+5. **E1** — essay review/edit → decide (the essay is published as the blog's first post).
+6. **Backlog** — **B13** (`skill-lint` single quotes) · **B16** (legacy `skills/`) · **B19** (Phase 13 nits) · **B20** (S4 shim risk for a consumer's `scripts/*`). *(B14/B15/B21 ✅ done in v6.3.2; B18 ✅ done in #64.)*
 
 ## Historical handoff — Phase 10 SHIPPED (v6.3.0 web LIVE) + essay drafted
 **Pending commit (STAGED, not committed):** the **sequence-rule follow-up** — `PLAN.md` (a new *Regla de secuencia (2026-10-06)* for the B12–B17 lote + Phase 13) and `development/SESSION_STATE.md`, with the updated `tests/task/test-session_state.sh`. Staged on branch **`docs/plan-followup-sequence`** (from `main` @ `30c2e80`). The maintainer runs the commit (Rule 12).

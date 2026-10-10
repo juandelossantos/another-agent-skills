@@ -42,17 +42,15 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 
 ---
 
-## What's New in v6.3.0
+## What's New in v6.4.0
 
-**Remote enforcement, distribution, and the public web.** One release covering Phase 8, 8.1, 9, and 10.
+**The `/gate` wedge skill and npm-first onboarding.**
 
-- **Remote enforcement (Phase 8)** — branch protection on `main` plus a required `gates` status check (`.github/workflows/gates.yml`) and `CODEOWNERS` (L3), so a PR cannot edit its own rules without review.
-- **TDD-gate delivery + git/GitHub flows (Phase 8.1)** — the gate and the four supported setups (no git, local git, git + GitHub, git later) ship to user projects.
-- **Distribution (Phase 9)** — pinned, attested releases and a checksum-verified `curl` bootstrap; the `aas` CLI (`install` / `upgrade` / `doctor` / `uninstall`); portable projects with no absolute symlinks; an npm wrapper (live) with OIDC trusted publishing.
-- **The public web (Phase 10)** — a bilingual (EN/ES) Astro landing + docs site in [`web/`](./web/): the generated skills reference (58 skills / 153 guides), five tutorials, SEO/AEO (`sitemap`, `robots.txt`, `llms.txt`, JSON-LD) and a WCAG 2.2 AA gate.
-- **Docs honesty** — the guide count was corrected from 74 to 151, and the L1/L2/L3 model and INCIDENT_004 were corrected.
+- **New skill — `/gate` (58th)** — wires mechanical enforcement into any repo (local hooks, a TDD gate, and a required CI check) and **proves** the first gate actually fires.
+- **npm-first onboarding** — the landing and the README lead with the npm channel, and a "Step 1 — `/gate`" section (EN/ES) shows how the wedge works inside the agent.
+- **Homebrew dropped** from every public surface (web + docs + README) — `git clone`, the pinned `curl` bootstrap, and npm cover every platform.
 - **Honest status** — **npm is live** (`@juandelossantos/another-agent-skills`) and the `web/` site is **live** at <https://juandelossantos.github.io/another-agent-skills/>.
-- **Tests** — the core suite plus the `web/` build and `node --test` suite and the Playwright + axe accessibility gate, all green.
+- **Counts synced** — 58 skills · 153 guides · 142 test suites.
 
 Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
 

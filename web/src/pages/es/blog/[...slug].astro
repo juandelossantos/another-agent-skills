@@ -1,0 +1,15 @@
+---
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+import { getPosts, postSlug } from '../../../blog/nav';
+
+const locale = 'es' as const;
+
+export async function getStaticPaths() {
+  const posts = await getPosts('es');
+  return posts.map((entry) => ({ params: { slug: postSlug(entry) } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<BlogPostLayout locale={locale} slug={slug!} />

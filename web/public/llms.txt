@@ -33,6 +33,18 @@ Links:
 - Remote enforcement evidence: https://github.com/juandelossantos/another-agent-skills/blob/main/docs/REMOTE-ENFORCEMENT-EVIDENCE.md
 - License: https://github.com/juandelossantos/another-agent-skills/blob/main/LICENSE
 
+Writing (EN):
+
+- Writing: https://juandelossantos.github.io/another-agent-skills/blog/
+- RSS feed: https://juandelossantos.github.io/another-agent-skills/blog/rss.xml
+- The human defines, delegates, reviews, and is responsible. The AI is not.: https://juandelossantos.github.io/another-agent-skills/blog/the-human-in-command/
+
+Writing (ES):
+
+- Artículos: https://juandelossantos.github.io/another-agent-skills/es/blog/
+- Feed RSS: https://juandelossantos.github.io/another-agent-skills/es/blog/rss.xml
+- El humano define, delega, revisa y es responsable. La IA no.: https://juandelossantos.github.io/another-agent-skills/es/blog/the-human-in-command/
+
 Docs pages (EN):
 
 - Overview: https://juandelossantos.github.io/another-agent-skills/docs/

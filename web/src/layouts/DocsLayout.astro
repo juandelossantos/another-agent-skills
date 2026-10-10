@@ -21,6 +21,7 @@ import { jsonLdScript } from '../json-ld';
 import { docsHome, docsHref, docsSearchIndex } from '../docs/paths';
 import { docSlug, type DocEntry, type DocGroup } from '../docs/nav';
 import { SITE } from '../config';
+import { absoluteUrl } from '../site';
 
 interface Heading {
   depth: number;
@@ -46,8 +47,7 @@ const dict = getDocsDictionary(locale);
 const landing = getDictionary(locale);
 const altLocale = alternateLocale(locale);
 
-const site = Astro.site ?? new URL('https://juandelossantos.github.io');
-const absolute = (path: string) => new URL(path, site).href;
+const absolute = absoluteUrl;
 
 const pagePath = docsHref(locale, slug);
 const canonical = absolute(pagePath);

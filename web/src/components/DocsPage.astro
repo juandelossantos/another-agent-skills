@@ -5,6 +5,7 @@ import { loadDoc, docSlug } from '../docs/nav';
 import { buildDocsJsonLd } from '../docs/seo';
 import { docsHome, docsHref } from '../docs/paths';
 import { getDocsDictionary } from '../i18n/docs';
+import { absoluteUrl } from '../site';
 import type { Locale } from '../i18n';
 
 interface Props {
@@ -19,8 +20,7 @@ const { locale, slug, showIndex = false } = Astro.props;
 const { entry, Content, headings, groups, prev, next, docs } = await loadDoc(locale, slug);
 const dict = getDocsDictionary(locale);
 
-const ORIGIN = 'https://juandelossantos.github.io';
-const abs = (path: string) => new URL(path, ORIGIN).href;
+const abs = absoluteUrl;
 const homeUrl = abs(docsHome(locale));
 
 const jsonLd = buildDocsJsonLd({

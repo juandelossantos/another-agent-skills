@@ -58,12 +58,18 @@ web/
 │   ├── favicon.svg
 │   └── og.png              # real 1200x630 social card (regenerate: `npm run og`)
 ├── src/
-│   ├── content.config.ts   # `docs` collection: frontmatter schema + glob loader
+│   ├── content.config.ts   # `docs` + `blog` collections: frontmatter schema + glob loader
 │   ├── content/docs/       # one Markdown file per page per locale (<slug>.en.md / <slug>.es.md)
+│   ├── content/blog/       # one Markdown file per post per locale (<slug>.en.md / <slug>.es.md)
+│   ├── assets/blog/        # post hero images (optimized to WebP by astro:assets at build)
 │   ├── docs/
 │   │   ├── nav.ts          # collection queries: getDocs, groups, prev/next, loadDoc
 │   │   ├── paths.ts        # docsHome / docsHref / docsSearchIndex (base + locale aware)
 │   │   └── seo.ts          # BreadcrumbList + TechArticle JSON-LD
+│   ├── blog/
+│   │   ├── nav.ts          # post queries: getPosts, loadPost, heroImage, readingMinutes
+│   │   ├── paths.ts        # blogHome / blogHref (base + locale aware)
+│   │   └── seo.ts          # Blog + BlogPosting + BreadcrumbList JSON-LD
 │   ├── config.ts           # external links + product version
 │   ├── data/
 │   │   ├── skills.es.json   # ES translation map (input, hand-maintained)
@@ -76,17 +82,21 @@ web/
 │   │   ├── fonts/*.woff2
 │   │   ├── tokens.css      # palettes, type scale, hue-per-phase, spacing, motion
 │   │   ├── global.css      # reset, component layer, sections, responsive, reduced motion
-│   │   └── docs.css        # docs layout block (sidebar / TOC / content / search), from the mockup
+│   │   ├── docs.css        # docs layout block (sidebar / TOC / content / search), from the mockup
+│   │   └── blog.css        # blog index grid + card, article hero/byline, `.blog-prose`
 │   ├── i18n/
 │   │   ├── en.ts           # canonical dictionary shape
 │   │   ├── es.ts           # typed as `typeof en` → parity enforced at build
 │   │   ├── docs.ts         # docs-shell strings (EN canonical, ES typed)
+│   │   ├── blog.ts         # blog chrome strings (EN canonical, ES typed)
 │   │   ├── index.ts        # getDictionary / Locale helpers
 │   │   └── routes.ts       # localePath (base-aware), alternateLocale
-│   ├── components/         # reusable layer (see contract below) + Docs* shell pieces
+│   ├── components/         # reusable layer (see contract below) + Docs*/Blog* shell pieces
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
-│   │   └── DocsLayout.astro
+│   │   ├── DocsLayout.astro
+│   │   ├── BlogLayout.astro      # blog index (reuses the landing shell)
+│   │   └── BlogPostLayout.astro  # blog article
 │   ├── scripts/
 │   │   ├── landing.js      # theme toggle + terminal + flow/harness/loop (progressive enhancement)
 │   │   └── docs.js         # theme, drawer, search overlay, TOC scroll-spy, code copy
@@ -96,9 +106,15 @@ web/
 │   │   ├── docs/index.astro       # EN docs home (overview)
 │   │   ├── docs/[...slug].astro   # EN docs pages
 │   │   ├── docs/search.json.ts    # EN build-generated search index
+│   │   ├── blog/index.astro       # EN blog index
+│   │   ├── blog/[...slug].astro   # EN blog posts
+│   │   ├── blog/rss.xml.ts        # EN RSS 2.0 feed
 │   │   ├── es/docs/index.astro    # ES docs home
 │   │   ├── es/docs/[...slug].astro
-│   │   └── es/docs/search.json.ts
+│   │   ├── es/docs/search.json.ts
+│   │   ├── es/blog/index.astro    # ES blog index
+│   │   ├── es/blog/[...slug].astro
+│   │   └── es/blog/rss.xml.ts
 └── tests/
     ├── build.test.mjs      # node:test against dist/
     ├── seo.test.mjs        # node:test: OG card, canonical/hreflang, sitemap, JSON-LD
@@ -127,6 +143,57 @@ unchanged from the approved design:
 | `FaqItem.astro` | `faq-item`, `faq-item__question`, `faq-item__answer` | native `<details>` |
 | `Header.astro`, `Footer.astro` | `header__*`, `footer__*` | theme + language controls |
 | `FlowDiagram.astro`, `HarnessDiagram.astro`, `LoopDiagram.astro` | `flow__*`, `harness__*`, `loop__*` | seek-safe animations, static fallback |
+
+## Blog structure
+
+The blog is a section of the landing: it reuses `BaseLayout` (the landing
+header/footer, so the nav anchors resolve to the landing from any page) and adds
+`BlogLayout.astro` (index) and `BlogPostLayout.astro` (article). Content is a
+`blog` collection, bilingual like the docs.
+
+- Routes: `/blog/` + `/blog/<slug>/` (EN), `/es/blog/` + `/es/blog/<slug>/` (ES),
+  plus a bilingual RSS 2.0 feed at `/blog/rss.xml` and `/es/blog/rss.xml`.
+- The index is a publication home: a header, a featured post and a list of the
+  rest. The article puts the cover and the title in one hero block (title over
+  the cover, on a scrim) and centres a 720px reading column.
+- The author is frontmatter data (`author.name` / `handle` / `url` / `role`), so
+  the layout never hardcodes it and a guest post needs no code change.
+- The cover named in frontmatter resolves against `src/assets/blog/` and is served
+  through `astro:assets` (WebP, responsive), never as the raw source PNG.
+- The article body renders through `.blog-prose` (owned by `blog.css`), so the
+  blog is not coupled to the docs stylesheet.
+- Publishing hygiene per post: `BlogPosting` JSON-LD (author as `Person`, plus
+  `wordCount`, `timeRequired`, `keywords`, `articleSection`), Open Graph article
+  metadata (`article:published_time` / `:modified_time` / `:author` / `:tag`), a
+  per-post 1200x630 JPEG social card cropped from the cover, a citable `tldr`,
+  an "on this article" table of contents, share options (X, LinkedIn, Hacker
+  News, email, copy link) and a reading-progress bar.
+
+### Add a post
+
+1. Drop the hero image in `src/assets/blog/<file>`.
+2. Create `src/content/blog/<slug>.en.md` and `src/content/blog/<slug>.es.md`.
+3. Build. The post appears in the index, the sitemap and `llms.txt`, and gets a
+   `BlogPosting` JSON-LD with the author as a `Person`.
+
+```yaml
+---
+title: "The human defines, delegates, reviews, and is responsible. The AI is not."
+subtitle: "The AI is an assistant. The human is the author, with judgment and conscience."
+description: "One sentence for meta, OG/Twitter and the index card."
+lang: "en"                         # "en" | "es" (must match the file suffix)
+date: 2026-10-09                   # published date (sort key, newest first)
+author:
+  name: "David Emilio Sierra Puentes"
+  handle: "@juandelossantos"       # optional
+  url: "https://github.com/juandelossantos"
+  role: "Author of Another Agent Skills"
+image: "the-human-in-command.png"  # filename inside src/assets/blog/
+imageAlt: "Alt text for the hero and the index card."
+tags: ["AI agents", "enforcement"] # optional
+tldr: "One citable line (AEO)."    # optional
+---
+```
 
 ## Docs structure
 

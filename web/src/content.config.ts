@@ -32,4 +32,44 @@ const docs = defineCollection({
   }),
 });
 
-export const collections = { docs };
+/*
+ * Blog collection.
+ *
+ * One Markdown file per post per locale (`<slug>.en.md` / `<slug>.es.md`), the
+ * same bilingual convention as the docs. The `title`/`subtitle`/`author` live in
+ * frontmatter, so the author is data (ready for guest posts), never hardcoded in
+ * the layout. The route slug is the filename without the locale suffix.
+ *
+ * `image` is a filename inside `src/assets/blog/`; `src/blog/nav.ts` resolves it
+ * to `ImageMetadata` for the optimized `<Image>` hero.
+ */
+const blog = defineCollection({
+  loader: glob({
+    base: './src/content/blog',
+    pattern: '**/*.md',
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
+  }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    description: z.string(),
+    lang: z.enum(['en', 'es']),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    author: z.object({
+      name: z.string(),
+      handle: z.string().optional(),
+      url: z.string().optional(),
+      role: z.string().optional(),
+    }),
+    /** Filename inside `src/assets/blog/` (resolved to ImageMetadata). */
+    image: z.string(),
+    imageAlt: z.string(),
+    tags: z.array(z.string()).default([]),
+    /** One-line, citable summary (AEO). */
+    tldr: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { docs, blog };

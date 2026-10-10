@@ -37,10 +37,10 @@ assert "i18n/en.json faq.a3 mentions Claude Code parity" "jq -r '.faq.a3' '$REPO
 
 assert "docs/i18n/en.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/en.json' | grep -q '~/.claude/skills/'"
 assert "docs/i18n/es.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/es.json' | grep -q '~/.claude/skills/'"
-assert "docs/i18n/en.json whatsNew heading is v6.3.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'v6.3.0'"
-assert "docs/i18n/es.json whatsNew heading is v6.3.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'v6.3.0'"
-assert "docs/i18n/en.json whatsNewDesc3 reflects the remote enforcement model" "jq -r '.overview.whatsNewDesc3' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'CODEOWNERS'"
-assert "docs/i18n/es.json whatsNewDesc3 reflects the remote enforcement model" "jq -r '.overview.whatsNewDesc3' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'CODEOWNERS'"
+assert "docs/i18n/en.json whatsNew heading is v6.4.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'v6.4.0'"
+assert "docs/i18n/es.json whatsNew heading is v6.4.0" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'v6.4.0'"
+assert "docs/i18n/en.json whatsNewDesc1 reflects the /gate wedge" "jq -r '.overview.whatsNewDesc1' '$REPO_ROOT/docs/i18n/en.json' | grep -qi 'gate'"
+assert "docs/i18n/es.json whatsNewDesc1 reflects the /gate wedge" "jq -r '.overview.whatsNewDesc1' '$REPO_ROOT/docs/i18n/es.json' | grep -qi 'gate'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"
