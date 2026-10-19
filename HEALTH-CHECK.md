@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
 **Date:** 2026-10-10
-**Version:** 6.4.0
+**Version:** 6.4.1
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -25,7 +25,7 @@
 | SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 6.4.0 | Consistent |
+| VERSION | ✅ 6.4.1 | Consistent |
 | Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v6.4.0 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.4.0 |
+| Version references | ✅ v6.4.1 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.4.1 |
 | Guide count | ✅ 153 guides | `skills/*/guides/*.md`; the web derives it from `web/src/data/skills.json` |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 | Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |
@@ -82,7 +82,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 6. **Phase 9 COMPLETE — distribution & upgrades** — pinned, attested releases (`.github/workflows/release.yml`), checksum-verified `curl` bootstrap (`bootstrap.sh`), `aas` CLI, portable projects + legacy repair, npm wrapper + OIDC trusted publishing (PRs #47–#52). The maintainer one-time npm steps (incl. the 2026-10-06 npm suspension + the TOTP fix) are documented in `docs/DISTRIBUTION.md`.
 7. **Phase 8 COMPLETE — remote enforcement live** — branch protection on `main` (solo-safe + lockout guard + code-owner guard) + required `gates` check (`.github/workflows/gates.yml`) + `CODEOWNERS` L3 (PRs #36/#37); docs honesty (INCIDENT_004 correction + L1/L2/L3 model, PR #39); ship-to-users (`templates/gates.yml` + `init-agents`/`install`, PR #40); remote E2E + fresh-repo `pre-commit` fix (PR #42); Gate 0 → explicit L1 prompt + solo-compatible GitHub Environment approval (PR #41); closure review (PR #43). P8.4 closed by design (philosophy A).
 8. **Phase 7 released as v6.2.0** — dual-contract OpenCode plugin (`setup()` v2 + `server()` v1), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, **philosophy A** (the agent never runs `git commit`/`push` — no token bypass), global install hardening. See `RELEASE-NOTES.md`.
-9. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **142 suites** green (+ web: 106 node + 112 e2e, axe 0).
+9. **Test cadence** — `tests/` = behavioral/regression (permanent); `tests/task/` = task tests capped at 20 (`scripts/test-cadence.conf`). Checkpoint = push + full review → archive → reset (`docs/TEST-CADENCE.md`). Suite: **146 suites** green (+ web: 106 node + 112 e2e, axe 0).
 10. **Backlog (after T1/T2)** — Phase 11 (Astro + Starlight docs site) is re-planned/superseded by the Phase 10 `web/`; B1 (init-agents vs sync-hooks hook integrity), B2 (v11 override drift), B3 (tdd-gate false-pass), universal test scoping.
 
 ---

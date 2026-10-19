@@ -22,6 +22,9 @@ check $? "header usage line pins v${REPO_VERSION}"
 # Guard against a stale pinned example left behind in a comment.
 ! grep -qE -- "--version v6\.[0-3]\." "$REPO_ROOT/bootstrap.sh"
 check $? "no stale --version example in bootstrap.sh"
+# The npm wrapper README example tracks the same version (channel consistency).
+grep -q -- "--version v${REPO_VERSION}" "$REPO_ROOT/npm/README.md"
+check $? "npm README example pins v${REPO_VERSION}"
 
 # Portable sha256 (GNU coreutils sha256sum, or macOS/BSD shasum -a 256).
 _sha256() {

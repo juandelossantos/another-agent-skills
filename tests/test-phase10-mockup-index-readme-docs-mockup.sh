@@ -61,6 +61,9 @@ assert "no Argentine voseo in the mockups" "! grep -qE 'tenés|podés|Cloná|eje
 # --- Footer shows the current version (not the phase) ---
 assert "landing footer shows the current version v$V" "grep -q \"v$V\" '$M/js/mockup.js'"
 assert "docs mockup chip shows the current version v$V" "grep -q \"v$V\" '$M/js/docs-mockup.js'"
+MV1="$(grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' "$M/js/mockup.js" | head -1)"
+MV2="$(grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' "$M/js/docs-mockup.js" | head -1)"
+assert "landing and docs mockups show the same version" "[ '$MV1' = '$MV2' ]"
 assert "footer no longer says Phase 10" "! grep -q 'Phase 10 landing mockup' '$M/js/mockup.js'"
 
 # --- README documents the reusable components ---

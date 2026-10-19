@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.4.0** — the /gate wedge skill (58th) + npm-first onboarding; npm and the web are **live** (distribution closeout) + the **B14/B15/B21** remediation fixes; npm (`@juandelossantos/another-agent-skills`) and the web are **live** |
+| Version | **6.4.1** — approval integrity (binding + one-time + L2 approved tree + capability boundary); 6.4.0 shipped the /gate wedge (58th) + npm-first onboarding; npm and the web are **live** |
 | Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B16/B19/B20** (see **Next tasks** below). *Current focus: **MKT** — see below.* |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 58 with contracts, When to Use, When NOT to Use |
 | Guides | 153 across all skills |
-| Tests | **142 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
+| Tests | **146 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---

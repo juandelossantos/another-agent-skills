@@ -1,7 +1,7 @@
 # Another Agent Skills
 
 [![skills.sh](https://skills.sh/b/juandelossantos/another-agent-skills)](https://skills.sh/juandelossantos/another-agent-skills)
-[![Version: v6.4.0](https://img.shields.io/badge/version-6.4.0-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.4.1](https://img.shields.io/badge/version-6.4.1-blue.svg)](./RELEASE-NOTES.md)
 [![Skills: 58](https://img.shields.io/badge/skills-58-blue.svg)](./docs/skills.html)
 [![Guides: 153](https://img.shields.io/badge/guides-153-blue.svg)](./docs/skills.html)
 [![Tests: 142 suites](https://img.shields.io/badge/tests-142%20suites-brightgreen.svg)](./tests/run-all.sh)
@@ -43,15 +43,16 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 
 ---
 
-## What's New in v6.4.0
+## What's New in v6.4.1
 
-**The `/gate` wedge skill and npm-first onboarding.**
+**Approval integrity.** The gate now binds an approval to the exact change, and the boundary is explicit.
 
-- **New skill — `/gate` (58th)** — wires mechanical enforcement into any repo (local hooks, a TDD gate, and a required CI check) and **proves** the first gate actually fires.
-- **npm-first onboarding** — the landing and the README lead with the npm channel, and a "Step 1 — `/gate`" section (EN/ES) shows how the wedge works inside the agent.
-- **Homebrew dropped** from every public surface (web + docs + README) — `git clone`, the pinned `curl` bootstrap, and npm cover every platform.
-- **Honest status** — **npm is live** (`@juandelossantos/another-agent-skills`) and the `web/` site is **live** at <https://juandelossantos.github.io/another-agent-skills/>.
-- **Counts synced** — 58 skills · 153 guides · 142 test suites.
+- **Binding (L1).** `scripts/approve.sh` records the staged-tree hash with the approval. `pre-commit` refuses a commit if the tree changed after approval, which closes the "approve A, commit B" channel.
+- **One-time approval.** The approval is consumed by the successful commit, so one approval covers one commit. The replay window is gone.
+- **Approved tree at L2.** The required `gates` check compares the PR head tree with the `AAS-APPROVED-TREE` digest the human writes in the PR body.
+- **Capability boundary.** `scripts/agent-runner.sh` is the reference. The agent produces a patch, an external runner applies it, runs the suite, and commits only if green.
+- **Honest limits.** L1 is still forgeable by an agent with a shell, and L2 depends on control of the PR body. The docs say so.
+- **Counts** — 58 skills · 153 guides · 146 test suites.
 
 Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
 

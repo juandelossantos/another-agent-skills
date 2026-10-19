@@ -1,5 +1,21 @@
 # Release Notes
 
+## 6.4.1 (2026-10-19) — approval integrity
+
+The gate now binds an approval to the exact change, and the boundary is explicit.
+
+### Fixed
+
+- **Approval binding (L1).** `.git/DECISION_APPROVED` now carries `tree=<git write-tree>`. `pre-commit` Gate 0 recomputes the staged tree and blocks on a mismatch, which closes the "approve A, commit B" laundering channel.
+- **One-time approval.** The approval is consumed by the successful commit, which closes replay inside the freshness window.
+- **L2 verifies the approved tree.** `scripts/check-approved-tree.sh` runs in the required `gates` check (pull_request only) and compares the PR head tree with the `AAS-APPROVED-TREE` digest in the PR body.
+- **Capability boundary.** `scripts/agent-runner.sh` is the reference external runner. The agent produces a patch; the runner applies it, runs the suite, and commits only if green.
+- **Docs.** Rule 12, the enforcement docs, the web docs and the blog explain binding, one-time approval and the capability boundary, including the honest limits.
+
+### Tests
+
+- New `tests/test-approve.sh`, `tests/test-check-approved-tree.sh`, `tests/test-agent-runner.sh`; hook tests migrated to `scripts/approve.sh`. Suite **146/146**.
+
 ## 6.4.0 (2026-10-09) — the /gate wedge skill + npm-first onboarding
 
 - **New skill: `/gate`** (58th) — wires mechanical enforcement (local hooks, a TDD gate, a required CI check) into any repo and **proves** the first gate fires.
