@@ -124,6 +124,19 @@ of that body. The capability boundary (an external runner that holds the commit
 and the signing key) and L3 (`CODEOWNERS` on `gates.yml`) are the backstop. L2 is
 authority *relative to the agent's capabilities*, not absolute.
 
+## The capability boundary: the external runner (Phase 15)
+
+Hooks and PR checks are policy. If the agent has a shell, it can still attempt
+the commit; L1 is forgeable, and L2 is only as strong as control of the PR body.
+The hard boundary is to remove the capability.
+
+`scripts/agent-runner.sh` is the reference. The agent produces a patch; the
+human or a host runs the runner, which applies the patch, runs the suite, and
+commits only if green (optionally `--sign`). The agent never holds the commit.
+
+This is a reference, not a sandbox. It only helps if the agent cannot invoke it.
+Run it inside a container or VM for untrusted patches.
+
 ## Solo vs team: you cannot approve your own PR
 
 The single most important fact about branch protection is this:

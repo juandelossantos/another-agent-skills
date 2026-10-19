@@ -44,15 +44,17 @@
 
 | Task | Descripción | Criterio de aceptación |
 |---|---|---|
-| **P15.1** 🔴 | **Binding L1.** `DECISION_APPROVED` guarda `timestamp + tree=<sha>` (`git write-tree`). `pre-commit` recalcula y **BLOCK** si no coincide. Anclaje humano (decidir: comando humano `scripts/approve.sh` que el agente no puede correr, o confirmación del hash en el chat). | Un `git add` después de aprobar → commit bloqueado. Test `tests/test-approval-binding.sh`. |
-| **P15.2** 🔴 | **One-time.** Consumir/rotar el token en el commit exitoso (o nonce + commit hash). | Dos commits con una sola aprobación → el segundo bloqueado. Test `tests/test-approval-once.sh`. |
-| **P15.3** 🔴 | **L2 verify.** Un check requerido compara el árbol del PR con un digest aprobado por el humano (campo en el PR). | PR con árbol distinto al aprobado → check falla. Test `tests/test-l2-approved-tree.sh`. |
-| **P15.4** 🟠 | **Runner de referencia.** `aas` aplica patch/diff, corre la suite, commitea (firma opcional). | Integración: aplica parche → gates → commit; `--sign` opcional. Test `tests/test-runner.sh`. |
+| **P15.1** ✅ | **Binding L1.** `DECISION_APPROVED` guarda `timestamp + tree=<sha>` (`git write-tree`). `pre-commit` recalcula y **BLOCK** si no coincide. Anclaje humano (decidir: comando humano `scripts/approve.sh` que el agente no puede correr, o confirmación del hash en el chat). | Un `git add` después de aprobar → commit bloqueado. Test `tests/test-approval-binding.sh`. |
+| **P15.2** ✅ | **One-time.** Consumir/rotar el token en el commit exitoso (o nonce + commit hash). | Dos commits con una sola aprobación → el segundo bloqueado. Test `tests/test-approval-once.sh`. |
+| **P15.3** ✅ | **L2 verify.** Un check requerido compara el árbol del PR con un digest aprobado por el humano (campo en el PR). | PR con árbol distinto al aprobado → check falla. Test `tests/test-l2-approved-tree.sh`. |
+| **P15.4** ✅ | **Runner de referencia.** `aas` aplica patch/diff, corre la suite, commitea (firma opcional). | Integración: aplica parche → gates → commit; `--sign` opcional. Test `tests/test-runner.sh`. |
 | **P15.5** 🟠 | **Threat-model docs.** L1 = feedback (forjable), L2 = autoridad (árbol aprobado), capacidad = frontera. Sin "cannot bypass" sin la condición. | `docs/BRANCH-PROTECTION.md`, `docs/REMOTE-ENFORCEMENT-EVIDENCE.md`, `docs/enforcement.html` + `docs/i18n/*`, `README.md` actualizados. |
 | **P15.6** 🟠 | **Contenido.** Ensayo/blog EN+ES + los 6 drafts de canal: binding, one-time, teatro vs laundering, capacidad. | Blog + `development/launch/essay*` + `essay-channel-*` coherentes; sin overclaim. |
 | **P15.7** 🟠 | **Web: landing + docs + search.** Copy de enforcement en `web/src/i18n/{en,es}.ts`; páginas `enforcement`/`branch-protection`; `llms.txt`; search build-generated. | Build + 106 node + 112 e2e; axe 0; `docs/search.json` incluye lo nuevo; sitemap/llms OK. |
 | **P15.8** 🟠 | **npm.** `npm/package.json` versión; `npm/README.md`; `npm/cli.js` si el runner añade comando; `check-channel-consistency.sh`. | `--online` verde; `npx ... install` intacto. |
 | **P15.9** 🟡 | **Release v6.4.1 + respuestas.** VERSION + superficies, `RELEASE-NOTES.md`, tag, npm (OIDC); responder los 3 comentarios. | Release live; respuestas publicadas; sin claims no verificados. |
+
+**Progreso:** ✅ P15.1 (binding) · ✅ P15.2 (one-time) · ✅ P15.3 (L2 verify) · ✅ P15.4 (runner). Pendiente: **P15.5–P15.9**.
 
 **Surface sync (obligatorio en cada tarea):**
 

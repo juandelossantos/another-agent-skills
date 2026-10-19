@@ -21,6 +21,10 @@ The guiding principle: design for the cooperative agent, enforce for the adversa
 
 The required `gates` check also compares the PR head tree with the human-approved digest in the PR body (`AAS-APPROVED-TREE: <sha>`). A PR whose head changed after approval fails the check. Local Gate 0 binds the staged tree; L2 binds the merge. The digest is only as strong as control of the PR body, so the capability boundary and CODEOWNERS are the backstop.
 
+## The capability boundary
+
+Hooks and remote checks are policy. If the agent has a shell, it can still attempt the commit. The hard boundary is to remove the capability. The reference is `scripts/agent-runner.sh`. The agent produces a patch; the human or a host runs the runner, which applies the patch, runs the suite, and commits only if green. It only helps if the agent cannot invoke the runner; run it in a container for untrusted patches.
+
 ## Why local hooks are not enough
 
 `.git/hooks/` is writable by whoever is committing, including an agent. Two bypasses require no `--no-verify` at all:

@@ -21,6 +21,10 @@ El principio rector: diseña para el agente cooperativo, aplica para el adversar
 
 El check remoto `gates` requerido también compara el árbol del PR contra el digest aprobado por el humano en el cuerpo del PR (`AAS-APPROVED-TREE: <sha>`). Un PR cuyo árbol cambió después de la aprobación falla el check. La puerta 0 local ata el árbol staged; L2 ata el merge. El digest vale lo que valga el control del cuerpo del PR, así que la frontera de capacidad y CODEOWNERS son el respaldo.
 
+## La frontera de capacidad
+
+Los hooks y los checks remotos son política. Si el agente tiene shell, todavía puede intentar el commit. La frontera dura es quitarle la capacidad. La referencia es `scripts/agent-runner.sh`. El agente produce un parche; el humano o un host corre el runner, que aplica el parche, ejecuta la suite y commitea solo si todo está en verde. Solo ayuda si el agente no puede invocar el runner; para parches no confiables, córrelo en un contenedor.
+
 ## Por qué los hooks locales no bastan
 
 `.git/hooks/` lo puede escribir quien hace el commit, incluido un agente. Hay dos saltos que no necesitan `--no-verify`:
