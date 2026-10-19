@@ -2,8 +2,25 @@
 
 **Date:** 2026-10-10 (updated)
 **Branch:** `main` (v6.4.0 merged + tagged; the blog work is **uncommitted** — see "Next Session").
-**Status:** ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **146 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
+**Status:** ✅ **v6.4.1 complete (Phase 15 — approval integrity)** — ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **146 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
 **Plan:** `PLAN.md` — single source of truth
+
+## Phase 15 closure (2026-10-19)
+
+**Branch:** `feat/phase15-approval-integrity` (5 commits). **PR:** pending. Open it with `AAS-APPROVED-TREE: <head tree>` in the body; the new L2 `gates` check requires it.
+
+**Shipped:** approval binding (`scripts/approve.sh` + Gate 0), one-time approval (consume), L2 approved-tree check (`scripts/check-approved-tree.sh` + `gates.yml`) and the external runner (`scripts/agent-runner.sh`). Docs, web (landing/docs/search), blog EN/ES and npm/version surfaces at **v6.4.1**.
+
+**Verified:** core **146/146**, web **106 node + 112 e2e** (axe 0), TDD gate PASS, `check-channel-consistency` local green.
+
+**Post-merge (P15.9):**
+1. `bash scripts/init-agents.sh sync-hooks` (install the new hook locally).
+2. Tag `v6.4.1` + push (release.yml builds/attests and chains npm-publish).
+3. Approve the staged npm publish; verify `npm view @juandelossantos/another-agent-skills version`.
+4. `bash scripts/check-channel-consistency.sh --online`.
+5. Reply to the 3 dev.to comments.
+
+**Next:** publish W3 (dev.to/LinkedIn/X, EN/ES) and the **Cierre MKT + backlog (v6.5.0)**.
 
 ## Next Session (resume here)
 

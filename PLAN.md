@@ -9,7 +9,7 @@
 | Metric | Value |
 |---|---|
 | Version | **6.4.1** — approval integrity (binding + one-time + L2 approved tree + capability boundary); 6.4.0 shipped the /gate wedge (58th) + npm-first onboarding; npm and the web are **live** |
-| Next target | **T2** — web + docs update (live) · **E1** — essay review/edit → decide · backlog **B13/B16/B19/B20** (see **Next tasks** below). *Current focus: **MKT** — see below.* |
+| Next target | **W3** — publish the 3 channel adaptations (EN/ES) · **Cierre MKT + backlog (v6.5.0)** · backlog **B13/B16/B19/B20** (see **Next tasks** below). T2 and E1 are done. *Current focus: **MKT** — see below.* |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 58 with contracts, When to Use, When NOT to Use |
@@ -19,9 +19,9 @@
 
 ---
 
-## Phase 15: Approval integrity & capability boundary (v6.4.1) — 🔴 P0 IMMEDIATE
+## Phase 15: Approval integrity & capability boundary (v6.4.1) — ✅ COMPLETE
 
-**Status:** PLANNED — nace de los 3 comentarios de dev.to al ensayo *The human in command* (2026-10-19), **verificados contra el código**.
+**Status:** ✅ **COMPLETE (2026-10-19)** — nace de los 3 comentarios de dev.to al ensayo *The human in command*, verificados contra el código. La release `v6.4.1` está preparada; el tag y el publish de npm son **P15.9 (post-merge)**.
 **Prioridad:** 🔴 **P0** — integridad del claim central (*discipline you can verify*). Va **antes** de **B13/B16/B19** y de publicar **W3** (no se publica contenido que prometa más enforcement del que el diseño tiene).
 
 **Diagnóstico (verificado en el repo, no asumido):**
@@ -48,13 +48,13 @@
 | **P15.2** ✅ | **One-time.** Consumir/rotar el token en el commit exitoso (o nonce + commit hash). | Dos commits con una sola aprobación → el segundo bloqueado. Test `tests/test-approval-once.sh`. |
 | **P15.3** ✅ | **L2 verify.** Un check requerido compara el árbol del PR con un digest aprobado por el humano (campo en el PR). | PR con árbol distinto al aprobado → check falla. Test `tests/test-l2-approved-tree.sh`. |
 | **P15.4** ✅ | **Runner de referencia.** `aas` aplica patch/diff, corre la suite, commitea (firma opcional). | Integración: aplica parche → gates → commit; `--sign` opcional. Test `tests/test-runner.sh`. |
-| **P15.5** 🟠 | **Threat-model docs.** L1 = feedback (forjable), L2 = autoridad (árbol aprobado), capacidad = frontera. Sin "cannot bypass" sin la condición. | `docs/BRANCH-PROTECTION.md`, `docs/REMOTE-ENFORCEMENT-EVIDENCE.md`, `docs/enforcement.html` + `docs/i18n/*`, `README.md` actualizados. |
+| **P15.5** ✅ | **Threat-model docs.** L1 = feedback (forjable), L2 = autoridad (árbol aprobado), capacidad = frontera. Sin "cannot bypass" sin la condición. | `docs/BRANCH-PROTECTION.md`, `docs/REMOTE-ENFORCEMENT-EVIDENCE.md`, `docs/enforcement.html` + `docs/i18n/*`, `README.md` actualizados. |
 | **P15.6** ✅ | **Contenido.** Ensayo/blog EN+ES + los 6 drafts de canal: binding, one-time, teatro vs laundering, capacidad. | Blog + `development/launch/essay*` + `essay-channel-*` coherentes; sin overclaim. |
-| **P15.7** 🟠 | **Web: landing + docs + search.** Copy de enforcement en `web/src/i18n/{en,es}.ts`; páginas `enforcement`/`branch-protection`; `llms.txt`; search build-generated. | Build + 106 node + 112 e2e; axe 0; `docs/search.json` incluye lo nuevo; sitemap/llms OK. |
-| **P15.8** 🟠 | **npm.** `npm/package.json` versión; `npm/README.md`; `npm/cli.js` si el runner añade comando; `check-channel-consistency.sh`. | `--online` verde; `npx ... install` intacto. |
-| **P15.9** 🟡 | **Release v6.4.1 + respuestas.** VERSION + superficies, `RELEASE-NOTES.md`, tag, npm (OIDC); responder los 3 comentarios. | Release live; respuestas publicadas; sin claims no verificados. |
+| **P15.7** ✅ | **Web: landing + docs + search.** Copy de enforcement en `web/src/i18n/{en,es}.ts`; páginas `enforcement`/`branch-protection`; `llms.txt`; search build-generated. | Build + 106 node + 112 e2e; axe 0; `docs/search.json` incluye lo nuevo; sitemap/llms OK. |
+| **P15.8** ✅ | **npm.** `npm/package.json` versión; `npm/README.md`; `npm/cli.js` si el runner añade comando; `check-channel-consistency.sh`. | `--online` verde; `npx ... install` intacto. |
+| **P15.9** ⏳ | **Release v6.4.1 + respuestas.** VERSION + superficies, `RELEASE-NOTES.md`, tag, npm (OIDC); responder los 3 comentarios. | Release live; respuestas publicadas; sin claims no verificados. |
 
-**Progreso:** ✅ P15.1 (binding) · ✅ P15.2 (one-time) · ✅ P15.3 (L2 verify) · ✅ P15.4 (runner) · ✅ P15.6 (contenido). Pendiente: **P15.5, P15.7, P15.8, P15.9**.
+**Progreso:** ✅ **P15.1–P15.8**. **P15.9** (tag `v6.4.1` + npm publish + respuestas) queda **post-merge**.
 
 **Surface sync (obligatorio en cada tarea):**
 
@@ -71,13 +71,32 @@
 - `.github/workflows/gates.yml` → tdd/tests/lint; sin verificación de árbol aprobado.
 - `grep -rn "DECISION_APPROVED" scripts/` → nadie lo consume.
 
-**Release:** **v6.4.1** (patch de integridad). Si se prefiere, se agrupa con el cierre **v6.5.0**; por defecto, patch inmediato.
+**Release:** **v6.4.1** (patch de integridad).
+
+### Closeout (Phase 15) — 2026-10-19
+
+| Slice | Entrega |
+|---|---|
+| P15.1 | `scripts/approve.sh` (timestamp + `tree=<git write-tree>`); Gate 0 bloquea un árbol distinto. |
+| P15.2 | Gate 0 consume la aprobación al pasar todos los gates (una aprobación, un commit). |
+| P15.3 | `scripts/check-approved-tree.sh` + step en `gates.yml` (`pull_request`), checkout del head; `AAS-APPROVED-TREE` en el PR body. |
+| P15.4 | `scripts/agent-runner.sh` (patch → suite → commit; `--sign`, `--dry-run`); docs de frontera. |
+| P15.5 | Threat model en `docs/REMOTE-ENFORCEMENT-EVIDENCE.md` + `docs/BRANCH-PROTECTION.md`. |
+| P15.6 | Blog/ensayo EN+ES y los 6 drafts de canal (binding, one-time, teatro vs blanqueo, capacidad). |
+| P15.7 | Landing, docs EN/ES, `llms.txt`; search build-generated verificado. |
+| P15.8 | `v6.4.1` en todas las superficies; `npm/README`; `RELEASE-NOTES`; `tests/test-release-641.sh`. |
+
+**Evidencia:** core **146/146**, web **106 node + 112 e2e** (axe 0), TDD gate PASS, `check-channel-consistency` local verde. **Commits:** `82743e8` · `94d9dbf` · `d764a74` · `fe68465` · `1adb576` (+ este cierre).
+
+**Límites honestos (documentados):** L1 es forjable por un agente con shell; L2 depende del control del PR body; el runner es una referencia, no un sandbox.
+
+**Pendiente post-merge (P15.9):** tag `v6.4.1`, npm publish (OIDC), `check-channel-consistency --online`, y responder los 3 comentarios de dev.to.
 
 ---
 
 ## Next tasks
 
-> **P0 inmediato:** **Phase 15 — Approval integrity** (binding + one-time + capability boundary) antes que W3/MKT.
+> **Phase 15 ✅ complete.** Next: publish **W3** (the 3 channel adaptations, EN/ES) and close the marketing track (**Cierre MKT + backlog, v6.5.0**).
 
 > Ordered. **E1** (essay) and **T2** (post-live docs) close out Phase 10; **T1** (npm) is **DONE** and Homebrew is **not planned**. The existing backlog follows further down.
 
