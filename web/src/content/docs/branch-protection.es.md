@@ -17,6 +17,10 @@ tldr: "Las puertas locales son feedback rápido; las puertas remotas son autorid
 
 El principio rector: diseña para el agente cooperativo, aplica para el adversario. L1 es primario para la cooperación; L2 y L3 son la red de seguridad.
 
+## L2 verifica el árbol aprobado
+
+El check remoto `gates` requerido también compara el árbol del PR contra el digest aprobado por el humano en el cuerpo del PR (`AAS-APPROVED-TREE: <sha>`). Un PR cuyo árbol cambió después de la aprobación falla el check. La puerta 0 local ata el árbol staged; L2 ata el merge. El digest vale lo que valga el control del cuerpo del PR, así que la frontera de capacidad y CODEOWNERS son el respaldo.
+
 ## Por qué los hooks locales no bastan
 
 `.git/hooks/` lo puede escribir quien hace el commit, incluido un agente. Hay dos saltos que no necesitan `--no-verify`:

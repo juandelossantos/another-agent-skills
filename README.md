@@ -25,7 +25,7 @@ Define → Plan → Build → Verify → Review → Ship. Every time.
 Most agent skill frameworks give you a library of prompts. This one gives you an engineering discipline with mechanical enforcement.
 
 - **L1 — local hooks** (`.git/hooks/*`). Fast, advisory feedback. A code change with no matching test is blocked before it leaves your machine.
-- **L2 — required remote `gates` check** (`.github/workflows/gates.yml`). The TDD gate and the full test suite run as a required status check on `main`. The committer cannot skip it. **GitHub only.**
+- **L2 — required remote `gates` check** (`.github/workflows/gates.yml`). The TDD gate and the full test suite run as a required status check on `main`, and the check verifies the PR head tree against the human-approved digest. The committer cannot skip it. **GitHub only.**
 - **L3 — `CODEOWNERS`.** The gate configuration is owned by a human, so a PR cannot edit its own rules.
 
 A real blocked commit:

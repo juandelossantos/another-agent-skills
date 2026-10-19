@@ -104,6 +104,26 @@ Caveats: required reviewers are free on **public** repos only; up to 6 reviewers
 (one approval suffices); keep "Prevent self-review" **off** on a solo repo or you
 reintroduce the lockout.
 
+## L2 approval binding (Phase 15)
+
+The required `gates` check also verifies that the PR **head tree** matches the
+tree the human approved.
+
+1. After the final commit, the human records the tree in the PR body:
+   `git rev-parse HEAD^{tree}` → `AAS-APPROVED-TREE: <sha>`.
+2. `scripts/check-approved-tree.sh` (a step in `gates.yml`, `pull_request` only)
+   extracts the digest and compares it with `HEAD^{tree}`. A mismatch fails the
+   required check.
+
+This closes the remote half of the laundering channel: local Gate 0 binds the
+staged tree, and L2 binds the PR head to the human-approved tree. The agent
+cannot satisfy either by editing the index.
+
+**Caveat:** the digest lives in the PR body, so L2 is only as strong as control
+of that body. The capability boundary (an external runner that holds the commit
+and the signing key) and L3 (`CODEOWNERS` on `gates.yml`) are the backstop. L2 is
+authority *relative to the agent's capabilities*, not absolute.
+
 ## Solo vs team: you cannot approve your own PR
 
 The single most important fact about branch protection is this:

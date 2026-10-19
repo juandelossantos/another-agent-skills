@@ -17,7 +17,7 @@ Falla rápido, informa y deja un rastro. La aprobación local está atada al ár
 
 ### L2: Autoridad remota
 
-Protección de ramas de GitHub más un status check requerido. Nada llega a `main` sin pasar el check `gates`. Quien hace el commit no puede saltarlo.
+Protección de ramas de GitHub más un status check requerido. Nada llega a `main` sin pasar el check `gates`. El check también verifica el árbol del PR contra el digest aprobado por el humano, así que un PR que cambió después de la aprobación no puede mergearse. Quien hace el commit no puede saltarlo.
 
 ### L3: Integridad de la configuración
 

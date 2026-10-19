@@ -17,7 +17,7 @@ Fails fast, informs, and leaves a trace. The local approval is bound to the exac
 
 ### L2: Remote authority
 
-GitHub branch protection plus a required status check. Nothing reaches `main` without passing the `gates` check. The committer cannot skip it.
+GitHub branch protection plus a required status check. Nothing reaches `main` without passing the `gates` check. The check also verifies the PR head tree against the human-approved digest, so a PR that changed after approval cannot merge. The committer cannot skip it.
 
 ### L3: Config integrity
 

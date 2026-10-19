@@ -17,6 +17,10 @@ tldr: "Local gates are fast feedback; remote gates are authority. If the gate th
 
 The guiding principle: design for the cooperative agent, enforce for the adversarial one. L1 is primary for cooperation; L2 and L3 are the backstop.
 
+## L2 verifies the approved tree
+
+The required `gates` check also compares the PR head tree with the human-approved digest in the PR body (`AAS-APPROVED-TREE: <sha>`). A PR whose head changed after approval fails the check. Local Gate 0 binds the staged tree; L2 binds the merge. The digest is only as strong as control of the PR body, so the capability boundary and CODEOWNERS are the backstop.
+
 ## Why local hooks are not enough
 
 `.git/hooks/` is writable by whoever is committing, including an agent. Two bypasses require no `--no-verify` at all:
