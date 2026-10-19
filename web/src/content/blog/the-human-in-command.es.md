@@ -10,7 +10,7 @@ author:
   url: "https://github.com/juandelossantos"
   role: "Autor de Another Agent Skills"
 image: "the-human-in-command.png"
-imageAlt: "Una mano humana al volante mientras una máquina escribe el código: el humano al mando del loop."
+imageAlt: "Una mano humana al volante mientras una máquina escribe el código, el humano al mando del loop."
 tags: ["agentes de IA", "supervisión humana", "enforcement", "filosofía"]
 tldr: "Mantener a un humano en el loop es casi siempre teatro. La solución no es un humano más rápido ni un modelo más listo. Es el harness: gates mecánicas que el agente no puede saltarse, olvidar ni convencer."
 ---
@@ -69,13 +69,27 @@ La solución no es un prompt mejor. Es un **harness**, la infraestructura *alred
 
 Desarrollé [another-agent-skills](https://juandelossantos.github.io/another-agent-skills/) como un harness open source que responde a esas advertencias.
 
-- **El humano corre `git commit`.** Heidegger advirtió que la herramienta saca al humano del loop disfrazada de comodidad. Aquí el punto de decisión vuelve a manos humanas. El agente prepara. Una persona aprueba. No es una formalidad. Es el mecanismo.
+- **El humano corre `git commit`.** Heidegger advirtió que la herramienta saca al humano del loop disfrazada de comodidad. Aquí el punto de decisión vuelve a manos humanas. El agente prepara. Una persona aprueba. No es una formalidad. Es el mecanismo. La aprobación está atada al árbol staged exacto y se consume una vez.
 - **Gates mecánicos que detienen el cambio antes de que salga.** Jonas vio que la acción se volvió global, acumulativa e irreversible. Un hook de pre-commit que el agente no puede saltarse, y un gate TDD en `commit-msg` sin override, la detienen antes.
 - **`TOOL_GAP`.** Matthias le puso nombre a la brecha que se abre cuando nadie responde por lo que hace un sistema que aprende. Cuando una afirmación no se puede verificar, la respuesta honesta es "no se sabe", nunca una victoria inventada.
-- **Tres capas de enforcement.** Husserl sostuvo que la crisis de las ciencias es de sentido, no de hechos. L1 los hooks locales dan feedback rápido antes del commit. L2 la protección de rama y un check `gates` requerido son la autoridad. L3 `CODEOWNERS` evita que el agente reescriba sus propias reglas en el pull request que las rompe. No basta con hechos. Hace falta autoridad.
+- **Tres capas de enforcement.** Husserl sostuvo que la crisis de las ciencias es de sentido, no de hechos. L1 los hooks locales dan feedback rápido antes del commit. L2 la protección de rama y un check `gates` requerido son la autoridad. El check verifica el árbol aprobado contra el árbol del PR. L3 `CODEOWNERS` evita que el agente reescriba sus propias reglas en el pull request que las rompe. No basta con hechos. Hace falta autoridad.
 - **Más de 50 skills modulares.** Lo que el agente necesita para trabajar bien, cargadas bajo demanda para que el contexto se mantenga limpio y no inflado.
 
 Nada de esto es desconfiar del modelo. Es diseñar para el humano que tiene que poder confiar en él *correctamente*.
+
+## Lo que una aprobación ata de verdad
+
+Una aprobación no es un veredicto sobre el mundo. Es un artefacto de autorización. Solo significa algo si el objeto que revisa el humano es el objeto que se ejecuta. Cuando difieren, la puerta no solo deja de filtrar. Convierte una acción que la política habría bloqueado en una acción autorizada. Una puerta rota puede ser peor que ninguna puerta.
+
+Ese es un problema distinto del que describe Bainbridge. Su hallazgo es sobre la precisión del revisor. El operador se atrofia, la captura del último segundo falla, la vigilancia apaga el criterio. Eso hace que el beneficio de la puerta sea menor de lo que se anuncia. No puede volver negativo el valor. Que la puerta ayude o perjudique lo decide el binding. Si la aprobación denota la acción ejecutada, la puerta puede ayudar. Si no, la puerta puede blanquear.
+
+Teatro y blanqueo son defectos distintos. El teatro representa mal lo que ve el humano. El blanqueo aprueba una cosa y ejecuta otra. Se parecen desde fuera. Piden reparaciones distintas.
+
+Mi primera puerta falló en el binding. Verificaba que existiera un token, no que el token y el commit se refirieran al mismo árbol. De ahí salieron dos defectos. Un commit podía cambiar después de la aprobación, que es blanqueo. Y una aprobación podía cubrir varios commits dentro de la ventana de frescura, que es *replay*.
+
+La reparación es atar el artefacto. Calcular el hash del árbol staged en el momento de la aprobación. Rechazar el commit si el árbol staged ya no coincide con el árbol aprobado. Consumir la aprobación al tener éxito, para que una aprobación cubra un commit. Eso es lo que hace el harness ahora.
+
+El binding decide el signo. No cierra la frontera. Un hook local todavía lo puede escribir un agente con shell, así que el binding es feedback L1, no la autoridad. El check remoto verifica el árbol aprobado contra el árbol del PR. La versión dura quita la capacidad. El agente produce un parche. Un runner externo lo aplica, corre la suite y hace el commit. El modelo nunca tiene el commit.
 
 ## El punto no es sacar al humano
 

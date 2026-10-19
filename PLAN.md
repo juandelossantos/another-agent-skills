@@ -49,12 +49,12 @@
 | **P15.3** ✅ | **L2 verify.** Un check requerido compara el árbol del PR con un digest aprobado por el humano (campo en el PR). | PR con árbol distinto al aprobado → check falla. Test `tests/test-l2-approved-tree.sh`. |
 | **P15.4** ✅ | **Runner de referencia.** `aas` aplica patch/diff, corre la suite, commitea (firma opcional). | Integración: aplica parche → gates → commit; `--sign` opcional. Test `tests/test-runner.sh`. |
 | **P15.5** 🟠 | **Threat-model docs.** L1 = feedback (forjable), L2 = autoridad (árbol aprobado), capacidad = frontera. Sin "cannot bypass" sin la condición. | `docs/BRANCH-PROTECTION.md`, `docs/REMOTE-ENFORCEMENT-EVIDENCE.md`, `docs/enforcement.html` + `docs/i18n/*`, `README.md` actualizados. |
-| **P15.6** 🟠 | **Contenido.** Ensayo/blog EN+ES + los 6 drafts de canal: binding, one-time, teatro vs laundering, capacidad. | Blog + `development/launch/essay*` + `essay-channel-*` coherentes; sin overclaim. |
+| **P15.6** ✅ | **Contenido.** Ensayo/blog EN+ES + los 6 drafts de canal: binding, one-time, teatro vs laundering, capacidad. | Blog + `development/launch/essay*` + `essay-channel-*` coherentes; sin overclaim. |
 | **P15.7** 🟠 | **Web: landing + docs + search.** Copy de enforcement en `web/src/i18n/{en,es}.ts`; páginas `enforcement`/`branch-protection`; `llms.txt`; search build-generated. | Build + 106 node + 112 e2e; axe 0; `docs/search.json` incluye lo nuevo; sitemap/llms OK. |
 | **P15.8** 🟠 | **npm.** `npm/package.json` versión; `npm/README.md`; `npm/cli.js` si el runner añade comando; `check-channel-consistency.sh`. | `--online` verde; `npx ... install` intacto. |
 | **P15.9** 🟡 | **Release v6.4.1 + respuestas.** VERSION + superficies, `RELEASE-NOTES.md`, tag, npm (OIDC); responder los 3 comentarios. | Release live; respuestas publicadas; sin claims no verificados. |
 
-**Progreso:** ✅ P15.1 (binding) · ✅ P15.2 (one-time) · ✅ P15.3 (L2 verify) · ✅ P15.4 (runner). Pendiente: **P15.5–P15.9**.
+**Progreso:** ✅ P15.1 (binding) · ✅ P15.2 (one-time) · ✅ P15.3 (L2 verify) · ✅ P15.4 (runner) · ✅ P15.6 (contenido). Pendiente: **P15.5, P15.7, P15.8, P15.9**.
 
 **Surface sync (obligatorio en cada tarea):**
 
