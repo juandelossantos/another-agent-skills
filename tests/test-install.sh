@@ -92,6 +92,7 @@ assert "braces balanced ($OPEN_BRACES open / $CLOSE_BRACES close)" "[ '$OPEN_BRA
 echo ""
 echo "Test: static — the advertised skill count is current"
 assert "install.sh advertises 58 skills, not 57" "grep -q 'The 58 custom skills' '$REPO_ROOT/install.sh' && ! grep -q '57 custom skills' '$REPO_ROOT/install.sh'"
+assert "install.sh installs approve.sh (Phase 15)" "grep -q 'commit-approval.sh approve.sh' '$REPO_ROOT/install.sh'"
 assert "install.ps1 advertises 58 skills, not 57" "grep -q 'The 58 custom skills' '$REPO_ROOT/install.ps1' && ! grep -q '57 custom skills' '$REPO_ROOT/install.ps1'"
 
 echo ""

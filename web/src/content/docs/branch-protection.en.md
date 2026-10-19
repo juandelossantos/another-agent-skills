@@ -11,7 +11,7 @@ tldr: "Local gates are fast feedback; remote gates are authority. If the gate th
 
 | Layer | Where it lives | What it guarantees | Nature |
 |---|---|---|---|
-| L1: Local feedback | `.git/hooks/*` | Fails fast, informs, makes the decision point visible | Ergonomics for a cooperative agent. Not security. |
+| L1: Local feedback | `.git/hooks/*` | Fails fast, informs, binds the approval to the staged tree and consumes it once | Ergonomics for a cooperative agent. Not security. |
 | L2: Remote authority | GitHub branch protection plus required status checks | Nothing reaches `main` without passing the real gates | Real enforcement for anyone without admin. A solo admin can still bypass. |
 | L3: Config integrity | `CODEOWNERS` plus required code-owner review | Another code owner must approve changes to the gate config | Closes the "CI is forgeable" hole only while code-owner review is enforced |
 

@@ -59,15 +59,16 @@ Split checks by *when they are meaningful*, not by how strict they sound:
 | Kind | Examples | Where it belongs |
 |---|---|---|
 | **Decisions** (approval) | "may this land?" | **Remote** — a required status check, a PR review (team), or a deployment environment (solo). A decision that lives only in a hook is advisory the moment someone is in a hurry. |
-| **Working-tree checks** | branch / detached-HEAD, staged-changes, skill-gate, edit-guard, DECISION_APPROVED prompt | **Local** — they only make sense *before the commit exists*. CI cannot re-run "is the git state clean" or "did the agent load a skill" against the committed tree. |
+| **Working-tree checks** | branch / detached-HEAD, staged-changes, skill-gate, edit-guard, DECISION_APPROVED prompt (tree-bound) | **Local** — they only make sense *before the commit exists*. CI cannot re-run "is the git state clean" or "did the agent load a skill" against the committed tree. |
 
 The rule of thumb: **a green hook is feedback, not approval.** Anything a reader
 could mistake for approval either moves remote or gets labelled L1.
 
 > **Gate 0 is L1.** `pre-commit` Gate 0 blocks until `.git/DECISION_APPROVED` is
-> fresh — but the **agent writes that token**, so it is a prompt that makes the
-> DECISION POINT visible, not an approval control. The human running `git commit`
-> is the approval; the `gates` check is the authority.
+> fresh **and bound to the staged tree** (the human runs `scripts/approve.sh`),
+> and consumes it on success. That closes laundering and replay, but the token is
+> still local and forgeable by an agent with a shell — so it remains L1 feedback,
+> not the approval authority. The `gates` check is the authority.
 
 ## Remote approval that works for a solo maintainer
 

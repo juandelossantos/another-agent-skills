@@ -19,7 +19,63 @@
 
 ---
 
+## Phase 15: Approval integrity & capability boundary (v6.4.1) — 🔴 P0 IMMEDIATE
+
+**Status:** PLANNED — nace de los 3 comentarios de dev.to al ensayo *The human in command* (2026-10-19), **verificados contra el código**.
+**Prioridad:** 🔴 **P0** — integridad del claim central (*discipline you can verify*). Va **antes** de **B13/B16/B19** y de publicar **W3** (no se publica contenido que prometa más enforcement del que el diseño tiene).
+
+**Diagnóstico (verificado en el repo, no asumido):**
+
+- `.git/DECISION_APPROVED` es **solo un timestamp**; Gate 0 valida frescura (<10 min). **No hay digest del árbol.**
+- **Nada consume** el token: dentro de los 10 min, la misma aprobación cubre **más de un commit** (replay).
+- El agente **puede `git add`** después de la aprobación (el plugin bloquea `commit/push/...`, **no `add`**). La gate lee el índice en el commit → **laundering en dos líneas**.
+- **L2** (`gates.yml`) enforça **tests/lint**, **no** "el commit es lo que el humano aprobó".
+- **L1 es política** dentro del runtime del agente. La frontera dura exige **remover la capacidad** (runner externo).
+
+**Qué adoptamos (y qué no):**
+
+- ✅ **Binding** — digest del árbol staged en la aprobación (`git write-tree`).
+- ✅ **One-time** — consumir/rotar el token tras el commit.
+- ✅ **L2** — verificar el árbol commiteado contra un digest aprobado por el humano.
+- ✅ **Runner de referencia** (patch → sandbox → tests → commit, firma opcional) como frontera dura.
+- ❌ **Firma local del token** — si el agente puede escribirla, es teatro; la firma pertenece al humano/runner.
+
+### Tasks
+
+| Task | Descripción | Criterio de aceptación |
+|---|---|---|
+| **P15.1** 🔴 | **Binding L1.** `DECISION_APPROVED` guarda `timestamp + tree=<sha>` (`git write-tree`). `pre-commit` recalcula y **BLOCK** si no coincide. Anclaje humano (decidir: comando humano `scripts/approve.sh` que el agente no puede correr, o confirmación del hash en el chat). | Un `git add` después de aprobar → commit bloqueado. Test `tests/test-approval-binding.sh`. |
+| **P15.2** 🔴 | **One-time.** Consumir/rotar el token en el commit exitoso (o nonce + commit hash). | Dos commits con una sola aprobación → el segundo bloqueado. Test `tests/test-approval-once.sh`. |
+| **P15.3** 🔴 | **L2 verify.** Un check requerido compara el árbol del PR con un digest aprobado por el humano (campo en el PR). | PR con árbol distinto al aprobado → check falla. Test `tests/test-l2-approved-tree.sh`. |
+| **P15.4** 🟠 | **Runner de referencia.** `aas` aplica patch/diff, corre la suite, commitea (firma opcional). | Integración: aplica parche → gates → commit; `--sign` opcional. Test `tests/test-runner.sh`. |
+| **P15.5** 🟠 | **Threat-model docs.** L1 = feedback (forjable), L2 = autoridad (árbol aprobado), capacidad = frontera. Sin "cannot bypass" sin la condición. | `docs/BRANCH-PROTECTION.md`, `docs/REMOTE-ENFORCEMENT-EVIDENCE.md`, `docs/enforcement.html` + `docs/i18n/*`, `README.md` actualizados. |
+| **P15.6** 🟠 | **Contenido.** Ensayo/blog EN+ES + los 6 drafts de canal: binding, one-time, teatro vs laundering, capacidad. | Blog + `development/launch/essay*` + `essay-channel-*` coherentes; sin overclaim. |
+| **P15.7** 🟠 | **Web: landing + docs + search.** Copy de enforcement en `web/src/i18n/{en,es}.ts`; páginas `enforcement`/`branch-protection`; `llms.txt`; search build-generated. | Build + 106 node + 112 e2e; axe 0; `docs/search.json` incluye lo nuevo; sitemap/llms OK. |
+| **P15.8** 🟠 | **npm.** `npm/package.json` versión; `npm/README.md`; `npm/cli.js` si el runner añade comando; `check-channel-consistency.sh`. | `--online` verde; `npx ... install` intacto. |
+| **P15.9** 🟡 | **Release v6.4.1 + respuestas.** VERSION + superficies, `RELEASE-NOTES.md`, tag, npm (OIDC); responder los 3 comentarios. | Release live; respuestas publicadas; sin claims no verificados. |
+
+**Surface sync (obligatorio en cada tarea):**
+
+- **Core:** `scripts/`, hooks, plugin; tests nuevos en `tests/test-*.sh` (no en `tests/task/`, cap 20).
+- **npm:** `npm/package.json` (versión) + `npm/README.md` + `npm/cli.js` (si aplica) + `scripts/check-channel-consistency.sh --online`.
+- **Web:** `web/src/content/docs/*.{en,es}.md`, `web/src/i18n/{en,es}.ts` (landing), `web/public/llms.txt`, search build-generated (`docs/search.json`), sitemap (auto), tests `web/tests/{build,seo,smoke,a11y}`.
+- **Docs legacy:** `README.md`, `docs/enforcement.html` + `docs/i18n/*`, `docs/BRANCH-PROTECTION.md`, `docs/REMOTE-ENFORCEMENT-EVIDENCE.md`.
+
+**Evidencia (RED) — verificada:**
+
+- `cat .git/DECISION_APPROVED` → `2026-10-10T11:52:41-05:00` (sin digest).
+- `sed -n '60,89p' scripts/git-hooks/pre-commit` → solo frescura.
+- `grep -n "add" plugins/agent-discipline/index.js` → `git add` no bloqueado.
+- `.github/workflows/gates.yml` → tdd/tests/lint; sin verificación de árbol aprobado.
+- `grep -rn "DECISION_APPROVED" scripts/` → nadie lo consume.
+
+**Release:** **v6.4.1** (patch de integridad). Si se prefiere, se agrupa con el cierre **v6.5.0**; por defecto, patch inmediato.
+
+---
+
 ## Next tasks
+
+> **P0 inmediato:** **Phase 15 — Approval integrity** (binding + one-time + capability boundary) antes que W3/MKT.
 
 > Ordered. **E1** (essay) and **T2** (post-live docs) close out Phase 10; **T1** (npm) is **DONE** and Homebrew is **not planned**. The existing backlog follows further down.
 
@@ -41,6 +97,24 @@ The active focus is **visibility and usage**, not new features. An ordered plan 
 - **Non-regression contract:** no marketing change ships without `tests/run-all.sh` green + `validate-skill-table` + docs-honesty. **No skill renames.**
 - **Paused:** the dev track below stays paused until the W2–W4 visibility push lands.
 - **Open reference:** "item 6.2.3" (no match in the repo) — clarify before acting.
+
+### Cierre MKT + backlog (v6.5.0) — PLANNED
+
+> **Cuándo:** al final del track de marketing, no antes. **Condición de parada:** **W3 + W4 hechos** (W5, la cola larga, queda opcional/diferido) — así el cierre no queda rehén de una ola sin techo.
+
+**Objetivo:** cerrar el track de visibilidad y saldar la deuda de framework en **una** release coherente.
+
+| # | Entrega | Detalle |
+|---|---|---|
+| C1 | **Cierre MKT** | W3 publicado (dev.to, LinkedIn, X + el blog ya live) y W4 hecho; panel de estado finalizado; **delta de métricas vs baseline de W0** (estrella polar: *weekly activated installs*). |
+| C2 | **Backlog de framework** | **B13** (`skill-lint` comillas simples) · **B16** (`skills/` legacy duplicado) · **B19** (nits Phase 13) · **B20** (riesgo shim S4) (+ **B2/B3** si encajan). |
+| C3 | **`git rm` de contenido obsoleto** | `development/launch-content-{devto,linkedin,x-thread}.md` — tracked, campaña del **framework** (julio 2026), stats obsoletos (57 skills / 54 guides / 12 gates / token SHA256), ajenos al ensayo. |
+| C4 | **Reconciliar tracking** | `PLAN.md`: **B18** `Pendiente`→`Done` (hecho en #64); el blog figura como **shipped**. |
+| C5 | **Release** | Bump **v6.5.0** + `RELEASE-NOTES.md` + `HEALTH-CHECK.md` + `PROGRESS_STATUS.md`. |
+
+**Log de hallazgos:** durante W3/W4 se registran los gaps de framework que aparezcan (como el lote B12–B17 del rollout de *courtside*) para que "diferido" no sea "olvidado". Se arregla al vuelo **solo** lo que bloquee un paso de marketing.
+
+**No incluye:** features nuevas (el foco es visibilidad) ni W5 si se difiere.
 
 ### R1 — Courtside rollout (FIRST, next session)
 
@@ -770,6 +844,7 @@ before any version is assigned.
 | B18 | `pr-review-checklist.sh` detecta código solo por `.ts/.js/.py/.go/.java` → un PR solo-`.sh` reporta "No code files changed" (falso OK) | 🟠 P1 | Pendiente |
 | B19 | Phase 13 nits: `is_code_file()` muerto en `tdd-gate.sh`; mensaje críptico si falta un validador; lógica de fences duplicada en los dos validadores | 🟡 P2 | Pendiente |
 | B21 | El `install_global_framework` de `install.sh` copia solo los 10 scripts legacy al dir global (`~/.config/opencode`, fallback de `$AAS_DIR`): faltan `audit-project.sh`, `generate-adr.sh` y los 3 validadores → en ese fallback los shims del proyecto no resuelven | 🟡 P2 | ✅ Done (B14+B15) |
+| B22 | Aprobación **no atada al árbol** (`git write-tree`), **replay** dentro de 10 min, y L1 como **política** (no capacidad) — hallazgos de los comentarios de dev.to (binding, one-time, capability boundary) | 🔴 P0 | → **Phase 15** (v6.4.1) |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container

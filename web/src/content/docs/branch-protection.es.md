@@ -11,7 +11,7 @@ tldr: "Las puertas locales son feedback rápido; las puertas remotas son autorid
 
 | Capa | Dónde vive | Qué garantiza | Naturaleza |
 |---|---|---|---|
-| L1: Feedback local | `.git/hooks/*` | Falla rápido, informa, hace visible el punto de decisión | Ergonomía para un agente cooperativo. No es seguridad. |
+| L1: Feedback local | `.git/hooks/*` | Falla rápido, informa, ata la aprobación al árbol staged y la consume una vez | Ergonomía para un agente cooperativo. No es seguridad. |
 | L2: Autoridad remota | Protección de ramas de GitHub más status checks requeridos | Nada llega a `main` sin pasar las puertas reales | Enforcement real para quien no tiene admin. Un admin en solitario todavía puede saltarlo. |
 | L3: Integridad de la configuración | `CODEOWNERS` más revisión requerida de un code owner | Otro code owner debe aprobar los cambios en la configuración de las puertas | Cierra el agujero de "CI es falsificable" solo mientras la revisión de code owners esté activa |
 

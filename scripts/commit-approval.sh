@@ -3,16 +3,16 @@
 # Part of another-agent-skills (github.com/juandelossantos/another-agent-skills)
 #
 # READ-ONLY. Does NOT write DECISION_APPROVED or OVERRIDE_APPROVED.
-# The agent writes those tokens after user says "yes" — this script only prints the manifest.
-# The user runs git commit directly.
+# The HUMAN runs scripts/approve.sh (it binds the approval to the staged tree).
+# This script only prints the manifest. The user runs git commit directly.
 #
 # Flow:
 # 1. Agent runs tests → bash scripts/log-test-results.sh
 # 2. Agent presents DECISION POINT (diff + test results + manifest)
 # 3. User says "yes commit" in chat
 # 4. Agent runs this script → validates + prints manifest
-# 5. Agent gives user the exact command: git commit -m "message"
-# 6. User runs git commit in terminal
+# 5. User runs: bash scripts/approve.sh && git commit -m "message"
+# 6. The pre-commit hook checks the approval is bound to the staged tree
 #
 # Usage: bash scripts/commit-approval.sh "commit message" --plan-approved --manifest-presented [file1 file2...]
 
@@ -88,12 +88,13 @@ fi
 
 echo ""
 echo "  ─────────────────────────────────────────────"
-echo "  To commit, run this command in your terminal:"
+echo "  To approve and commit, run these commands in your terminal:"
 echo ""
+echo "    bash scripts/approve.sh"
 echo "    git commit -m \"${COMMIT_MSG}\""
 echo ""
-  echo "  The pre-commit hook will validate tests, build, and decision token."
-  echo "  The commit-msg hook will validate TDD gate and override token if present."
+  echo "  approve.sh binds the approval to the exact staged tree."
+  echo "  The pre-commit hook refuses if the tree changes, and consumes the approval."
 echo "  ─────────────────────────────────────────────"
 echo ""
 exit 0

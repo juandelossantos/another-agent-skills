@@ -93,11 +93,11 @@ EMPTY=$(mktemp -d)
   # not export ANOTHER_AGENT_SKILLS_DIR).
   cp "$REPO_ROOT/scripts/aas-resolve.sh" .git/aas-resolve.sh
   chmod +x .git/hooks/pre-commit .git/hooks/commit-msg
-  printf '%s decision\n' "$(date +%Y-%m-%dT%H:%M:%S)" > .git/DECISION_APPROVED
 ) >/dev/null 2>&1
 
 # A code change with no matching test → the local TDD hook blocks it.
 ( cd "$TMP" && echo 'echo hi' > foo.sh && git add foo.sh )
+( cd "$TMP" && bash "$REPO_ROOT/scripts/approve.sh" --yes >/dev/null 2>&1 )
 ( cd "$TMP" && AAS_DIR="$REPO_ROOT" git commit -q -m "code without test" ) >/dev/null 2>&1
 HOOK_EXIT=$?
 assert "local hooks block code without a test (L1 active)" "[ $HOOK_EXIT -ne 0 ]"

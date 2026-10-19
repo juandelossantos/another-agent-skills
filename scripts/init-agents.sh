@@ -33,7 +33,7 @@ BACKUP_KEEP=5
 # helper scripts a legacy project may symlink to the dev clone. Shared by
 # repair_legacy, install_legacy_equivalents and run_dry_run so they can't drift.
 AAS_LEGACY_DOCS="rules/common SOUL.md AGENTS-EXTENDED.md VERSION"
-AAS_LEGACY_SCRIPTS="skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh"
+AAS_LEGACY_SCRIPTS="skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh commit-approval.sh approve.sh pr-review-checklist.sh design-gate.sh skill-lint.sh setup-branch-protection.sh tdd-gate.sh"
 
 # Validators the gates reference as remediation (B15): the pre-commit Gate 11 and
 # STEERING-GUIDE tell the user to run `bash scripts/validate-skill-table.sh` and

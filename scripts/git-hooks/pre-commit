@@ -81,6 +81,25 @@ if [[ -f "$DECISION_FILE" ]]; then
     echo "  ${RED}✗${NC} Decision prompt has no valid timestamp (L1)"
     exit 1
   fi
+
+  # Phase 15 — binding: the approval must denote the EXACT staged tree. A
+  # timestamp alone authorizes "a commit", not "this commit"; the index stays
+  # writable between approval and commit, so an unbound token is a laundering
+  # channel ("approve A, commit B").
+  APPROVED_TREE=$(sed -n 's/^tree=\([0-9a-fA-F]\{40,64\}\)$/\1/p' "$DECISION_FILE" 2>/dev/null | head -1 || true)
+  if [[ -z "$APPROVED_TREE" ]]; then
+    echo "  ${RED}✗${NC} Decision prompt is not bound to a tree (run: bash scripts/approve.sh)"
+    exit 1
+  fi
+  CURRENT_TREE=$(git write-tree 2>/dev/null || true)
+  if [[ "$CURRENT_TREE" != "$APPROVED_TREE" ]]; then
+    echo "  ${RED}✗${NC} The staged tree changed after approval"
+    echo "      approved: ${APPROVED_TREE}"
+    echo "      current:  ${CURRENT_TREE:-<unavailable>}"
+    echo "      Re-approve the exact tree: bash scripts/approve.sh"
+    exit 1
+  fi
+  echo "  ${GREEN}✓${NC} Decision prompt bound to the staged tree (L1)"
 else
   echo "  ${RED}✗${NC} No decision prompt — present the DECISION POINT first (L1: feedback, not the approval authority)"
   exit 1
@@ -659,6 +678,15 @@ if [ "${TASK_TEST_COUNT:-0}" -ge "$MAX_TASK_TESTS" ]; then
   echo "  ${YELLOW}║  then reset. Behavioral tests in tests/ are not counted. ║${NC}"
   echo "  ${YELLOW}║  See docs/TEST-CADENCE.md.                              ║${NC}"
   echo "  ${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
+fi
+
+# Phase 15 — one approval, one commit. Consume the artifact only after every
+# gate has passed, so a failed gate keeps it available for a retry on the SAME
+# tree. A successful commit removes it; the next commit needs a new approval.
+if [[ -f "$DECISION_FILE" ]]; then
+  rm -f "$DECISION_FILE"
+  echo ""
+  echo "  ${GREEN}✓${NC} Approval consumed (one approval, one commit)"
 fi
 
 echo ""

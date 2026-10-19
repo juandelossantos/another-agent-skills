@@ -37,6 +37,7 @@ assert "publish-npm grants id-token: write (OIDC)" "printf '%s' \"\$BLOCK\" | gr
 # The callee must accept workflow_call and keep publishing STAGED.
 assert "npm-publish.yml accepts workflow_call" "grep -qE '^  workflow_call:' '$NPM'"
 assert "npm-publish.yml stages (never a bare npm publish)" "grep -q 'npm stage publish' '$NPM' && ! grep -qE 'run: npm publish' '$NPM'"
+assert "release.sh uses scripts/approve.sh (bound approval)" "grep -q 'scripts/approve.sh' '$REPO_ROOT/scripts/release.sh'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

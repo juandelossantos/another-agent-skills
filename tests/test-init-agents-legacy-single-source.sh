@@ -24,6 +24,7 @@ assert() {
 # --- Single source of truth exists ---
 assert "defines AAS_LEGACY_DOCS" "grep -q 'AAS_LEGACY_DOCS=' '$INIT'"
 assert "defines AAS_LEGACY_SCRIPTS" "grep -q 'AAS_LEGACY_SCRIPTS=' '$INIT'"
+assert "AAS_LEGACY_SCRIPTS includes approve.sh (Phase 15)" "grep -q 'AAS_LEGACY_SCRIPTS=.*approve.sh' '$INIT'"
 
 # The literal script list must appear exactly once (in the constant) — not
 # re-typed in repair_legacy / install_legacy_equivalents / run_dry_run.

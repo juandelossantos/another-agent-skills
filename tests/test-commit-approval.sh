@@ -84,6 +84,15 @@ else
   FAILED=$((FAILED + 1))
 fi
 
+TOTAL=$((TOTAL + 1))
+if grep -q 'scripts/approve.sh' "$REPO_ROOT/scripts/commit-approval.sh"; then
+  echo -e "  ${GREEN}✓${NC} commit-approval preview points at scripts/approve.sh"
+  PASSED=$((PASSED + 1))
+else
+  echo -e "  ${RED}✗${NC} commit-approval preview points at scripts/approve.sh"
+  FAILED=$((FAILED + 1))
+fi
+
 rm -rf "$TMP_REPO"
 
 echo ""

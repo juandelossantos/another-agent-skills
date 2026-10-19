@@ -13,7 +13,7 @@ La mayoría de los frameworks se detiene en reglas dentro de un archivo, y una r
 
 ### L1: Feedback local
 
-Falla rápido, informa y deja un rastro. Ergonomía para un agente cooperativo. **No es seguridad.**
+Falla rápido, informa y deja un rastro. La aprobación local está atada al árbol staged exacto y se consume una vez, así que no se puede replicar ni cambiar después de aprobar. Ergonomía para un agente cooperativo. **No es seguridad.**
 
 ### L2: Autoridad remota
 
@@ -27,7 +27,7 @@ Protección de ramas de GitHub más un status check requerido. Nada llega a `mai
 
 El hook `commit-msg` (v6) ejecuta una única puerta TDD que verifica cada artefacto en stage **por tipo**. El código necesita un test emparejado por nombre, no vacío y nuevo, creado antes que el código. Los docs pasan por el validador de honestidad de docs (un enlace interno roto bloquea). La config pasa por el validador de consistencia de config (sintaxis inválida, o un script de `package.json` que apunta a un archivo inexistente, bloquea). Los shims necesitan un test emparejado que realmente los invoque.
 
-No existe ningún mecanismo de override. La puerta 0 de pre-commit bloquea hasta que el token de decisión esté vigente, pero eso es un aviso, no la autoridad de aprobación.
+No existe ningún mecanismo de override. La puerta 0 de pre-commit bloquea hasta que el token de decisión esté vigente **y atado al árbol staged exacto**, y lo consume al tener éxito. Eso cierra el laundering (aprobar un árbol y commitear otro) y el replay (una aprobación, varios commits), pero sigue siendo un aviso. Un agente local con shell puede falsificarlo. No es la autoridad de aprobación.
 
 > **Por qué un hook no es una puerta.** El directorio de hooks lo puede escribir quien hace el commit, incluido un agente. Un solo comando de `git config` silencia todos los hooks a la vez. Por eso L1 es feedback y no autoridad. Si la puerta que decide puede ser editada por el cambio que juzga, no es una puerta.
 
@@ -49,7 +49,7 @@ El mismo check corre en remoto como el estado `gates` requerido, así que quien 
 
 | Capa | Dónde vive | Qué garantiza |
 |---|---|---|
-| L1 | Árbol de trabajo, `.git/hooks` | Feedback rápido y un punto de decisión visible. No es seguridad. |
+| L1 | Árbol de trabajo, `.git/hooks` | Feedback rápido, un punto de decisión atado al árbol exacto y aprobación de un solo uso. No es seguridad. |
 | L2 | Protección de ramas de GitHub | Nada llega a `main` sin pasar el check `gates` requerido. |
 | L3 | `CODEOWNERS` | Los cambios en la configuración de las puertas necesitan la aprobación de otro owner. |
 
