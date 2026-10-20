@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-10-10  
+> **Last updated:** 2026-10-19  
 > **Current version:** 6.4.1 (auto-generated)
-> **Status:** v6.4.1 complete (Phase 15 — approval integrity); tag + npm publish pending (P15.9) — v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**, **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)** and the **blog** (bilingual `/blog/` + `/es/blog/`, RSS, share, article SEO/AEO). **npm published (6.4.0)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 147 test suites green (+ web: 106 node + 112 e2e, axe 0)  
-> **Current plan:** `PLAN.md` — **Phase 14 complete** + **MKT wave W2 done**; next: **W3** (publish the essay — the blog is live, the 4 channel adaptations pending), **T2** (web + docs update live), **E1** (essay), and the backlog **B13/B15/B16/B19/B20**.
+> **Status:** v6.4.1 complete (Phase 15 — approval integrity); release runbook post-merge (tag + npm + replies; no code PR) — v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**, **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)** and the **blog** (bilingual `/blog/` + `/es/blog/`, RSS, share, article SEO/AEO). **npm published (6.4.0)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 147 test suites green (+ web: 106 node + 112 e2e, axe 0)  
+> **Current plan:** `PLAN.md` — **Phase 15 complete**; next: **W3** publish (adaptations written EN/ES) + **Cierre MKT (v6.5.0)** + backlog **B13/B16/B19/B20/B23**. **T2** and **E1** are done; **B15** is done.
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
@@ -144,7 +144,7 @@
 - **MKT — Visibility & distribution (CURRENT FOCUS)** — ordered waves: W0 instrument ✅ (`development/metrics.sh`), W1 rail 🟡 1/3, **W2 wedge `/gate` ✅ (v6.4.0, PR #73)**, **W3 owned content 🟡** (the essay is published as a bilingual blog; the dev.to/LinkedIn/X adaptations are written EN/ES, publish + UTMs pending), W4 amplify ⬜, W5 long tail ⬜. Plan + status board: `development/MARKETING-PLAN.md` (local, git-ignored).
 - **Cierre MKT + backlog (v6.5.0) — PLANNED** — condición de parada **W3 + W4** (W5 diferido); cierre MKT (métricas vs baseline W0) + backlog **B13/B16/B19/B20** + `git rm` del contenido obsoleto + reconciliar tracking + release v6.5.0.
 - **T1 — npm activation (DONE)** — first publish + Trusted Publisher (workflow **`release.yml`** — the publish is chained via `workflow_call` — environment `npm-release`, staged). `@juandelossantos/another-agent-skills@6.4.0` is **live**. **Homebrew is not planned.** See `docs/DISTRIBUTION.md`.
-- **T2 — Web + docs update once LIVE** — after the Pages deploy is verified live: point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the security-headers gap (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
+- **T2 — Web + docs update once LIVE (DONE)** — the README and docs point at the live URL, the "not yet deployed" wording is gone, and the live SEO/`llms.txt`/OG are verified. Remaining: the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy) is tracked as **B23** in `PLAN.md`.
 
 ### Completed
 

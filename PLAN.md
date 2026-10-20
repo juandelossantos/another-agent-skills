@@ -21,7 +21,7 @@
 
 ## Phase 15: Approval integrity & capability boundary (v6.4.1) — ✅ COMPLETE
 
-**Status:** ✅ **COMPLETE (2026-10-19)** — nace de los 3 comentarios de dev.to al ensayo *The human in command*, verificados contra el código. La release `v6.4.1` está preparada; el tag y el publish de npm son **P15.9 (post-merge)**.
+**Status:** ✅ **COMPLETE (2026-10-19)** — nace de los 3 comentarios de dev.to al ensayo *The human in command*, verificados contra el código. La release `v6.4.1` está preparada; el tag, el publish de npm y las respuestas son el **release runbook post-merge (P15.9, operativo; sin PR de código)**.
 **Prioridad:** 🔴 **P0** — integridad del claim central (*discipline you can verify*). Va **antes** de **B13/B16/B19** y de publicar **W3** (no se publica contenido que prometa más enforcement del que el diseño tiene).
 
 **Diagnóstico (verificado en el repo, no asumido):**
@@ -54,7 +54,7 @@
 | **P15.8** ✅ | **npm.** `npm/package.json` versión; `npm/README.md`; `npm/cli.js` si el runner añade comando; `check-channel-consistency.sh`. | `--online` verde; `npx ... install` intacto. |
 | **P15.9** ⏳ | **Release v6.4.1 + respuestas.** VERSION + superficies, `RELEASE-NOTES.md`, tag, npm (OIDC); responder los 3 comentarios. | Release live; respuestas publicadas; sin claims no verificados. |
 
-**Progreso:** ✅ **P15.1–P15.8**. **P15.9** (tag `v6.4.1` + npm publish + respuestas) queda **post-merge**.
+**Progreso:** ✅ **P15.1–P15.8**. **P15.9** (tag `v6.4.1` + npm publish + respuestas) es el **release runbook post-merge (operativo; sin PR de código)**.
 
 **Surface sync (obligatorio en cada tarea):**
 
@@ -90,7 +90,7 @@
 
 **Límites honestos (documentados):** L1 es forjable por un agente con shell; L2 depende del control del PR body; el runner es una referencia, no un sandbox.
 
-**Pendiente post-merge (P15.9):** tag `v6.4.1`, npm publish (OIDC), `check-channel-consistency --online`, y responder los 3 comentarios de dev.to.
+**Release runbook (post-merge, operativo; sin PR de código):** tag `v6.4.1`, npm publish (OIDC), `check-channel-consistency --online`, y responder los 3 comentarios de dev.to.
 
 ---
 
@@ -109,7 +109,7 @@ The active focus is **visibility and usage**, not new features. An ordered plan 
 | W0 | Instrument (metrics + baseline) | ✅ `development/metrics.sh` |
 | W1 | Rail (npx skills path, `marketplace.json`, directories, awesome-lists) | 🟡 1/3 |
 | W2 | Wedge — new `/gate` skill | ✅ shipped in v6.4.0 (PR #73) |
-| W3 | Owned content (essay + cadence) | 🟡 essay published as a bilingual blog (`/blog/`, EN/ES); the 4 channel adaptations (dev.to, LinkedIn, X, blog) still pending |
+| W3 | Owned content (essay + cadence) | 🟡 essay published as a bilingual blog (`/blog/`, EN/ES); the dev.to/LinkedIn/X adaptations are written EN/ES; publish + UTMs pending |
 | W4 | Amplify (HN, community, podcasts) | ⬜ |
 | W5 | Long tail (`/vs`, programmatic SEO) | ⬜ |
 
@@ -866,6 +866,7 @@ before any version is assigned.
 | B19 | Phase 13 nits: `is_code_file()` muerto en `tdd-gate.sh`; mensaje críptico si falta un validador; lógica de fences duplicada en los dos validadores | 🟡 P2 | Pendiente |
 | B21 | El `install_global_framework` de `install.sh` copia solo los 10 scripts legacy al dir global (`~/.config/opencode`, fallback de `$AAS_DIR`): faltan `audit-project.sh`, `generate-adr.sh` y los 3 validadores → en ese fallback los shims del proyecto no resuelven | 🟡 P2 | ✅ Done (B14+B15) |
 | B22 | Aprobación **no atada al árbol** (`git write-tree`), **replay** dentro de 10 min, y L1 como **política** (no capacidad) — hallazgos de los comentarios de dev.to (binding, one-time, capability boundary) | 🔴 P0 | → **Phase 15** (v6.4.1) |
+| B23 | Security headers: GitHub Pages ignora `_headers` (decidir meta-CSP o proxy CDN) | 🟡 P2 | Pendiente |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container

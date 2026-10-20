@@ -22,7 +22,7 @@ assert() {
   fi
 }
 
-assert "handoff title is the blog handoff" "grep -q '# Session State — blog shipped (W2/W3) · next: the 4 channel adaptations + T2' '$FILE'"
+assert "handoff title is the Phase 15 closure" "grep -q '# Session State — Phase 15 complete (v6.4.1) · next: W3 publish + Cierre MKT' '$FILE'"
 assert "documents Phase 10 SHIPPED" "grep -q 'Phase 10 SHIPPED' '$FILE'"
 assert "retains the Phase 9 historical handoff" "grep -q 'Phase 9 (previous)' '$FILE'"
 assert "names the merged Phase 9 PRs" "grep -q 'PRs #47' '$FILE'"

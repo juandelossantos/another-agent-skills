@@ -25,7 +25,7 @@ assert() {
 assert "Known Limitations row no longer lumps Claude with Cursor" "! grep -q 'Claude/Cursor need adapter setup' '$FILE'"
 assert "Known Limitations row credits Claude Code with automatic parity" "grep -q 'Claude Code now gets full automatic parity' '$FILE'"
 assert "status line reflects v6.4.0 released" "grep -q 'v6.4.0 released' '$FILE'"
-assert "header date is 2026-10-10" "grep -qF 'Last updated:** 2026-10-10' '$FILE'"
+assert "header date is 2026-10-19" "grep -qF 'Last updated:** 2026-10-19' '$FILE'"
 assert "status names Phase 13 complete (type-aware TDD gate)" "grep -q 'Phase 13 complete (type-aware TDD gate' '$FILE'"
 assert "current version is 6.4.1" "grep -qF 'Current version:** 6.4.1' '$FILE'"
 assert "status names Phase 8 complete" "grep -q 'Phase 8 complete' '$FILE'"
