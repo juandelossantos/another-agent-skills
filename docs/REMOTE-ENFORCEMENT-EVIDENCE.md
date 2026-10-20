@@ -58,6 +58,25 @@ In a throwaway repo with the real hooks installed:
 - Historical: PR #41's first CI run had a failing check and
   `mergeStateStatus: UNSTABLE` — a red required check blocks merge.
 
+## Phase 15 — approval binding (L1 + L2)
+
+The Phase 8 evidence above covers *whether the gates run*. Phase 15 covers
+*whether the approval denotes the executed change*.
+
+| Control | What it binds | Limit |
+|---|---|---|
+| Local Gate 0 (`scripts/approve.sh`) | The approval carries `tree=<git write-tree>`; `pre-commit` refuses a different staged tree and consumes the token on success. | L1: a local agent with a shell can forge it. |
+| L2 (`scripts/check-approved-tree.sh`) | The required `gates` check compares the PR head tree with the human-approved `AAS-APPROVED-TREE` digest in the PR body. | The digest lives in the PR body, so L2 is only as strong as control of that body. |
+| Capability boundary (`scripts/agent-runner.sh`) | The agent produces a patch; an external runner applies it, runs the suite, and commits (optional signing). | A reference, not a sandbox. It helps only if the agent cannot invoke it. |
+
+**What was verified:** `tests/test-approve.sh` (binding, one-time, laundering,
+replay), `tests/test-check-approved-tree.sh` (L2 match, mismatch, missing), and
+`tests/test-agent-runner.sh` (commit only when green, revert on failure).
+
+**Honest limit:** the sign of a gate is decided by binding, not by reviewer
+accuracy. Theater and laundering are different defects. These controls close
+laundering and replay; they do not turn a local hook into a capability boundary.
+
 ## Honest limitations
 
 - **Scenario "edit `gates.yml` without review → blocked" needs the team profile.**

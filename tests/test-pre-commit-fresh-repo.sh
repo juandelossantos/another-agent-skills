@@ -55,9 +55,9 @@ TMP=$(mktemp -d)
   mkdir -p .git/hooks
   cp "$HOOK_SRC" .git/hooks/pre-commit
   chmod +x .git/hooks/pre-commit
-  printf '%s decision\n' "$(date +%Y-%m-%dT%H:%M:%S)" > .git/DECISION_APPROVED
   echo "note" > a.txt
   git add a.txt
+  bash "$REPO_ROOT/scripts/approve.sh" --yes >/dev/null
 ) >/dev/null 2>&1
 
 assert "temp repo really has an unborn HEAD" "! git -C '$TMP' rev-parse --verify HEAD >/dev/null 2>&1"

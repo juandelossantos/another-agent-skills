@@ -59,12 +59,12 @@
     <p data-i18n="enforcement.level2Desc">Before any mutation (commit, push, merge, rebase), the agent must present a DECISION POINT block, explain rationale, and wait for explicit approval. Invalid responses like "ok" and "continue" are rejected.</p>
 
     <h2 data-i18n="enforcement.level3">Level 3: TDD Enforcement</h2>
-    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v6) runs a single TDD gate that verifies each staged artifact by type: code needs a name-paired, non-empty, new test; docs and config run their own validators (a broken link or invalid config blocks); shims need a test that invokes them. No override mechanism exists. Pre-commit Gate 0 checks .git/DECISION_APPROVED and blocks if it is missing or stale — but that is L1 feedback, not the approval authority: the agent writes the token, and the user running <code>git commit</code> is the approval.</p>
+    <p data-i18n="enforcement.level3Desc">The commit-msg hook (v6) runs a single TDD gate that verifies each staged artifact by type: code needs a name-paired, non-empty, new test; docs and config run their own validators (a broken link or invalid config blocks); shims need a test that invokes them. No override mechanism exists. Pre-commit Gate 0 blocks if .git/DECISION_APPROVED is missing, stale, or not bound to the staged tree, and consumes it on success — but that is still L1 feedback, not the approval authority: the human runs <code>scripts/approve.sh</code>, and a local agent with a shell can forge the token. The remote <code>gates</code> check is the authority.</p>
 
     <h2 data-i18n="enforcement.gatesTitle">Pre-Commit Gates (v11)</h2>
     <p data-i18n="enforcement.gatesDesc">The pre-commit hook runs 15 checks before every commit:</p>
     <ul>
-      <li data-i18n="enforcement.gate0">Gate 0: DECISION_APPROVED — L1 prompt (advisory): token exists and is fresh (&lt;10 min)</li>
+      <li data-i18n="enforcement.gate0">Gate 0: DECISION_APPROVED — L1 prompt (advisory): token exists, is fresh (&lt;10 min), is bound to the staged tree, and is consumed on success</li>
       <li data-i18n="enforcement.gate1">Branch check — not on detached HEAD</li>
       <li data-i18n="enforcement.gate2">Staged changes — something is staged</li>
       <li data-i18n="enforcement.gate3">Remote sync — no unpulled remote changes</li>

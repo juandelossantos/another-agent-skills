@@ -175,11 +175,11 @@ VALID:                                INVALID (batch-mode):
   block: git add <files>                bash: git add && git commit
   bash: git add src/file.ts
   user: "yes"
-  bash: echo "$(date -Iseconds)" > .git/DECISION_APPROVED
+  bash: bash scripts/approve.sh
   user: git commit -m "message"
 ```
 
-File staging (`git add`) and writing the decision token MUST be in separate steps. Never in the same tool call.
+File staging (`git add`) and the approval MUST be separate steps. The human runs `scripts/approve.sh`; the agent never writes the token or the commit.
 
 ---
 
@@ -385,26 +385,26 @@ Before manifest, agent MUST self-check: docs only? → NOT exempt. Fix only? →
 
 ### Decision Token + Override Token Flow
 
-**The agent writes a decision token AFTER user says "yes" in chat.** The agent NEVER runs `git commit`.
+**The human runs `scripts/approve.sh` AFTER saying "yes" in chat.** The agent writes neither the approval nor the commit.
 
 **Normal flow:**
 
 1. Agent presents DECISION POINT: files staged + message + changes + TDD status
 2. User says "yes" / "commit" in chat
-3. Agent writes `.git/DECISION_APPROVED` with timestamp
+3. Human runs `bash scripts/approve.sh` (timestamp + staged-tree digest)
 4. User runs `git commit` themselves
-5. Pre-commit hook checks `.git/DECISION_APPROVED` exists and is <10 min old → warns if missing/stale (doesn't block)
+5. Pre-commit hook checks the token exists, is <10 min old, and is bound to the staged tree; it blocks otherwise and consumes the token on success
 
 **No override:** TDD gate has no bypass mechanism. Every code change requires a matching test file.
 
 **Flow comparison:**
 | Without approval | With approval |
 |---|---|
-| Agent writes no token (Rule 12 violation) | Agent writes DECISION_APPROVED |
-| Pre-commit warns: no decision token | Pre-commit passes with fresh token |
+| No approval artifact | Human runs `scripts/approve.sh` (bound to the tree) |
+| Pre-commit blocks: no decision token | Pre-commit passes with a bound, fresh token |
 | Chat history shows no "yes" | Chat history shows explicit "yes" |
 
-**Audit trail:** The conversation history is the primary audit trail. The decision token with timestamp proves the presentation happened. TDD gate has no override — every code change needs a matching test.
+**Audit trail:** The conversation history is the primary audit trail. The token proves the presentation happened and is bound to the exact tree that was approved. TDD gate has no override — every code change needs a matching test.
 
 See `rules/common/enforcement.md` for the full Rule 12 specification.
 

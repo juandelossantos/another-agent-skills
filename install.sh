@@ -437,7 +437,7 @@ install_global_framework() {
     # delegates here always resolves; B21).
     mkdir -p "${global_dir}/scripts"
     for script in skill-gate.sh edit-guard.sh task-manifest.sh pre-flight.sh \
-                  commit-approval.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
+                  commit-approval.sh approve.sh agent-runner.sh check-approved-tree.sh pr-review-checklist.sh design-gate.sh skill-lint.sh \
                   setup-branch-protection.sh tdd-gate.sh \
                   audit-project.sh generate-adr.sh \
                   validate-skill-table.sh validate-health-check.sh generate-health-check.sh; do

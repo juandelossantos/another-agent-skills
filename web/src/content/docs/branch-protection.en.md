@@ -11,11 +11,19 @@ tldr: "Local gates are fast feedback; remote gates are authority. If the gate th
 
 | Layer | Where it lives | What it guarantees | Nature |
 |---|---|---|---|
-| L1: Local feedback | `.git/hooks/*` | Fails fast, informs, makes the decision point visible | Ergonomics for a cooperative agent. Not security. |
+| L1: Local feedback | `.git/hooks/*` | Fails fast, informs, binds the approval to the staged tree and consumes it once | Ergonomics for a cooperative agent. Not security. |
 | L2: Remote authority | GitHub branch protection plus required status checks | Nothing reaches `main` without passing the real gates | Real enforcement for anyone without admin. A solo admin can still bypass. |
 | L3: Config integrity | `CODEOWNERS` plus required code-owner review | Another code owner must approve changes to the gate config | Closes the "CI is forgeable" hole only while code-owner review is enforced |
 
 The guiding principle: design for the cooperative agent, enforce for the adversarial one. L1 is primary for cooperation; L2 and L3 are the backstop.
+
+## L2 verifies the approved tree
+
+The required `gates` check also compares the PR head tree with the human-approved digest in the PR body (`AAS-APPROVED-TREE: <sha>`). A PR whose head changed after approval fails the check. Local Gate 0 binds the staged tree; L2 binds the merge. The digest is only as strong as control of the PR body, so the capability boundary and CODEOWNERS are the backstop.
+
+## The capability boundary
+
+Hooks and remote checks are policy. If the agent has a shell, it can still attempt the commit. The hard boundary is to remove the capability. The reference is `scripts/agent-runner.sh`. The agent produces a patch; the human or a host runs the runner, which applies the patch, runs the suite, and commits only if green. It only helps if the agent cannot invoke the runner; run it in a container for untrusted patches.
 
 ## Why local hooks are not enough
 

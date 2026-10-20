@@ -13,11 +13,11 @@ Most frameworks stop at rules in a file, and a rule in a file is a suggestion. E
 
 ### L1: Local feedback
 
-Fails fast, informs, and leaves a trace. Ergonomics for a cooperative agent. **Not security.**
+Fails fast, informs, and leaves a trace. The local approval is bound to the exact staged tree and consumed once, so it cannot be replayed or swapped after approval. Ergonomics for a cooperative agent. **Not security.**
 
 ### L2: Remote authority
 
-GitHub branch protection plus a required status check. Nothing reaches `main` without passing the `gates` check. The committer cannot skip it.
+GitHub branch protection plus a required status check. Nothing reaches `main` without passing the `gates` check. The check also verifies the PR head tree against the human-approved digest, so a PR that changed after approval cannot merge. The committer cannot skip it.
 
 ### L3: Config integrity
 
@@ -27,7 +27,7 @@ GitHub branch protection plus a required status check. Nothing reaches `main` wi
 
 The `commit-msg` hook (v6) runs a single TDD gate that verifies each staged artifact **by type**. Code needs a name-paired, non-empty, new test created before it. Docs run the docs-honesty validator (a broken internal link blocks). Config runs the config-consistency validator (invalid syntax, or a `package.json` script pointing at a missing file, blocks). Shims need a name-paired test that actually invokes them.
 
-There is no override mechanism. Pre-commit Gate 0 blocks until the decision token is fresh, but that is a prompt, not the approval authority.
+There is no override mechanism. Pre-commit Gate 0 blocks until the decision token is fresh **and bound to the exact staged tree**, and consumes it on success. That closes laundering (approve one tree, commit another) and replay (one approval, several commits), but it is still a prompt. A local agent with a shell can forge it. It is not the approval authority.
 
 > **Why a hook is not a gate.** The hooks directory is writable by whoever is committing, including an agent. A single `git config` command silences every hook at once. That is why L1 is feedback, not authority. If the gate that decides can be edited by the change it judges, it is not a gate.
 
@@ -49,7 +49,7 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 
 | Layer | Where it lives | What it guarantees |
 |---|---|---|
-| L1 | Working tree, `.git/hooks` | Fast feedback and a visible decision point. Not security. |
+| L1 | Working tree, `.git/hooks` | Fast feedback, an exact-tree decision point and one-time approval. Not security. |
 | L2 | GitHub branch protection | Nothing reaches `main` without passing the required `gates` check. |
 | L3 | `CODEOWNERS` | Changes to the gate config need another owner's approval. |
 

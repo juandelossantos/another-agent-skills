@@ -462,8 +462,8 @@ test('footer shows the current version and the stats are derived from skills.jso
   const en = read('index.html');
   const es = read('es/index.html');
   // The footer version comes from src/config.ts (VERSION).
-  assert.match(en, /v6\.4\.0 · MIT License/);
-  assert.match(es, /v6\.4\.0 · Licencia MIT/);
+  assert.match(en, /v6\.4\.1 · MIT License/);
+  assert.match(es, /v6\.4\.1 · Licencia MIT/);
   // The skills stat line is derived from the generated dataset — never hand-typed.
   assert.match(en, /58 skills · 153 guides · 6 harness components/);
   assert.match(es, /58 skills · 153 guías · 6 componentes del harness/);

@@ -10,7 +10,7 @@ author:
   url: "https://github.com/juandelossantos"
   role: "Author of Another Agent Skills"
 image: "the-human-in-command.png"
-imageAlt: "A human hand on the wheel while a machine writes the code: the human in command of the loop."
+imageAlt: "A human hand on the wheel while a machine writes the code, the human in command of the loop."
 tags: ["AI agents", "human oversight", "enforcement", "philosophy"]
 tldr: "Keeping a human in the loop is mostly theater. The fix is not a faster human or a smarter model. It is a harness: mechanical gates the agent cannot skip, forget, or talk its way past."
 ---
@@ -69,13 +69,27 @@ The fix is not a better prompt. It is a **harness**, the infrastructure *around*
 
 I built [another-agent-skills](https://juandelossantos.github.io/another-agent-skills/) as an open-source harness that responds to those warnings.
 
-- **The human runs `git commit`.** Heidegger warned that the tool takes the human out of the loop dressed as comfort. Here the decision point returns to human hands. The agent prepares. A person approves. Not a formality. The mechanism.
+- **The human runs `git commit`.** Heidegger warned that the tool takes the human out of the loop dressed as comfort. Here the decision point returns to human hands. The agent prepares. A person approves. Not a formality. The mechanism. The approval is bound to the exact staged tree and consumed once.
 - **Mechanical gates that stop the change before it ships.** Jonas saw action turn global, cumulative, and irreversible. A pre-commit hook the agent cannot bypass, and a `commit-msg` TDD gate with no override, stop it first.
 - **`TOOL_GAP`.** Matthias named the gap that opens when no one answers for what a learning system does. When a claim cannot be verified, the honest answer is "unknown", never a fabricated win.
-- **Three layers of enforcement.** Husserl argued the crisis of the sciences is one of meaning, not of facts. L1 local hooks give fast feedback before the commit. L2 branch protection and a required `gates` check are the authority. L3 `CODEOWNERS` stops the agent from rewriting its own rules in the pull request that breaks them. Facts are not enough. Authority is.
+- **Three layers of enforcement.** Husserl argued the crisis of the sciences is one of meaning, not of facts. L1 local hooks give fast feedback before the commit. L2 branch protection and a required `gates` check are the authority. The check verifies the approved tree against the PR head. L3 `CODEOWNERS` stops the agent from rewriting its own rules in the pull request that breaks them. Facts are not enough. Authority is.
 - **More than 50 modular skills.** What the agent needs to work well, loaded on demand so context stays high-signal instead of bloated.
 
 None of this is about distrusting the model. It is about designing for the human who has to be able to trust it *correctly*.
+
+## What an approval actually binds
+
+An approval is not a verdict on the world. It is an authorization artifact. It means something only if the object the human reviews is the object that executes. When those differ, the gate does not just fail to screen. It converts an action the policy would have blocked into an authorized one. A broken gate can be worse than no gate.
+
+That is a different problem from the one Bainbridge describes. Her finding is about reviewer accuracy. The operator decays, the last-second catch misses, the watching dulls the judgment. That makes the gate's benefit smaller than advertised. It cannot make the value negative. Whether the gate helps or hurts is decided by binding. If the approval denotes the executed action, the gate can help. If it does not, the gate can launder.
+
+Theater and laundering are different defects. Theater misrepresents what the human sees. Laundering approves one thing and executes another. They look similar from the outside. They take different repairs.
+
+My first gate failed on binding. It checked that a token existed, not that the token and the commit referred to the same tree. Two defects followed. A commit could change after the approval, which is laundering. And one approval could cover several commits inside the freshness window, which is replay.
+
+The repair is to bind the artifact. Hash the staged tree at the moment of approval. Refuse to commit unless the staged tree still hashes to the approved tree. Consume the approval on success, so one approval covers one commit. That is what the harness now does.
+
+Binding decides the sign. It does not close the boundary. A local hook is still writable by an agent with a shell, so the binding is L1 feedback, not the authority. The remote check verifies the approved tree against the PR head. The hard version removes the capability. The agent produces a patch. An external runner applies it, runs the suite, and commits. The model never holds the commit.
 
 ## The point is not to remove the human
 

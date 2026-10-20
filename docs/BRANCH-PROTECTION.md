@@ -59,15 +59,16 @@ Split checks by *when they are meaningful*, not by how strict they sound:
 | Kind | Examples | Where it belongs |
 |---|---|---|
 | **Decisions** (approval) | "may this land?" | **Remote** — a required status check, a PR review (team), or a deployment environment (solo). A decision that lives only in a hook is advisory the moment someone is in a hurry. |
-| **Working-tree checks** | branch / detached-HEAD, staged-changes, skill-gate, edit-guard, DECISION_APPROVED prompt | **Local** — they only make sense *before the commit exists*. CI cannot re-run "is the git state clean" or "did the agent load a skill" against the committed tree. |
+| **Working-tree checks** | branch / detached-HEAD, staged-changes, skill-gate, edit-guard, DECISION_APPROVED prompt (tree-bound) | **Local** — they only make sense *before the commit exists*. CI cannot re-run "is the git state clean" or "did the agent load a skill" against the committed tree. |
 
 The rule of thumb: **a green hook is feedback, not approval.** Anything a reader
 could mistake for approval either moves remote or gets labelled L1.
 
 > **Gate 0 is L1.** `pre-commit` Gate 0 blocks until `.git/DECISION_APPROVED` is
-> fresh — but the **agent writes that token**, so it is a prompt that makes the
-> DECISION POINT visible, not an approval control. The human running `git commit`
-> is the approval; the `gates` check is the authority.
+> fresh **and bound to the staged tree** (the human runs `scripts/approve.sh`),
+> and consumes it on success. That closes laundering and replay, but the token is
+> still local and forgeable by an agent with a shell — so it remains L1 feedback,
+> not the approval authority. The `gates` check is the authority.
 
 ## Remote approval that works for a solo maintainer
 
@@ -102,6 +103,39 @@ one approval a solo maintainer cannot route around.
 Caveats: required reviewers are free on **public** repos only; up to 6 reviewers
 (one approval suffices); keep "Prevent self-review" **off** on a solo repo or you
 reintroduce the lockout.
+
+## L2 approval binding (Phase 15)
+
+The required `gates` check also verifies that the PR **head tree** matches the
+tree the human approved.
+
+1. After the final commit, the human records the tree in the PR body:
+   `git rev-parse HEAD^{tree}` → `AAS-APPROVED-TREE: <sha>`.
+2. `scripts/check-approved-tree.sh` (a step in `gates.yml`, `pull_request` only)
+   extracts the digest and compares it with `HEAD^{tree}`. A mismatch fails the
+   required check.
+
+This closes the remote half of the laundering channel: local Gate 0 binds the
+staged tree, and L2 binds the PR head to the human-approved tree. The agent
+cannot satisfy either by editing the index.
+
+**Caveat:** the digest lives in the PR body, so L2 is only as strong as control
+of that body. The capability boundary (an external runner that holds the commit
+and the signing key) and L3 (`CODEOWNERS` on `gates.yml`) are the backstop. L2 is
+authority *relative to the agent's capabilities*, not absolute.
+
+## The capability boundary: the external runner (Phase 15)
+
+Hooks and PR checks are policy. If the agent has a shell, it can still attempt
+the commit; L1 is forgeable, and L2 is only as strong as control of the PR body.
+The hard boundary is to remove the capability.
+
+`scripts/agent-runner.sh` is the reference. The agent produces a patch; the
+human or a host runs the runner, which applies the patch, runs the suite, and
+commits only if green (optionally `--sign`). The agent never holds the commit.
+
+This is a reference, not a sandbox. It only helps if the agent cannot invoke it.
+Run it inside a container or VM for untrusted patches.
 
 ## Solo vs team: you cannot approve your own PR
 

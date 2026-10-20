@@ -57,7 +57,7 @@ The agent NEVER runs `git commit`. The correct flow:
 1. Agent stages files with `git add <files>`
 2. Agent presents the DECISION POINT to the user
 3. User explicitly approves
-4. Agent writes `.git/DECISION_APPROVED` with timestamp
+4. Human runs `bash scripts/approve.sh` (writes the timestamp + the staged-tree digest)
 5. User runs `git commit` themselves
 
 ### Guardian Pattern — MANDATORY DECISION POINT
@@ -85,9 +85,9 @@ DECISION POINT
 1. Agent: git add <files>
 2. Agent: presents DECISION POINT
 3. User: "yes" / "commit"
-4. Agent: echo "$(date -Iseconds)" > .git/DECISION_APPROVED
+4. Human: bash scripts/approve.sh
 5. User: git commit -m "feat: message"
-6. Pre-commit hook: checks .git/DECISION_APPROVED exists and is <10 min old
+6. Pre-commit hook: checks the token exists, is <10 min old, and is bound to the staged tree; consumes it on success
    → If missing or stale: WARN (yellow, doesn't block)
    → The user running git commit IS the approval. The token is evidence the
      presentation step happened before the commit.
@@ -104,25 +104,25 @@ Only files matching skip patterns (lock files, binaries, images) are exempt.
 - **Commit and push are SEPARATE decisions.** Plan approval ≠ commit approval ≠ push approval.
 - **All git mutations require approval:** commit, push, merge, rebase, reset, cherry-pick, revert, branch -d, tag, stash pop, clean -fd, push --force.
 - **Plan and commit are ALWAYS separate decisions.** Present the plan first → get approval → execute. Then present the commit → get approval → user commits.
-- **"yes commit" = agent writes DECISION_APPROVED, user commits.** Agent never runs git commit.
+- **"yes commit" = the user runs `scripts/approve.sh`, then commits.** The agent writes neither the approval nor the commit.
 - **"yes push" = push approval.** When user types "yes push" in chat, agent pushes.
 
 ### Mechanical Enforcement
 
 | Hook | Check | Behavior | What It Catches |
 |---|---|---|---|---|
-| Pre-commit (`scripts/git-hooks/pre-commit`, Gate 0) | `.git/DECISION_APPROVED` exists and <10min | BLOCK if missing or stale (L1 prompt) | Agent skipping the presentation step |
+| Pre-commit (`scripts/git-hooks/pre-commit`, Gate 0) | `.git/DECISION_APPROVED` exists, <10min, and is bound to the staged tree (`tree=<sha>`) | BLOCK if missing, stale, unbound, or the tree changed; consumes it on success | Skipping the DECISION POINT, laundering (approve A, commit B), and replay |
 | Commit-msg (`scripts/git-hooks/commit-msg`) | TDD gate: code files need matching new test | BLOCK (red) if missing or mismatched | Code changes without tests. No override mechanism. |
 
-DECISION_APPROVED token lives in `.git/` — inherently local, never tracked.
+DECISION_APPROVED contains the timestamp and `tree=<git write-tree sha>`, is consumed by the successful commit, and lives in `.git/` — inherently local, never tracked.
 
 ### Tokens
 
 | Token | File | Written By | Validated By | Blocks? |
 |---|---|---|---|---|---|
-| Decision token | `.git/DECISION_APPROVED` | Agent (after user says "yes") | Pre-commit hook | No (warns) |
+| Decision token | `.git/DECISION_APPROVED` | Human (`scripts/approve.sh`) | Pre-commit hook | Yes (Gate 0: missing/stale/unbound/mismatched) |
 
-The decision token is a warn because the user running git commit IS the approval. The TDD gate has no override — every code change requires a matching test file.
+Gate 0 is strict at L1 now: the token must be fresh, bound to the exact staged tree, and is consumed by the commit. It is still L1 because a local agent with a shell can forge it. The remote `gates` check is the authority. The TDD gate has no override — every code change requires a matching test file.
 
 See AGENTS-EXTENDED.md for full DECISION POINT templates and examples.
 

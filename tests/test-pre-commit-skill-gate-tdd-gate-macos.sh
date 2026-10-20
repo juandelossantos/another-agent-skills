@@ -45,8 +45,8 @@ TMP=$(mktemp -d)
   echo "# init" > README.md && git add README.md && git commit -q -m init
   mkdir -p .git/hooks
   cp "$HOOK" .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-  printf '%s decision\n' "$(date -u +%Y-%m-%dT%H:%M:%S)" > .git/DECISION_APPROVED
   echo "note" > a.txt && git add a.txt
+  bash "$REPO_ROOT/scripts/approve.sh" --yes >/dev/null
 ) >/dev/null 2>&1
 
 OUT_FRESH=$(cd "$TMP" && AAS_DIR="$REPO_ROOT" bash .git/hooks/pre-commit 2>&1 || true)

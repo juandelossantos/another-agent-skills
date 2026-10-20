@@ -56,9 +56,9 @@ make_repo() {
   # ANOTHER_AGENT_SKILLS_DIR, so the resolver must be found here.
   cp "$REPO_ROOT/scripts/aas-resolve.sh" "$repo/.git/aas-resolve.sh"
   chmod +x "$repo/.git/hooks/pre-commit"
-  printf '%s decision\n' "$(date +%Y-%m-%dT%H:%M:%S)" > "$repo/.git/DECISION_APPROVED"
   echo "note" > "$repo/a.txt"
   git -C "$repo" add a.txt
+  ( cd "$repo" && bash "$REPO_ROOT/scripts/approve.sh" --yes >/dev/null )
 }
 
 echo ""

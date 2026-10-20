@@ -49,10 +49,10 @@ TMP=$(mktemp -d)
   echo "# init" > README.md && git add README.md && git commit -q -m init
   mkdir -p .git/hooks tests
   cp "$HOOK" .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-  printf '%s d\n' "$(date +%Y-%m-%dT%H:%M:%S)" > .git/DECISION_APPROVED
   echo 'echo x' > foo.sh
   touch tests/test_foo.sh
   git add foo.sh tests/test_foo.sh
+  bash "$REPO_ROOT/scripts/approve.sh" --yes >/dev/null
 ) >/dev/null 2>&1
 
 OUT_ADV=$(cd "$TMP" && AAS_DIR="$REPO_ROOT" bash .git/hooks/pre-commit 2>&1 || true)

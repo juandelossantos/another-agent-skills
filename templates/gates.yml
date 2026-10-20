@@ -40,6 +40,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Gates run on the PR head (what the human approved), not the merge
+          # commit. On push to main this resolves to github.sha.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Approval binding (L2, pull_request only)
+        if: github.event_name == 'pull_request'
+        env:
+          # Passed via env (never interpolated into `run:`) to avoid script
+          # injection from the PR body.
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: bash scripts/check-approved-tree.sh
 
       - name: Read gates from STACK_CONFIG.md
         id: stack

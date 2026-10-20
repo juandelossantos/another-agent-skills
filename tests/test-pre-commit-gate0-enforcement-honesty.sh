@@ -41,8 +41,8 @@ assert "enforcement.html no longer says Gate 0 'warns'" "! grep -q 'checks .git/
 assert "enforcement.html labels Gate 0 as an L1 prompt" "grep -q 'L1 prompt (advisory)' '$HTML'"
 assert "en.json labels Gate 0 as an L1 prompt" "grep -q 'L1 prompt (advisory)' '$EN'"
 assert "es.json labels Gate 0 as a prompt L1" "grep -q 'prompt L1 (advisory)' '$ES'"
-assert "en.json level3 notes the agent writes the token" "grep -q 'the agent writes the token' '$EN'"
-assert "es.json level3 notes the agent writes the token" "grep -q 'el token lo escribe el agente' '$ES'"
+assert "en.json level3 notes the human runs scripts/approve.sh" "grep -q 'the human runs scripts/approve.sh' '$EN'"
+assert "es.json level3 notes el humano corre scripts/approve.sh" "grep -q 'el humano corre scripts/approve.sh' '$ES'"
 
 # --- i18n stays valid ---
 assert "en.json is valid JSON" "jq empty '$EN' 2>/dev/null"

@@ -18,7 +18,7 @@
 
 ## pre-commit: Pre-Flight + Quality Gates (v11)
 
-**Purpose:** 15 gates running before every commit — Gate 0 (DECISION_APPROVED), Branch, Staged, Remote, HTML integrity, Override escalation, Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes, SPEC Enforcement, Progress Status, Skill Lint, Eval, Test Runner.
+**Purpose:** 15 gates running before every commit — Gate 0 (DECISION_APPROVED, tree-bound + one-time), Branch, Staged, Remote, HTML integrity, Override escalation, Skill Gate, Build Verification, Anti-Slop, Debug 3-Strikes, SPEC Enforcement, Progress Status, Skill Lint, Eval, Test Runner.
 
 **Installation per project:**
 ```bash

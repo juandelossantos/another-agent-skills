@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-10-10  
-> **Current version:** 6.4.0 (auto-generated)
-> **Status:** v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**, **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)** and the **blog** (bilingual `/blog/` + `/es/blog/`, RSS, share, article SEO/AEO). **npm published (6.4.0)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 142 test suites green (+ web: 106 node + 112 e2e, axe 0)  
-> **Current plan:** `PLAN.md` — **Phase 14 complete** + **MKT wave W2 done**; next: **W3** (publish the essay — the blog is live, the 4 channel adaptations pending), **T2** (web + docs update live), **E1** (essay), and the backlog **B13/B15/B16/B19/B20**.
+> **Last updated:** 2026-10-19  
+> **Current version:** 6.4.1 (auto-generated)
+> **Status:** v6.4.1 complete (Phase 15 — approval integrity); release runbook post-merge (tag + npm + replies; no code PR) — v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**, **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)** and the **blog** (bilingual `/blog/` + `/es/blog/`, RSS, share, article SEO/AEO). **npm published (6.4.0)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 147 test suites green (+ web: 106 node + 112 e2e, axe 0)  
+> **Current plan:** `PLAN.md` — **Phase 15 complete**; next: **W3** publish (adaptations written EN/ES) + **Cierre MKT (v6.5.0)** + backlog **B13/B16/B19/B20/B23**. **T2** and **E1** are done; **B15** is done.
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
@@ -141,12 +141,14 @@
 
 ### In Progress
 
-- **MKT — Visibility & distribution (CURRENT FOCUS)** — ordered waves: W0 instrument ✅ (`development/metrics.sh`), W1 rail 🟡 1/3, **W2 wedge `/gate` ✅ (v6.4.0, PR #73)**, **W3 owned content 🟡** (the essay is published as a bilingual blog; the 4 channel adaptations — dev.to, LinkedIn, X, blog — are pending), W4 amplify ⬜, W5 long tail ⬜. Plan + status board: `development/MARKETING-PLAN.md` (local, git-ignored).
+- **MKT — Visibility & distribution (CURRENT FOCUS)** — ordered waves: W0 instrument ✅ (`development/metrics.sh`), W1 rail 🟡 1/3, **W2 wedge `/gate` ✅ (v6.4.0, PR #73)**, **W3 owned content 🟡** (the essay is published as a bilingual blog; the dev.to/LinkedIn/X adaptations are written EN/ES, publish + UTMs pending), W4 amplify ⬜, W5 long tail ⬜. Plan + status board: `development/MARKETING-PLAN.md` (local, git-ignored).
+- **Cierre MKT + backlog (v6.5.0) — PLANNED** — condición de parada **W3 + W4** (W5 diferido); cierre MKT (métricas vs baseline W0) + backlog **B13/B16/B19/B20** + `git rm` del contenido obsoleto + reconciliar tracking + release v6.5.0.
 - **T1 — npm activation (DONE)** — first publish + Trusted Publisher (workflow **`release.yml`** — the publish is chained via `workflow_call` — environment `npm-release`, staged). `@juandelossantos/another-agent-skills@6.4.0` is **live**. **Homebrew is not planned.** See `docs/DISTRIBUTION.md`.
-- **T2 — Web + docs update once LIVE** — after the Pages deploy is verified live: point the README + docs at the live URL, drop the "not yet deployed" wording, verify the live SEO/`llms.txt`/OG, and revisit the security-headers gap (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy).
+- **T2 — Web + docs update once LIVE (DONE)** — the README and docs point at the live URL, the "not yet deployed" wording is gone, and the live SEO/`llms.txt`/OG are verified. Remaining: the **security-headers gap** (GitHub Pages ignores `_headers`; decide a meta-CSP or a CDN proxy) is tracked as **B23** in `PLAN.md`.
 
 ### Completed
 
+- **Phase 15: Approval integrity (v6.4.1)** — binding del árbol staged (`scripts/approve.sh`), one-time approval, L2 approved tree (`scripts/check-approved-tree.sh` + `gates.yml`) y runner de referencia (`scripts/agent-runner.sh`). Blog/ensayo EN/ES, web docs/search, npm y superficies a v6.4.1. **147 suites** (+ web 106 node + 112 e2e). Tag/publish post-merge (P15.9).
 - **Blog (W2/W3, 2026-10-10)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, a publication home + an article layout), the first post being *"The human defines, delegates, reviews, and is responsible. The AI is not."* (EN/ES). Publishing hygiene: `BlogPosting` JSON-LD (author as `Person`, `wordCount`, `timeRequired`, `keywords`, `articleSection`), Open Graph article metadata, a per-post 1200x630 JPEG social card, a citable `tldr`, an "on this article" TOC, share options (X/LinkedIn/Hacker News/email/copy link), a reading-progress bar and a bilingual RSS 2.0 feed. A11y gate: axe 0. Web suite: 106 node + 112 e2e.
 - **Phase 10: Landing & Docs Refresh + Descubribilidad (v6.3.0)** — the public web in `web/`: an Astro bilingual (EN/ES) landing + docs site with the skills reference (57 skills / 151 guides, derived from the generated dataset), five tutorials, FAQ, SEO/AEO (sitemap, robots, `llms.txt`, JSON-LD, hreflang), a WCAG 2.2 AA a11y gate, and a legacy `docs/` pointer. Shipped on `feat/phase10-landing` (10 commits); **PR/merge/deploy pending** (see T1/T2).
 - **Phase 9: Distribution & Upgrades (v6.3.0)** — pinned, attested releases (`scripts/build-release.sh` + `.github/workflows/release.yml`); checksum-verified `curl` bootstrap (`bootstrap.sh`); `aas` CLI (install/upgrade/doctor/uninstall); agent selection (`--agents auto|all|<list>`); portable projects (`.aas/config`, `scripts/aas-resolve.sh`, hook shims — no absolute symlinks); detection/guidance/legacy repair (`init-agents --dry-run`/`--repair`/`--force`, backup hygiene, non-blocking drift notice); npm wrapper (`npm/`, no payload) + OIDC trusted publishing (idempotent). Merged to `main` via PRs #47–#52. See `docs/DISTRIBUTION.md`.
@@ -171,6 +173,7 @@
 
 | Limitation | Impact | Workaround |
 |---|---|---|---|
+| L1/L2 approval limits | Local approval is forgeable by an agent with a shell; L2 depends on control of the PR body; the runner is a reference, not a sandbox. | Documented in `docs/BRANCH-PROTECTION.md`; run the runner in a container for untrusted patches. |
 | OpenCode-first invocation | Cursor/Kiro still need manual adapter setup — Claude Code now gets full automatic parity (skills + hooks) via `bash install.sh --agent claude` | `bash install.sh --agent cursor` or `--agent kiro` |
 | English/Spanish only | Other language speakers limited | Core principles are language-agnostic |
 
@@ -190,6 +193,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|
+| **6.4.1** | 2026-10-19 | **Approval integrity** — binding (staged-tree digest), one-time approval, L2 approved-tree verification, external runner. See `RELEASE-NOTES.md`. |
 | **6.4.0** | 2026-10-10 | **The `/gate` wedge skill (58th)** + npm-first onboarding (PR #73), and the **blog** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article, RSS 2.0, share options, article SEO/AEO, TOC, reading-progress bar, a11y gate). First post: the "human in command" essay (EN/ES). Web suite: 106 node + 112 e2e. |
 | **6.3.0** | 2026-10-03 | **Phase 8: Remote Enforcement — Gate Integrity** — branch protection on `main` + required `gates` check + `CODEOWNERS` L3; L1/L2/L3 model; `templates/gates.yml`; remote E2E; Gate 0 → L1 prompt + GitHub Environment approval (PRs #36–#43). **Phase 9: Distribution & Upgrades** — pinned, attested releases; checksum-verified `curl` bootstrap; `aas` CLI; portable projects; npm wrapper + OIDC trusted publishing (PRs #47–#52). **Phase 10: Landing & Docs Refresh + Descubribilidad** — public Astro web in `web/`: bilingual landing + docs, skills reference (57 skills / 151 guides), tutorials, SEO/AEO/a11y; complete on `feat/phase10-landing` (10 commits). **Pending PR/merge/deploy**; npm activation (**T1**, DONE) and the web/docs update once live (**T2**) remain; Homebrew is **not planned**. |
 | **6.2.0** | 2026-10-01 | **Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails** — dual-contract plugin (v1 `server()` + v2 `setup()`), multi-agent detection (15 agents) + version gating, per-agent skills/guardrails, philosophy A (agent never commits/pushes, no token bypass), global install hardening. **Phase 8: Remote Enforcement — COMPLETE** — branch protection + required `gates` check + `CODEOWNERS` L3; docs honesty (INCIDENT_004 + L1/L2/L3 model); ship-to-users (`templates/gates.yml`); remote E2E; Gate 0 → L1 prompt + GitHub Environment approval. Remote enforcement **live on `main`** (PRs #36–#43). |
