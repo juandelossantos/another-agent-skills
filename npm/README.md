@@ -93,6 +93,16 @@ Linux, macOS, and Git Bash on Windows).
 - **Portable** across OpenCode, Claude Code, Cursor, Codex, Gemini CLI, GitHub
   Copilot, and any agent that reads `AGENTS.md`.
 
+## Approval integrity (v6.4.1)
+
+The gate now binds an approval to the exact change, and the boundary is explicit.
+
+- **Binding (L1).** `scripts/approve.sh` records the staged-tree hash. `pre-commit` refuses a commit if the tree changed after approval, which closes "approve A, commit B".
+- **One-time approval.** The approval is consumed by the successful commit. One approval, one commit.
+- **L2 verifies the approved tree.** The required `gates` check compares the PR head tree with the `AAS-APPROVED-TREE` digest in the PR body. `init-agents` installs the same check in your project's `gates.yml`.
+- **Capability boundary.** `scripts/agent-runner.sh` is the reference. The agent produces a patch, the runner applies it, runs the suite, and commits only if green.
+- **Honest limits.** L1 is forgeable by an agent with a shell; L2 depends on control of the PR body; the runner is a reference, not a sandbox.
+
 - **Website:** <https://juandelossantos.github.io/another-agent-skills/>
 - **Source & docs:** <https://github.com/juandelossantos/another-agent-skills>
 - **Architecture (the Harness):** <https://github.com/juandelossantos/another-agent-skills/blob/main/docs/HARNESS.md>
