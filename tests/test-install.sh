@@ -94,6 +94,7 @@ echo "Test: static — the advertised skill count is current"
 assert "install.sh advertises 58 skills, not 57" "grep -q 'The 58 custom skills' '$REPO_ROOT/install.sh' && ! grep -q '57 custom skills' '$REPO_ROOT/install.sh'"
 assert "install.sh installs approve.sh (Phase 15)" "grep -q 'commit-approval.sh approve.sh' '$REPO_ROOT/install.sh'"
 assert "install.sh installs agent-runner.sh (Phase 15)" "grep -q 'agent-runner.sh' '$REPO_ROOT/install.sh'"
+assert "install.sh installs check-approved-tree.sh (Phase 15)" "grep -q 'check-approved-tree.sh' '$REPO_ROOT/install.sh'"
 assert "install.ps1 advertises 58 skills, not 57" "grep -q 'The 58 custom skills' '$REPO_ROOT/install.ps1' && ! grep -q '57 custom skills' '$REPO_ROOT/install.ps1'"
 
 echo ""

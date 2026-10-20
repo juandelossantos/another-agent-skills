@@ -14,7 +14,7 @@ The gate now binds an approval to the exact change, and the boundary is explicit
 
 ### Tests
 
-- New `tests/test-approve.sh`, `tests/test-check-approved-tree.sh`, `tests/test-agent-runner.sh`; hook tests migrated to `scripts/approve.sh`. Suite **146/146**.
+- New `tests/test-approve.sh`, `tests/test-check-approved-tree.sh`, `tests/test-agent-runner.sh`; hook tests migrated to `scripts/approve.sh`. Suite **147/147**.
 
 ## 6.4.0 (2026-10-09) — the /gate wedge skill + npm-first onboarding
 

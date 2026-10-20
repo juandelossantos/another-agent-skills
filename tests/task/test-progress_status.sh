@@ -45,7 +45,7 @@ assert "Completed lists Phase 9" "grep -q 'Phase 9: Distribution & Upgrades' '$F
 assert "Completed lists Phase 8" "grep -q 'Phase 8: Remote Enforcement — Gate Integrity' '$FILE'"
 assert "Completed lists Phase 7 v6.2.0" "grep -q 'Phase 7: OpenCode v1/v2, Multi-Agent & Guardrails (v6.2.0)' '$FILE'"
 assert "Version History has a 6.2.0 row" "grep -qF '| **6.2.0** | 2026-10-01 |' '$FILE'"
-assert "records the real suite count (146)" "grep -q '146 test suites green' '$FILE'"
+assert "records the real suite count (147)" "grep -q '147 test suites green' '$FILE'"
 assert "records the web suite (106 node + 112 e2e)" "grep -q '106 node + 112 e2e' '$FILE'"
 assert "In Progress names the MKT waves (W2 done, W3 in progress)" "grep -q 'MKT — Visibility & distribution' '$FILE' && grep -q 'W2 wedge' '$FILE' && grep -q 'W3 owned content' '$FILE'"
 assert "Completed lists the blog" "grep -q 'Blog (W2/W3' '$FILE'"

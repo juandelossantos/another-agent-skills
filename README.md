@@ -52,7 +52,7 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 - **Approved tree at L2.** The required `gates` check compares the PR head tree with the `AAS-APPROVED-TREE` digest the human writes in the PR body.
 - **Capability boundary.** `scripts/agent-runner.sh` is the reference. The agent produces a patch, an external runner applies it, runs the suite, and commits only if green.
 - **Honest limits.** L1 is still forgeable by an agent with a shell, and L2 depends on control of the PR body. The docs say so.
-- **Counts** — 58 skills · 153 guides · 146 test suites.
+- **Counts** — 58 skills · 153 guides · 147 test suites.
 
 Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
 

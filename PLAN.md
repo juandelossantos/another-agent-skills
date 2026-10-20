@@ -14,7 +14,7 @@
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 58 with contracts, When to Use, When NOT to Use |
 | Guides | 153 across all skills |
-| Tests | **146 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
+| Tests | **147 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
@@ -86,7 +86,7 @@
 | P15.7 | Landing, docs EN/ES, `llms.txt`; search build-generated verificado. |
 | P15.8 | `v6.4.1` en todas las superficies; `npm/README`; `RELEASE-NOTES`; `tests/test-release-641.sh`. |
 
-**Evidencia:** core **146/146**, web **106 node + 112 e2e** (axe 0), TDD gate PASS, `check-channel-consistency` local verde. **Commits:** `82743e8` · `94d9dbf` · `d764a74` · `fe68465` · `1adb576` (+ este cierre).
+**Evidencia:** core **147/147**, web **106 node + 112 e2e** (axe 0), TDD gate PASS, `check-channel-consistency` local verde. **Commits:** `82743e8` · `94d9dbf` · `d764a74` · `fe68465` · `1adb576` (+ este cierre).
 
 **Límites honestos (documentados):** L1 es forjable por un agente con shell; L2 depende del control del PR body; el runner es una referencia, no un sandbox.
 

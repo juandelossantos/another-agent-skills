@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-10 (updated)
 **Branch:** `main` (v6.4.0 merged + tagged; the blog work is **uncommitted** — see "Next Session").
-**Status:** ✅ **v6.4.1 complete (Phase 15 — approval integrity)** — ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **146 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
+**Status:** ✅ **v6.4.1 complete (Phase 15 — approval integrity)** — ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **147 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
 **Plan:** `PLAN.md` — single source of truth
 
 ## Phase 15 closure (2026-10-19)
@@ -11,7 +11,7 @@
 
 **Shipped:** approval binding (`scripts/approve.sh` + Gate 0), one-time approval (consume), L2 approved-tree check (`scripts/check-approved-tree.sh` + `gates.yml`) and the external runner (`scripts/agent-runner.sh`). Docs, web (landing/docs/search), blog EN/ES and npm/version surfaces at **v6.4.1**.
 
-**Verified:** core **146/146**, web **106 node + 112 e2e** (axe 0), TDD gate PASS, `check-channel-consistency` local green.
+**Verified:** core **147/147**, web **106 node + 112 e2e** (axe 0), TDD gate PASS, `check-channel-consistency` local green.
 
 **Post-merge (P15.9):**
 1. `bash scripts/init-agents.sh sync-hooks` (install the new hook locally).
@@ -24,7 +24,7 @@
 
 ## Next Session (resume here)
 
-1. **Commit the blog** — the blog work is **uncommitted** in `web/` (plus `SPEC.md`, `web/README.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, `PLAN.md`, `tests/task/test-progress_status.sh`). The maintainer commits (Rule 12 / philosophy A); a single `feat(web): bilingual blog` commit is enough — no version bump required. Non-regression contract: `tests/run-all.sh` (146 suites) + the web suite (`cd web && npm run test:all` → 106 node + 112 e2e).
+1. **Commit the blog** — the blog work is **uncommitted** in `web/` (plus `SPEC.md`, `web/README.md`, `PROGRESS_STATUS.md`, `HEALTH-CHECK.md`, `PLAN.md`, `tests/task/test-progress_status.sh`). The maintainer commits (Rule 12 / philosophy A); a single `feat(web): bilingual blog` commit is enough — no version bump required. Non-regression contract: `tests/run-all.sh` (147 suites) + the web suite (`cd web && npm run test:all` → 106 node + 112 e2e).
 2. **W3 — the 4 channel adaptations** (from the essay v2, EN + ES): dev.to (practical + the gate code), LinkedIn (native, 1st person, no link in the body), X (thread with the incident hook), and the blog (already live). Then publish + UTM links (A3), then **W4** (HN/community).
 3. **W1.2/W1.3 — directories + awesome-lists** (human-driven, using `development/distribution-pack.md`).
 4. **T2** — web + docs update (live): verify the live SEO/`llms.txt`/OG; revisit the **security-headers gap**.
