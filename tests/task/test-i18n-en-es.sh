@@ -37,10 +37,10 @@ assert "i18n/en.json faq.a3 mentions Claude Code parity" "jq -r '.faq.a3' '$REPO
 
 assert "docs/i18n/en.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/en.json' | grep -q '~/.claude/skills/'"
 assert "docs/i18n/es.json agents.claudeCodeDesc mentions ~/.claude/skills/" "jq -r '.agents.claudeCodeDesc' '$REPO_ROOT/docs/i18n/es.json' | grep -q '~/.claude/skills/'"
-assert "docs/i18n/en.json whatsNew heading is v6.4.2" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'v6.4.2'"
-assert "docs/i18n/es.json whatsNew heading is v6.4.2" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'v6.4.2'"
-assert "docs/i18n/en.json whatsNewDesc1 reflects the macOS fix" "jq -r '.overview.whatsNewDesc1' '$REPO_ROOT/docs/i18n/en.json' | grep -qi 'macOS'"
-assert "docs/i18n/es.json whatsNewDesc1 reflects the macOS fix" "jq -r '.overview.whatsNewDesc1' '$REPO_ROOT/docs/i18n/es.json' | grep -qi 'macOS'"
+assert "docs/i18n/en.json whatsNew heading is v6.4.3" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/en.json' | grep -q 'v6.4.3'"
+assert "docs/i18n/es.json whatsNew heading is v6.4.3" "jq -r '.overview.whatsNew' '$REPO_ROOT/docs/i18n/es.json' | grep -q 'v6.4.3'"
+assert "docs/i18n/en.json whatsNewDesc1 reflects the BSD fix" "jq -r '.overview.whatsNewDesc1' '$REPO_ROOT/docs/i18n/en.json' | grep -qi 'BSD'"
+assert "docs/i18n/es.json whatsNewDesc1 reflects the BSD fix" "jq -r '.overview.whatsNewDesc1' '$REPO_ROOT/docs/i18n/es.json' | grep -qi 'BSD'"
 
 echo ""
 echo "Results: ${GREEN}${PASSED} passed${NC}, ${RED}${FAILED} failed${NC}, ${TOTAL} total"

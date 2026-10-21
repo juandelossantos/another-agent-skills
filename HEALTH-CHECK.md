@@ -1,7 +1,7 @@
 # Health Check — another-agent-skills
 
-**Date:** 2026-10-20
-**Version:** 6.4.2
+**Date:** 2026-10-21
+**Version:** 6.4.3
 **Auditor:** OpenCode Agent (auto-generated)
 **Status:** 🟡 DEGRADED
 
@@ -25,7 +25,7 @@
 | SKILL.md files | ✅ 58 on disk | All ≤ 250 lines |
 | Guide distribution | ✅ 0 errors | Skills >100 lines with <2 guides |
 | ALWAYS/NEVER | ✅ 0 | Fixed in Phase 6.5.1 |
-| VERSION | ✅ 6.4.2 | Consistent |
+| VERSION | ✅ 6.4.3 | Consistent |
 | Skill lint | ✅ 0 errors, 2 warnings | |
 | validate-skill-table | ✅ PASS | Guide counts validated |
 
@@ -62,7 +62,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 | Check | Status | Notes |
 |---|---|---|
-| Version references | ✅ v6.4.2 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.4.1 |
+| Version references | ✅ v6.4.3 | Legacy landing + `web/`, docs, i18n EN/ES and `README.md` all at 6.4.1 |
 | Guide count | ✅ 153 guides | `skills/*/guides/*.md`; the web derives it from `web/src/data/skills.json` |
 | Gate count | ✅ 15 pre-commit gates (incl. Gate 0), 1 commit-msg gate v6 | Landing, docs, i18n EN/ES |
 | Remote authority (L2) | ✅ ACTIVE | `gates` required check + branch protection on `main` (`docs/BRANCH-PROTECTION.md`) |
@@ -74,7 +74,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 
 ## Recommendations
 
-**Latest:** Phase 16 complete — **macOS bash 3.2 compatibility (v6.4.2)**. Empty-array aborts fixed (`aas install`/`aas uninstall`), portable TDD gate, `check-bash32.sh` guard + a real `bash:3.2` smoke in `gates`; 150 suites; release runbook post-merge (tag + npm approval; no code PR).
+**Latest:** Phase 17 complete — **macOS BSD userland compatibility (v6.4.3)**. Gate 11 parses with POSIX `sed`/`awk` (no `grep -P`), the runtime surface is free of GNU-only syntax, `check-portability.sh` guards it in `gates`; 160 suites; release runbook post-merge (tag + npm approval; no code PR).
 
 1. **Blog shipped (W2/W3)** — the bilingual blog in `web/` (`/blog/` + `/es/blog/`): a publication home + an article layout, the *"human in command"* essay as the first post (EN/ES), a bilingual RSS 2.0 feed, share options (X/LinkedIn/Hacker News/email/copy), `BlogPosting` JSON-LD + Open Graph article metadata, a per-post 1200x630 social card, a citable `tldr`, an "on this article" TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0). Next: the 4 channel adaptations (dev.to, LinkedIn, X, blog).
 2. **v6.3.0 released — Phase 8 + 8.1 + 9 + 10** — remote enforcement (required `gates` check + `CODEOWNERS`), distribution (pinned/attested releases, checksum-verified `curl` bootstrap, `aas` CLI, npm wrapper + OIDC), and the public Astro web in `web/` (bilingual landing + docs, skills reference, tutorials, SEO/AEO/a11y). See `RELEASE-NOTES.md`.
@@ -119,6 +119,7 @@ Per `STEERING-GUIDE.md` and Rule 0b:
 | 2026-10-02 | **Phase 9 COMPLETE — distribution & upgrades** | Pinned/attested releases (`release.yml`), checksum-verified `curl` bootstrap (`bootstrap.sh`), `aas` CLI, portable projects + legacy repair, npm wrapper + OIDC trusted publishing (PRs #47–#52). Maintainer one-time npm steps in `docs/DISTRIBUTION.md` (npm first publish blocked until 2026-10-06 00:55 UTC; enable TOTP). Version remains 6.2.0 (v6.3.0 pending). |
 | 2026-10-03 | **v6.3.0 — Phase 8 + 8.1 + 9 + 10** | Bumped `VERSION` to 6.3.0 and synced every current version surface (npm wrapper, `web/` footer, README, PLAN, PROGRESS_STATUS, legacy `docs/`, mockups, `llms.txt`); adopted the real guide count (74 → 151) and made the web derive it from `web/src/data/skills.json`. Release notes: Phase 8/8.1/9/10. The npm activation (done) and the web deploy were the maintainer's manual steps. |
 | 2026-10-03 | **Phase 10 COMPLETE — public web on `feat/phase10-landing`** | The Astro `web/` project (bilingual landing + docs, 57-skill/151-guide reference, tutorials, build-generated search index + sidebar) shipped with discoverability: SEO (sitemap/robots/canonical/hreflang/OG), AEO (`llms.txt` + citable TL;DRs + JSON-LD), a11y (axe 0 across 30 pages × EN/ES × light/dark × 2 viewports) and Lighthouse 100/100/100/100 desktop; 3 review iterations + an exhaustive review; README overhaul; v6.3.0 sync + the real guide count (151). 10 commits, **not yet PR'd/merged/deployed**. Next tasks: **T2** (web + docs update once LIVE, incl. the GitHub Pages security-headers gap). |
+| 2026-10-21 | **Phase 17 — macOS BSD userland compatibility (v6.4.3)** | Gate 11 (`validate-health-check.sh`) and `generate-health-check.sh` parse with POSIX sed/awk instead of `grep -oP`; `grep -oP` removed from six more runtime scripts; bare `sed -i` replaced; new `scripts/check-portability.sh` in the required `gates` check. |
 | 2026-10-20 | **Phase 16 — macOS bash 3.2 compatibility (v6.4.2)** | Empty-array expansions fixed in `bin/aas` and `aas_remove_path` (macOS ships bash 3.2), TDD gate lowercases with `tr`, new `scripts/check-bash32.sh` static guard + `tests/test-bash32-smoke.sh` (`bash:3.2` container) wired into the required `gates` check, npm README release guard. |
 | 2026-10-19 | **Phase 15 — approval integrity (v6.4.1)** | Binding (staged-tree digest), one-time approval, L2 approved-tree check, external runner, threat-model docs, blog/web/npm sync. 147 suites; release runbook post-merge (tag + npm + replies; no code PR). |
 | 2026-10-10 | **Blog shipped (W2/W3)** | Added a bilingual blog to `web/`: `/blog/` + `/es/blog/` (publication home + article layout), the "human in command" essay as the first post (EN/ES), a bilingual RSS 2.0 feed, share options (X/LinkedIn/Hacker News/email/copy), `BlogPosting` JSON-LD (author as `Person`, `wordCount`, `timeRequired`, `keywords`, `articleSection`) + Open Graph article metadata, a per-post 1200x630 social card cropped from the cover, a citable `tldr`, an "on this article" TOC and a reading-progress bar. Blog prose is Medium/Substack-flavoured (720px column, ~19px, 1.72). Web suite: 106 node + 112 e2e (axe 0). SPEC.md moved "Blog" from out-of-scope to in-scope. |

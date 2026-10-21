@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.4.2** — macOS bash 3.2 compatibility (installer + TDD gate + mechanical guard); 6.4.1 shipped approval integrity; 6.4.0 the /gate wedge (58th) + npm-first onboarding; npm and the web are **live** |
-| Next target | **Release runbook v6.4.2** (tag + npm approval) · **W3** — publish the 3 channel adaptations (EN/ES) · **Cierre MKT + backlog (v6.5.0)** · backlog **B13/B16/B19/B20/B24** (see **Next tasks** below). T2 and E1 are done. *Current focus: **MKT** — see below.* |
+| Version | **6.4.3** — macOS BSD userland compatibility (Gate 11 + portability guard); 6.4.2 shipped bash 3.2 compatibility; 6.4.1 approval integrity; 6.4.0 the /gate wedge (58th) + npm-first onboarding; npm and the web are **live** |
+| Next target | **Release runbook v6.4.3** (tag + npm approval) · **W3** — publish the 3 channel adaptations (EN/ES) · **Cierre MKT + backlog (v6.5.0)** · backlog **B13/B16/B19/B20/B24** (see **Next tasks** below). T2 and E1 are done. *Current focus: **MKT** — see below.* |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 58 with contracts, When to Use, When NOT to Use |
 | Guides | 153 across all skills |
-| Tests | **150 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
+| Tests | **160 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
@@ -114,6 +114,28 @@
 **Evidencia:** `bash scripts/check-bash32.sh` verde; smoke `bash:3.2` PASS (`--version`, `install --agents auto`, `install --skip-self-improvement`, `uninstall` sin rc files); core **150/150**, web 106 node + 112 e2e (axe 0).
 
 **Límites honestos:** el guard es estático (sintaxis) y el smoke cubre los entrypoints, no la suite completa bajo 3.2. `scripts/eval/` queda exento por ser tooling de maintainer (usa `declare -A`/`readarray`).
+
+---
+
+## Phase 17: macOS BSD userland compatibility (v6.4.3) — ✅ COMPLETE
+
+**Status:** ✅ **COMPLETE (2026-10-21)** — un usuario reportó que Gate 11 (`validate-health-check.sh`) **nunca** podía pasar en su Mac: el script parseaba con `grep -oP` (PCRE), que el grep de BSD no soporta. Dentro de `$( ... || true )` fallaba en silencio, así que comparaba los conteos reales del linter contra `unknown`.
+
+**Release:** **v6.4.3** (patch de compatibilidad).
+
+### Closeout (Phase 17) — 2026-10-21
+
+| Slice | Entrega |
+|---|---|
+| P17.1 | `validate-health-check.sh` + `generate-health-check.sh`: parseo con `sed`/`awk` POSIX (sin lookbehind). |
+| P17.2 | `grep -oP` eliminado de `init-agents.sh`, `create-release.sh`, `validate-release-notes.sh`, `generate-adr.sh`, `sync-progress-table.sh`, `design-upgrade.sh`, `token-validate.sh`. |
+| P17.3 | `sed -i` sin sufijo → `sed -i.bak` + `rm` en `approval-gate.sh`, `sync-progress-table.sh`, `token-validate.sh`, `release.sh`, `install.sh`; `approval-gate.sh` deja de depender de `\n` de GNU (awk). |
+| P17.4 | `scripts/check-portability.sh` + `tests/test-check-portability.sh`; step en el check requerido `gates`. |
+| P17.5 | `tests/test-validate-health-check.sh`; `v6.4.3` en todas las superficies; `RELEASE-NOTES.md`; `npm/README.md`; `tests/test-release-643.sh`. |
+
+**Evidencia:** `check-portability.sh` verde; `validate-health-check.sh` PASS con `0 errors, 2 warnings`; core **160/160**, web 106 node + 112 e2e (axe 0).
+
+**Límites honestos:** el guard es estático sobre sintaxis de herramientas; un comando GNU-only construido dinámicamente no lo dispara. `scripts/eval/` queda exento (tooling de maintainer).
 
 ---
 

@@ -23,7 +23,7 @@ if [ -z "$FIRST_HEADER" ]; then
 fi
 
 LINE_NUM=$(echo "$FIRST_HEADER" | cut -d: -f1)
-VERSION_TAG=$(echo "$FIRST_HEADER" | grep -oP 'v?\d+\.\d+\.\d+' || echo "")
+VERSION_TAG=$(printf '%s\n' "$FIRST_HEADER" | grep -oE 'v?[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "")
 TITLE=$(echo "$FIRST_HEADER" | sed 's/^[0-9]*:## //')
 
 if [ -z "$VERSION_TAG" ]; then

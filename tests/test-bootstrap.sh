@@ -28,6 +28,9 @@ STALE_PINS="$(grep -oE -- '--version v[0-9]+\.[0-9]+\.[0-9]+' "$REPO_ROOT/bootst
   | sort -u | grep -v "v${REPO_VERSION}" || true)"
 [ -z "$STALE_PINS" ]
 check $? "no --version pin other than v${REPO_VERSION} in bootstrap.sh"
+# v6.4.3: no GNU-only tool parsing in the bootstrap path (macOS/BSD).
+! grep -qE 'grep -[a-zA-Z]*P|sed[[:space:]]+-i[[:space:]]' "$REPO_ROOT/bootstrap.sh"
+check $? "bootstrap.sh uses no GNU-only tool syntax"
 # The npm wrapper README example tracks the same version (channel consistency).
 grep -q -- "--version v${REPO_VERSION}" "$REPO_ROOT/npm/README.md"
 check $? "npm README example pins v${REPO_VERSION}"

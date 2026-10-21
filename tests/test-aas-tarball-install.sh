@@ -64,4 +64,8 @@ aas_install_release_from_files "$VERSION" "$TMP/nope.tar.gz" "$REL/checksums.txt
 aas_install_release_from_files "$VERSION" "$REL/$ASSET" "$TMP/nope.txt" >/dev/null 2>&1; RC=$?
 [ "$RC" -ne 0 ]; check $? "missing checksums returns non-zero (got $RC)"
 
+# ── 5. install.sh rewrites files without bare sed -i (v6.4.3: BSD needs a suffix)
+! grep -qE 'sed[[:space:]]+-i[[:space:]]' "$REPO_ROOT/install.sh"
+check $? "install.sh uses no bare sed -i"
+
 exit "$fail"

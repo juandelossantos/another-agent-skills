@@ -496,7 +496,8 @@ if [ -d "$_AAS_REMOTE" ]; then
 fi
 # <<< another-agent-skills-config
 POSIX
-    sed -i "s|__SCRIPT_DIR__|${SCRIPT_DIR}|" "${file}"
+    sed -i.bak "s|__SCRIPT_DIR__|${SCRIPT_DIR}|" "${file}"
+    rm -f "${file}.bak"
 }
 
 # Fish shell config block

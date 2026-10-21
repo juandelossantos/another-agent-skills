@@ -49,7 +49,7 @@ aas upgrade                  # self-update from the latest pinned release
 npx @juandelossantos/another-agent-skills install
 
 # Pin a specific release
-npx @juandelossantos/another-agent-skills install --version v6.4.2
+npx @juandelossantos/another-agent-skills install --version v6.4.3
 
 # See what would happen without downloading or writing anything
 npx @juandelossantos/another-agent-skills install --dry-run
@@ -94,24 +94,28 @@ is supported; the installer, the `aas` CLI and the git hooks all run on it.
 - **Portable** across OpenCode, Claude Code, Cursor, Codex, Gemini CLI, GitHub
   Copilot, and any agent that reads `AGENTS.md`.
 
-## What's new in v6.4.2
+## What's new in v6.4.3
 
-**Stock macOS works.** macOS ships bash 3.2, and the installer expanded an empty
-array under `set -u` — so `aas install --agents auto` died with
-`args[@]: unbound variable`. Fixed, along with the same abort in `aas uninstall`
-on a HOME with no shell rc files.
+**The gates run on a stock Mac.** Two macOS-only failures are fixed — if you
+self-host on macOS, this is the update that unblocks your commits.
 
-- **Portable TDD gate.** The commit hook lowercases with `tr` instead of the
-  bash-4 `${var,,}`, so it runs on the bash macOS actually has.
-- **A mechanical guard.** `scripts/check-bash32.sh` rejects bash 4-only syntax
-  in runtime scripts, and CI runs the entrypoints in a real `bash:3.2`
-  container on every PR.
-- **Release hygiene.** A release PR that bumps `VERSION` without touching this
-  file now warns: the npm page only updates on the next publish.
+- **Gate 11 works.** It parsed with `grep -P`, which BSD grep does not have; every
+  extraction failed silently, so the HEALTH-CHECK check could never pass on
+  macOS. The parsers are POSIX `sed`/`awk` now.
+- **bash 3.2 works.** `aas install --agents auto` no longer aborts with
+  `args[@]: unbound variable`, and the TDD gate no longer needs bash 4.
+- **A mechanical guard.** `scripts/check-portability.sh` fails CI on GNU-only
+  syntax, alongside `scripts/check-bash32.sh` and a real `bash:3.2` smoke.
 
-## Approval integrity (v6.4.1)
+**Updating:** `aas upgrade` — or
+`npx @juandelossantos/another-agent-skills@latest install`.
 
-The gate now binds an approval to the exact change, and the boundary is explicit.
+**Previous releases:** [RELEASE-NOTES.md](https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md) ·
+[GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
+
+## Approval integrity
+
+The gate binds an approval to the exact change, and the boundary is explicit.
 
 - **Binding (L1).** `scripts/approve.sh` records the staged-tree hash. `pre-commit` refuses a commit if the tree changed after approval, which closes "approve A, commit B".
 - **One-time approval.** The approval is consumed by the successful commit. One approval, one commit.

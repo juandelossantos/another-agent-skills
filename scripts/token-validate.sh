@@ -87,7 +87,8 @@ sort -u -o "$MATCH_FILE" "$MATCH_FILE" 2>/dev/null || true
 
 # Remove allowlist entries
 for val in $ALLOWLIST; do
-  sed -i "/^$val$/d" "$MATCH_FILE" 2>/dev/null || true
+  sed -i.bak "/^$val$/d" "$MATCH_FILE" 2>/dev/null || true
+  rm -f "${MATCH_FILE}.bak"
 done
 
 CSS_COUNT=$(wc -l < "$MATCH_FILE")
@@ -133,22 +134,23 @@ if $DRIFT_CHECK && [ -f "$DESIGN_FILE" ]; then
   echo ""
   echo "  Checking prompt drift (fonts/spacing not in DESIGN.md)..."
   # Extract font families from DESIGN.md Section 3
-  DESIGN_FONTS=$(sed -n '/## Section 3/,/## Section/ p' "$DESIGN_FILE" | grep -oiP "[\w\s-]+(?=,|\n|$)" | tr '[:upper:]' '[:lower:]' | sort -u || true)
+  DESIGN_FONTS=$(sed -n '/## Section 3/,/## Section/ p' "$DESIGN_FILE" \
+    | grep -oE '[[:alnum:]_[:space:]-]+' | tr '[:upper:]' '[:lower:]' | sort -u || true)
   
   # Extract font-family values from CSS (resolve var() refs)
   CSS_FONTS=""
   for f in $(find "$SCAN_DIR" -name '*.css' 2>/dev/null | head -5); do
     [ -f "$f" ] || continue
     # Extract direct font names from font-family
-    CSS_FONTS+=$(grep -oiP "font-family:\s*'\K[^']+" "$f" 2>/dev/null || true)
+    CSS_FONTS+=$(grep -oiE "font-family:[[:space:]]*'[^']+'" "$f" 2>/dev/null | sed "s/.*'\([^']*\)'.*/\1/" || true)
     CSS_FONTS+=" "
     # Resolve var(--font-*) to actual values
-    for var in $(grep -oP 'var\(--[\w-]+\)' "$f" 2>/dev/null); do
-      resolved=$(grep -oP "^\s*$var:\s*\K[^;]+" "$DESIGN_FILE" 2>/dev/null || true)
+    for var in $(grep -oE 'var\(--[A-Za-z0-9_-]+\)' "$f" 2>/dev/null); do
+      resolved=$(sed -n "s/^[[:space:]]*$var:[[:space:]]*\([^;]*\).*/\1/p" "$DESIGN_FILE" 2>/dev/null | head -1 || true)
       CSS_FONTS+="$resolved "
     done
   done
-  CSS_FONTS=$(echo "$CSS_FONTS" | tr '[:upper:]' '[:lower:]' | grep -oP "[\w\s-]+" | sort -u)
+  CSS_FONTS=$(printf '%s\n' "$CSS_FONTS" | tr '[:upper:]' '[:lower:]' | grep -oE '[[:alnum:]_[:space:]-]+' | sort -u)
   
   SKIP_FONTS="serif sans-serif monospace cursive fantasy system-ui ui-sans-serif ui-serif ui-monospace"
   for font in $CSS_FONTS; do

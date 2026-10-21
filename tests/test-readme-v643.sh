@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# test-readme-v642.sh — README.md is the v6.4.2 front door: exactly one What's
-# New section (v6.4.2 only), the thesis + proof, the three install channels (npm
+# test-readme-v643.sh — README.md is the v6.4.3 front door: exactly one What's
+# New section (v6.4.3 only), the thesis + proof, the three install channels (npm
 # now live; Homebrew not planned), and links to the new Astro docs.
 #
 # README.md is a docs file: the TDD gate verifies it with docs-honesty, not a
-# name-paired test. This suite guards the v6.4.2 front-door content.
+# name-paired test. This suite guards the v6.4.3 front-door content.
 
 set -uo pipefail
 
@@ -26,16 +26,16 @@ assert() {
 }
 
 echo "╔══════════════════════════════════════════════════════════════╗"
-echo "║  README v6.4.2 — one What's New, thesis, install, docs links  ║"
+echo "║  README v6.4.3 — one What's New, thesis, install, docs links  ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 
 # ─── Exactly ONE What's New section, and it is v6.3.0 ───
 echo ""
-echo "Group 1 — One What's New section (v6.4.2 only)"
+echo "Group 1 — One What's New section (v6.4.3 only)"
 assert "README.md exists" "[ -f '$FILE' ]"
 assert "exactly one '## What's New' section" "[ \"\$(grep -c \"^## What's New\" '$FILE')\" -eq 1 ]"
-assert "the What's New section is v6.4.2" "grep -q \"^## What's New in v6.4.2\" '$FILE'"
-assert "no v6.4.1 What's New section remains" "! grep -q \"## What's New in v6.4.1\" '$FILE'"
+assert "the What's New section is v6.4.3" "grep -q \"^## What's New in v6.4.3\" '$FILE'"
+assert "no v6.4.2 What's New section remains" "! grep -q \"## What's New in v6.4.2\" '$FILE'"
 assert "no v6.3.0 What's New section remains" "! grep -q \"## What's New in v6.3.0\" '$FILE'"
 assert "no v6.2.0 What's New section remains" "! grep -q \"## What's New in v6.2.0\" '$FILE'"
 assert "no v6.1.0 What's New section remains" "! grep -q \"## What's New in v6.1.0\" '$FILE'"
@@ -44,9 +44,9 @@ assert "no v5.0.0 What's New section remains" "! grep -q \"## What's New in v5.0
 assert "no v4.2.0 What's New section remains" "! grep -q \"## What's New in v4.2.0\" '$FILE'"
 assert "no v4.1.0 What's New section remains" "! grep -q \"## What's New in v4.1.0\" '$FILE'"
 assert "points to RELEASE-NOTES.md for history" "grep -q 'RELEASE-NOTES.md' '$FILE'"
-assert "the What's New section leads with the macOS fix" "grep -qi 'runs on a stock Mac' '$FILE'"
-assert "documents bash 3.2 support" "grep -q 'bash 3.2' '$FILE'"
-assert "documents the bash 3.2 guard" "grep -q 'check-bash32.sh' '$FILE'"
+assert "the What's New section leads with the macOS fix" "grep -qi 'run on a stock Mac' '$FILE'"
+assert "documents the bash 3.2 context" "grep -q 'bash 3.2' '$FILE'"
+assert "documents the bash 3.2 guard" "grep -q 'check-portability.sh' '$FILE'"
 assert "points to GitHub Releases for history" "grep -q 'github.com/juandelossantos/another-agent-skills/releases' '$FILE'"
 
 # ─── Thesis + proof (like the landing) ───
@@ -61,7 +61,7 @@ assert "states the agent never commits or pushes" "grep -q 'never runs \`git com
 # ─── Badges ───
 echo ""
 echo "Group 3 — Badges"
-assert "version badge is v6.4.2" "grep -q 'Version: v6.4.2' '$FILE'"
+assert "version badge is v6.4.3" "grep -q 'Version: v6.4.3' '$FILE'"
 assert "skills badge is 58" "grep -q 'Skills: 58' '$FILE'"
 assert "guides badge is 153" "grep -q 'Guides: 153' '$FILE'"
 assert "license badge is MIT" "grep -q 'License: MIT' '$FILE'"

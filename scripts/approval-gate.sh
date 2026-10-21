@@ -68,8 +68,14 @@ echo "  ${GREEN}✓${NC} Copied to $APPROVED_DIR"
 DESIGN_FILE="$PROJECT_DIR/DESIGN.md"
 if [ -f "$DESIGN_FILE" ]; then
   if grep -q '## Section 12' "$DESIGN_FILE" 2>/dev/null; then
-    # Section exists — append reference
-    sed -i "s|## Section 12.*|## Section 12: Approved Artifacts\n- design/approved/$NAME (approved $(date +%Y-%m-%d))|" "$DESIGN_FILE"
+    # Section exists — replace the heading with heading + reference.
+    # awk, not `sed -i "...\n..."`: BSD sed has no bare -i and does not expand
+    # \n in the replacement.
+    _tmp_design="$(mktemp)"
+    awk -v heading="## Section 12: Approved Artifacts" \
+        -v entry="- design/approved/$NAME (approved $(date +%Y-%m-%d))" \
+        '/^## Section 12/ { print heading; print entry; next } { print }' \
+        "$DESIGN_FILE" > "$_tmp_design" && mv "$_tmp_design" "$DESIGN_FILE"
   else
     # Section 12 doesn't exist — create it before Section 13
     echo "" >> "$DESIGN_FILE"

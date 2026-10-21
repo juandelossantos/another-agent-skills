@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-release-642.sh — v6.4.2 release contract: macOS bash 3.2 compatibility.
+# test-release-643.sh — v6.4.3 release contract: macOS bash 3.2 compatibility.
 #
 # Keeps the Phase 15 assertions (they still hold) and adds the compatibility
 # artifacts: the static guard, the real-3.2 smoke in the required gates check,
@@ -24,10 +24,10 @@ assert() {
 }
 
 echo ""
-echo "v6.4.2 — macOS bash 3.2 compatibility contract"
+echo "v6.4.3 — macOS BSD userland compatibility contract"
 echo "─────────────────────────────────────"
 
-assert "VERSION is 6.4.2" "[ \"\$(tr -d '[:space:]' < '$REPO_ROOT/VERSION')\" = '6.4.2' ]"
+assert "VERSION is 6.4.3" "[ \"\$(tr -d '[:space:]' < '$REPO_ROOT/VERSION')\" = '6.4.3' ]"
 assert "approve.sh exists and is executable" "[ -x '$REPO_ROOT/scripts/approve.sh' ]"
 assert "approve.sh binds the staged tree" "grep -q 'git write-tree' '$REPO_ROOT/scripts/approve.sh'"
 assert "pre-commit validates the approved tree" "grep -q 'APPROVED_TREE' '$REPO_ROOT/scripts/git-hooks/pre-commit'"
@@ -45,7 +45,7 @@ assert "bin/aas guards the empty args array" "grep -qF 'args[@]+' '$REPO_ROOT/bi
 assert "aas_remove_path guards the empty files array" "grep -qF '${#files[@]}' '$REPO_ROOT/scripts/lib/aas.sh'"
 assert "tdd-gate lowercases without bash 4" "grep -q 'lower() {' '$REPO_ROOT/scripts/tdd-gate.sh'"
 assert "RELEASE-NOTES names the macOS bash 3.2 fix" "grep -qi 'macOS bash 3.2' '$REPO_ROOT/RELEASE-NOTES.md'"
-assert "npm/README documents v6.4.2" "grep -qF \"What's new in v6.4.2\" '$REPO_ROOT/npm/README.md'"
+assert "npm/README documents v6.4.3" "grep -qF \"What's new in v6.4.3\" '$REPO_ROOT/npm/README.md'"
 assert "blog EN explains the binding" "grep -q 'What an approval actually binds' '$REPO_ROOT/web/src/content/blog/the-human-in-command.en.md'"
 assert "blog ES explains the binding" "grep -q 'Lo que una aprobación ata de verdad' '$REPO_ROOT/web/src/content/blog/the-human-in-command.es.md'"
 assert "web docs mention the human-approved digest (EN)" "grep -qi 'human-approved digest' '$REPO_ROOT/web/src/content/docs/enforcement.en.md'"
