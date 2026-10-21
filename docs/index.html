@@ -103,17 +103,17 @@
     <h2 data-i18n="overview.quickLinks">Quick Links</h2>
 
     <table>
-      <tr><td data-i18n="overview.version">Current version</td><td>v6.4.1</td></tr>
+      <tr><td data-i18n="overview.version">Current version</td><td>v6.4.2</td></tr>
       <tr><td data-i18n="overview.skillsCount">Skills</td><td>57</td></tr>
       <tr><td data-i18n="overview.guidesCount">Guides</td><td>151</td></tr>
       <tr><td data-i18n="overview.license">License</td><td>MIT</td></tr>
     </table>
 
-    <h2 data-i18n="overview.whatsNew">What's New in v6.4.1</h2>
+    <h2 data-i18n="overview.whatsNew">What's New in v6.4.2</h2>
     <ul class="whats-new">
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Approval binding</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1">An approval now carries the staged-tree hash, and the gate refuses a commit if the tree changed after approval. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">One-time approval</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">The approval is consumed by the successful commit, so one approval covers one commit. The replay window is gone.</span></li>
-      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">Approved tree at L2</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3">The required <code>gates</code> check verifies the PR head tree against the human-approved digest in the PR body.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem1">Runs on stock macOS</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc1"><code>aas install --agents auto</code> no longer aborts with <code>args[@]: unbound variable</code> on the bash 3.2 that ships with macOS. <a href="https://github.com/juandelossantos/another-agent-skills/blob/main/RELEASE-NOTES.md">Full release notes →</a></span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem2">Portable TDD gate</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc2">The commit hook lowercases with <code>tr</code> instead of <code>${var,,}</code>, so the gate runs on the same bash the installer does.</span></li>
+      <li><span class="whats-new__item" data-i18n="overview.whatsNewItem3">A mechanical guard</span> — <span class="whats-new__desc" data-i18n="overview.whatsNewDesc3"><code>check-bash32.sh</code> rejects bash 4-only syntax in runtime scripts, and CI runs the entrypoints in a real <code>bash:3.2</code> container.</span></li>
     </ul>
 
     <h3>Previous releases</h3>

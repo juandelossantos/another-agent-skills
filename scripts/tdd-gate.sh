@@ -250,6 +250,12 @@ get_test_stem() {
   echo "$stem"
 }
 
+# Lowercase a string without `${var,,}`: bash 4 only, and stock macOS ships
+# bash 3.2. This gate runs as a git hook on macOS, so the portable form wins.
+lower() {
+  printf '%s' "$1" | tr '[:upper:]' '[:lower:]'
+}
+
 # Check if a test file name-matches a code file (pairing check)
 name_matches_code() {
   local code_file="$1"
@@ -258,6 +264,8 @@ name_matches_code() {
   local test_stem
   local code_basename
   local test_basename
+  local code_lc
+  local test_lc
 
   code_stem=$(get_code_stem "$code_file")
   test_stem=$(get_test_stem "$test_file")
@@ -273,12 +281,15 @@ name_matches_code() {
   # Test stem contains code stem (handles "test_pre_commit_gates" for "pre_commit")
   [[ "$test_stem" == *"$code_stem"* ]] && return 0
 
+  code_lc=$(lower "$code_stem")
+  test_lc=$(lower "$test_stem")
+
   # Case-insensitive stem match (handles DESIGN-MD-SCHEMA vs design-md-schema)
-  [[ "${test_stem,,}" == "${code_stem,,}" ]] && return 0
+  [[ "$test_lc" == "$code_lc" ]] && return 0
 
   # Case-insensitive containment (handles "guide-refs" testing skill named "SKILL" or "DISCOVERY-GUIDE")
-  [[ "${code_stem,,}" == *"${test_stem,,}"* ]] && return 0
-  [[ "${test_stem,,}" == *"${code_stem,,}"* ]] && return 0
+  [[ "$code_lc" == *"$test_lc"* ]] && return 0
+  [[ "$test_lc" == *"$code_lc"* ]] && return 0
 
   return 1
 }

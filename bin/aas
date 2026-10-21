@@ -100,7 +100,9 @@ cmd_install() {
   [ "$skip_si" = true ] && args+=(--skip-self-improvement)
   # Thread the selection through to the underlying installer's environment;
   # scripts/agent-detect.sh (sourced by init-agents.sh) honours AAS_AGENTS.
-  AAS_AGENTS="$selected" bash "$init" "${args[@]}"
+  # `${arr[@]+...}`: stock macOS ships bash 3.2, where expanding an *empty*
+  # array under `set -u` is an "unbound variable" error (fixed in bash 4.4).
+  AAS_AGENTS="$selected" bash "$init" ${args[@]+"${args[@]}"}
 }
 
 cmd_upgrade() {

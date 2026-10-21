@@ -8,13 +8,13 @@
 
 | Metric | Value |
 |---|---|
-| Version | **6.4.1** — approval integrity (binding + one-time + L2 approved tree + capability boundary); 6.4.0 shipped the /gate wedge (58th) + npm-first onboarding; npm and the web are **live** |
-| Next target | **W3** — publish the 3 channel adaptations (EN/ES) · **Cierre MKT + backlog (v6.5.0)** · backlog **B13/B16/B19/B20** (see **Next tasks** below). T2 and E1 are done. *Current focus: **MKT** — see below.* |
+| Version | **6.4.2** — macOS bash 3.2 compatibility (installer + TDD gate + mechanical guard); 6.4.1 shipped approval integrity; 6.4.0 the /gate wedge (58th) + npm-first onboarding; npm and the web are **live** |
+| Next target | **Release runbook v6.4.2** (tag + npm approval) · **W3** — publish the 3 channel adaptations (EN/ES) · **Cierre MKT + backlog (v6.5.0)** · backlog **B13/B16/B19/B20/B24** (see **Next tasks** below). T2 and E1 are done. *Current focus: **MKT** — see below.* |
 | Lint | 0 errors, 2 warnings |
 | Health | 🟡 DEGRADED (2 skill-lint warnings) |
 | Skills | 58 with contracts, When to Use, When NOT to Use |
 | Guides | 153 across all skills |
-| Tests | **147 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
+| Tests | **150 suites** passing (core: behavioral + task working set capped at 20); web: **106 node + 112 e2e** (axe 0) |
 | Backlog P0 (caso real) | **B4** `--repair` pierde datos · **B5** hooks locales inertes (`core.hooksPath`) · **B6** guardrail del plugin inerte (`bash` vs `shell`) — del ejercicio en `courtside-scoreboard`; ver **Backlog** |
 
 ---
@@ -94,6 +94,29 @@
 
 ---
 
+## Phase 16: macOS bash 3.2 compatibility (v6.4.2) — ✅ COMPLETE
+
+**Status:** ✅ **COMPLETE (2026-10-20)** — un usuario reportó `args[@]: unbound variable` al correr `aas install --agents auto`. No era npm ni Windows: macOS trae **bash 3.2** y expandir un array **vacío** bajo `set -u` aborta el script (corregido en bash 4.4). Linux y la CI nunca lo vieron porque usan bash 5.
+**Prioridad:** 🔴 **P0** — rompía el comando de instalación que documenta el README en una plataforma soportada.
+
+**Release:** **v6.4.2** (patch de compatibilidad).
+
+### Closeout (Phase 16) — 2026-10-20
+
+| Slice | Entrega |
+|---|---|
+| P16.1 | `bin/aas`: flags opcionales con `${args[@]+"${args[@]}"}` — `aas install` vuelve a funcionar en bash 3.2. |
+| P16.2 | `scripts/lib/aas.sh`: `aas_remove_path` sale temprano cuando no hay rc files (mismo abort). |
+| P16.3 | `scripts/tdd-gate.sh`: lowercase con `tr` en vez de `${var,,}` (bash 4), para que el hook corra en el bash de macOS. |
+| P16.4 | `scripts/check-bash32.sh` (guard estático de sintaxis bash 4 en scripts de runtime) + `tests/test-check-bash32.sh`; `tests/test-bash32-smoke.sh` ejecuta los entrypoints en un contenedor `bash:3.2` dentro del check requerido `gates`. |
+| P16.5 | `v6.4.2` en todas las superficies, `RELEASE-NOTES.md`, `npm/README.md`, `tests/test-release-642.sh`. |
+
+**Evidencia:** `bash scripts/check-bash32.sh` verde; smoke `bash:3.2` PASS (`--version`, `install --agents auto`, `install --skip-self-improvement`, `uninstall` sin rc files); core **150/150**, web 106 node + 112 e2e (axe 0).
+
+**Límites honestos:** el guard es estático (sintaxis) y el smoke cubre los entrypoints, no la suite completa bajo 3.2. `scripts/eval/` queda exento por ser tooling de maintainer (usa `declare -A`/`readarray`).
+
+---
+
 ## Next tasks
 
 > **Phase 15 ✅ complete.** Next: publish **W3** (the 3 channel adaptations, EN/ES) and close the marketing track (**Cierre MKT + backlog, v6.5.0**).
@@ -110,10 +133,11 @@ The active focus is **visibility and usage**, not new features. An ordered plan 
 | W1 | Rail (npx skills path, `marketplace.json`, directories, awesome-lists) | 🟡 1/3 |
 | W2 | Wedge — new `/gate` skill | ✅ shipped in v6.4.0 (PR #73) |
 | W3 | Owned content (essay + cadence) | 🟡 essay published as a bilingual blog (`/blog/`, EN/ES); the dev.to/LinkedIn/X adaptations are written EN/ES; publish + UTMs pending |
-| W4 | Amplify (HN, community, podcasts) | ⬜ |
+| W4 | Amplify (HN, community, podcasts, Substack) | ⬜ |
 | W5 | Long tail (`/vs`, programmatic SEO) | ⬜ |
 
 - **In-repo change so far:** `.claude-plugin/marketplace.json` (validated with `claude plugin validate`; additive) and the **blog** section in `web/` (`/blog/` + `/es/blog/`, RSS, share options, article SEO/AEO, a11y gate).
+- **Preparado (próxima iteración):** `skills.sh.json` (las 58 skills agrupadas para la página de skills.sh) y `development/launch/substack-the-human-in-command.en.md` (edición condensada con enlace al blog, sin duplicar).
 - **Local artifacts (git-ignored):** `development/MARKETING-PLAN.md` (plan + status board §0), `development/distribution-pack.md`, `development/metrics.sh`.
 - **Non-regression contract:** no marketing change ships without `tests/run-all.sh` green + `validate-skill-table` + docs-honesty. **No skill renames.**
 - **Paused:** the dev track below stays paused until the W2–W4 visibility push lands.
@@ -132,6 +156,8 @@ The active focus is **visibility and usage**, not new features. An ordered plan 
 | C3 | **`git rm` de contenido obsoleto** | `development/launch-content-{devto,linkedin,x-thread}.md` — tracked, campaña del **framework** (julio 2026), stats obsoletos (57 skills / 54 guides / 12 gates / token SHA256), ajenos al ensayo. |
 | C4 | **Reconciliar tracking** | `PLAN.md`: **B18** `Pendiente`→`Done` (hecho en #64); el blog figura como **shipped**. |
 | C5 | **Release** | Bump **v6.5.0** + `RELEASE-NOTES.md` + `HEALTH-CHECK.md` + `PROGRESS_STATUS.md`. |
+| C6 | **Proceso npm** | `npm/README.md` en el release checklist + aviso mecánico en `pr-review-checklist.sh` (release PR sin README → WARN). El proceso está en `docs/DISTRIBUTION.md` y `DEVELOPMENT.md`. |
+| C7 | **Refresh de `gates.yml`** | Un proyecto existente conserva su `.github/workflows/gates.yml` viejo (`init-agents` no lo sobrescribe), así que no recibe el step L2. Añadir refresh explícito o `--force` para el workflow AAS-managed. Ver **B24**. |
 
 **Log de hallazgos:** durante W3/W4 se registran los gaps de framework que aparezcan (como el lote B12–B17 del rollout de *courtside*) para que "diferido" no sea "olvidado". Se arregla al vuelo **solo** lo que bloquee un paso de marketing.
 
@@ -867,6 +893,7 @@ before any version is assigned.
 | B21 | El `install_global_framework` de `install.sh` copia solo los 10 scripts legacy al dir global (`~/.config/opencode`, fallback de `$AAS_DIR`): faltan `audit-project.sh`, `generate-adr.sh` y los 3 validadores → en ese fallback los shims del proyecto no resuelven | 🟡 P2 | ✅ Done (B14+B15) |
 | B22 | Aprobación **no atada al árbol** (`git write-tree`), **replay** dentro de 10 min, y L1 como **política** (no capacidad) — hallazgos de los comentarios de dev.to (binding, one-time, capability boundary) | 🔴 P0 | → **Phase 15** (v6.4.1) |
 | B23 | Security headers: GitHub Pages ignora `_headers` (decidir meta-CSP o proxy CDN) | 🟡 P2 | Pendiente |
+| B24 | `init-agents` no refresca un `.github/workflows/gates.yml` existente con los steps nuevos (L2); el proyecto se queda con el workflow viejo | 🟠 P1 | Pendiente |
 
 - Troubleshooting guide
 - New skill tracks: CLI, IoT, GameDev, Container

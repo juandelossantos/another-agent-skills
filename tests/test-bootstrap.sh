@@ -22,6 +22,12 @@ check $? "header usage line pins v${REPO_VERSION}"
 # Guard against a stale pinned example left behind in a comment.
 ! grep -qE -- "--version v6\.[0-3]\." "$REPO_ROOT/bootstrap.sh"
 check $? "no stale --version example in bootstrap.sh"
+# Strict: every pinned example is the CURRENT version (catches a missed bump in
+# any 6.x line, e.g. a leftover v6.4.1 after the 6.4.2 surface sync).
+STALE_PINS="$(grep -oE -- '--version v[0-9]+\.[0-9]+\.[0-9]+' "$REPO_ROOT/bootstrap.sh" \
+  | sort -u | grep -v "v${REPO_VERSION}" || true)"
+[ -z "$STALE_PINS" ]
+check $? "no --version pin other than v${REPO_VERSION} in bootstrap.sh"
 # The npm wrapper README example tracks the same version (channel consistency).
 grep -q -- "--version v${REPO_VERSION}" "$REPO_ROOT/npm/README.md"
 check $? "npm README example pins v${REPO_VERSION}"

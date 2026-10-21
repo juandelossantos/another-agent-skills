@@ -241,6 +241,9 @@ aas_remove_path() {
   for rc in "$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.profile"; do
     [ -e "$rc" ] && files+=("$rc")
   done
+  # bash 3.2 (stock macOS) aborts on an empty-array expansion under `set -u`.
+  # No rc file means there is nothing to clean up.
+  if [ "${#files[@]}" -eq 0 ]; then return 0; fi
   for f in "${files[@]}"; do
     grep -qF "$begin" "$f" 2>/dev/null || continue
     tmp="$f.aas.tmp.$$"

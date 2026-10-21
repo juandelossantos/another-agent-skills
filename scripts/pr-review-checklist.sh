@@ -38,6 +38,19 @@ check() {
     fi
 }
 
+# Release reminder: npm renders the package README from the published tarball,
+# so a README change only appears on the next publish. A release PR must update it.
+check_npm_readme_release() {
+    local files="$1"
+    if printf '%s\n' "$files" | grep -qE '^(VERSION|RELEASE-NOTES\.md|npm/package\.json)$'; then
+        if printf '%s\n' "$files" | grep -q '^npm/README\.md$'; then
+            check "Release PR updates npm/README.md" "ok"
+        else
+            check "Release PR updates npm/README.md (baked into the published tarball; it appears on the next publish)" "warn"
+        fi
+    fi
+}
+
 echo ""
 echo "╔════════════════════════════════════════════════════════╗"
 echo "║  PR REVIEW CHECKLIST — MECHANICAL GATE              ║"
@@ -148,6 +161,8 @@ if [ "$HAS_CODE" -eq 1 ]; then
 else
     check "No code files changed" "ok"
 fi
+
+check_npm_readme_release "$PR_FILES"
 
 # Check for skill files compliance
 SKILLS_OK=1

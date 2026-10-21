@@ -49,7 +49,7 @@ aas upgrade                  # self-update from the latest pinned release
 npx @juandelossantos/another-agent-skills install
 
 # Pin a specific release
-npx @juandelossantos/another-agent-skills install --version v6.4.1
+npx @juandelossantos/another-agent-skills install --version v6.4.2
 
 # See what would happen without downloading or writing anything
 npx @juandelossantos/another-agent-skills install --dry-run
@@ -77,7 +77,8 @@ GitHub Release tarball:
 5. Removes the temp dir.
 
 Requirements: Node.js >= 18, plus `tar` and `bash` on the system (present on
-Linux, macOS, and Git Bash on Windows).
+Linux, macOS, and Git Bash on Windows). **Bash 3.2+** — the bash macOS ships —
+is supported; the installer, the `aas` CLI and the git hooks all run on it.
 
 ## What's inside the framework
 
@@ -92,6 +93,21 @@ Linux, macOS, and Git Bash on Windows).
   system, not an afterthought.
 - **Portable** across OpenCode, Claude Code, Cursor, Codex, Gemini CLI, GitHub
   Copilot, and any agent that reads `AGENTS.md`.
+
+## What's new in v6.4.2
+
+**Stock macOS works.** macOS ships bash 3.2, and the installer expanded an empty
+array under `set -u` — so `aas install --agents auto` died with
+`args[@]: unbound variable`. Fixed, along with the same abort in `aas uninstall`
+on a HOME with no shell rc files.
+
+- **Portable TDD gate.** The commit hook lowercases with `tr` instead of the
+  bash-4 `${var,,}`, so it runs on the bash macOS actually has.
+- **A mechanical guard.** `scripts/check-bash32.sh` rejects bash 4-only syntax
+  in runtime scripts, and CI runs the entrypoints in a real `bash:3.2`
+  container on every PR.
+- **Release hygiene.** A release PR that bumps `VERSION` without touching this
+  file now warns: the npm page only updates on the next publish.
 
 ## Approval integrity (v6.4.1)
 

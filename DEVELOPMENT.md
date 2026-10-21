@@ -106,6 +106,16 @@ npx playwright test            # Runs the test suite
 
 This gives the agent eyes into the browser: DOM inspection, console logs, network requests, screenshots, and performance traces.
 
+## Definition of done (user-facing changes)
+
+A change that a user can see is not done until:
+
+- Tests pass (`bash tests/run-all.sh`), plus the web suite when `web/` changes.
+- `README.md` and the web docs reflect the change.
+- **`npm/README.md` reflects the change.** The npm package page renders it from the published tarball, so it only appears on the next publish. A release PR must update it (see `docs/DISTRIBUTION.md`).
+- `RELEASE-NOTES.md` and the version surfaces are consistent (`bash scripts/check-channel-consistency.sh`).
+- **Runtime scripts still run on bash 3.2** (`bash scripts/check-bash32.sh`). macOS ships bash 3.2; a construct that only works on bash 4 passes every Linux test and still crashes the installer on a Mac. The real-3.2 smoke (`bash tests/test-bash32-smoke.sh`, needs docker) runs in the required `gates` check.
+
 ## Syncing Git Hooks
 
 After modifying hooks in `scripts/git-hooks/`, sync them to `.git/hooks/`:

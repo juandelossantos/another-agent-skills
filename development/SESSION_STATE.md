@@ -1,9 +1,24 @@
-# Session State — Phase 15 complete (v6.4.1) · next: W3 publish + Cierre MKT
+# Session State — Phase 16 complete (v6.4.2) · next: tag v6.4.2 + W3 publish
 
-**Date:** 2026-10-19 (updated)
-**Branch:** `feat/phase15-approval-integrity` (PR #76, Phase 15; merge pending).
-**Status:** ✅ **v6.4.1 complete (Phase 15 — approval integrity)** — ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **147 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
+**Date:** 2026-10-20 (updated)
+**Branch:** `release/v6.4.2` (Phase 16; merge pending).
+**Status:** ✅ **v6.4.2 complete (Phase 16 — macOS bash 3.2 compatibility)** — ✅ **v6.4.1 SHIPPED** (Phase 15 — approval integrity) — ✅ **v6.4.0 SHIPPED** — the **/gate wedge skill (58th)** + npm-first onboarding (PR #73; tag `v6.4.0`, npm `latest`). ✅ **Blog shipped (W2/W3)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article), the "human in command" essay as the first post (EN/ES), RSS 2.0, share options, article SEO/AEO, TOC and a reading-progress bar. Web suite: **106 node + 112 e2e** (axe 0); core **150 suites** green. Prior: **Phase 14 SHIPPED** (PRs #66/#67/#68), Phase 13 (PR #61).
 **Plan:** `PLAN.md` — single source of truth
+
+## Phase 16 closure (2026-10-20)
+
+**Branch:** `release/v6.4.2`. **Trigger:** a user reported `args[@]: unbound variable` on `aas install --agents auto` — macOS ships bash 3.2, where an empty array under `set -u` aborts.
+
+**Shipped:** `${args[@]+...}` in `bin/aas`, early return in `aas_remove_path`, portable lowercase (`tr`) in `tdd-gate.sh`, `scripts/check-bash32.sh` (static guard) + `tests/test-bash32-smoke.sh` (`bash:3.2` container) inside the required `gates` check, and the npm README release guard. Version surfaces at **v6.4.2**.
+
+**Verified:** `check-bash32.sh` green, `bash:3.2` smoke PASS, core **150/150**, `check-channel-consistency` local green.
+
+**Release runbook (post-merge, operativo; sin PR de código):**
+1. Tag `v6.4.2` + push (release.yml builds/attests and chains npm-publish).
+2. Approve the staged npm publish; verify `npm view @juandelossantos/another-agent-skills version`.
+3. `bash scripts/check-channel-consistency.sh --online`.
+
+**Next:** publish W3 (dev.to/LinkedIn/X, EN/ES) and the **Cierre MKT + backlog (v6.5.0)**.
 
 ## Phase 15 closure (2026-10-19)
 

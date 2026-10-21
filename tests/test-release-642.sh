@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# test-release-641.sh — v6.4.1 Phase 15 release contract: approval integrity.
+# test-release-642.sh — v6.4.2 release contract: macOS bash 3.2 compatibility.
+#
+# Keeps the Phase 15 assertions (they still hold) and adds the compatibility
+# artifacts: the static guard, the real-3.2 smoke in the required gates check,
+# the installer fixes and the npm README.
 #
 # Version surfaces are covered by the version-agnostic test-release-640.sh.
 # This suite guards the Phase 15 artifacts and the claims that ship with them.
@@ -20,10 +24,10 @@ assert() {
 }
 
 echo ""
-echo "v6.4.1 — approval integrity contract"
+echo "v6.4.2 — macOS bash 3.2 compatibility contract"
 echo "─────────────────────────────────────"
 
-assert "VERSION is 6.4.1" "[ \"\$(tr -d '[:space:]' < '$REPO_ROOT/VERSION')\" = '6.4.1' ]"
+assert "VERSION is 6.4.2" "[ \"\$(tr -d '[:space:]' < '$REPO_ROOT/VERSION')\" = '6.4.2' ]"
 assert "approve.sh exists and is executable" "[ -x '$REPO_ROOT/scripts/approve.sh' ]"
 assert "approve.sh binds the staged tree" "grep -q 'git write-tree' '$REPO_ROOT/scripts/approve.sh'"
 assert "pre-commit validates the approved tree" "grep -q 'APPROVED_TREE' '$REPO_ROOT/scripts/git-hooks/pre-commit'"
@@ -34,6 +38,14 @@ assert "gates.yml checks out the PR head" "grep -q 'github.event.pull_request.he
 assert "agent-runner.sh exists and is executable" "[ -x '$REPO_ROOT/scripts/agent-runner.sh' ]"
 assert "Rule 12 says the human runs approve.sh" "grep -q 'bash scripts/approve.sh' '$REPO_ROOT/rules/common/enforcement.md'"
 assert "RELEASE-NOTES names approval binding" "grep -qi 'Approval binding' '$REPO_ROOT/RELEASE-NOTES.md'"
+assert "check-bash32.sh exists and is executable" "[ -x '$REPO_ROOT/scripts/check-bash32.sh' ]"
+assert "gates.yml runs the static bash 3.2 guard" "grep -q 'scripts/check-bash32.sh' '$REPO_ROOT/.github/workflows/gates.yml'"
+assert "gates.yml runs the bash:3.2 smoke" "grep -q 'tests/test-bash32-smoke.sh' '$REPO_ROOT/.github/workflows/gates.yml'"
+assert "bin/aas guards the empty args array" "grep -qF 'args[@]+' '$REPO_ROOT/bin/aas'"
+assert "aas_remove_path guards the empty files array" "grep -qF '${#files[@]}' '$REPO_ROOT/scripts/lib/aas.sh'"
+assert "tdd-gate lowercases without bash 4" "grep -q 'lower() {' '$REPO_ROOT/scripts/tdd-gate.sh'"
+assert "RELEASE-NOTES names the macOS bash 3.2 fix" "grep -qi 'macOS bash 3.2' '$REPO_ROOT/RELEASE-NOTES.md'"
+assert "npm/README documents v6.4.2" "grep -qF \"What's new in v6.4.2\" '$REPO_ROOT/npm/README.md'"
 assert "blog EN explains the binding" "grep -q 'What an approval actually binds' '$REPO_ROOT/web/src/content/blog/the-human-in-command.en.md'"
 assert "blog ES explains the binding" "grep -q 'Lo que una aprobación ata de verdad' '$REPO_ROOT/web/src/content/blog/the-human-in-command.es.md'"
 assert "web docs mention the human-approved digest (EN)" "grep -qi 'human-approved digest' '$REPO_ROOT/web/src/content/docs/enforcement.en.md'"

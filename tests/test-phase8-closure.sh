@@ -35,8 +35,8 @@ assert "PLAN Phase 8 section is COMPLETE" "grep -q 'Phase 8: Remote Enforcement 
 assert "PLAN has no Phase 8 IN PROGRESS marker" "! grep -q '🔄 IN PROGRESS' '$PLAN'"
 assert "PLAN marks every P8.1–P8.9 task DONE/CLOSED" "! grep -qE 'P8\.[0-9] ⬜ PENDING' '$PLAN'"
 assert "PLAN lists Phase 8 in Completed Phases" "grep -qF '| **8** | **v6.2.0** |' '$PLAN'"
-assert "PLAN Next target points at W3 + the MKT closure" "grep -q 'Next target | \*\*W3\*\*' '$PLAN' && grep -q 'Cierre MKT' '$PLAN'"
-assert "PLAN tests row says 147 suites" "grep -qF '147 suites' '$PLAN'"
+assert "PLAN Next target points at W3 + the MKT closure" "grep -q '\*\*W3\*\*' '$PLAN' && grep -q 'Cierre MKT' '$PLAN'"
+assert "PLAN tests row says 150 suites" "grep -qF '150 suites' '$PLAN'"
 
 # --- PROGRESS_STATUS.md ---
 assert "PROGRESS header says Phase 8 complete" "grep -q 'Phase 8 complete' '$PROGRESS'"

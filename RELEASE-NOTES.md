@@ -1,5 +1,41 @@
 # Release Notes
 
+## 6.4.2 (2026-10-20) — macOS bash 3.2 compatibility
+
+`aas install --agents auto` — the command the README tells you to run — died on a
+stock Mac with `args[@]: unbound variable`. Not npm, not Windows: macOS ships
+bash 3.2, where expanding an *empty* array under `set -u` aborts the script
+(fixed in bash 4.4). Linux and CI never saw it.
+
+### Fixed
+
+- **`aas install` on macOS.** `bin/aas` passes its optional flags with the
+  `${arr[@]+...}` form, so an empty `args` array expands to nothing instead of
+  aborting.
+- **`aas uninstall` on macOS.** `aas_remove_path` returns early when none of
+  `~/.zshrc`, `~/.bashrc` or `~/.profile` exists — the other empty-array abort.
+- **TDD gate on macOS.** `scripts/tdd-gate.sh` lowercases with `tr` instead of
+  the bash-4 `${var,,}`, so the commit hook runs on the bash macOS actually has.
+
+### New
+
+- **`scripts/check-bash32.sh`** — fails when a runtime script uses bash 4-only
+  syntax (case conversion, `declare -A`, `mapfile`, `nameref`, `|&`, `&>>`,
+  `wait -n`). `scripts/eval/` is maintainer-only and exempt. Wired into the
+  required `gates` check.
+- **`tests/test-bash32-smoke.sh`** — runs `aas --version/--dir/install/uninstall`
+  inside a real `bash:3.2` container on every PR, so bash 3.2 *semantics* are
+  tested instead of assumed.
+- **npm README release guard.** A release PR that bumps `VERSION`,
+  `RELEASE-NOTES.md` or `npm/package.json` without touching `npm/README.md`
+  now warns: the npm page renders that file from the published tarball, so it
+  only updates on the next publish.
+
+### Tests
+
+- New `tests/test-check-bash32.sh` (14 checks) and `tests/test-bash32-smoke.sh`
+  (docker-gated, runs in `gates`). Suite **150/150**.
+
 ## 6.4.1 (2026-10-19) — approval integrity
 
 The gate now binds an approval to the exact change, and the boundary is explicit.
