@@ -120,6 +120,18 @@ gh attestation verify dist/another-agent-skills-vX.Y.Z.tar.gz --repo juandelossa
 
 ---
 
+## Release checklist (maintainer)
+
+Before you tag a release:
+
+- [ ] `VERSION` and every surface agree (`bash scripts/check-channel-consistency.sh`).
+- [ ] `RELEASE-NOTES.md` has the new version at the top.
+- [ ] **`npm/README.md` reflects the new user-facing changes.** The npm page renders this file from the published tarball, so it only updates on the next publish. A release that changes behavior but not the npm README leaves the package page stale.
+- [ ] The release test (`tests/test-release-<version>.sh`) covers the new surfaces, including the npm README section.
+- [ ] After the tag: approve the staged npm publish, then `bash scripts/check-channel-consistency.sh --online`.
+
+The npm README is separate from the repo README. npm does not let you edit the README of a published version, and a used version cannot be republished. The page shows the README inside the tarball for the `latest` version, so the only supported way to update it is to publish a new version.
+
 ## Web (landing + docs) deployment
 
 The public landing + docs live in `web/` (Astro) and ship through a **separate**

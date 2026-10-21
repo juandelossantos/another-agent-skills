@@ -66,6 +66,15 @@ jobs:
       - name: Gate-remedy paths installed (B15 guard)
         run: bash scripts/check-gate-remedies.sh
 
+      # Stock macOS ships bash 3.2. The installer, the CLI and the hooks run on
+      # it, so a bash 4-only construct that passes every Linux test is still a
+      # crash on a real Mac. Static guard first, then the real interpreter.
+      - name: bash 3.2 compatibility (static guard)
+        run: bash scripts/check-bash32.sh
+
+      - name: bash 3.2 compatibility (entrypoints in a real bash:3.2)
+        run: bash tests/test-bash32-smoke.sh
+
       - name: Shell syntax check (scripts + hooks)
         run: |
           set -uo pipefail

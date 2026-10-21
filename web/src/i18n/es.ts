@@ -206,7 +206,7 @@ export const es: Dictionary = {
   },
   footer: {
     docs: 'Documentación', github: 'GitHub',
-    copy: 'v6.4.1 · Licencia MIT · Hecho por @juandelossantos',
+    copy: 'v6.4.2 · Licencia MIT · Hecho por @juandelossantos',
   },
   agents: {
     ariaLabel: 'Agentes detectados',

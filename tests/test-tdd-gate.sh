@@ -308,6 +308,20 @@ git -C "$REPO" add .
 ACTUAL=$?
 assert_exit "JSON + MD with tests → PASS" 0 "$ACTUAL"
 
+# ─── Test 23: case-insensitive name pairing (portable lowercase) ───
+# The pairing check must lowercase without bash 4's ${var,,}: macOS ships bash
+# 3.2, where that is a bad substitution and the commit hook would die.
+echo ""
+echo "Test 23: uppercase code stem + lowercase test (expect PASS)"
+REPO=$(setup_repo 23)
+mkdir -p "$REPO/tests"
+echo 'console.log(1)' > "$REPO/Dominio.js"
+echo 'assert dominio' > "$REPO/tests/test_dominio.sh"
+git -C "$REPO" add .
+(cd "$REPO" && bash "$GATE_SCRIPT" > /dev/null 2>&1)
+ACTUAL=$?
+assert_exit "Uppercase code stem pairs case-insensitively (bash 3.2 safe)" 0 "$ACTUAL"
+
 # ─── Summary ───
 echo ""
 echo "──────────────────────────────────"

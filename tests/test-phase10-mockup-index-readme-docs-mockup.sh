@@ -38,6 +38,7 @@ assert "mockup README exists" "[ -f '$M/README.md' ]"
 assert "landing JS parses" "node --check '$M/js/mockup.js' >/dev/null 2>&1"
 assert "docs JS parses" "node --check '$M/js/docs-mockup.js' >/dev/null 2>&1"
 assert "landing mockup footer shows the current version" "grep -q 'v${V}' '$M/js/mockup.js'"
+assert "docs mockup chip shows the current version" "grep -q \"version: 'v${V}'\" '$M/js/docs-mockup.js'"
 assert "docs mockup version chip shows the current version" "grep -q \"version: 'v${V}'\" '$M/js/docs-mockup.js'"
 
 # --- Landing content contract ---

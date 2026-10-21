@@ -1,0 +1,88 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Lifecycle",
+      "description": "Define, plan, build, verify, review, ship.",
+      "skills": [
+        "spec-driven-development",
+        "planning-and-task-breakdown",
+        "incremental-implementation",
+        "test-driven-development",
+        "code-review-and-quality",
+        "shipping-and-launch",
+        "git-workflow-and-versioning",
+        "git-init-and-versioning",
+        "project-health-check",
+        "project-metrics",
+        "self-improvement",
+        "idea-refine",
+        "interview-me",
+        "architecture-analysis",
+        "doubt-driven-development",
+        "debugging-and-error-recovery",
+        "debugging-three-strikes",
+        "ci-cd-and-automation",
+        "code-simplification",
+        "dev-environment-audit"
+      ]
+    },
+    {
+      "title": "Design and UI",
+      "description": "Visual, UX, and frontend craft.",
+      "skills": [
+        "frontend-web",
+        "frontend-ui-engineering",
+        "frontend-mobile",
+        "frontend-desktop",
+        "frontend-pwa",
+        "adapt-skill",
+        "audit-skill",
+        "clarify-skill",
+        "critique-skill",
+        "delight-skill",
+        "hard-skill",
+        "polish-skill",
+        "redesign-skill",
+        "typeset-skill",
+        "minimalist-ui",
+        "industrial-brutalist-ui",
+        "soft-premium-ui",
+        "optimize-skill"
+      ]
+    },
+    {
+      "title": "Backend and platform",
+      "description": "APIs, CLIs, security, performance, observability.",
+      "skills": [
+        "backend-api-mastery",
+        "api-and-interface-design",
+        "cli-tools",
+        "fullstack-shipping",
+        "security-and-hardening",
+        "performance-optimization",
+        "observability-and-instrumentation",
+        "deprecation-and-migration"
+      ]
+    },
+    {
+      "title": "Agent skills",
+      "description": "The meta layer: the gate, discovery, creation, context, orchestration.",
+      "skills": [
+        "gate",
+        "skill-creator",
+        "skill-improver",
+        "output-skill",
+        "context-engineering",
+        "source-driven-development",
+        "multi-agent-orchestration",
+        "user-onboarding",
+        "customize-opencode",
+        "browser-testing-with-devtools",
+        "documentation-and-adrs",
+        "engineering-fundamentals"
+      ]
+    }
+  ]
+}
