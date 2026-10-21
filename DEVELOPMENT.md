@@ -115,6 +115,7 @@ A change that a user can see is not done until:
 - **`npm/README.md` reflects the change.** The npm package page renders it from the published tarball, so it only appears on the next publish. A release PR must update it (see `docs/DISTRIBUTION.md`).
 - `RELEASE-NOTES.md` and the version surfaces are consistent (`bash scripts/check-channel-consistency.sh`).
 - **Runtime scripts still run on bash 3.2** (`bash scripts/check-bash32.sh`). macOS ships bash 3.2; a construct that only works on bash 4 passes every Linux test and still crashes the installer on a Mac. The real-3.2 smoke (`bash tests/test-bash32-smoke.sh`, needs docker) runs in the required `gates` check.
+- **Runtime scripts use BSD-safe tool syntax** (`bash scripts/check-portability.sh`). macOS has no `grep -P`, bare `sed -i`, `date -d` or `readlink -f`; inside `$( ... || true )` they fail silently and a gate reads empty values forever. GNU-only usage is blocked in `gates`.
 
 ## Syncing Git Hooks
 

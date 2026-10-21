@@ -39,7 +39,7 @@ generate_table() {
     # Extract description (handle folded YAML: description: > followed by indented lines)
     desc=$(sed -n '/^description: >/,/^[a-z]/p' "$skill_file" | tail -n +2 | head -1 | sed 's/^ *//' || echo "")
     if [ -z "$desc" ]; then
-      desc=$(grep -oP '(?<=^description: ").*(?=")' "$skill_file" | head -1 || echo "")
+      desc=$(sed -n 's/^description: "\(.*\)".*/\1/p' "$skill_file" | head -1)
     fi
     desc=$(echo "$desc" | cut -c1-80)
     printf "| \`%s\` | %d | %d | %s |\n" "$name" "$lines" "$guides" "$desc"
@@ -78,9 +78,11 @@ elif [ "$MODE" == "--apply" ]; then
   TODAY=$(date +%Y-%m-%d)
 
   # Update header: date and version
-  sed -i "s/^\*Last updated:\*.*/$TODAY/" "$PROGRESS_FILE" 2>/dev/null || true
-  sed -i "s/^\*Last updated:\* .*/> **Last updated:** $TODAY  /" "$PROGRESS_FILE" 2>/dev/null || true
-  sed -i "s/> \*\*Current version:\*\* .*/> **Current version:** $VERSION (auto-generated)/" "$PROGRESS_FILE" 2>/dev/null || true
+  # `sed -i.bak` works on both GNU sed and BSD/macOS sed (bare `-i` does not).
+  sed -i.bak "s/^\*Last updated:\*.*/$TODAY/" "$PROGRESS_FILE" 2>/dev/null || true
+  sed -i.bak "s/^\*Last updated:\* .*/> **Last updated:** $TODAY  /" "$PROGRESS_FILE" 2>/dev/null || true
+  sed -i.bak "s/> \*\*Current version:\*\* .*/> **Current version:** $VERSION (auto-generated)/" "$PROGRESS_FILE" 2>/dev/null || true
+  rm -f "${PROGRESS_FILE}.bak"
 
   # Update skill table
   TABLE_START=$(grep -n "^### [0-9]* Custom Skills" "$PROGRESS_FILE" | cut -d: -f1)

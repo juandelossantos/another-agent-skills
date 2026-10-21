@@ -19,7 +19,7 @@ fi
 ADRS_DIR="$(dirname "$0")/../ADRs"
 mkdir -p "$ADRS_DIR"
 
-LAST_NUM=$(ls "$ADRS_DIR"/ADR-*.md 2>/dev/null | grep -oP 'ADR-\K[0-9]+' | sort -n | tail -1)
+LAST_NUM=$(ls "$ADRS_DIR"/ADR-*.md 2>/dev/null | sed -n 's/.*ADR-\([0-9][0-9]*\).*/\1/p' | sort -n | tail -1)
 LAST_NUM=${LAST_NUM:-0}
 # Strip leading zeros
 LAST_NUM=$((10#$LAST_NUM))

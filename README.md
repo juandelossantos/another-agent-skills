@@ -1,10 +1,10 @@
 # Another Agent Skills
 
 [![skills.sh](https://skills.sh/b/juandelossantos/another-agent-skills)](https://skills.sh/juandelossantos/another-agent-skills)
-[![Version: v6.4.2](https://img.shields.io/badge/version-6.4.2-blue.svg)](./RELEASE-NOTES.md)
+[![Version: v6.4.3](https://img.shields.io/badge/version-6.4.3-blue.svg)](./RELEASE-NOTES.md)
 [![Skills: 58](https://img.shields.io/badge/skills-58-blue.svg)](./docs/skills.html)
 [![Guides: 153](https://img.shields.io/badge/guides-153-blue.svg)](./docs/skills.html)
-[![Tests: 150 suites](https://img.shields.io/badge/tests-150%20suites-brightgreen.svg)](./tests/run-all.sh)
+[![Tests: 160 suites](https://img.shields.io/badge/tests-160%20suites-brightgreen.svg)](./tests/run-all.sh)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Multi-agent](https://img.shields.io/badge/multi--agent-15%20agents-8A2BE2.svg)](./docs/AGENT-ADAPTERS.md)
 
@@ -43,17 +43,18 @@ The same check runs remotely as the required `gates` status, so it cannot be byp
 
 ---
 
-## What's New in v6.4.2
+## What's New in v6.4.3
 
-**It runs on a stock Mac.** macOS ships bash 3.2, and two empty-array expansions under `set -u` turned the documented install into `args[@]: unbound variable`. Both are fixed, the TDD gate no longer needs bash 4, and a new guard runs the entrypoints inside a real `bash:3.2` on every PR.
+**The gates run on a stock Mac.** 6.4.2 fixed bash 3.2; a second macOS-only failure was still there. Gate 11 parsed with `grep -oP`, and BSD grep has no `-P`. Every extraction failed silently, so `validate-health-check.sh` compared the linter's real counts against `unknown` and **could never pass on a Mac**, no matter what `HEALTH-CHECK.md` said.
 
-- **`aas install` on macOS.** `aas install --agents auto` — the command this README tells you to run — no longer aborts on bash 3.2. `aas uninstall` is fixed too, on a HOME with no shell rc files.
-- **Portable TDD gate.** `scripts/tdd-gate.sh` lowercases with `tr` instead of `${var,,}`, so the commit hook runs on the same bash that the installer does.
-- **A mechanical guard.** `scripts/check-bash32.sh` fails CI on bash 4-only syntax in any runtime script (`scripts/eval/` is exempt), and `tests/test-bash32-smoke.sh` runs the entrypoints in a `bash:3.2` container inside the required `gates` check.
-- **npm README release guard.** A release PR that bumps `VERSION`, `RELEASE-NOTES.md` or `npm/package.json` without touching `npm/README.md` now warns — the npm page only updates on the next publish.
-- **Counts** — 58 skills · 153 guides · 150 test suites.
+- **Gate 11 parses portably.** `validate-health-check.sh` and its remediation `generate-health-check.sh` use POSIX `sed`/`awk` — no PCRE, no lookbehind.
+- **Six more runtime scripts de-GNU'd.** `grep -oP` is gone from `init-agents.sh`, `create-release.sh`, `validate-release-notes.sh`, `generate-adr.sh`, `sync-progress-table.sh`, `design-upgrade.sh` and `token-validate.sh`. Bare `sed -i` (BSD needs a suffix) is gone from `approval-gate.sh`, `sync-progress-table.sh`, `token-validate.sh`, `release.sh` and `install.sh`.
+- **A mechanical guard.** `scripts/check-portability.sh` fails CI on GNU-only syntax in runtime scripts — `grep -P`, bare `sed -i`, `date -d`, `readlink -f`, `stat -c`, `xargs -r`, `sort -V`, `sed -r`. A same-line `||` BSD fallback is allowed.
+- **Counts** — 58 skills · 153 guides · 160 test suites.
 
-Older releases live in [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) and the [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
+**Updating:** `aas upgrade` — or `npx @juandelossantos/another-agent-skills@latest install`.
+
+**Previous releases:** [`RELEASE-NOTES.md`](./RELEASE-NOTES.md) · [GitHub Releases](https://github.com/juandelossantos/another-agent-skills/releases).
 
 ---
 

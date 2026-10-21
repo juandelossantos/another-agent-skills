@@ -23,7 +23,7 @@ if [ -z "$FIRST_HEADER" ]; then
 fi
 
 LINE_NUM=$(echo "$FIRST_HEADER" | cut -d: -f1)
-VERSION_TAG=$(echo "$FIRST_HEADER" | grep -oP '\d+\.\d+\.\d+' || echo "")
+VERSION_TAG=$(printf '%s\n' "$FIRST_HEADER" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "")
 
 # Check version match
 if [ "$VERSION_TAG" != "$VERSION" ]; then

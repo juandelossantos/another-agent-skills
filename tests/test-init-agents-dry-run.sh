@@ -49,4 +49,8 @@ PROJ2="$TMP/proj2"; mkdir -p "$PROJ2"
 [ -e "$MARKER" ]; check $? "normal run DOES run check-update.sh"
 [ -f "$PROJ2/AGENTS.md" ]; check $? "normal run creates AGENTS.md"
 
+# ── 3. No GNU-only parsing (v6.4.3: macOS/BSD) ───────────────────────────────
+! grep -qE 'grep -[a-zA-Z]*P|sed[[:space:]]+-i[[:space:]]' "$FW/scripts/init-agents.sh"
+check $? "init-agents.sh uses no GNU-only tool syntax"
+
 exit "$fail"

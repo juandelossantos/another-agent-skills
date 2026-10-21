@@ -25,8 +25,11 @@ if [ ! -f "$HEALTH_FILE" ]; then echo "FAIL: $HEALTH_FILE not found"; exit 1; fi
 
 # --- Gather data ---
 LINT_OUTPUT=$(bash scripts/skill-lint.sh 2>&1) || true
-LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+error)' | head -1 || echo "0")
-LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+warning)' | head -1 || echo "0")
+# Portable on purpose: BSD/macOS grep has no -P (PCRE). awk/sed only.
+LINT_ERRORS=$(printf '%s\n' "$LINT_OUTPUT" \
+  | awk 'match($0, /[0-9]+ errors?/) { n=substr($0,RSTART,RLENGTH); sub(/ errors?/,"",n); v=n } END { print (v==""?"0":v) }')
+LINT_WARNINGS=$(printf '%s\n' "$LINT_OUTPUT" \
+  | awk 'match($0, /[0-9]+ warnings?/) { n=substr($0,RSTART,RLENGTH); sub(/ warnings?/,"",n); v=n } END { print (v==""?"0":v) }')
 VERSION=$(cat VERSION 2>/dev/null || echo "unknown")
 SKILL_COUNT=$(ls -d skills/*/ 2>/dev/null | wc -l || true)
 GUIDE_COUNT=$(find skills/ -maxdepth 2 -type f \( -iname '*guide*' -o -iname '*checklist*' -o -iname '*examples*' -o -iname '*memory*' \) ! -path "*/evals/*" 2>/dev/null | wc -l || true)
@@ -88,12 +91,14 @@ EOF
 if [ "$MODE" == "--check" ]; then
   # Compare current HEALTH-CHECK.md header against generated
   GENERATED=$(generate_section)
-  EXPECTED_ERRORS=$(echo "$GENERATED" | grep -oP '(?<=Errors \(Check 14\) \| \*\*)\d+' | head -1 || true)
-  EXPECTED_WARNINGS=$(echo "$GENERATED" | grep -oP '(?<=Warnings \| \*\*)\d+' | head -1 || true)
+  EXPECTED_ERRORS=$(printf '%s\n' "$GENERATED" | sed -n 's/^| *Errors[^|]*| *\*\*\([0-9][0-9]*\)\*\*.*/\1/p' | head -1)
+  EXPECTED_WARNINGS=$(printf '%s\n' "$GENERATED" | sed -n 's/^| *Warnings[^|]*| *\*\*\([0-9][0-9]*\)\*\*.*/\1/p' | head -1)
 
   # Parse current file
-  CURRENT_ERRORS=$(grep -oP '(?<=Errors \(Check 14\) \| \*\*)\d+' "$HEALTH_FILE" | head -1 || echo "unknown")
-  CURRENT_WARNINGS=$(grep -oP '(?<=Warnings \| \*\*)\d+' "$HEALTH_FILE" | head -1 || echo "unknown")
+  CURRENT_ERRORS=$(sed -n 's/^| *Errors[^|]*| *\*\*\([0-9][0-9]*\)\*\*.*/\1/p' "$HEALTH_FILE" | head -1)
+  CURRENT_WARNINGS=$(sed -n 's/^| *Warnings[^|]*| *\*\*\([0-9][0-9]*\)\*\*.*/\1/p' "$HEALTH_FILE" | head -1)
+  : "${CURRENT_ERRORS:=unknown}"
+  : "${CURRENT_WARNINGS:=unknown}"
 
   ERRORS=0
   if [ "$CURRENT_ERRORS" != "$EXPECTED_ERRORS" ] 2>/dev/null; then

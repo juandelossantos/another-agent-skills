@@ -206,7 +206,7 @@ export const en = {
     social: 'Open source · MIT License · Works offline · No lock-in',
   },  footer: {
     docs: 'Documentation', github: 'GitHub',
-    copy: 'v6.4.2 · MIT License · Made by @juandelossantos',
+    copy: 'v6.4.3 · MIT License · Made by @juandelossantos',
   },
   agents: {
     ariaLabel: 'Detected agents',

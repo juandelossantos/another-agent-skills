@@ -26,7 +26,7 @@ echo "║  DESIGN UPGRADE                            ║"
 echo "╚════════════════════════════════════════════╝"
 
 # Helper: extract value from CSS var declaration
-extract_val() { grep -oP "\s*$1:\s*\K[^;]+" "$CSS_FILE" 2>/dev/null | head -1 || true; }
+extract_val() { sed -n "s/.*[[:space:]]$1:[[:space:]]*\([^;]*\).*/\1/p" "$CSS_FILE" 2>/dev/null | head -1 || true; }
 
 # Build DESIGN.md sections
 cat > "$OUTPUT" << 'HEADER'
@@ -43,7 +43,7 @@ HEADER
 # Section 3: Typography
 FONTS=""
 if [ -f "$HTML_FILE" ]; then
-  FONTS=$(grep -oP 'family=\K[^"&;]+' "$HTML_FILE" 2>/dev/null | tr '+' ' ' | tr '\n' ', ' | sed 's/, $//')
+  FONTS=$(sed -n 's/.*family=\([^"&;]*\).*/\1/p' "$HTML_FILE" 2>/dev/null | tr '+' ' ' | tr '\n' ', ' | sed 's/, $//')
 fi
 if [ -z "$FONTS" ]; then FONTS="system-ui (no external fonts detected)"; fi
 cat >> "$OUTPUT" << FONTS
@@ -57,7 +57,7 @@ FONTS
 # Section 4: Color Palette
 COLORS=""
 if [ -f "$CSS_FILE" ]; then
-  COLORS=$(grep -oP '#[0-9A-Fa-f]{6}' "$CSS_FILE" 2>/dev/null | sort -u | head -10 | tr '\n' ', ' | sed 's/, $//')
+  COLORS=$(grep -oE '#[0-9A-Fa-f]{6}' "$CSS_FILE" 2>/dev/null | sort -u | head -10 | tr '\n' ', ' | sed 's/, $//')
 fi
 cat >> "$OUTPUT" << COLR
 ## Section 4: Color Palette
@@ -68,7 +68,7 @@ COLR
 # Section 5: Spacing Scale
 SPACES=""
 if [ -f "$CSS_FILE" ]; then
-  SPACES=$(grep -oP '\s*--space-[\w-]+:\s*\K[^;]+' "$CSS_FILE" 2>/dev/null | tr '\n' ', ' | sed 's/, $//')
+  SPACES=$(sed -n 's/.*--space-[A-Za-z0-9_-]*:[[:space:]]*\([^;]*\).*/\1/p' "$CSS_FILE" 2>/dev/null | tr '\n' ', ' | sed 's/, $//')
 fi
 cat >> "$OUTPUT" << SPCS
 ## Section 5: Spacing Scale
@@ -79,7 +79,8 @@ SPCS
 # Section 6: Grid System
 BPS=""
 if [ -f "$CSS_FILE" ]; then
-  BPS=$(grep -oP '(min|max)-width:\s*\K\d+px' "$CSS_FILE" 2>/dev/null | sort -u | tr '\n' ', ' | sed 's/, $//')
+  BPS=$(grep -oE '(min|max)-width:[[:space:]]*[0-9]+px' "$CSS_FILE" 2>/dev/null \
+    | sed 's/.*:[[:space:]]*//' | sort -u | tr '\n' ', ' | sed 's/, $//')
 fi
 cat >> "$OUTPUT" << BRKS
 ## Section 6: Grid System
@@ -90,7 +91,7 @@ BRKS
 # Section 7: Motion
 TRANSITIONS=""
 if [ -f "$CSS_FILE" ]; then
-  TRANSITIONS=$(grep -oP '\s*--transition-[\w-]+:\s*\K[^;]+' "$CSS_FILE" 2>/dev/null | tr '\n' ', ' | sed 's/, $//')
+  TRANSITIONS=$(sed -n 's/.*--transition-[A-Za-z0-9_-]*:[[:space:]]*\([^;]*\).*/\1/p' "$CSS_FILE" 2>/dev/null | tr '\n' ', ' | sed 's/, $//')
 fi
 cat >> "$OUTPUT" << MOTN
 ## Section 7: Motion

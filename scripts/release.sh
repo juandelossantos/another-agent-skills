@@ -168,9 +168,11 @@ ok "RELEASE-NOTES.md updated"
 # 3. Update README.md version badge (escape dots for sed)
 CURRENT_ESC=$(echo "$CURRENT_VERSION" | sed 's/\./\\./g')
 NEW_ESC=$(echo "$NEW_VERSION" | sed 's/\./\\./g')
-sed -i "s/version-${CURRENT_ESC}-blue/version-${NEW_ESC}-blue/g" "${REPO_DIR}/README.md"
-sed -i "s|badge/version-${CURRENT_ESC}|badge/version-${NEW_ESC}|g" "${REPO_DIR}/README.md"
-sed -i "s/Version: v${CURRENT_ESC}/Version: v${NEW_ESC}/g" "${REPO_DIR}/README.md"
+# `sed -i.bak` is portable (GNU + BSD/macOS); a bare `-i` is not.
+sed -i.bak "s/version-${CURRENT_ESC}-blue/version-${NEW_ESC}-blue/g" "${REPO_DIR}/README.md"
+sed -i.bak "s|badge/version-${CURRENT_ESC}|badge/version-${NEW_ESC}|g" "${REPO_DIR}/README.md"
+sed -i.bak "s/Version: v${CURRENT_ESC}/Version: v${NEW_ESC}/g" "${REPO_DIR}/README.md"
+rm -f "${REPO_DIR}/README.md.bak"
 ok "README.md badge updated"
 
 # --- Show final diff -----------------------------------------------

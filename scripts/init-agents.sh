@@ -940,7 +940,10 @@ show_next_steps() {
     local target_file="$2"
     local with_si="${3:-false}"
     local stack="unknown"
-    [[ -f "./STACK_CONFIG.md" ]] && stack=$(grep -oP '(?<=Detected: ).*' ./STACK_CONFIG.md 2>/dev/null | head -1 || echo "unknown")
+    if [[ -f "./STACK_CONFIG.md" ]]; then
+      stack=$(sed -n 's/.*Detected: //p' ./STACK_CONFIG.md 2>/dev/null | head -1)
+      stack="${stack:-unknown}"
+    fi
     [[ "$stack" == "unknown" ]] && stack="your stack"
     local target_name="AGENTS.md"
     [[ -n "$target_file" ]] && target_name=$(basename "$target_file")

@@ -1,5 +1,57 @@
 # Release Notes
 
+## 6.4.3 (2026-10-21) — macOS BSD userland compatibility
+
+6.4.2 fixed bash 3.2. A second macOS-only failure was still in the gates:
+`validate-health-check.sh` parsed with `grep -oP`, and BSD grep has no `-P`.
+Every extraction failed silently inside `$( ... || true )`, so Gate 11 compared
+the linter's real counts against `unknown` and **could never pass on a Mac**,
+regardless of `HEALTH-CHECK.md`.
+
+### Fixed
+
+- **Gate 11 (HEALTH-CHECK validation).** `validate-health-check.sh` and its
+  remediation `generate-health-check.sh` parse with POSIX `sed`/`awk` — no PCRE,
+  no lookbehind.
+- **`grep -oP` removed from the rest of the runtime surface:**
+  `init-agents.sh`, `create-release.sh`, `validate-release-notes.sh`,
+  `generate-adr.sh`, `sync-progress-table.sh`, `design-upgrade.sh` and
+  `token-validate.sh`.
+- **Bare `sed -i` replaced with `sed -i.bak` + `rm`** in `approval-gate.sh`,
+  `sync-progress-table.sh`, `token-validate.sh`, `release.sh` and `install.sh`
+  — BSD sed requires a backup suffix. `approval-gate.sh` also stopped relying on
+  GNU `\n` in a replacement (awk rewrites the section now).
+
+### New
+
+- **`scripts/check-portability.sh`** — fails when a runtime script uses GNU-only
+  tool syntax (`grep -P`, bare `sed -i`, `date -d`, `readlink -f`, `stat -c`,
+  `xargs -r`, `sort -V`, `sed -r`). A same-line `||` BSD fallback is allowed.
+  Wired into the required `gates` check.
+- **`tests/test-check-portability.sh`** (16 checks) — fixtures for every
+  rejected construct and for the allowed fallbacks.
+- **`tests/test-validate-health-check.sh`** (14 checks) — runs the real
+  validator against a hermetic project: PASS, warning drift, error drift and a
+  missing `HEALTH-CHECK.md`.
+
+### Tests
+
+Suite **160/160**.
+
+### Upgrading
+
+If you self-host on macOS on 6.4.0–6.4.2, the commit gate cannot pass. Update —
+no manual patch:
+
+```bash
+aas upgrade
+aas --version    # 6.4.3
+```
+
+or re-run the installer: `npx @juandelossantos/another-agent-skills@latest install`.
+Project shims resolve to the installed framework, so no per-project change is
+needed. The 6.4.2 bash 3.2 fix ships in the same upgrade.
+
 ## 6.4.2 (2026-10-20) — macOS bash 3.2 compatibility
 
 `aas install --agents auto` — the command the README tells you to run — died on a

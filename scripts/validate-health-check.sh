@@ -18,14 +18,22 @@ echo "=== Validating $HEALTH_FILE against live linter state ==="
 # Run linter and capture output
 LINT_OUTPUT=$(bash scripts/skill-lint.sh 2>&1) || true
 
-# Parse linter error/warning counts
-LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+error)' | head -1 || echo "0")
-LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -oP '\d+(?=\s+warning)' | head -1 || echo "0")
+# Parse linter error/warning counts.
+# Portable on purpose: BSD/macOS grep has no -P (PCRE). The previous
+# `grep -oP` pipelines failed silently there, so this gate could never pass on
+# a Mac no matter what HEALTH-CHECK.md said. POSIX awk/sed only.
+LINT_ERRORS=$(printf '%s\n' "$LINT_OUTPUT" \
+  | awk 'match($0, /[0-9]+ errors?/) { n=substr($0,RSTART,RLENGTH); sub(/ errors?/,"",n); v=n } END { print (v==""?"0":v) }')
+LINT_WARNINGS=$(printf '%s\n' "$LINT_OUTPUT" \
+  | awk 'match($0, /[0-9]+ warnings?/) { n=substr($0,RSTART,RLENGTH); sub(/ warnings?/,"",n); v=n } END { print (v==""?"0":v) }')
 
-# Parse HEALTH-CHECK.md summary values
-HC_ERRORS=$(grep -oP '(?<=Errors).*\*\*\d+\*\*' "$HEALTH_FILE" | grep -oP '\*\*\d+\*\*' | grep -oP '\d+' | head -1 || echo "0")
-HC_WARNINGS=$(grep -oP 'Warnings\s*\|\s*\*\*\d+\*\*' "$HEALTH_FILE" | grep -oP '\d+' || echo "unknown")
-HC_OVERALL=$(grep 'Overall' "$HEALTH_FILE" | grep -oP '(HEALTHY|DEGRADED|CRITICAL)' || echo "unknown")
+# Parse HEALTH-CHECK.md summary values (portable sed; no lookbehind).
+HC_ERRORS=$(sed -n 's/^| *Errors[^|]*| *\*\*\([0-9][0-9]*\)\*\*.*/\1/p' "$HEALTH_FILE" | head -1)
+HC_WARNINGS=$(sed -n 's/^| *Warnings[^|]*| *\*\*\([0-9][0-9]*\)\*\*.*/\1/p' "$HEALTH_FILE" | head -1)
+HC_OVERALL=$(sed -n 's/^| *Overall[^|]*| *\*\*[^A-Z]*\(HEALTHY\|DEGRADED\|CRITICAL\).*/\1/p' "$HEALTH_FILE" | head -1)
+: "${HC_ERRORS:=unknown}"
+: "${HC_WARNINGS:=unknown}"
+: "${HC_OVERALL:=unknown}"
 
 # Determine expected status from error count
 if [ "$LINT_ERRORS" -gt 0 ]; then

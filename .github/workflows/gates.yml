@@ -75,6 +75,12 @@ jobs:
       - name: bash 3.2 compatibility (entrypoints in a real bash:3.2)
         run: bash tests/test-bash32-smoke.sh
 
+      # BSD/macOS userland: `grep -P`, bare `sed -i`, `date -d`, `readlink -f`
+      # are GNU-only. Inside `$( ... || true )` they fail silently, so a gate
+      # reads empty values and blocks forever (Gate 11 on a Mac).
+      - name: Portability (GNU vs BSD userland)
+        run: bash scripts/check-portability.sh
+
       - name: Shell syntax check (scripts + hooks)
         run: |
           set -uo pipefail

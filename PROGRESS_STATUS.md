@@ -1,9 +1,9 @@
 # Project Progress Status
 
-> **Last updated:** 2026-10-20  
-> **Current version:** 6.4.2 (auto-generated)
-> **Status:** v6.4.2 complete (macOS bash 3.2 compatibility); release runbook post-merge (tag + npm approval; no code PR) — v6.4.1 shipped (Phase 15 — approval integrity) — v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**, **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)** and the **blog** (bilingual `/blog/` + `/es/blog/`, RSS, share, article SEO/AEO). **npm published (6.4.1)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 150 test suites green (+ web: 106 node + 112 e2e, axe 0)  
-> **Current plan:** `PLAN.md` — **Phase 16 complete (macOS compatibility)**; next: **W3** publish (adaptations written EN/ES) + **Cierre MKT (v6.5.0)** + backlog **B13/B16/B19/B20/B23/B24**. **T2** and **E1** are done; **B15** is done.
+> **Last updated:** 2026-10-21  
+> **Current version:** 6.4.3 (auto-generated)
+> **Status:** v6.4.3 complete (macOS BSD userland compatibility); release runbook post-merge (tag + npm approval; no code PR) — v6.4.2 shipped (bash 3.2) — v6.4.1 shipped (Phase 15 — approval integrity) — v6.4.0 released — **/gate wedge skill (58th)** + npm-first onboarding — **Phase 8 complete (Remote Enforcement live on `main`)**, **Phase 9 complete (Distribution & Upgrades)**, **Phase 10 complete (public web: Astro landing + docs + skills reference + tutorials)**, **Phase 13 complete (type-aware TDD gate — code/docs/config/shim, PR #61)**, **Phase 14 complete (distribution closeout: Homebrew dropped, npm/web live, channel-consistency check, release idempotency — PRs #66/#67/#68)** and the **blog** (bilingual `/blog/` + `/es/blog/`, RSS, share, article SEO/AEO). **npm published (6.4.2)**; Homebrew **not planned**. 0 errors, 2 warnings, 153 guides across 58 skills, 160 test suites green (+ web: 106 node + 112 e2e, axe 0)  
+> **Current plan:** `PLAN.md` — **Phase 17 complete (macOS BSD compatibility)**; next: **W3** publish (adaptations written EN/ES) + **Cierre MKT (v6.5.0)** + backlog **B13/B16/B19/B20/B23/B24**. **T2** and **E1** are done; **B15** is done.
 > **Plan:** `PLAN.md` — single source of truth for project roadmap
 
 ---
@@ -148,6 +148,7 @@
 
 ### Completed
 
+- **Phase 17: macOS BSD userland compatibility (v6.4.3)** — Gate 11 (`validate-health-check.sh`) parsea con `sed`/`awk` POSIX en vez de `grep -oP` (BSD grep no tiene `-P`, fallaba en silencio y la puerta nunca podía pasar en un Mac); mismo tratamiento en `generate-health-check.sh` y 6 scripts más; `sed -i` con sufijo en 5 scripts; nuevo `scripts/check-portability.sh` en el check `gates`. **160 suites** (+ web 106 node + 112 e2e). Tag/publish post-merge.
 - **Phase 16: macOS bash 3.2 compatibility (v6.4.2)** — `aas install --agents auto` y `aas uninstall` ya no abortan con `unbound variable` en el bash 3.2 de macOS (arrays vacíos bajo `set -u`), el TDD gate usa `tr` en vez de `${var,,}`, y la clase de bug queda enclaustrada: `scripts/check-bash32.sh` (sintaxis bash 4 en scripts de runtime) + `tests/test-bash32-smoke.sh` (entrypoints en un contenedor `bash:3.2` dentro del check `gates`). **150 suites** (+ web 106 node + 112 e2e). Tag/publish post-merge.
 - **Phase 15: Approval integrity (v6.4.1)** — binding del árbol staged (`scripts/approve.sh`), one-time approval, L2 approved tree (`scripts/check-approved-tree.sh` + `gates.yml`) y runner de referencia (`scripts/agent-runner.sh`). Blog/ensayo EN/ES, web docs/search, npm y superficies a v6.4.1. **147 suites** (+ web 106 node + 112 e2e). Tag/publish post-merge (P15.9).
 - **Blog (W2/W3, 2026-10-10)** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, a publication home + an article layout), the first post being *"The human defines, delegates, reviews, and is responsible. The AI is not."* (EN/ES). Publishing hygiene: `BlogPosting` JSON-LD (author as `Person`, `wordCount`, `timeRequired`, `keywords`, `articleSection`), Open Graph article metadata, a per-post 1200x630 JPEG social card, a citable `tldr`, an "on this article" TOC, share options (X/LinkedIn/Hacker News/email/copy link), a reading-progress bar and a bilingual RSS 2.0 feed. A11y gate: axe 0. Web suite: 106 node + 112 e2e.
@@ -194,6 +195,7 @@
 
 | Version | Date | Key Changes |
 |---|---|---|---|---|
+| **6.4.3** | 2026-10-21 | **macOS BSD userland compatibility** — Gate 11 parses with POSIX sed/awk (no `grep -P`), GNU-only syntax removed from the runtime surface, `check-portability.sh` guard in `gates`. See `RELEASE-NOTES.md`. |
 | **6.4.2** | 2026-10-20 | **macOS bash 3.2 compatibility** — `aas install`/`aas uninstall` fixed for empty arrays under `set -u`, portable TDD gate (`tr` instead of `${var,,}`), `check-bash32.sh` + a `bash:3.2` smoke in the required `gates` check, npm README release guard. See `RELEASE-NOTES.md`. |
 | **6.4.1** | 2026-10-19 | **Approval integrity** — binding (staged-tree digest), one-time approval, L2 approved-tree verification, external runner. See `RELEASE-NOTES.md`. |
 | **6.4.0** | 2026-10-10 | **The `/gate` wedge skill (58th)** + npm-first onboarding (PR #73), and the **blog** — a bilingual blog in `web/` (`/blog/` + `/es/blog/`, publication home + article, RSS 2.0, share options, article SEO/AEO, TOC, reading-progress bar, a11y gate). First post: the "human in command" essay (EN/ES). Web suite: 106 node + 112 e2e. |
